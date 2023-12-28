@@ -18,7 +18,11 @@ import SettingsButton from './SettingsButton'
 const StyledAdminHeaderMenu = styled(Box)(
     ({ theme }) => ({
         // width: 'calc(100% - 300px)',
+<<<<<<< HEAD
         display: 'block',
+=======
+        display: 'flex ',
+>>>>>>> 123451ba032c4f6034dd2160601114e9873f786e
         alignItems: 'center',
         // justifyContent: 'flex-end',
         // padding: `0 ${theme.spacing(2)}`,
