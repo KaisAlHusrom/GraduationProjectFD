@@ -28,6 +28,7 @@ const AdminHeaderTitle = () => {
             <Typography variant='h6' component="span">
                 AdminHeaderTitle
             </Typography>
+            
         </StyledTitleBox>
     );
 };
