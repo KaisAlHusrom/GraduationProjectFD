@@ -20,7 +20,7 @@ const StyledAdminHeaderMenu = styled(Box)(
         // width: 'calc(100% - 300px)',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        // justifyContent: 'flex-end',
         // padding: `0 ${theme.spacing(2)}`,
         gap: theme.spacing(1)
     })
