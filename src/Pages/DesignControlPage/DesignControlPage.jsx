@@ -15,7 +15,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import SideBar from './components/SideBar/SideBar'
+import SideBar from './SideBar/SideBar'
 
 //Styled Components
 const StyledDesignControlPage = styled(Box)(
