@@ -1,179 +1,165 @@
-//React
-import {
-    
-} from 'react'
-
-import {
-    
-} from 'react-redux'
-
-//Components
-import AdminHeaderMenu from '../../../Admin/Components/AdminHeaderMenu';
-
-//MUI
-import * as React from 'react';
-import { useTheme } from '@mui/material/styles';
+import  { useState } from 'react';
+import {  useTheme } from '@mui/system';
 import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
+import MuiDrawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import CssBaseline from '@mui/material/CssBaseline';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
-import './../../../../Assets/Styles/App.css';
+import { ListItemText } from '@mui/material';
+import { styled } from '@mui/system'
 
+import { Drawer , AppBar , DrawerHeader } from './SideBarCss';
+import DrawerBox from '../DrawerBox';
+import AdminHeaderMenu from '../../../Admin/Components/AdminHeaderMenu';
 
-
-
-
-import { Drawer , AppBar , DrawerHeader , StyledSideBar} from './SideBarCss.jsx';
-
-
-
+// ... (Diğer import ifadeleri)
 
 const SideBar = () => {
+  const theme = useTheme();
+  const [open, setOpen] = useState(false);
+  const [openSecondDrawer, setOpenSecondDrawer] = useState(false);
 
-    const theme = useTheme();
-    const [open, setOpen] = React.useState(false);
-  
-    const handleDrawerOpen = () => {
-      setOpen(true);
+  const [open2, setOpen2] = useState(false);
+  const [openSecondDrawer2, setOpenSecondDrawer2] = useState(false);
+
+
+  const handleSecondDrawerOpen = () => {
+      setOpenSecondDrawer(true);
     };
   
-    const handleDrawerClose = () => {
-      setOpen(false);
+    const handleSecondDrawerClose = () => {
+      setOpenSecondDrawer(false);
     };
 
-    return (
-    <StyledSideBar>
-        <Box sx={{ display: 'flex' }}>
+    const handleSecondDrawerOpen2 = () => {
+      setOpenSecondDrawer2(true);
+    };
+  
+    const handleSecondDrawerClose2 = () => {
+      setOpenSecondDrawer2(false);
+    };
+  
+  
+  
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+//Styled Components
+const AdminHeaderMenuStyle = styled(Box)(
+  ({ theme }) => ({
+      // width: 'calc(100% - 300px)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      padding: `0 ${theme.spacing(2)}`,
+      gap: theme.spacing(1)
+  })
+)
+
+
+
+
+
+
+  return (
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
+      <AppBar position="fixed" open={open} style={{padding:10}}>
+        <AdminHeaderMenuStyle>
+        <AdminHeaderMenu></AdminHeaderMenu>
 
-      {/* Start AppBar  */}
-        <AppBar position="fixed" open={open}>
-        <Toolbar >
-            <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-                marginRight: 5,
-                ...(open && { display: 'none' }),
-            }}
-            >
-            <MenuIcon />
-            </IconButton>
-            <AdminHeaderMenu></AdminHeaderMenu>
-        </Toolbar>
+        </AdminHeaderMenuStyle>
+
       </AppBar>
-      {/* End AppBar  */}
-
-      {/* Start Drawer  */}
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader >
+        <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </DrawerHeader>
+            <DrawerBox handleSecondDrawerOpen= {handleSecondDrawerOpen} open={open} name="Styles"></DrawerBox>
+            <DrawerBox handleSecondDrawerOpen= {handleSecondDrawerOpen2} open={open2} name="Media Center"></DrawerBox>
+
+      </Drawer>
+
+  
+      <MuiDrawer
+        variant="temporary"
+        anchor="left"
+        open={openSecondDrawer}
+        onClose={handleSecondDrawerClose}
+        ModalProps={{
+          keepMounted: true,
+        }}
+      >
+      <DrawerHeader>
+          <IconButton onClick={handleSecondDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
         <List>
-          {['Templates', 'Sections', 'Navs', 'Headers'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          <ListItem>
+            <ListItemText primary="Subitem 1" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Subitem 2" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Subitem 3" />
+          </ListItem>
         </List>
+      </MuiDrawer>
+
+      <MuiDrawer
+        variant="temporary"
+        anchor="left"
+        open={openSecondDrawer2}
+        onClose={handleSecondDrawerClose2}
+        ModalProps={{
+          keepMounted: true,
+        }}
+
+      >
+      <DrawerHeader>
+          <IconButton onClick={handleSecondDrawerClose2}>
+            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          </IconButton>
+        </DrawerHeader>
         <Divider />
         <List>
-          {['Sliders', 'Cards', 'Models'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+          <ListItem>
+            <ListItemText primary="Subitem 1 2" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Subitem 2 2" />
+          </ListItem>
+          <ListItem>
+            <ListItemText primary="Subitem 3 2" />
+          </ListItem>
         </List>
-      </Drawer>
-      {/* End Drawer  */}
+      </MuiDrawer>
 
-      {/* Start Box  */}
+
+
+
+
+
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Rhoncus dolor purus non
-          enim praesent elementum facilisis leo vel. Risus at ultrices mi tempus
-          imperdiet. Semper risus in hendrerit gravida rutrum quisque non tellus.
-          Convallis convallis tellus id interdum velit laoreet id donec ultrices.
-          Odio morbi quis commodo odio aenean sed adipiscing. Amet nisl suscipit
-          adipiscing bibendum est ultricies integer quis. Cursus euismod quis viverra
-          nibh cras. Metus vulputate eu scelerisque felis imperdiet proin fermentum
-          leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt lobortis
-          feugiat vivamus at augue. At augue eget arcu dictum varius duis at
-          consectetur lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa
-          sapien faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est ullamcorper
-          eget nulla facilisi etiam dignissim diam. Pulvinar elementum integer enim
-          neque volutpat ac tincidunt. Ornare suspendisse sed nisi lacus sed viverra
-          tellus. Purus sit amet volutpat consequat mauris. Elementum eu facilisis
-          sed odio morbi. Euismod lacinia at quis risus sed vulputate odio. Morbi
-          tincidunt ornare massa eget egestas purus viverra accumsan in. In hendrerit
-          gravida rutrum quisque non tellus orci ac. Pellentesque nec nam aliquam sem
-          et tortor. Habitant morbi tristique senectus et. Adipiscing elit duis
-          tristique sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
+          {/* ... metin içeriği ... */}
         </Typography>
       </Box>
-      {/* End Box  */}
-
     </Box>
-        </StyledSideBar>
-    );
+  );
 };
 
 export default SideBar;
