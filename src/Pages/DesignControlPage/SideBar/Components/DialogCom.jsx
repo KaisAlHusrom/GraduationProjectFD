@@ -29,9 +29,9 @@ import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
 import DrawerBox from './DrawerBox';
 import DrawerCom from './DrawerCom';
-
-
-
+import BrokenImageIcon from '@mui/icons-material/BrokenImage';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import BurstModeIcon from '@mui/icons-material/BurstMode';
 
 
 //Styled Components
@@ -77,9 +77,19 @@ const DialogCom = () => {
 
   const listItems = [
     {
-      icon: <InboxIcon />,
+      icon: <BurstModeIcon />,
       text: 'Upload Image',
       onClick: handleUploadImageClick,
+    },
+    {
+      icon: <BrokenImageIcon />,
+      text: 'Unsplash',
+      onClick: ()=> {console.log('clicked')},
+    },
+    {
+      icon: <AddPhotoAlternateIcon />,
+      text: 'Pexels',
+      onClick: ()=> {console.log('clicked')},
     },
   ];
 
