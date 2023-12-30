@@ -32,9 +32,7 @@ import ListItem from '@mui/material/ListItem';
 import { ListItemText, Toolbar } from '@mui/material';
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import PaletteIcon from '@mui/icons-material/Palette';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import DrawerCom from './Components/DrawerCom';
+
 
 //Styled Components
 const StyledSideBar = styled(Box)(
@@ -44,12 +42,6 @@ const StyledSideBar = styled(Box)(
 )
 
 
-
-const listItems = [
-  { icon: <InboxIcon />, text: 'Inbox' },
-  { icon: <MailIcon />, text: 'Starred' },
-  // Add more list items as needed
-];
 
 const SideBar = () => {
 
@@ -94,6 +86,7 @@ const SideBar = () => {
 
 
 
+
     return (
         <StyledSideBar>
               <Box sx={{ display: 'flex' }}>
@@ -109,7 +102,7 @@ const SideBar = () => {
     </AppBar>
   </Toolbar>
 
-
+    
     
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>

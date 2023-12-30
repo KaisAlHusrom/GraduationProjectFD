@@ -61,7 +61,7 @@ const ColorBar = () => {
                 <Slider value={selectedColor.r} onChange={(e, newValue) => handleColorChange('r', newValue)} min={0} max={255} />
         </div>
         <div>
-                <Typography   Typography gutterBottom>Green</Typography>
+                <Typography  gutterBottom>Green</Typography>
                 <Slider value={selectedColor.g} onChange={(e, newValue) => handleColorChange('g', newValue)} min={0} max={255} />
         </div>
         <div>

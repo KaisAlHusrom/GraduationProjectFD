@@ -41,77 +41,73 @@ const drawerWidth = 240;
 
 
 
-
 const DrawerCom = (props) => {
+  const { window, listItems } = props;
+  const [mobileOpen, setMobileOpen] = React.useState(false);
 
-    const { window , listItems } = props;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
-  
-    const handleDrawerToggle = () => {
-      setMobileOpen(!mobileOpen);
-    };
-  
-    const drawer = (
-      <div >
-        <Toolbar />
-        <Divider />
-        <List>
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
+
+  const drawer = (
+    <div>
+      <Toolbar />
+      <Divider />
+      <List>
         {listItems.map((item, index) => (
           <ListItem key={index} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={item.onClick}>
               <ListItemIcon>{item.icon}</ListItemIcon>
               <ListItemText primary={item.text} />
             </ListItemButton>
           </ListItem>
         ))}
       </List>
-      </div>
-    );
-  
-    // Remove this const when copying and pasting into your project.
-    const container = window !== undefined ? () => window().document.body : undefined;
-  
+    </div>
+  );
 
-    return (
-        <StyledDrawerCom>
-            <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
+  // Remove this const when copying and pasting into your project.
+  const container = window !== undefined ? () => window().document.body : undefined;
+
+  return (
+    <StyledDrawerCom>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
         <Box
-        component="nav"
-        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-        aria-label="mailbox folders"
-      >
-        {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
+          component="nav"
+          sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
         >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
+          {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+          >
+            {drawer}
+          </Drawer>
+          <Drawer
+            variant="permanent"
+            sx={{
+              display: { xs: 'none', sm: 'block' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
+            open
+          >
+            {drawer}
+          </Drawer>
+        </Box>
       </Box>
-     
-    </Box>
-        </StyledDrawerCom>
-    );
+    </StyledDrawerCom>
+  );
 };
 
 DrawerCom.propTypes = {
@@ -120,9 +116,12 @@ DrawerCom.propTypes = {
     PropTypes.shape({
       icon: PropTypes.node.isRequired,
       text: PropTypes.string.isRequired,
+      onClick: PropTypes.func.isRequired,
     })
   ).isRequired,
 };
+
+
 
 
 export default DrawerCom;

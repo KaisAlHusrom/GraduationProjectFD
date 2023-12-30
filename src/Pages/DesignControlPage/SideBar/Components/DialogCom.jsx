@@ -1,18 +1,20 @@
 //React
-import {
-    
+import React , {
+  useState 
 } from 'react'
 
 import {
-    
+  
 } from 'react-redux'
 
 //Components
-import DrawerBox from './DrawerBox';
-import DrawerCom from './DrawerCom';
 
 
 //MUI
+import {
+  Box,
+} from '@mui/material'
+import { styled } from '@mui/system'
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
@@ -21,70 +23,135 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
-import * as React from 'react';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
-import MailIcon from '@mui/icons-material/Mail';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import DrawerBox from './DrawerBox';
+import DrawerCom from './DrawerCom';
 
 
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-    return <Slide direction="up" ref={ref} {...props} />;
-  });
 
 
-
-  const listItems = [
-    { icon: <InboxIcon />, text: 'Inbox' },
-    { icon: <MailIcon />, text: 'Starred' },
-    // Add more list items as needed
-  ];
+//Styled Components
+const StyledDialogCom = styled(Box)(
+    ({ theme }) => ({
   
+    })
+)
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const DialogCom = () => {
 
-    const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [selectedImages, setSelectedImages] = useState([]);
 
-    const handleClickOpen = () => {
-      setOpen(true);
-    };
-  
-    const handleClose = () => {
-      setOpen(false);
-    };
-  
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
 
-    return (
-    <React.Fragment>
-    <DrawerBox icon={<PermMediaIcon />} handleSecondDrawerOpen={handleClickOpen} open={open} name="Media Center" />
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleImageChange = (file) => {
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setSelectedImages((prevImages) => [...prevImages, imageUrl]);
+    }
+  };
+
+  const handleUploadImageClick = () => {
+    const inputElement = document.createElement('input');
+    inputElement.type = 'file';
+    inputElement.accept = 'image/*';
+    inputElement.onchange = (e) => {
+      const file = e.target.files[0];
+      handleImageChange(file);
+    };
+    inputElement.click();
+  };
+
+  const listItems = [
+    {
+      icon: <InboxIcon />,
+      text: 'Upload Image',
+      onClick: handleUploadImageClick,
+    },
+  ];
+
+  return (
+    <StyledDialogCom>
+ <React.Fragment>
+      <DrawerBox
+        icon={<PermMediaIcon />}
+        handleSecondDrawerOpen={handleClickOpen}
+        open={open}
+        name="Media Center"
+      />
       <Dialog
         fullScreen
         open={open}
         onClose={handleClose}
         TransitionComponent={Transition}
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+        }}
       >
         <AppBar sx={{ position: 'relative' }}>
           <Toolbar>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                Sound
+              Sound
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
-                save
+              save
             </Button>
             <IconButton
-                    edge="start"
-                    color="inherit"
-                    onClick={handleClose}
-                    aria-label="close"
+              edge="start"
+              color="inherit"
+              onClick={handleClose}
+              aria-label="close"
             >
-            <CloseIcon />
+              <CloseIcon />
             </IconButton>
-        </Toolbar>
+          </Toolbar>
         </AppBar>
-            <DrawerCom listItems={listItems}></DrawerCom>
-    </Dialog>
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            flexWrap: 'wrap',
+            marginLeft: 30,
+            marginBottom: 2,
+          }}
+        >
+          {selectedImages.map((image, index) => (
+            <Card key={index}>
+              <CardMedia
+                component="img"
+                alt={`Selected ${index + 1}`}
+                style={{ height: 140 }}
+                src={image}
+              />
+            </Card>
+          ))}
+        </Box>
+        <DrawerCom listItems={listItems} />
+      </Dialog>
     </React.Fragment>
-    );
+    </StyledDialogCom>
+   
+  );
 };
 
 export default DialogCom;
+
+
+
+
