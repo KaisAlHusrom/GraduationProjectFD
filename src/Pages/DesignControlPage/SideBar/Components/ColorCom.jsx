@@ -1,6 +1,33 @@
-import { useState } from 'react';
 
-const ColorPicker = () => {
+//React
+import {
+  useState
+} from 'react'
+
+import {
+  
+} from 'react-redux'
+
+//Components
+import ColorBar from './ColorBar';
+
+
+//MUI
+import {
+  Box,
+} from '@mui/material'
+import { styled } from '@mui/system'
+
+//Styled Components
+const StyledColorCom = styled(Box)(
+    ({ theme }) => ({
+      padding:theme.spacing(2)
+    })
+)
+
+
+const ColorCom = () => {
+
   const colors = [
     { name: 'Red', shades: ['#ff0000', '#cc0000', '#990000', '#660000', '#330000'] },
     { name: 'Blue', shades: ['#0000ff', '#0000cc', '#000099', '#000066', '#000033'] },
@@ -14,29 +41,34 @@ const ColorPicker = () => {
     { name: 'Black', shades: ['#000000', '#000000', '#000000', '#000000', '#000000'] },
   ];
 
+
+
+
+
+
   const [selectedColor, setSelectedColor] = useState(null);
   const [selectedShade, setSelectedShade] = useState(null);
 
-  const handleColorClick = (color) => {
-    setSelectedColor(color);
-    setSelectedShade(null);
-  };
+  // const handleColorClick = (color) => {
+  //   setSelectedColor(color);
+  //   setSelectedShade(null);
+  // };
 
   const handleShadeClick = (shade) => {
     setSelectedShade(shade);
   };
 
-  return (
-    <div>
+    return (
+        <StyledColorCom>
+      <div>
       <h1>Color Picker</h1>
-
       {colors.map((color) => (
         <div key={color.name}>
           <h3>{color.name}</h3>
           <div style={{ display: 'flex', marginBottom: '10px' }}>
-            {color.shades.map((shade) => (
+            {color.shades.map((shade , index) => (
               <div
-                key={shade}
+              key={`${color.name}-${index}`}
                 onClick={() => handleShadeClick(shade)}
                 style={{
                   width: '50px',
@@ -74,8 +106,20 @@ const ColorPicker = () => {
             ))}
         </div>
       )}
+
+      <ColorBar></ColorBar>
+      
     </div>
-  );
+        </StyledColorCom>
+    );
 };
 
-export default ColorPicker;
+export default ColorCom;
+
+
+
+
+
+
+
+

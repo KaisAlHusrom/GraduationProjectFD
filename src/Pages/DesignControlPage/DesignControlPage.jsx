@@ -29,7 +29,6 @@ const DesignControlPage = () => {
     return (
         <StyledDesignControlPage>
             <SideBar></SideBar>
-            {/* <PsideBar></PsideBar> */}
         </StyledDesignControlPage>
     );
 };

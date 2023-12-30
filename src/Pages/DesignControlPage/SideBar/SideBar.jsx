@@ -1,51 +1,84 @@
-  import  { useState } from 'react';
-  import { useTheme } from '@mui/system';
-  import Box from '@mui/material/Box';
-  import MuiDrawer from '@mui/material/Drawer';
-  import List from '@mui/material/List';
-  import CssBaseline from '@mui/material/CssBaseline';
-  import Typography from '@mui/material/Typography';
-  import Divider from '@mui/material/Divider';
-  import IconButton from '@mui/material/IconButton';
-  import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-  import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-  import ListItem from '@mui/material/ListItem';
-  import { ListItemText, Toolbar } from '@mui/material';
-  import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
-  import PermMediaIcon from '@mui/icons-material/PermMedia';
-  import PaletteIcon from '@mui/icons-material/Palette';
+//React
+import {
+  useState
+} from 'react'
 
-  // Components
+import {
+  
+} from 'react-redux'
+
+//Components
   import { Drawer, AppBar, DrawerHeader } from './Components/SideBarCss';
   import DrawerBox from './Components/DrawerBox';
   import AdminHeaderMenu from '../../Admin/Components/AdminHeaderMenu';
   import ColorPicker from './Components/ColorCom';
+  import DialogCom from './Components/DialogCom';
 
-  const SideBar = () => {
-    const theme = useTheme();
+//MUI
+import {
+  Box,
+} from '@mui/material'
+import { styled } from '@mui/system'
+import { useTheme } from '@mui/system';
+import MuiDrawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import CssBaseline from '@mui/material/CssBaseline';
+import Typography from '@mui/material/Typography';
+import Divider from '@mui/material/Divider';
+import IconButton from '@mui/material/IconButton';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import ListItem from '@mui/material/ListItem';
+import { ListItemText, Toolbar } from '@mui/material';
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
+import PaletteIcon from '@mui/icons-material/Palette';
+import MailIcon from '@mui/icons-material/Mail';
+import InboxIcon from '@mui/icons-material/MoveToInbox';
+import DrawerCom from './Components/DrawerCom';
 
-    const [open, setOpen] = useState(false);
-    const [openSecondDrawer, setOpenSecondDrawer] = useState(false);
-    const [open2, setOpen2] = useState(false);
-    const [openSecondDrawer2, setOpenSecondDrawer2] = useState(false);
-    const [open3, setOpen3] = useState(false);
-    const [openColorDrawer3, setOpenColorDrawer3] = useState(false);
+//Styled Components
+const StyledSideBar = styled(Box)(
+    ({ theme }) => ({
+  
+    })
+)
 
-    const handleDrawerClose = () => {
-      setOpen(false);
-    };
 
-    const handleSecondDrawerOpen = () => {
-      setOpenSecondDrawer(true);
-    };
 
-    const handleSecondDrawerClose = () => {
-      setOpenSecondDrawer(false);
-    };
+const listItems = [
+  { icon: <InboxIcon />, text: 'Inbox' },
+  { icon: <MailIcon />, text: 'Starred' },
+  // Add more list items as needed
+];
 
-    const handleSecondDrawerOpen2 = () => {
-      setOpenSecondDrawer2(true);
-    };
+const SideBar = () => {
+
+  const theme = useTheme();
+
+  const [open, setOpen] = useState(false);
+  const [openSecondDrawer, setOpenSecondDrawer] = useState(false);
+  const [open2, setOpen2] = useState(false);
+  const [openSecondDrawer2, setOpenSecondDrawer2] = useState(false);
+  const [open3, setOpen3] = useState(false);
+  const [openColorDrawer3, setOpenColorDrawer3] = useState(false);
+
+
+  const handleSecondDrawerOpen = () => {
+    setOpenSecondDrawer(true);
+  };
+
+  const handleSecondDrawerClose = () => {
+    setOpenSecondDrawer(false);
+  };
+
+    // const handleDrawerClose = () => {
+    //   setOpen(false);
+    // };
+
+  
+    // const handleSecondDrawerOpen2 = () => {
+    //   setOpenSecondDrawer2(true);
+    // };
 
     const handleSecondDrawerClose2 = () => {
       setOpenSecondDrawer2(false);
@@ -59,11 +92,14 @@
       setOpenColorDrawer3(false);
     };
 
+
+
     return (
-      <Box sx={{ display: 'flex' }}>
+        <StyledSideBar>
+              <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <Toolbar>
-    <AppBar position="fixed" open={open} zIndex={2} >
+    <AppBar position="fixed" open={open}  >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' , padding:"10px"}}>
         <Typography variant="h6" noWrap component="div">
           Persistent drawer
@@ -73,15 +109,13 @@
     </AppBar>
   </Toolbar>
 
-    
-    
+
     
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
-            
           </DrawerHeader>
           <DrawerBox icon={<FormatColorFillIcon />} handleSecondDrawerOpen={handleSecondDrawerOpen} open={open} name="Styles" />
-          <DrawerBox icon={<PermMediaIcon />} handleSecondDrawerOpen={handleSecondDrawerOpen2} open={open2} name="Media Center" />
+          <DialogCom  ></DialogCom>
         </Drawer>
 
         <MuiDrawer
@@ -150,8 +184,35 @@
           <DrawerHeader />
           <Typography paragraph>{/* Metin içeriği */}</Typography>
         </Box>
-      </Box>
-    );
-  };
 
-  export default SideBar;
+
+
+      </Box>
+        </StyledSideBar>
+    );
+};
+
+export default SideBar;
+
+
+
+
+
+
+
+
+
+
+
+//   const SideBar = () => {
+
+
+
+
+
+//     return (
+    
+//     );
+//   };
+
+//   export default SideBar;
