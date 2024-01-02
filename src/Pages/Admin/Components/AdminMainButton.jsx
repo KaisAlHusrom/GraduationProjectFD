@@ -1,10 +1,9 @@
 //React
 import { useState } from 'react'
 
-import {  } from 'react-redux'
 
 //Components
-import {CustomModal} from '../../../Components';
+import {CustomModal, CustomDrawer} from '../../../Components';
 
 
 
@@ -13,55 +12,74 @@ import {
     Button,
     Menu,
     MenuItem,
-
+    IconButton,
+    Popover,
+    Badge,
 
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles';
 
+//icons
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
+import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
 //propTypes 
+
 import propTypes from 'prop-types'
 
 
 
 
 const AdminMainButton = (props) => {
-    const { icon, title, onClick, appearance, type, menuItems, modalContent, modalIcon} = props
-
-    //states
-    // --- menu states ---
-    const [userFilterEl, setUserFilterEl] = useState(null)
-    const openUserFilter = Boolean(userFilterEl)
-
-    // --- modal states ---
-    const [modalOpen, setModalOpen] = useState(false)
-    
-
-
+    // --- Props ---
+    const { icon, 
+        title, 
+        onClick, 
+        appearance, 
+        type, 
+        menuItems, 
+        willShow, 
+        modalIcon, 
+        putDrawerCloseButton,
+        drawerAnchor,
+        badgeContent,
+        drawerVariant
+    } = props
 
     //theme
     const theme = useTheme();
 
+    
 
-    //Styled Components
-    const StyleOfButton = {
-            backgroundColor: appearance === "primary" ? theme.palette.primary.main : "transparent",
-            color: appearance === "primary" ? theme.palette.primary.contrastText : "text.primary",
-            padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
-            borderRadius: "100px",
-            fontWeight: "bold",
-            "&:hover": {
-                backgroundColor: appearance === "primary" ? theme.palette.primary.dark : theme.palette.secondary.main,
-            }
-    }
 
-    //handles
+
+    //STATES
+    // --- menu states ---
+    const [menuEl, setMenuEl] = useState(null)
+    const openMenu = Boolean(menuEl)
+
+    // --- modal states ---
+    const [modalOpen, setModalOpen] = useState(false)
+    
+    // --- drawer states ---
+    const [drawerOpen, setDrawerOpen] = useState(false)
+
+    // --- popover states ---
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+
+    
+
+
+    
+
+    //HANDLERS
     //--- Menu Handlers ---
     const handleOpenMenu = (e) => {
-        setUserFilterEl(e.currentTarget); 
+        setMenuEl(e.currentTarget); 
     }
 
     const handleCloseSortMenu = () => {
-        setUserFilterEl(null);
+        setMenuEl(null);
     }
 
     //--- Modal handlers ---
@@ -70,27 +88,104 @@ const AdminMainButton = (props) => {
         setModalOpen(true)
     }
 
+    //--- Drawer Handlers ---
+    const handleOpenDrawer = () => {
+        setDrawerOpen(true)
+    }
+
+    // --- Popover Handlers ---
+    const handleOpenPopover = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClosePopover = () => {
+        setAnchorEl(null);
+    };
+
+
+    //Styled Components
+    const StyleOfButton = {
+        backgroundColor: appearance === "primary" ? theme.palette.primary.main : "transparent",
+        color: appearance === "primary" ? theme.palette.primary.contrastText : "text.primary",
+        padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
+        borderRadius: "100px",
+        fontWeight: "bold",
+        "&:hover": {
+            backgroundColor: appearance === "primary" ? theme.palette.primary.dark : theme.palette.secondary.main,
+        },
+        transition: type === "menu" && openMenu ? 'rotate(180deg)' : ""
+
+    }
+
+    const StyledCustomPopover = {
+        marginTop: theme.spacing(1) // Adjust this value to add space between the button and popover
+    }
+
+    const StyleOfIconButton = {
+        border: '1px solid',
+        borderColor: theme.palette.divider,
+        borderRadius: "10px",
+    }
+
     return (
             <>
-            <Button
+            {
+                appearance === "iconButton"
+                ?
+                <IconButton 
+                sx={StyleOfIconButton}
+                size='small' 
+                color='primary'
+                onClick= {
+                    type === "menu" ? handleOpenMenu :
+                    type === "modal" ? handleOpenModal :
+                    type === "drawer" ? handleOpenDrawer :
+                    type === "popover" ? handleOpenPopover :
+                    type === "custom" ? onClick : undefined
+                }
+                >
+                    {
+                        badgeContent
+                        ?
+                        <Badge color='error' badgeContent={badgeContent}>
+                            {icon}
+                        </Badge>
+                        :
+                        icon
+                    }
+                </IconButton>
+                :
+                <Button
                 sx={StyleOfButton}
                 onClick={
                     type === "menu" ? handleOpenMenu :
                     type === "modal" ? handleOpenModal :
+                    type === "drawer" ? handleOpenDrawer :
+                    type === "popover" ? handleOpenPopover :
                     type === "custom" ? onClick : undefined
                 }
                 startIcon={
                 icon
                 }
+                endIcon= {
+                    type === "menu" || type === "popover" ?
+                    menuEl ? 
+                    <KeyboardArrowUpOutlinedIcon /> :
+                    <KeyboardArrowDownOutlinedIcon />
+                    :
+                    null
+                }
                 >
                     {title}
-            </Button>
+                </Button>
+            }
+            
             {
                 menuItems && type === "menu" ?
                 <Menu 
                 id={title + "-menu"}
-                anchorEl={userFilterEl} 
-                open={openUserFilter} 
+                anchorEl={menuEl} 
+                open={openMenu} 
                 onClose={handleCloseSortMenu}
                 MenuListProps={{
                     "aria-labelledby": `by-${title}-menu`,
@@ -117,17 +212,49 @@ const AdminMainButton = (props) => {
 
                 </Menu>
                 : 
-                modalContent && type === "modal"
+                type === "modal"
                 ?
                 <CustomModal 
                 title={title} 
                 modalOpenState={[modalOpen, setModalOpen]}
                 modalIcon={modalIcon}
                 >
-                    {modalContent}
+                    {willShow}
                 </CustomModal>
-                : null
-
+                : 
+                type === "drawer" 
+                ?
+                <CustomDrawer
+                drawerOpenState={[drawerOpen, setDrawerOpen]}
+                title={title}
+                putDrawerCloseButton={putDrawerCloseButton}
+                anchor={drawerAnchor}
+                variant={drawerVariant}
+                >
+                    {willShow}
+                </CustomDrawer>
+                :
+                type === "popover" 
+                ?
+                <Popover 
+                sx={StyledCustomPopover}
+                open={open} 
+                anchorEl={anchorEl} 
+                onClose={handleClosePopover}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'left',
+                }}
+                transformOrigin={{
+                    vertical: 'top',
+                    horizontal: 'left',
+                }}
+                elevation={0}
+                >
+                    {willShow}
+                </Popover>
+                :
+                null
             }
             </>
     );
@@ -136,12 +263,16 @@ const AdminMainButton = (props) => {
 AdminMainButton.propTypes = {
     icon: propTypes.any,
     title: propTypes.string.isRequired,
-    appearance: propTypes.string.isRequired,
-    type: propTypes.oneOf(["modal", "menu", "custom"]).isRequired,
+    appearance: propTypes.oneOf(["primary", "secondary", "iconButton"]).isRequired,
+    type: propTypes.oneOf(["modal", "menu", "drawer", "popover","custom"]).isRequired,
     onClick: propTypes.func,
     menuItems: propTypes.array,
-    modalContent: propTypes.element,
-    modalIcon: propTypes.element
+    willShow: propTypes.element,
+    modalIcon: propTypes.element,
+    drawerAnchor: propTypes.oneOf(['right', 'left', 'top', 'bottom']),
+    putDrawerCloseButton: propTypes.bool,
+    badgeContent: propTypes.oneOfType([propTypes.string, propTypes.number]),
+    drawerVariant: propTypes.string,
 }
 
 export default AdminMainButton;

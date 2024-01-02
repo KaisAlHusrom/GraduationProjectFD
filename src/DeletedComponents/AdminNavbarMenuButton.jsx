@@ -5,7 +5,7 @@ import {
 
 //Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { openAdminNavbar, closeAdminNavbar } from '../../../Redux/Slices/componentsOpenSlice'
+import { openAdminNavbar, closeAdminNavbar } from '../Redux/Slices/componentsOpenSlice'
 
 //Components
 

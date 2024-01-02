@@ -9,8 +9,8 @@ import {
 } from 'react-redux'
 
 //Components
-import AdminHeaderTitle from "./AdminHeaderTitle"
-import AdminNavbarListContent from "./AdminNavbarListContent"
+import AdminHeaderTitle from "../Pages/Admin/Sections/AdminHeader/AdminHeaderComponents/AdminHeaderTitle"
+import AdminNavbarListContent from "../Pages/Admin/Sections/AdminNavbar/AdminNavbarComponents/AdminNavbarListContent"
 
 //MUI
 import {

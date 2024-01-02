@@ -14,7 +14,7 @@ import { Route, Routes } from 'react-router-dom';
 import {
     DashboardMainPage,
     UsersPage
-} from "./../AdminPages"
+} from "../../AdminPages"
 
 //MUI
 import {

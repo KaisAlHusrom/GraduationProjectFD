@@ -5,7 +5,7 @@ import {
 
 //Redux
 import { useDispatch } from 'react-redux';
-import { closeSettingsDrawer } from '../../../Redux/Slices/componentsOpenSlice';
+import { closeSettingsDrawer } from '../Redux/Slices/componentsOpenSlice';
 
 //Components
 

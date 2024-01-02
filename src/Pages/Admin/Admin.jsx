@@ -5,9 +5,9 @@ import {
 } from "@mui/material"
 
 //sections
-import AdminNavbar from "./Sections/AdminNavbar"
-import AdminHeader from "./Sections/AdminHeader"
-import AdminPageSection from "./Sections/AdminPageSection"
+import AdminNavbar from "./Sections/AdminNavbar/AdminNavbar"
+import AdminHeader from "./Sections/AdminHeader/AdminHeader"
+import AdminPageSection from "./Sections/AdminPageSection/AdminPageSection"
 
 const Admin = () => {
     return (

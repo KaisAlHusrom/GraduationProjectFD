@@ -3,7 +3,7 @@ import {  } from "react"
 
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import {  closeAdminNavbar } from "../../../Redux/Slices/componentsOpenSlice";
+import {  closeAdminNavbar } from "../../../../Redux/Slices/componentsOpenSlice";
 
 //Materia UI
 import {
@@ -13,7 +13,7 @@ import { styled } from '@mui/system';
 
 
 //components
-import AdminNavbarList from "../Components/AdminNavbarList";
+import AdminNavbarList from "../../../../DeletedComponents/AdminNavbarList";
 
 
 
@@ -61,15 +61,6 @@ const AdminNavbar = () => {
                 <AdminNavbarList />
 
             </CustomDrawer>
-            <Drawer
-            anchor={dir === "rtl" ? "right" : "left"}
-            open={openDrawer}
-            onClose={handleClose}
-            variant= {'temporary'}
-            >
-                <AdminNavbarList />
-
-            </Drawer>
             </>
 
 

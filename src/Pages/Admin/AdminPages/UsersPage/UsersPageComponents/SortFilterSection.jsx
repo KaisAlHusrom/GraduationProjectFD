@@ -30,6 +30,25 @@ const StyledSortFilterSection = styled(Box)(
         justifyContent: "space-between",
         alignItems: "center",
         padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
+        [theme.breakpoints.down("sm")]: {
+
+        }
+    })
+)
+
+const StyledAddButtonBox = styled(Box)(
+    ({ theme }) => ({
+        
+    })
+)
+
+const StyledFilterButtonsBox = styled(Box)(
+    ({ theme }) => ({
+        [theme.breakpoints.down("xs")]: {
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center"
+        }
     })
 )
 
@@ -76,19 +95,19 @@ const SortFilterSection = () => {
 
     return (
         <StyledSortFilterSection>
-            <Box>
+            <StyledAddButtonBox>
                 <AdminMainButton
                 title="Add User"
                 icon={<AddIcon />}
                 appearance="primary"
                 type='modal'
-                modalContent={
+                willShow={
                     <AddUserModalForm />
                 }
                 modalIcon={<PersonAddAltOutlinedIcon />}
                 />
-            </Box>
-            <Box>
+            </StyledAddButtonBox>
+            <StyledFilterButtonsBox>
                 <AdminMainButton
                 title="Filter"
                 icon={<FilterAltOutlinedIcon />}
@@ -99,12 +118,11 @@ const SortFilterSection = () => {
                 <AdminMainButton
                 title="Sort"
                 icon={<SortOutlinedIcon />}
-                onClick={() => {}}
                 appearance="secondary"
                 type='menu'
                 menuItems={sortMenuItems}
                 />
-            </Box>
+            </StyledFilterButtonsBox>
             
         </StyledSortFilterSection>
     );

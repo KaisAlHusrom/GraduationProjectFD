@@ -25,6 +25,16 @@ const StyledAddUserModalForm = styled(Grid)(
     })
 )
 
+const StyledSubmitButton = styled(Button)(
+    ({ theme }) => ({
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
+            "&:hover": {
+                backgroundColor: theme.palette.primary.dark,
+            }
+    })
+)
+
 
 const AddUserModalForm = () => {
 
@@ -109,9 +119,7 @@ const AddUserModalForm = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <FormControlLabel
-                        label="تعيين كمدير"
-
-
+                        label="Set As Admin"
                         size="small"
                         control={
                             <Switch 
@@ -125,17 +133,11 @@ const AddUserModalForm = () => {
                     />
                 </Grid>
                 <Grid item xs={12}>
-                    <Button 
+                    <StyledSubmitButton 
                     type="submit"
-                    sx={{
-                        backgroundColor: "primary.main",
-                        color: "#fff",
-                        "&:hover": {
-                            backgroundColor: "secondary.main",
-                        }
-                    }}>
-                        إضافة
-                    </Button>
+                    >
+                        Add
+                    </StyledSubmitButton>
                 </Grid>
                 </Grid>
             </StyledAddUserModalForm>

@@ -31,7 +31,7 @@ const StyledSearchButton = styled(Button)(
         "&:hover": {
             borderColor: "rgb(47, 58, 70)",
             background: theme.palette.secondary.light,
-        }
+        },
     })
 )
 
@@ -45,6 +45,7 @@ const StyledSearchIcon = styled(SearchIcon)(
 const SearchButton = () => {
 
     return (
+        
         <StyledSearchButton
             startIcon={<StyledSearchIcon />}
             variant='outlined'

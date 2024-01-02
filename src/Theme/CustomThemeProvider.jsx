@@ -209,7 +209,7 @@ const CustomThemeProvider = ({children}) => {
             },
             breakpoints: {
                 values: {
-                    xs: 0,
+                    xs: 430,
                     sm: 600,
                     md: 900,
                     lg: 1200,

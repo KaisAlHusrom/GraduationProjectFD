@@ -80,6 +80,12 @@ const SettingsListContent = () => {
                 groupButtons={modeButtons}
                 />
             </StyledListItem>
+            {/* <StyledListItem>
+                <SettingsListItem 
+                title="Mode:"
+                groupButtons={modeButtons}
+                />
+            </StyledListItem> */}
         </StyledSettingsListContent>
     );
 };
