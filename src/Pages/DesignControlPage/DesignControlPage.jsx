@@ -8,6 +8,8 @@ import {
 } from 'react-redux'
 
 //Components
+import DesignPageAppBar from './components/DesignPageAppBar'
+import SideBar from './SideBar/SideBar'
 
 
 //MUI
@@ -19,7 +21,7 @@ import { styled } from '@mui/system'
 //Styled Components
 const StyledDesignControlPage = styled(Box)(
     ({ theme }) => ({
-    
+        padding:theme.spacing(2),
     })
 )
 
@@ -27,7 +29,8 @@ const StyledDesignControlPage = styled(Box)(
 const DesignControlPage = () => {
     return (
         <StyledDesignControlPage>
-            DesignControlPage
+            {/* <DesignPageAppBar /> */}
+            <SideBar></SideBar>
         </StyledDesignControlPage>
     );
 };

@@ -33,6 +33,7 @@ const AdminHeaderMenu = () => {
             <SearchButton />
             <NotificationButton />
             <SettingsButton />
+            
         </StyledAdminHeaderMenu>
     );
 };
