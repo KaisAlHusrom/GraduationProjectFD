@@ -53,7 +53,7 @@ const AdminHeaderMenu = () => {
             icon={<NotificationsOutlinedIcon />}
             willShow={<NotificationsList />}
             title="Notifications"
-            badgeContent={3}
+            badgeContent={3} // to add number above the button
             />
 
             {/* Settings Button  */}

@@ -19,6 +19,7 @@ import AdminMainButton from '../../Components/AdminMainButton'
 
 import AdminNavbarListContent from '../AdminNavbar/AdminNavbarComponents/AdminNavbarListContent'
 import { useSelector } from 'react-redux'
+import { useTheme } from '@emotion/react';
 
 //Styled Components
 const StyledHeader = styled(Box)(
@@ -48,11 +49,22 @@ const AdminHeader = () => {
     // --- dir ---
     const dir = useSelector(state => state.langSlice.dir);
 
+    //theme
+    const theme = useTheme()
+
+
+    //styles
+    const styleOfMenuButton = {
+        [theme.breakpoints.up('lg')]: {
+            display: "none"
+        },
+    }
 
     return (
         <StyledHeader>
             <StyledTitle>
                 <AdminMainButton 
+                sx={styleOfMenuButton}
                 appearance='iconButton'
                 type='drawer'
                 drawerAnchor={dir === "ltr" ? "left" : "right"}

@@ -42,7 +42,8 @@ const AdminMainButton = (props) => {
         putDrawerCloseButton,
         drawerAnchor,
         badgeContent,
-        drawerVariant
+        drawerVariant,
+        sx
     } = props
 
     //theme
@@ -133,7 +134,12 @@ const AdminMainButton = (props) => {
                 appearance === "iconButton"
                 ?
                 <IconButton 
-                sx={StyleOfIconButton}
+                sx={
+                    sx ?
+                    {...StyleOfIconButton, ...sx}
+                    :
+                    StyleOfIconButton
+                }
                 size='small' 
                 color='primary'
                 onClick= {
@@ -156,7 +162,12 @@ const AdminMainButton = (props) => {
                 </IconButton>
                 :
                 <Button
-                sx={StyleOfButton}
+                sx={
+                    sx ?
+                    {...StyleOfIconButton, ...sx}
+                    :
+                    StyleOfButton
+                }
                 onClick={
                     type === "menu" ? handleOpenMenu :
                     type === "modal" ? handleOpenModal :
@@ -273,6 +284,7 @@ AdminMainButton.propTypes = {
     putDrawerCloseButton: propTypes.bool,
     badgeContent: propTypes.oneOfType([propTypes.string, propTypes.number]),
     drawerVariant: propTypes.string,
+    sx: propTypes.object,
 }
 
 export default AdminMainButton;
