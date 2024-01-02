@@ -24,12 +24,14 @@ const StyledTitleBox = styled(Box)(
 
 const AdminHeaderTitle = () => {
     return (
+        <>
         <StyledTitleBox className='adminHeaderTitle'>
             <Typography variant='h6' component="span">
                 AdminHeaderTitle
             </Typography>
             
         </StyledTitleBox>
+        </>
     );
 };
 

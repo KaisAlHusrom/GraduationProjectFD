@@ -58,7 +58,7 @@ function App() {
       }
       <Router>
         <Routes>
-          <Route exact path="/admin-dashboard" element={<Admin />} />
+          <Route exact path="/admin-dashboard/*" element={<Admin />} />
           <Route path="/admin-dashboard/design-control" element={<DesignControlPage />} />
         </Routes>
       </Router>

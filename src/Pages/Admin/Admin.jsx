@@ -7,6 +7,7 @@ import {
 //sections
 import AdminNavbar from "./Sections/AdminNavbar"
 import AdminHeader from "./Sections/AdminHeader"
+import AdminPageSection from "./Sections/AdminPageSection"
 
 const Admin = () => {
     return (
@@ -16,6 +17,11 @@ const Admin = () => {
             </Grid>
             <Grid item>
                 <AdminNavbar />
+            </Grid>
+            <Grid item sx={{
+                width: "100%"
+            }}>
+                <AdminPageSection />
             </Grid>
         </Grid>
     )

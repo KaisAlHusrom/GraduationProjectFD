@@ -3,26 +3,25 @@ import {
     
 } from 'react'
 
-import {
-    
-} from 'react-redux'
+//redux
+import { useDispatch } from 'react-redux'
+import { changeMode } from '../../../Redux/Slices/modeSlice';
+
+//icons
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 //Components
-
+import  SettingsListItem from './SettingsListItem'
 
 //MUI
 import {
     List,
     ListItem,
-    ButtonGroup,
-    Button,
-    Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
 
-//icons
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
+
 //Styled Components
 const StyledSettingsListContent = styled(List)(
     ({ theme }) => ({
@@ -40,43 +39,46 @@ const StyledListItem = styled(ListItem)(
     })
 )
 
-const StyledButtonGroup = styled(ButtonGroup)(
-    ({ theme }) => ({
-        width: "100%",
-    })
-)
 
-const StyledButton = styled(Button)(
-    ({ theme }) => ({
-        width: "100%",
-    })
-)
 
 
 const SettingsListContent = () => {
+    const dispatch = useDispatch();
+
+    const handleDarkMode = () => {
+        dispatch(changeMode({
+            mode: "dark"
+        }))
+    }
+
+    const handleLightMode = () => {
+        dispatch(changeMode({
+            mode: "light"
+        }))
+    }
+
+    const modeButtons = [
+        {
+            value: "dark",
+            name: "Dark",
+            icon: <DarkModeIcon />,
+            onClick: handleDarkMode,
+        },
+        {
+            value: "light",
+            name: "Light",
+            icon: <WbSunnyIcon />,
+            onClick: handleLightMode,
+        },
+    ] 
+
     return (
         <StyledSettingsListContent>
             <StyledListItem>
-            <Typography
-            variant='subtitle1'
-            color="text.secondary"
-            fontWeight="bold"
-            component="div"
-            >
-                Mode:
-            </Typography>
-            <StyledButtonGroup variant="outlined" aria-label="outlined button group">
-                <StyledButton
-                value="Light"
-                >
-                    <WbSunnyIcon />
-                    Light
-                </StyledButton>
-                <StyledButton>
-                    <DarkModeIcon />
-                    Dark
-                </StyledButton>
-            </StyledButtonGroup>
+                <SettingsListItem 
+                title="Mode:"
+                groupButtons={modeButtons}
+                />
             </StyledListItem>
         </StyledSettingsListContent>
     );

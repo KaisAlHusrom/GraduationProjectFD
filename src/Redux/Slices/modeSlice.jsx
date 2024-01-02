@@ -10,7 +10,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const getLocalStorageData = () => {
     const mode = localStorage.getItem("mode");
     return {
-        mode: mode || "Dark", // Use default value if not in localStorage
+        mode: mode || "dark", // Use default value if not in localStorage
     };
 };
 

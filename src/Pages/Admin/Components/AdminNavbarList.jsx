@@ -27,6 +27,7 @@ const StyledAdminNavbarList = styled(Box)(
         backgroundColor: theme.palette.background.default,
         display: "flex",
         flexDirection: "column",
+        overflow: "auto",
         "& .adminHeaderTitle" : {
             [theme.breakpoints.up("lg")]: {
                 display: "none",

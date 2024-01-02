@@ -1,14 +1,13 @@
 //React
-import { useState } from "react"
+import {  } from "react"
 
 //redux
 import { useDispatch, useSelector } from "react-redux";
-import { openAdminNavbar, closeAdminNavbar } from "../../../Redux/Slices/componentsOpenSlice";
+import {  closeAdminNavbar } from "../../../Redux/Slices/componentsOpenSlice";
 
 //Materia UI
 import {
     Drawer,
-    Typography
 } from "@mui/material"
 import { styled } from '@mui/system';
 
@@ -36,7 +35,7 @@ const AdminNavbar = () => {
             width: "300px",
             marginTop: "65px",
             height: "calc(100vh - 65px)",
-            borderRight: "2px solid",
+            borderRight: "1px solid",
             borderColor: theme.palette.divider,
             overflow: "hidden",
             [theme.breakpoints.down('lg')]: {

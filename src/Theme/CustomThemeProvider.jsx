@@ -225,6 +225,7 @@ const CustomThemeProvider = ({children}) => {
                     },
                 },
                 MuiButton: {
+
                     // variants: [
                     //     {
                     //         props: { variant: "outlined"},

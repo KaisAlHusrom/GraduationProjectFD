@@ -21,7 +21,6 @@ import {
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    Link
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -37,7 +36,7 @@ const StyledAdminNavbarListContent = styled(List)(
 )
 
 const StyledListItem = styled(ListItem)(
-    ({ theme }) => ({
+    () => ({
         padding: "0"
     })
 )
@@ -64,7 +63,7 @@ const AdminNavbarListContent = () => {
         <StyledAdminNavbarListContent>
             <StyledListItem>
                 <StyledLink
-                to="#"
+                to="users"
                 >
                     <ListItemButton>
                         <ListItemIcon>
