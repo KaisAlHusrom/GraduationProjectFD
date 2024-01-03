@@ -21,7 +21,7 @@ import {
 import { styled } from '@mui/system'
 import MenuIcon from '@mui/icons-material/Menu';
 import MainDrawerList from '../SideBar/DrawerLists/MainDrawerList';
-import PersistentDrawerLeft from '../SideBar/Components/PersistentDrawerLeft';
+import PersistentDrawerLeft from './PersistentDrawerLeft';
 
 //Styled Components
 const StyledAppbarCom = styled(Box)(
@@ -54,7 +54,7 @@ const AppbarCom = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap component="div">
-            Material-U
+            BSOFT
           </Typography>
         </Toolbar>
       </AppBar>

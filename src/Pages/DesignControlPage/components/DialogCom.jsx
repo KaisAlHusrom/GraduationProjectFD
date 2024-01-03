@@ -29,19 +29,16 @@ import Slide from '@mui/material/Slide';
 //Styled Components
 const StyledDialogCom = styled(Box)(
     () => ({
-  
+      width:"100%"
     })
 )
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const DialogCom = ({title,dialogOpenState , children }) => {
+const DialogCom = ({title,dialogOpenState , children}) => {
 
   const [open, setOpen] = dialogOpenState;
-
-
-
 
   const handleClose = () => {
     setOpen(false);
@@ -66,7 +63,7 @@ const DialogCom = ({title,dialogOpenState , children }) => {
         <AppBar sx={{ position: 'relative' }}>
           <Toolbar>
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-            
+              {title}
             </Typography>
             <Button autoFocus color="inherit" onClick={handleClose}>
               save

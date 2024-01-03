@@ -8,14 +8,13 @@ import {
 } from 'react-redux'
 
 //Components
-
+import AppBarCom  from '../DesignControlPage/components/AppbarCom'
 
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import AppbarCom from './SideBar/Sections/AppbarCom'
 
 //Styled Components
 const StyledDesignControlPage = styled(Box)(
@@ -28,7 +27,7 @@ const StyledDesignControlPage = styled(Box)(
 const DesignControlPage = () => {
     return (
         <StyledDesignControlPage>
-            <AppbarCom></AppbarCom>
+            <AppBarCom></AppBarCom>
         </StyledDesignControlPage>
     );
 };

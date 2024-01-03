@@ -13,9 +13,9 @@ import {
     Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import ColorCom from '../Components/ColorCom'
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
 import FontDrawerList from './FontDrawerList'
+import ColorBar from '../Components/ColorBar'
 
 //Styled Components
 const StyledStylesDrawerList = styled(Box)(
@@ -56,7 +56,7 @@ const StylesDrawerList = () => {
           ))}
         </List>
         <PersistentDrawerLeft drawerOpenState = {[color, setColor]} closebtn={true} >
-            <ColorCom></ColorCom>
+            <ColorBar></ColorBar>
         </PersistentDrawerLeft>
         <PersistentDrawerLeft drawerOpenState = {[font, setFont]} closebtn={true} >
             <FontDrawerList></FontDrawerList>

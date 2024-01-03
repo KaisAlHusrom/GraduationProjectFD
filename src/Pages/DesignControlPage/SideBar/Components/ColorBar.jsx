@@ -17,63 +17,34 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import Slider from '@mui/material/Slider';
-import Typography from '@mui/material/Typography';
-
+import { SketchPicker } from 'react-color'
 
 //Styled Components
 const StyledColorBar = styled(Box)(
-    ({ theme }) => ({
-    
+    ({theme}) => ({
+        width: '400px',
+        padding: theme.spacing(2)
     })
 )
 
 
 const ColorBar = () => {
 
-    const [selectedColor, setSelectedColor] = useState({ r: 255, g: 0, b: 0 });
-
-    const handleColorChange = (channel, value) => {
-      setSelectedColor((prevColor) => ({
-        ...prevColor,
-        [channel]: value,
-      }));
-    };
-  
-    const rgbColor = `rgb(${selectedColor.r}, ${selectedColor.g}, ${selectedColor.b})`;
-  
-    const colorStyle = {
-      backgroundColor: rgbColor,
-      height: '30px',
-      width: '100%',
-      borderRadius: '5px',
-    };
-
+    const [currentColor , setCurrentColor ] = useState("#fff");
+    const handleOnChange = (color)=> {
+        setCurrentColor(color);
+        console.log(color.rgb);
+    }
     return (
         <StyledColorBar>
-        <div>
-        <Typography variant="h6" gutterBottom>
-            Renk Seçici
-        </Typography>
-        <div style={colorStyle}></div>
-        <div>
-                <Typography gutterBottom>Red</Typography>
-                <Slider value={selectedColor.r} onChange={(e, newValue) => handleColorChange('r', newValue)} min={0} max={255} />
-        </div>
-        <div>
-                <Typography  gutterBottom>Green</Typography>
-                <Slider value={selectedColor.g} onChange={(e, newValue) => handleColorChange('g', newValue)} min={0} max={255} />
-        </div>
-        <div>
-                <Typography gutterBottom>Blue</Typography>
-                <Slider value={selectedColor.b} onChange={(e, newValue) => handleColorChange('b', newValue)} min={0} max={255} />
-        </div>
-        <div>
-                <Typography gutterBottom>RGB</Typography>
-                <Typography>{rgbColor}</Typography>
-        </div>
-    </div>
-        </StyledColorBar>
+            <Box>
+                <h2>Color Choses</h2>
+                <SketchPicker 
+                    color={currentColor}
+                    onChangeComplete={handleOnChange}
+                />
+            </Box>
+        </StyledColorBar >
     );
 };
 
