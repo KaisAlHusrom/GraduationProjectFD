@@ -21,7 +21,8 @@ import { styled } from '@mui/system'
 //Styled Components
 const StyledColorCom = styled(Box)(
     ({ theme }) => ({
-      padding:theme.spacing(2)
+      padding:theme.spacing(2),
+      width:'500px',
     })
 )
 
