@@ -263,7 +263,7 @@ const CustomThemeProvider = ({children}) => {
 }
 
 CustomThemeProvider.propTypes = {
-    children: propTypes.array
+    children: propTypes.element
 }
 
 export default CustomThemeProvider

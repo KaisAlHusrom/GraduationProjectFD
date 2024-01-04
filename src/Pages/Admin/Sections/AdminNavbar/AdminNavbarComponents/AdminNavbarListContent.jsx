@@ -8,25 +8,19 @@ import {
     
 } from 'react-redux'
 
-//router
-import { NavLink } from 'react-router-dom'
 
 //Components
-
+import { CustomNavListItem } from '../../../../../Components'
+import adminPageLinks from '../../../../../Router/Routes/AdminPage/adminPageLinks'
 
 //MUI
 import {
     List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
-//icons
-import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
-import DesignServicesOutlinedIcon from '@mui/icons-material/DesignServicesOutlined';
+
+
 //Styled Components
 const StyledAdminNavbarListContent = styled(List)(
     ({ theme }) => ({
@@ -35,19 +29,6 @@ const StyledAdminNavbarListContent = styled(List)(
     })
 )
 
-const StyledListItem = styled(ListItem)(
-    () => ({
-        padding: "0"
-    })
-)
-
-const StyledLink = styled(NavLink)(
-    ({ theme }) => ({
-        width: "100%",
-        color: theme.palette.text.primary,
-        textDecoration: "none"
-    })
-)
 
 
 
@@ -58,35 +39,24 @@ const StyledLink = styled(NavLink)(
 // )
 
 
+
 const AdminNavbarListContent = () => {
     return (
         <StyledAdminNavbarListContent>
-            <StyledListItem>
-                <StyledLink
-                to="users"
-                >
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <PeopleOutlineOutlinedIcon color='primary' />
+            {
+                adminPageLinks.map((link, index) => {
+                    return (
+                        <CustomNavListItem
+                            key={index}
+                            title={link.title}
+                            icon={link.icon}
+                            path={link.path}
+                            nestedMenu={link.nestedMenu}
+                        />
+                    )
+                })
+            }
 
-                        </ListItemIcon>
-                        <ListItemText primary="Users" />
-                    </ListItemButton>
-                </StyledLink>
-            </StyledListItem>
-            <StyledListItem>
-                <StyledLink
-                to="design-control"
-                >
-                    <ListItemButton>
-                        <ListItemIcon>
-                            <DesignServicesOutlinedIcon color='primary' />
-
-                        </ListItemIcon>
-                        <ListItemText primary="Design" />
-                    </ListItemButton>
-                </StyledLink>
-            </StyledListItem>
         </StyledAdminNavbarListContent>
     );
 };

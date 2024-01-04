@@ -8,13 +8,10 @@ import {
 } from 'react-redux'
 
 //router
-import { Route, Routes } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 
-//Components
-import {
-    DashboardMainPage,
-    UsersPage
-} from "../../AdminPages"
+
+import { CustomBreadcrumbs } from '../../../../Components';
 
 //MUI
 import {
@@ -28,6 +25,8 @@ import { styled } from '@mui/system'
 
 
 const AdminPageSection = () => {
+    // --- Redux --- 
+    //dir
     const dir = useSelector(state => state.langSlice.dir)
 
     const StyledAdminPageSection = styled(Box)(
@@ -45,11 +44,10 @@ const AdminPageSection = () => {
 
     return (
         <StyledAdminPageSection>
-            <Container maxWidth="lg">
-                <Routes>
-                    <Route exact path="" element={<DashboardMainPage />} />
-                    <Route path="users" element={<UsersPage />} />
-                </Routes>
+            
+            <Container maxWidth="xl">
+                <CustomBreadcrumbs />
+                <Outlet />
             </Container>
         </StyledAdminPageSection>
     );

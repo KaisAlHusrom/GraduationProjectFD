@@ -13,7 +13,7 @@ import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheck
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
 
 //Components
-import AdminMainButton from '../../../Components/AdminMainButton'
+import AdminMainButton from '../../../../../Components/AdminMainButton/AdminMainButton'
 import AddUserModalForm from './AddUserModalForm';
 
 
@@ -29,7 +29,7 @@ const StyledSortFilterSection = styled(Box)(
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
+        padding: `${theme.spacing(2)} 0}`,
         [theme.breakpoints.down("sm")]: {
 
         }
@@ -37,7 +37,7 @@ const StyledSortFilterSection = styled(Box)(
 )
 
 const StyledAddButtonBox = styled(Box)(
-    ({ theme }) => ({
+    () => ({
         
     })
 )
@@ -87,10 +87,6 @@ const SortFilterSection = () => {
             onClick: () => {}
         },
     ]
-
-    
-
-    
 
 
     return (

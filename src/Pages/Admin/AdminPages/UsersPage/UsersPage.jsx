@@ -25,6 +25,9 @@ const StyledUsersPage = styled(Box)(
 
 
 const UsersPage = () => {
+    // Fetch the users from loader function in the route of the page
+    // const users = useLoaderData() 
+
     return (
         <StyledUsersPage>
             <SortFilterSection />

@@ -15,7 +15,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 //imported components
 import AdminHeaderTitle from './AdminHeaderComponents/AdminHeaderTitle'
 import AdminHeaderMenu from './AdminHeaderComponents/AdminHeaderMenu'
-import AdminMainButton from '../../Components/AdminMainButton'
+import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton'
 
 import AdminNavbarListContent from '../AdminNavbar/AdminNavbarComponents/AdminNavbarListContent'
 import { useSelector } from 'react-redux'

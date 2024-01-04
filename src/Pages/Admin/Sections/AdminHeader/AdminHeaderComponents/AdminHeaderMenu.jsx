@@ -15,7 +15,7 @@ import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined
 
 //Components
 import SearchButton from '../../../Components/SearchButton'
-import AdminMainButton from '../../../Components/AdminMainButton'
+import AdminMainButton from '../../../../../Components/AdminMainButton/AdminMainButton'
 import SettingsListContent from '../../../Components/SettingsListContent';
 import NotificationsList from "../../../Components/NotificationsList"
 
@@ -49,6 +49,7 @@ const AdminHeaderMenu = () => {
             {/* Notification Button  */}
             <AdminMainButton
             appearance='iconButton'
+            putTooltip
             type='popover'
             icon={<NotificationsOutlinedIcon />}
             willShow={<NotificationsList />}
@@ -59,6 +60,7 @@ const AdminHeaderMenu = () => {
             {/* Settings Button  */}
             <AdminMainButton
             appearance='iconButton'
+            putTooltip
             type='drawer'
             icon={<SettingsOutlinedIcon />}
             willShow={<SettingsListContent />}
