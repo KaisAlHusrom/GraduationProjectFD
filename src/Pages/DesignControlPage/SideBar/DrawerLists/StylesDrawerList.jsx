@@ -6,21 +6,24 @@ import {
 } from 'react-redux'
 
 //Components
-
+import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
+import FontDrawerList from './FontDrawerList'
+import ColorBar from '../Components/ColorBar'
 
 //MUI
 import {
     Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
-import FontDrawerList from './FontDrawerList'
-import ColorBar from '../Components/ColorBar'
 
+import ColorLensIcon from '@mui/icons-material/ColorLens';
+import FontDownloadIcon from '@mui/icons-material/FontDownload';
 //Styled Components
 const StyledStylesDrawerList = styled(Box)(
-    () => ({
-        width:'200px'
+    ({theme}) => ({
+      width: '350px',
+      color:theme.palette.success.main,
+
     })
 )
 
@@ -32,12 +35,14 @@ const StylesDrawerList = () => {
     const drawerItems = [
         {
           name :'Colors' , 
+          icon : <ColorLensIcon />,
           onClick: ()=> {
             setColor(true)
           },
         },
         {
           name :'Fonts' , 
+          icon : <FontDownloadIcon />,
           onClick: ()=> {setFont(true)},
         }
     ];
@@ -49,6 +54,7 @@ const StylesDrawerList = () => {
             <ListItem key={item.name} disablePadding>
               <ListItemButton onClick={item.onClick}>
                 <ListItemIcon>
+                  {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItemButton>

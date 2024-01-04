@@ -148,6 +148,12 @@ const CustomThemeProvider = ({children}) => {
                     // dark: '#A29415',
                     // contrastText: '#242105',
                 },
+                white: {
+                    main: "#fff",
+                    // light: '#E9DB5D',
+                    // dark: '#A29415',
+                    // contrastText: '#242105',
+                },
                 secondary: {
                     main: "rgba(31, 38, 46, 0.4)",
                     // light: '',
