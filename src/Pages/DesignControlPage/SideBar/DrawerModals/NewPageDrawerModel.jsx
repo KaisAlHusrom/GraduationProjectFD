@@ -52,7 +52,7 @@ const NewPageDrawerModel = () => {
             <MenuItem value={20}>Home Page</MenuItem>
             <MenuItem value={30}>About Us</MenuItem>
             </CustomSelectInput>
-           
+        
             <CustomCheckBox label="Add page to main navigation" control={<Checkbox />}  className={customCheckBoxStyle}></CustomCheckBox>
             <CustomCheckBox label="Add page to Footer" control={<Checkbox />}  className={customCheckBoxStyle}></CustomCheckBox>
 
@@ -66,7 +66,7 @@ const NewPageDrawerModel = () => {
                     justifyContent: 'center', 
                     alignItems: 'center',
                     backgroundColor: '',
-                    color:'white'
+                    color: 'green'
                 }}
                 icon={<DownloadDoneIcon />}
 

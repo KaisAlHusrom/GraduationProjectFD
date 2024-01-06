@@ -9,7 +9,7 @@ import {
 import MediaDrawerList from './MediaDrawerList'
 import StylesDrawerList from './StylesDrawerList'
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
-
+import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton'
 //MUI
 import {
     Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
@@ -17,6 +17,8 @@ import {
 import { styled } from '@mui/system'
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import PermMediaIcon from '@mui/icons-material/PermMedia';
+import StreetviewIcon from '@mui/icons-material/Streetview';
+import TemplatesDrawerModel from '../DrawerModals/TemplatesDrawerModel'
 //Styled Components
 const StyledMainDrawerList = styled(Box)(
     ({theme}) => ({
@@ -44,7 +46,8 @@ const MainDrawerList = () => {
           name :'Media' , 
           icon : <PermMediaIcon />,
           onClick: ()=> {setMedia(true)},
-        }
+        },
+     
     ];
     return (
         <StyledMainDrawerList>
@@ -71,6 +74,29 @@ const MainDrawerList = () => {
         <PersistentDrawerLeft drawerOpenState = {[media, setMedia]} closebtn={true} >
             <MediaDrawerList></MediaDrawerList>
         </PersistentDrawerLeft>
+
+        <AdminMainButton 
+                title='Look at templates'
+                type='modal'
+                willShow={
+                  <TemplatesDrawerModel></TemplatesDrawerModel>
+                }
+                sx={{
+                    marginTop: '10px',
+                    width: '100%',
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    padding: '10px 15px',
+                    fontWeight: 'bold',
+                    color: 'green'
+
+                }}
+
+                icon={< StreetviewIcon/>}
+            />
+
+
         </StyledMainDrawerList>
     );
 };

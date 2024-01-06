@@ -10,7 +10,7 @@ import {
 //Components
 import SearchInput from '../../../../Components/CustomSearchInput/SearchInput';
 import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton';
-import NewPageDrawerModel from './NewPageDrawerModel';
+import NewPageDrawerModel from '../DrawerModals/NewPageDrawerModel';
 //MUI
 import {
     Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
@@ -104,6 +104,8 @@ const HomeDrawerList = () => {
                     alignItems: 'center',
                     padding: '10px 15px',
                     fontWeight: 'bold',
+                    color: 'green'
+
                 }}
                 icon={<AddIcon />}
             />

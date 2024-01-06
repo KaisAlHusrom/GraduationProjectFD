@@ -27,7 +27,7 @@ const StyledCustomSelectInput = styled(Box)(
 
 
 
-const CustomSelectInput = ({id,name , children , style , className}) => {
+const CustomSelectInput = ({id,name , children ,className}) => {
     const [value, setValue] = useState('');
 
     const handleChange = (event) => {
@@ -38,7 +38,6 @@ const CustomSelectInput = ({id,name , children , style , className}) => {
 
     return (
         <StyledCustomSelectInput>
-            
         <Box  style= {className}  >
         <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">{name}</InputLabel>
