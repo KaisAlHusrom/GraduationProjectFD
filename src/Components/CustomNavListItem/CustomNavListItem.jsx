@@ -1,9 +1,7 @@
 //React
 import { useState } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 //router
 import { NavLink } from 'react-router-dom'
@@ -32,19 +30,38 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import propTypes from 'prop-types'
 
 //Styled Components
-
+//styles
 const StyledListItem = styled(ListItem)(
     () => ({
-        padding: "0"
+        padding: "0", 
     })
 )
+
 
 const StyledLink = styled(NavLink)(
     ({ theme }) => ({
         width: "100%",
         color: theme.palette.text.primary,
         textDecoration: "none",
-        padding: "0"
+        padding: "0",
+        borderRadius: "8px",
+        transition: theme.transitions.create(['background-color'], {
+            duration: theme.transitions.duration.standard,
+        }),
+        position: "relative",
+        "&.active": {
+            backgroundColor: theme.palette.action.selected,
+            "&:before": {
+                content: "''",
+                position: "absolute",
+                left: "0px",
+                top: "0px",
+                width: "5px",
+                height: "100%",
+                backgroundColor: theme.palette.primary.main,
+                borderRadius: "8px 0 0 8px",
+            }
+        }
     })
 )
 
@@ -52,10 +69,10 @@ const StyledBox = styled(Box)(
     ({ theme }) => ({
         width: "100%",
         color: theme.palette.text.primary,
-        textDecoration: "none"
+        textDecoration: "none",
+        
     })
 )
-
 
 
 const CustomNavListItem = (props) => {
@@ -66,12 +83,17 @@ const CustomNavListItem = (props) => {
         nestedMenu,
     } = props
 
+    //redux
+    const dir = useSelector(state => state.langSlice.dir)
+
     //states
     const [open, setOpen] = useState(false);
 
     const handleOpenNestedMenu = () => {
         setOpen(!open);
     };
+
+    
 
     return (
             <StyledListItem>
@@ -101,19 +123,31 @@ const CustomNavListItem = (props) => {
                                 }
                                 
                             </ListItemButton>
-                            <Collapse in={open} timeout="auto" unmountOnExit>
-                                    <List component="div" disablePadding>
+                            <Collapse sx={{backgroundColor: "transparent"}} in={open} timeout="auto" unmountOnExit>
+                                    <List disablePadding>
                                         {
                                             nestedMenu.map((link, index) => {
                                                 return (
-                                                    <StyledLink key={index} to={link.path}>
-                                                        <ListItemButton sx={{ pl: 4 }}>
-                                                            <ListItemIcon>
-                                                                {link.icon}
-                                                            </ListItemIcon>
-                                                            <ListItemText primary={link.title} />
-                                                        </ListItemButton>
-                                                    </StyledLink>
+                                                    <StyledListItem key={index} >
+                                                        <StyledLink 
+                                                        
+                                                        to={link.path}
+                                                        className={({ isActive, isPending, isTransitioning }) =>
+                                                            [
+                                                            isActive ? "active" : "",
+                                                            isPending ? "pending" : "",
+                                                            isTransitioning ? "transitioning" : "",
+                                                            ].join(" ")
+                                                        }
+                                                        >
+                                                            <ListItemButton sx={{ [dir === "rtl" ? "pr" : "pl"]: 4 }}>
+                                                                <ListItemIcon>
+                                                                    {link.icon}
+                                                                </ListItemIcon>
+                                                                <ListItemText primary={link.title} />
+                                                            </ListItemButton>
+                                                        </StyledLink>
+                                                    </StyledListItem>
                                                 )
                                             })
                                         }
@@ -124,6 +158,13 @@ const CustomNavListItem = (props) => {
                         :
                         <StyledLink
                         to={path}    
+                        className={({ isActive, isPending, isTransitioning }) =>
+                            [
+                            isPending ? "pending" : "",
+                            isActive ? "active" : "",
+                            isTransitioning ? "transitioning" : "",
+                            ].join(" ")
+                        }
                         >
                         <ListItemButton >
                             <ListItemIcon>

@@ -59,7 +59,7 @@ const CustomThemeProvider = ({children}) => {
                 },
                 background: {
                     default: "#121212",
-                    paper: "#121212"
+                    paper: "#111111"
                 },
                 divider: "rgba(255, 255, 255, 0.12)"
             }),
@@ -100,6 +100,11 @@ const CustomThemeProvider = ({children}) => {
                     fontSize: '1.25rem',
                     fontWeight: "500",
                     lineHeight: "1.6"
+                },
+                h7: {
+                    fontSize: '0.95rem',
+                    fontWeight: "600",
+                    lineHeight: "1.4"
                 },
                 subtitle1: {
                     fontSize: "1rem",

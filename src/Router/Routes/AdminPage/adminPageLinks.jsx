@@ -15,23 +15,23 @@ import CodeOffOutlinedIcon from '@mui/icons-material/CodeOffOutlined';
 const adminPageLinks = [
     {
         title: "Users",
-        icon: <PeopleOutlineOutlinedIcon color='primary' />,
+        icon: <PeopleOutlineOutlinedIcon color='primary.contrastText' />,
         path: "users",
         nestedMenu: null
     },
     {
         title: "E-Commerce",
-        icon: <AddShoppingCartOutlinedIcon color='primary' />,
+        icon: <AddShoppingCartOutlinedIcon color='primary.contrastText' />,
         path: "",
         nestedMenu: [
             {
                 title: "Products",
-                icon: <Inventory2OutlinedIcon color='primary' />,
+                icon: <Inventory2OutlinedIcon color='primary.contrastText' />,
                 path: "products"
             },
             {
                 title: "Categories",
-                icon: <CategoryOutlinedIcon color='primary' />,
+                icon: <CategoryOutlinedIcon color='primary.contrastText' />,
                 path: "categories"
             },
         ],
@@ -39,42 +39,42 @@ const adminPageLinks = [
     },
     {
         title: "Design Control",
-        icon: <DesignServicesOutlinedIcon color='primary' />,
+        icon: <DesignServicesOutlinedIcon color='primary.contrastText' />,
         path: "",
         nestedMenu: [
             {
                 title: "Colors Settings",
-                icon: <PaletteOutlinedIcon color='primary' />,
+                icon: <PaletteOutlinedIcon color='primary.contrastText' />,
                 path: "colors-settings"
             },
             {
                 title: "Fonts Settings",
-                icon: <FontDownloadOutlinedIcon color='primary' />,
+                icon: <FontDownloadOutlinedIcon color='primary.contrastText' />,
                 path: "fonts-settings"
             },
             {
                 title: "Pages Settings",
-                icon: <DocumentScannerOutlinedIcon color='primary' />,
+                icon: <DocumentScannerOutlinedIcon color='primary.contrastText' />,
                 path: "pages-settings"
             },
             {
                 title: "Section Settings",
-                icon: <TableRowsOutlinedIcon color='primary' />,
+                icon: <TableRowsOutlinedIcon color='primary.contrastText' />,
                 path: "section-settings"
             },
             {
                 title: "Component Settings",
-                icon: <AppsOutlinedIcon color='primary' />,
+                icon: <AppsOutlinedIcon color='primary.contrastText' />,
                 path: "component-settings"
             },
             {
                 title: "Element Settings",
-                icon: <CodeOffOutlinedIcon color='primary' />,
+                icon: <CodeOffOutlinedIcon color='primary.contrastText' />,
                 path: "element-settings"
             },
             {
                 title: "Go To Design Page",
-                icon: <DesignServicesOutlinedIcon color='primary' />,
+                icon: <DesignServicesOutlinedIcon color='primary.contrastText' />,
                 path: "/design-control"
             },
             

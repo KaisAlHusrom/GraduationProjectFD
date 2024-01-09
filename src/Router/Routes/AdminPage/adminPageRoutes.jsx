@@ -1,6 +1,7 @@
 //Pages
 import {
     DashboardMainPage,
+    ProductsPage,
     UsersPage
 } from "../../../Pages/Admin/AdminPages"
 
@@ -22,6 +23,13 @@ const adminPageRoutes = [
         exact: false,
         loader: usersService.fetchUsers,
         action: usersService.addUser,
+    },
+    {
+        element: <ProductsPage />,
+        path: "products",
+        exact: false,
+        // loader: usersService.fetchUsers,
+        // action: usersService.addUser,
     },
 ]
 
