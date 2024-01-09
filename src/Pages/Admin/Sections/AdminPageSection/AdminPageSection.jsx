@@ -44,7 +44,6 @@ const AdminPageSection = () => {
 
     return (
         <StyledAdminPageSection>
-            
             <Container maxWidth="xl">
                 <CustomBreadcrumbs />
                 <Outlet />

@@ -17,10 +17,12 @@ import { styled } from '@mui/system'
 import BrokenImageIcon from '@mui/icons-material/BrokenImage';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import BurstModeIcon from '@mui/icons-material/BurstMode';
+import MovieIcon from '@mui/icons-material/Movie';
 //Styled Components
 const StyledMediaDrawerList = styled(Box)(
-    () => ({
-      width: '200px',
+    ({theme}) => ({
+      width: '350px',
+      color:theme.palette.success.main,
     })
 )
 
@@ -35,6 +37,8 @@ const MediaDrawerList = () => {
     const drawerItems = [
         {
           name :'Media Center' , 
+          icon : <MovieIcon />,
+
           onClick: ()=> {
             setOpenDialog(true)
           },
@@ -86,6 +90,7 @@ const MediaDrawerList = () => {
             <ListItem key={item.name} disablePadding>
               <ListItemButton onClick={item.onClick}>
                 <ListItemIcon>
+                  {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItemButton>
@@ -113,12 +118,13 @@ const MediaDrawerList = () => {
               />
             </Card>
           ))}
-           <PersistentDrawerLeft drawerOpenState = {[list, setList]} closebtn={false} >
+          <PersistentDrawerLeft drawerOpenState = {[list, setList]} closebtn={false} >
           <List>
           {listItems.map((item) => (
             <ListItem key={item.name} disablePadding>
               <ListItemButton onClick={item.onClick}>
                 <ListItemIcon>
+                  {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItemButton>

@@ -32,7 +32,10 @@ const StyledCard = styled(Card)(
     })
 )
 
-
+const ScrollableCardContent = styled(CardContent)({
+    overflowY: 'auto',
+    maxHeight: '400px', // Adjust the maxHeight as needed
+});
 
 const CustomModal = ({title, modalOpenState, children, modalIcon}) => {
     const [modalOpen, setModalOpen] = modalOpenState
@@ -107,7 +110,9 @@ const CustomModal = ({title, modalOpenState, children, modalIcon}) => {
                             }}
                         />
                         <CardContent>
-                            {children}
+                        <ScrollableCardContent>
+                        {children}
+                        </ScrollableCardContent>
                         </CardContent>
                     </StyledCard>
                 </Fade>

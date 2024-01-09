@@ -6,22 +6,27 @@ import {
 } from 'react-redux'
 
 //Components
-
-
+import MediaDrawerList from './MediaDrawerList'
+import StylesDrawerList from './StylesDrawerList'
+import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
+import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton'
 //MUI
 import {
     Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import MediaDrawerList from './MediaDrawerList'
-import StylesDrawerList from './StylesDrawerList'
-import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
+import PermMediaIcon from '@mui/icons-material/PermMedia';
+import StreetviewIcon from '@mui/icons-material/Streetview';
+import TemplatesDrawerModel from '../DrawerModals/TemplatesDrawerModel'
 //Styled Components
 const StyledMainDrawerList = styled(Box)(
-    () => ({
-        width:'200px'
+    ({theme}) => ({
+      color:theme.palette.success.main,
     })
 )
+
+
 
 
 
@@ -33,15 +38,16 @@ const MainDrawerList = () => {
 
     const drawerItems = [
         {
-          name :'Styles' , 
-          onClick: ()=> {
-            setStyle(true)
-          },
+          name :'Styles',
+          icon : <FormatColorFillIcon />,
+          onClick: () => setStyle(true), // Use setStyle directly in the onClick handler
         },
         {
           name :'Media' , 
+          icon : <PermMediaIcon />,
           onClick: ()=> {setMedia(true)},
-        }
+        },
+     
     ];
     return (
         <StyledMainDrawerList>
@@ -50,12 +56,16 @@ const MainDrawerList = () => {
             <ListItem key={item.name} disablePadding>
               <ListItemButton onClick={item.onClick}>
                 <ListItemIcon>
+                  {item.icon}
                 </ListItemIcon>
                 <ListItemText primary={item.name} />
               </ListItemButton>
             </ListItem>
           ))}
         </List>
+
+
+
         <PersistentDrawerLeft drawerOpenState = {[style, setStyle]} closebtn={true} >
             <StylesDrawerList></StylesDrawerList>
         </PersistentDrawerLeft>
@@ -64,6 +74,29 @@ const MainDrawerList = () => {
         <PersistentDrawerLeft drawerOpenState = {[media, setMedia]} closebtn={true} >
             <MediaDrawerList></MediaDrawerList>
         </PersistentDrawerLeft>
+
+        <AdminMainButton 
+                title='Look at templates'
+                type='modal'
+                willShow={
+                  <TemplatesDrawerModel></TemplatesDrawerModel>
+                }
+                sx={{
+                    marginTop: '10px',
+                    width: '100%',
+                    display: 'flex', 
+                    justifyContent: 'center', 
+                    alignItems: 'center',
+                    padding: '10px 15px',
+                    fontWeight: 'bold',
+                    color: 'green'
+
+                }}
+
+                icon={< StreetviewIcon/>}
+            />
+
+
         </StyledMainDrawerList>
     );
 };
