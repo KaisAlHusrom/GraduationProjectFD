@@ -146,7 +146,7 @@ const AdminMainButton = (props) => {
                         size='small' 
                         color='primary'
                         onClick= {
-                            type === "menu" ? handleOpenMenu :
+                            type === "menu" || type === "buttonsMenu" ? handleOpenMenu :
                             type === "modal" ? handleOpenModal :
                             type === "drawer" ? handleOpenDrawer :
                             type === "popover" ? handleOpenPopover :
@@ -175,7 +175,7 @@ const AdminMainButton = (props) => {
                         size='small' 
                         color='primary'
                         onClick= {
-                            type === "menu" ? handleOpenMenu :
+                            type === "menu" || type === "buttonsMenu" ? handleOpenMenu :
                             type === "modal" ? handleOpenModal :
                             type === "drawer" ? handleOpenDrawer :
                             type === "popover" ? handleOpenPopover :
@@ -204,7 +204,7 @@ const AdminMainButton = (props) => {
                             StyleOfButton
                         }
                         onClick={
-                            type === "menu" ? handleOpenMenu :
+                            type === "menu" || type === "buttonsMenu" ? handleOpenMenu :
                             type === "modal" ? handleOpenModal :
                             type === "drawer" ? handleOpenDrawer :
                             type === "popover" ? handleOpenPopover :
@@ -234,7 +234,7 @@ const AdminMainButton = (props) => {
                         StyleOfButton
                     }
                     onClick={
-                        type === "menu" ? handleOpenMenu :
+                        type === "menu" || type === "buttonsMenu" ? handleOpenMenu :
                         type === "modal" ? handleOpenModal :
                         type === "drawer" ? handleOpenDrawer :
                         type === "popover" ? handleOpenPopover :
@@ -244,7 +244,7 @@ const AdminMainButton = (props) => {
                     icon
                     }
                     endIcon= {
-                        type === "menu" || type === "popover" ?
+                        type === "menu" || type === "popover" || type === 'filter' ?
                         menuEl ? 
                         <KeyboardArrowUpOutlinedIcon /> :
                         <KeyboardArrowDownOutlinedIcon />
@@ -258,7 +258,8 @@ const AdminMainButton = (props) => {
             
             {/* --- The Content Will Appear --- */}
             {
-                menuItems && type === "menu" ?
+                menuItems && type === "menu" 
+                ?
                 <Menu 
                 id={title + "-menu"}
                 anchorEl={menuEl} 
@@ -275,7 +276,9 @@ const AdminMainButton = (props) => {
                             onClick={item.onClick}
                             key={key}
                             sx={{
-                                gap: theme.spacing()
+                                gap: theme.spacing(),
+                                backgroundColor: item.selected ? "action.selected" : "",
+                                fontWeight: item.selected ? "bold" : "normal",
                             }}
                             >
                             {item.icon && item.icon}
@@ -289,6 +292,37 @@ const AdminMainButton = (props) => {
 
                 </Menu>
                 : 
+                menuItems && type === "buttonsMenu" 
+                ?
+                <Menu 
+                id={title + "-menu"}
+                anchorEl={menuEl} 
+                open={openMenu} 
+                onClose={handleCloseSortMenu}
+                MenuListProps={{
+                    "aria-labelledby": `by-${title}-menu`,
+                }}
+                >
+                    {
+                        menuItems.map((item, key) => {
+                            return (
+                            <MenuItem
+                            key={key}
+                            sx={{
+                                gap: theme.spacing()
+                            }}
+                            >
+                            {item}
+                            </MenuItem>
+                            )
+                        })
+                    }
+                    
+                    
+
+                </Menu>
+                : 
+                
                 type === "modal"
                 ?
                 <CustomModal 
@@ -341,7 +375,7 @@ AdminMainButton.propTypes = {
     icon: propTypes.any,
     title: propTypes.string.isRequired,
     appearance: propTypes.oneOf(["primary", "secondary", "iconButton"]).isRequired,
-    type: propTypes.oneOf(["modal", "menu", "drawer", "popover","custom"]).isRequired,
+    type: propTypes.oneOf(["modal", "menu", "buttonsMenu", "drawer", "popover","custom"]).isRequired,
     onClick: propTypes.func,
     menuItems: propTypes.array,
     willShow: propTypes.element,
