@@ -169,7 +169,7 @@ const CustomThemeProvider = ({children}) => {
                 warning: {
                     main: "#ff9800",
                     // light: '',
-                    // dark: '',
+                    dark: '#750E21',
                     // contrastText: '',
                 },
                 info: {
@@ -181,7 +181,7 @@ const CustomThemeProvider = ({children}) => {
                 success: {
                     main: "#4caf50",
                     // light: '',
-                    // dark: '',
+                    dark: '#304D30',
                     // contrastText: '',
                 },
             

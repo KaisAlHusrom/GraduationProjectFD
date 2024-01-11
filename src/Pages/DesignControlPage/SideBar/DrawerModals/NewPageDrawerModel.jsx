@@ -65,8 +65,8 @@ const NewPageDrawerModel = () => {
                     display: 'flex', 
                     justifyContent: 'center', 
                     alignItems: 'center',
-                    backgroundColor: '',
-                    color: 'green'
+                    color: 'white.main',
+                    backgroundColor:'success.dark'
                 }}
                 icon={<DownloadDoneIcon />}
 

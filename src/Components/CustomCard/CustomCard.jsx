@@ -53,18 +53,21 @@ const StyledCustomCard = styled(Card)(
     transition: 'opacity 0.3s ease-in-out, background-color 0.3s ease-in-out', 
     '&.has-content': {
         backgroundColor: theme.palette.grey[500], 
+        
     },
     }));
 
 const CustomCard = ({ name, description, buttons , image}) => {
     return (
     <StyledCustomCard>
-        <CardMedia
-        component="img"
-        alt="green iguana"
-        height="140"
-        image={image}
-        />
+       {image && (
+                <CardMedia
+                    component="img"
+                    alt="green iguana"
+                    height="240"
+                    image={image}
+                />
+            )}
         <StyledCardContent className={`card-content ${name || description ? 'has-content' : ''}`}>
         {name && (
             <Typography gutterBottom variant="h5" component="div">
@@ -80,7 +83,11 @@ const CustomCard = ({ name, description, buttons , image}) => {
             <CardActions>
                 {buttons
                         ? buttons.map((item, index) => (
-                            <Button key={index} size="small"  onClick={item.onClick}>
+                            <Button key={index} size="small"  onClick={item.onClick}
+                            sx={{
+                                color: 'white.main',
+                                backgroundColor:'success.dark'
+                            }}>
                             {item.name}
                 </Button>
             ))

@@ -89,7 +89,8 @@ const MainDrawerList = () => {
                     alignItems: 'center',
                     padding: '10px 15px',
                     fontWeight: 'bold',
-                    color: 'green'
+                    color: 'white.main',
+                    backgroundColor:'success.dark'
 
                 }}
 
