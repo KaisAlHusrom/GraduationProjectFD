@@ -15,11 +15,11 @@ import {
     Box, Checkbox, MenuItem,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import CustomTextFiled from '../../../../Components/CustomTextFiled/CustomTextFiled'
 import CustomSelectInput from '../../../../Components/CustomSelectInput/CustomSelectInput'
 import CustomCheckBox from '../../../../Components/CustomCheckBox/CustomCheckBox'
 import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton'
 import DownloadDoneIcon from '@mui/icons-material/DownloadDone';
+import CustomTextField from '../../../../Components/CustomTextField/CustomTextField'
 //Styled Components
 const StyledNewPageDrawerModel = styled(Box)(
     ({ theme }) => ({
@@ -44,8 +44,8 @@ const NewPageDrawerModel = () => {
     return (
         <StyledNewPageDrawerModel>
             <Box sx={{display: "flex",flexWrap: "wrap",}}>
-            <CustomTextFiled id="page-name" label="Page Name" variant="filled" />
-            <CustomTextFiled id="page-url" label="Page Url" variant="filled" />
+            <CustomTextField id="page-name" label="Page Name" variant="filled" />
+            <CustomTextField id="page-url" label="Page Url" variant="filled" />
             </Box>
             <CustomSelectInput name ="root" className={customInputStyle}>
             <MenuItem value={10}>root</MenuItem>

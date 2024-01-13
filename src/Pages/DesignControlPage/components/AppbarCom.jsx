@@ -30,6 +30,7 @@ import { styled } from '@mui/system'
 import MainDrawerList from '../SideBar/DrawerLists/MainDrawerList';
 import HomeDrawerList from '../SideBar/DrawerLists/HomeDrawerList';
 import LanguageDrawerList from '../SideBar/DrawerLists/LanguageDrawerList';
+import TemplateMain from '../sections/TempalteSection/TemplateMain';
 
 
 //Styled Components
@@ -51,7 +52,7 @@ const AppbarCom = () => {
       
         }}>
 
-            <Box sx={{
+              <Box sx={{
               display: 'flex',
               justifyContent:'start',
               alignItems: 'center',
@@ -109,10 +110,10 @@ const AppbarCom = () => {
               />
             
             
-            </Box>
+                </Box>
 
 
-            <Box sx={{
+                  <Box sx={{
           display: 'flex',
           justifyContent:'center',
           alignItems: 'center',
@@ -264,7 +265,9 @@ const AppbarCom = () => {
         
       </AppBar>
 
-
+            <Box component="main" sx={{ p: 3 }}>
+            <TemplateMain></TemplateMain>
+            </Box>
         </StyledAppbarCom>
     );
 };
