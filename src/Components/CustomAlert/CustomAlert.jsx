@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 
 import {
     
@@ -16,12 +16,10 @@ import { styled } from '@mui/system'
 import Alert from '@mui/material/Alert';
 import IconButton from '@mui/material/IconButton';
 import Collapse from '@mui/material/Collapse';
-import Button from '@mui/material/Button';
 import CloseIcon from '@mui/icons-material/Close';
 //Styled Components
 const StyledCustomAlert = styled(Box)(
-    ({ theme }) => ({
-    
+    () => ({
     })
 )
 
@@ -58,11 +56,14 @@ const CustomAlert = ({AlertOpenState ,title}) => {
             </IconButton>
           }
           sx={{ mb: 2 ,
-            width:'200px',
-            position: 'fixed', // veya 'absolute' de kullanabilirsiniz
+            width:'300px',
+            position: 'fixed', 
             bottom: 0,
             left: 0,
             right: 0,
+            backgroundColor:'success.dark',
+            color: 'white.main', 
+            fontWeight:'bold',
         }}
         >
          {title}

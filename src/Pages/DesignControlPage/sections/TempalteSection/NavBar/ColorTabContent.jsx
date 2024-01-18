@@ -14,9 +14,9 @@ import ColorBar from '../../../components/ColorBar';
 //MUI
 import {
   Box,
+  Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
-import Typography from '@mui/material/Typography';
 
 
 

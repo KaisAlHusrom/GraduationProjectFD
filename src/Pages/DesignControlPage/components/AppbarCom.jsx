@@ -9,6 +9,12 @@ import {
 
 //Components
 import AdminMainButton from '../../../Components/AdminMainButton/AdminMainButton'
+import MainDrawerList from '../SideBar/DrawerLists/MainDrawerList';
+import HomeDrawerList from '../SideBar/DrawerLists/HomeDrawerList';
+import LanguageDrawerList from '../SideBar/DrawerLists/LanguageDrawerList';
+import TemplateMain from '../sections/TempalteSection/TemplateMain';
+
+
 
 // icons 
 import HomeIcon from '@mui/icons-material/Home';
@@ -27,10 +33,7 @@ import {
     Toolbar,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import MainDrawerList from '../SideBar/DrawerLists/MainDrawerList';
-import HomeDrawerList from '../SideBar/DrawerLists/HomeDrawerList';
-import LanguageDrawerList from '../SideBar/DrawerLists/LanguageDrawerList';
-import TemplateMain from '../sections/TempalteSection/TemplateMain';
+
 
 
 //Styled Components
@@ -63,6 +66,7 @@ const AppbarCom = () => {
                     icon={<MenuIcon />}
                     appearance="iconButton"
                     type='drawer'
+                    drawerAnchor='left'
                     sx={{
                       border : '1px solid',
                       padding: '10px 15px',
@@ -77,8 +81,9 @@ const AppbarCom = () => {
               <AdminMainButton
                     title="Home"
                     icon={<HomeIcon />}
-                    appearance=""
+                    appearance="secondary"
                     type='drawer'
+                    drawerAnchor='left'
                     sx={{
                       border : 'none',
                       padding: '10px 15px',
@@ -94,8 +99,10 @@ const AppbarCom = () => {
               <AdminMainButton
                     title="English"
                     icon={<LanguageIcon />}
-                    appearance=""
+                    appearance="secondary"
                     type='drawer'
+                    drawerAnchor='left'
+
                     sx={{
                       border : 'none',
                       padding: '10px 15px',

@@ -70,6 +70,4 @@ export default function CustomVerticalTabs({ tabLabels, tabContents}) {
 CustomVerticalTabs.propTypes = {
   tabLabels: PropTypes.array.isRequired,
   tabContents: PropTypes.array.isRequired,
-  onNavItemsUpdate: PropTypes.func.isRequired,
-  navItemsLink: PropTypes.array.isRequired,
 };
