@@ -15,6 +15,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import { DatabaseView } from '../../../../Components'
 
 //Styled Components
 const StyledProductsPage = styled(Box)(
@@ -23,11 +24,19 @@ const StyledProductsPage = styled(Box)(
     })
 )
 
+//icons
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+
+
 
 const ProductsPage = () => {
     return (
         <StyledProductsPage>
-            ProductsPage
+            <DatabaseView
+                title="Products"
+                icon={<Inventory2OutlinedIcon />}
+                showTableHeaders
+            />
         </StyledProductsPage>
     );
 };

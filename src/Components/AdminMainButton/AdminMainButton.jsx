@@ -18,7 +18,7 @@ import {
     Tooltip
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles';
-
+import { styled } from '@mui/system'
 //icons
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
@@ -26,6 +26,16 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 
 import propTypes from 'prop-types'
 
+
+//Styles
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+      right: -3,
+      top: -3,
+      border: `2px solid ${theme.palette.background.paper}`,
+      padding: '0 4px',
+    },
+  }));
 
 
 const AdminMainButton = (props) => {
@@ -156,9 +166,9 @@ const AdminMainButton = (props) => {
                             {
                                 badgeContent
                                 ?
-                                <Badge color='error' badgeContent={badgeContent}>
+                                <StyledBadge color='error' badgeContent={badgeContent}>
                                     {icon}
-                                </Badge>
+                                </StyledBadge>
                                 :
                                 icon
                             }
@@ -185,9 +195,9 @@ const AdminMainButton = (props) => {
                             {
                                 badgeContent
                                 ?
-                                <Badge color='error' badgeContent={badgeContent}>
+                                <StyledBadge color='error' badgeContent={badgeContent}>
                                     {icon}
-                                </Badge>
+                                </StyledBadge>
                                 :
                                 icon
                             }
@@ -222,7 +232,15 @@ const AdminMainButton = (props) => {
                             null
                         }
                         >
-                            {title}
+                            {
+                            badgeContent
+                            ?
+                            <StyledBadge color='error' badgeContent={badgeContent}>
+                                {title}
+                            </StyledBadge>
+                            :
+                            title
+                        }
                         </Button>
                     </Tooltip>
                     :
@@ -252,7 +270,15 @@ const AdminMainButton = (props) => {
                         null
                     }
                     >
-                        {title}
+                        {
+                            badgeContent
+                            ?
+                            <StyledBadge color='error' badgeContent={badgeContent}>
+                                {title}
+                            </StyledBadge>
+                            :
+                            title
+                        }
                     </Button>
             }
             

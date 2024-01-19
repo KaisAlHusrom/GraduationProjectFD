@@ -15,7 +15,7 @@ const StyledCard = styled(Card)(
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: "600px",
+        width: "700px",
         bgcolor: 'background.paper',
         boxShadow: 24,
         [theme.breakpoints.down('sm')]: {
@@ -34,7 +34,7 @@ const StyledCard = styled(Card)(
 
 const ScrollableCardContent = styled(CardContent)({
     overflowY: 'auto',
-    maxHeight: '400px', // Adjust the maxHeight as needed
+    maxHeight: '600px', // Adjust the maxHeight as needed
 });
 
 const CustomModal = ({title, modalOpenState, children, modalIcon}) => {

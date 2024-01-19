@@ -18,6 +18,7 @@ import { styled } from '@mui/system'
 //icons
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import usersService from '../../../../Services/usersService'
 
 
 // import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
@@ -62,6 +63,7 @@ const UsersPage = () => {
                 icon={<GroupOutlinedIcon />}
                 hiddenColumns={["password"]}
                 showTableHeaders
+                handleUpdateData={usersService.updateUser}
             />
         </StyledUsersPage>
     );

@@ -45,11 +45,39 @@ function isMySQLDateFormat(value) {
   return pattern.test(value);
 }
 
+// Function to check if a date is in the current week
+const isInThisWeek = (requestDate) => {
+  const currentDate = new Date();
+  const currentWeekStart = new Date(currentDate);
+  currentWeekStart.setDate(currentDate.getDate() - currentDate.getDay()); // Move to the start of the week
+
+  const currentWeekEnd = new Date(currentDate);
+  currentWeekEnd.setDate(currentWeekStart.getDate() + 7); // Move to the end of the week
+
+  return requestDate >= currentWeekStart && requestDate <= currentWeekEnd;
+};
+
+// Function to check if a date is in the current month
+const isInThisMonth = (requestDate) => {
+  const currentDate = new Date();
+  const reqDate = new Date(requestDate)
+  return currentDate.getMonth() === reqDate.getMonth() && currentDate.getFullYear() === reqDate.getFullYear();
+};
+
+// Function to check if a date is in the current year
+const isInThisYear = (requestDate) => {
+  const currentDate = new Date();
+  const reqDate = new Date(requestDate)
+  return currentDate.getFullYear() === reqDate.getFullYear();
+};
 
 const DateHelper = {
     formattedDate,
     isTimestamp,
-    isMySQLDateFormat
+    isMySQLDateFormat,
+    isInThisWeek,
+    isInThisMonth,
+    isInThisYear
 };
 
 export default DateHelper;

@@ -1,8 +1,22 @@
+import productService from "./productsService"
+
 const fetchUsers = async () => {
     
     // IMPORTANT: the error page will appear when you add Error like this
     //throw Error("There is no users") 
 
+    const table_info = {
+        "name": "users",
+        "type": "main-table",
+        "relationships": [
+            {
+                "relationship-type": "one-to-many",
+                "relationship-with": "products",
+                "relationship-column": "id",
+            }
+        ]
+    }
+    
     const columns = {
         id: "int",
         image: "image",
@@ -10,20 +24,21 @@ const fetchUsers = async () => {
         last_name: "string",
         email: "email",
         birthday: "date",
-        phoneNumber: "string",
+        phoneNumber: "mobileNumber",
         password: "password",
         is_admin: "bool",
         created_at: "dateTime",
         updated_at: "dateTime",
+        // products: "one-to-many",
     }
 
-    const data =  [
+    const rows =  [
             {
                 id: 1,
                 first_name: "admin",
                 last_name: "habib",
                 email: "habib",
-                birthday: "2024-01-06",
+                birthday: "2023-05-06",
                 phoneNumber: "+905372957830",
                 password: "123456",
                 image: "profile.jpg",
@@ -33,11 +48,11 @@ const fetchUsers = async () => {
             },
             {
                 id: 2,
-                first_name: "admin",
+                first_name: "cdmin",
                 last_name: "habib",
                 email: "habib",
                 image: null,
-                birthday: "2024-01-06",
+                birthday: "2020-01-06",
                 phoneNumber: "+905372957830",
                 password: "123456",
                 is_admin: false,
@@ -46,11 +61,11 @@ const fetchUsers = async () => {
             },
             {
                 id: 3,
-                first_name: "admin",
+                first_name: "bdmin",
                 last_name: "habib",
                 email: "habib",
                 image: null,
-                birthday: "2024-01-06",
+                birthday: "2024-06-06",
                 phoneNumber: "+905372957830",
                 password: "123456",
                 is_admin: false,
@@ -59,11 +74,11 @@ const fetchUsers = async () => {
             },
             {
                 id: 4,
-                first_name: "admin",
+                first_name: "hdmin",
                 last_name: "habib",
                 email: "habib",
                 image: null,
-                birthday: "2024-01-06",
+                birthday: "2030-01-06",
                 phoneNumber: "+905372957830",
                 password: "123456",
                 is_admin: false,
@@ -72,11 +87,11 @@ const fetchUsers = async () => {
             },
             {
                 id: 5,
-                first_name: "admin",
+                first_name: "gdmin",
                 last_name: "habib",
                 email: "habib",
                 image: null,
-                birthday: "2024-01-06",
+                birthday: "2024-01-21",
                 phoneNumber: "+905372957830",
                 password: "123456",
                 is_admin: false,
@@ -85,7 +100,7 @@ const fetchUsers = async () => {
             },
             {
                 id: 6,
-                first_name: "admin",
+                first_name: "kdmin",
                 last_name: "habib",
                 email: "habib",
                 image: null,
@@ -102,7 +117,7 @@ const fetchUsers = async () => {
                 last_name: "habib",
                 email: "habib",
                 image: null,
-                birthday: "2024-01-06",
+                birthday: "2024-01-20",
                 phoneNumber: "+905372957830",
                 password: "123456",
                 is_admin: false,
@@ -111,11 +126,11 @@ const fetchUsers = async () => {
             },
             {
                 id: 8,
-                first_name: "admin",
-                last_name: "habib",
+                first_name: "kais",
+                last_name: "al husrom",
                 email: "habib",
                 image: null,
-                birthday: "2024-01-06",
+                birthday: "2024-01-25",
                 phoneNumber: "+905372957830",
                 password: "123456",
                 is_admin: false,
@@ -128,7 +143,7 @@ const fetchUsers = async () => {
                 last_name: "habib",
                 email: "habib",
                 image: null,
-                birthday: "2024-01-06",
+                birthday: "2024-01-18",
                 phoneNumber: "+905372957830",
                 password: "123456",
                 is_admin: false,
@@ -306,10 +321,20 @@ const fetchUsers = async () => {
             },
     ]
 
+    //add products to each user
+    // Assuming fetchUserProducts returns an array of products for a given user ID
+    // for (const user of rows) {
+    //     user.products = fetchUserProducts(user.id);
+    // }
 
-    return [columns, data];
+
+    return {columns, rows};
 }
 
+// const fetchUserProducts = async (user_id) => {
+//     const products = productService.rows.filter(row => row.user.id === user_id)
+//     return products;
+// }
 
 const fetchUser = async ({ params }) => {
     const {
@@ -347,10 +372,22 @@ const addUser = async ({ request }) => {
     return {error: null}
 }
 
+const updateUser = async (userId, userData, token) => {
+    const {rows} = fetchUsers();
+    rows.forEach(row => {
+        if(row.id === userId) {
+            Object.keys(userData).forEach(fieldName => {
+                row[fieldName] = userData[fieldName]
+            })
+        }
+    });
+}
+
 const usersService = {
     fetchUsers,
     fetchUser,
-    addUser
+    addUser,
+    updateUser
 }
 
 export default usersService

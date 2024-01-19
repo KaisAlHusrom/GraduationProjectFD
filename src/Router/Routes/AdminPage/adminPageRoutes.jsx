@@ -4,6 +4,7 @@ import {
     ProductsPage,
     UsersPage
 } from "../../../Pages/Admin/AdminPages"
+import productService from "../../../Services/productsService";
 
 
 //Users Services
@@ -28,8 +29,8 @@ const adminPageRoutes = [
         element: <ProductsPage />,
         path: "products",
         exact: false,
-        // loader: usersService.fetchUsers,
-        // action: usersService.addUser,
+        loader: productService.fetchProducts,
+        action: productService.addProduct,
     },
 ]
 

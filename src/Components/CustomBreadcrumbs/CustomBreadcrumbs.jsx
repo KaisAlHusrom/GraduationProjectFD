@@ -12,6 +12,9 @@ import { NavLink, useLocation } from 'react-router-dom';
 
 //Components
 
+//Helpers
+import StringHelper from '../../Helpers/StringsHelper';
+
 
 //MUI
 import {
@@ -57,9 +60,9 @@ const StyledLink = styled(NavLink)(
 
 
 //Routes
-const breadcrumbNameMap = {
-    '/admin-dashboard/users': 'Users',
-};
+// const breadcrumbNameMap = {
+//     '/admin-dashboard/users': 'Users',
+// };
 
 
 
@@ -74,16 +77,18 @@ const CustomBreadcrumbs = () => {
             {pathnames.map((value, index) => {
                 const last = index === pathnames.length - 1;
                 const to = `/${pathnames.slice(0, index + 1).join('/')}`;
-                return last ? (
+                const capitalizedValue = StringHelper.capitalizeEachWord(value);
+
+                return last ?  (
                 <Typography color="text.secondary" key={to}>
-                    {breadcrumbNameMap[to]}
+                    {capitalizedValue}
                 </Typography>
                 ) : 
                 index !== 0 
                 ?
                 (
                 <StyledLink to={to} key={to}>
-                    {breadcrumbNameMap[to]}
+                    {capitalizedValue}
                 </StyledLink>
                 )
                 :
