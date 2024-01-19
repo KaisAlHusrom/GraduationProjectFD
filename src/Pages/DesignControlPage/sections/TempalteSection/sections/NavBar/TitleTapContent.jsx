@@ -5,9 +5,8 @@ import {
 } from 'react-redux'
 
 //Components
-import CustomTextField from '../../../../../Components/CustomTextField/CustomTextField'
-import { AdminMainButton } from '../../../../../Components'
-import ColorBar from '../../../components/ColorBar'
+import CustomTextField from '../../../../../../Components/CustomTextField/CustomTextField'
+import ColorBar from '../../../../components/ColorBar'
 
 // icons 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -17,7 +16,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { useState } from 'react'
+import { AdminMainButton } from '../../../../../../Components';
 
 //Styled Components
 const StyledTitleTapContent = styled(Box)(

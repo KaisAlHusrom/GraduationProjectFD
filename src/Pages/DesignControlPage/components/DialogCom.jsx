@@ -29,11 +29,17 @@ import Slide from '@mui/material/Slide';
 //Styled Components
 const StyledDialogCom = styled(Box)(
     () => ({
-      width:"100%"
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: 400,
+      boxShadow: 24,
+      p: 4,
     })
 )
 const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+  return <Slide direction="center" ref={ref} {...props} />;
 });
 
 const DialogCom = ({title,dialogOpenState , children}) => {

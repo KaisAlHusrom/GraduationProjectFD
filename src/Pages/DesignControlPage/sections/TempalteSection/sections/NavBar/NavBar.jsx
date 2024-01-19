@@ -7,9 +7,9 @@ import {
 } from 'react-redux'
 
 //Components
-import { AdminMainButton } from '../../../../../Components';
-import DialogCom from '../../../components/DialogCom';
-import CustomVerticalTabs from '../components/CustomVerticalTabs';
+import { AdminMainButton } from '../../../../../../Components';
+import DialogCom from '../../../../components/DialogCom';
+import CustomVerticalTabs from '../../components/CustomVerticalTabs';
 import LinksTabContent from './LinksTabContent';
 import ColorTabContent from './ColorTabContent';
 import TitleTapContent from './TitleTapContent';
@@ -214,7 +214,6 @@ const NavBar = () => {
                     title={item.name}
                     type='custom'
                     appearance='secondary'
-                    badgeContent='hi'
                     sx={{
                       border: '1px solid red',
                       marginLeft: '10px',

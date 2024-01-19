@@ -42,9 +42,6 @@ const StyledDatabaseView = styled(Box)(
 )
 
 
-
-
-
 const DatabaseView = (props) => {
     const {
         title,
@@ -58,6 +55,7 @@ const DatabaseView = (props) => {
     //Split the columns and rows,
     const [loaderData, setLoaderData] = useState(useLoaderData());
     const {columns, rows} = loaderData;
+
 
     //Sorting the columns
     const allSortedColumns = useMemo(() => JSON.parse(localStorage.getItem('sortedColumns')) || {}, []);
