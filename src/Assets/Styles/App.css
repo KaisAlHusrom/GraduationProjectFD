@@ -1,9 +1,9 @@
 body {
   margin: 0;
 }
-header {
+/* header {
   background-color: #1976d2 !important;
-}
+} */
 
 /* Width of the entire scrollbar */
 ::-webkit-scrollbar {
@@ -18,12 +18,11 @@ header {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
- 
   background: #1976d2; /* Color of the scroll handle */
   border-radius: 2px; /* Roundness of the scroll handle */
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: rgb(17, 82, 147);/* Color of the scroll handle on hover */
+  background: rgb(17, 82, 147); /* Color of the scroll handle on hover */
 }

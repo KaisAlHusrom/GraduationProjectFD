@@ -78,13 +78,10 @@ const filterMenuItems = [
 
 const ButtonsItems = [
     {
-        name: "show all users",
+        name: "show Template",
         onClick: () => {console.log("Show all users")}
     },
-    {
-        name: "show deleted users",
-        onClick: () => {console.log("show deleted users")}
-    },
+ 
  
 ]
 
@@ -135,7 +132,8 @@ const TemplatesDrawerModel = () => {
                     alignItems: 'center',
                     padding: '10px 15px',
                     fontWeight: 'bold',
-                    color: 'green'
+                    color: 'white.main',
+                    backgroundColor:'success.dark'
                 }}
                 />
             </StyledOfCards>

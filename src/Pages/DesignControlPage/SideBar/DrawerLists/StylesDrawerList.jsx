@@ -8,7 +8,6 @@ import {
 //Components
 import PersistentDrawerLeft from '../../components/PersistentDrawerLeft'
 import FontDrawerList from './FontDrawerList'
-import ColorBar from '../Components/ColorBar'
 
 //MUI
 import {
@@ -18,6 +17,7 @@ import { styled } from '@mui/system'
 
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import FontDownloadIcon from '@mui/icons-material/FontDownload';
+import ColorBar from '../../components/ColorBar'
 //Styled Components
 const StyledStylesDrawerList = styled(Box)(
     ({theme}) => ({
@@ -31,15 +31,20 @@ const StyledStylesDrawerList = styled(Box)(
 const StylesDrawerList = () => {
     const [color , setColor] = useState(false)
     const [font , setFont] = useState(false)
+    const [color1, setColor1] = useState('#000000');
+
+    const handleColorChange = (newColor) => {
+      setColor1(newColor);
+    };
 
     const drawerItems = [
-        {
-          name :'Colors' , 
-          icon : <ColorLensIcon />,
-          onClick: ()=> {
-            setColor(true)
-          },
-        },
+        // {
+        //   name :'Colors' , 
+        //   icon : <ColorLensIcon />,
+        //   onClick: ()=> {
+        //     setColor(true)
+        //   },
+        // },
         {
           name :'Fonts' , 
           icon : <FontDownloadIcon />,
@@ -61,9 +66,12 @@ const StylesDrawerList = () => {
             </ListItem>
           ))}
         </List>
-        <PersistentDrawerLeft drawerOpenState = {[color, setColor]} closebtn={true} >
-            <ColorBar></ColorBar>
-        </PersistentDrawerLeft>
+        {/* <PersistentDrawerLeft drawerOpenState = {[color, setColor]} closebtn={true} >
+            <ColorBar value={color1} onChange={handleColorChange}></ColorBar>
+        </PersistentDrawerLeft> */}
+
+
+        
         <PersistentDrawerLeft drawerOpenState = {[font, setFont]} closebtn={true} >
             <FontDrawerList></FontDrawerList>
         </PersistentDrawerLeft>

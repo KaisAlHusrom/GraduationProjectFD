@@ -91,8 +91,12 @@ const HomeDrawerList = () => {
             <Box>
             <AdminButtonHome>
             <AdminMainButton 
+
                 title='Add New Page'
                 type='modal'
+                appearance='secondary'
+                badgeContent="hi"
+                putTooltip
                 willShow={
                         <NewPageDrawerModel />
                 }
@@ -104,7 +108,9 @@ const HomeDrawerList = () => {
                     alignItems: 'center',
                     padding: '10px 15px',
                     fontWeight: 'bold',
-                    color: 'green'
+                    color: 'white.main',
+                    backgroundColor:'success.dark',
+                    '&:hover' : {backgroundColor: 'action.hover'}, 
 
                 }}
                 icon={<AddIcon />}

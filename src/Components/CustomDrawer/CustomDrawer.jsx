@@ -95,7 +95,7 @@ CustomDrawer.propTypes = {
     children: propTypes.element,
     title: propTypes.string,
     putDrawerCloseButton: propTypes.bool,
-    anchor: propTypes.oneOf(['right', 'left', 'top', 'bottom']).isRequired,
+    anchor: propTypes.oneOf(['right', 'left', 'top', 'bottom']),
     variant: propTypes.string,
 }
 
