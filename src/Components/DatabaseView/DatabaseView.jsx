@@ -75,7 +75,7 @@ const DatabaseView = (props) => {
     //Data without hidden columns
     //Hidden Columns State
     const allHiddenColumns = useMemo(() => JSON.parse(localStorage.getItem('hiddenColumns')) || {}, []);
-    const storedHiddenColumns = allHiddenColumns[title] || {...allHiddenColumns, [title]: Object.keys(columns)}[title];
+    const storedHiddenColumns = allHiddenColumns[title] || {...allHiddenColumns, [title]: []}[title];
     const [hiddenColumns, setHiddenColumns] = useState(storedHiddenColumns);
      // Update local storage whenever 'updatedHiddenColumns' changes
     useEffect(() => {
