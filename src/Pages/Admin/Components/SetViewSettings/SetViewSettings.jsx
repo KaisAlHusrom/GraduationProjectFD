@@ -16,9 +16,7 @@ import ColorsHelper from "../../../../Helpers/ColorsHelper"
 //MUI
 import {
     Box,
-    FormControl,
-    InputLabel,
-    List, ListItem, ListItemText, MenuItem, OutlinedInput, Select, Switch, TextField,
+    List, ListItem, ListItemText, MenuItem, Switch, TextField,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
