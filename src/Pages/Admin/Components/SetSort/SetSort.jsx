@@ -83,7 +83,8 @@ const StyledPossibleFilterItem = styled(Box)(
         position: "relative",
         paddingTop: theme.spacing(3),
         paddingBottom: theme.spacing(3),
-        backgroundColor: theme.palette.primary.light,
+        border: "1px solid",
+        borderColor: theme.palette.divider,
         borderRadius: theme.spacing(2),
         cursor: "pointer",
         transition: theme.transitions.create(['background-color'], {
@@ -93,7 +94,7 @@ const StyledPossibleFilterItem = styled(Box)(
             backgroundColor: theme.palette.primary.main,
         },
         "&:active": {
-            backgroundColor: theme.palette.primary.dark,
+            backgroundColor: theme.palette.secondary.light,
         },
     })
 )
@@ -359,23 +360,30 @@ const SetSort = (props) => {
                             appearance='primary' 
                             title='Sort' 
                             type='custom'
-                            onClick={handleSortData} />
+                            onClick={handleSortData} 
+                            putBorder
+                            // filled
+                            />
+
                             <AdminMainButton 
                             icon={<DensitySmallIcon />}
-                            appearance='primary' 
+                            appearance='secondary' 
+                            // filled
+                            variant="filled"
                             title='Clear Sorts' 
                             type='custom'
-                            onClick={handleGetAllData} />
+                            onClick={handleGetAllData} 
+                            putBorder
+                            />
                         </StyledSubmitBox>
                     </>
                     :
                     <>
                     <Alert severity="info"variant='outlined' >This is no applied sorts</Alert>
                     <StyledSubmitBox>
-                            
                             <AdminMainButton 
                             icon={<DensitySmallIcon />}
-                            appearance='primary' 
+                            appearance='secondary'
                             title='Clear Sorts' 
                             type='custom'
                             onClick={handleGetAllData} />

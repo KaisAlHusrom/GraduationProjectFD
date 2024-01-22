@@ -1,58 +1,35 @@
 //React
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import {
     
 } from 'react-redux'
 
-//images
-import businessman from "../../Assets/Images/businessman.png"
 
 //Components
 
 
 //MUI
 import {
-    Checkbox, Fade, IconButton, InputAdornment, Switch, TableCell, TableRow, TextField,
+    Checkbox, Fade, IconButton, TableCell, TableRow, 
 } from '@mui/material'
 import { styled } from '@mui/system'
 
 //icons
-import CloseIcon from '@mui/icons-material/Close';
-import CheckIcon from '@mui/icons-material/Check';
+
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 //propTypes 
 import propTypes from 'prop-types'
 import { NavLink, useLoaderData } from 'react-router-dom';
-import DateHelper from '../../Helpers/DateHelper'
-import StringHelper from '../../Helpers/StringsHelper'
+
+import { useMyContext } from '../DatabaseView/DatabaseView'
+import ViewDataHelper from '../../Helpers/ViewDataHelper'
+import { useTheme } from '@emotion/react';
+
+
 
 //Styled Components
-const StyledCustomTableRow = styled(TableRow)(
-    ({ theme }) => ({
-        cursor: "pointer",
-        position: "relative",
-        "&:hover": {
-            backgroundColor: theme.palette.action.hover,
-        }
-    })
-)
-
-const StyledTableCell = styled(TableCell)(
-    ({ theme }) => ({
-        maxWidth: "200px",
-        overflow: 'hidden', 
-        whiteSpace: 'nowrap', 
-        textOverflow: 'ellipsis',
-        borderRight: '1px solid',
-        textAlign: 'center',
-        borderColor: theme.palette.divider,
-        "&:hover": {
-            fontWeight: "bold",
-        }
-    })
-);
 
 const StyledNavLink = styled(NavLink)(
     ({theme}) => ({
@@ -63,51 +40,8 @@ const StyledNavLink = styled(NavLink)(
     })
 )
 
-const imageStyle = {
-    width: "60px",
-    height: "60px",
-    objectFit: "contain",
-    borderRadius: "50%"
-}
 
-const StyledTableCellShowAllData = styled(TableCell)(
-    ({ theme }) => ({
-        textAlign: 'center',
-        borderColor: theme.palette.primary.main,
-        fontWeight: "bold",
-        zIndex: 500,
-        backgroundColor: theme.palette.background.paper,
-        maxWidth: "200px",
-        overflow: "auto",
-        height: "100%", 
-        // position: "absolute",
-        // whiteSpace: 'nowrap', 
-    })
-);
 
-const StyledNormalCell = styled(TableCell)(
-    ({ theme }) => ({
-        maxWidth: "200px",
-        overflow: 'hidden', 
-        whiteSpace: 'nowrap', 
-        textOverflow: 'ellipsis',
-        borderRight: '1px solid',
-        textAlign: 'center',
-        borderColor: theme.palette.divider,
-        "&:hover": {
-            fontWeight: "bold",
-        }
-    })
-);
-
-const StyledTextFieldCell = styled(TableCell)(
-    ({ theme }) => ({
-        maxWidth: "200px",
-        borderRight: '1px solid',
-        textAlign: 'center',
-        borderColor: theme.palette.divider,
-    })
-);
 
 const styleIconButtonLink = {
     margin: "0px",
@@ -115,145 +49,10 @@ const styleIconButtonLink = {
     fontSize: "0px",
 }
 
+//TODO: resolve rerender every time I click on table cell, or change the field
 //RETURN DATA
 //return database data
-const checkDatabaseDataInTable = (columns, column, cell) => {
-    if(cell){
-        if(columns[column] === "bool") {
-            if(cell === true) {
-                return <CheckIcon color='success' />
-            } else {
-                return <CloseIcon color="error" />
-            }
-        }
-
-        if(columns[column] === "image") {
-            return <img src={`${cell}`} style={imageStyle} alt="image"  />
-        } 
-
-        if(columns[column] === "date" || columns[column] === "dateTime") {
-            return DateHelper.formattedDate(cell)
-        }
-
-        if(columns[column] === "decimal") {
-            return `${cell}$`
-        }
-
-        return cell
-    }else {
-        if(columns[column] === "image") {
-            return <img loading='lazy' src={`${businessman}`} style={imageStyle} alt="image"  />
-        } else {
-            return <CloseIcon color="error" />
-        }
-    }
-}
-
-const getConvenientTextfield = (setShowTextField, columns, column, cell, handleChangeData, row, handleEnterKeyDown, setRowData) => {
-    if(cell !== null){
-        if (column === "id") return "Can't Update The Id";
-        if(columns[column] === "bool") {
-            return (
-
-                            <Switch 
-                            onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                            onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
-                            name={column}
-                            checked={cell}
-                            // error={errors?.is_admin ? true : false}
-                            // helperText={errors?.is_admin ? errors.is_admin : ''}
-                            />
-
-            )
-            
-        }
-
-        if(columns[column] === "image" || columns[column] === "file") {
-            return "Can't update"
-        } 
-
-        if(columns[column] === "date" || columns[column] === "dateTime") {
-            return <TextField
-                    focused
-                    type='date'
-                    fullWidth
-                    label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                    name={column}
-                    value={cell}
-                    onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                    onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
-                    color="primary"
-                    required
-                    size="small"
-                    // error={data?.error ? true : false}
-                    // helperText={data?.error ? data.error : ''}
-                    />
-        }
-
-        if(columns[column] === "decimal") {
-            return <TextField
-                    label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                    // sx={{ m: 1, width: '25ch' }}
-                    InputProps={{
-                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                    }}
-                    name={column}
-                    value={cell}
-                    onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                    onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
-                />
-        }
-
-        if(columns[column] === "int") {
-            return <TextField
-                    type="number"
-                    label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                    size="small"
-                    name={column}
-                    value={cell}
-                    onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                    onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
-                    // error={data?.error ? true : false}
-                    // helperText={data?.error ? data.error : ''}
-                    />
-                
-        }
-
-        if(columns[column] === "string" || columns[column] === "text" || columns[column] === "email") {
-            return <TextField
-            label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-            size="small"
-            name={column}
-            value={cell}
-            onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-            onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
-            // error={data?.error ? true : false}
-            // helperText={data?.error ? data.error : ''}
-            />
-        }
-
-        if(columns[column] === "mobileNumber") {
-            return <TextField
-            label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-            size="small"
-            name={column}
-            value={cell}
-            onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-            inputProps={{ maxLength: 14 }}
-            onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
-            // error={data?.error ? true : false}
-            // helperText={data?.error ? data.error : ''}
-            />
-        }
-
-    }else {
-        if(columns[column] === "image") {
-            return <img loading='lazy' src={`${businessman}`} style={imageStyle} alt="image"  />
-        } else {
-            return <CloseIcon color="error" />
-        }
-    }
-}
+const {getConvenientTextfield, checkDatabaseDataInTable} = ViewDataHelper
 
 const CustomTableRow = (props) => {
     const {
@@ -265,6 +64,20 @@ const CustomTableRow = (props) => {
         handleEnterKeyDown
     } = props
 
+    //view settings
+    //I don't put a condition if null, because I solved it in DatabaseView component
+    const {viewsSettings} = useMyContext()
+    const {
+        showVerticalLines,
+        showHorizontalLines,
+        changeEvenRowsBackgroundColor,
+        selectEvenRowsBackgroundColor
+    } = viewsSettings.table
+    //selectedColor
+    const selectedColor = useMemo(()=> {
+        return selectEvenRowsBackgroundColor.find((item) => item.value)?.name
+    }, [selectEvenRowsBackgroundColor])
+
     //Cells Ref
     const tableBodyRef = useRef(null);
 
@@ -273,9 +86,14 @@ const CustomTableRow = (props) => {
 
     ///States
     //make another state for row, to give the ability to change the cell directly, the data will change in database when press Enter
-    const [rowData, setRowData] = useState(row);
+    const [rowData, setRowData] = useState(() => row);
+    // I add the useEffect because when change hidden column to be appear, the data of them be null, for this I wanted to update the 
+    // rowData when row changed.
+    useEffect(()=> {
+        setRowData(() => row)
+    }, [row]) 
 
-    const [selected, setSelected, setIsHeaderCheckboxChecked] = selectedState
+    const [selected, setSelected, setIsHeaderCheckboxChecked] = useMemo(()=> selectedState, [selectedState])
     const [showAllCell, setShowAllCell] = useState(null)
     const [showTextField, setShowTextField] = useState(null)
     //when press outside the table content showAllCell will set as null
@@ -309,28 +127,102 @@ const CustomTableRow = (props) => {
           // Remove the user ID from usersWillDelete
             updatedUsersWillDelete = updatedUsersWillDelete.filter((id) => id !== userId);
         }
-        setSelected(updatedUsersWillDelete);
+        setSelected(() => updatedUsersWillDelete);
         // Update the header checkbox state based on the selected row checkboxes
         setIsHeaderCheckboxChecked(
-            updatedUsersWillDelete.length === appearedDataCount
+            () => updatedUsersWillDelete.length === appearedDataCount
         );
     };
 
     const handleShowAllCell = (cell_index) => {
         setShowAllCell(() => cell_index)
-        setShowTextField(null)
+        setShowTextField(() => null)
     }
 
     const handleShowTextField = (cell_index) => {
         setShowTextField(() => cell_index)
-        setShowAllCell(null);
+        setShowAllCell(() => null);
     }
 
-
     
+    // Styled Components
+    const theme = useTheme()
+
+    const StyledCustomTableRow = useMemo(() => {
+        return {
+                cursor: "pointer",
+                position: "relative",
+                "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                },
+                height: "30px",
+                "&:nth-of-type(2n)": {
+                    backgroundColor: changeEvenRowsBackgroundColor && selectedColor,
+                    "&:hover": {
+                    backgroundColor: theme.palette.action.hover,
+                    },
+                },
+        }
+    }, [changeEvenRowsBackgroundColor, selectedColor, theme]);
+
+    const StyledTableCell = useMemo(() => {
+        return {
+                maxWidth: "200px",
+                overflow: 'hidden', 
+                whiteSpace: 'nowrap', 
+                textOverflow: 'ellipsis',
+                borderRight: showVerticalLines ? '1px solid' : 'none',
+                borderBottom: showHorizontalLines ? '1px solid' : 'none',
+                textAlign: 'center',
+                borderColor: theme.palette.divider,
+                "&:hover": {
+                    fontWeight: "bold",
+                }
+        }
+    }, [showVerticalLines, showHorizontalLines, theme.palette.divider]);
+
+        const StyledTableCellShowAllData = useMemo(() => {
+            return {
+                textAlign: 'center',
+                borderColor: theme.palette.primary.main,
+                fontWeight: "bold",
+                zIndex: 500,
+                backgroundColor: theme.palette.background.paper,
+                maxWidth: "200px",
+                overflowY: "auto"
+            }
+        }, [theme.palette.background.paper, theme.palette.primary.main]);
+        
+        const StyledNormalCell = useMemo(() => {
+            return {
+                minWidth: "120px",
+                maxWidth: "200px",
+                overflow: 'hidden', 
+                whiteSpace: 'nowrap', 
+                textOverflow: 'ellipsis',
+                borderRight: showVerticalLines ? '1px solid' : 'none',
+                borderBottom: showHorizontalLines ? '1px solid' : 'none',
+                textAlign: 'center',
+                borderColor: theme.palette.divider,
+                "&:hover": {
+                    fontWeight: "bold",
+                }
+            }
+        }, [showVerticalLines, showHorizontalLines, theme.palette.divider]);
+        
+        const StyledTextFieldCell = useMemo(() => {
+            return {
+                maxWidth: "200px",
+                borderRight: showVerticalLines ? '1px solid' : 'none',
+                textAlign: 'center',
+                borderColor: theme.palette.divider,
+            }
+        }, [showVerticalLines, theme.palette.divider]);
+
     return (
-        <StyledCustomTableRow ref={tableBodyRef}>
-            <StyledTableCell
+        <TableRow sx={StyledCustomTableRow} ref={tableBodyRef}>
+            <TableCell
+            sx={StyledTableCell}
             >
                 
             <Checkbox 
@@ -346,34 +238,35 @@ const CustomTableRow = (props) => {
                     <OpenInNewIcon />
                 </StyledNavLink>
             </IconButton>
-            </StyledTableCell>
+            </TableCell>
             {filteredColumnsArray.map((column, colIndex) => (
                 showAllCell === `${rowData.id}-${colIndex}` ? (
                     // Content to render when showAllCell is true
                     <Fade key={`${rowData.id}-${colIndex}`} in={showAllCell === `${rowData.id}-${colIndex}`}>
-                        <StyledTableCellShowAllData onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`)}>
+                        <TableCell sx={StyledTableCellShowAllData} onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`)}>
                             {checkDatabaseDataInTable(columns, column, rowData[column])}
-                        </StyledTableCellShowAllData>
+                        </TableCell>
                     </Fade>
                 ) : showTextField === `${rowData.id}-${colIndex}` ? (
                     // Content to render when showTextField is true
-                    <StyledTextFieldCell key={`${rowData.id}-${colIndex}`}>
+                    <TableCell sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>
                         {
                             getConvenientTextfield(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData)
                         }
-                    </StyledTextFieldCell>
+                    </TableCell>
                     
                 ) : (
                     // Content to render when showAllCell and showTextField are false
-                    <StyledNormalCell
+                    <TableCell
+                        sx={StyledNormalCell}
                         onClick={() => handleShowAllCell(`${rowData.id}-${colIndex}`)}
                         key={`${rowData.id}-${colIndex}`}
                     >
                         {checkDatabaseDataInTable(columns, column, rowData[column])}
-                    </StyledNormalCell>
+                    </TableCell>
                 )
             ))}
-        </StyledCustomTableRow>
+        </TableRow>
     );
 };
 

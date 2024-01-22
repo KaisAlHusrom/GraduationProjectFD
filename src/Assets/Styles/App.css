@@ -8,9 +8,8 @@ body {
 /* Width of the entire scrollbar */
 ::-webkit-scrollbar {
   width: 4px;
-  height: 4px;
+  height: 8px;
 }
-
 /* Track */
 ::-webkit-scrollbar-track {
   background: rgba(31, 38, 46, 0.4); /* Color of the track */

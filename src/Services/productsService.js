@@ -36,7 +36,7 @@ const fetchProducts = async () => {
             "product_short_description": "Template created by React",
             "product_long_description": "In the vast expanse of the digital landscape, where lines of code weave intricate webs of functionality and design, developers embark on a journey of creation and innovation. Within this realm, the React library stands as a formidable tool, empowering developers to build dynamic and interactive user interfaces with efficiency and elegance.",
             "product_price": 25.23,
-            "product_main_image_name": "product_image",
+            "product_main_image_name": null,
             "template_zip_file_name": "ADT.zip",
         },
         {
@@ -45,7 +45,7 @@ const fetchProducts = async () => {
             "product_short_description": "Template created by React",
             "product_long_description": "Template Created By React, Material UI...",
             "product_price": 30,
-            "product_main_image_name": "product_image",
+            "product_main_image_name": null,
             "template_zip_file_name": "ADT.zip",
         },
         {

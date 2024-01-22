@@ -61,8 +61,6 @@ const UsersPage = () => {
                 databaseOptions={usersOptions}
                 title="Users"
                 icon={<GroupOutlinedIcon />}
-                hiddenColumns={["password"]}
-                showTableHeaders
                 handleUpdateData={usersService.updateUser}
             />
         </StyledUsersPage>
