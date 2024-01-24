@@ -27,26 +27,23 @@ const StyledCustomSelectInput = styled(Box)(
 
 
 
-const CustomSelectInput = ({id,name , children ,className}) => {
-    const [value, setValue] = useState('');
+const CustomSelectInput = ({id,name , children ,className ,  onChange , valueSet}) => {
 
-    const handleChange = (event) => {
-        setValue(event.target.value);
-    };
 
+    const value = valueSet
 
 
     return (
         <StyledCustomSelectInput>
-        <Box  style= {className}  >
+        <Box    sx={{margin:'10px'}}>
         <FormControl fullWidth>
             <InputLabel id="demo-simple-select-label">{name}</InputLabel>
-            <Select
+            <Select style= {className}
                 labelId="demo-simple-select-label"
                 id={id}
                 value={value}
                 label={name}
-                onChange={handleChange}
+                onChange={onChange}
             >
                 {children}
             </Select>

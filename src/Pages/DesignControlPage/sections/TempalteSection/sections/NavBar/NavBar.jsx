@@ -15,6 +15,11 @@ import ColorTabContent from './ColorTabContent';
 import TitleTapContent from './TitleTapContent';
 import   './navCss.css'
 
+
+// Functions of styles 
+import * as utils from '../../StylesFunctions/StylesFunctions.js';
+
+
 //MUI
 import { Box, Typography, AppBar, Divider, Drawer, IconButton, List, ListItem, ListItemButton, ListItemText, Toolbar, ListItemIcon } from '@mui/material';
 import { styled } from '@mui/system'
@@ -42,13 +47,30 @@ const NavBar = () => {
     const [currentColorLinksText, setCurrentColorLinksText] = useState('#00000');
     const [currentColor, setCurrentColor] = useState('#00000');
     const [colorOfTitle, setColorOfTitle] = useState('#00000');
-  
+    const [selectedFontSize, setSelectedFontSize] = useState("10");
+    const [selectedFontWight, setSelectedFontWeight] = useState("500");
+    const [selectedImages, setSelectedImage] = useState();
+    // State for hovered button
+    const [hoveredButton, setHoveredButton] = useState(null);
+
     // State for link tab - list of links
     const [navItemsLink, setNavItemsLink] = useState([
       { name: 'Home', id: "1", onClick: () => {}, color: 'primary', link: 'https://' },
       { name: 'About Us', id: "2", onClick: () => {}, color: 'primary', link: 'https://' },
       { name: 'Contact Us', id: "3", onClick: () => {}, color: 'primary', link: 'https://' },
     ]);
+  const FontSize = [
+    5,
+    10,
+    15,
+    20,
+  ]
+  const FontWight = [
+    700 , 
+    900, 
+    500,
+  ]
+
   
     // State for the title
     const [title, setTitle] = useState('MUI');
@@ -56,54 +78,54 @@ const NavBar = () => {
     // State for opacity
     const [opacity, setOpacity] = useState(1);
   
-    // Handle color selection for ColorTabContent
-    const handleColorSelect = (color) => setCurrentColor(color);
+    
+
+    const handleColorSelectWrapper = (color) => {
+      utils.handleColorSelect(color, setCurrentColor);
+    };
+    
+    const handleOpacityChangeWrapper = (event) => {
+      utils.handleOpacityChange(event, setOpacity);
+    };
+    
+    const handleColorChangeWrapper = (color) => {
+      utils.handleColorChange(color, setCurrentColor);
+    };
+    
+    const generateRandomColorWrapper = () => {
+      utils.generateRandomColor(setCurrentColor);
+    };
+
+    const handleImageChangeWrapper = (file) => {
+    handleImageChange(file, setSelectedImage);
+    };
   
-    // Handle opacity change
-    const handleOpacityChange = (event, newValue) => setOpacity(newValue);
-  
-    // Handle color change for ColorTabContent
-    const handleColorChange = (color) => setCurrentColor(color.hex);
-  
-    // Generate a random color
-    const generateRandomColor = () => setCurrentColor(`#${Math.floor(Math.random() * 16777215).toString(16)}`);
-  
+    const handleUploadImageClickWrapper = () => {
+      utils.handleUploadImageClick(handleImageChangeWrapper);
+    };
 
+    const handleImageChange = (file) => {
+      utils.handleImageChange(file, setSelectedImage);
+    };
 
-      // logo
+    const handleDeleteLogoClick = () => {
+      utils.handleDeleteLogoClick(setSelectedImage);
+    };
 
-      const [selectedImages, setSelectedImages] = useState();
-      
-      const handleUploadImageClick = () => {
-        const inputElement = document.createElement('input');
-        inputElement.type = 'file';
-        inputElement.accept = 'image/*';
-        inputElement.onchange = (e) => {
-          const file = e.target.files[0];
-          handleImageChange(file);
-        };
-        inputElement.click();
-      };
-
-
-      const handleImageChange = (file) => {
-        if (file) {
-          const imageUrl = URL.createObjectURL(file);
-          setSelectedImages(imageUrl);
-        }
-      };
-
-  const handleDeleteLogoClick = () => {
-    // Implement the logic to delete the logo, for example, set selectedImages to null
-    setSelectedImages(null);
-  };
+    const handleFontSizeChange = (event) => {
+      utils.handleFontSizeChange(event, setSelectedFontSize);
+    };
+    
+    const handleFontWeightChange = (event) => {
+      utils.handleFontWeightChange(event, setSelectedFontWeight);
+    };
 
 
     // Define tab contents
     const tabContents = [
-      () => <TitleTapContent handleDeleteLogoClick= {handleDeleteLogoClick} handleUploadImageClick = {handleUploadImageClick}   titleSelect= {[title, setTitle]} ColorSelect={[colorOfTitle, setColorOfTitle]} />,
-      () => <LinksTabContent navItemsLinkList={navItemsLink} setNavItemsLink={setNavItemsLink} OpacityState={[opacity, setOpacity]} currentColorLinksState={[currentColorLinks, setCurrentColorLinks]} currentColorLinksTextState={[currentColorLinksText, setCurrentColorLinksText]} />,
-      () => <ColorTabContent currentColor={currentColor} handleColorSelect={handleColorSelect} handleOpacityChange={handleOpacityChange} handleColorChange={handleColorChange} generateRandomColor={generateRandomColor} />,
+      () => <TitleTapContent handleDeleteLogoClick= {handleDeleteLogoClick} handleUploadImageClick = {handleUploadImageClickWrapper}   titleSelect= {[title, setTitle]} ColorSelect={[colorOfTitle, setColorOfTitle]} />,
+      () => <LinksTabContent FontWight={FontWight} handleFontWightChange={handleFontWeightChange} selectedFontWight={selectedFontWight} FontSize = {FontSize} handleFontSizeChange={handleFontSizeChange} selectedFontSize={selectedFontSize} navItemsLinkList={navItemsLink} setNavItemsLink={setNavItemsLink} OpacityState={[opacity, setOpacity]} currentColorLinksState={[currentColorLinks, setCurrentColorLinks]} currentColorLinksTextState={[currentColorLinksText, setCurrentColorLinksText]} />,
+      () => <ColorTabContent currentColor={currentColor} handleColorSelect={handleColorSelectWrapper} handleOpacityChange={handleOpacityChangeWrapper} handleColorChange={handleColorChangeWrapper} generateRandomColor={generateRandomColorWrapper} />,
     ];
   
     // Define tab labels
@@ -150,14 +172,8 @@ const NavBar = () => {
       </Box>
     );
   
-    // State for hovered button
-    const [hoveredButton, setHoveredButton] = useState(null);
+
             
-
-
-
-
-
     return (
       <StyledNavBar>
         <Box>
@@ -190,7 +206,7 @@ const NavBar = () => {
               </TooltipContainer>
               
               {/* Typography for title */}
-                  <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' ,alignItems:'center' } }}>
+                <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' ,alignItems:'center' } }}>
                   {
                           selectedImages ? 
                             <div className="logo" >
@@ -201,7 +217,7 @@ const NavBar = () => {
                   }
                   <Typography color={colorOfTitle} variant='h6' component='div' >
                               {title}
-                              </Typography>
+                    </Typography>
                             
                 </Box>
 
@@ -218,7 +234,8 @@ const NavBar = () => {
                       border: '1px solid red',
                       marginLeft: '10px',
                       padding: '10px 15px',
-                      fontWeight: 'bold',
+                      fontWeight: selectedFontWight,
+                      fontSize:selectedFontSize,
                       color: hoveredButton === item.name ? 'black' : currentColorLinksText,
                       backgroundColor: hoveredButton === item.name ? 'yellow' : currentColorLinks,
                     }}
@@ -227,6 +244,8 @@ const NavBar = () => {
                   />
                 ))}
               </Box>
+
+
             </Toolbar>
           </StyledAppBar>
   
@@ -236,7 +255,6 @@ const NavBar = () => {
               {drawer}
             </Drawer>
           </nav>
-  
           {/* Dialog for editing */}
           <DialogCom title='Media' dialogOpenState={[openDialog, setOpenDialog]}>
             <CustomVerticalTabs tabLabels={tabLabels} tabContents={tabContents} />

@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useContext, useState } from 'react'
 
 import {
     
@@ -13,7 +11,7 @@ import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainBut
 import NewPageDrawerModel from '../DrawerModals/NewPageDrawerModel';
 //MUI
 import {
-    Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
+    Box, Checkbox, List, ListItem, ListItemButton, ListItemIcon, ListItemText,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -24,6 +22,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import HomeIcon from '@mui/icons-material/Home';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import AddIcon from '@mui/icons-material/Add';
+
+// useContext 
+import { MainTemplateSectionSet } from '../../sections/TempalteSection/UseContext/UserSetSections';
 
 
 //Styled Components
@@ -49,7 +50,26 @@ const customSearchStyle = {
     
 };
 
+
+
+
+
 const HomeDrawerList = () => {
+    const { setAboutUsPage } = useContext(MainTemplateSectionSet);
+
+    const [checkedItems, setCheckedItems] = useState({});
+    
+    // Function to toggle the checkbox state for a specific item
+    const toggleCheckbox = (itemName) => {
+        setCheckedItems((prevCheckedItems) => ({
+            ...prevCheckedItems,
+            [itemName]: !prevCheckedItems[itemName],
+        }));
+    };
+
+    const set = () => {
+        setAboutUsPage((prevAboutUs) => !prevAboutUs);
+    };
 
     const drawerItems = [
         {
@@ -60,7 +80,7 @@ const HomeDrawerList = () => {
         {
             name :'About Us', 
             icon : <InfoIcon />,
-            onClick: ()=> {}
+            onClick: () => set('About Us'),
         },
         {
             name :'Contact Us', 
@@ -71,31 +91,31 @@ const HomeDrawerList = () => {
     ]
 
 
-
     return (
         <StyledHomeDrawerList>
             <List>
             <SearchInput className="custom-search-input" style={customSearchStyle} />
-          {drawerItems.map((item) => (
-            <ListItem key={item.name} disablePadding>
-              <ListItemButton onClick={item.onClick}>
-                <ListItemIcon>
-                    {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.name} />
-              </ListItemButton>
-
-        
-            </ListItem>
-          ))}
+            {drawerItems.map((item) => (
+                    <ListItem key={item.name} disablePadding>
+                        <ListItemButton onClick={() => {
+                            item.onClick();
+                        }}>
+                            <ListItemIcon>
+                                <Checkbox
+                                    checked={checkedItems[item.name] || false}
+                                    color="primary"
+                                />
+                            </ListItemIcon>
+                            <ListItemText primary={item.name} />
+                        </ListItemButton>
+                    </ListItem>
+                ))}
             <Box>
             <AdminButtonHome>
             <AdminMainButton 
-
                 title='Add New Page'
                 type='modal'
                 appearance='secondary'
-                badgeContent="hi"
                 putTooltip
                 willShow={
                         <NewPageDrawerModel />

@@ -145,7 +145,6 @@ const LanguageDrawerList = () => {
                 title='Add New Language'
                 type='modal'
                 appearance='secondary'
-                badgeContent="hi"
                 putTooltip
                 willShow={
                         <NewLanguageDrawerModel />

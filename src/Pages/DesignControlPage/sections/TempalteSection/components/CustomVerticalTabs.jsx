@@ -52,7 +52,12 @@ export default function CustomVerticalTabs({ tabLabels, tabContents}) {
 
   return (
     <Box sx={{ width: '100%' }}>
-      <Tabs value={value} onChange={handleChange} aria-label="vertical tabs example">
+          <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="vertical tabs example"
+        sx={{ fontSize: '16px' }}
+      >
         {tabLabels.map((label, index) => (
           <Tab key={index} label={label} {...a11yProps(index)} />
         ))}

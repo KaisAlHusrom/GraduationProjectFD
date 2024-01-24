@@ -38,9 +38,7 @@ const StyledDialogCom = styled(Box)(
       p: 4,
     })
 )
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="center" ref={ref} {...props} />;
-});
+
 
 const DialogCom = ({title,dialogOpenState , children}) => {
 
@@ -58,7 +56,6 @@ const DialogCom = ({title,dialogOpenState , children}) => {
         fullScreen
         open={open}
         onClose={handleClose}
-        TransitionComponent={Transition}
         sx={{
           position: 'absolute',
           top: '50%',
@@ -71,9 +68,7 @@ const DialogCom = ({title,dialogOpenState , children}) => {
             <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
               {title}
             </Typography>
-            <Button autoFocus color="inherit" onClick={handleClose}>
-              save
-            </Button>
+    
             <IconButton
               edge="start"
               color="inherit"

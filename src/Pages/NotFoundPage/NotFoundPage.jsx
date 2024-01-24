@@ -10,6 +10,8 @@ import {
 //Components
 
 
+
+
 //MUI
 import {
     Box,
@@ -18,7 +20,7 @@ import { styled } from '@mui/system'
 
 //Styled Components
 const StyledNotFoundPage = styled(Box)(
-    () => ({
+    ({ theme }) => ({
     
     })
 )

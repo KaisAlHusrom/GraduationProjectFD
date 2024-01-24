@@ -27,11 +27,11 @@ const StyledCustomCheckBox = styled(Box)(
 )
 
 
-const CustomCheckBox = ({label , control , className}) => {
+const CustomCheckBox = ({label , control , className , onChange}) => {
     return (
         <StyledCustomCheckBox>
             <FormGroup style={className}>
-                <FormControlLabel control={control} label={label} />
+                <FormControlLabel control={control} label={label} onChange={onChange}/>
             </FormGroup>
         </StyledCustomCheckBox>
     );

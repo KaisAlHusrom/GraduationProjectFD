@@ -5,10 +5,16 @@ import {
     
 } from 'react-redux'
 
+// Functions of styles 
+import * as utils from '../../StylesFunctions/StylesFunctions.js';
+
+
 //Components
-
-
-// icons 
+import { AdminMainButton } from '../../../../../../Components'
+import DialogCom from '../../../../components/DialogCom';
+import CustomVerticalTabs from '../../components/CustomVerticalTabs';
+import ImageContentTap from './ImageContentTap';
+import TextContentTaP from './TextContentTaP.JSX';
 
 
 //MUI
@@ -24,11 +30,7 @@ import { Edit as EditIcon  } from '@mui/icons-material';
 
 //Styled Components
 import './Header.css'
-import { AdminMainButton } from '../../../../../../Components'
-import DialogCom from '../../../../components/DialogCom';
-import CustomVerticalTabs from '../../components/CustomVerticalTabs';
-import ImageContentTap from './ImageContentTap';
-import TextContentTaP from './TextContentTaP.JSX';
+
 const StyledHeader = styled(Box)(
     ({ theme }) => ({
         position:'relative'
@@ -43,7 +45,7 @@ const StyledHeader = styled(Box)(
         maxWidth: { xs: "auto" ,md: '100%'},    
     };
    // Tooltip Container
-   const TooltipContainer = styled('div')({
+   const TooltipContainer = styled(Box)({
     position: 'absolute',
     top: '20px',
     left: '20px',
@@ -58,42 +60,147 @@ const Header = () => {
     const handleOpenDialog = () => setOpenDialog(true);
     const [selectedImage, setSelectedImage] = useState("https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg");
     const [TextOfHeader , setTextOfHeader] = useState("Text Of Header");
+    const [selectedOpacity, setSelectedOpacity] = useState("");
+    const [selectedRadius, setSelectedRadius] = useState("");
+    const [selectedFontSize, setSelectedFontSize] = useState("16");
+    const [selectedFontWight, setSelectedFontWeight] = useState("500");
+    // color of text 
+    const [currentColor, setCurrentColor] = useState('#00000');
+    const [BackGroundColor, setBackGroundColor] = useState('');
 
-     // logo
+    const opacity = [
+        0,
+        0.1,
+        0.2,
+        0.3,
+        0.4,
+        0.5,
+        0.6,
+        0.7,
+        0.8,
+        0.9,
+        1,
+    ]
+    const Radius = [
+      0,
+      5,
+      10,
+      15,
+      20,
+      25,
+      30,
+      30,
+      40,
+      50,
+      60,
+      80,
+      100,
+    ]
+    const FontSize = [
+      16,
+      26,
+      36,
+      46,
+      56,
+      66,
+      77,
+      88,
+      99,
+      100,
+      110,
+    ]
+    const FontWight = [
+    700 , 
+    900, 
+    500,
+    ]
+  
 
-        const handleUploadImageClick = () => {
-        const inputElement = document.createElement('input');
-        inputElement.type = 'file';
-        inputElement.accept = 'image/*';
-        inputElement.onchange = (e) => {
-        const file = e.target.files[0];
-        handleImageChange(file);
-        };
-        inputElement.click();
-        };
+  
+      const handleColorSelectWrapper = (color) => {
+        utils.handleColorSelect(color, setCurrentColor);
+      };
+
+      const handleBackgroundColorWrapper = (color) => {
+        utils.handleBackgroundColor(color, setBackGroundColor);
+      };
+      
+      const handleBackgroundColorDeleteWrapper = () => {
+        utils.handleBackgroundColorDelete(setBackGroundColor);
+      };
 
 
-     const handleImageChange = (file) => {
-       if (file) {
-         const imageUrl = URL.createObjectURL(file);
-         setSelectedImage(imageUrl);
-       }
-     };
+      // logo
+      const handleImageChangeWrapper = (file) => {
+        handleImageChange(file, setSelectedImage);
+      };
+      
+      const handleUploadImageClickWrapper = () => {
+        utils.handleUploadImageClick(handleImageChangeWrapper);
+      };
 
- const handleDeleteLogoClick = () => {
-   // Implement the logic to delete the logo, for example, set selectedImages to null
-   setSelectedImage(null);
- };
+      const handleImageChange = (file) => {
+        utils.handleImageChange(file, setSelectedImage);
+      };
 
-    const textHeaderChange = (e) => {
-            setTextOfHeader(e.target.value);
-    }
+      const handleDeleteLogoClick = () => {
+        utils.handleDeleteLogoClick(setSelectedImage);
+      };
+      
+      const handleOpacityChange = (event) => {
+        utils.handleOpacityChange(event, setSelectedOpacity);
+      };
+
+      const handleRadiusChange = (event) => {
+        utils.handleRadiusChange(event, setSelectedRadius);
+      };
+      const handleFontSizeChange = (event) => {
+        utils.handleFontSizeChange(event, setSelectedFontSize);
+      };
+      
+      const handleFontWeightChange = (event) => {
+        utils.handleFontWeightChange(event, setSelectedFontWeight);
+      };
+
+      const handleTextHeaderChangeWrapper = (e) => {
+        utils.handleTextHeaderChange(e, setTextOfHeader);
+      };
 
     // Define tab contents
     const tabContents = [
-        () => <ImageContentTap handleDeleteLogoClick= {handleDeleteLogoClick} handleUploadImageClick = {handleUploadImageClick} ></ImageContentTap> , 
-        () => <TextContentTaP textHeaderChange = {textHeaderChange} TextOfHeader= {TextOfHeader}></TextContentTaP>
-      ];
+        () => <ImageContentTap 
+        handleDeleteLogoClick= {handleDeleteLogoClick}
+        handleUploadImageClick = {handleUploadImageClickWrapper} 
+        />, 
+        () => <TextContentTaP 
+
+        opacity = {opacity}
+        handleOpacityChange = {handleOpacityChange}
+        selectedOpacity = {selectedOpacity}
+
+        Radius = {Radius}
+        handleRadiusChange = {handleRadiusChange}
+        selectedRadius = {selectedRadius}
+
+        FontSize = {FontSize}
+        handleFontSizeChange = {handleFontSizeChange}
+        selectedFontSize = {selectedFontSize}
+        
+        FontWight = {FontWight}
+        handleFontWeightChange = {handleFontWeightChange}
+        selectedFontWight = {selectedFontWight}
+
+
+        handleBackgroundColorDelete= {handleBackgroundColorDeleteWrapper}
+        currentColor = {currentColor}
+        handleColor = {handleColorSelectWrapper}
+        textHeaderChange = {handleTextHeaderChangeWrapper} 
+        BackGroundColor = {BackGroundColor}
+        handleBackgroundColor = {handleBackgroundColorWrapper}
+        setTextOfHeader = {setTextOfHeader} 
+        TextOfHeader= {TextOfHeader} />
+        ];
+
     return (
         <StyledHeader>
                 {/* Tooltip Container for Edit Nav button */}
@@ -115,17 +222,40 @@ const Header = () => {
                     }}
                 />
                 </TooltipContainer>
-                    {
-                        selectedImage ? 
-                        <Box class="header-image">
-                        <Typography class="header-text" variant="h2" >{TextOfHeader} </Typography>
+                {
+                    selectedImage ? (
+                      <Box className="header-image" sx={{ position: 'relative' }}>
                         <Box
-                        component="img"
-                        style={StyledImage}
-                        src={selectedImage}
+                          sx={{
+                            position: 'absolute',
+                            left: '50%',
+                            top: '50%',
+                            transform: 'translate(-50%, -50%)',
+                            zIndex: '1',
+                            // Add other styles as needed
+                          }}
+                        >
+                          <Typography variant="h2" sx={{
+                            color: currentColor,
+                            backgroundColor: BackGroundColor,
+                            padding: '10px 15px',
+                            fontWeight: selectedFontWight,
+                            borderRadius: selectedRadius,
+                            fontSize: selectedFontSize,
+                            opacity: selectedOpacity,
+                          }}>
+                            {TextOfHeader}
+                          </Typography>
+                        </Box>
+                        <Box
+                          component="img"
+                          style={StyledImage}
+                          src={selectedImage}
                         />
-                        </Box> : ''
-                    }
+                      </Box>
+                    ) : null
+                  }
+
               {/* Dialog for editing */}
             <DialogCom title='Header' dialogOpenState={[openDialog, setOpenDialog]}>
             <CustomVerticalTabs  tabLabels={tabLabels} tabContents={tabContents}/>
