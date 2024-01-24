@@ -16,6 +16,10 @@ function capitalizeEachWord(str) {
     return capitalizedWords.join(' ');
 }
 
+const camelCaseToWords = (camelCaseString) => {
+    return camelCaseString.replace(/([a-z])([A-Z])/g, '$1 $2');
+  };
+
 function removeSAtEnd(word) {
     const lowercasedWord = word.toLowerCase();
     if (lowercasedWord.endsWith('s') && word !== 'S') {
@@ -27,7 +31,8 @@ function removeSAtEnd(word) {
 
 const StringHelper = {
     capitalizeEachWord,
-    removeSAtEnd
+    removeSAtEnd,
+    camelCaseToWords
 }
 
 export default StringHelper

@@ -24,56 +24,81 @@ import { useTheme } from '@emotion/react'
 //propTypes 
 import propTypes from 'prop-types'
 import { useLoaderData } from 'react-router-dom'
+import { useMyContext } from '../DatabaseView/DatabaseView'
 
 
-//Styled Components
-const StyledCustomTable = styled(TableContainer)(
-    ({ theme }) => ({
-        border: "1px solid",
-        borderColor: theme.palette.divider,
-        maxHeight: "530px"
-    })
-)
+
 
 
 const CustomTable = (props) => {
     const {
-        showTableHeaders,
         filteredColumnsArray,
         selectedState,
         dataWillAppearState,
         handleChangeData,
-        handleEnterKeyDown
+        handleEnterKeyDown,
     } = props
-
+    
     //data state
     const [dataWillAppear,] = dataWillAppearState
     //I get columns object to know the type of each column
     const {columns} = useLoaderData();
+
+
     
+    //view settings
+    //I don't put a condition if null, because I solved it in DatabaseView component
+    const {viewsSettings} = useMyContext()
+    const {
+        showHeaders,
+        selectHeaderBackgroundColor,
+        changeHeadersBackgroundColor,
+        showHeaderVerticalLines,
+        showHeaderHorizontalLines
+    } = viewsSettings.table
+
+    const selectedColor = selectHeaderBackgroundColor.find((item) => item.value)?.name
+
     
     //Styles
     const theme = useTheme()
 
+    //Styled Components
+    const StyledCustomTable = styled(TableContainer)(
+        ({ theme }) => ({
+            border: "1px solid",
+            borderColor: theme.palette.divider,
+            // maxHeight: "530px"
+        })
+    )
+
     const StyleHeadTableCell = {
         fontSize: theme.typography.h7,
         textTransform: 'capitalize',
-        borderRight: '1px solid',
+        borderRight: showHeaderVerticalLines ? '1px solid' : 'none',
+        borderBottom: showHeaderHorizontalLines ? '1px solid' : 'none',
         borderColor: theme.palette.divider,
         textAlign: 'center',
+        color: changeHeadersBackgroundColor && theme.palette.primary.contrastText,
     }
 
-
+    const StyledTableHead = styled(TableHead)(
+        () => ({
+            backgroundColor: changeHeadersBackgroundColor && selectedColor,
+        })
+    );
 
     return (
-        <StyledCustomTable>
+        <StyledCustomTable  
+        >
                     <Table>
                         {
-                            showTableHeaders && columns
+                            showHeaders && columns
                             ?
-                            <TableHead>
+                            <StyledTableHead>
                                 <TableRow>
-                                <TableCell sx={StyleHeadTableCell}>
+                                <TableCell
+                                sx={StyleHeadTableCell}>
                                     Action
                                 </TableCell>
                                 {filteredColumnsArray.length > 0 && filteredColumnsArray.map((key, i) => {
@@ -85,7 +110,7 @@ const CustomTable = (props) => {
                                 })}
                                 </TableRow>
                                 
-                            </TableHead>
+                            </StyledTableHead>
                             :
                             null
                         }
@@ -119,6 +144,7 @@ CustomTable.propTypes = {
     dataWillAppearState: propTypes.array,
     handleChangeData: propTypes.func,
     handleEnterKeyDown: propTypes.func,
+    viewSettings: propTypes.object
 }
 
 export default CustomTable;

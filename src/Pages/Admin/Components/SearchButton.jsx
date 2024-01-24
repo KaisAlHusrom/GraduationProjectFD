@@ -9,31 +9,19 @@ import {
 
 //MUI
 import {
-    Button,
+    
 } from '@mui/material'
 import { styled } from '@mui/system'
 
 //icons
 import SearchIcon from '@mui/icons-material/Search';
+import { AdminMainButton } from '../../../Components';
+import { useTheme } from '@emotion/react';
 
 
 //Styled Components
-const StyledSearchButton = styled(Button)(
-    ({ theme }) => ({
-        textTransform: 'none',
-        color: theme.palette.text.secondary,
-        borderColor: theme.palette.divider,
-        borderRadius: "10px",
-        backgroundColor: theme.palette.secondary.main,
-        transition: theme.transitions.create(['background-color', 'border-color'], {
-            duration: theme.transitions.duration.standard,
-        }),
-        "&:hover": {
-            borderColor: "rgb(47, 58, 70)",
-            background: theme.palette.secondary.light,
-        },
-    })
-)
+
+
 
 const StyledSearchIcon = styled(SearchIcon)(
     ({ theme }) => ({
@@ -44,16 +32,36 @@ const StyledSearchIcon = styled(SearchIcon)(
 
 const SearchButton = () => {
 
+    const theme = useTheme()
+
+    const StyledSearchButton =  {
+        textTransform: 'none',
+        color: theme.palette.text.secondary,
+        borderColor: theme.palette.divider,
+        borderRadius: "10px",
+        backgroundColor: theme.palette.action.hover,
+        transition: theme.transitions.create(['background-color', 'border-color'], {
+            duration: theme.transitions.duration.standard,
+        }),
+        "&:hover": {
+            borderColor: "rgb(47, 58, 70)",
+            background: theme.palette.action.selected,
+        },
+    }
+
     return (
         
-        <StyledSearchButton
-            startIcon={<StyledSearchIcon />}
-            variant='outlined'
+        <AdminMainButton
+            type='modal'
+            appearance='secondary'
+            sx={StyledSearchButton}
+            icon={<StyledSearchIcon />}
+            title="Search"
             dir="ltr"
             
         >
             Search...
-        </StyledSearchButton>
+        </AdminMainButton>
     );
 };
 

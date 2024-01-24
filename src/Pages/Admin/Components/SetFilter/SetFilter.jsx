@@ -82,7 +82,8 @@ const StyledPossibleFilterItem = styled(Box)(
         position: "relative",
         paddingTop: theme.spacing(3),
         paddingBottom: theme.spacing(3),
-        backgroundColor: theme.palette.primary.light,
+        border: "1px solid",
+        borderColor: theme.palette.divider,
         borderRadius: theme.spacing(2),
         cursor: "pointer",
         transition: theme.transitions.create(['background-color'], {
@@ -361,13 +362,18 @@ const SetFilter = (props) => {
                             appearance='primary' 
                             title='Filter' 
                             type='custom'
-                            onClick={handleFilterData} />
+                            onClick={handleFilterData}
+                            putBorder
+                            />
+
                             <AdminMainButton 
                             icon={<FilterAltOutlinedIcon />}
-                            appearance='primary' 
+                            appearance='secondary' 
                             title='Get All Data' 
                             type='custom'
-                            onClick={handleGetAllData} />
+                            onClick={handleGetAllData} 
+                            putBorder
+                            />
                         </StyledSubmitBox>
                     </>
                     :
@@ -377,7 +383,7 @@ const SetFilter = (props) => {
                             
                             <AdminMainButton 
                             icon={<FilterAltOutlinedIcon />}
-                            appearance='primary' 
+                            appearance='secondary' 
                             title='Get All Data' 
                             type='custom'
                             onClick={handleGetAllData} />

@@ -54,6 +54,8 @@ const AdminMainButton = (props) => {
         drawerAnchor,
         badgeContent,
         drawerVariant,
+        putBorder,
+        filled,
         sx
     } = props
 
@@ -113,16 +115,17 @@ const AdminMainButton = (props) => {
 
     //Styled Components
     const StyleOfButton = {
-        backgroundColor: appearance === "primary" ? theme.palette.primary.main : "transparent",
+        backgroundColor: filled ? (appearance === "primary" ? theme.palette.primary.main : appearance === "secondary" ? theme.palette.secondary.main : "transparent") : "transparent",
         color: appearance === "primary" ? theme.palette.primary.contrastText : "text.primary",
         padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
         borderRadius: "100px",
         fontWeight: "bold",
         "&:hover": {
-            backgroundColor: appearance === "primary" ? theme.palette.primary.dark : theme.palette.secondary.main,
+            backgroundColor: (appearance === "primary" ? theme.palette.primary.main : appearance === "secondary" ? theme.palette.secondary.main : "transparent")
         },
-        transition: type === "menu" && openMenu ? 'rotate(180deg)' : ""
-
+        transition: type === "menu" && openMenu ? 'rotate(180deg)' : "",
+        border: putBorder ? "solid 1px" : "none",
+        borderColor: theme.palette.divider,
     }
 
     const StyledCustomPopover = {

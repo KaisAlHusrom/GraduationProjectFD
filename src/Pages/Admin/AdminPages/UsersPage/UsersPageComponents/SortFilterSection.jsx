@@ -6,13 +6,11 @@ import {
 } from 'react-redux'
 
 //icons
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
-import TableChartIcon from '@mui/icons-material/TableChart';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+
 import AddIcon from "@mui/icons-material/Add"
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import PersonAddAltOutlinedIcon from '@mui/icons-material/PersonAddAltOutlined';
-// import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import SettingsIcon from '@mui/icons-material/Settings';
 import ViewWeekIcon from '@mui/icons-material/ViewWeek';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 
@@ -30,7 +28,7 @@ import StringHelper from '../../../../../Helpers/StringsHelper';
 
 //MUI
 import {
-    Box, TextField, useMediaQuery,
+    Box, useMediaQuery,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { useTheme } from '@emotion/react';
@@ -39,6 +37,7 @@ import { useTheme } from '@emotion/react';
 import propTypes from 'prop-types'
 import { AdminMainButton } from '../../../../../Components';
 import { useMyContext } from '../../../../../Components/DatabaseView/DatabaseView';
+import SetViewSettings from '../../../Components/SetViewSettings/SetViewSettings';
 
 
 //Styled Components
@@ -61,35 +60,36 @@ const StyledSecondaryButtonsBox = styled(Box)(
     })
 )
 
-const StyledSearchBox = styled(Box)(
-    () => ({
-        display: "flex",
-        alignItems: "center",
-        position: "relative",
+// const StyledSearchBox = styled(Box)(
+//     () => ({
+//         display: "flex",
+//         alignItems: "center",
+//         position: "relative",
 
-    })
-)
+//     })
+// )
 
 
-const StyledSearchField = styled(TextField)(
-    () => ({
-        ".MuiInputBase-root.MuiOutlinedInput-root": {
+// const StyledSearchField = styled(TextField)(
+//     () => ({
+//         ".MuiInputBase-root.MuiOutlinedInput-root": {
             
-        }
-    })
-)
+//         }
+//     })
+// )
 
 
 const SortFilterSection = (props) => {
     const {
-        viewState,
+        allViews,
+        currentView,
         dataState,
         hiddenColumnsState,
         sortedColumnsState,
         rowsArrayState,
         filteredDataState,
         sortedDataState,
-        title
+        title,
     } = props
 
     //data state
@@ -109,29 +109,11 @@ const SortFilterSection = (props) => {
     const {filtersCount, sortsCount} = useMyContext()
     
 
-    //View State
-    const [view, setView] = viewState
-    const views = [
-        {
-            icon: <TableChartIcon color={view === "table" ? "primary" : ""} />,
-            value: "Table",
-            selected: view === "table",
-            onClick: () => {setView("table")},
-        },
-        {
-            icon: <FormatListBulletedIcon color={view === "list" ? "primary" : ""} />,
-            value: "List",
-            selected: view === "list",
-            onClick: () => {
-                setView("list")
-            },
-        }
-    ]
-
     //BUTTONS
     const primaryButtons = [
         <AdminMainButton
             key={0}
+            filled
             title={"Add " + StringHelper.removeSAtEnd(title)}
             icon={<AddIcon />}
             appearance="primary"
@@ -150,10 +132,10 @@ const SortFilterSection = (props) => {
     //Styles
     const theme = useTheme()
     const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-    const styleSearchIcon = {
-        position: 'absolute',
-        right: theme.spacing(),
-    }
+    // const styleSearchIcon = {
+    //     position: 'absolute',
+    //     right: theme.spacing(),
+    // }
 
 
     return (
@@ -225,11 +207,24 @@ const SortFilterSection = (props) => {
                     }}
                 />
                 <AdminMainButton
-                    title={view.toString().toLocaleUpperCase()}
-                    icon={views.filter(view => view.selected === true)[0].icon}
+                    title={`${currentView.toString()} Settings`}
+                    icon={<SettingsIcon color='primary' />}
+                    appearance={isSmallScreen ? 'iconButton' : 'secondary'}
+                    willShow={<SetViewSettings 
+                        view={currentView}
+                        />}
+                    type='modal'
+                    sx={{
+                        color: 'text.primary',
+                        fontWeight: 'bold',
+                    }}
+                />
+                <AdminMainButton
+                    title={currentView.toString().toLocaleUpperCase()}
+                    icon={Object.values(allViews).filter(view => view.selected === true)[0].icon}
                     appearance={isSmallScreen ? 'iconButton' : 'secondary'}
                     type='menu'
-                    menuItems={views}
+                    menuItems={Object.values(allViews)}
                     sx={{
                         color: 'text.primary',
                         fontWeight: 'bold',
@@ -238,7 +233,7 @@ const SortFilterSection = (props) => {
             </StyledSecondaryButtonsBox>
             
         </StyledSortFilterSection>
-        <StyledSearchBox>
+        {/* <StyledSearchBox>
                     <SearchOutlinedIcon sx={styleSearchIcon} />
                     <StyledSearchField
                             fullWidth
@@ -249,20 +244,21 @@ const SortFilterSection = (props) => {
                             color="primary"
                             size="small"
                         />
-        </StyledSearchBox>
+        </StyledSearchBox> */}
         </>
     );
 };
 
 SortFilterSection.propTypes = {
     dataState: propTypes.array,
-    viewState: propTypes.array,
+    allViews: propTypes.object,
     title: propTypes.string,
     hiddenColumnsState: propTypes.array,
     sortedColumnsState: propTypes.array,
     rowsArrayState: propTypes.array,
     filteredDataState: propTypes.array,
     sortedDataState: propTypes.array,
+    currentView: propTypes.string,
 }
 
 export default SortFilterSection;

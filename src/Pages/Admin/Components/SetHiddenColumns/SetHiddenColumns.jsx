@@ -95,26 +95,30 @@ const StyledButtonsBox = styled(Box)(
 
 const StyledButton = styled(Button)(
     ({ theme }) => ({
-        backgroundColor: theme.palette.secondary.main,
         borderRadius: "100px",
         border: "1px solid",
         borderColor: theme.palette.divider,
         color: theme.palette.text.primary,
         "&:hover": {
             backgroundColor: theme.palette.primary.main,
+        },
+        "&:active": {
+            backgroundColor: theme.palette.primary.dark,
         }
     })
 )
 
 const StyledSortButton = styled(Button)(
     ({ theme }) => ({
-        backgroundColor: theme.palette.secondary.main,
         borderRadius: "100px",
         border: "1px solid",
         borderColor: theme.palette.divider,
         color: theme.palette.text.primary,
         "&:hover": {
             backgroundColor: theme.palette.primary.main,
+        },
+        "&:active": {
+            backgroundColor: theme.palette.primary.dark,
         }
     })
 )

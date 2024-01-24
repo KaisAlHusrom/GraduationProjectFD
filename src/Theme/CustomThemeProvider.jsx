@@ -160,7 +160,7 @@ const CustomThemeProvider = ({children}) => {
                     // contrastText: '#242105',
                 },
                 secondary: {
-                    main: "rgba(31, 38, 46, 0.4)",
+                    main: "#d27519",
                     // light: '',
                     // dark: '',
                     // contrastText: '',
@@ -220,6 +220,7 @@ const CustomThemeProvider = ({children}) => {
             },
             breakpoints: {
                 values: {
+                    xxs: 300,
                     xs: 430,
                     sm: 600,
                     md: 900,

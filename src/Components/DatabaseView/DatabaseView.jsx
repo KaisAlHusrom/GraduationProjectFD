@@ -22,12 +22,16 @@ import { useTheme } from '@emotion/react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
+import TableChartIcon from '@mui/icons-material/TableChart';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
 //propTypes 
 import propTypes from 'prop-types'
 import { useLoaderData } from 'react-router-dom'
 import { useMemo } from 'react'
 import filterData from '../../Helpers/FilterData'
 import sortData from '../../Helpers/sortData'
+import { CustomGalleryView, CustomListView } from '..'
 // import usersService from '../../Services/usersService'
 
 
@@ -46,11 +50,10 @@ const DatabaseView = (props) => {
     const {
         title,
         icon,
-        showTableHeaders,
         //handleUpdateData //function to change data in database
     } = props
 
-    
+    const theme = useTheme()
     
     //Split the columns and rows,
     const [loaderData, setLoaderData] = useState(useLoaderData());
@@ -88,16 +91,18 @@ const DatabaseView = (props) => {
 
     const [rowsArray, setRowsArray] = useState([])
     useEffect(()=> {
-        setRowsArray(() => rows.map(data => {
-        const filteredData = {};
-        for (const key in data) {
-            if (!hiddenColumns.includes(key)) {
-                filteredData[key] = data[key];
-            }
-        }
-        return filteredData;
+        setRowsArray(() => {
+            const newRowsArray = rows.map(data => {
+                const filteredData = {};
+                for (const column in data) {
+                    if (!hiddenColumns.includes(column)) {
+                        filteredData[column] = data[column];
+                    }
+                }
+                return filteredData;
+                })
+            return newRowsArray;
         })
-        )
     }, [hiddenColumns, rows]) 
 
     //Filtered Data
@@ -166,7 +171,8 @@ const DatabaseView = (props) => {
         }
     }, [filteredData, sortedData, rowsArray, pageSorts.appliedSorts, title])
 
-    // View State
+    // --- View State ---
+    
     const views = useMemo(() => JSON.parse(localStorage.getItem('views')) || {}, []);
     const storedView = views[title] || 'table'; // Default to 'table' if no view is stored
     const [view, setView] = useState(storedView);
@@ -178,6 +184,155 @@ const DatabaseView = (props) => {
         // Update local storage with the updated 'views'
         localStorage.setItem('views', JSON.stringify(updatedViews));
     }, [title, view, views]);
+
+    //all views
+    const allViews = {
+        table: {
+            icon: <TableChartIcon color={view === "table" ? "primary" : ""} />,
+            value: "Table",
+            selected: view === "table",
+            onClick: () => {setView("table")},
+            viewSettings: {
+                showHeaders: true,
+                changeHeadersBackgroundColor: false,
+                selectHeaderBackgroundColor: [
+                    {
+                        name: theme.palette.primary.main,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.primary.dark,
+                        value: true,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.primary.light,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.secondary.main,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.secondary.dark,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.secondary.light,
+                        value: false,
+                        type: "color",
+                    },
+                ],
+                showHeaderVerticalLines: true,
+                showHeaderHorizontalLines: true,
+                showVerticalLines: true,
+                showHorizontalLines: true,
+                changeEvenRowsBackgroundColor: false,
+                selectEvenRowsBackgroundColor: [
+                    {
+                        name: theme.palette.action.selected,
+                        value: true,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.action.hover,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.action.active,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.action.disabled,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.action.disabledBackground,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.secondary.main,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.secondary.main,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.secondary.dark,
+                        value: false,
+                        type: "color",
+                    },
+                    {
+                        name: theme.palette.secondary.light,
+                        value: false,
+                        type: "color",
+                    },
+                ],
+            }
+        },
+        gallery: {
+            icon: <CollectionsOutlinedIcon color={view === "gallery" ? "primary" : ""} />,
+            value: "Gallery",
+            selected: view === "gallery",
+            onClick: () => {
+                setView("gallery")
+            },
+            viewSettings: {
+                showHeaders: true,
+                showItemImage: true,
+                contentPosition: [
+                    {
+                        name: "left",
+                        value: true,
+                        type: "position",
+                    },
+                    {
+                        name: "center",
+                        value: false,
+                        type: "position",
+                    },
+                    {
+                        name: "right",
+                        value: false,
+                        type: "position",
+                    },
+                ]
+            }
+        }
+    }
+
+    //Views Settings
+    const allViewsSettings = useMemo(()=> JSON.parse(localStorage.getItem("viewsSettings")) || {}, []);
+    let defaultViewsSettings = {}
+    if(!allViewsSettings[title]) {
+        // Set initial values for each view's settings in storedViewsSettings
+        Object.entries(allViews).forEach(([key, value]) => {
+            defaultViewsSettings[key] = value.viewSettings;
+        });
+    } else {
+        defaultViewsSettings = allViewsSettings[title]
+    }
+
+    const [viewsSettings, setViewsSettings] = useState(defaultViewsSettings);
+     // Update local storage whenever 'viewsSettings' changes
+    useEffect(() => {
+        // Create a copy of 'viewsSettings' to avoid mutating the state directly
+        const updatedViewsSettings = { ...allViewsSettings, [title]: viewsSettings };
+        // Update local storage with the updated 'viewsSettings'
+        localStorage.setItem('viewsSettings', JSON.stringify(updatedViewsSettings));
+    }, [allViewsSettings, viewsSettings, title]);
+
 
     //View Options
     const viewOptions = [
@@ -254,7 +409,7 @@ const DatabaseView = (props) => {
     // }, [loaderData]); // This will trigger the effect whenever loaderData change
     
     //Styles
-    const theme = useTheme()
+
     const styleCardHeader = {
         padding: `${theme.spacing()} ${theme.spacing()}`,
         backgroundColor: 'background.default',
@@ -286,14 +441,15 @@ const DatabaseView = (props) => {
     
 
     return (
-        <MyContext.Provider value={{filtersCount, setFiltersCount, sortsCount, setSortsCount}}>
+        <MyContext.Provider value={{filtersCount, setFiltersCount, sortsCount, setSortsCount, viewsSettings, setViewsSettings}}>
             <StyledDatabaseView>
                 <SortFilterSection
                 dataState={[loaderData, setLoaderData]}
                 rowsArrayState={[rowsArray, setRowsArray]}
                 filteredDataState={[filteredData, setFilteredData]}
                 sortedDataState={[sortedData, setSortedData]}
-                viewState={[view, setView]}
+                allViews={allViews}
+                currentView={view}
                 hiddenColumnsState={[hiddenColumns, setHiddenColumns]}
                 sortedColumnsState={[sortedColumns, setSortedColumns]}
                 title={title}
@@ -354,7 +510,16 @@ const DatabaseView = (props) => {
                             <CustomTable
                                 filteredColumnsArray={filteredColumnsArray}
                                 dataWillAppearState={[dataWillAppear, setDataWillAppear]}
-                                showTableHeaders={showTableHeaders}
+                                selectedState={[selected, setSelected, setIsHeaderCheckboxChecked]}
+                                handleChangeData={handleChangeData}
+                                handleEnterKeyDown={handleEnterKeyDown}
+                            />
+                            :
+                            view === "gallery" 
+                            ?
+                            <CustomGalleryView
+                                filteredColumnsArray={filteredColumnsArray}
+                                dataWillAppearState={[dataWillAppear, setDataWillAppear]}
                                 selectedState={[selected, setSelected, setIsHeaderCheckboxChecked]}
                                 handleChangeData={handleChangeData}
                                 handleEnterKeyDown={handleEnterKeyDown}
@@ -377,7 +542,6 @@ DatabaseView.propTypes = {
     title: propTypes.string,
     icon: propTypes.element,
     database: propTypes.array,
-    showTableHeaders: propTypes.bool,
     hiddenColumns: propTypes.array,
     databaseOptions: propTypes.array,
     handleUpdateData: propTypes.func
