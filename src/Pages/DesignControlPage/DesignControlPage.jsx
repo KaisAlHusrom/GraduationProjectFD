@@ -29,7 +29,7 @@ const StyledDesignControlPage = styled(Box)(
 
 const DesignControlPage = () => {
 
-    const [AboutUsPage, setAboutUsPage] = useState(false)
+    const [AboutUsPage, setAboutUsPage] = useState(true)
 
     const valuesOfPages = {AboutUsPage, setAboutUsPage }
     return (

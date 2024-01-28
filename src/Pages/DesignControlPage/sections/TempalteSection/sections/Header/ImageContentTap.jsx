@@ -27,10 +27,9 @@ const StyledImageContentTap = styled(Box)(
     })
 )
 
-
 const ImageContentTap = ( {
     handleUploadImageClick,
-    handleDeleteLogoClick , 
+    handleDeleteLogoClick ,  
 }) => {
     return (
         <StyledImageContentTap>

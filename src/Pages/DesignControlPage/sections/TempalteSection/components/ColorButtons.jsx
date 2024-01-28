@@ -6,7 +6,7 @@ import ColorBar from '../../../components/ColorBar';
 
 const ColorButtons = ({ ButtonName , handleColorSelect, handleOpacityChange, generateRandomColor, currentColor, applyColor }) => {
   return (
-    <>
+    <Box sx={{width:'40%'}}>
       {/* Background color button */}
       <AdminMainButton
         title={ButtonName}
@@ -14,8 +14,10 @@ const ColorButtons = ({ ButtonName , handleColorSelect, handleOpacityChange, gen
         type='drawer'
         putDrawerCloseButton
         appearance='primary'
+       
         drawerAnchor='left'
-        willShow={<ColorBar
+        willShow={
+        <ColorBar
           sx={{
             width: '100%',
             padding: '60px',
@@ -25,6 +27,7 @@ const ColorButtons = ({ ButtonName , handleColorSelect, handleOpacityChange, gen
             display: 'flex',
             flexWrap: 'wrap',
             alignItems: 'center',
+            zIndex: 1000 
           }}
           currentColor={currentColor}
           applyColor={applyColor}
@@ -34,15 +37,16 @@ const ColorButtons = ({ ButtonName , handleColorSelect, handleOpacityChange, gen
         />}
         sx={{
           marginTop: '10px',
-          width: '30%',
+          width: '100%',
           display: 'flex',
+          flexWrap:'wrap',
           justifyContent: 'center',
           alignItems: 'center',
           color: 'white.main',
           backgroundColor: 'success.dark',
         }}
       />
-    </>
+    </Box>
   );
 };
 

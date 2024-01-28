@@ -14,7 +14,6 @@ import { AdminMainButton } from '../../../../../../Components'
 import DialogCom from '../../../../components/DialogCom';
 import CustomVerticalTabs from '../../components/CustomVerticalTabs';
 import ImageContentTap from './ImageContentTap';
-import TextContentTaP from './TextContentTaP.JSX';
 
 
 //MUI
@@ -30,6 +29,7 @@ import { Edit as EditIcon  } from '@mui/icons-material';
 
 //Styled Components
 import './Header.css'
+import TextContentTaP from '../../components/TextContentTaP.jsx';
 
 const StyledHeader = styled(Box)(
     ({ theme }) => ({
@@ -67,53 +67,25 @@ const Header = () => {
     // color of text 
     const [currentColor, setCurrentColor] = useState('#00000');
     const [BackGroundColor, setBackGroundColor] = useState('');
+    const handleOpacityChange = (event) => {
+      utils.handleOpacityChange(event, setSelectedOpacity);
+    };
 
-    const opacity = [
-        0,
-        0.1,
-        0.2,
-        0.3,
-        0.4,
-        0.5,
-        0.6,
-        0.7,
-        0.8,
-        0.9,
-        1,
-    ]
-    const Radius = [
-      0,
-      5,
-      10,
-      15,
-      20,
-      25,
-      30,
-      30,
-      40,
-      50,
-      60,
-      80,
-      100,
-    ]
-    const FontSize = [
-      16,
-      26,
-      36,
-      46,
-      56,
-      66,
-      77,
-      88,
-      99,
-      100,
-      110,
-    ]
-    const FontWight = [
-    700 , 
-    900, 
-    500,
-    ]
+    const handleRadiusChange = (event) => {
+      utils.handleRadiusChange(event, setSelectedRadius);
+    };
+    const handleFontSizeChange = (event) => {
+      utils.handleFontSizeChange(event, setSelectedFontSize);
+    };
+    
+    const handleFontWeightChange = (event) => {
+      utils.handleFontWeightChange(event, setSelectedFontWeight);
+    };
+
+    const handleTextHeaderChangeWrapper = (e) => {
+      utils.handleTextHeaderChange(e, setTextOfHeader);
+    };
+
   
 
   
@@ -147,25 +119,7 @@ const Header = () => {
         utils.handleDeleteLogoClick(setSelectedImage);
       };
       
-      const handleOpacityChange = (event) => {
-        utils.handleOpacityChange(event, setSelectedOpacity);
-      };
-
-      const handleRadiusChange = (event) => {
-        utils.handleRadiusChange(event, setSelectedRadius);
-      };
-      const handleFontSizeChange = (event) => {
-        utils.handleFontSizeChange(event, setSelectedFontSize);
-      };
-      
-      const handleFontWeightChange = (event) => {
-        utils.handleFontWeightChange(event, setSelectedFontWeight);
-      };
-
-      const handleTextHeaderChangeWrapper = (e) => {
-        utils.handleTextHeaderChange(e, setTextOfHeader);
-      };
-
+    
     // Define tab contents
     const tabContents = [
         () => <ImageContentTap 
@@ -174,19 +128,19 @@ const Header = () => {
         />, 
         () => <TextContentTaP 
 
-        opacity = {opacity}
+        opacity = {utils.opacity}
         handleOpacityChange = {handleOpacityChange}
         selectedOpacity = {selectedOpacity}
 
-        Radius = {Radius}
+        Radius = {utils.Radius}
         handleRadiusChange = {handleRadiusChange}
         selectedRadius = {selectedRadius}
 
-        FontSize = {FontSize}
+        FontSize = {utils.FontSize}
         handleFontSizeChange = {handleFontSizeChange}
         selectedFontSize = {selectedFontSize}
         
-        FontWight = {FontWight}
+        FontWight = {utils.FontWight}
         handleFontWeightChange = {handleFontWeightChange}
         selectedFontWight = {selectedFontWight}
 

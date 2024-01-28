@@ -29,10 +29,9 @@ const StyledMediaDrawerList = styled(Box)(
 
 const MediaDrawerList = () => {
 
-    const [image , setImage] = useState(false)
+   
     const [openDialog , setOpenDialog] = useState(false)
     const [list, setList] = useState(true);
-
 
     const drawerItems = [
         {
@@ -44,6 +43,8 @@ const MediaDrawerList = () => {
           },
         },
     ];
+    const [image , setImage] = useState(false)
+
     const [selectedImages, setSelectedImages] = useState([]);
 
     const handleImageChange = (file) => {
