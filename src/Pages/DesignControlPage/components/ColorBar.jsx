@@ -10,6 +10,12 @@ const StyledColorBar = styled(Box)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  zIndex: 1000, // Set a high zIndex to ensure it appears above other elements
+  position: 'fixed', // Set to 'fixed' to cover the entire viewport
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
 });
 
 const ColorBar = ({

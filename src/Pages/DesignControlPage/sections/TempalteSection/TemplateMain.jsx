@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useState  } from 'react'
 
 import {
     
@@ -15,7 +13,9 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import NavBar from './NavBar/NavBar'
+import NavBar from './sections/NavBar/NavBar'
+import Header from './sections/Header/Header'
+import AboutUs from './sections/AboutUs/AboutUs'
 
 //Styled Components
 const StyledTemplateMain = styled(Box)(
@@ -26,9 +26,13 @@ const StyledTemplateMain = styled(Box)(
 
 
 const TemplateMain = () => {
+
+
     return (
         <StyledTemplateMain>
             <NavBar></NavBar>
+            <Header></Header>
+            <AboutUs></AboutUs>
         </StyledTemplateMain>
     );
 };

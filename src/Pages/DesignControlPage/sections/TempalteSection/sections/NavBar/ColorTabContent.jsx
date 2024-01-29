@@ -8,7 +8,7 @@ import {
 } from 'react-redux'
 
 //Components
-import ColorBar from '../../../components/ColorBar';
+import ColorBar from '../../../../components/ColorBar';
 
 
 //MUI

@@ -1,6 +1,6 @@
 //React
 import {
-    
+    useState
 } from 'react'
 
 import {
@@ -16,6 +16,9 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 
+// useContext 
+import { MainTemplateSectionSet } from './sections/TempalteSection/UseContext/UserSetSections'
+
 //Styled Components
 const StyledDesignControlPage = styled(Box)(
     ({ theme }) => ({
@@ -25,10 +28,19 @@ const StyledDesignControlPage = styled(Box)(
 
 
 const DesignControlPage = () => {
+
+    const [AboutUsPage, setAboutUsPage] = useState(true)
+
+    const valuesOfPages = {AboutUsPage, setAboutUsPage }
     return (
+        <MainTemplateSectionSet.Provider value={valuesOfPages}>
+
         <StyledDesignControlPage>
             <AppBarCom></AppBarCom>
         </StyledDesignControlPage>
+
+        </MainTemplateSectionSet.Provider>
+
     );
 };
 

@@ -5,19 +5,21 @@ import {
 } from 'react-redux'
 
 //Components
-import CustomTextField from '../../../../../Components/CustomTextField/CustomTextField'
-import { AdminMainButton } from '../../../../../Components'
-import ColorBar from '../../../components/ColorBar'
+import CustomTextField from '../../../../../../Components/CustomTextField/CustomTextField'
+import ColorBar from '../../../../components/ColorBar'
 
 // icons 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { useState } from 'react'
+import { AdminMainButton } from '../../../../../../Components';
+import { useState } from 'react';
 
 //Styled Components
 const StyledTitleTapContent = styled(Box)(
@@ -39,6 +41,19 @@ const TitleTapContent = ({
 
 
     const [title, setTitle] = titleSelect;
+    const [temporaryText, setTemporaryText] = useState(title);
+
+    
+    const handleTextFieldChange = (e) => {
+        // Update the temporary state while typing
+        setTemporaryText(e.target.value);
+      };
+
+      const handleSaveChanges = () => {
+        // Update the main state only when "Save Changes" button is clicked
+        setTitle(temporaryText);
+      };
+
 
     const handleColorOfTitle = (color) => {
         setColorOfTitle(color);
@@ -56,11 +71,6 @@ const TitleTapContent = ({
 
  
 
-    // title 
-    const handleText = (e) => {
-        setTitle(e.target.value);
-      };
-
 
     return (
         <StyledTitleTapContent>
@@ -68,8 +78,8 @@ const TitleTapContent = ({
                 <CustomTextField
                         label="Title" 
                         variant="filled"
-                        value={title}
-                        onChange={handleText}
+                        value={temporaryText}
+                        onChange={handleTextFieldChange}
                         focused
                     />
 
@@ -148,6 +158,31 @@ const TitleTapContent = ({
                             />
 
                         </Box>
+                            
+                        <Box sx={{
+                            width:'100%',
+                            marginTop:'50px',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}>
+                        <AdminMainButton
+                    title='Save Changes'
+                    type='custom'
+                    appearance='primary'
+                    icon={<DoneAllIcon />}
+                    onClick={handleSaveChanges} 
+                        sx={{
+                            marginTop: '10px',
+                            width: '30%',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            color: 'white.main',
+                            backgroundColor: 'info.dark',
+                            }}
+                    />
+                            </Box> 
 
 
 

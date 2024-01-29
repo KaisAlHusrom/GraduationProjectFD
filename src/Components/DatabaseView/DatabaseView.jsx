@@ -47,9 +47,6 @@ const StyledDatabaseView = styled(Box)(
 )
 
 
-
-
-
 const DatabaseView = (props) => {
     const {
         title,
