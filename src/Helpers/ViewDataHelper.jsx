@@ -1,4 +1,6 @@
-import { InputAdornment, Switch, TextField, TextareaAutosize, Typography } from "@mui/material"
+import { Divider, InputAdornment, List, ListItem, ListItemButton, ListItemText, MenuItem, Switch, TextField, TextareaAutosize, Typography } from "@mui/material"
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import dayjs from "dayjs";
 import { styled } from '@mui/system'
 
 //icons
@@ -10,6 +12,8 @@ import DateHelper from "./DateHelper";
 //images
 import noPicture from "../Assets/Images/no-pictures.png"
 import StringHelper from "./StringsHelper";
+import { Fragment } from "react";
+
 
 //Styles
 const StyledTextField = styled(TextField)(
@@ -49,7 +53,9 @@ const StyledTextArea = styled(TextareaAutosize)(
 
 
 //return database data
-const checkDatabaseDataInTable = (columns, column, cell) => {
+const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations) => {
+    const {manyToMany, oneToMany, manyToOne} = relations
+
     if(cell){
         if(columns[column] === "bool") {
             if(cell === true) {
@@ -71,6 +77,58 @@ const checkDatabaseDataInTable = (columns, column, cell) => {
             return `${cell}$`
         }
 
+        if(columns[column] === "many-to-many") {
+            const listStyle = {
+                maxHeight: "100px",
+                overflow: "auto",
+            }
+            const listItemTextStyle = {
+                "& .MuiTypography-root": {
+                    minWidth: "80px",
+                    maxWidth: "200px",
+                    overflow: 'hidden', 
+                    whiteSpace: 'nowrap', 
+                    textOverflow: 'ellipsis',
+                    textAlign: 'center',
+                    "&:hover": {
+                        fontWeight: "bold",
+                    },
+                }
+                
+            }
+            const row = manyToMany.filter(relation => relation["field_name"] === column)[0]
+            return (
+                <List sx={listStyle}>
+                    
+                    {
+                        showAllCell
+                        ?
+                        cell.map((item, key) => {
+                            return (
+                                <Fragment key={key}>
+                                    <ListItem>
+                                        <ListItemText primary={item[row["fetched_column"]]} />
+                                    </ListItem>
+                                    <Divider />
+                                </Fragment>
+                            )
+                        })
+                        :
+                        (
+                            <ListItem>
+                                <ListItemText sx={listItemTextStyle} primary={cell[0][row["fetched_column"]]} />
+                            </ListItem>
+                        )
+                    }
+                </List>
+            )
+        }
+
+        if(columns[column] === "many-to-one") {
+            const row = manyToOne.filter(relation => relation["field_name"] === column)[0]
+            return cell[row["fetched_column"]]
+        }
+
         return cell
     }else {
         if(columns[column] === "image") {
@@ -81,7 +139,9 @@ const checkDatabaseDataInTable = (columns, column, cell) => {
     }
 }
 
-const getConvenientTextfield = (setShowTextField, columns, column, cell, handleChangeData, row, handleEnterKeyDown, setRowData) => {
+const getConvenientTextfield = (setShowTextField, columns, column, cell, handleChangeData, row, handleEnterKeyDown, setRowData, relations) => {
+
+
     if(cell !== null){
         if (column === "id") return <Typography color="error" variant='body2'>Can not Update The Id</Typography>;
         if (columns[column] === "dateTime") return <Typography color="error" variant='body2'>Can not Update Timestamp fields</Typography>;
@@ -106,10 +166,10 @@ const getConvenientTextfield = (setShowTextField, columns, column, cell, handleC
         }
 
         if(columns[column] === "date") {
-            return <StyledTextField
+            return <DatePicker label="Basic date picker" 
                     type='date'
                     name={column}
-                    value={cell}
+                    value={dayjs(cell)}
                     onChange={(event) => handleChangeData(event, columns[column], setRowData)}
                     onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
                     size="small"
@@ -179,6 +239,43 @@ const getConvenientTextfield = (setShowTextField, columns, column, cell, handleC
             // error={data?.error ? true : false}
             // helperText={data?.error ? data.error : ''}
             />
+        }
+
+        if(columns[column] === "one-to-many") {
+            const {oneToMany} = relations
+            return <Typography>alo</Typography>
+        }
+
+        if(columns[column] === "many-to-many") {
+            const {manyToMany} = relations
+            const relation = manyToMany.filter(relation => relation["field_name"] === column)[0]
+            let result = ""
+            relation.fetch_all_data
+            .then(database => {
+
+                result = <TextField
+                        select
+                        label="Select"
+                        >
+                        {database.rows.map((row, key) => (
+                            <MenuItem key={key} value={row.id}>
+                            {row[relation["fetched_column"]]}
+                            </MenuItem>
+                        ))}
+                        </TextField>
+            })
+            .catch(error => {
+                console.error("Error fetching data:", error);
+                result = <Typography variant="h6" color="error">There is unknown error</Typography>
+            });
+
+            console.log(result)
+            
+        }
+
+        if(columns[column] === "many-to-one") {
+            const {manyToOne} = relations
+            return <Typography>alo</Typography>
         }
 
     }else {

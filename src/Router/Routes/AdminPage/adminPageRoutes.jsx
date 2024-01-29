@@ -2,8 +2,10 @@
 import {
     DashboardMainPage,
     ProductsPage,
-    UsersPage
+    UsersPage,
+    CategoriesPage
 } from "../../../Pages/Admin/AdminPages"
+import categoriesService from "../../../Services/categoriesService";
 import productService from "../../../Services/productsService";
 
 
@@ -31,6 +33,13 @@ const adminPageRoutes = [
         exact: false,
         loader: productService.fetchProducts,
         action: productService.addProduct,
+    },
+    {
+        element: <CategoriesPage />,
+        path: "categories",
+        exact: false,
+        loader: categoriesService.fetchCategories,
+        action: categoriesService.addCategory,
     },
 ]
 

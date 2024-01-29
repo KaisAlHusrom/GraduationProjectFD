@@ -1,4 +1,5 @@
-
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 
 //Theme
 import CssBaseline from '@mui/material/CssBaseline';
@@ -267,10 +268,12 @@ const CustomThemeProvider = ({children}) => {
         , [mode])
 
     return (
-        <ThemeProvider theme={theme} >
-            <CssBaseline />
-            {children}
-        </ThemeProvider>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <ThemeProvider theme={theme} >
+                <CssBaseline />
+                {children}
+            </ThemeProvider>
+        </LocalizationProvider>
     )
 }
 

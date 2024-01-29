@@ -37,6 +37,7 @@ import { CustomGalleryView, CustomListView } from '..'
 
 //Context
 const MyContext = createContext();
+const RelationsContext = createContext();
 
 //Styled Components
 const StyledDatabaseView = styled(Box)(
@@ -53,6 +54,9 @@ const DatabaseView = (props) => {
     const {
         title,
         icon,
+        manyToOne,
+        manyToMany,
+        oneToMany,
         //handleUpdateData //function to change data in database
     } = props
 
@@ -106,7 +110,7 @@ const DatabaseView = (props) => {
                 })
             return newRowsArray;
         })
-    }, [hiddenColumns, rows]) 
+    }, [columns, hiddenColumns, manyToMany, manyToOne, rows]) 
 
     //Filtered Data
     const [filteredData, setFilteredData] = useState(null)
@@ -444,98 +448,100 @@ const DatabaseView = (props) => {
     
 
     return (
-        <MyContext.Provider value={{filtersCount, setFiltersCount, sortsCount, setSortsCount, viewsSettings, setViewsSettings}}>
-            <StyledDatabaseView>
-                <SortFilterSection
-                dataState={[loaderData, setLoaderData]}
-                rowsArrayState={[rowsArray, setRowsArray]}
-                filteredDataState={[filteredData, setFilteredData]}
-                sortedDataState={[sortedData, setSortedData]}
-                allViews={allViews}
-                currentView={view}
-                hiddenColumnsState={[hiddenColumns, setHiddenColumns]}
-                sortedColumnsState={[sortedColumns, setSortedColumns]}
-                title={title}
-                />
-                <Paper>
-                    <CardHeader 
-                        title={title}
-                        action={
-                            <AdminMainButton
-                                icon={
-                                <MoreVertIcon sx={{
-                                    color: theme.palette.text.primary
-                                }}/>
-                                }
-                                title='options'
-                                type='menu'
-                                appearance='iconButton'
-                                sx={{
-                                    border: "0px"
-                                }}
-                                menuItems={viewOptions}
-                            />
-                        }
-                        
-                        avatar={
-                            <Box display={{
-                                display: 'flex',
-                                alignItems: "center"
-                                }}>
-                                <Checkbox 
-                                    checked={isHeaderCheckboxChecked}
-                                    onChange={handleHeaderCheckboxChange}
-                                />
-                                    {
-                                        icon && icon
-                                    }
-                                </Box>
-                            
-                        }
-                        titleTypographyProps={{
-                            sx: styleTitleTypography
-                        }}
-                        sx={styleCardHeader}
+        <RelationsContext.Provider value={{oneToMany, manyToMany, manyToOne}}>
+            <MyContext.Provider value={{filtersCount, setFiltersCount, sortsCount, setSortsCount, viewsSettings, setViewsSettings}}>
+                <StyledDatabaseView>
+                    <SortFilterSection
+                    dataState={[loaderData, setLoaderData]}
+                    rowsArrayState={[rowsArray, setRowsArray]}
+                    filteredDataState={[filteredData, setFilteredData]}
+                    sortedDataState={[sortedData, setSortedData]}
+                    allViews={allViews}
+                    currentView={view}
+                    hiddenColumnsState={[hiddenColumns, setHiddenColumns]}
+                    sortedColumnsState={[sortedColumns, setSortedColumns]}
+                    title={title}
                     />
-                    <CardContent sx={styleCardContent}>
-                        {
-                            isHeaderCheckboxChecked &&
-                            <Alert severity="warning" variant='outlined'>
-                                <AlertTitle><strong>Warning, {selected.length} {title} are Selected</strong></AlertTitle>
-                                All {title} Are Selected
-                            </Alert>
-
+                    <Paper>
+                        <CardHeader 
+                            title={title}
+                            action={
+                                <AdminMainButton
+                                    icon={
+                                    <MoreVertIcon sx={{
+                                        color: theme.palette.text.primary
+                                    }}/>
+                                    }
+                                    title='options'
+                                    type='menu'
+                                    appearance='iconButton'
+                                    sx={{
+                                        border: "0px"
+                                    }}
+                                    menuItems={viewOptions}
+                                />
+                            }
                             
-                        }
-                        {
-                            view === "table"
-                            ?
-                            <CustomTable
-                                filteredColumnsArray={filteredColumnsArray}
-                                dataWillAppearState={[dataWillAppear, setDataWillAppear]}
-                                selectedState={[selected, setSelected, setIsHeaderCheckboxChecked]}
-                                handleChangeData={handleChangeData}
-                                handleEnterKeyDown={handleEnterKeyDown}
-                            />
-                            :
-                            view === "gallery" 
-                            ?
-                            <CustomGalleryView
-                                filteredColumnsArray={filteredColumnsArray}
-                                dataWillAppearState={[dataWillAppear, setDataWillAppear]}
-                                selectedState={[selected, setSelected, setIsHeaderCheckboxChecked]}
-                                handleChangeData={handleChangeData}
-                                handleEnterKeyDown={handleEnterKeyDown}
-                            />
-                            :
-                            null
-                        }
-                    </CardContent>
-                </Paper>
-                
-                
-            </StyledDatabaseView>
-        </MyContext.Provider>
+                            avatar={
+                                <Box display={{
+                                    display: 'flex',
+                                    alignItems: "center"
+                                    }}>
+                                    <Checkbox 
+                                        checked={isHeaderCheckboxChecked}
+                                        onChange={handleHeaderCheckboxChange}
+                                    />
+                                        {
+                                            icon && icon
+                                        }
+                                    </Box>
+                                
+                            }
+                            titleTypographyProps={{
+                                sx: styleTitleTypography
+                            }}
+                            sx={styleCardHeader}
+                        />
+                        <CardContent sx={styleCardContent}>
+                            {
+                                isHeaderCheckboxChecked &&
+                                <Alert severity="warning" variant='outlined'>
+                                    <AlertTitle><strong>Warning, {selected.length} {title} are Selected</strong></AlertTitle>
+                                    All {title} Are Selected
+                                </Alert>
+
+                                
+                            }
+                            {
+                                view === "table"
+                                ?
+                                <CustomTable
+                                    filteredColumnsArray={filteredColumnsArray}
+                                    dataWillAppearState={[dataWillAppear, setDataWillAppear]}
+                                    selectedState={[selected, setSelected, setIsHeaderCheckboxChecked]}
+                                    handleChangeData={handleChangeData}
+                                    handleEnterKeyDown={handleEnterKeyDown}
+                                />
+                                :
+                                view === "gallery" 
+                                ?
+                                <CustomGalleryView
+                                    filteredColumnsArray={filteredColumnsArray}
+                                    dataWillAppearState={[dataWillAppear, setDataWillAppear]}
+                                    selectedState={[selected, setSelected, setIsHeaderCheckboxChecked]}
+                                    handleChangeData={handleChangeData}
+                                    handleEnterKeyDown={handleEnterKeyDown}
+                                />
+                                :
+                                null
+                            }
+                        </CardContent>
+                    </Paper>
+                    
+                    
+                </StyledDatabaseView>
+            </MyContext.Provider>
+        </RelationsContext.Provider>
         
         
     );
@@ -547,12 +553,19 @@ DatabaseView.propTypes = {
     database: propTypes.array,
     hiddenColumns: propTypes.array,
     databaseOptions: propTypes.array,
+    manyToMany: propTypes.array,
+    manyToOne: propTypes.array,
     handleUpdateData: propTypes.func
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useMyContext = () => {
     return useContext(MyContext);
-  };
+};
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useRelationsContext = () => {
+    return useContext(RelationsContext);
+};
 
 export default DatabaseView;

@@ -28,7 +28,7 @@ import { styled } from '@mui/system'
 import propTypes from 'prop-types'
 import { NavLink, useLoaderData } from 'react-router-dom'
 import ViewDataHelper from '../../Helpers/ViewDataHelper'
-import { useMyContext } from '../DatabaseView/DatabaseView';
+import { useMyContext, useRelationsContext } from '../DatabaseView/DatabaseView';
 import { useTheme } from '@emotion/react';
 import StringHelper from '../../Helpers/StringsHelper';
 
@@ -59,26 +59,7 @@ const StyledCustomGalleryViewItem = styled(Grid)(
     })
 )
 
-const StyledCheckboxBox = styled(Box)(
-    ({ theme }) => ({
-        position: 'absolute',
-        left: 5,
-        top: 5,
-        zIndex: 100,
-        backgroundColor: theme.palette.secondary.main,
-        display: 'flex',
-        alignItems: 'center',
-        width: "fit-content",
-        borderRadius: "15px",
-        opacity: "0",
-        transition: theme.transitions.create(['background-color', 'opacity'], {
-            duration: theme.transitions.duration.short
-        }),
-        "&:hover": {
-            backgroundColor: theme.palette.background.paper,
-        }
-    })
-);
+
 
 const StyledPreviewBox = styled(Box)(
     () => ({
@@ -161,6 +142,9 @@ const CustomGalleryViewItem = (props) => {
 
     //I get columns object to know the type of each column
     const {columns} = useLoaderData();
+
+    //Relations
+    const relations = useRelationsContext();
 
     ///States
     //make another state for row, to give the ability to change the cell directly, the data will change in database when press Enter
@@ -249,13 +233,13 @@ const CustomGalleryViewItem = (props) => {
         overflow: "hidden",
         width: showHeaders ? "100px" : "250px",
         textOverflow: "ellipsis",
-        textAlign: currentPosition === "left" ? "left" : currentPosition === "center" ? "center" : "right"
+        display: "flex",
+        justifyContent: currentPosition === "left" ? "flex-start" : currentPosition === "center" ? "center" : "flex-end",
     }
 
     const styleShowAllDataTypo = useMemo(() => {
         return {
             backgroundColor: theme.palette.background.paper,
-
             padding: theme.spacing(2),
             borderRadius: theme.spacing(2),
             position: "sticky",
@@ -263,7 +247,8 @@ const CustomGalleryViewItem = (props) => {
             width: showHeaders ? "150px" : "250px",
             maxHeight: "100px",
             overflowX: "auto",
-            textAlign: currentPosition === "left" ? "left" : currentPosition === "center" ? "center" : "right"
+            display: "flex",
+            justifyContent: currentPosition === "left" ? "flex-start" : currentPosition === "center" ? "center" : "flex-end",
         }
     }, [currentPosition, showHeaders, theme])
 
@@ -276,9 +261,30 @@ const CustomGalleryViewItem = (props) => {
         }
     }, [currentPosition, showHeaders])
 
+    const StyledCheckboxBox = useMemo(()=> {
+        return {
+            position: 'absolute',
+            left: 5,
+            top: 5,
+            zIndex: 100,
+            backgroundColor: theme.palette.background.paper,
+            display: 'flex',
+            alignItems: 'center',
+            width: "fit-content",
+            borderRadius: "15px",
+            opacity: selected.includes(galleryItemData.id) ? "1" : "0",
+            transition: theme.transitions.create(['background-color', 'opacity'], {
+                duration: theme.transitions.duration.short
+            }),
+            "&:hover": {
+                backgroundColor: theme.palette.background.paper,
+            }
+        }
+    }, [theme, selected, galleryItemData.id])
+
     return (
         <StyledCustomGalleryViewItem ref={galleryItemRef} item xxs={12} sm={4} md={3} lg={3} xl={3}>
-            <StyledCheckboxBox>
+            <Box sx={StyledCheckboxBox}>
                 <Checkbox 
                 size='small'
                 checked={selected.includes(galleryItemData.id)}
@@ -295,14 +301,14 @@ const CustomGalleryViewItem = (props) => {
                         <OpenInNewIcon />
                     </StyledNavLink>
             </IconButton>
-            </StyledCheckboxBox>
+            </Box>
             {filteredColumnsArray.map((column, colIndex) => {
                 const cellKey = `${galleryItemData.id}-${colIndex}`;
                 return (
                     <Fragment key={cellKey}>
                         {columns[column] === "image" && (
                             <StyledPreviewBox key={cellKey}>
-                                {checkDatabaseDataInTable(columns, column, galleryItemData[column])}
+                                {checkDatabaseDataInTable(columns, column, galleryItemData[column], undefined, relations)}
                             </StyledPreviewBox>
                         )}
                         <StyledDataBox sx={StyleDataBox}>
@@ -319,9 +325,9 @@ const CustomGalleryViewItem = (props) => {
                                     ?
                                         (
                                             <Fade in={showAllCell === cellKey}>
-                                                <Typography onClick={()=>handleShowTextField(cellKey)} sx={styleShowAllDataTypo} variant="body1">
-                                                    {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column])}
-                                                </Typography>
+                                                <Box onClick={()=>handleShowTextField(cellKey)} sx={styleShowAllDataTypo} variant="body1">
+                                                    {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relations)}
+                                                </Box>
                                             </Fade>
                                         )
                                     :
@@ -336,18 +342,18 @@ const CustomGalleryViewItem = (props) => {
                                             )
                                     :
                                         (
-                                        <Typography onClick={()=>handleShowAllCell(cellKey)} sx={styleDataTypo} variant="body1">
-                                            {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column])}
-                                        </Typography>
+                                        <Box onClick={()=>handleShowAllCell(cellKey)} sx={styleDataTypo} variant="body1">
+                                            {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relations)}
+                                        </Box>
                                         )
                                 ) : (
                                     showAllCell === cellKey
                                     ?
                                         (
                                             <Fade in={showAllCell === cellKey}>
-                                                <Typography onClick={()=>handleShowTextField(cellKey)} sx={styleShowAllDataTypo} variant="body1">
-                                                    {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column])}
-                                                </Typography>
+                                                <Box onClick={()=>handleShowTextField(cellKey)} sx={styleShowAllDataTypo} variant="body1">
+                                                    {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relations)}
+                                                </Box>
                                             </Fade>
                                         )
                                     :
@@ -363,9 +369,9 @@ const CustomGalleryViewItem = (props) => {
                                     :
                                         (
                                         <Tooltip title={column} placement='left'>
-                                            <Typography onClick={()=>handleShowAllCell(cellKey)} sx={styleDataTypo} variant="body1">
-                                                {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column])}
-                                            </Typography>
+                                            <Box onClick={()=>handleShowAllCell(cellKey)} sx={styleDataTypo} variant="body1">
+                                                {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relations)}
+                                            </Box>
                                         </Tooltip>
                                         )
                                 )}

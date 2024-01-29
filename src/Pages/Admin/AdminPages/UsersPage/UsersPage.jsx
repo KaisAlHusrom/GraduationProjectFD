@@ -17,7 +17,6 @@ import { styled } from '@mui/system'
 
 //icons
 import GroupOutlinedIcon from '@mui/icons-material/GroupOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import usersService from '../../../../Services/usersService'
 
 
@@ -30,15 +29,6 @@ const StyledUsersPage = styled(Box)(
     
     })
 )
-
-const usersOptions = [
-    {
-        value: "Delete Users",
-        icon: <DeleteOutlineOutlinedIcon />,
-        onClick: () => {console.log("delete")}
-    }
-]
-
 
 
 
@@ -58,10 +48,17 @@ const UsersPage = () => {
         <StyledUsersPage>
             
             <DatabaseView
-                databaseOptions={usersOptions}
                 title="Users"
                 icon={<GroupOutlinedIcon />}
                 handleUpdateData={usersService.updateUser}
+                manyToOne={
+                    [
+                    ]
+                }
+                manyToMany={
+                    [
+                    ]
+                }
             />
         </StyledUsersPage>
     );

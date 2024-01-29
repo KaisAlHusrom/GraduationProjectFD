@@ -336,17 +336,17 @@ const fetchUsers = async () => {
 //     return products;
 // }
 
-const fetchUser = async ({ params }) => {
-    const {
-        id
-    } = params
-    return [
-        {
-            id: id,
-            name: "admin",
-            phoneNumber: "123456",
-        }
-    ]
+const getUserById = async (id) => {
+
+    const {rows} = await fetchUsers()
+    
+    if(rows) {
+        const user = rows.filter(row => row.id === id)[0]
+        return user
+    }
+
+
+    Error("there is no user with id: " + id)
 }
 
 
@@ -385,9 +385,10 @@ const updateUser = async (userId, userData, token) => {
 
 const usersService = {
     fetchUsers,
-    fetchUser,
+
     addUser,
-    updateUser
+    updateUser,
+    getUserById
 }
 
 export default usersService

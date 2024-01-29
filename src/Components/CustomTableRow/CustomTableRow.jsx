@@ -23,7 +23,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import propTypes from 'prop-types'
 import { NavLink, useLoaderData } from 'react-router-dom';
 
-import { useMyContext } from '../DatabaseView/DatabaseView'
+import { useMyContext, useRelationsContext } from '../DatabaseView/DatabaseView'
 import ViewDataHelper from '../../Helpers/ViewDataHelper'
 import { useTheme } from '@emotion/react';
 
@@ -83,6 +83,9 @@ const CustomTableRow = (props) => {
 
     //I get columns object to know the type of each column
     const {columns} = useLoaderData();
+
+    //Relations
+    const relations = useRelationsContext();
 
     ///States
     //make another state for row, to give the ability to change the cell directly, the data will change in database when press Enter
@@ -206,7 +209,7 @@ const CustomTableRow = (props) => {
                 borderColor: theme.palette.divider,
                 "&:hover": {
                     fontWeight: "bold",
-                }
+                },
             }
         }, [showVerticalLines, showHorizontalLines, theme.palette.divider]);
         
@@ -242,16 +245,17 @@ const CustomTableRow = (props) => {
             {filteredColumnsArray.map((column, colIndex) => (
                 showAllCell === `${rowData.id}-${colIndex}` ? (
                     // Content to render when showAllCell is true
+                    
                     <Fade key={`${rowData.id}-${colIndex}`} in={showAllCell === `${rowData.id}-${colIndex}`}>
                         <TableCell sx={StyledTableCellShowAllData} onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`)}>
-                            {checkDatabaseDataInTable(columns, column, rowData[column])}
+                            {checkDatabaseDataInTable(columns, column, rowData[column], showAllCell, relations)}
                         </TableCell>
                     </Fade>
                 ) : showTextField === `${rowData.id}-${colIndex}` ? (
                     // Content to render when showTextField is true
                     <TableCell sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>
                         {
-                            getConvenientTextfield(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData)
+                            getConvenientTextfield(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relations)
                         }
                     </TableCell>
                     
@@ -262,7 +266,7 @@ const CustomTableRow = (props) => {
                         onClick={() => handleShowAllCell(`${rowData.id}-${colIndex}`)}
                         key={`${rowData.id}-${colIndex}`}
                     >
-                        {checkDatabaseDataInTable(columns, column, rowData[column])}
+                        {checkDatabaseDataInTable(columns, column, rowData[column], undefined, relations)}
                     </TableCell>
                 )
             ))}

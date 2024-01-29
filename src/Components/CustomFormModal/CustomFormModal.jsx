@@ -22,7 +22,6 @@ import {
     Box, Button, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment, InputLabel, OutlinedInput , Switch, TextField, TextareaAutosize, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { MuiTelInput } from 'mui-tel-input'
 
 //Icons
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -30,6 +29,7 @@ import FolderZipIcon from '@mui/icons-material/FolderZip';
 
 //propTypes 
 import propTypes from 'prop-types'
+import { DatePicker } from '@mui/x-date-pickers'
 
 //Styled Components
 const StyledCustomFormModal = styled(Box)(
@@ -313,7 +313,7 @@ const CustomFormModal = (props) => {
         if(type === "mobileNumber") {
             return (
             <Grid key={key} item xs={6}>
-                <MuiTelInput 
+                <TextField 
                     size='small' 
                     label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                     name={column}
@@ -381,17 +381,23 @@ const CustomFormModal = (props) => {
         if(type === "date") {
             return (
                 <Grid key={key} item xs={columnsCount % 2 === 0 ? 6 : 12}>
-                    <TextField
+                    <DatePicker 
                     focused
-                    type='date'
-                    fullWidth
                     label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                     name={column}
-                    color="primary"
                     required
-                    size="small"
                     error={data?.error ? true : false}
                     helperText={data?.error ? data.error : ''}
+                    sx={{
+                        width: '100%',
+                        // "& .MuiFormLabel-root": {
+                        //     // fontSize: "0.75rem",
+                        //     lineHeight: "0.8rem",
+                        // },
+                        // "& .MuiInputBase-root.MuiOutlinedInput-root": {
+                        //     // fontSize: "0.305rem",
+                        // }
+                    }}
                     />
                 </Grid>
                 )
