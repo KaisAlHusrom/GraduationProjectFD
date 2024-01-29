@@ -16,15 +16,20 @@ import { useRouteError } from 'react-router-dom'
 
 //MUI
 import {
-    Box,
+    Box, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
 
 //Styled Components
 const StyledErrorPage = styled(Box)(
-    () => ({
-    
+    (theme) => ({
+        textAlign: 'center',
+        padding: '20px',
+        backgroundColor: '#f8d7da',
+        color: theme.palette.error,
+        border: '1px solid #f5c6cb',
+        borderRadius: '5px',
     })
 )
 
@@ -34,8 +39,15 @@ const ErrorPage = () => {
 
     return (
         <StyledErrorPage>
-            {error.message}
-        </StyledErrorPage>
+        {error && error.message ? (
+            <>
+                <Typography variant='h3'>Error Occurred</Typography>
+                <Typography variant='body1'>{error.message}</Typography>
+            </>
+        ) : (
+            <h2>Unknown Error</h2>
+        )}
+    </StyledErrorPage>
     );
 };
 
