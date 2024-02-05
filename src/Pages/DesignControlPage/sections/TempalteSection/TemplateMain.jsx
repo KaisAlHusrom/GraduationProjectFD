@@ -16,12 +16,16 @@ import { styled } from '@mui/system'
 import NavBar from './sections/NavBar/NavBar'
 import Header from './sections/Header/Header'
 import AboutUs from './sections/AboutUs/AboutUs'
+import Gallery from './sections/Gallery/Gallery'
 
 //Styled Components
 const StyledTemplateMain = styled(Box)(
     ({ theme }) => ({
-    marginTop:'100px'
-    })
+    marginTop:'100px',
+    paddingLeft:"200px",
+    paddingRight:"200px",
+    }
+    )
 )
 
 
@@ -33,6 +37,7 @@ const TemplateMain = () => {
             <NavBar></NavBar>
             <Header></Header>
             <AboutUs></AboutUs>
+            <Gallery></Gallery>
         </StyledTemplateMain>
     );
 };

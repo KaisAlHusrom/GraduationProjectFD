@@ -76,6 +76,7 @@ const LinksTabContent = (
   const [newLink, setNewLink] = useState({ name: '', link: '' });
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
+  const [open, setOpen] = useState(true);
 
   const handleTempTextFieldChange = (updatedValue, id, field) => {
     setTempLinkList((prevTempList) =>
@@ -255,7 +256,7 @@ const LinksTabContent = (
           />
         </Box>
       </Box>
-      <CustomAlert AlertOpenState={[alertOpen, setAlertOpen]} title={alertMessage} />
+      <CustomAlert AlertOpenState={[open, setOpen]} title="Don't Forget click on the save button"></CustomAlert>
     </StyledLinksTabContent>
   );
 };
@@ -263,16 +264,3 @@ const LinksTabContent = (
 export default LinksTabContent;
 
 
-
-// // LinksTabContent.js
-
-
-// const StyledLinksTabContent = styled(Box)(({ theme }) => ({}));
-
-// const LinksTabContent = () => {
-
-
-
-// };
-
-// export default LinksTabContent;

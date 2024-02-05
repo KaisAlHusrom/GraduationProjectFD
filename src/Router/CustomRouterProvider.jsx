@@ -12,6 +12,8 @@ import { Admin, DesignControlPage, ErrorPage, MainPage, NotFoundPage } from '../
 
 //Users Services
 import adminPageRoutes from './Routes/AdminPage/adminPageRoutes';
+import DesignRoutes from './Routes/DesignRoutes/DesignRoutes';
+import EditGallery from '../Pages/DesignControlPage/sections/TempalteSection/sections/Gallery/EditGallery';
 
 
 // ------------- NOTICES -------------
@@ -26,7 +28,6 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         //All App Routes
         <Route path='/' element={<MainPage />} errorElement={<ErrorPage />}>
-
             {/* Admin Routes */}
             <Route 
             exact 
@@ -49,7 +50,28 @@ const router = createBrowserRouter(
                 }
             </Route>
 
-            <Route path="design-control" element={<DesignControlPage />} />
+               {/* Design Control Page Routes */}
+            <Route 
+            exact 
+            path="design-control"  
+            element={<DesignControlPage />} 
+            > 
+                {/* {
+                    DesignRoutes.map((route, index) => {
+                        return (
+                            <Route 
+                            key={index}
+                            path={route.path} 
+                            element={route.element} 
+                            loader={route.loader} 
+                            action={route.action} //You can add the function that form will listen to it, when post data. (IMPORTANT: the result of this function will be save in useActionData() hook, You can use it in each component in the users page)
+                            />
+                        )
+                    })
+                } */}
+            </Route>
+
+            <Route path="design-control/EditGallery" element={<EditGallery />} />
 
             <Route path="*" element={<NotFoundPage />} />
         </Route>

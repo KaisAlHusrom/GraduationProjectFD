@@ -9,13 +9,16 @@ import PropTypes from "prop-types"
 import CloseIcon from '@mui/icons-material/Close';
 
 
+
+
+
 const StyledCard = styled(Card)(
     ({ theme }) => ({
         position: 'absolute',
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: "700px",
+        width: "950px",
         bgcolor: 'background.paper',
         boxShadow: 24,
         [theme.breakpoints.down('sm')]: {
@@ -34,7 +37,7 @@ const StyledCard = styled(Card)(
 
 const ScrollableCardContent = styled(CardContent)({
     overflowY: 'auto',
-    maxHeight: '600px', // Adjust the maxHeight as needed
+    maxHeight: '500px', // Adjust the maxHeight as needed
 });
 
 const CustomModal = ({title, modalOpenState, children, modalIcon}) => {
@@ -46,8 +49,11 @@ const CustomModal = ({title, modalOpenState, children, modalIcon}) => {
     const handleClose = () => {
         setModalOpen(false)
     }
-
-
+    const modalStyles = {
+        root: {
+            zIndex: 1, // set your desired default z-index value
+        },
+    };
     return (
         <Modal
                 // keepMounted 
@@ -62,6 +68,7 @@ const CustomModal = ({title, modalOpenState, children, modalIcon}) => {
                     timeout: 500,
                 },
                 }}
+                        sx={{ ...modalStyles }}
                 >
                 <Fade in={modalOpen}>
                     <StyledCard 

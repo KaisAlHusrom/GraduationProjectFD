@@ -1,13 +1,13 @@
 // this page showing the title and description
 
+
 //React
-import {
-    
-} from 'react'
+import { useState } from 'react'
 
 import {
     
 } from 'react-redux'
+
 
 //Components
 import { AdminMainButton } from '../../../../../../Components';
@@ -21,10 +21,11 @@ import { styled } from '@mui/system'
 // AboutHeader.jsx
 import { Edit as EditIcon } from '@mui/icons-material';
 import CustomVerticalTabs from '../../components/CustomVerticalTabs';
+import TextContentTaP from '../../components/TextContentTaP';
 
 //Styled Components
 const StyledAboutHeader = styled(Box)(
-    ({ theme }) => ({
+    () => ({
     
     })
 )
@@ -38,29 +39,60 @@ const TooltipContainer = styled(Box)({
     transform: 'translateX(50%)',
     });
 
+    
 
 
-    const AboutHeader = ({
-            // openDialog,
-            // handleOpenDialog,
-            tabLabels,
-            tabContents,
-            selectedOpacity,
-            selectedFontSize,
-            selectedFontWeight,
-            selectedRadius,
-            currentColor,
-            BackGroundColor,
-            TextOfTitle,
-            selectedOpacityDescription,
-            selectedFontSizeDescription,
-            selectedFontWeightDescription,
-            selectedRadiusDescription,
-            currentColorDescription,
-            BackGroundColorDescription,
-            TextOfDescription,
-    }) => (
-    <Box className="AboutHeader" 
+const AboutHeader = () => {
+
+
+
+    const [HeaderTexts, setHeaderTexts] = useState([
+    {
+            sx : {
+                color : 'black',
+                opacity: 1,
+                backgroundColor:'',
+                borderRadius:'0',
+                fontSize: "16",
+                fontWeight: '700',
+                padding:"10px"
+            },
+            text:"Example title 1"
+        },
+    ]);
+    const [HeaderDescription, setHeaderDescription] = useState([
+        {
+                sx : {
+                    color : 'black',
+                    opacity: 1,
+                    backgroundColor:'',
+                    borderRadius:'0',
+                    fontSize: "16",
+                    fontWeight: '700',
+                    padding:"10px"
+                },
+                text:"Example Description 1"
+            },
+    ]);
+        
+    const tabLabels = [ 'Title' , 'Description'];
+    // Define tab contents
+    const tabContents = [
+        () => <TextContentTaP 
+        NameOfBox="Title"
+        setTextOfHeader = {setHeaderTexts} 
+        TextOfHeader= {HeaderTexts} 
+        />,
+        () => <TextContentTaP 
+        NameOfBox="Description"
+        setTextOfHeader = {setHeaderDescription} 
+        TextOfHeader= {HeaderDescription} 
+        />,
+        ];
+
+    return (
+        <StyledAboutHeader>
+            <Box className="AboutHeader" 
             sx={{
             display: 'flex',
             flexDirection: 'column',
@@ -79,7 +111,7 @@ const TooltipContainer = styled(Box)({
             putTooltip
             icon={<EditIcon />}
             willShow={
-              <CustomVerticalTabs  tabLabels={tabLabels} tabContents={tabContents}/>
+            <CustomVerticalTabs  tabLabels={tabLabels} tabContents={tabContents}/>
             }
             sx={{
                 border: '1px solid red',
@@ -90,39 +122,31 @@ const TooltipContainer = styled(Box)({
             }}
         />
     </TooltipContainer>
-    <Typography component="div" variant="h4"
-            sx={{
-                opacity: selectedOpacity,
-                fontSize: selectedFontSize,
-                fontWeight: selectedFontWeight,
-                borderRadius: selectedRadius,
-                color: currentColor,
-                backgroundColor: BackGroundColor,
-                padding: '10px',
-                }}
-            >{TextOfTitle}</Typography>
-    <Typography component="div" variant="h6"
-        sx={{
-            opacity: selectedOpacityDescription,
-            fontSize: selectedFontSizeDescription,
-            fontWeight: selectedFontWeightDescription,
-            borderRadius: selectedRadiusDescription,
-            color: currentColorDescription,
-            backgroundColor: BackGroundColorDescription,
-            padding: '10px',
-            marginTop: '10px',
-        }}>{TextOfDescription}</Typography>
-    </Box>
+
+        {HeaderTexts.map((item, index) => (
+        <Typography
+            key={index}
+            sx={item.sx}
+            component="div"
+            variant="h6"
+        >
+            {item.text}
+        </Typography>
+        ))}
+
+        {HeaderDescription.map((item, index) => (
+            <Typography
+                key={index}
+                sx={item.sx}
+                component="div"
+                variant="h6"
+            >
+                {item.text}
+            </Typography>
+            ))}
+                </Box>
+        </StyledAboutHeader>
     );
+};
 
 export default AboutHeader;
-
-
-
-
-
-
-
-
-
-//        // Tooltip Container

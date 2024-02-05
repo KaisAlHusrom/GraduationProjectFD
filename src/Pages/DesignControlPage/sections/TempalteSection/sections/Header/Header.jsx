@@ -56,50 +56,39 @@ const StyledHeader = styled(Box)(
 const Header = () => {
     const tabLabels = ['Image', 'Text'];
 
-    const [openDialog, setOpenDialog] = useState(false);
-    const handleOpenDialog = () => setOpenDialog(true);
+    const [HeaderTexts, setHeaderTexts] = useState([
+      {
+              sx : {
+                  color : 'white',
+                  opacity: 1,
+                  backgroundColor:'',
+                  borderRadius:'0',
+                  fontSize: "16",
+                  fontWeight: '700',
+                  padding:"10px",
+              },
+              text:"Example title of header",
+              variant:'h3',
+
+          },
+          {
+            sx : {
+                color : 'white',
+                opacity: 1,
+                backgroundColor:'',
+                borderRadius:'0',
+                fontSize: "16",
+                fontWeight: '700',
+                padding:"10px"
+            },
+            variant:'h6',
+            text:"Example Description of header"
+        },
+      ]);
+
+
+
     const [selectedImage, setSelectedImage] = useState("https://dfstudio-d420.kxcdn.com/wordpress/wp-content/uploads/2019/06/digital_camera_photo-1080x675.jpg");
-    const [TextOfHeader , setTextOfHeader] = useState("Text Of Header");
-    const [selectedOpacity, setSelectedOpacity] = useState("");
-    const [selectedRadius, setSelectedRadius] = useState("");
-    const [selectedFontSize, setSelectedFontSize] = useState("16");
-    const [selectedFontWight, setSelectedFontWeight] = useState("500");
-    // color of text 
-    const [currentColor, setCurrentColor] = useState('#00000');
-    const [BackGroundColor, setBackGroundColor] = useState('');
-    const handleOpacityChange = (event) => {
-      utils.handleOpacityChange(event, setSelectedOpacity);
-    };
-
-    const handleRadiusChange = (event) => {
-      utils.handleRadiusChange(event, setSelectedRadius);
-    };
-    const handleFontSizeChange = (event) => {
-      utils.handleFontSizeChange(event, setSelectedFontSize);
-    };
-    
-    const handleFontWeightChange = (event) => {
-      utils.handleFontWeightChange(event, setSelectedFontWeight);
-    };
-
-    const handleTextHeaderChangeWrapper = (e) => {
-      utils.handleTextHeaderChange(e, setTextOfHeader);
-    };
-
-  
-
-  
-      const handleColorSelectWrapper = (color) => {
-        utils.handleColorSelect(color, setCurrentColor);
-      };
-
-      const handleBackgroundColorWrapper = (color) => {
-        utils.handleBackgroundColor(color, setBackGroundColor);
-      };
-      
-      const handleBackgroundColorDeleteWrapper = () => {
-        utils.handleBackgroundColorDelete(setBackGroundColor);
-      };
 
 
       // logo
@@ -119,7 +108,6 @@ const Header = () => {
         utils.handleDeleteLogoClick(setSelectedImage);
       };
       
-    
     // Define tab contents
     const tabContents = [
         () => <ImageContentTap 
@@ -127,32 +115,10 @@ const Header = () => {
         handleUploadImageClick = {handleUploadImageClickWrapper} 
         />, 
         () => <TextContentTaP 
-
-        opacity = {utils.opacity}
-        handleOpacityChange = {handleOpacityChange}
-        selectedOpacity = {selectedOpacity}
-
-        Radius = {utils.Radius}
-        handleRadiusChange = {handleRadiusChange}
-        selectedRadius = {selectedRadius}
-
-        FontSize = {utils.FontSize}
-        handleFontSizeChange = {handleFontSizeChange}
-        selectedFontSize = {selectedFontSize}
-        
-        FontWight = {utils.FontWight}
-        handleFontWeightChange = {handleFontWeightChange}
-        selectedFontWight = {selectedFontWight}
-
-
-        handleBackgroundColorDelete= {handleBackgroundColorDeleteWrapper}
-        currentColor = {currentColor}
-        handleColor = {handleColorSelectWrapper}
-        textHeaderChange = {handleTextHeaderChangeWrapper} 
-        BackGroundColor = {BackGroundColor}
-        handleBackgroundColor = {handleBackgroundColorWrapper}
-        setTextOfHeader = {setTextOfHeader} 
-        TextOfHeader= {TextOfHeader} />
+        NameOfBox={"text"}
+        setTextOfHeader = {setHeaderTexts} 
+        TextOfHeader= {HeaderTexts} 
+        />,
         ];
 
     return (
@@ -161,12 +127,14 @@ const Header = () => {
                 <TooltipContainer>
                 <AdminMainButton
                     title='Edit Header'
-                    type='custom'
+                    type='modal'
                     appearance='iconButton'
                     putTooltip
-                
+                    willShow={
+                      <CustomVerticalTabs  tabLabels={tabLabels} tabContents={tabContents}/>
+                    }
                     icon={<EditIcon />}
-                    onClick={handleOpenDialog}
+                    // onClick={handleOpenDialog}
                     sx={{
                         border: '1px solid red',
                         padding: '10px 15px',
@@ -189,17 +157,17 @@ const Header = () => {
                             // Add other styles as needed
                           }}
                         >
-                          <Typography variant="h2" sx={{
-                            color: currentColor,
-                            backgroundColor: BackGroundColor,
-                            padding: '10px 15px',
-                            fontWeight: selectedFontWight,
-                            borderRadius: selectedRadius,
-                            fontSize: selectedFontSize,
-                            opacity: selectedOpacity,
-                          }}>
-                            {TextOfHeader}
-                          </Typography>
+                      
+                          {HeaderTexts.map((item, index) => (
+                            <Typography
+                                key={index}
+                                sx={item.sx}
+                                component="div"
+                                variant={item.variant}
+                            >
+                                {item.text}
+                            </Typography>
+                            ))}
                         </Box>
                         <Box
                           component="img"
@@ -209,12 +177,7 @@ const Header = () => {
                       </Box>
                     ) : null
                   }
-
               {/* Dialog for editing */}
-            <DialogCom title='Header' dialogOpenState={[openDialog, setOpenDialog]}>
-            <CustomVerticalTabs  tabLabels={tabLabels} tabContents={tabContents}/>
-            </DialogCom>
-
         </StyledHeader>
     );
 };
