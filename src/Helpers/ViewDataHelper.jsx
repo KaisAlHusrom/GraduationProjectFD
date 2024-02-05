@@ -166,10 +166,10 @@ const getConvenientTextfield = (setShowTextField, columns, column, cell, handleC
         }
 
         if(columns[column] === "date") {
-            return <DatePicker label="Basic date picker" 
-                    type='date'
-                    name={column}
-                    value={dayjs(cell)}
+            return <DatePicker 
+                        type='date'
+                        name={column}
+                        value={dayjs(cell)}
                     onChange={(event) => handleChangeData(event, columns[column], setRowData)}
                     onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
                     size="small"
