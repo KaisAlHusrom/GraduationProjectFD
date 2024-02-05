@@ -30,8 +30,9 @@ const StyledDesignControlPage = styled(Box)(
 const DesignControlPage = () => {
 
     const [AboutUsPage, setAboutUsPage] = useState(true)
+    const [GalleryPage, setGalleryPage] = useState(true)
 
-    const valuesOfPages = {AboutUsPage, setAboutUsPage }
+    const valuesOfPages = {AboutUsPage, setAboutUsPage , GalleryPage, setGalleryPage }
     return (
         <MainTemplateSectionSet.Provider value={valuesOfPages}>
 

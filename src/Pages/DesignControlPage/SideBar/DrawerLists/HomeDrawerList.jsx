@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Switch } from '@mui/material';
 import { styled } from '@mui/system';
 import SearchInput from '../../../../Components/CustomSearchInput/SearchInput';
@@ -7,9 +7,8 @@ import NewPageDrawerModel from '../DrawerModals/NewPageDrawerModel';
 
 import InfoIcon from '@mui/icons-material/Info';
 import HomeIcon from '@mui/icons-material/Home';
-import ContactsIcon from '@mui/icons-material/Contacts';
 import AddIcon from '@mui/icons-material/Add';
-
+import CollectionsIcon from '@mui/icons-material/Collections';
 import { MainTemplateSectionSet } from '../../sections/TempalteSection/UseContext/UserSetSections';
 
 const StyledHomeDrawerList = styled(Box)(
@@ -35,13 +34,38 @@ const customSearchStyle = {
 };
 
 const HomeDrawerList = () => {
-    const { AboutUsPage, setAboutUsPage } = useContext(MainTemplateSectionSet);
+    const { AboutUsPage, setAboutUsPage , setGalleryPage , GalleryPage } = useContext(MainTemplateSectionSet);
 
-const handleItemClick = (itemName) => {
-    if (itemName === 'About Us') {
-        setAboutUsPage((prevAboutUs) => !prevAboutUs);
-    }
-};
+
+    const [drawerItemsState, setDrawerItemsState] = useState({
+        'Home': false,
+        'About Us': AboutUsPage,
+        'Gallery': GalleryPage,
+    });
+    const handleItemClick = (itemName) => {
+        setDrawerItemsState((prevState) => ({
+            ...prevState,
+            [itemName]: !prevState[itemName],
+        }));
+
+        if (itemName === 'About Us') {
+            setAboutUsPage((prevAboutUs) => !prevAboutUs);
+        }
+        if (itemName === 'Gallery') {
+            setGalleryPage((prevAboutUs) => !prevAboutUs);
+        }
+    };
+
+
+// const handleItemClick = (itemName) => {
+//     if (itemName === 'About Us') {
+//         setAboutUsPage((prevAboutUs) => !prevAboutUs);
+//     }
+//     if (itemName === 'Gallery') {
+//         setGalleryPage((prevAboutUs) => !prevAboutUs);
+//     }
+// };
+
 
   const drawerItems = [
     {
@@ -55,9 +79,9 @@ const handleItemClick = (itemName) => {
         onClick: () => handleItemClick('About Us'),
     },
     {
-        name: 'Contact Us',
-        icon: <ContactsIcon />,
-        onClick: () => {},
+        name: 'Gallery',
+        icon: <CollectionsIcon />,
+        onClick: () => handleItemClick('Gallery'),
     },
     ];
 
@@ -70,7 +94,7 @@ const handleItemClick = (itemName) => {
                 <ListItemButton>
                     <ListItemIcon>{item.icon}</ListItemIcon>
                     <ListItemText primary={item.name} />
-                    <Switch checked={item.name === 'About Us' ? AboutUsPage : false} color="primary" onChange={() => handleItemClick(item.name)} />
+                            <Switch checked={drawerItemsState[item.name]} color="primary" onChange={() => handleItemClick(item.name)} />
                     </ListItemButton>
                 </ListItem>
             ))}

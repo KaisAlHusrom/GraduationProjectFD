@@ -262,6 +262,9 @@ const CustomThemeProvider = ({children}) => {
                         labelRowsPerPage: 'عدد الصفوف بالصفحة الواحدة:',
                     },
                 },
+
+
+           
             },
 
             })

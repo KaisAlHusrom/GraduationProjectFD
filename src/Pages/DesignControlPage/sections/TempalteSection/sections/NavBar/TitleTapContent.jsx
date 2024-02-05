@@ -20,6 +20,7 @@ import {
 import { styled } from '@mui/system'
 import { AdminMainButton } from '../../../../../../Components';
 import { useState } from 'react';
+import CustomAlert from '../../../../../../Components/CustomAlert/CustomAlert';
 
 //Styled Components
 const StyledTitleTapContent = styled(Box)(
@@ -38,6 +39,7 @@ const TitleTapContent = ({
 
 
     const [colorOfTitle, setColorOfTitle] = ColorSelect ;
+    const [open, setOpen] = useState(true);
 
 
     const [title, setTitle] = titleSelect;
@@ -182,6 +184,10 @@ const TitleTapContent = ({
                             backgroundColor: 'info.dark',
                             }}
                     />
+
+
+                <CustomAlert AlertOpenState={[open, setOpen]} title="Don't Forget click on the save button"></CustomAlert>
+
                             </Box> 
 
 

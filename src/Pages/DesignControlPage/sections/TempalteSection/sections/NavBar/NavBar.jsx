@@ -222,28 +222,28 @@ const NavBar = () => {
                 </Box>
 
 
-              {/* Box for links on nav */}
-              <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
-                {navItemsLink.map((item) => (
-                  <AdminMainButton
-                    key={item.name}
-                    title={item.name}
-                    type='custom'
-                    appearance='secondary'
-                    sx={{
-                      border: '1px solid red',
-                      marginLeft: '10px',
-                      padding: '10px 15px',
-                      fontWeight: selectedFontWight,
-                      fontSize:selectedFontSize,
-                      color: hoveredButton === item.name ? 'black' : currentColorLinksText,
-                      backgroundColor: hoveredButton === item.name ? 'yellow' : currentColorLinks,
-                    }}
-                    onMouseEnter={() => setHoveredButton(item.name)}
-                    onMouseLeave={() => setHoveredButton(null)}
-                  />
-                ))}
-              </Box>
+                {/* Box for links on nav */}
+                <Box sx={{ display: { xs: 'none', sm: 'flex' } }}>
+                  {navItemsLink.map((item) => (
+                    <AdminMainButton
+                      key={item.name}
+                      title={item.name}
+                      type='custom'
+                      appearance='secondary'
+                      sx={{
+                        border: '1px solid red',
+                        marginLeft: '10px',
+                        padding: '10px 15px',
+                        fontWeight: selectedFontWight,
+                        fontSize:selectedFontSize,
+                        color: hoveredButton === item.name ? 'black' : currentColorLinksText,
+                        backgroundColor: hoveredButton === item.name ? 'yellow' : currentColorLinks,
+                      }}
+                      onMouseEnter={() => setHoveredButton(item.name)}
+                      onMouseLeave={() => setHoveredButton(null)}
+                    />
+                  ))}
+                </Box>
 
 
             </Toolbar>

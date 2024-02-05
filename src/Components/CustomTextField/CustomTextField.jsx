@@ -11,9 +11,11 @@ const CustomTextField = ({ id, label, variant, style, value, onChange }) => {
   };
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'row', ...style }}>
+    <Box sx={{ width:"75%", ...style  , marginTop:"20px" , marginBottom:'20px'}}>
       {/* MUI TextField with props */}
-      <TextField id={id} label={label} variant={variant} value={value} onChange={onChange} />
+      <TextField id={id} label={label} variant={variant} value={value} onChange={onChange} sx= {
+        {width: '100%'}
+      } />
     </Box>
   );
 };

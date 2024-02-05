@@ -1,13 +1,13 @@
 //React
-import {
-    
-} from 'react'
+import { useState } from 'react'
 
 import {
     
 } from 'react-redux'
 
 //Components
+import CustomAlert from '../../../../../../Components/CustomAlert/CustomAlert';
+import { AdminMainButton } from '../../../../../../Components'
 
 // icons 
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
@@ -18,7 +18,6 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { AdminMainButton } from '../../../../../../Components'
 
 //Styled Components
 const StyledImageContentTap = styled(Box)(
@@ -31,6 +30,8 @@ const ImageContentTap = ( {
     handleUploadImageClick,
     handleDeleteLogoClick ,  
 }) => {
+    const [open, setOpen] = useState(true);
+
     return (
         <StyledImageContentTap>
             <Box sx={{
@@ -72,6 +73,9 @@ const ImageContentTap = ( {
                             backgroundColor: 'success.dark',
                             }}
                 />
+
+                <CustomAlert AlertOpenState={[open, setOpen]} title="Don't Forget click on the save button"></CustomAlert>
+
             </Box>
         </StyledImageContentTap>
     );
