@@ -42,7 +42,7 @@ const Gallery = () => {
             );
             })}
         </StyledGallery2>
-         ) : (
+            ) : (
             null
         )
     );

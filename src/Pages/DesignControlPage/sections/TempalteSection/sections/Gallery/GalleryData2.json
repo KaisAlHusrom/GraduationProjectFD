@@ -57,7 +57,7 @@
                 }
             },
             {
-                "section_css_prop_id": 16,
+                "section_css_prop_id": 17,
                 "section_id": 3,
                 "component_id": null,
                 "element_id": null,
@@ -149,33 +149,24 @@
                 "created_at": "2022-01-01 13:00:00",
                 "updated_at": "2022-01-01 13:30:00"
             },
-            "component_elements": [
-                {
-                    "component_element_id": 1,
-                    "element_name": "Facebook",
-                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
+            "component_elements": {
+                "Texts_Of_Header": {
+                    "section_component_id": 10,
+                    "component_title": "Social Media",
+                    "component_description": "lorem ipsum ....",
                     "is_template": true,
-                    "element": {
-                        "element_type_id": 5,
-                        "element_type": "image",
-                        "type_description": "this type return img tag in codes"
-                    },
-                    "element_content": "image_name",
-                    "pivot": {
-                        "section_component_id": 10,
-                        "component_element_id": 1,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    },
+                    "mobile_columns_count": 12,
+                    "tablet_columns_count": 4,
+                    "laptop_columns_count": 3,
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
                             "section_id": null,
-                            "component_id": null,
-                            "element_id": 1,
+                            "component_id": 10,
+                            "element_id": null,
                             "css_prop": {
-                                "prop_id": 10,
-                                "prop_name": "width",
+                                "prop_id": 1,
+                                "prop_name": "display",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -183,38 +174,24 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "150px",
+                            "css_prop_value": "flex",
                             "pivot": {
                                 "section_id": null,
-                                "component_id": null,
-                                "element_id": 1,
+                                "component_id": 10,
+                                "element_id": null,
                                 "section_css_prop_id": 15,
                                 "created_at": "2022-01-01 13:00:00",
                                 "updated_at": "2022-01-01 13:30:00"
                             }
-                        }
-                    ]
-                },
-                {
-                    "component_element_id": 2,
-                    "element_name": "Instagram",
-                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                    "is_template": true,
-                    "element": {
-                        "element_type_id": 5,
-                        "element_type": "image",
-                        "type_description": "this type return img tag in codes"
-                    },
-                    "element_content": "image_name",
-                    "section_css_props": [
+                        },
                         {
-                            "section_css_prop_id": 15,
+                            "section_css_prop_id": 16,
                             "section_id": null,
-                            "component_id": null,
-                            "element_id": 1,
+                            "component_id": 10,
+                            "element_id": null,
                             "css_prop": {
-                                "prop_id": 10,
-                                "prop_name": "width",
+                                "prop_id": 3,
+                                "prop_name": "flexDirection",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -222,44 +199,252 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "150px",
+                            "css_prop_value": "row",
                             "pivot": {
                                 "section_id": null,
-                                "component_id": null,
-                                "element_id": 1,
-                                "section_css_prop_id": 15,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 16,
                                 "created_at": "2022-01-01 13:00:00",
                                 "updated_at": "2022-01-01 13:30:00"
                             }
                         }
                     ],
                     "pivot": {
+                        "section_id": 3,
                         "section_component_id": 10,
-                        "component_element_id": 2,
                         "created_at": "2022-01-01 13:00:00",
                         "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "component_element_id": 3,
-                    "element_name": "Accounts",
-                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                    "is_template": true,
-                    "element": {
-                        "element_type_id": 4,
-                        "element_type": "Head3",
-                        "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "Will Return H3 Typography",
-                    "section_css_props": null,
+
+                    "elements" : [
+                        {
+                            "component_element_id": 3,
+                            "element_name": "Title",
+                            "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
+                            "is_template": true,
+                            "element": {
+                                "element_type_id": 4,
+                                "element_type": "Typography",
+                                "type_description": "this type return Typography with variant h3 tag in codes"
+                            },
+                            "element_content": "This is Title ",
+                            "section_css_props": [
+                                {
+                                    "section_css_prop_id": 15,
+                                    "section_id": null,
+                                    "component_id": 10,
+                                    "element_id": null,
+                                    "css_prop": {
+                                        "prop_id": 1,
+                                        "prop_name": "fontSize",
+                                        "prop_description": "lorem ipsum ....",
+                                        "is_section": false,
+                                        "is_component": false,
+                                        "is_element": true
+                                    },
+                                    "css_status": null,
+                                    "css_responsive_status": null,
+                                    "css_prop_value": "26px",
+                                    "pivot": {
+                                        "section_id": null,
+                                        "component_id": 10,
+                                        "element_id": null,
+                                        "section_css_prop_id": 15,
+                                        "created_at": "2022-01-01 13:00:00",
+                                        "updated_at": "2022-01-01 13:30:00"
+                                    }
+                                }
+                            ],
+                            "pivot": {
+                                "section_component_id": 10,
+                                "component_element_id": 3,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "component_element_id": 3,
+                            "element_name": "Description",
+                            "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
+                            "is_template": true,
+                            "element": {
+                                "element_type_id": 4,
+                                "element_type": "Typography",
+                                "type_description": "Will Return H3 Typography"
+                            },
+                            "element_content": "this is Description ",
+                            "section_css_props": null,
+                            "pivot": {
+                                "section_component_id": 10,
+                                "component_element_id": 3,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        }
+                    ]
+                },
+                "Images" : {
+                    "section_component_id": 10,
+                    "component_title": "Social Media",
+                    "component_description": "lorem ipsum ....",
+                    "is_template": true,
+                    "mobile_columns_count": 12,
+                    "tablet_columns_count": 4,
+                    "laptop_columns_count": 3,
+                    "section_css_props": [
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "display",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": true,
+                                "is_element": false
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "flex",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 16,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 3,
+                                "prop_name": "flexDirection",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": true,
+                                "is_element": false
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "row",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 16,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        }
+                    ],
                     "pivot": {
+                        "section_id": 3,
                         "section_component_id": 10,
-                        "component_element_id": 3,
                         "created_at": "2022-01-01 13:00:00",
                         "updated_at": "2022-01-01 13:30:00"
+                    },
+                    "elements": [
+                    {
+                        "component_element_id": 1,
+                        "element_name": "Facebook",
+                        "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
+                        "is_template": true,
+                        "element": {
+                            "element_type_id": 5,
+                            "element_type": "image",
+                            "type_description": "this type return img tag in codes"
+                        },
+                        "element_content": "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
+                        "pivot": {
+                            "section_component_id": 10,
+                            "component_element_id": 1,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        },
+                        "section_css_props": [
+                            {
+                                "section_css_prop_id": 15,
+                                "section_id": null,
+                                "component_id": null,
+                                "element_id": 1,
+                                "css_prop": {
+                                    "prop_id": 10,
+                                    "prop_name": "width",
+                                    "prop_description": "lorem ipsum ....",
+                                    "is_section": false,
+                                    "is_component": false,
+                                    "is_element": true
+                                },
+                                "css_status": null,
+                                "css_responsive_status": null,
+                                "css_prop_value": "150px",
+                                "pivot": {
+                                    "section_id": null,
+                                    "component_id": null,
+                                    "element_id": 1,
+                                    "section_css_prop_id": 15,
+                                    "created_at": "2022-01-01 13:00:00",
+                                    "updated_at": "2022-01-01 13:30:00"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "component_element_id": 2,
+                        "element_name": "Instagram",
+                        "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
+                        "is_template": true,
+                        "element": {
+                            "element_type_id": 5,
+                            "element_type": "image",
+                            "type_description": "this type return img tag in codes"
+                        },
+                        "element_content": "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
+                        "section_css_props": [
+                            {
+                                "section_css_prop_id": 15,
+                                "section_id": null,
+                                "component_id": null,
+                                "element_id": 1,
+                                "css_prop": {
+                                    "prop_id": 10,
+                                    "prop_name": "width",
+                                    "prop_description": "lorem ipsum ....",
+                                    "is_section": false,
+                                    "is_component": false,
+                                    "is_element": true
+                                },
+                                "css_status": null,
+                                "css_responsive_status": null,
+                                "css_prop_value": "150px",
+                                "pivot": {
+                                    "section_id": null,
+                                    "component_id": null,
+                                    "element_id": 1,
+                                    "section_css_prop_id": 15,
+                                    "created_at": "2022-01-01 13:00:00",
+                                    "updated_at": "2022-01-01 13:30:00"
+                                }
+                            }
+                        ],
+                        "pivot": {
+                            "section_component_id": 10,
+                            "component_element_id": 2,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
                     }
+                ]   
                 }
-            ]
+            }
+
         }
     ]
 }
