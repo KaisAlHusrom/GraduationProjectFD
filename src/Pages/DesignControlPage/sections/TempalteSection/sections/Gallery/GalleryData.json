@@ -31,7 +31,6 @@
                 "componentType": "Typography",
                 "text": "title  example 1 ",
                 "variant": "h3",
-                
                 "style": {
                 "fontSize":"23px",
                 "padding": "10px 15px",
