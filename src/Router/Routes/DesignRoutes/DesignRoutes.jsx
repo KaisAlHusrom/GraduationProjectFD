@@ -1,4 +1,3 @@
-import EditGallery from "../../../Pages/DesignControlPage/sections/TempalteSection/sections/Gallery/EditGallery";
 
 
 
@@ -6,13 +5,13 @@ import EditGallery from "../../../Pages/DesignControlPage/sections/TempalteSecti
 const DesignRoutes = [
 
     
-    {
-        element: <EditGallery />,
-        path: "design-control/EditGallery",
-        exact: false,
-        loader: null,
-        action: null
-    },
+    // {
+    //     element: <EditGallery />,
+    //     path: "design-control/EditGallery",
+    //     exact: false,
+    //     loader: null,
+    //     action: null
+    // },
     
 ]
 

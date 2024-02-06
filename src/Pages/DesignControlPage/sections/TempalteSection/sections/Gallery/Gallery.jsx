@@ -1,41 +1,22 @@
-//React
-import {
-    useContext, useMemo
-} from 'react'
-
-import {
-    
-} from 'react-redux'
-import galleryData2 from "./GalleryData2.json"
-
-//Components
+import { useContext, useMemo } from 'react';
+import { styled } from '@mui/system';
+import { Box } from '@mui/material';
 import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
 
-
-//MUI
-import {
-    Box,
-} from '@mui/material'
-import { styled } from '@mui/system'
-import GalleryComponent from './GalleryComponent'
-
-//Styled Components
-const StyledGallery = styled(Box)(
+const StyledGallery2 = styled(Box)(
     ({ theme }) => ({
-        paddingTop: theme.spacing(8),
-        backgroundColor: 'grey',
-        borderRadius: '10px',
-        paddingBottom: theme.spacing(8),
-        position: 'relative',
+        // Add default styles for StyledGallery2 here if needed
     })
-)
+    );
 
-
-
+import galleryData2 from "./GalleryData2.json"
+import GalleryComponent from './GalleryComponent';
 
 
 const Gallery = () => {
+
     const {GalleryPage } = useContext(MainTemplateSectionSet)
+
 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
@@ -51,20 +32,19 @@ const Gallery = () => {
         return styleObject;
     }, []);
 
-
     return (
         GalleryPage ? (
-            <StyledGallery key={galleryData2.section_id} sx={sectionStyle}>
-            {galleryData2 &&
-                galleryData2.section_components.map((component, i) => {
-                        return (
-                            <GalleryComponent key={i} component={component} />
-                        );
+        <StyledGallery2 key={galleryData2.section_id} sx={sectionStyle}>
+        {galleryData2 &&
+            galleryData2.section_components.map((component, i) => {
+            return (
+                <GalleryComponent key={i} component={component} />
+            );
             })}
-            </StyledGallery>
-            ) : (
-                null
-            )
+        </StyledGallery2>
+         ) : (
+            null
+        )
     );
 };
 

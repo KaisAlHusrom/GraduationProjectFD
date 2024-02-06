@@ -1,5 +1,5 @@
 //React
-import { useState  } from 'react'
+import {   } from 'react'
 
 import {
     
@@ -16,8 +16,7 @@ import { styled } from '@mui/system'
 import NavBar from './sections/NavBar/NavBar'
 import Header from './sections/Header/Header'
 import AboutUs from './sections/AboutUs/AboutUs'
-// import Gallery from './sections/Gallery/Gallery'
-import Gallery2 from './sections/Gallery/Gallery2'
+import Gallery from './sections/Gallery/Gallery'
 
 //Styled Components
 const StyledTemplateMain = styled(Box)(
@@ -38,7 +37,7 @@ const TemplateMain = () => {
             <NavBar></NavBar>
             <Header></Header>
             <AboutUs></AboutUs>
-            <Gallery2></Gallery2>
+            <Gallery></Gallery>
         </StyledTemplateMain>
     );
 };

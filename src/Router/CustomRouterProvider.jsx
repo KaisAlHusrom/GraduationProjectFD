@@ -13,7 +13,6 @@ import { Admin, DesignControlPage, ErrorPage, MainPage, NotFoundPage } from '../
 //Users Services
 import adminPageRoutes from './Routes/AdminPage/adminPageRoutes';
 import DesignRoutes from './Routes/DesignRoutes/DesignRoutes';
-import EditGallery from '../Pages/DesignControlPage/sections/TempalteSection/sections/Gallery/EditGallery';
 
 
 // ------------- NOTICES -------------
@@ -71,7 +70,7 @@ const router = createBrowserRouter(
                 } */}
             </Route>
 
-            <Route path="design-control/EditGallery" element={<EditGallery />} />
+            {/* <Route path="design-control/EditGallery" element={<EditGallery />} /> */}
 
             <Route path="*" element={<NotFoundPage />} />
         </Route>
