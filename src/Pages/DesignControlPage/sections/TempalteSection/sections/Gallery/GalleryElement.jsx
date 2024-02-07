@@ -24,6 +24,11 @@ const getAppropriateTag = (element, elementContent, elementStyle) => {
             <Typography sx={elementStyle} variant="h3">{elementContent}</Typography>
         )
     }
+    if(element?.element_type === "text") {
+        return (
+            <Typography sx={elementStyle} variant="h6">{elementContent}</Typography>
+        )
+    }
 
     if(element?.element_type === "image") {
         console.log(elementStyle)
@@ -60,7 +65,6 @@ const GalleryElement = ({element}) => {
         return styleObject;
     }, [element.section_css_props]);
 
-    console.log(element)
     return (
         <StyledGalleryElement>
             {

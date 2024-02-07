@@ -26,7 +26,7 @@ import BeenhereIcon from '@mui/icons-material/Beenhere';
 //Styled Components
 const StyledNewLanguageDrawerModel = styled(Box)(
     ({ theme }) => ({
-    
+        padding: theme.spacing(8) 
     })
 )
 

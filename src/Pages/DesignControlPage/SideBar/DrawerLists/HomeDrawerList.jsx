@@ -10,6 +10,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import AddIcon from '@mui/icons-material/Add';
 import CollectionsIcon from '@mui/icons-material/Collections';
 import { MainTemplateSectionSet } from '../../sections/TempalteSection/UseContext/UserSetSections';
+import DialogCom from '../../components/DialogCom';
 
 const StyledHomeDrawerList = styled(Box)(
     ({ theme }) => ({
@@ -84,6 +85,7 @@ const HomeDrawerList = () => {
         onClick: () => handleItemClick('Gallery'),
     },
     ];
+    const [openDialog , setOpenDialog] = useState(false)
 
   return (
     <StyledHomeDrawerList>
@@ -101,11 +103,11 @@ const HomeDrawerList = () => {
         <Box>
         <AdminButtonHome>
             <AdminMainButton
-                title="Add New Page"
-                type="modal"
+                title="Add New Page "
+                type="custom"
                 appearance="secondary"
                 putTooltip
-                willShow={<NewPageDrawerModel />}
+                onClick={ () => setOpenDialog(true)}
                 sx={{
                     marginTop: '10px',
                     width: '100%',
@@ -123,6 +125,11 @@ const HomeDrawerList = () => {
         </AdminButtonHome>
         </Box>
     </List>
+    <DialogCom title={"Add New Page" || ''} dialogOpenState={[openDialog, setOpenDialog]}>
+                <NewPageDrawerModel></NewPageDrawerModel>
+          </DialogCom>
+
+
     </StyledHomeDrawerList>
 );
 };

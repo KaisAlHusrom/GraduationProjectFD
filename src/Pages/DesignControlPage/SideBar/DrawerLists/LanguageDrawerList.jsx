@@ -19,6 +19,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton'
 import NewLanguageDrawerModel from '../DrawerModals/NewLanguageDrawerModel';
 import CustomAlert from '../../../../Components/CustomAlert/CustomAlert';
+import DialogCom from '../../components/DialogCom';
 
 //Styled Components
 const StyledLanguageDrawerList = styled(Box)(
@@ -103,6 +104,7 @@ const customSearchStyle = {
 };
 
 const LanguageDrawerList = () => {
+    const [openDialog , setOpenDialog] = useState(false)
 
     const [open, setOpen] = useState(false);
 
@@ -143,12 +145,10 @@ const LanguageDrawerList = () => {
 
                 <AdminMainButton 
                 title='Add New Language'
-                type='modal'
+                type='custom'
                 appearance='secondary'
                 putTooltip
-                willShow={
-                        <NewLanguageDrawerModel />
-                }
+                onClick={ () => setOpenDialog(true)}
                 sx={{
                     marginTop: '10px',
                     width: '100%',
@@ -165,7 +165,11 @@ const LanguageDrawerList = () => {
                 icon={<AddIcon />}
                 />
             </List> 
+            <DialogCom title={"Add New Language" || ''} dialogOpenState={[openDialog, setOpenDialog]}>
+            <NewLanguageDrawerModel />
+          </DialogCom>
             <CustomAlert AlertOpenState={[open, setOpen]}  title="Maked Defualt"></CustomAlert>
+
         </StyledLanguageDrawerList>
     );
 };

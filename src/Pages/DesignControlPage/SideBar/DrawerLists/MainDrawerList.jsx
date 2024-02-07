@@ -11,6 +11,7 @@ import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainBut
 import MediaDrawerList from './MediaDrawerList';
 import StylesDrawerList from './StylesDrawerList';
 import TemplatesDrawerModel from '../DrawerModals/TemplatesDrawerModel';
+import DialogCom from '../../components/DialogCom';
 
 const StyledMainDrawerList = styled(Box)(({ theme }) => ({
   color: theme.palette.success.main,
@@ -19,6 +20,7 @@ const StyledMainDrawerList = styled(Box)(({ theme }) => ({
 const MainDrawerList = () => {
   const [style, setStyle] = useState(false);
   const [media, setMedia] = useState(false);
+  const [openDialog , setOpenDialog] = useState(false)
 
   const drawerItems = [
     {
@@ -68,8 +70,8 @@ const MainDrawerList = () => {
 
       <AdminMainButton
         title="Look at templates"
-        type="modal"
-        willShow={<TemplatesDrawerModel />}
+        type="custom"
+        onClick={ () => setOpenDialog(true)}
         sx={{
           marginTop: '10px',
           width: '100%',
@@ -83,6 +85,10 @@ const MainDrawerList = () => {
         }}
         icon={<StreetviewIcon />}
       />
+
+      <DialogCom title={"Look at templates" || ''} dialogOpenState={[openDialog, setOpenDialog]}>
+            <TemplatesDrawerModel />
+          </DialogCom>
     </StyledMainDrawerList>
   );
 };
