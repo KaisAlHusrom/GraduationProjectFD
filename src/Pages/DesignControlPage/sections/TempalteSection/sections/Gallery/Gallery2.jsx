@@ -9,6 +9,8 @@ const StyledGallery2 = styled(Box)(
     );
 
 import galleryData2 from "./GalleryData2.json"
+
+
 import GalleryComponent from './GalleryComponent';
 const Gallery2 = () => {
     const sectionStyle = useMemo(() => {

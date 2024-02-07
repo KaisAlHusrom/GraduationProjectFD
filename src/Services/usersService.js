@@ -5,20 +5,19 @@ const fetchUsers = async () => {
     // IMPORTANT: the error page will appear when you add Error like this
     //throw Error("There is no users") 
 
-    const table_info = {
-        "name": "users",
-        "type": "main-table",
-        "relationships": [
-            {
-                "relationship-type": "one-to-many",
-                "relationship-with": "products",
-                "relationship-column": "id",
-            }
-        ]
+    const relations = {
+        manyToOne:[
+                
+            ],
+        manyToMany:[
+                    
+        ],
+        oneToMany:[
+                ]
     }
     
     const columns = {
-        id: "int",
+        id: "pk",
         image: "image",
         first_name: "string",
         last_name: "string",
@@ -49,8 +48,8 @@ const fetchUsers = async () => {
             {
                 id: 2,
                 first_name: "cdmin",
-                last_name: "habib",
-                email: "habib",
+                last_name: "al hasan",
+                email: "alhasan@gmail.com",
                 image: null,
                 birthday: "2020-01-06",
                 phoneNumber: "+905372957830",
@@ -62,8 +61,8 @@ const fetchUsers = async () => {
             {
                 id: 3,
                 first_name: "bdmin",
-                last_name: "habib",
-                email: "habib",
+                last_name: "almohammady",
+                email: "almohammady@gmail.com",
                 image: null,
                 birthday: "2024-06-06",
                 phoneNumber: "+905372957830",
@@ -328,7 +327,7 @@ const fetchUsers = async () => {
     // }
 
 
-    return {columns, rows};
+    return {relations, columns, rows};
 }
 
 // const fetchUserProducts = async (user_id) => {

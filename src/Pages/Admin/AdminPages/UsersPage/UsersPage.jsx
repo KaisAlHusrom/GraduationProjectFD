@@ -51,14 +51,6 @@ const UsersPage = () => {
                 title="Users"
                 icon={<GroupOutlinedIcon />}
                 handleUpdateData={usersService.updateUser}
-                manyToOne={
-                    [
-                    ]
-                }
-                manyToMany={
-                    [
-                    ]
-                }
             />
         </StyledUsersPage>
     );

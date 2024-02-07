@@ -26,8 +26,7 @@ const StyledProductsPage = styled(Box)(
 
 //icons
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
-import usersService from '../../../../Services/usersService'
-import categoriesService from '../../../../Services/categoriesService'
+
 
 
 
@@ -38,24 +37,7 @@ const ProductsPage = () => {
             <DatabaseView
                 title="Products"
                 icon={<Inventory2OutlinedIcon />}
-                manyToOne={
-                    [
-                        {
-                            "field_name": "user",
-                            "fetched_column": "first_name",
-                            fetch_all_data: usersService.fetchUsers()
-                        },
-                    ]
-                }
-                manyToMany={
-                    [
-                        {
-                            "field_name": "categories",
-                            "fetched_column": "category_name",
-                            fetch_all_data: categoriesService.fetchCategories(),
-                        }
-                    ]
-                }
+                
             />
         </StyledProductsPage>
     );

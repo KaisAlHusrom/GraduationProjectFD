@@ -1,25 +1,13 @@
 // import usersService from "./usersService"
 
+import categoriesService from "./categoriesService"
+import { fetchProductsFeatures } from "./productsFeaturesService"
+import usersService from "./usersService"
+
 const fetchProducts = async () => {
 
-    const table_info = {
-        // "name": "products",
-        // "type": "main-table",
-        // "relationships": [
-        //     {
-        //         "relationship-type": "many-to-one",
-        //         "relationship-with": "users",
-        //         "relationship-data": (await usersService.fetchUsers()).rows,
-        //     },
-        //     {
-        //         "relationship-type": "one-to-many",
-        //         "relationship-with": "reviews",
-        //         "relationship-column": "id",
-        //     }
-        // ]
-    }
     const columns = {
-        "id": "int",
+        "id": "pk",
         "product_name": "string",
         "product_short_description": "string",
         "product_long_description": "text",
@@ -28,6 +16,34 @@ const fetchProducts = async () => {
         "template_zip_file_name": "file",
         "categories": "many-to-many",
         "user": "many-to-one",
+        "product_features": "one-to-many",
+    }
+
+    const relations = {
+        manyToOne:[
+                {
+                    "field_name": "user",
+                    "fetched_column": "first_name",
+                    "related_table_id": "id",
+                    fetch_all_data: usersService.fetchUsers,
+                },
+            ],
+        manyToMany:[
+                    {
+                        "field_name": "categories",
+                        "fetched_column": "category_name",
+                        "related_table_id": "id",
+                        fetch_all_data: categoriesService.fetchCategories,
+                    }
+        ],
+        oneToMany: [
+            {
+                "field_name": "product_features",
+                "fetched_column": "product_featured_name",
+                "related_table_id": "product_featured_id",
+                fetch_all_data: fetchProductsFeatures,
+            }
+        ]
     }
 
     const rows = [
@@ -64,6 +80,18 @@ const fetchProducts = async () => {
                     "category_description": "Contains all Web Full Applications ready templates to sell",
                 },
             ],
+            "product_features": [
+                {
+                    product_featured_id: 1,
+                    product_featured_name: "Responsive",
+                    product_feature_description: "This product has a responsive feature",
+                },
+                {
+                    product_featured_id: 2,
+                    product_featured_name: "User Friendly",
+                    product_feature_description: "This product has a User Friendly feature",
+                },
+            ]
         },
         {
             id: 2,
@@ -92,7 +120,9 @@ const fetchProducts = async () => {
                     "category_name": "Web Full Applications",
                     "category_description": "Contains all Web Full Applications ready templates to sell",
                 },
-            ]
+            ],
+            "product_features": null,
+            
         },
         {
             id: 3,
@@ -121,24 +151,33 @@ const fetchProducts = async () => {
                     category_name: "Web Front End Templates",
                     category_description: "Contains all web front end ready templates to sell",
                 },
-            ]
+            ],
+            "product_features": null
         },
     ]
 
     
 
-    return {table_info, columns, rows}
+    return {relations, columns, rows}
 }
 
 
 const addProduct = async ({ request }) => {
     const data = await request.formData()
 
+    const categories = data.get("categories");
+    const parsedCategories = categories ? JSON.parse(categories) : [];
+
+    // const user = data.get("user");
+    // const parsedUser = user ? JSON.parse(user) : null;
+
     const submission = {
         image: data.get("product_main_image_name"),
         zipFile: data.get("template_zip_file_name"),
+        categories: parsedCategories,
+        user:   data.get("user")
     }
-
+    console.log(submission)
     return submission;
 }
 

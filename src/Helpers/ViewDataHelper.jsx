@@ -1,4 +1,4 @@
-import { Divider, InputAdornment, List, ListItem, ListItemButton, ListItemText, MenuItem, Switch, TextField, TextareaAutosize, Typography } from "@mui/material"
+import { Divider, InputAdornment, List, ListItem, ListItemButton, ListItemText, MenuItem, Rating, Switch, TextField, TextareaAutosize, Typography } from "@mui/material"
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from "dayjs";
 import { styled } from '@mui/system'
@@ -13,6 +13,7 @@ import DateHelper from "./DateHelper";
 import noPicture from "../Assets/Images/no-pictures.png"
 import StringHelper from "./StringsHelper";
 import { Fragment } from "react";
+import { RelationTextField } from "../Components";
 
 
 //Styles
@@ -54,9 +55,9 @@ const StyledTextArea = styled(TextareaAutosize)(
 
 //return database data
 const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations) => {
-    const {manyToMany, oneToMany, manyToOne} = relations
+    const {manyToMany, manyToOne, oneToMany} = relations
 
-    if(cell){
+    if(cell ){
         if(columns[column] === "bool") {
             if(cell === true) {
                 return <CheckIcon color='success' />
@@ -69,6 +70,10 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
             return <img src={`${cell}`} style={imageStyle} alt="image"  />
         } 
 
+        if(columns[column] === "rate") {
+            return <Rating name="read-only" value={cell} readOnly />
+        } 
+
         if(columns[column] === "date" || columns[column] === "dateTime") {
             return DateHelper.formattedDate(cell)
         }
@@ -77,7 +82,60 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
             return `${cell}$`
         }
 
+        if(columns[column] === "one-to-many") {
+            if(cell.length === 0) {
+                return <CloseIcon color="error" />
+            }
+            const listStyle = {
+                maxHeight: "100px",
+                overflow: "auto",
+            }
+            const listItemTextStyle = {
+                "& .MuiTypography-root": {
+                    minWidth: "80px",
+                    maxWidth: "200px",
+                    overflow: 'hidden', 
+                    whiteSpace: 'nowrap', 
+                    textOverflow: 'ellipsis',
+                    textAlign: 'center',
+                    "&:hover": {
+                        fontWeight: "bold",
+                    },
+                }
+                
+            }
+            const row = oneToMany.filter(relation => relation["field_name"] === column)[0]
+            return (
+                <List sx={listStyle}>
+                    
+                    {
+                        showAllCell
+                        ?
+                        cell.map((item, key) => {
+                            return (
+                                <Fragment key={key}>
+                                    <ListItem>
+                                        <ListItemText primary={item[row["fetched_column"]]} />
+                                    </ListItem>
+                                    <Divider />
+                                </Fragment>
+                            )
+                        })
+                        :
+                        (
+                            <ListItem>
+                                <ListItemText sx={listItemTextStyle} primary={cell[0][row["fetched_column"]]} />
+                            </ListItem>
+                        )
+                    }
+                </List>
+            )
+        }
+
         if(columns[column] === "many-to-many") {
+            if(cell.length === 0) {
+                return <CloseIcon color="error" />
+            }
             const listStyle = {
                 maxHeight: "100px",
                 overflow: "auto",
@@ -116,7 +174,7 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
                         :
                         (
                             <ListItem>
-                                <ListItemText sx={listItemTextStyle} primary={cell[0][row["fetched_column"]]} />
+                                <ListItemText  sx={listItemTextStyle} primary={cell[0][row["fetched_column"]]} />
                             </ListItem>
                         )
                     }
@@ -139,15 +197,23 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
     }
 }
 
-const getConvenientTextfield = (setShowTextField, columns, column, cell, handleChangeData, row, handleEnterKeyDown, setRowData, relations) => {
+const getAppropriateTextField = (setShowTextField, columns, column, cell, handleChangeData, row, handleEnterKeyDown, setRowData, relations) => {
 
 
     if(cell !== null){
-        if (column === "id") return <Typography color="error" variant='body2'>Can not Update The Id</Typography>;
+        if (columns[column] === "pk") return <Typography color="error" variant='body2'>Can not Update The Id</Typography>;
         if (columns[column] === "dateTime") return <Typography color="error" variant='body2'>Can not Update Timestamp fields</Typography>;
         
         if(columns[column] === "image" || columns[column] === "file") {
             return <Typography color="error" variant='body2'>Ca not Update folders fields</Typography>
+        } 
+
+        if(columns[column] === "rate") {
+            return <Rating
+
+                value={cell}
+                onChange={(event, newValue) => handleChangeData(event, columns[column], setRowData, column, newValue)}
+            />
         } 
 
         if(columns[column] === "bool") {
@@ -241,42 +307,22 @@ const getConvenientTextfield = (setShowTextField, columns, column, cell, handleC
             />
         }
 
-        if(columns[column] === "one-to-many") {
-            const {oneToMany} = relations
-            return <Typography>alo</Typography>
+
+        if(columns[column] === "many-to-many" || columns[column] === "many-to-one" || columns[column] === "one-to-many") {
+            return (
+                                <RelationTextField
+                                    relationType={columns[column]}
+                                    columnName ={column}
+                                    relations={relations}
+                                    originalData={cell}
+                                    setShowTextField={setShowTextField}
+                                    handleChangeData={handleChangeData}
+                                    handleEnterKeyDown={handleEnterKeyDown}
+                                    setNewData={setRowData}
+                                />  
+                            )
         }
-
-        if(columns[column] === "many-to-many") {
-            const {manyToMany} = relations
-            const relation = manyToMany.filter(relation => relation["field_name"] === column)[0]
-            let result = ""
-            relation.fetch_all_data
-            .then(database => {
-
-                result = <TextField
-                        select
-                        label="Select"
-                        >
-                        {database.rows.map((row, key) => (
-                            <MenuItem key={key} value={row.id}>
-                            {row[relation["fetched_column"]]}
-                            </MenuItem>
-                        ))}
-                        </TextField>
-            })
-            .catch(error => {
-                console.error("Error fetching data:", error);
-                result = <Typography variant="h6" color="error">There is unknown error</Typography>
-            });
-
-            console.log(result)
-            
-        }
-
-        if(columns[column] === "many-to-one") {
-            const {manyToOne} = relations
-            return <Typography>alo</Typography>
-        }
+        
 
     }else {
         if(columns[column] === "image" || columns[column] === "file") {
@@ -289,7 +335,7 @@ const getConvenientTextfield = (setShowTextField, columns, column, cell, handleC
 
 const ViewDataHelper = {
     checkDatabaseDataInTable,
-    getConvenientTextfield
+    getAppropriateTextField
 }
 
 export default ViewDataHelper

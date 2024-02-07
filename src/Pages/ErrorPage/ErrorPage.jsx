@@ -23,11 +23,10 @@ import { styled } from '@mui/system'
 
 //Styled Components
 const StyledErrorPage = styled(Box)(
-    (theme) => ({
+    ({theme}) => ({
         textAlign: 'center',
         padding: '20px',
-        backgroundColor: '#f8d7da',
-        color: theme.palette.error,
+        color: theme.palette.error.main,
         border: '1px solid #f5c6cb',
         borderRadius: '5px',
     })

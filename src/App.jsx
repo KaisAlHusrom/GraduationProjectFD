@@ -41,7 +41,6 @@ function App() {
 
   return (
       <CustomThemeProvider>
-        <Gallery2 />
         <CustomRouterProvider />
       </CustomThemeProvider>
   )

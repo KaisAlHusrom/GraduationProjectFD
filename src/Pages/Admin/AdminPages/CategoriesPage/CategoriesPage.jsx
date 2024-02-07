@@ -44,14 +44,6 @@ const CategoriesPage = () => {
                 title="Categories"
                 icon={<CategoryOutlinedIcon />}
                 handleUpdateData={categoriesService.updateCategory}
-                manyToOne={
-                    [
-                    ]
-                }
-                manyToMany={
-                    [
-                    ]
-                }
             />
         </StyledCategoriesPage>
     );

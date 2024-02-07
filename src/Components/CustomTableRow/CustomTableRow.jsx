@@ -11,6 +11,7 @@ import {
 
 //MUI
 import {
+    Box,
     Checkbox, Fade, IconButton, TableCell, TableRow, 
 } from '@mui/material'
 import { styled } from '@mui/system'
@@ -23,9 +24,10 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 import propTypes from 'prop-types'
 import { NavLink, useLoaderData } from 'react-router-dom';
 
-import { useMyContext, useRelationsContext } from '../DatabaseView/DatabaseView'
+import { useMyContext } from '../DatabaseView/DatabaseView'
 import ViewDataHelper from '../../Helpers/ViewDataHelper'
 import { useTheme } from '@emotion/react';
+import RelationTextField from '../RelationTextField/RelationTextField';
 
 
 
@@ -52,7 +54,7 @@ const styleIconButtonLink = {
 //TODO: resolve rerender every time I click on table cell, or change the field
 //RETURN DATA
 //return database data
-const {getConvenientTextfield, checkDatabaseDataInTable} = ViewDataHelper
+const {getAppropriateTextField, checkDatabaseDataInTable} = ViewDataHelper
 
 const CustomTableRow = (props) => {
     const {
@@ -85,7 +87,8 @@ const CustomTableRow = (props) => {
     const {columns} = useLoaderData();
 
     //Relations
-    const relations = useRelationsContext();
+    const {relations} = useLoaderData();
+
 
     ///States
     //make another state for row, to give the ability to change the cell directly, the data will change in database when press Enter
@@ -103,8 +106,9 @@ const CustomTableRow = (props) => {
     useEffect(() => {
             const handleOutsideClick = (event) => {
             const clickedElement = event.target;
-        
-            if (tableBodyRef.current && !tableBodyRef.current.contains(clickedElement)) {
+            const isSelectAutoCompleteOption = clickedElement.closest('.MuiAutocomplete-option')
+
+            if (!isSelectAutoCompleteOption && tableBodyRef.current && !tableBodyRef.current.contains(clickedElement)) {
                 // Clicked outside the table cell, so set showAllCell to null
                 setShowAllCell(null);
                 setShowTextField(null);
@@ -186,15 +190,11 @@ const CustomTableRow = (props) => {
 
         const StyledTableCellShowAllData = useMemo(() => {
             return {
-                textAlign: 'center',
-                borderColor: theme.palette.primary.main,
-                fontWeight: "bold",
-                zIndex: 500,
-                backgroundColor: theme.palette.background.paper,
-                maxWidth: "200px",
-                overflowY: "auto"
+                
+                
+                position: "relative",
             }
-        }, [theme.palette.background.paper, theme.palette.primary.main]);
+        }, []);
         
         const StyledNormalCell = useMemo(() => {
             return {
@@ -216,11 +216,32 @@ const CustomTableRow = (props) => {
         const StyledTextFieldCell = useMemo(() => {
             return {
                 maxWidth: "200px",
+                overflow: 'hidden',
                 borderRight: showVerticalLines ? '1px solid' : 'none',
                 textAlign: 'center',
                 borderColor: theme.palette.divider,
             }
         }, [showVerticalLines, theme.palette.divider]);
+
+        const StyledRelativeBox = useMemo(() => {
+            return {
+                width: "calc(100% + 20px)",
+                height: "calc(100% + 20px)",
+                position: "absolute",
+                left: "-10px",
+                top: "-10px",
+                zIndex: 1300,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                overflowY: "auto",
+                textAlign: 'center',
+                borderColor: theme.palette.primary.main,
+                fontWeight: "bold",
+                backgroundColor: theme.palette.background.paper,
+                padding: theme.spacing(),
+            }
+        }, [theme])
 
     return (
         <TableRow sx={StyledCustomTableRow} ref={tableBodyRef}>
@@ -248,14 +269,16 @@ const CustomTableRow = (props) => {
                     
                     <Fade key={`${rowData.id}-${colIndex}`} in={showAllCell === `${rowData.id}-${colIndex}`}>
                         <TableCell sx={StyledTableCellShowAllData} onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`)}>
+                            <Box sx={StyledRelativeBox}>
                             {checkDatabaseDataInTable(columns, column, rowData[column], showAllCell, relations)}
+                            </Box>
                         </TableCell>
                     </Fade>
                 ) : showTextField === `${rowData.id}-${colIndex}` ? (
                     // Content to render when showTextField is true
                     <TableCell sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>
                         {
-                            getConvenientTextfield(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relations)
+                            getAppropriateTextField(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relations)
                         }
                     </TableCell>
                     

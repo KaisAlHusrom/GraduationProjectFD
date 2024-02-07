@@ -10,8 +10,9 @@ import DocumentScannerOutlinedIcon from '@mui/icons-material/DocumentScannerOutl
 import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined';
 import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
 import CodeOffOutlinedIcon from '@mui/icons-material/CodeOffOutlined';
-
-
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+import ThumbsUpDownOutlinedIcon from '@mui/icons-material/ThumbsUpDownOutlined';
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 const adminPageLinks = [
     {
         title: "Users",
@@ -30,9 +31,24 @@ const adminPageLinks = [
                 path: "products"
             },
             {
+                title: "Products Features",
+                icon: <StarBorderOutlinedIcon color='primary.contrastText' />,
+                path: "products-features"
+            },
+            {
+                title: "Products Reviews",
+                icon: <ThumbsUpDownOutlinedIcon color='primary.contrastText' />,
+                path: "products-reviews"
+            },
+            {
                 title: "Categories",
                 icon: <CategoryOutlinedIcon color='primary.contrastText' />,
                 path: "categories"
+            },
+            {
+                title: "Orders",
+                icon: <BorderColorOutlinedIcon color='primary.contrastText' />,
+                path: "orders"
             },
         ],
         

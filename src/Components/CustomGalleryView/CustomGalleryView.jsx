@@ -19,6 +19,7 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import CustomGalleryViewItem from '../CustomGalleryViewItem/CustomGalleryViewItem'
+import { useLoaderData } from 'react-router-dom'
 
 //Styled Components
 const StyledCustomGalleryView = styled(Grid)(
@@ -41,6 +42,10 @@ const CustomGalleryView = (props) => {
     //data state
     const [dataWillAppear,] = dataWillAppearState
 
+    //primary key
+    const {columns} = useLoaderData()
+    const pk = Object.keys(columns).find(key => columns[key] === "pk");
+
 
     return (
         <StyledCustomGalleryView container gap={6}>
@@ -48,7 +53,7 @@ const CustomGalleryView = (props) => {
             dataWillAppear && dataWillAppear.length > 0 && dataWillAppear.map((row) => {
                     return (
                             <CustomGalleryViewItem 
-                            key={row.id} 
+                            key={row[pk]} 
                             row={row}
                             selectedState={selectedState}
                             appearedDataCount={dataWillAppear.length}

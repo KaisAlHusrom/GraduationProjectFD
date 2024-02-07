@@ -43,7 +43,8 @@ const CustomTable = (props) => {
     const [dataWillAppear,] = dataWillAppearState
     //I get columns object to know the type of each column
     const {columns} = useLoaderData();
-
+    //primary key
+    const pk = Object.keys(columns).find(key => columns[key] === "pk");
 
     
     //view settings
@@ -68,7 +69,7 @@ const CustomTable = (props) => {
         ({ theme }) => ({
             border: "1px solid",
             borderColor: theme.palette.divider,
-            // maxHeight: "530px"
+            height: "530px"
         })
     )
 
@@ -118,9 +119,11 @@ const CustomTable = (props) => {
                         <TableBody>
                             { 
                             dataWillAppear && dataWillAppear.length > 0 && dataWillAppear.map((row) => {
+                                
+
                                 return (
                                     <CustomTableRow 
-                                    key={row.id} 
+                                    key={row[pk]} 
                                     row={row}
                                     selectedState={selectedState}
                                     appearedDataCount={dataWillAppear.length}

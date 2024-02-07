@@ -23,7 +23,6 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import TableChartIcon from '@mui/icons-material/TableChart';
-import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
 //propTypes 
 import propTypes from 'prop-types'
@@ -31,13 +30,13 @@ import { useLoaderData } from 'react-router-dom'
 import { useMemo } from 'react'
 import filterData from '../../Helpers/FilterData'
 import sortData from '../../Helpers/sortData'
-import { CustomGalleryView, CustomListView } from '..'
+import { CustomGalleryView } from '..'
 // import usersService from '../../Services/usersService'
 
 
 //Context
 const MyContext = createContext();
-const RelationsContext = createContext();
+
 
 //Styled Components
 const StyledDatabaseView = styled(Box)(
@@ -51,9 +50,6 @@ const DatabaseView = (props) => {
     const {
         title,
         icon,
-        manyToOne,
-        manyToMany,
-        oneToMany,
         //handleUpdateData //function to change data in database
     } = props
 
@@ -61,8 +57,10 @@ const DatabaseView = (props) => {
     
     //Split the columns and rows,
     const [loaderData, setLoaderData] = useState(useLoaderData());
-    const {columns, rows} = loaderData;
-
+    const {columns, rows, relations} = loaderData;
+    const {manyToOne,
+        manyToMany,
+    oneToMany} = relations
 
     //Sorting the columns
     const allSortedColumns = useMemo(() => JSON.parse(localStorage.getItem('sortedColumns')) || {}, []);
@@ -368,13 +366,17 @@ const DatabaseView = (props) => {
     };
 
     //Handle update data when change
-    const handleChangeData = (e, type, setRowData) => {
-        let name = e.target.name;
-        let value = e.target.value;
-        if(type === "bool") {
-            value = e.target.checked;
-        } else if(type === "image" || type === "file")  {
-            value = e.target.files[0];
+    const handleChangeData = (e, type, setRowData, columnName, newValue) => {
+        let name = columnName
+        let value = newValue
+        if(type !== "many-to-many" && type !== "one-to-many" && type !== "many-to-one" && type !== "rate") {
+            name = e.target.name;
+            value = e.target.value;
+            if(type === "bool") {
+                value = e.target.checked;
+            } else if(type === "image" || type === "file")  {
+                value = e.target.files[0];
+            } 
         } 
 
         setRowData((prev)=> {
@@ -445,7 +447,6 @@ const DatabaseView = (props) => {
     
 
     return (
-        <RelationsContext.Provider value={{oneToMany, manyToMany, manyToOne}}>
             <MyContext.Provider value={{filtersCount, setFiltersCount, sortsCount, setSortsCount, viewsSettings, setViewsSettings}}>
                 <StyledDatabaseView>
                     <SortFilterSection
@@ -538,7 +539,6 @@ const DatabaseView = (props) => {
                     
                 </StyledDatabaseView>
             </MyContext.Provider>
-        </RelationsContext.Provider>
         
         
     );
@@ -550,8 +550,6 @@ DatabaseView.propTypes = {
     database: propTypes.array,
     hiddenColumns: propTypes.array,
     databaseOptions: propTypes.array,
-    manyToMany: propTypes.array,
-    manyToOne: propTypes.array,
     handleUpdateData: propTypes.func
 }
 
@@ -560,9 +558,5 @@ export const useMyContext = () => {
     return useContext(MyContext);
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useRelationsContext = () => {
-    return useContext(RelationsContext);
-};
 
 export default DatabaseView;

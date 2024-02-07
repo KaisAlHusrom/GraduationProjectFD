@@ -26,7 +26,6 @@ const getAppropriateTag = (element, elementContent, elementStyle) => {
     }
 
     if(element?.element_type === "image") {
-        console.log(elementStyle)
         return (
             <img style={elementStyle} src={elementContent} alt={elementContent} />
         )
@@ -60,7 +59,6 @@ const GalleryElement = ({element}) => {
         return styleObject;
     }, [element.section_css_props]);
 
-    console.log(element)
     return (
         <StyledGalleryElement>
             {

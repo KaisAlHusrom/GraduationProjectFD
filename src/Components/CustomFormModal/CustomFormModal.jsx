@@ -30,6 +30,7 @@ import FolderZipIcon from '@mui/icons-material/FolderZip';
 //propTypes 
 import propTypes from 'prop-types'
 import { DatePicker } from '@mui/x-date-pickers'
+import RelationTextFieldToCustomModal from '../RelationTextFieldToCustomModal/RelationTextFieldToCustomModal'
 
 //Styled Components
 const StyledCustomFormModal = styled(Box)(
@@ -144,6 +145,8 @@ const CustomFormModal = (props) => {
         "int",
         "date",
         "decimal",
+        "many-to-many",
+        "many-to-one",
         "text",
         "bool",
         "file",
@@ -233,7 +236,7 @@ const CustomFormModal = (props) => {
 
     //Return Inputs based on column type
     const returnInputs = (column, type, data, key) => {
-        if (column === "id" || column === "created_at" || column === "updated_at") return;
+        if (type === "pk" || column === "created_at" || column === "updated_at") return;
 
         if(type === "int") {
             return (
@@ -491,6 +494,20 @@ const CustomFormModal = (props) => {
             </Grid>
             )
         }
+
+        if(type === "many-to-one" || type === "many-to-many") {
+            return (
+                <Grid key={key} item xs={12}>
+                    <RelationTextFieldToCustomModal 
+                    columnName={column} 
+                    columnType={type} 
+                    returnedData={data} 
+                    key={key} 
+                    
+                    />
+                </Grid>
+            )
+        } 
     }
 
     return (

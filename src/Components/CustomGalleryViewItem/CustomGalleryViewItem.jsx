@@ -28,7 +28,7 @@ import { styled } from '@mui/system'
 import propTypes from 'prop-types'
 import { NavLink, useLoaderData } from 'react-router-dom'
 import ViewDataHelper from '../../Helpers/ViewDataHelper'
-import { useMyContext, useRelationsContext } from '../DatabaseView/DatabaseView';
+import { useMyContext } from '../DatabaseView/DatabaseView';
 import { useTheme } from '@emotion/react';
 import StringHelper from '../../Helpers/StringsHelper';
 
@@ -114,7 +114,7 @@ const styleIconButtonLink = {
 
 
 //return database data
-const {getConvenientTextfield, checkDatabaseDataInTable} = ViewDataHelper
+const {getAppropriateTextField, checkDatabaseDataInTable} = ViewDataHelper
 
 const CustomGalleryViewItem = (props) => {
     const {
@@ -144,7 +144,7 @@ const CustomGalleryViewItem = (props) => {
     const {columns} = useLoaderData();
 
     //Relations
-    const relations = useRelationsContext();
+    const {relations} = useLoaderData();
 
     ///States
     //make another state for row, to give the ability to change the cell directly, the data will change in database when press Enter
@@ -162,8 +162,9 @@ const CustomGalleryViewItem = (props) => {
     useEffect(() => {
             const handleOutsideClick = (event) => {
             const clickedElement = event.target;
+            const isSelectAutoCompleteOption = clickedElement.closest('.MuiAutocomplete-option')
         
-            if (galleryItemRef.current && !galleryItemRef.current.contains(clickedElement)) {
+            if (!isSelectAutoCompleteOption && galleryItemRef.current && !galleryItemRef.current.contains(clickedElement)) {
                 // Clicked outside the table cell, so set showAllCell to null
                 setShowAllCell(null);
                 setShowTextField(null);
@@ -336,7 +337,7 @@ const CustomGalleryViewItem = (props) => {
                                             (
                                                 <Fade in={showTextField === cellKey}>
                                                     <Box sx={styleTextFieldTypo} variant="body1">
-                                                        {columns[column] !== "image" && getConvenientTextfield(setShowTextField, columns, column, galleryItemData[column], handleChangeData, galleryItemData, handleEnterKeyDown, setGalleryItemData)}
+                                                        {columns[column] !== "image" && getAppropriateTextField(setShowTextField, columns, column, galleryItemData[column], handleChangeData, galleryItemData, handleEnterKeyDown, setGalleryItemData, relations)}
                                                     </Box>
                                                 </Fade>
                                             )
@@ -362,7 +363,7 @@ const CustomGalleryViewItem = (props) => {
                                             (
                                                 <Fade in={showTextField === cellKey}>
                                                     <Box sx={styleTextFieldTypo} variant="body1">
-                                                        {columns[column] !== "image" && getConvenientTextfield(setShowTextField, columns, column, galleryItemData[column], handleChangeData, galleryItemData, handleEnterKeyDown, setGalleryItemData)}
+                                                        {columns[column] !== "image" && getAppropriateTextField(setShowTextField, columns, column, galleryItemData[column], handleChangeData, galleryItemData, handleEnterKeyDown, setGalleryItemData)}
                                                     </Box>
                                                 </Fade>
                                             )

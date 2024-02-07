@@ -14,3 +14,5 @@ export {default as LinearProgressWithLabel} from "./LinearProgressWithLabel/Line
 export {default as CustomListView} from "./CustomListView/CustomListView"
 export {default as CustomGalleryView} from "./CustomGalleryView/CustomGalleryView"
 export {default as CustomGalleryViewItem} from "./CustomGalleryViewItem/CustomGalleryViewItem"
+export {default as RelationTextField} from "./RelationTextField/RelationTextField"
+export {default as RelationTextFieldToCustomModal} from "./RelationTextFieldToCustomModal/RelationTextFieldToCustomModal"

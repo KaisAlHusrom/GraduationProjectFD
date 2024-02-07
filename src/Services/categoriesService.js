@@ -2,24 +2,20 @@
 
 const fetchCategories = async () => {
 
-    const table_info = {
-        // "name": "products",
-        // "type": "main-table",
-        // "relationships": [
-        //     {
-        //         "relationship-type": "many-to-one",
-        //         "relationship-with": "users",
-        //         "relationship-data": (await usersService.fetchUsers()).rows,
-        //     },
-        //     {
-        //         "relationship-type": "one-to-many",
-        //         "relationship-with": "reviews",
-        //         "relationship-column": "id",
-        //     }
-        // ]
+    const relations = {
+        manyToOne:[
+                
+            ],
+        manyToMany:[
+                    
+                ],
+        oneToMany: [
+        
+            ]
     }
+
     const columns = {
-        "id": "int",
+        "id": "pk",
         "category_name": "string",
         "category_description": "text",
     }
@@ -48,8 +44,8 @@ const fetchCategories = async () => {
     ]
 
     
-
-    return {table_info, columns, rows}
+    
+    return {relations, columns, rows}
 }
 
 
