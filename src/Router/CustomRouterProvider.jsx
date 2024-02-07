@@ -12,7 +12,11 @@ import { Admin, DesignControlPage, ErrorPage, MainPage, NotFoundPage } from '../
 
 //Users Services
 import adminPageRoutes from './Routes/AdminPage/adminPageRoutes';
+// eslint-disable-next-line no-unused-vars
 import DesignRoutes from './Routes/DesignRoutes/DesignRoutes';
+import DesignOne from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/Design1';
+import Designtwo from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/Design2';
+import DesignThree from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/Design3';
 
 
 // ------------- NOTICES -------------
@@ -73,6 +77,9 @@ const router = createBrowserRouter(
             {/* <Route path="design-control/EditGallery" element={<EditGallery />} /> */}
 
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="DesignThree" element={<DesignThree />} />
+            <Route path="DesignTwo" element={<Designtwo />} />
+            <Route path="DesignOne" element={<DesignOne />} />
         </Route>
     )
 )
