@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useContext, useMemo } from 'react';
 import { styled } from '@mui/system';
 import { Box } from '@mui/material';

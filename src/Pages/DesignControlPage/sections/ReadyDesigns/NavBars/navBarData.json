@@ -1,0 +1,11 @@
+{
+    "title": "My Website",
+    "buttonLabel": "Login",
+    "menuItems": [
+      { "label": "Home" },
+      { "label": "About" },
+      { "label": "Services" },
+      { "label": "Contact" }
+    ]
+  }
+  
