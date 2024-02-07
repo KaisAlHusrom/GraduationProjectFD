@@ -35,11 +35,9 @@ const DesignControlPage = () => {
     const valuesOfPages = {AboutUsPage, setAboutUsPage , GalleryPage, setGalleryPage }
     return (
         <MainTemplateSectionSet.Provider value={valuesOfPages}>
-
         <StyledDesignControlPage>
             <AppBarCom></AppBarCom>
         </StyledDesignControlPage>
-
         </MainTemplateSectionSet.Provider>
 
     );

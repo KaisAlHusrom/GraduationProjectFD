@@ -19,7 +19,7 @@ import propTypes from 'prop-types'
 
 
 const getAppropriateTag = (element, elementContent, elementStyle) => {
-    if(element?.element_type === "Head3") {
+    if(element?.element_type === "Typography") {
         return (
             <Typography sx={elementStyle} variant="h3">{elementContent}</Typography>
         )

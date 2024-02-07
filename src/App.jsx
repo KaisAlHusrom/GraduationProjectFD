@@ -16,7 +16,6 @@ import CustomThemeProvider from "./Theme/CustomThemeProvider";
 //redux
 import { useSelector } from "react-redux";
 import CustomRouterProvider from "./Router/CustomRouterProvider";
-import Gallery2 from "./Pages/DesignControlPage/Sections/TempalteSection/sections/Gallery/Gallery2";
 
 
 
