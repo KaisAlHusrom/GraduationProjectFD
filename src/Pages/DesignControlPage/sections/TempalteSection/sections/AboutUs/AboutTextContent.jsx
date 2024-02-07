@@ -149,16 +149,7 @@ const StyledAboutTextContent = styled(Box)(
                     willShow={
                       <>
                       <CustomVerticalTabs  tabLabels={tabLabels} tabContents={tabContents}/>
-                      {selectedImages.map((image, index) => (
-                      <Card key={index}>
-                        <CardMedia
-                          component="img"
-                          alt={`Selected ${index + 1}`}
-                          style={{ height: 'auto' }}
-                          src={image}
-                        />
-                      </Card>
-                    ))}
+          
                       </>
                       
                     }

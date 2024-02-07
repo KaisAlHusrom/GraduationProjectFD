@@ -13,7 +13,7 @@ import galleryData2 from "./GalleryData2.json"
 import GalleryComponent from './GalleryComponent';
 
 
-const Gallery = () => {
+const Gallery2 = () => {
 
     const {GalleryPage } = useContext(MainTemplateSectionSet)
 
@@ -42,10 +42,10 @@ const Gallery = () => {
             );
             })}
         </StyledGallery2>
-            ) : (
+         ) : (
             null
         )
     );
 };
 
-export default Gallery;
+export default Gallery2;

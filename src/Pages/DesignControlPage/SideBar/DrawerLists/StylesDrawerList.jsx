@@ -18,6 +18,7 @@ import { styled } from '@mui/system'
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import FontDownloadIcon from '@mui/icons-material/FontDownload';
 import ColorBar from '../../components/ColorBar'
+import { AdminMainButton } from '../../../../Components'
 //Styled Components
 const StyledStylesDrawerList = styled(Box)(
     ({theme}) => ({
@@ -47,6 +48,7 @@ const StylesDrawerList = () => {
         // },
         {
           name :'Fonts' , 
+          Component: FontDrawerList,
           icon : <FontDownloadIcon />,
           onClick: ()=> {setFont(true)},
         }
@@ -55,21 +57,33 @@ const StylesDrawerList = () => {
     return (
         <StyledStylesDrawerList>
             <List>
+              
           {drawerItems.map((item) => (
-            <ListItem key={item.name} disablePadding>
-              <ListItemButton onClick={item.onClick}>
-                <ListItemIcon>
-                  {item.icon}
-                </ListItemIcon>
-                <ListItemText primary={item.name} />
-              </ListItemButton>
-            </ListItem>
+              <AdminMainButton
+              key={item.name}
+              title={item.name}
+              type="drawer"
+              appearance="secondary"
+              putTooltip
+              willShow={
+                <item.Component></item.Component>
+              }
+              sx={{
+                marginTop: '10px',
+                width: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: '10px 15px',
+                fontWeight: 'bold',
+                color: 'white.main',
+                backgroundColor: 'success.dark',
+                '&:hover': { backgroundColor: 'action.hover' },
+              }}
+              icon={item.icon}
+            />
           ))}
         </List>
-        {/* <PersistentDrawerLeft drawerOpenState = {[color, setColor]} closebtn={true} >
-            <ColorBar value={color1} onChange={handleColorChange}></ColorBar>
-        </PersistentDrawerLeft> */}
-
 
         
         <PersistentDrawerLeft drawerOpenState = {[font, setFont]} closebtn={true} >
