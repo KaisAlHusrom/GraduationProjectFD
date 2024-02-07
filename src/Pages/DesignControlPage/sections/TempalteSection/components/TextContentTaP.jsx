@@ -170,12 +170,10 @@ const TextContentTaP = ({
                         backgroundColor: 'warning.dark',
                       }} />
                         </Box>
-
                 </Box>
               )) 
             }
           </Box>
-    
           <Box
             sx={{
               display: 'flex',

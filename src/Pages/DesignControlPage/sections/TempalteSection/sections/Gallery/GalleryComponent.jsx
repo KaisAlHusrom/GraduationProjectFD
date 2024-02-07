@@ -17,7 +17,6 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import GalleryElement from './GalleryElement'
-import GalleryElementBox from './GalleryElementBox'
 
 //Styled Components
 const StyledGalleryComponent = styled(Box)(
@@ -44,15 +43,16 @@ const GalleryComponent = ({component}) => {
     }, [component.section_css_props]);
 
 
-
-    // console.log(component.component_elements['Texts_Of_Header'].section_css_props)
-
     return (
-            <StyledGalleryComponent sx={componentStyle}>
-                <GalleryElementBox component={component} ></GalleryElementBox>
-            </StyledGalleryComponent>
-
-      
+        <StyledGalleryComponent sx={componentStyle}>
+            {
+                component && component.component_elements.map((element, i) => {
+                    return (
+                        <GalleryElement key={i} element={element} />
+                    )
+                })
+            }
+        </StyledGalleryComponent>
     );
 };
 

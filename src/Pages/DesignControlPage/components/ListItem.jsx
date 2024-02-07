@@ -1,42 +1,23 @@
-//React
-import {
-    
-} from 'react'
+import { Box, FormControl, InputLabel, ListItem, MenuItem, Select } from '@mui/material';
+import { styled } from '@mui/system';
 
-import {
-    
-} from 'react-redux'
-
-//Components
-
-
-//MUI
-import {
-    Box, FormControl, InputLabel, ListItem, MenuItem, Select,
-} from '@mui/material'
-import { styled } from '@mui/system'
-
-//Styled Components
-const StyledListItem = styled(Box)(
-    ({ theme }) => ({
-        padding:theme.spacing(2), 
-
-        
-    })
-)
-
-
+const StyledListItem = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+}));
 
 const ListItemCom = ({ selected, handleChange, items, label }) => {
-    return (
+  console.log('selected:', selected); // Add logging to see the selected value
+  console.log('items:', items); // Add logging to see the items
+
+  return (
     <StyledListItem>
-        <ListItem disablePadding>
+      <ListItem disablePadding>
         <FormControl sx={{ width: '200px' }}>
           <InputLabel id={`${label}-select-label`}>{label}</InputLabel>
           <Select
             labelId={`${label}-select-label`}
             id={`${label}-select`}
-            value={selected[label] || ''}
+            value={selected || ''} // Use selected directly
             label={label}
             onChange={(e) => handleChange(label, e.target.value)}
           >
@@ -49,7 +30,7 @@ const ListItemCom = ({ selected, handleChange, items, label }) => {
         </FormControl>
       </ListItem>
     </StyledListItem>
-    );
-  };
+  );
+};
 
 export default ListItemCom;

@@ -23,7 +23,7 @@ import CustomTextField from '../../../../Components/CustomTextField/CustomTextFi
 //Styled Components
 const StyledNewPageDrawerModel = styled(Box)(
     ({ theme }) => ({
-
+        padding:theme.spacing(8)
     })
 )
 

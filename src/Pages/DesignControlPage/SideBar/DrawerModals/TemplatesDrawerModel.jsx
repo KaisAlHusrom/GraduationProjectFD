@@ -29,8 +29,8 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 
 //Styled Components
 const StyledTemplatesDrawerModel = styled(Box)(
-    () => ({
-    
+    ({theme}) => ({
+        padding: theme.spacing(8)
     })
 )
 
