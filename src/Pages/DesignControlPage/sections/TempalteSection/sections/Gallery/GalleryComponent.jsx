@@ -13,10 +13,13 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import { Edit as EditIcon } from '@mui/icons-material';
 
 //propTypes 
 import propTypes from 'prop-types'
 import GalleryElement from './GalleryElement'
+import { AdminMainButton } from '../../../../../../Components'
+import CustomVerticalTabs from '../../components/CustomVerticalTabs'
 
 //Styled Components
 const StyledGalleryComponent = styled(Box)(
@@ -24,6 +27,15 @@ const StyledGalleryComponent = styled(Box)(
     
     })
 )
+
+const TooltipContainer = styled(Box)({
+    position: 'absolute',
+    top: '10%',
+    left: '0%',
+    zIndex: 100,
+    transform: 'translateX(50%)',
+    });
+
 
 
 const GalleryComponent = ({component}) => {
@@ -52,6 +64,26 @@ const GalleryComponent = ({component}) => {
                     )
                 })
             }
+
+            <TooltipContainer>
+                        <AdminMainButton
+                            title='Edit About us Content'
+                            type='custom'
+                            appearance='iconButton'
+                            putTooltip
+                            icon={<EditIcon />}
+                            // willShow={
+                            // <CustomVerticalTabs  tabLabels={tabLabels} tabContents={tabContents}/>
+                            // }
+                            sx={{
+                                border: '1px solid red',
+                                padding: '10px 15px',
+                                fontWeight: 'bold',
+                                color: 'white.main',
+                                backgroundColor: 'primary.dark',
+                            }}
+                        />
+                    </TooltipContainer>
         </StyledGalleryComponent>
     );
 };

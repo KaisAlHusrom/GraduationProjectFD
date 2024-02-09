@@ -11,7 +11,6 @@ import * as utils from '../../StylesFunctions/StylesFunctions.js';
 
 //Components
 import { AdminMainButton } from '../../../../../../Components'
-import DialogCom from '../../../../components/DialogCom';
 import CustomVerticalTabs from '../../components/CustomVerticalTabs';
 import ImageContentTap from './ImageContentTap';
 

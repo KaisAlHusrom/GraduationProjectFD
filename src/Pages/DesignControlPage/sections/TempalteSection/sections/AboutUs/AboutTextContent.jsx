@@ -14,8 +14,6 @@ import * as utils from '../../StylesFunctions/StylesFunctions.js';
 //MUI
 import {
   Box,
-  Card,
-  CardMedia,
   Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'

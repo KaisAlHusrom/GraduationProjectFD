@@ -1,6 +1,6 @@
 {
-    "section_id": 3,
-    "section_title": "Contact Us",
+    "section_id": 1,
+    "section_title": "Header section",
     "Section_descriptions": "lorem ipsum ....",
     "is_template": true,
     "created_at": "2022-01-01 12:00:00",
@@ -32,13 +32,13 @@
                 }
             },
             {
-                "section_css_prop_id": 15,
+                "section_css_prop_id": 16,
                 "section_id": 3,
                 "component_id": null,
                 "element_id": null,
                 "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "paddingTop",
+                    "prop_id": 10,
+                    "prop_name": "color",
                     "prop_description": "lorem ipsum ....",
                     "is_section": true,
                     "is_component": false,
@@ -46,24 +46,24 @@
                 },
                 "css_status": null,
                 "css_responsive_status": null,
-                "css_prop_value": "20px",
+                "css_prop_value": "#fff",
                 "pivot": {
                     "section_id": 3,
                     "component_id": null,
                     "element_id": null,
-                    "section_css_prop_id": 15,
+                    "section_css_prop_id": 16,
                     "created_at": "2022-01-01 13:00:00",
                     "updated_at": "2022-01-01 13:30:00"
                 }
             },
             {
-                "section_css_prop_id": 15,
+                "section_css_prop_id": 16,
                 "section_id": 3,
                 "component_id": null,
                 "element_id": null,
                 "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "backgroundColor",
+                    "prop_id": 10,
+                    "prop_name": "textAlign",
                     "prop_description": "lorem ipsum ....",
                     "is_section": true,
                     "is_component": false,
@@ -71,73 +71,23 @@
                 },
                 "css_status": null,
                 "css_responsive_status": null,
-                "css_prop_value": "grey",
+                "css_prop_value": "center",
                 "pivot": {
                     "section_id": 3,
                     "component_id": null,
                     "element_id": null,
-                    "section_css_prop_id": 15,
+                    "section_css_prop_id": 16,
                     "created_at": "2022-01-01 13:00:00",
                     "updated_at": "2022-01-01 13:30:00"
                 }
             },
             {
-                "section_css_prop_id": 15,
+                "section_css_prop_id": 16,
                 "section_id": 3,
                 "component_id": null,
                 "element_id": null,
                 "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "borderRadius",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": true,
-                    "is_component": false,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "10px",
-                "pivot": {
-                    "section_id": 3,
-                    "component_id": null,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": 3,
-                "component_id": null,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "marginTop",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": true,
-                    "is_component": false,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "5px",
-                "pivot": {
-                    "section_id": 3,
-                    "component_id": null,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": 3,
-                "component_id": null,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
+                    "prop_id": 10,
                     "prop_name": "position",
                     "prop_description": "lorem ipsum ....",
                     "is_section": true,
@@ -151,16 +101,17 @@
                     "section_id": 3,
                     "component_id": null,
                     "element_id": null,
-                    "section_css_prop_id": 15,
+                    "section_css_prop_id": 16,
                     "created_at": "2022-01-01 13:00:00",
                     "updated_at": "2022-01-01 13:30:00"
                 }
             }
+            
         ],
     "section_components": [
         {
             "section_component_id": 10,
-            "component_title": "Social Media",
+            "component_title": "About images",
             "component_description": "lorem ipsum ....",
             "is_template": true,
             "mobile_columns_count": 12,
@@ -218,13 +169,13 @@
                     }
                 },
                 {
-                    "section_css_prop_id": 16,
+                    "section_css_prop_id": 15,
                     "section_id": null,
                     "component_id": 10,
                     "element_id": null,
                     "css_prop": {
-                        "prop_id": 3,
-                        "prop_name": "flexWrap",
+                        "prop_id": 1,
+                        "prop_name": "flexDirection",
                         "prop_description": "lorem ipsum ....",
                         "is_section": false,
                         "is_component": true,
@@ -232,23 +183,23 @@
                     },
                     "css_status": null,
                     "css_responsive_status": null,
-                    "css_prop_value": "wrap",
+                    "css_prop_value": "row",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
                         "element_id": null,
-                        "section_css_prop_id": 16,
+                        "section_css_prop_id": 15,
                         "created_at": "2022-01-01 13:00:00",
                         "updated_at": "2022-01-01 13:30:00"
                     }
-                },
+                }, 
                 {
-                    "section_css_prop_id": 16,
+                    "section_css_prop_id": 15,
                     "section_id": null,
                     "component_id": 10,
                     "element_id": null,
                     "css_prop": {
-                        "prop_id": 3,
+                        "prop_id": 1,
                         "prop_name": "justifyContent",
                         "prop_description": "lorem ipsum ....",
                         "is_section": false,
@@ -262,220 +213,11 @@
                         "section_id": null,
                         "component_id": 10,
                         "element_id": null,
-                        "section_css_prop_id": 16,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                }
-            ],
-            "pivot": {
-                "section_id": 3,
-                "section_component_id": 10,
-                "created_at": "2022-01-01 13:00:00",
-                "updated_at": "2022-01-01 13:30:00"
-            },
-            "component_elements": [
-                {
-                    "component_element_id": 3,
-                    "element_name": "Accounts",
-                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                    "is_template": true,
-                    "element": {
-                        "element_type_id": 4,
-                        "element_type": "Head3",
-                        "type_description": "this type return Typography with variant h3 tag in codes"
-                    },
-                    "element_content": "Will Return H3 Typography",
-                    "section_css_props": [
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "textAlign",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "center",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "width",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "100%",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "color",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "green",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        }
-                    ],
-                    "pivot": {
-                        "section_component_id": 10,
-                        "component_element_id": 3,
+                        "section_css_prop_id": 15,
                         "created_at": "2022-01-01 13:00:00",
                         "updated_at": "2022-01-01 13:30:00"
                     }
                 },
-                {
-                    "component_element_id": 3,
-                    "element_name": "Accounts",
-                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                    "is_template": true,
-                    "element": {
-                        "element_type_id": 4,
-                        "element_type": "Head3",
-                        "type_description": "this type return Typography with variant h3 tag in codes"
-                    },
-                    "element_content": "Will Return H3 Typography",
-                    "section_css_props": [
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "textAlign",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "center",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "width",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "100%",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "color",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "blue",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        }
-                    ],
-                    "pivot": {
-                        "section_component_id": 10,
-                        "component_element_id": 3,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                }
-            ]
-        },
-        {
-            "section_component_id": 10,
-            "component_title": "Social Media",
-            "component_description": "lorem ipsum ....",
-            "is_template": true,
-            "mobile_columns_count": 12,
-            "tablet_columns_count": 4,
-            "laptop_columns_count": 3,
-            "section_css_props": [
                 {
                     "section_css_prop_id": 15,
                     "section_id": null,
@@ -483,7 +225,32 @@
                     "element_id": null,
                     "css_prop": {
                         "prop_id": 1,
-                        "prop_name": "width",
+                        "prop_name": "alignItems",
+                        "prop_description": "lorem ipsum ....",
+                        "is_section": false,
+                        "is_component": true,
+                        "is_element": false
+                    },
+                    "css_status": null,
+                    "css_responsive_status": null,
+                    "css_prop_value": "center",
+                    "pivot": {
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "section_css_prop_id": 15,
+                        "created_at": "2022-01-01 13:00:00",
+                        "updated_at": "2022-01-01 13:30:00"
+                    }
+                },  
+                {
+                    "section_css_prop_id": 15,
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "css_prop": {
+                        "prop_id": 1,
+                        "prop_name": "height",
                         "prop_description": "lorem ipsum ....",
                         "is_section": false,
                         "is_component": true,
@@ -508,7 +275,7 @@
                     "element_id": null,
                     "css_prop": {
                         "prop_id": 1,
-                        "prop_name": "display",
+                        "prop_name": "position",
                         "prop_description": "lorem ipsum ....",
                         "is_section": false,
                         "is_component": true,
@@ -516,342 +283,7 @@
                     },
                     "css_status": null,
                     "css_responsive_status": null,
-                    "css_prop_value": "flex",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 15,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 16,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 3,
-                        "prop_name": "flexWrap",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "wrap",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 16,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 16,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 3,
-                        "prop_name": "justifyContent",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "space-evenly",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 16,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 16,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 3,
-                        "prop_name": "marginTop",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "20px",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 16,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 16,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 3,
-                        "prop_name": "paddingBottom",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "20px",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 16,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                }
-                
-            ],
-            "pivot": {
-                "section_id": 3,
-                "section_component_id": 10,
-                "created_at": "2022-01-01 13:00:00",
-                "updated_at": "2022-01-01 13:30:00"
-            },
-            "component_elements": [
-                {
-                    "component_element_id": 3,
-                    "element_name": "Accounts",
-                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                    "is_template": true,
-                    "element": {
-                        "element_type_id": 4,
-                        "element_type": "text",
-                        "type_description": "this type return Typography with variant p tag in codes"
-                    },
-                    "element_content": "Will Return p element",
-                    "section_css_props": [
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "textAlign",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "center",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "width",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "100%",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "color",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "blue",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        }
-                    ],
-                    "pivot": {
-                        "section_component_id": 10,
-                        "component_element_id": 3,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "component_element_id": 3,
-                    "element_name": "Accounts",
-                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                    "is_template": true,
-                    "element": {
-                        "element_type_id": 4,
-                        "element_type": "text",
-                        "type_description": "this type return Typography with variant p tag in codes"
-                    },
-                    "element_content": "Will Return p Typography",
-                    "section_css_props": [
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "width",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "100%",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "textAlign",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "center",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "color",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "blue",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        }
-                    ],
-                    "pivot": {
-                        "section_component_id": 10,
-                        "component_element_id": 3,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                }
-            ]
-        },
-        {
-            "section_component_id": 10,
-            "component_title": "Social Media",
-            "component_description": "lorem ipsum ....",
-            "is_template": true,
-            "mobile_columns_count": 12,
-            "tablet_columns_count": 4,
-            "laptop_columns_count": 3,
-            "section_css_props": [
-                {
-                    "section_css_prop_id": 15,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 1,
-                        "prop_name": "width",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "100%",
+                    "css_prop_value": "relative",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
@@ -868,31 +300,6 @@
                     "element_id": null,
                     "css_prop": {
                         "prop_id": 1,
-                        "prop_name": "display",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "flex",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 15,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 16,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 3,
                         "prop_name": "flexWrap",
                         "prop_description": "lorem ipsum ....",
                         "is_section": false,
@@ -906,82 +313,7 @@
                         "section_id": null,
                         "component_id": 10,
                         "element_id": null,
-                        "section_css_prop_id": 16,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 16,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 3,
-                        "prop_name": "justifyContent",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "space-evenly",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 16,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 16,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 3,
-                        "prop_name": "marginTop",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "20px",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 16,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 16,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 3,
-                        "prop_name": "paddingBottom",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "20px",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 16,
+                        "section_css_prop_id": 15,
                         "created_at": "2022-01-01 13:00:00",
                         "updated_at": "2022-01-01 13:30:00"
                     }
@@ -996,15 +328,15 @@
             "component_elements": [
                 {
                     "component_element_id": 3,
-                    "element_name": "Accounts",
+                    "element_name": "Image",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
                     "element": {
                         "element_type_id": 4,
                         "element_type": "image",
-                        "type_description": "this type return Typography with variant p tag in codes"
+                        "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "https://img.freepik.com/free-photo/painting-mountain-lake-with-mountain-background_188544-9126.jpg",
+                    "element_content": "https://images.unsplash.com/photo-1509043759401-136742328bb3?ixlib=rb-4.0.3",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -1013,7 +345,7 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
-                                "prop_name": "textAlign",
+                                "prop_name": "width",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -1021,7 +353,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "center",
+                            "css_prop_value": "100%",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1038,6 +370,101 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
+                                "prop_name": "opacity",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "1",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "borderBottomLeftRadius",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "20px",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "borderBottomRightRadius",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "20px",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        }
+                    ],
+                    "pivot": {
+                        "section_component_id": 10,
+                        "component_element_id": 3,
+                        "created_at": "2022-01-01 13:00:00",
+                        "updated_at": "2022-01-01 13:30:00"
+                    }
+                },
+                {
+                    "component_element_id": 3,
+                    "element_name": "Head3",
+                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
+                    "is_template": true,
+                    "element": {
+                        "element_type_id": 4,
+                        "element_type": "Head3",
+                        "type_description": "this type return Typography with variant h3 tag in codes"
+                    },
+                    "element_content": "text Of header 1",
+                    "section_css_props": [
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
                                 "prop_name": "width",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
@@ -1046,7 +473,32 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "400px",
+                            "css_prop_value": "100%",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "opacity",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "1",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1071,7 +523,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "5%",
+                            "css_prop_value": "20px",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1088,7 +540,7 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
-                                "prop_name": "height",
+                                "prop_name": "position",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -1096,7 +548,82 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "250px",
+                            "css_prop_value": "absolute",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "top",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "50%",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "left",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "0%",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "z-index",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "1",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1116,15 +643,15 @@
                 },
                 {
                     "component_element_id": 3,
-                    "element_name": "Accounts",
+                    "element_name": "Head3",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
                     "element": {
                         "element_type_id": 4,
-                        "element_type": "image",
-                        "type_description": "this type return Typography with variant p tag in codes"
+                        "element_type": "Head3",
+                        "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "https://img.freepik.com/premium-photo/painting-mountain-lake-with-mountain-background_327072-11613.jpg",
+                    "element_content": "text Of header 2",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -1141,7 +668,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "400px",
+                            "css_prop_value": "100%",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1158,7 +685,7 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
-                                "prop_name": "textAlign",
+                                "prop_name": "opacity",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -1166,7 +693,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "center",
+                            "css_prop_value": "1",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1176,7 +703,6 @@
                                 "updated_at": "2022-01-01 13:30:00"
                             }
                         },
-                     
                         {
                             "section_css_prop_id": 15,
                             "section_id": null,
@@ -1192,7 +718,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "5%",
+                            "css_prop_value": "20px",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1209,7 +735,7 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
-                                "prop_name": "height",
+                                "prop_name": "position",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -1217,7 +743,82 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "250px",
+                            "css_prop_value": "absolute",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "top",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "60%",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "left",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "0%",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "z-index",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "1",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,

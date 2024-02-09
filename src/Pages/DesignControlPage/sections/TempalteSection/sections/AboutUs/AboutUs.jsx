@@ -26,10 +26,6 @@ const AboutUs = () => {
 
     const {AboutUsPage } = useContext(MainTemplateSectionSet)
 
-
-    
-  
-
     return (
     AboutUsPage ? (
     <StyledAboutUs>

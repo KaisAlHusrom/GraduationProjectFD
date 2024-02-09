@@ -40,8 +40,6 @@ const TooltipContainer = styled(Box)({
     });
 
     
-
-
 const AboutHeader = () => {
 
 

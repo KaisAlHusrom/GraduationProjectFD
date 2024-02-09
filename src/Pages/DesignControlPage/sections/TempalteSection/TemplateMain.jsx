@@ -13,9 +13,9 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import NavBar from './sections/NavBar/NavBar'
-import Header from './sections/Header/Header'
-import AboutUs from './sections/AboutUs/AboutUs'
+import NavBar from './sections/NavBar/New/NavBar'
+import Header from './sections/Header/New/Header'
+import About from './sections/AboutUs/New/About'
 import Gallery from './sections/Gallery/Gallery'
 
 //Styled Components
@@ -36,7 +36,8 @@ const TemplateMain = () => {
         <StyledTemplateMain>
             <NavBar></NavBar>
             <Header></Header>
-            <AboutUs></AboutUs>
+            {/* <AboutUs></AboutUs> */}
+            <About></About>
             <Gallery></Gallery>
         </StyledTemplateMain>
     );
