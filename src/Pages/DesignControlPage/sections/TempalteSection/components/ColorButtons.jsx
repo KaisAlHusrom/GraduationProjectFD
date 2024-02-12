@@ -4,7 +4,7 @@ import AdminMainButton from '../../../../../Components/AdminMainButton/AdminMain
 import ColorLensIcon from '@mui/icons-material/ColorLens';
 import ColorBar from '../../../components/ColorBar';
 
-const ColorButtons = ({ ButtonName , handleColorSelect, handleOpacityChange, generateRandomColor, currentColor, applyColor }) => {
+const ColorButtons = ({ drawerAnchor,  ButtonName , handleColorSelect, handleOpacityChange, generateRandomColor, currentColor, applyColor }) => {
   return (
     <Box sx={{width:'auto'}}>
       {/* Background color button */}
@@ -15,7 +15,7 @@ const ColorButtons = ({ ButtonName , handleColorSelect, handleOpacityChange, gen
         putDrawerCloseButton
         appearance='primary'
       
-        drawerAnchor='left'
+        drawerAnchor={drawerAnchor}
         willShow={
         <ColorBar
           sx={{

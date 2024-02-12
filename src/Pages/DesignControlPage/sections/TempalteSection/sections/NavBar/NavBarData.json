@@ -452,7 +452,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "1",
+                            "css_prop_value": "0.5",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1112,7 +1112,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "600",
+                            "css_prop_value": "700",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1357,7 +1357,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "600",
+                            "css_prop_value": "700",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1602,7 +1602,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "600",
+                            "css_prop_value": "700",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1847,7 +1847,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "600",
+                            "css_prop_value": "700",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,

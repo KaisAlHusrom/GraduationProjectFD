@@ -1,28 +1,26 @@
 //React
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
     
 } from 'react-redux'
 
 //Components
-import GalleryElement from './GalleryElement'
-
+import propTypes from 'prop-types'
 
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-
-//propTypes 
-import propTypes from 'prop-types'
+import HeaderElement from './HeaderElement.jsx';
 
 //Styled Components
-const StyledGalleryComponent = styled(Box)(() => ({}))
+const StyledHeaderComponent = styled(Box)(() => ({}))
 
 
-const GalleryComponent = ({component}) => {
+const HeaderComponent = ({component}) => {
+
 
     const componentStyle = useMemo(() => {
         const styleObject = {};
@@ -37,24 +35,23 @@ const GalleryComponent = ({component}) => {
 
         return styleObject;
     }, [component.section_css_props]);
-
-
     return (
-        <StyledGalleryComponent sx={componentStyle}>
+        <StyledHeaderComponent sx={componentStyle}>
             {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <GalleryElement key={i} element={element} />
+                        <HeaderElement key={i} element={element} />
                     )
                 })
             }
 
-        </StyledGalleryComponent>
+        </StyledHeaderComponent>
     );
 };
 
-GalleryComponent.propTypes = {
+HeaderComponent.propTypes = {
     component: propTypes.object
 }
 
-export default GalleryComponent;
+
+export default HeaderComponent;

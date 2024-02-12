@@ -1,18 +1,25 @@
-/* eslint-disable no-unused-vars */
-import { useContext, useMemo } from 'react';
-import { styled } from '@mui/system';
-import { Box } from '@mui/material';
+//React
+import {
+    useContext, useMemo  
+} from 'react'
+
+import {
+    
+} from 'react-redux'
+
+//Components
 import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
-
-const StyledGallery2 = styled(Box)(
-    ({ theme }) => ({
-        // Add default styles for StyledGallery2 here if needed
-    })
-    );
-
-import galleryData2 from "./GalleryData2.json"
+import galleryData2 from "./GalleryData2"
 import GalleryComponent from './GalleryComponent';
 
+//MUI
+import {
+    Box,
+} from '@mui/material'
+import { styled } from '@mui/system'
+
+//Styled Components
+const StyledGallery = styled(Box)(() => ({}))
 
 const Gallery2 = () => {
 
@@ -35,18 +42,22 @@ const Gallery2 = () => {
 
     return (
         GalleryPage ? (
-        <StyledGallery2 key={galleryData2.section_id} sx={sectionStyle}>
+        <StyledGallery key={galleryData2.section_id} sx={sectionStyle}>
         {galleryData2 &&
             galleryData2.section_components.map((component, i) => {
             return (
                 <GalleryComponent key={i} component={component} />
             );
             })}
-        </StyledGallery2>
-         ) : (
+        </StyledGallery>
+        ) : (
             null
         )
     );
 };
 
 export default Gallery2;
+
+
+
+

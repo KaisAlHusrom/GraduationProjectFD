@@ -6,7 +6,10 @@ import {
 } from 'react-redux'
 
 //Components
-import GalleryElement from './GalleryElement'
+import AboutElement from './AboutElement'
+
+
+import propTypes from 'prop-types'
 
 
 //MUI
@@ -15,14 +18,15 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 
-//propTypes 
-import propTypes from 'prop-types'
 
 //Styled Components
-const StyledGalleryComponent = styled(Box)(() => ({}))
+const StyledAboutComponent = styled(Box)(() => ({}))
 
 
-const GalleryComponent = ({component}) => {
+
+
+const AboutComponent = ({component}) => {
+
 
     const componentStyle = useMemo(() => {
         const styleObject = {};
@@ -37,24 +41,21 @@ const GalleryComponent = ({component}) => {
 
         return styleObject;
     }, [component.section_css_props]);
-
-
     return (
-        <StyledGalleryComponent sx={componentStyle}>
+        <StyledAboutComponent sx={componentStyle}>
             {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <GalleryElement key={i} element={element} />
+                        <AboutElement key={i} element={element} />
                     )
                 })
             }
-
-        </StyledGalleryComponent>
+        </StyledAboutComponent>
     );
 };
-
-GalleryComponent.propTypes = {
+AboutComponent.propTypes = {
     component: propTypes.object
 }
 
-export default GalleryComponent;
+
+export default AboutComponent;

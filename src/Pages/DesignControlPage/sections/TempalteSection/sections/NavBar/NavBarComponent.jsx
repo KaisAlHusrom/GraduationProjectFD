@@ -6,8 +6,7 @@ import {
 } from 'react-redux'
 
 //Components
-import GalleryElement from './GalleryElement'
-
+import NavBarElement from './NavBarElement.jsx';
 
 //MUI
 import {
@@ -18,15 +17,14 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 
+
 //Styled Components
-const StyledGalleryComponent = styled(Box)(() => ({}))
+const StyledNavBarComponent = styled(Box)(() => ({}))
 
-
-const GalleryComponent = ({component}) => {
+const NavBarComponent = ({component}) => {
 
     const componentStyle = useMemo(() => {
         const styleObject = {};
-
         component.section_css_props.forEach((cssProp) => {
         const { css_prop, css_prop_value } = cssProp;
 
@@ -38,23 +36,25 @@ const GalleryComponent = ({component}) => {
         return styleObject;
     }, [component.section_css_props]);
 
+      // Define tab labels
 
     return (
-        <StyledGalleryComponent sx={componentStyle}>
+        <StyledNavBarComponent sx={componentStyle}>
             {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <GalleryElement key={i} element={element} />
+                        <NavBarElement key={i} element={element} />
                     )
                 })
             }
 
-        </StyledGalleryComponent>
+    
+        </StyledNavBarComponent>
     );
 };
 
-GalleryComponent.propTypes = {
-    component: propTypes.object
+NavBarComponent.propTypes = {
+    component: propTypes.component
 }
 
-export default GalleryComponent;
+export default NavBarComponent;

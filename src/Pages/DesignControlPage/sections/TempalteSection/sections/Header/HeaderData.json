@@ -183,7 +183,7 @@
                     },
                     "css_status": null,
                     "css_responsive_status": null,
-                    "css_prop_value": "row",
+                    "css_prop_value": "column",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
@@ -208,7 +208,7 @@
                     },
                     "css_status": null,
                     "css_responsive_status": null,
-                    "css_prop_value": "space-evenly",
+                    "css_prop_value": "center",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
@@ -473,7 +473,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "100%",
+                            "css_prop_value": "fit-content",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -590,7 +590,7 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
-                                "prop_name": "left",
+                                "prop_name": "z-index",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -598,7 +598,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "0%",
+                            "css_prop_value": "1",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -615,7 +615,7 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
-                                "prop_name": "z-index",
+                                "prop_name": "padding",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -623,7 +623,57 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "1",
+                            "css_prop_value": "10px",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "left",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "50%",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "transform",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "translate(-50%, -50%);",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -668,7 +718,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "100%",
+                            "css_prop_value": "fit-content",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -785,7 +835,7 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
-                                "prop_name": "left",
+                                "prop_name": "z-index",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -793,7 +843,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "0%",
+                            "css_prop_value": "1",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -810,7 +860,7 @@
                             "element_id": null,
                             "css_prop": {
                                 "prop_id": 1,
-                                "prop_name": "z-index",
+                                "prop_name": "padding",
                                 "prop_description": "lorem ipsum ....",
                                 "is_section": false,
                                 "is_component": false,
@@ -818,7 +868,32 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "1",
+                            "css_prop_value": "10px",
+                            "pivot": {
+                                "section_id": null,
+                                "component_id": 10,
+                                "element_id": null,
+                                "section_css_prop_id": 15,
+                                "created_at": "2022-01-01 13:00:00",
+                                "updated_at": "2022-01-01 13:30:00"
+                            }
+                        },
+                        {
+                            "section_css_prop_id": 15,
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "css_prop": {
+                                "prop_id": 1,
+                                "prop_name": "transform",
+                                "prop_description": "lorem ipsum ....",
+                                "is_section": false,
+                                "is_component": false,
+                                "is_element": true
+                            },
+                            "css_status": null,
+                            "css_responsive_status": null,
+                            "css_prop_value": "translate(-50%, -50%);",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,

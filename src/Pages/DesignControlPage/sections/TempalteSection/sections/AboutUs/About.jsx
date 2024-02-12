@@ -6,7 +6,8 @@ import {
 } from 'react-redux'
 
 //Components
-
+import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
+import AboutComponent from './AboutComponent'
 import AboutData from "./AboutData"
 
 //MUI
@@ -14,21 +15,12 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { MainTemplateSectionSet } from '../../../UseContext/UserSetSections'
-import AboutComponent from './AboutComponent'
+
 
 //Styled Components
-const StyledAbout = styled(Box)(
-    ({ theme }) => ({
-    
-    })
-)
-
-
-
+const StyledAbout = styled(Box)(() => ({}))
 
 const About = () => {
-
 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
@@ -45,6 +37,7 @@ const About = () => {
 }, []);
 
     const {AboutUsPage } = useContext(MainTemplateSectionSet)
+    
     return (
         AboutUsPage ? (
             <StyledAbout key={AboutData.section_id} sx={sectionStyle}>
@@ -54,9 +47,8 @@ const About = () => {
                     <AboutComponent key={i} component={component} />
                 );
                 })}
-         
             </StyledAbout>
-             ) : (
+                ) : (
                 null
             )
 
