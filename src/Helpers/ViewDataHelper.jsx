@@ -115,16 +115,22 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
                             return (
                                 <Fragment key={key}>
                                     <ListItem>
-                                        <ListItemText primary={item[row["fetched_column"]]} />
+                                        <ListItemText primary={
+
+                                            item[row["fetched_column"]]
+                                        } />
                                     </ListItem>
                                     <Divider />
                                 </Fragment>
+
                             )
                         })
                         :
                         (
                             <ListItem>
-                                <ListItemText sx={listItemTextStyle} primary={cell[0][row["fetched_column"]]} />
+                                <ListItemText sx={listItemTextStyle} primary={
+                                    cell[0][row["fetched_column"]]
+                                } />
                             </ListItem>
                         )
                     }
@@ -328,6 +334,21 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
         if(columns[column] === "image" || columns[column] === "file") {
             return <Typography color="error" variant='body2'>Can not Update folders fields</Typography>
         } else {
+            if(columns[column] === "many-to-many" || columns[column] === "many-to-one" || columns[column] === "one-to-many") {
+                return (
+                                    <RelationTextField
+                                        relationType={columns[column]}
+                                        columnName ={column}
+                                        relations={relations}
+                                        originalData={cell}
+                                        setShowTextField={setShowTextField}
+                                        handleChangeData={handleChangeData}
+                                        handleEnterKeyDown={handleEnterKeyDown}
+                                        setNewData={setRowData}
+                                    />  
+                                )
+            }
+            
             return <CloseIcon color="error" />
         }
     }

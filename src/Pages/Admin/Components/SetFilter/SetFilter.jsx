@@ -31,6 +31,7 @@ import StringHelper from '../../../../Helpers/StringsHelper';
 import AppliedFilterItem from '../AppliedFilterItem/AppliedFilterItem';
 import filterData from '../../../../Helpers/FilterData';
 import { useMyContext } from '../../../../Components/DatabaseView/DatabaseView';
+import { useLoaderData } from 'react-router-dom';
 
 
 
@@ -69,7 +70,8 @@ const StyledAppliedFiltersBox = styled(Box)(
         width: '100%',
         display: "flex",
         flexDirection: 'column',
-        gap: theme.spacing(2)
+        gap: theme.spacing(2),
+        
     })
 )
 
@@ -251,7 +253,7 @@ const SetFilter = (props) => {
     // Callback to update filter values in SetFilter component
     // Memoize the updateFilterValue function using useCallback
     const updateFilterValue = useCallback(
-        (filter, process, newValue, startDate, endDate, period) => {
+        (filter, process, newValue, startDate, endDate, period, relationValue) => {
             // Find the index of the filter in appliedFilters
             const index = appliedFilters.findIndex((item) => item.filter === filter);
 
@@ -264,6 +266,7 @@ const SetFilter = (props) => {
                 startDate: startDate,
                 endDate: endDate,
                 period: period,
+                relationValue: relationValue
             };
 
             // Update the state
@@ -283,6 +286,7 @@ const SetFilter = (props) => {
             startDate: "", // Set default value
             endDate: "", // Set default value
             period: "",   // Set default value
+            relationValue: [], // Set default value
         };
 
         // Add the new filter to the appliedFilters array
@@ -296,6 +300,9 @@ const SetFilter = (props) => {
         setFiltersCount(updatedAppliedFilters.length);
         setFilterMenuItems(updatedFilterMenuItems);
     };
+
+    //relations
+    const {relations} = useLoaderData()
 
     //When delete possible filter from applied filters
     const handleDeleteFilter = (filter) => {
@@ -312,12 +319,12 @@ const SetFilter = (props) => {
         setAppliedFilters(updatedFilters);
         setFiltersCount(updatedFilters.length);
         setFilterMenuItems(updatedFilterMenuItems);
-        setFilteredData(() => filterData(rowsArray, updatedFilters))
+        setFilteredData(() => filterData(rowsArray, updatedFilters, relations))
     };
     
 
     const handleFilterData = () => {
-        setFilteredData(() => filterData(rowsArray, appliedFilters))
+        setFilteredData(() => filterData(rowsArray, appliedFilters, relations))
     };
 
     const handleGetAllData = () => {

@@ -1,10 +1,24 @@
 import DateHelper from "./DateHelper";
 
-const filterData = (rowsArray, appliedFilters) => {
+const filterData = (rowsArray, appliedFilters, relations) => {
     const updatedRowsArray = rowsArray.filter(row => {
         // Loop through applied filters
         for (const appliedFilter of appliedFilters) {
-            const { filter, process, value, startDate, endDate, period } = appliedFilter;
+            const { filter, process, value, startDate, endDate, period, relationValue } = appliedFilter;
+            let relation = ""
+            if(filter.type === "one-to-many" || filter.type === "many-to-many" || filter.type === "many-to-one"){
+                if(filter.type === 'one-to-many'){
+                    relation =  relations.oneToMany.filter(relation => relation["field_name"] === filter.value)[0]
+                }
+        
+                if(filter.type === 'many-to-many'){
+                    relation = relations.manyToMany.filter(relation => relation["field_name"] === filter.value)[0]
+                }
+        
+                if(filter.type === 'many-to-one'){
+                    relation = relations.manyToOne.filter(relation => relation["field_name"] === filter.value)[0]
+                }
+            }
             
             // Check the type of filter and apply the appropriate condition
             if (
@@ -72,7 +86,7 @@ const filterData = (rowsArray, appliedFilters) => {
                     default:
                         break;
                 }
-            } else if(filter.type === "int" || filter.type === "decimal") {
+            } else if(filter.type === "int" || filter.type === "decimal" || filter.type === "pk") {
                 
                 switch (process) {
                     case "=":
@@ -105,6 +119,26 @@ const filterData = (rowsArray, appliedFilters) => {
                         break;
                     default:
                         break;
+                }
+            } else if(filter.type === "one-to-many" || filter.type === "many-to-many") {
+                if(row[filter.value]) {
+                    const relationWithFetchedColumn = relationValue.map(item => item[relation["fetched_column"]]);
+                    const originalDataWithFetchedColumn = row[filter.value].map(item => item[relation["fetched_column"]]);
+                    if (!relationWithFetchedColumn.some(fetchedColumn => originalDataWithFetchedColumn.includes(fetchedColumn))) {
+                        return false;
+                    }
+                } else {
+                    return false
+                }
+            } else if(filter.type === "many-to-one") {
+                if(row[filter.value]) {
+                    const relationWithFetchedColumn = relationValue[relation["fetched_column"]];
+                    const originalDataWithFetchedColumn = row[filter.value][relation["fetched_column"]];
+                    if ((relationWithFetchedColumn !== originalDataWithFetchedColumn)) {
+                        return false;
+                    }
+                } else {
+                    return false
                 }
             }
         }

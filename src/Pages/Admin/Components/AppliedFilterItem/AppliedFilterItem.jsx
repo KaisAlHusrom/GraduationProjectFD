@@ -11,15 +11,19 @@ import StringHelper from '../../../../Helpers/StringsHelper'
 
 //MUI
 import {
-    Box, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField, Typography,
+    Autocomplete,
+    Box, Checkbox, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Paper, Select, TextField, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
 //icons
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 //propTypes 
 import propTypes from 'prop-types'
+import { useLoaderData } from 'react-router-dom'
 
 
 //Styled Components
@@ -32,18 +36,28 @@ const StyledAppliedFilterItem = styled(Box)(
         backgroundColor: theme.palette.background.paper,
         padding: `${theme.spacing()} ${theme.spacing()}`,
         borderRadius: theme.spacing(2),
+        [theme.breakpoints.down("xs")]: {
+            flexDirection: 'column',
+            gap: theme.spacing(2),
+        }
     })
 )
 
 const StyledFormControl = styled(FormControl)(
-    () => ({
-        width: "150px"
+    ({theme}) => ({
+        width: "150px",
+        [theme.breakpoints.down("xs")]: {
+            width: "80%"
+        }
     })
 );
 
 const StyledTextField = styled(TextField)(
-    () => ({
-        width: "150px"
+    ({theme}) => ({
+        width: "150px",
+        [theme.breakpoints.down("xs")]: {
+            width: "80%"
+        }
     })
 );
 
@@ -51,7 +65,7 @@ const StyledNameBox = styled(Box)(
     () => ({
         display: "flex",
         alignItems: "center",
-        width: "150px"
+        width: "150px",
     })
 );
 
@@ -78,7 +92,7 @@ const StyledDateBox = styled(Box)(
 // --- Items ---
 
 const getMenuItems = (type) => {
-    return type === "int" || type === "decimal"
+    return type === "int" || type === "decimal" || type === "pk"
     ?
     [
         {
@@ -157,6 +171,24 @@ const getMenuItems = (type) => {
             value: false,
         }
     ]
+    :
+    type === "one-to-many" || type === "many-to-many"
+    ?
+    [
+        {
+            name: "Contains", 
+            value: "="
+        }
+    ]
+    :
+    type === "many-to-one"
+    ?
+    [
+        {
+            name: "Equal", 
+            value: "="
+        }
+    ]
     : null
 
 }
@@ -178,6 +210,31 @@ const getDateMenuItems = () => {
     ]
 }
 
+const StyledMenu = styled(Paper)(
+    () => ({
+        maxHeight: "200px",
+        overflow: "auto",
+    })
+);
+
+const AutocompleteMultipleStyle = styled(Autocomplete)(
+    () => ({
+        "& .MuiChip-label": {
+            "&:hover": {
+                overflow: "visible",
+                width: "auto"
+            }
+        },
+        "& .MuiButtonBase-root.MuiChip-root": {
+            "&:hover": {
+                maxWidth: "fit-content", // Change maxWidth on hover
+                zIndex: 1300,
+            }
+        }
+    })
+);
+
+
 const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue, title}) => {
 
     //States
@@ -192,6 +249,71 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [value, setValue] = useState('');
+    //value to relationships
+    const [relationValue, setRelationValue] = useState(() => {
+        if(appliedFilter.type === "many-to-many" || appliedFilter.type === "one-to-many" || appliedFilter.type === "many-to-one") {
+            return []
+        } else {
+            return null
+        }
+    })
+
+    //relations
+    const {relations} = useLoaderData()
+    const [relation, setRelation] = useState(() => {
+        if(appliedFilter.type === 'one-to-many'){
+            return relations.oneToMany.filter(relation => relation["field_name"] === appliedFilter.value)[0]
+        }
+
+        if(appliedFilter.type === 'many-to-many'){
+            return relations.manyToMany.filter(relation => relation["field_name"] === appliedFilter.value)[0]
+        }
+
+        if(appliedFilter.type === 'many-to-one'){
+            return relations.manyToOne.filter(relation => relation["field_name"] === appliedFilter.value)[0]
+        }
+    })
+
+    //related table data if type is relation
+    const [relatedTableData, setRelatedTableData] = useState([])
+    //fetch data
+    useEffect(() => {
+        
+        if(appliedFilter.type === 'many-to-many' || appliedFilter.type === 'many-to-one' || appliedFilter.type === 'one-to-many'){
+            const fetchData = async () => {
+                const data = await relation.fetch_all_data()
+                setRelatedTableData(data.rows)
+            }
+            fetchData()
+        }
+
+    }, [appliedFilter.type, relation])
+
+    
+
+    // Assuming originalData is an array of selected objects
+    const selectedOptions = useMemo(() => {
+        if (appliedFilter.type === "many-to-many" && relationValue && relationValue.length > 0) {
+            return relatedTableData.filter(row => {
+                // Check if originalData contains the current row's id
+                return relationValue.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
+            });
+        }
+        if (appliedFilter.type === "many-to-one" && relationValue) {
+            if(relationValue) {
+                return relatedTableData.filter(row => row[relation["related_table_id"]] === relationValue[relation["related_table_id"]])[0];
+            }
+        }
+
+        if (appliedFilter.type === "one-to-many" && relationValue && relationValue.length > 0) {
+            return relatedTableData.filter(row => {
+                // Check if originalData contains the current row's id
+                return relationValue.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
+            });
+        }
+
+        return [];
+    }, [relationValue, relatedTableData, relation, appliedFilter.type]);
 
     useEffect(() => {
         const storedFilters = pageFilters.appliedFilters || [];
@@ -203,6 +325,7 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
                     setStartDate(() => filterParent.startDate)
                     setEndDate(() => filterParent.endDate)
                     setValue(() => filterParent.value)
+                    setRelationValue(() => filterParent.relationValue)
                 }
             });
         }
@@ -211,8 +334,8 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
     
     useEffect(() => {
         // Update the value in the parent component using the callback
-        updateFilterValue(appliedFilter, process ,value, startDate, endDate, period);
-    }, [period, startDate, endDate, value, process]) //TODO: find what you can do to make this warning gone
+        updateFilterValue(appliedFilter, process ,value, startDate, endDate, period, relationValue);
+    }, [period, startDate, endDate, value, process, relationValue]) //TODO: find what you can do to make this warning gone
 
 
     //Handlers
@@ -248,10 +371,29 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
         
     }
 
+    const handleChangeRelationValue = (event, newValue) => {
+        setRelationValue(() => {
+            return newValue
+        });
+        
+    }
+
 
     
     const menuItems = getMenuItems(appliedFilter.type)
     const dateMenuItems = getDateMenuItems()
+
+    //autoComplete default props
+    const defaultProps = useMemo(()=> {
+        if(appliedFilter.type === "one-to-many" || appliedFilter.type === "many-to-many" || appliedFilter.type === "many-to-one"){
+            return {
+                options: relatedTableData,
+                getOptionLabel: (option) => option[relation["fetched_column"]],
+                getOptionKey: (option) => option[relation["related_table_id"]],
+            };
+        }
+    }, [appliedFilter.type, relatedTableData, relation])
+
 
     return (
         <StyledAppliedFilterItem>
@@ -360,7 +502,7 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
                         name={appliedFilter.value}
                         />
                 :
-                appliedFilter.type === "int"
+                appliedFilter.type === "int" || appliedFilter.type === "pk"
                 ?
                         <StyledTextField
                         size='small'
@@ -392,6 +534,48 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
                             onChange={handleChangeValue}
                         />
                     </FormControl>
+                :
+                appliedFilter.type === "many-to-one"
+                ?
+                    <Autocomplete
+                    {...defaultProps}
+                    disablePortal
+                    sx={{width: "150px"}}
+                    id="combo-box-demo"
+                    size='small'
+                    renderInput={(params) => <TextField {...params} label={appliedFilter.value} />}
+                    onChange={(event, newValue) => handleChangeRelationValue(event, newValue)}
+                    value={selectedOptions}
+                    PaperComponent={StyledMenu}
+                    />
+                :
+                appliedFilter.type === "many-to-many" || appliedFilter.type === "one-to-many"
+                ?
+                    <AutocompleteMultipleStyle
+                    {...defaultProps}
+                    disableClearable
+                    multiple
+                    id="combo-box-demo"
+                    size='small'
+                    renderInput={(params) => <TextField {...params} label={appliedFilter.value} />} // Add name prop here
+                    onChange={(event, newValue) => handleChangeRelationValue(event, newValue)}
+                    value={selectedOptions}
+                    disableCloseOnSelect
+                    sx={{width: "150px"}}
+                    renderOption={(props, option, { selected }) => (
+                        <li 
+                            {...props}
+                        >
+                            <Checkbox
+                                icon={<CheckBoxOutlineBlankIcon />}
+                                checkedIcon={<CheckBoxIcon />}
+                                style={{ marginRight: 8 }}
+                                checked={selected}
+                            />
+                            {option[relation["fetched_column"]]}
+                        </li>
+                    )}
+                />
                 :
                 null)
             }

@@ -111,16 +111,16 @@ const RelationTextFieldToCustomModal = (props) => {
         if (columnType === "many-to-many") {
             return relatedTableData.filter(row => {
                 // Check if originalData contains the current row's id
-                return value.some(selectedObj => selectedObj.id === row.id);
+                return value.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
             });
         }
         if (columnType === "many-to-one") {
             if(value) {
-                return relatedTableData.filter(row => row.id === value.id)[0];
+                return relatedTableData.filter(row => row[relation["related_table_id"]] === value[relation["related_table_id"]])[0];
             }
         }
         return null; // or any default value if needed
-    }, [columnType, relatedTableData, value]);
+    }, [columnType, relatedTableData, relation, value]);
 
 
     const [selectedIds, setSelectedIds] = useState([])

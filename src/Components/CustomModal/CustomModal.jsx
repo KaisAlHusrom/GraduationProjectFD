@@ -12,7 +12,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
   width: "950px",
   bgcolor: 'background.paper',
   boxShadow: 24,
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down('md')]: {
     width: "100%"
   },
   ".MuiCardHeader-avatar": {

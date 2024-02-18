@@ -124,11 +124,11 @@ const DatabaseView = (props) => {
             setFiltersCount(storedFilters.length)
             storedFilters.forEach(filter => {
                 if(filter.process !== "") {
-                    setFilteredData(() => filterData(rowsArray, storedFilters))
+                    setFilteredData(() => filterData(rowsArray, storedFilters, relations))
                 }
             });
         }
-    }, [pageFilters.appliedFilters, rowsArray])
+    }, [pageFilters.appliedFilters, relations, rowsArray])
 
 
     //Get sorts from session storage
@@ -355,15 +355,24 @@ const DatabaseView = (props) => {
     const handleHeaderCheckboxChange = (event) => {
         const isChecked = event.target.checked;
         setIsHeaderCheckboxChecked(isChecked);
-        // If the header checkbox is checked, add all user IDs to usersWillDelete
+        
         if (isChecked) {
-            const allIds = dataWillAppear.map((row) => row.id);
-            setSelected(() => allIds);
+            const pkColumn = Object.keys(columns).find(key => columns[key] === "pk");
+    
+            if (pkColumn) {
+                const allIds = dataWillAppear
+                    .map(row => row[pkColumn]); // Use the primary key column's value as ID
+                setSelected(() => allIds);
+            } else {
+                setSelected(() => []);
+            }
         } else {
-          // If the header checkbox is unchecked, clear the usersWillDelete state
             setSelected(() => []);
         }
-    };
+    }
+    
+    
+    
 
     //Handle update data when change
     const handleChangeData = (e, type, setRowData, columnName, newValue) => {

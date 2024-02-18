@@ -107,23 +107,25 @@ const RelationTextField = (props) => {
 
     // Assuming originalData is an array of selected objects
     const selectedOptions = useMemo(() => {
-        if (relationType === "many-to-many") {
-            return relatedTableData.filter(row => {
-                // Check if originalData contains the current row's id
-                return originalData.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
-            });
-        }
-        if (relationType === "many-to-one") {
-            if(originalData) {
-                return relatedTableData.filter(row => row[relation["related_table_id"]] === originalData[relation["related_table_id"]])[0];
+        if(originalData){
+            if (relationType === "many-to-many" || relationType === "one-to-many") {
+                return relatedTableData.filter(row => {
+                    // Check if originalData contains the current row's id
+                    return originalData.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
+                });
             }
-        }
-
-        if (relationType === "one-to-many") {
-            return relatedTableData.filter(row => {
-                // Check if originalData contains the current row's id
-                return originalData.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
-            });
+            if (relationType === "many-to-one") {
+                if(originalData) {
+                    return relatedTableData.filter(row => row[relation["related_table_id"]] === originalData[relation["related_table_id"]])[0];
+                }
+            }
+        } else {
+            if (relationType === "many-to-many" || relationType === "one-to-many") {
+                return []
+            }
+            if (relationType === "many-to-one") {
+                return {}
+            }
         }
 
         return null; // or any default value if needed

@@ -1,3 +1,4 @@
+import { fetchOrderItems } from "./orderItemsService"
 import productService from "./productsService"
 import usersService from "./usersService"
 
@@ -17,10 +18,24 @@ export const fetchOrders = async () => {
                 "fetched_column": "product_name",
                 "related_table_id": "id",
                 fetch_all_data: productService.fetchProducts,
+                "many-to-many-table": {
+                    "columns": [
+                        "quantity",
+                        "sub_total"
+                    ],
+                    fetch_many_to_many_table_data: fetchOrderItems,
+                },
             },
         ],
         oneToMany:[
-            
+            // {
+            //     "field_name": "quantity",
+            //     "fetched_column": "quantity",
+            //     "related_table_id": "order_item_id",
+            //     fetch_all_data: fetchOrderItems,
+            //     "not_updatable": true,
+                
+            // }
         ]
     }
 

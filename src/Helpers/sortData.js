@@ -11,7 +11,7 @@ const sortData = (rowsArray, appliedSorts) => {
 
             if (sort.type === "string" || sort.type === "text" || sort.type === "email" || sort.type === "mobileNumber" || sort.type === "password" || sort.type === "bool") {
                 comparisonResult = value1.localeCompare(value2);
-            } else if (sort.type === "int" || sort.type === "decimal") {
+            } else if (sort.type === "int" || sort.type === "decimal" || sort.type === "pk") {
                 comparisonResult = value1 - value2;
             } else if (sort.type === "date" || sort.type === "dateTime") {
                 const date1 = new Date(value1);

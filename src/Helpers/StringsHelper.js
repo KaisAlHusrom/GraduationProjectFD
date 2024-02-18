@@ -28,11 +28,15 @@ function removeSAtEnd(word) {
     return word;
 }
 
+function removeHyphens(str) {
+    return str.replace(/-/g, ' ');
+}
 
 const StringHelper = {
     capitalizeEachWord,
     removeSAtEnd,
-    camelCaseToWords
+    camelCaseToWords,
+    removeHyphens
 }
 
 export default StringHelper

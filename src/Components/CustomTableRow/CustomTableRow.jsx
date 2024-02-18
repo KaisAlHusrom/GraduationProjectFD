@@ -250,9 +250,10 @@ const CustomTableRow = (props) => {
             >
                 
             <Checkbox 
-            checked={selected.includes(rowData.id)}
-            onChange={(event) => handleRowCheckboxChange(event, rowData.id)}
+            checked={selected.includes(rowData[Object.keys(columns).find(key => columns[key] === "pk")])}
+            onChange={(event) => handleRowCheckboxChange(event, rowData[Object.keys(columns).find(key => columns[key] === "pk")])}
             />
+
             <IconButton 
             disableRipple
             sx={styleIconButtonLink}>

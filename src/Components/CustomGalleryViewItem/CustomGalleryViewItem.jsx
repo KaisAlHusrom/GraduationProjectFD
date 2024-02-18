@@ -273,7 +273,7 @@ const CustomGalleryViewItem = (props) => {
             alignItems: 'center',
             width: "fit-content",
             borderRadius: "15px",
-            opacity: selected.includes(galleryItemData.id) ? "1" : "0",
+            opacity: selected.includes(galleryItemData[Object.keys(columns).find(key => columns[key] === "pk")]) ? "1" : "0",
             transition: theme.transitions.create(['background-color', 'opacity'], {
                 duration: theme.transitions.duration.short
             }),
@@ -288,8 +288,8 @@ const CustomGalleryViewItem = (props) => {
             <Box sx={StyledCheckboxBox}>
                 <Checkbox 
                 size='small'
-                checked={selected.includes(galleryItemData.id)}
-                onChange={(event) => handleRowCheckboxChange(event, galleryItemData.id)}
+                checked={selected.includes(galleryItemData[Object.keys(columns).find(key => columns[key] === "pk")])}
+                onChange={(event) => handleRowCheckboxChange(event, galleryItemData[Object.keys(columns).find(key => columns[key] === "pk")])}
                 name='checkbox'
                 id='checkbox'
                 />

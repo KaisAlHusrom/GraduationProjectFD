@@ -18,31 +18,27 @@ import {
 import { styled } from '@mui/system'
 
 //icons
-import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
-import productFeaturesService from '../../../../Services/productsFeaturesService'
+import StarRateIcon from '@mui/icons-material/StarRate';
 
 //Styled Components
-const StyledProductsFeaturesPage = styled(Box)(
+const StyledPaymentPlanFeaturesPage = styled(Box)(
     ({ theme }) => ({
     
     })
 )
 
-const featuresOptions = [
 
-]
-
-const ProductsFeaturesPage = () => {
+const PaymentPlanFeaturesPage = () => {
     return (
-        <StyledProductsFeaturesPage>
+        <StyledPaymentPlanFeaturesPage>
             <DatabaseView
                 // databaseOptions={featuresOptions}
-                title="Products Features"
-                icon={<StarBorderOutlinedIcon />}
+                title="Payment Plans Features"
+                icon={<StarRateIcon />}
                 // handleUpdateData={productFeaturesService.fetchProductsFeatures}
             />
-        </StyledProductsFeaturesPage>
+        </StyledPaymentPlanFeaturesPage>
     );
 };
 
-export default ProductsFeaturesPage;
+export default PaymentPlanFeaturesPage;

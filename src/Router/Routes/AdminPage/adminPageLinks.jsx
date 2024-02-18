@@ -13,12 +13,35 @@ import CodeOffOutlinedIcon from '@mui/icons-material/CodeOffOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import ThumbsUpDownOutlinedIcon from '@mui/icons-material/ThumbsUpDownOutlined';
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import GestureIcon from '@mui/icons-material/Gesture';
+import PermMediaIcon from '@mui/icons-material/PermMedia';
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import PaymentsIcon from '@mui/icons-material/Payments';
+import StarRateIcon from '@mui/icons-material/StarRate';
+
 const adminPageLinks = [
     {
         title: "Users",
         icon: <PeopleOutlineOutlinedIcon color='primary.contrastText' />,
         path: "users",
         nestedMenu: null
+    },
+    {
+        title: "Payment Plans Pages",
+        icon: <PaymentsIcon color='primary.contrastText' />,
+        path: "",
+        nestedMenu: [
+            {
+                title: "Payment Plans",
+                icon: <ImportContactsIcon color='primary.contrastText' />,
+                path: "payment-plans"
+            },
+            {
+                title: "Payment Plans Features",
+                icon: <StarRateIcon color='primary.contrastText' />,
+                path: "payment-plans-features"
+            },
+        ]
     },
     {
         title: "E-Commerce",
@@ -34,6 +57,16 @@ const adminPageLinks = [
                 title: "Products Features",
                 icon: <StarBorderOutlinedIcon color='primary.contrastText' />,
                 path: "products-features"
+            },
+            {
+                title: "Products Used Skills",
+                icon: <GestureIcon color='primary.contrastText' />,
+                path: "products-used-skills"
+            },
+            {
+                title: "Products Media",
+                icon: <PermMediaIcon color='primary.contrastText' />,
+                path: "products-media"
             },
             {
                 title: "Products Reviews",

@@ -1,4 +1,6 @@
+import { fetchPaymentPlans } from "./paymentPlans"
 import productService from "./productsService"
+import { fetchUserPaymentPlan } from "./userPaymentPlan"
 
 const fetchUsers = async () => {
     
@@ -10,7 +12,15 @@ const fetchUsers = async () => {
                 
             ],
         manyToMany:[
-                    
+            {
+                "field_name": "payment_plan",
+                "fetched_column": "payment_plan_title",
+                "related_table_id": "payment_plan_id",
+                fetch_all_data: fetchPaymentPlans,
+                "many-to-many-table": {
+                    fetch_many_to_many_table_data: fetchUserPaymentPlan,
+                },
+            }
         ],
         oneToMany:[
                 ]
@@ -28,6 +38,7 @@ const fetchUsers = async () => {
         is_admin: "bool",
         created_at: "dateTime",
         updated_at: "dateTime",
+        payment_plan: "many-to-many",
         // products: "one-to-many",
     }
 
@@ -57,6 +68,27 @@ const fetchUsers = async () => {
                 is_admin: false,
                 created_at: "2024-01-06 15:30:45",
                 updated_at: "2024-01-06 15:30:45",
+                payment_plan: [
+                    {
+                        "payment_plan_id": 1,
+                        "payment_plan_title": "Default Plan",
+                        "payment_plan_price": 5,
+                        "payment_plan_description": "The default plan of our project",
+                        "is_active": true,
+                        "payment_plan_features": [
+                            {
+                                "payment_plan_feature_id": 1,
+                                "payment_plan_feature": "Default Template",
+                                "payment_plan_feature_description": "Can use only the default template",
+                            },
+                            {
+                                "payment_plan_feature_id": 2,
+                                "payment_plan_feature": "Responsive Template",
+                                "payment_plan_feature_description": "The default template came with responsive feature",
+                            },
+                        ]
+                    }
+                ],
             },
             {
                 id: 3,

@@ -4,3 +4,7 @@ export {default as ProductsPage} from "./ProductsPage/ProductsPage";
 export {default as CategoriesPage} from "./CategoriesPage/CategoriesPage";
 export {default as ProductsFeaturesPage} from "./ProductsFeaturesPage/ProductsFeaturesPage";
 export {default as ProductReviewsPage} from "./ProductReviewsPage/ProductReviewsPage";
+export {default as ProductsUsedSkillsPage} from "./ProductsUsedSkillsPage/ProductsUsedSkillsPage";
+export {default as ProductsMediaPage} from "./ProductsMediaPage/ProductsMediaPage";
+export {default as PaymentPlansPage} from "./PaymentPlansPage/PaymentPlansPage";
+export {default as PaymentPlanFeaturesPage} from "./PaymentPlanFeaturesPage/PaymentPlanFeaturesPage";

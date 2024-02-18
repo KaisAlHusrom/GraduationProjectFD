@@ -81,14 +81,14 @@ const CustomBreadcrumbs = () => {
 
                 return last ?  (
                 <Typography color="text.secondary" key={to}>
-                    {capitalizedValue}
+                    {StringHelper.capitalizeEachWord(StringHelper.removeHyphens(capitalizedValue))}
                 </Typography>
                 ) : 
                 index !== 0 
                 ?
                 (
                 <StyledLink to={to} key={to}>
-                    {capitalizedValue}
+                    {StringHelper.capitalizeEachWord(StringHelper.removeHyphens(capitalizedValue))}
                 </StyledLink>
                 )
                 :

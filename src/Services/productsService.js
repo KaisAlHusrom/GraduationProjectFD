@@ -2,6 +2,8 @@
 
 import categoriesService from "./categoriesService"
 import { fetchProductsFeatures } from "./productsFeaturesService"
+import { fetchProductsMedia } from "./productsMedia"
+import { fetchProductsUsedSkill } from "./productsUsedSkills"
 import usersService from "./usersService"
 
 const fetchProducts = async () => {
@@ -17,6 +19,8 @@ const fetchProducts = async () => {
         "categories": "many-to-many",
         "user": "many-to-one",
         "product_features": "one-to-many",
+        "product_used_skills": "one-to-many",
+        "product_media": "one-to-many",
     }
 
     const relations = {
@@ -42,6 +46,18 @@ const fetchProducts = async () => {
                 "fetched_column": "product_featured_name",
                 "related_table_id": "product_featured_id",
                 fetch_all_data: fetchProductsFeatures,
+            },
+            {
+                "field_name": "product_used_skills",
+                "fetched_column": "product_used_skill_name",
+                "related_table_id": "product_used_skill_id",
+                fetch_all_data: fetchProductsUsedSkill,
+            },
+            {
+                "field_name": "product_media",
+                "fetched_column": "product_media_name",
+                "related_table_id": "product_media_id",
+                fetch_all_data: fetchProductsMedia,
             }
         ]
     }
@@ -91,6 +107,30 @@ const fetchProducts = async () => {
                     product_featured_name: "User Friendly",
                     product_feature_description: "This product has a User Friendly feature",
                 },
+            ],
+            "product_used_skills": [
+                {
+                    "product_used_skill_id": 1,
+                    "product_used_skill_name": "React",
+                    "product_used_skill_how_used": "This front end section is programmed by this technology",
+                },
+                {
+                    "product_used_skill_id": 2,
+                    "product_used_skill_name": "Laravel",
+                    "product_used_skill_how_used": "This Back end section is programmed by this technology",
+                },
+            ],
+            "product_media": [
+                {
+                    "product_media_id": 1,
+                    "product_media_name": "12khah233kd.mp4",
+                    "is_video": true,
+                },
+                {
+                    "product_media_id": 2,
+                    "product_media_name": "12khah2322kd.png",
+                    "is_video": false,
+                },
             ]
         },
         {
@@ -122,7 +162,13 @@ const fetchProducts = async () => {
                 },
             ],
             "product_features": null,
-            
+            "product_used_skills": [
+                {
+                    "product_used_skill_id": 1,
+                    "product_used_skill_name": "React",
+                    "product_used_skill_how_used": "This front end section is programmed by this technology",
+                },
+            ]
         },
         {
             id: 3,
@@ -152,7 +198,15 @@ const fetchProducts = async () => {
                     category_description: "Contains all web front end ready templates to sell",
                 },
             ],
-            "product_features": null
+            "product_features": null,
+            "product_used_skills": null,
+            "product_media": [
+                {
+                    "product_media_id": 3,
+                    "product_media_name": "12khah112322kd.png",
+                    "is_video": false,
+                },
+            ]
         },
     ]
 

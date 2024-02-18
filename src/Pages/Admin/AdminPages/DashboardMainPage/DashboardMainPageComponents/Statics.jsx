@@ -8,18 +8,18 @@ import StaticsTitle from "./StaticsTitle";
 import StaticsInfo from "./StaticsInfo";
 
 //MUI
-import { Paper } from "@mui/material";
+import { Card } from "@mui/material";
 import { styled } from "@mui/system";
 
 //Styled Components
-const StyledStatics = styled(Paper)(({ theme }) => ({
+const StyledStatics = styled(Card)(({ theme }) => ({
     padding: `${theme.spacing(2)} ${theme.spacing(3)}`,
 }));
 
 
 const Statics = () => {
     return (
-        <StyledStatics elevation={4}>
+        <StyledStatics >
             <StaticsTitle />
             <StaticsInfo />
         </StyledStatics>
