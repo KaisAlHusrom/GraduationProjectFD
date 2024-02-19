@@ -258,7 +258,7 @@ const CustomTableRow = (props) => {
             disableRipple
             sx={styleIconButtonLink}>
                 <StyledNavLink 
-                    to={`${rowData.id}`}
+                    to={`${rowData[Object.keys(columns).find(key => columns[key] === "pk")]}`}
                     >
                     <OpenInNewIcon />
                 </StyledNavLink>

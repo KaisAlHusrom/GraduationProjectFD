@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useState } from 'react'
 
 //redux
 import {
@@ -41,6 +39,9 @@ const StyledAdminNavbarListContent = styled(List)(
 
 
 const AdminNavbarListContent = () => {
+    const [openedItem, setOpenedItem] = useState(null)
+
+
     return (
         <StyledAdminNavbarListContent>
             {
@@ -52,6 +53,8 @@ const AdminNavbarListContent = () => {
                             icon={link.icon}
                             path={link.path}
                             nestedMenu={link.nestedMenu}
+                            index={index}
+                            openedItemState={{openedItem, setOpenedItem}}
                         />
                     )
                 })

@@ -50,17 +50,21 @@ const DatabaseView = (props) => {
     const {
         title,
         icon,
+        loaderDataProp,
         //handleUpdateData //function to change data in database
     } = props
 
     const theme = useTheme()
     
+    //get the data from loader function or as prop
+    const loadedData = useLoaderData();
+    const initialData = loaderDataProp ? loaderDataProp : loadedData;
+    const [loaderData, setLoaderData] = useState(initialData);
+    
     //Split the columns and rows,
-    const [loaderData, setLoaderData] = useState(useLoaderData());
     const {columns, rows, relations} = loaderData;
     const {manyToOne,
-        manyToMany,
-    oneToMany} = relations
+            manyToMany} = relations
 
     //Sorting the columns
     const allSortedColumns = useMemo(() => JSON.parse(localStorage.getItem('sortedColumns')) || {}, []);
@@ -296,7 +300,7 @@ const DatabaseView = (props) => {
                 contentPosition: [
                     {
                         name: "left",
-                        value: true,
+                        value: false,
                         type: "position",
                     },
                     {
@@ -306,7 +310,7 @@ const DatabaseView = (props) => {
                     },
                     {
                         name: "right",
-                        value: false,
+                        value: true,
                         type: "position",
                     },
                 ]
@@ -559,7 +563,8 @@ DatabaseView.propTypes = {
     database: propTypes.array,
     hiddenColumns: propTypes.array,
     databaseOptions: propTypes.array,
-    handleUpdateData: propTypes.func
+    handleUpdateData: propTypes.func,
+    loaderDataProp: propTypes.object,
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

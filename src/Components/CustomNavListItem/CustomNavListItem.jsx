@@ -1,5 +1,5 @@
 //React
-import { useState } from 'react'
+import {  } from 'react'
 
 import { useSelector } from 'react-redux'
 
@@ -81,19 +81,26 @@ const CustomNavListItem = (props) => {
         icon,
         path,
         nestedMenu,
+        openedItemState,
+        index
     } = props
 
     //redux
     const dir = useSelector(state => state.langSlice.dir)
 
     //states
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
 
-    const handleOpenNestedMenu = () => {
-        setOpen(!open);
+    const {openedItem, setOpenedItem} = openedItemState
+
+    const handleOpenNestedMenu = (index) => {
+        if (openedItem === index) {
+            setOpenedItem(null); // Close the currently opened item
+        } else {
+            setOpenedItem(index); // Open the clicked item
+        }
     };
 
-    
 
     return (
             <StyledListItem>
@@ -104,7 +111,7 @@ const CustomNavListItem = (props) => {
                         <StyledBox
                         component="div"   
                         >
-                            <ListItemButton onClick={nestedMenu ? handleOpenNestedMenu : null}>
+                            <ListItemButton onClick={nestedMenu ? () => handleOpenNestedMenu(index) : null}>
                                 <ListItemIcon>
                                     {icon}
 
@@ -113,7 +120,7 @@ const CustomNavListItem = (props) => {
                                 {
                                     nestedMenu
                                     ?
-                                        open 
+                                        openedItem === index
                                         ? 
                                         <ExpandLess /> 
                                         : 
@@ -123,7 +130,7 @@ const CustomNavListItem = (props) => {
                                 }
                                 
                             </ListItemButton>
-                            <Collapse sx={{backgroundColor: "transparent"}} in={open} timeout="auto" unmountOnExit>
+                            <Collapse sx={{backgroundColor: "transparent"}} in={openedItem === index} timeout="auto" unmountOnExit>
                                     <List disablePadding>
                                         {
                                             nestedMenu.map((link, index) => {
@@ -184,6 +191,9 @@ CustomNavListItem.propTypes = {
     icon: propTypes.element,
     path: propTypes.string,
     nestedMenu: propTypes.array,
+    openedItemState: propTypes.object,
+    index: propTypes.number,
+
 }
 
 export default CustomNavListItem;

@@ -297,7 +297,7 @@ const CustomGalleryViewItem = (props) => {
                 disableRipple
                 sx={styleIconButtonLink}>
                     <StyledNavLink 
-                        to="/"
+                        to={`${galleryItemData[Object.keys(columns).find(key => columns[key] === "pk")]}`}
                         >
                         <OpenInNewIcon />
                     </StyledNavLink>

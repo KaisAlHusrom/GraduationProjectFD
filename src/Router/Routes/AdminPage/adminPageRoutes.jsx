@@ -9,10 +9,16 @@ import {
     ProductsUsedSkillsPage,
     ProductsMediaPage,
     PaymentPlansPage,
-    PaymentPlanFeaturesPage
+    PaymentPlanFeaturesPage,
+    UserDetailsPage,
+    ElementSettingsPage,
+    ElementTypesPage
 } from "../../../Pages/Admin/AdminPages"
+import ElementPropsPage from "../../../Pages/Admin/AdminPages/ElementPropsPage/ElementPropsPage";
 import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
 import categoriesService from "../../../Services/categoriesService";
+import { addElementProp, fetchElementProps } from "../../../Services/elementPropsService";
+import { addElementType, fetchElementsTypes } from "../../../Services/elementsTypesService";
 import orderService from "../../../Services/ordersService";
 import { addPaymentPlanFeatures, fetchPaymentPlanFeatures } from "../../../Services/paymentPlanFeautres";
 import { addPaymentPlans, fetchPaymentPlans } from "../../../Services/paymentPlans";
@@ -40,6 +46,12 @@ const adminPageRoutes = [
         exact: false,
         loader: usersService.fetchUsers,
         action: usersService.addUser,
+    },
+    {
+        element: <UserDetailsPage />,
+        path: "users/:user_id",
+        exact: false,
+        loader: usersService.fetchUser,
     },
     {
         element: <PaymentPlansPage />,
@@ -103,6 +115,27 @@ const adminPageRoutes = [
         exact: false,
         loader: orderService.fetchOrders,
         action: orderService.addOrder,
+    },
+    {
+        element: <ElementSettingsPage />,
+        path: "element-settings",
+        exact: false,
+        // loader: orderService.fetchOrders,
+        // action: orderService.addOrder,
+    },
+    {
+        element: <ElementTypesPage />,
+        path: "element-settings/element-types",
+        exact: false,
+        loader: fetchElementsTypes,
+        action: addElementType,
+    },
+    {
+        element: <ElementPropsPage />,
+        path: "element-settings/element-props",
+        exact: false,
+        loader: fetchElementProps,
+        action: addElementProp,
     },
 ]
 

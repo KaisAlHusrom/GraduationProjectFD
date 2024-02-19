@@ -16,3 +16,4 @@ export {default as CustomGalleryView} from "./CustomGalleryView/CustomGalleryVie
 export {default as CustomGalleryViewItem} from "./CustomGalleryViewItem/CustomGalleryViewItem"
 export {default as RelationTextField} from "./RelationTextField/RelationTextField"
 export {default as RelationTextFieldToCustomModal} from "./RelationTextFieldToCustomModal/RelationTextFieldToCustomModal"
+export {default as RowDetailsView} from "./RowDetailsView/RowDetailsView"
