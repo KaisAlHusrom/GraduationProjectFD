@@ -11,3 +11,4 @@ export {default as PaymentPlanFeaturesPage} from "./PaymentPlanFeaturesPage/Paym
 export {default as UserDetailsPage} from "./UserDetailsPage/UserDetailsPage";
 export {default as ElementSettingsPage} from "./ElementSettingsPage/ElementSettingsPage";
 export {default as ElementTypesPage} from "./ElementTypesPage/ElementTypesPage";
+export {default as StylesSettings} from "./StylesSettings/StylesSettings";

@@ -50,6 +50,34 @@ export const fetchElementProps = async () => {
                 }
             ],
         },
+        {
+            element_prop_id: 3,
+            element_prop_name: "href",
+            element_prop_description: "the href prop to <a href=''></a>",
+            element_type: [
+                {
+                    element_type_id: 14,
+                    element_type: "Normal link",
+                    element_type_description: "Normal links",
+                    is_child: false,
+                    children: null,
+                }
+            ],
+        },
+        {
+            element_prop_id: 4,
+            element_prop_name: "to",
+            element_prop_description: "the to prop to <NavLink to=''></NavLink>",
+            element_type: [
+                {
+                    element_type_id: 100,
+                    element_type: "Lazy link",
+                    element_type_description: "Links that download new page lazy",
+                    is_child: false,
+                    children: null,
+                }
+            ],
+        }
     ]
 
     return {relations, columns, rows}

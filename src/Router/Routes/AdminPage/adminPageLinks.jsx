@@ -18,7 +18,7 @@ import PermMediaIcon from '@mui/icons-material/PermMedia';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import StarRateIcon from '@mui/icons-material/StarRate';
-
+import FormatPaintIcon from '@mui/icons-material/FormatPaint';
 const adminPageLinks = [
     {
         title: "Users",
@@ -120,6 +120,11 @@ const adminPageLinks = [
                 title: "Element Settings",
                 icon: <CodeOffOutlinedIcon color='primary.contrastText' />,
                 path: "element-settings"
+            },
+            {
+                title: "Styles Settings",
+                icon: <FormatPaintIcon color='primary.contrastText' />,
+                path: "styles-settings"
             },
             {
                 title: "Go To Design Page",

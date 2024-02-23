@@ -35,7 +35,7 @@ const ElementPropsPage = () => {
             title={"Elements Props"}
             icon={<TuneIcon />}
             />
-        </StyledElementPropsPage>
+        </StyledElementPropsPage>   
     );
 };
 

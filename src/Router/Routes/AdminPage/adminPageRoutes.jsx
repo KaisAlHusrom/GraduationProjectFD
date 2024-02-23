@@ -1,4 +1,5 @@
 //Pages
+import { DatabaseView } from "../../../Components";
 import {
     DashboardMainPage,
     ProductsPage,
@@ -12,7 +13,8 @@ import {
     PaymentPlanFeaturesPage,
     UserDetailsPage,
     ElementSettingsPage,
-    ElementTypesPage
+    ElementTypesPage,
+    StylesSettings
 } from "../../../Pages/Admin/AdminPages"
 import ElementPropsPage from "../../../Pages/Admin/AdminPages/ElementPropsPage/ElementPropsPage";
 import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
@@ -29,8 +31,17 @@ import productService from "../../../Services/productsService";
 import { addProductUsedSkill, fetchProductsUsedSkill } from "../../../Services/productsUsedSkills";
 
 
+//icons
+import TuneIcon from '@mui/icons-material/Tune';
+import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
+import MouseIcon from '@mui/icons-material/Mouse';
+import FitScreenIcon from '@mui/icons-material/FitScreen';
+
+
 //Users Services
 import usersService from '../../../Services/usersService';
+import { addStyleProperty, addStylePropertyValue, addStylesBreakpoint, addStylesStatus, fetchStylesBreakpoints, fetchStylesProperties, fetchStylesPropertiesValues, fetchStylesStatus } from "../../../Services/stylesSettings";
+import CreateElementTemplate from "../../../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate";
 
 const adminPageRoutes = [
     {
@@ -137,6 +148,64 @@ const adminPageRoutes = [
         loader: fetchElementProps,
         action: addElementProp,
     },
+    {
+        element: <CreateElementTemplate />
+        ,
+        path: "element-settings/create-element-template",
+        exact: false,
+        // loader: fetchStylesBreakpoints,
+        // action: addStylesBreakpoint,
+    },
+    {
+        element: <StylesSettings />,
+        path: "styles-settings",
+        exact: false,
+    },
+    {
+        element: <DatabaseView
+                    title="Styles Properties"
+                    icon={<TuneIcon />}
+                />
+        ,
+        path: "styles-settings/styles-properties",
+        exact: false,
+        loader: fetchStylesProperties,
+        action: addStyleProperty,
+    },
+    {
+        element: <DatabaseView
+                    title="Styles Property Values"
+                    icon={<FormatColorFillIcon />}
+                />
+        ,
+        path: "styles-settings/styles-properties-values",
+        exact: false,
+        loader: fetchStylesPropertiesValues,
+        action: addStylePropertyValue,
+    },
+    {
+        element: <DatabaseView
+                    title="Styles Status"
+                    icon={<MouseIcon />}
+                />
+        ,
+        path: "styles-settings/styles-status",
+        exact: false,
+        loader: fetchStylesStatus,
+        action: addStylesStatus,
+    },
+    {
+        element: <DatabaseView
+                    title="Styles Breakpoints"
+                    icon={<FitScreenIcon />}
+                />
+        ,
+        path: "styles-settings/styles-breakpoints",
+        exact: false,
+        loader: fetchStylesBreakpoints,
+        action: addStylesBreakpoint,
+    },
+    
 ]
 
 
