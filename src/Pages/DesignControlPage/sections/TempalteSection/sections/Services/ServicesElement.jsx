@@ -8,7 +8,6 @@ import {
 //Components
 import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 
-
 //MUI
 import {
     Box,
@@ -19,12 +18,10 @@ import { styled } from '@mui/system'
 import propTypes from 'prop-types'
 
 //Styled Components
-const StyledHeaderElement = styled(Box)(() => ({}))
+const StyledServicesElement = styled(Box)(() => ({}))
 
 
-const HeaderElement = ({element}) => {
-
-
+const ServicesElement = ({element}) => {
     const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
 
@@ -43,15 +40,16 @@ const HeaderElement = ({element}) => {
 
 
 
+
     return (
-        <StyledHeaderElement>
+        <StyledServicesElement>
                 {getAppropriateTag(element.element, title, elementStyle)}
-        </StyledHeaderElement>
+        </StyledServicesElement>
     );
 };
 
-HeaderElement.propTypes = {
+ServicesElement.propTypes = {
     element: propTypes.object
 }
 
-export default HeaderElement;
+export default ServicesElement;

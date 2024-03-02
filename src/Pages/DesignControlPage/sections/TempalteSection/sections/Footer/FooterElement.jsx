@@ -6,7 +6,6 @@ import {
 } from 'react-redux'
 
 //Components
-import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 
 
 //MUI
@@ -17,13 +16,13 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
+import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 
 //Styled Components
-const StyledHeaderElement = styled(Box)(() => ({}))
+const StyledFooterElement = styled(Box)(() => ({}))
 
 
-const HeaderElement = ({element}) => {
-
+const FooterElement = ({element}) => {
 
     const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
@@ -43,15 +42,17 @@ const HeaderElement = ({element}) => {
 
 
 
+
+
     return (
-        <StyledHeaderElement>
+        <StyledFooterElement>
                 {getAppropriateTag(element.element, title, elementStyle)}
-        </StyledHeaderElement>
+        </StyledFooterElement>
     );
 };
 
-HeaderElement.propTypes = {
+FooterElement.propTypes = {
     element: propTypes.object
 }
 
-export default HeaderElement;
+export default FooterElement;

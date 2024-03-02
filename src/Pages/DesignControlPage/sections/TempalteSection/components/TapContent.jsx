@@ -1,5 +1,5 @@
 // React
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types'; 
 
 // Components
@@ -102,9 +102,12 @@ const TapContent = ({
         onStyleChange({ ...elementStyles, backgroundColor: randomColor });
     };
 
+
+
     return (
         <StyledTapContent >
-
+            {element.element && element.element.element_type !== undefined && (
+            <>
             {(element.element.element_type === 'Head3' || element.element.element_type === 'link' || element.element.element_type === 'text') && (
                 <>
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
@@ -130,7 +133,7 @@ const TapContent = ({
                         onChange={handleFontSizeChange}
                         valueSet={parseInt(fontSize)}
                     >
-                        {utils.FontSize.map((item, index) => (
+                        {utils.fontSize.map((item, index) => (
                             <MenuItem key={index} value={item}>
                                 {item}
                             </MenuItem>
@@ -143,7 +146,7 @@ const TapContent = ({
                         onChange={handleFontWeightChange}
                         valueSet={fontWeight}
                     >
-                        {utils.FontWight.map((item, index) => (
+                        {utils.fontWeight.map((item, index) => (
                             <MenuItem key={index} value={item}>
                                 {item}
                             </MenuItem>
@@ -157,7 +160,7 @@ const TapContent = ({
                         onChange={handleBorderRadiusChange}
                         valueSet={parseInt(borderRadius)}
                     >
-                        {utils.Radius.map((item, index) => (
+                        {utils.borderRadius.map((item, index) => (
                             <MenuItem key={index} value={item}>
                                 {item}
                             </MenuItem>
@@ -168,9 +171,6 @@ const TapContent = ({
                     </Box>  
 
                     <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-
-
-
                     <ColorButtons
                         drawerAnchor="right"
                         ButtonName="Change Color"
@@ -185,7 +185,6 @@ const TapContent = ({
                         handleColorSelect={handleBackGroundColorChange}
                         generateRandomColor={generateRandomBackColor}
                         />
-
                     </Box>
 
                     <Box sx={{ width: '100%', marginTop: '50px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -211,8 +210,7 @@ const TapContent = ({
             )}
 
             {
-            element.element.element_type === 'image' && 
-            (
+            element.element.element_type === 'image' && (
                 <Box>
                     
                     <AdminMainButton
@@ -252,8 +250,20 @@ const TapContent = ({
                             />
                             
                 </Box>
-            )
-            }
+            )}
+                </>
+            )}
+
+
+            {element.section_component_id && (
+                <>
+                <Box>
+                    hello
+                </Box>
+                </>
+            )}
+
+
         </StyledTapContent>
     );
 };

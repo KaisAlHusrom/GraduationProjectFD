@@ -6,7 +6,6 @@ import {
 } from 'react-redux'
 
 //Components
-import HeaderElement from './HeaderElement'
 
 
 //MUI
@@ -17,12 +16,14 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
+import FooterElement from './FooterElement'
 
 //Styled Components
-const StyledHeaderComponent = styled(Box)(() => ({}))
+const StyledFooterComponent = styled(Box)(() => ({}))
 
 
-const HeaderComponent = ({component}) => {
+const FooterComponent = ({component}) => {
+
 
     const componentStyle = useMemo(() => {
         const styleObject = {};
@@ -39,21 +40,23 @@ const HeaderComponent = ({component}) => {
     }, [component.section_css_props]);
 
 
+
+
     return (
-        <StyledHeaderComponent sx = {componentStyle}>
-                {
+        <StyledFooterComponent sx = {componentStyle}>
+             {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <HeaderElement key={i} element={element} />
+                        <FooterElement key={i} element={element} />
                     )
                 })
             }
-        </StyledHeaderComponent>
+        </StyledFooterComponent>
     );
 };
 
-HeaderComponent.propTypes = {
+FooterComponent.propTypes = {
     component: propTypes.object
 }
 
-export default HeaderComponent;
+export default FooterComponent;

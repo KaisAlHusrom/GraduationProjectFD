@@ -19,12 +19,11 @@ import { styled } from '@mui/system'
 import propTypes from 'prop-types'
 
 //Styled Components
-const StyledHeaderElement = styled(Box)(() => ({}))
+const StyledCountersElement = styled(Box)(() => ({}))
 
 
-const HeaderElement = ({element}) => {
-
-
+const CountersElement = ({element}) => {
+    
     const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
 
@@ -44,14 +43,14 @@ const HeaderElement = ({element}) => {
 
 
     return (
-        <StyledHeaderElement>
-                {getAppropriateTag(element.element, title, elementStyle)}
-        </StyledHeaderElement>
+        <StyledCountersElement>
+            {getAppropriateTag(element.element, title, elementStyle)}
+        </StyledCountersElement>
     );
 };
 
-HeaderElement.propTypes = {
+CountersElement.propTypes = {
     element: propTypes.object
 }
 
-export default HeaderElement;
+export default CountersElement;

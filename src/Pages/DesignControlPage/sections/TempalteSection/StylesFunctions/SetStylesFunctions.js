@@ -13,39 +13,83 @@ export const opacity = [
     "0.9",
     "1",
 ]
-export const Radius = [
-    "0",
-    "5",
-    "10",
-    "15",
-    "20",
-    "25",
-    "30",
-    "30",
-    "40",
-    "50",
-    "60",
-    "80",
-    "100",
+export const borderRadius = [
+    "0px",
+    "5px",
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "30px",
+    "40px",
+    "50px",
+    "60px",
+    "80px",
+    "100px",
 ]
-export const FontSize = [
-    "16",
-    "18",
-    "20",
-    "22",
-    "24",
-    "26",
-    "28",
-    "30",
-    "32",
-    "34",
-    "36",
+export const fontSize = [
+    "16px",
+    "18px",
+    "20px",
+    "22px",
+    "24px",
+    "26px",
+    "28px",
+    "30px",
+    "32px",
+    "34px",
+    "36px",
 ]
-export const FontWight = [
+export const fontWeight = [
     "700" , 
     "900", 
     "500",
 ]
+export const display = [
+    "flex" ,
+]
+export const flexDirection = [
+    "row" , 
+    "column", 
+]
+export const alignItems = [
+    "start" , 
+    "center", 
+    "end" , 
+]
+export const justifyContent = [
+    "start" , 
+    "center", 
+    "end" , 
+]
+export const textAlign = [
+    "start" , 
+    "center", 
+    "end" , 
+]
+export const width = [
+    "auto",
+    "25%" , 
+    "30%" , 
+    "50%", 
+    "75%",
+    "85%",
+    "100%"
+]
+export const height = [
+    'auto',
+    '10vh',
+    "20vh" , 
+    "30vh" , 
+    "40vh", 
+    "50vh" , 
+    "60vh" , 
+    "70vh", 
+    "80vh",
+    "100vh"
+]
+
 
 export const handleOpacityChange = (setElementStyle) => (newOpacity) => {
     setElementStyle((prevDictionary) => ({

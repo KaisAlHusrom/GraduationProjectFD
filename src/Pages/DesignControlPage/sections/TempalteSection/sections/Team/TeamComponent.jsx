@@ -6,7 +6,7 @@ import {
 } from 'react-redux'
 
 //Components
-import HeaderElement from './HeaderElement'
+import TeamElement from './TeamElement'
 
 
 //MUI
@@ -15,14 +15,17 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 
+
 //propTypes 
 import propTypes from 'prop-types'
 
+
 //Styled Components
-const StyledHeaderComponent = styled(Box)(() => ({}))
+const StyledTeamComponent = styled(Box)(() => ({}))
+    
 
 
-const HeaderComponent = ({component}) => {
+const TeamComponent = ({component}) => {
 
     const componentStyle = useMemo(() => {
         const styleObject = {};
@@ -39,21 +42,25 @@ const HeaderComponent = ({component}) => {
     }, [component.section_css_props]);
 
 
+
+
     return (
-        <StyledHeaderComponent sx = {componentStyle}>
-                {
+        <StyledTeamComponent  sx={componentStyle}>
+            {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <HeaderElement key={i} element={element} />
+                        <TeamElement key={i} element={element} />
                     )
                 })
             }
-        </StyledHeaderComponent>
+
+        </StyledTeamComponent>
     );
 };
 
-HeaderComponent.propTypes = {
+TeamComponent.propTypes = {
     component: propTypes.object
 }
 
-export default HeaderComponent;
+
+export default TeamComponent;

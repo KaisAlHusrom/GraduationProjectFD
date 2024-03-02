@@ -88,31 +88,6 @@
                 "element_id": null,
                 "css_prop": {
                     "prop_id": 1,
-                    "prop_name": "borderRadius",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": true,
-                    "is_component": false,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "10px",
-                "pivot": {
-                    "section_id": 3,
-                    "component_id": null,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": 3,
-                "component_id": null,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
                     "prop_name": "marginTop",
                     "prop_description": "lorem ipsum ....",
                     "is_section": true,

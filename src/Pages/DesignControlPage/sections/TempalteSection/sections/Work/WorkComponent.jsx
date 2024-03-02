@@ -6,7 +6,11 @@ import {
 } from 'react-redux'
 
 //Components
-import HeaderElement from './HeaderElement'
+
+
+
+//propTypes 
+import propTypes from 'prop-types'
 
 
 //MUI
@@ -14,16 +18,14 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-
-//propTypes 
-import propTypes from 'prop-types'
+import WorkElement from './WorkElement'
 
 //Styled Components
-const StyledHeaderComponent = styled(Box)(() => ({}))
+const StyledWorkComponent = styled(Box)(() => ({}))
 
 
-const HeaderComponent = ({component}) => {
-
+const WorkComponent = ( {component}) => {
+    
     const componentStyle = useMemo(() => {
         const styleObject = {};
 
@@ -39,21 +41,24 @@ const HeaderComponent = ({component}) => {
     }, [component.section_css_props]);
 
 
+
+
     return (
-        <StyledHeaderComponent sx = {componentStyle}>
-                {
+        <StyledWorkComponent sx={componentStyle}>
+            {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <HeaderElement key={i} element={element} />
+                        <WorkElement key={i} element={element} />
                     )
                 })
             }
-        </StyledHeaderComponent>
+        </StyledWorkComponent>
     );
 };
 
-HeaderComponent.propTypes = {
+WorkComponent.propTypes = {
     component: propTypes.object
 }
 
-export default HeaderComponent;
+
+export default WorkComponent;

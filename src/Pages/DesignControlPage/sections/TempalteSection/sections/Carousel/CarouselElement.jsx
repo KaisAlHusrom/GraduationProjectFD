@@ -9,21 +9,22 @@ import {
 import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 
 
+//propTypes 
+import propTypes from 'prop-types'
+
+
+
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
-//propTypes 
-import propTypes from 'prop-types'
-
 //Styled Components
-const StyledHeaderElement = styled(Box)(() => ({}))
+const StyledCarouselElement = styled(Box)(() => ({}))
 
 
-const HeaderElement = ({element}) => {
-
+const CarouselElement = ({ element }) => {
 
     const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
@@ -44,14 +45,16 @@ const HeaderElement = ({element}) => {
 
 
     return (
-        <StyledHeaderElement>
-                {getAppropriateTag(element.element, title, elementStyle)}
-        </StyledHeaderElement>
+        <StyledCarouselElement>
+                        {getAppropriateTag(element.element, title, elementStyle)}
+        </StyledCarouselElement>
     );
 };
 
-HeaderElement.propTypes = {
-    element: propTypes.object
-}
+CarouselElement.propTypes = {
+    element: propTypes.object,
+};
 
-export default HeaderElement;
+
+
+export default CarouselElement;
