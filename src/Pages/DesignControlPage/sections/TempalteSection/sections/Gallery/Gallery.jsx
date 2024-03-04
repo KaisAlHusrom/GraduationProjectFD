@@ -17,11 +17,12 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import UpDownButtons from '../../components/UpDownButtons';
 
 //Styled Components
 const StyledGallery = styled(Box)(() => ({}))
 
-const Gallery2 = () => {
+const Gallery2 = ({ moveSectionUp , moveSectionDown }) => {
 
     const {GalleryPage } = useContext(MainTemplateSectionSet)
 
@@ -43,6 +44,10 @@ const Gallery2 = () => {
     return (
         GalleryPage ? (
         <StyledGallery key={galleryData2.section_id} sx={sectionStyle}>
+        
+        <UpDownButtons moveSectionUp = {moveSectionUp} moveSectionDown = {moveSectionDown} ></UpDownButtons>
+
+
         {galleryData2 &&
             galleryData2.section_components.map((component, i) => {
             return (

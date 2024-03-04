@@ -1,31 +1,35 @@
 //React
 import { useContext, useMemo } from 'react'
-
 import {
     
 } from 'react-redux'
 
+
 //Components
+import CarouselData from "./CarouselData.json"
 import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
-import AboutComponent from './AboutComponent'
-import AboutData from "./AboutData"
+import CarouselComponent from './CarouselComponent'
 
 //MUI
 import {
-    Box,
+    Box
 } from '@mui/material'
 import { styled } from '@mui/system'
 import UpDownButtons from '../../components/UpDownButtons'
-
+import EditLink from '../../components/EditLink'
 //Styled Components
-const StyledAbout = styled(Box)(() => ({}))
+const StyledCarousel = styled(Box)(() => ({}))
 
-const About = ({ moveSectionUp , moveSectionDown }) => {
+
+
+const Carousel = ({ moveSectionUp , moveSectionDown }) => {
+
+    const {CarouselSection } = useContext(MainTemplateSectionSet)
 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        AboutData.section_css_props.forEach((cssProp) => {
+        CarouselData.section_css_props.forEach((cssProp) => {
         const { css_prop, css_prop_value } = cssProp;
 
         if (css_prop.is_section) {
@@ -33,16 +37,17 @@ const About = ({ moveSectionUp , moveSectionDown }) => {
         }
         });
 
-    return styleObject;
-}, []);
+        return styleObject;
+    }, []);
 
-    const {AboutUsPage } = useContext(MainTemplateSectionSet)
-    
+
+
     return (
-        AboutUsPage ? (
-            <StyledAbout key={AboutData.section_id} sx={sectionStyle}>
+        CarouselSection ? (
 
-                <Box sx = {{
+        <StyledCarousel key={CarouselData.section_id} sx={sectionStyle}>
+
+            <Box sx = {{
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent:'start',
@@ -55,18 +60,20 @@ const About = ({ moveSectionUp , moveSectionDown }) => {
                 </Box>
 
 
-            {AboutData &&
-                AboutData.section_components.map((component, i) => {
+            {CarouselData &&
+                CarouselData.section_components.map((component, i) => {
                 return (
-                    <AboutComponent key={i} component={component} />
+                    <CarouselComponent key={i} component={component} />
                 );
                 })}
-            </StyledAbout>
-                ) : (
-                null
-            )
 
+                <EditLink Data = {CarouselData} ></EditLink>
+
+        </StyledCarousel>
+        ) : (
+            null
+        )
     );
 };
 
-export default About;
+export default Carousel;

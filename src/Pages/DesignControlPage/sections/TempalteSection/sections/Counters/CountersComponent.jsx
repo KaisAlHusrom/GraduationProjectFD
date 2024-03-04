@@ -6,7 +6,6 @@ import {
 } from 'react-redux'
 
 //Components
-import HeaderElement from './HeaderElement'
 
 
 //MUI
@@ -17,13 +16,15 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
+import CountersElement from './CountersElement'
 
 //Styled Components
-const StyledHeaderComponent = styled(Box)(() => ({}))
+const StyledCountersComponent = styled(Box)(() => ({}))
 
 
-const HeaderComponent = ({component}) => {
+const CountersComponent = ({component}) => {
 
+    
     const componentStyle = useMemo(() => {
         const styleObject = {};
 
@@ -40,20 +41,20 @@ const HeaderComponent = ({component}) => {
 
 
     return (
-        <StyledHeaderComponent sx = {componentStyle}>
-                {
+        <StyledCountersComponent sx={componentStyle}>
+            {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <HeaderElement key={i} element={element} />
+                        <CountersElement key={i} element={element} />
                     )
                 })
             }
-        </StyledHeaderComponent>
+        </StyledCountersComponent>
     );
 };
 
-HeaderComponent.propTypes = {
+CountersComponent.propTypes = {
     component: propTypes.object
 }
 
-export default HeaderComponent;
+export default CountersComponent;

@@ -1,31 +1,39 @@
 //React
-import { useContext, useMemo } from 'react'
+import {  useContext, useMemo } from 'react'
 
 import {
     
 } from 'react-redux'
 
 //Components
+import TeamData from "./TeamData.json"
+import TeamComponent from './TeamComponent'
 import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
-import AboutComponent from './AboutComponent'
-import AboutData from "./AboutData"
 
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import UpDownButtons from '../../components/UpDownButtons'
+import UpDownButtons from '../../components/UpDownButtons';
+import EditLink from '../../components/EditLink';
+
 
 //Styled Components
-const StyledAbout = styled(Box)(() => ({}))
+const StyledTeam = styled(Box)(() => ({}))
 
-const About = ({ moveSectionUp , moveSectionDown }) => {
+
+
+
+
+const Team = ({ moveSectionUp , moveSectionDown }) => {
+
+    const {TeamSection } = useContext(MainTemplateSectionSet)
 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        AboutData.section_css_props.forEach((cssProp) => {
+        TeamData.section_css_props.forEach((cssProp) => {
         const { css_prop, css_prop_value } = cssProp;
 
         if (css_prop.is_section) {
@@ -33,15 +41,14 @@ const About = ({ moveSectionUp , moveSectionDown }) => {
         }
         });
 
-    return styleObject;
-}, []);
+        return styleObject;
+    }, []);
 
-    const {AboutUsPage } = useContext(MainTemplateSectionSet)
     
     return (
-        AboutUsPage ? (
-            <StyledAbout key={AboutData.section_id} sx={sectionStyle}>
+        TeamSection ? (
 
+        <StyledTeam key={TeamData.section_id} sx={sectionStyle}>
                 <Box sx = {{
                     display: 'flex',
                     flexDirection: 'row',
@@ -55,18 +62,22 @@ const About = ({ moveSectionUp , moveSectionDown }) => {
                 </Box>
 
 
-            {AboutData &&
-                AboutData.section_components.map((component, i) => {
+            {TeamData &&
+                TeamData.section_components.map((component, i) => {
                 return (
-                    <AboutComponent key={i} component={component} />
+                    <TeamComponent key={i} component={component} />
                 );
                 })}
-            </StyledAbout>
-                ) : (
-                null
-            )
 
+                <EditLink Data = {TeamData} ></EditLink>
+            
+            </StyledTeam>
+                ) : (
+                    null
+                )
     );
 };
 
-export default About;
+export default Team;
+
+

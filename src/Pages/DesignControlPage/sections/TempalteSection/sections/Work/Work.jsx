@@ -6,26 +6,33 @@ import {
 } from 'react-redux'
 
 //Components
+import WorkData from './WorkData.json'
+import UpDownButtons from '../../components/UpDownButtons'
 import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
-import AboutComponent from './AboutComponent'
-import AboutData from "./AboutData"
+import WorkComponent from './WorkComponent'
+import EditLink from '../../components/EditLink'
+
 
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import UpDownButtons from '../../components/UpDownButtons'
 
 //Styled Components
-const StyledAbout = styled(Box)(() => ({}))
+const StyledWork = styled(Box)(
+    () => ({})
+)
 
-const About = ({ moveSectionUp , moveSectionDown }) => {
+
+const Work = ({moveSectionUp , moveSectionDown}) => {
+
+    const {WorkSection } = useContext(MainTemplateSectionSet)
 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        AboutData.section_css_props.forEach((cssProp) => {
+        WorkData.section_css_props.forEach((cssProp) => {
         const { css_prop, css_prop_value } = cssProp;
 
         if (css_prop.is_section) {
@@ -33,15 +40,15 @@ const About = ({ moveSectionUp , moveSectionDown }) => {
         }
         });
 
-    return styleObject;
-}, []);
+        return styleObject;
+    }, []);
 
-    const {AboutUsPage } = useContext(MainTemplateSectionSet)
-    
+
+
     return (
-        AboutUsPage ? (
-            <StyledAbout key={AboutData.section_id} sx={sectionStyle}>
-
+        WorkSection ? (
+            <StyledWork key={WorkData.section_id} sx={sectionStyle}>
+                
                 <Box sx = {{
                     display: 'flex',
                     flexDirection: 'row',
@@ -55,18 +62,20 @@ const About = ({ moveSectionUp , moveSectionDown }) => {
                 </Box>
 
 
-            {AboutData &&
-                AboutData.section_components.map((component, i) => {
+                {WorkData &&
+                WorkData.section_components.map((component, i) => {
                 return (
-                    <AboutComponent key={i} component={component} />
+                    <WorkComponent key={i} component={component} />
                 );
                 })}
-            </StyledAbout>
-                ) : (
-                null
-            )
 
+                <EditLink Data = {WorkData} ></EditLink>
+
+        </StyledWork>
+
+        ): null
+       
     );
 };
 
-export default About;
+export default Work;

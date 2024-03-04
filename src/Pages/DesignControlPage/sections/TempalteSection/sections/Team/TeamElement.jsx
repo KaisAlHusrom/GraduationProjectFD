@@ -8,7 +8,6 @@ import {
 //Components
 import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 
-
 //MUI
 import {
     Box,
@@ -18,12 +17,15 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 
+
 //Styled Components
-const StyledHeaderElement = styled(Box)(() => ({}))
+const StyledTeamElement = styled(Box)(() => ({}))
 
 
-const HeaderElement = ({element}) => {
 
+
+
+const TeamElement = ({ element }) => {
 
     const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
@@ -44,14 +46,16 @@ const HeaderElement = ({element}) => {
 
 
     return (
-        <StyledHeaderElement>
-                {getAppropriateTag(element.element, title, elementStyle)}
-        </StyledHeaderElement>
+        <StyledTeamElement>
+            {getAppropriateTag(element.element, title, elementStyle)}
+        </StyledTeamElement>
     );
 };
 
-HeaderElement.propTypes = {
-    element: propTypes.object
-}
 
-export default HeaderElement;
+TeamElement.propTypes = {
+    element: propTypes.object,
+};
+
+
+export default TeamElement;

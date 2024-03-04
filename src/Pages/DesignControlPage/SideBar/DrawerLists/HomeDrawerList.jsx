@@ -35,44 +35,67 @@ const customSearchStyle = {
 };
 
 const HomeDrawerList = () => {
-    const { AboutUsPage, setAboutUsPage , setGalleryPage , GalleryPage } = useContext(MainTemplateSectionSet);
+    const { 
+        HeaderSection, setHeaderSection , AboutUsPage, setAboutUsPage , setGalleryPage , GalleryPage ,TeamSection,
+        setTeamSection ,CarouselSection, setCarouselSection ,WorkSection, setWorkSection ,CounterSection, setCounterSection ,
+        ServicesSection, setServicesSection} = useContext(MainTemplateSectionSet);
 
 
     const [drawerItemsState, setDrawerItemsState] = useState({
         'Home': false,
+        'Header': HeaderSection,
         'About Us': AboutUsPage,
         'Gallery': GalleryPage,
+        'Team': TeamSection,
+        'Carousel': CarouselSection,
+        'Work': WorkSection,
+        'Counters': CounterSection,
+        'Services': ServicesSection,
+
     });
     const handleItemClick = (itemName) => {
         setDrawerItemsState((prevState) => ({
             ...prevState,
             [itemName]: !prevState[itemName],
         }));
-
+        if (itemName === 'Header') {
+            setHeaderSection((prevAboutUs) => !prevAboutUs);
+        }
         if (itemName === 'About Us') {
             setAboutUsPage((prevAboutUs) => !prevAboutUs);
         }
         if (itemName === 'Gallery') {
             setGalleryPage((prevAboutUs) => !prevAboutUs);
         }
+        if (itemName === 'Team') {
+            setTeamSection((prevAboutUs) => !prevAboutUs);
+        }
+        if (itemName === 'Carousel') {
+            setCarouselSection((prevAboutUs) => !prevAboutUs);
+        }
+        if (itemName === 'Work') {
+            setWorkSection((prevAboutUs) => !prevAboutUs);
+        }
+        if (itemName === 'Counters') {
+            setCounterSection((prevAboutUs) => !prevAboutUs);
+        }
+        if (itemName === 'Services') {
+            setServicesSection((prevAboutUs) => !prevAboutUs);
+        }
     };
 
 
-// const handleItemClick = (itemName) => {
-//     if (itemName === 'About Us') {
-//         setAboutUsPage((prevAboutUs) => !prevAboutUs);
-//     }
-//     if (itemName === 'Gallery') {
-//         setGalleryPage((prevAboutUs) => !prevAboutUs);
-//     }
-// };
 
-
-  const drawerItems = [
+const drawerItems = [
     {
         name: 'Home',
         icon: <HomeIcon />,
         onClick: () => {},
+    },
+    {
+        name: 'Header',
+        icon: <InfoIcon />,
+        onClick: () => handleItemClick('Header'),
     },
     {
         name: 'About Us',
@@ -83,6 +106,31 @@ const HomeDrawerList = () => {
         name: 'Gallery',
         icon: <CollectionsIcon />,
         onClick: () => handleItemClick('Gallery'),
+    },
+    {
+        name: 'Team',
+        icon: <CollectionsIcon />,
+        onClick: () => handleItemClick('Team'),
+    },
+    {
+        name: 'Carousel',
+        icon: <CollectionsIcon />,
+        onClick: () => handleItemClick('Carousel'),
+    },
+    {
+        name: 'Work',
+        icon: <InfoIcon />,
+        onClick: () => handleItemClick('Work'),
+    },
+    {
+        name: 'Counters',
+        icon: <InfoIcon />,
+        onClick: () => handleItemClick('Counters'),
+    },
+    {
+        name: 'Services',
+        icon: <InfoIcon />,
+        onClick: () => handleItemClick('Services'),
     },
     ];
     const [openDialog , setOpenDialog] = useState(false)
@@ -127,7 +175,7 @@ const HomeDrawerList = () => {
     </List>
     <DialogCom title={"Add New Page" || ''} dialogOpenState={[openDialog, setOpenDialog]}>
                 <NewPageDrawerModel></NewPageDrawerModel>
-          </DialogCom>
+        </DialogCom>
 
 
     </StyledHomeDrawerList>

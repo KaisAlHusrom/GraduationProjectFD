@@ -6,24 +6,22 @@ import {
 } from 'react-redux'
 
 //Components
-import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 
+//propTypes 
+import propTypes from 'prop-types'
 
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-
-//propTypes 
-import propTypes from 'prop-types'
+import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 
 //Styled Components
-const StyledHeaderElement = styled(Box)(() => ({}))
+const StyledWorkElement = styled(Box)(() => ({}))
 
 
-const HeaderElement = ({element}) => {
-
+const WorkElement = ({element}) => {
 
     const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
@@ -42,16 +40,16 @@ const HeaderElement = ({element}) => {
     }, [element.section_css_props]);
 
 
-
     return (
-        <StyledHeaderElement>
-                {getAppropriateTag(element.element, title, elementStyle)}
-        </StyledHeaderElement>
+        <StyledWorkElement>
+            {getAppropriateTag(element.element, title, elementStyle)}
+        </StyledWorkElement>
     );
 };
 
-HeaderElement.propTypes = {
-    element: propTypes.object
-}
 
-export default HeaderElement;
+WorkElement.propTypes = {
+    element: propTypes.object,
+};
+
+export default WorkElement;

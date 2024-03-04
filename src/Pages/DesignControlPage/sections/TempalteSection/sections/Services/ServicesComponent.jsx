@@ -6,7 +6,6 @@ import {
 } from 'react-redux'
 
 //Components
-import HeaderElement from './HeaderElement'
 
 
 //MUI
@@ -17,12 +16,13 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
+import ServicesElement from './ServicesElement'
 
 //Styled Components
-const StyledHeaderComponent = styled(Box)(() => ({}))
+const StyledServicesComponent = styled(Box)(() => ({}))
 
 
-const HeaderComponent = ({component}) => {
+const ServicesComponent = ({component}) => {
 
     const componentStyle = useMemo(() => {
         const styleObject = {};
@@ -39,21 +39,22 @@ const HeaderComponent = ({component}) => {
     }, [component.section_css_props]);
 
 
+
     return (
-        <StyledHeaderComponent sx = {componentStyle}>
-                {
+        <StyledServicesComponent sx = {componentStyle}>
+            {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <HeaderElement key={i} element={element} />
+                        <ServicesElement key={i} element={element} />
                     )
                 })
             }
-        </StyledHeaderComponent>
+        </StyledServicesComponent>
     );
 };
 
-HeaderComponent.propTypes = {
+ServicesComponent.propTypes = {
     component: propTypes.object
 }
 
-export default HeaderComponent;
+export default ServicesComponent;

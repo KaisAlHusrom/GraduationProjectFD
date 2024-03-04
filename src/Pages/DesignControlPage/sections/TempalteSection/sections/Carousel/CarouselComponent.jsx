@@ -6,7 +6,7 @@ import {
 } from 'react-redux'
 
 //Components
-import HeaderElement from './HeaderElement'
+import CarouselElement from './CarouselElement'
 
 
 //MUI
@@ -18,12 +18,14 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 
+
+
 //Styled Components
-const StyledHeaderComponent = styled(Box)(() => ({}))
+const StyledCarouselComponent = styled(Box)(() => ({}))
 
 
-const HeaderComponent = ({component}) => {
-
+const CarouselComponent = ({component}) => {
+    
     const componentStyle = useMemo(() => {
         const styleObject = {};
 
@@ -38,22 +40,24 @@ const HeaderComponent = ({component}) => {
         return styleObject;
     }, [component.section_css_props]);
 
-
+    
     return (
-        <StyledHeaderComponent sx = {componentStyle}>
+        <StyledCarouselComponent  sx={componentStyle}>
                 {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <HeaderElement key={i} element={element} />
+                        <CarouselElement key={i} element={element} />
                     )
                 })
             }
-        </StyledHeaderComponent>
+
+        </StyledCarouselComponent>
     );
 };
 
-HeaderComponent.propTypes = {
+CarouselComponent.propTypes = {
     component: propTypes.object
 }
 
-export default HeaderComponent;
+
+export default CarouselComponent;

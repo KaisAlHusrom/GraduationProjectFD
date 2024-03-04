@@ -32,6 +32,8 @@ const TooltipContainer = styled(Box)({
 });
 
 const GalleryElement = ({ element }) => {
+
+    
     const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
 

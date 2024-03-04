@@ -4,14 +4,13 @@ import { useContext, useMemo } from 'react'
 import {
     
 } from 'react-redux'
+import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
 
 //Components
-import HeaderData from './HeaderData.json'
-import HeaderComponent from './HeaderComponent'
-import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
+import ServicesComponent from './ServicesComponent'
+import ServicesData from './ServicesData.json'
 import UpDownButtons from '../../components/UpDownButtons'
 import EditLink from '../../components/EditLink'
-
 
 //MUI
 import {
@@ -20,17 +19,18 @@ import {
 import { styled } from '@mui/system'
 
 //Styled Components
-const StyledHeader = styled(Box)(() => ({}))
+const StyledServices = styled(Box)(() => ({}))
 
 
-const Header = ({moveSectionUp , moveSectionDown}) => {
 
-    const {HeaderSection } = useContext(MainTemplateSectionSet)
+const Services = ({moveSectionUp , moveSectionDown}) => {
+
+    const {ServicesSection } = useContext(MainTemplateSectionSet)
 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        HeaderData.section_css_props.forEach((cssProp) => {
+        ServicesData.section_css_props.forEach((cssProp) => {
         const { css_prop, css_prop_value } = cssProp;
 
         if (css_prop.is_section) {
@@ -43,10 +43,12 @@ const Header = ({moveSectionUp , moveSectionDown}) => {
 
 
 
+
     return (
-    HeaderSection ? (
-        <StyledHeader sx = {sectionStyle}  key={HeaderData.section_id}>
-            <Box sx = {{
+    ServicesSection ? (
+        <StyledServices sx= {sectionStyle}  key={ServicesData.section_id}>
+
+        <Box sx = {{
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent:'start',
@@ -56,21 +58,21 @@ const Header = ({moveSectionUp , moveSectionDown}) => {
             }}>
             <UpDownButtons moveSectionUp = {moveSectionUp} moveSectionDown = {moveSectionDown} ></UpDownButtons>
 
-            </Box>
-
-        {HeaderData &&
-        HeaderData.section_components.map((component, i) => {
+        </Box>
+                
+    {ServicesData &&
+        ServicesData.section_components.map((component, i) => {
         return (
-            <HeaderComponent key={i} component={component} />
+            <ServicesComponent key={i} component={component} />
         );
         })}
 
 
-            <EditLink Data = {HeaderData} ></EditLink>
+            <EditLink Data = {ServicesData} ></EditLink>
 
-        </StyledHeader>
-        ) : null 
+    </StyledServices>
+    ) : null
     );
 };
 
-export default Header;
+export default Services;
