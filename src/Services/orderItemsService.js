@@ -10,12 +10,14 @@ export const fetchOrderItems = async () => {
                 "fetched_column": "order_id",
                 "related_table_id": "order_id",
                 fetch_all_data: fetchOrders,
+                add_to_add_form: true,
             },
             {
                 "field_name": "product",
                 "fetched_column": "product_name",
                 "related_table_id": "id",
                 fetch_all_data: productService.fetchProducts,
+                add_to_add_form: true,
             }
         ],
         manyToMany:[

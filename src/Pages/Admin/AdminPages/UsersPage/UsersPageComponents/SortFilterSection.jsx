@@ -1,5 +1,5 @@
 //React
-import {  } from 'react'
+import { useMemo } from 'react'
 
 import {
     
@@ -121,6 +121,7 @@ const SortFilterSection = (props) => {
             willShow={
                 <CustomFormModal
                     columns={columns}
+                    title={title}
                 />
             }
             modalIcon={<PersonAddAltOutlinedIcon />}
@@ -137,6 +138,14 @@ const SortFilterSection = (props) => {
     //     right: theme.spacing(),
     // }
 
+    const secondaryButtonsStyles = useMemo(() => {
+        return {
+            borderRadius: "10px",
+            "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+            }
+        }
+    }, [theme])
 
     return (
         <>
@@ -152,7 +161,7 @@ const SortFilterSection = (props) => {
                 badgeContent={filtersCount}
                 title="Filter"
                 icon={<FilterAltOutlinedIcon color='primary' />}
-                appearance={isSmallScreen ? 'iconButton' : 'secondary'}
+                appearance={isSmallScreen ? 'iconButton' : 'primary'}
                 willShow={
                     <SetFilter 
                         dataState={dataState} 
@@ -163,11 +172,8 @@ const SortFilterSection = (props) => {
                     />
                 }
                 type='modal'
-                sx={{
-                    color: 'text.primary',
-                    fontWeight: 'bold',
-                    backgroundColor: filtersCount > 0 && theme.palette.action.selected,
-                }}
+                putBorder
+                sx={secondaryButtonsStyles}
                 />  
                 <AdminMainButton
                 badgeContent={sortsCount}
@@ -184,11 +190,8 @@ const SortFilterSection = (props) => {
                     />
                 }
                 type='modal'
-                sx={{
-                    color: 'text.primary',
-                    fontWeight: 'bold',
-                    backgroundColor: sortsCount > 0 && theme.palette.action.selected,
-                }}
+                putBorder
+                sx={secondaryButtonsStyles}
                 />  
 
                 <AdminMainButton
@@ -201,10 +204,8 @@ const SortFilterSection = (props) => {
                         columns={columns}
                         />}
                     type='modal'
-                    sx={{
-                        color: 'text.primary',
-                        fontWeight: 'bold',
-                    }}
+                    putBorder
+                    sx={secondaryButtonsStyles}
                 />
                 <AdminMainButton
                     title={`${currentView.toString()} Settings`}
@@ -214,10 +215,8 @@ const SortFilterSection = (props) => {
                         view={currentView}
                         />}
                     type='modal'
-                    sx={{
-                        color: 'text.primary',
-                        fontWeight: 'bold',
-                    }}
+                    putBorder
+                sx={secondaryButtonsStyles}
                 />
                 <AdminMainButton
                     title={currentView.toString().toLocaleUpperCase()}
@@ -225,10 +224,8 @@ const SortFilterSection = (props) => {
                     appearance={isSmallScreen ? 'iconButton' : 'secondary'}
                     type='menu'
                     menuItems={Object.values(allViews)}
-                    sx={{
-                        color: 'text.primary',
-                        fontWeight: 'bold',
-                    }}
+                    putBorder
+                    sx={secondaryButtonsStyles}
                 />
             </StyledSecondaryButtonsBox>
             

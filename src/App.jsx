@@ -16,6 +16,7 @@ import CustomThemeProvider from "./Theme/CustomThemeProvider";
 //redux
 import { useSelector } from "react-redux";
 import CustomRouterProvider from "./Router/CustomRouterProvider";
+import { CustomSnackBar } from "./Components";
 
 
 
@@ -41,6 +42,7 @@ function App() {
   return (
       <CustomThemeProvider>
         <CustomRouterProvider />
+        <CustomSnackBar />
       </CustomThemeProvider>
   )
 }

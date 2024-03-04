@@ -33,10 +33,8 @@ const formattedDate = (dateString) => {
 
 // Function to check if the string is a timestamp
 function isTimestamp(value) {
-  // Implement your logic to determine if the value is a timestamp
-  // For instance, you could use a regex or other checks here
-  // Here's a simple example assuming a timestamp format like "YYYY-MM-DD HH:MM:SS"
-  return /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(value);
+  // Check if Date.parse() returns a valid timestamp (not NaN) for the given value
+  return !isNaN(Date.parse(value));
 }
 
 function isMySQLDateFormat(value) {

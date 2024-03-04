@@ -12,6 +12,7 @@ export const fetchPaymentPlans = async () => {
                 "fetched_column": "payment_plan_feature",
                 "related_table_id": "payment_plan_feature_id",
                 fetch_all_data: fetchPaymentPlanFeatures,
+                add_to_add_form: true,
             },
         ],
         manyToOne: [

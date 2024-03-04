@@ -42,6 +42,7 @@ import FitScreenIcon from '@mui/icons-material/FitScreen';
 import usersService from '../../../Services/usersService';
 import { addStyleProperty, addStylePropertyValue, addStylesBreakpoint, addStylesStatus, fetchStylesBreakpoints, fetchStylesProperties, fetchStylesPropertiesValues, fetchStylesStatus } from "../../../Services/stylesSettings";
 import CreateElementTemplate from "../../../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate";
+import { fetchCreateElementNeededData } from "../../../Services/createElementsService";
 
 const adminPageRoutes = [
     {
@@ -153,7 +154,7 @@ const adminPageRoutes = [
         ,
         path: "element-settings/create-element-template",
         exact: false,
-        // loader: fetchStylesBreakpoints,
+        loader: fetchCreateElementNeededData,
         // action: addStylesBreakpoint,
     },
     {

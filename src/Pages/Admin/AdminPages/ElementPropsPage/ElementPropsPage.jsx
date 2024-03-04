@@ -18,6 +18,7 @@ import {
 import { styled } from '@mui/system'
 
 import TuneIcon from '@mui/icons-material/Tune';
+import { deleteElementProp, fetchElementProps, updateElementProp } from '../../../../Services/elementPropsService'
 
 
 //Styled Components
@@ -34,6 +35,9 @@ const ElementPropsPage = () => {
             <DatabaseView
             title={"Elements Props"}
             icon={<TuneIcon />}
+            handleUpdateData={updateElementProp}
+            handleFetchData={fetchElementProps}
+            handleDeleteData={deleteElementProp}
             />
         </StyledElementPropsPage>   
     );

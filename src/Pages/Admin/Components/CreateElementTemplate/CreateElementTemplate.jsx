@@ -19,6 +19,10 @@ import { styled } from '@mui/system'
 import { fetchElementsTypes } from '../../../../Services/elementsTypesService'
 import TemplateElementSettings from '../TemplateElementSettings/TemplateElementSettings'
 
+
+import { useLoaderData } from 'react-router-dom'
+import TemplateElementStyleSettings from '../TemplateElementStyleSettings/TemplateElementStyleSettings'
+
 //propTypes 
 // import propTypes from 'prop-types'
 
@@ -32,34 +36,21 @@ const StyledCreateElementTemplate = styled(Stack)(
 
 const CreateElementTemplate = () => {
 
+    const {allElementTypes} = useLoaderData()
 
-    const [elementTypes, setElementTypes] = useState([]);
-    useEffect(() => {
-        const fetchElementTypes1 = async () => {
-            const {rows} = await fetchElementsTypes();
-            setElementTypes(rows);
-        }
+    const [elementTypes, setElementTypes] = useState(allElementTypes);
 
-        fetchElementTypes1();
-    }, [])
+    const [selectedElement, setSelectedElement] = useState(() => elementTypes && elementTypes.length > 0 ? elementTypes[0] : {})
 
-    const [selectedElement, setSelectedElement] = useState({})
-    useEffect(() => {
-        if(elementTypes && elementTypes.length > 0) {
-            setSelectedElement(elementTypes[0]);
-        }
-    }, [elementTypes])
-
-    console.log(elementTypes)
-
-    console.log(selectedElement)
-
+    const [elementStyle, setElementStyle] = useState({})
 
     return (
         <StyledCreateElementTemplate spacing={4} direction="column" alignItems="center">
-            <TemplateDevView selectedElementState={{selectedElement, setSelectedElement}} />
+            <TemplateDevView selectedElementState={{selectedElement, setSelectedElement, elementStyle}} />
 
             <TemplateElementSettings elementTypesState={{elementTypes}} selectedElementState={{selectedElement, setSelectedElement}} />
+
+            <TemplateElementStyleSettings elementStyleState={{elementStyle, setElementStyle}} />
         </StyledCreateElementTemplate>
     );
 };

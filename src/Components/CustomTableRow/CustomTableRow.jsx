@@ -73,7 +73,7 @@ const CustomTableRow = (props) => {
         showVerticalLines,
         showHorizontalLines,
         changeEvenRowsBackgroundColor,
-        selectEvenRowsBackgroundColor
+        selectEvenRowsBackgroundColor,
     } = viewsSettings.table
     //selectedColor
     const selectedColor = useMemo(()=> {
@@ -99,28 +99,29 @@ const CustomTableRow = (props) => {
         setRowData(() => row)
     }, [row]) 
 
+    //get the id of row
+    const pkColumnData = useMemo(() => {
+        return rowData[Object.keys(columns).find(key => columns[key] === "pk")]
+    }, [columns, rowData]);
+
+
     const [selected, setSelected, setIsHeaderCheckboxChecked] = useMemo(()=> selectedState, [selectedState])
     const [showAllCell, setShowAllCell] = useState(null)
     const [showTextField, setShowTextField] = useState(null)
+    const {handleCellOutsideClick} = useMyContext()
     //when press outside the table content showAllCell will set as null
     useEffect(() => {
-            const handleOutsideClick = (event) => {
+        const handleOutsideClick = (event) => {
             const clickedElement = event.target;
-            const isSelectAutoCompleteOption = clickedElement.closest('.MuiAutocomplete-option')
+            const withoutClasses = ['.MuiAutocomplete-option']
+            handleCellOutsideClick(tableBodyRef, clickedElement, withoutClasses, setShowAllCell, setShowTextField, rowData)
+        }
+        document.body.addEventListener('mousedown', handleOutsideClick);
+        
+        return () => {
+        document.body.removeEventListener('mousedown', handleOutsideClick);
+        };
 
-            if (!isSelectAutoCompleteOption && tableBodyRef.current && !tableBodyRef.current.contains(clickedElement)) {
-                // Clicked outside the table cell, so set showAllCell to null
-                setShowAllCell(null);
-                setShowTextField(null);
-                //TODO: you can add that the data in database will change when press outside the table cell
-            }
-            };
-        
-            document.body.addEventListener('mousedown', handleOutsideClick);
-        
-            return () => {
-            document.body.removeEventListener('mousedown', handleOutsideClick);
-            };
     }, []);
 
     //handlers
@@ -279,7 +280,7 @@ const CustomTableRow = (props) => {
                     // Content to render when showTextField is true
                     <TableCell sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>
                         {
-                            getAppropriateTextField(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relations)
+                            getAppropriateTextField(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relations, pkColumnData)
                         }
                     </TableCell>
                     
