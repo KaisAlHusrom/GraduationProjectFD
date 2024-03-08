@@ -19,6 +19,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import  '../Style.css'
 
 //Styled Components
 const StyledCarouselElement = styled(Box)(() => ({}))
@@ -45,7 +46,7 @@ const CarouselElement = ({ element }) => {
 
 
     return (
-        <StyledCarouselElement>
+        <StyledCarouselElement className='element-query'>
                         {getAppropriateTag(element.element, title, elementStyle)}
         </StyledCarouselElement>
     );

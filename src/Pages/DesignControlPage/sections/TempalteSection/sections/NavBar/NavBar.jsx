@@ -15,12 +15,11 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import NavBarComponent from './NavBarComponent'
+import EditLink from '../../components/EditLink'
 
 //Styled Components
 const StyledNavBar = styled(Box)(
-    () => ({
-    
-    })
+    () => ({})
 )
 
 
@@ -50,6 +49,8 @@ const NavBar = () => {
                     <NavBarComponent key={i} component={component} />
                 );
                 })}
+                <EditLink Data = {NavBarData} ></EditLink>
+
         </StyledNavBar>
     );
 };

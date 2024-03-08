@@ -6,15 +6,13 @@ import {
 
 //Components
 import { getAppropriateTag } from '../../StylesFunctions/GenerateElements.jsx'; 
-import { AdminMainButton } from '../../../../../../Components/index.jsx'
-import TapContent from '../../components/TapContent.jsx';
 //MUI
 import {
     Box
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { Edit as EditIcon } from '@mui/icons-material';
 
+import  '../Style.css'
 
 //propTypes 
 import PropTypes from 'prop-types'; 
@@ -26,10 +24,6 @@ const StyledNavBarElement = styled(Box)(
     })
 )
 
-const TooltipContainer = styled('div')({
-    position: 'absolute',
-    top: '-50px',
-});
 
     const NavBarElement = ({ element }) => {
 
@@ -50,40 +44,9 @@ const TooltipContainer = styled('div')({
             setElementStyle(dictionary); 
         }, [element.section_css_props]);
         
-        const handleElementStyleChange = (newStyle) => {
-            setElementStyle(newStyle);
-        };
-    
         return (
-            <StyledNavBarElement>
+            <StyledNavBarElement className='element-query'>
                 {getAppropriateTag(element.element, element.element_content, elementStyle)}
-
-                <TooltipContainer>
-                    <AdminMainButton
-                        title={element.element_content}
-                        type='modal'
-                        appearance='iconButton'
-                        putTooltip
-                        icon={<EditIcon />}
-                        willShow={
-                            <TapContent
-                                content={[title , setTitle]}  
-                                elementStyles={elementStyle} 
-                                onStyleChange={handleElementStyleChange} 
-                                element={element}
-                            />
-                        }
-                        sx={{
-                            border: '1px solid red',
-                            padding: '10px 15px',
-                            fontWeight: 'bold',
-                            color: 'white.main',
-                            backgroundColor: 'primary.dark',
-                        }}
-                    />
-                </TooltipContainer>
-
-
             </StyledNavBarElement>
         );
     };

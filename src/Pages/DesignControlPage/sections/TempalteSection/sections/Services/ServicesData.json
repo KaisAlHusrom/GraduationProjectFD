@@ -246,7 +246,7 @@
                 },
                 "css_status": null,
                 "css_responsive_status": null,
-                "css_prop_value": "center",
+                "css_prop_value": "space-evenly",
                 "pivot": {
                     "section_id": 3,
                     "component_id": null,
@@ -442,31 +442,7 @@
                         "updated_at": "2022-01-01 13:30:00"
                     }
                 },
-                {
-                    "section_css_prop_id": 15,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 1,
-                        "prop_name": "padding",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "20px 20px 100px 40px",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 15,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
+
                 {
                     "section_css_prop_id": 15,
                     "section_id": null,
@@ -483,6 +459,31 @@
                     "css_status": null,
                     "css_responsive_status": null,
                     "css_prop_value": "20px",
+                    "pivot": {
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "section_css_prop_id": 15,
+                        "created_at": "2022-01-01 13:00:00",
+                        "updated_at": "2022-01-01 13:30:00"
+                    }
+                },
+                {
+                    "section_css_prop_id": 15,
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "css_prop": {
+                        "prop_id": 1,
+                        "prop_name": "marginBottom",
+                        "prop_description": "lorem ipsum ....",
+                        "is_section": false,
+                        "is_component": true,
+                        "is_element": false
+                    },
+                    "css_status": null,
+                    "css_responsive_status": null,
+                    "css_prop_value": "30px",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
@@ -1130,32 +1131,8 @@
                         "created_at": "2022-01-01 13:00:00",
                         "updated_at": "2022-01-01 13:30:00"
                     }
-                },
-                {
-                    "section_css_prop_id": 15,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 1,
-                        "prop_name": "marginRight",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "20px",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 15,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
                 }
+          
             ],
             "pivot": {
                 "section_id": 3,
@@ -2276,31 +2253,6 @@
                     "css_status": null,
                     "css_responsive_status": null,
                     "css_prop_value": "rgba(23, 50, 73, 1)",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 15,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 15,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 1,
-                        "prop_name": "marginRight",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "20px",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
@@ -3430,31 +3382,6 @@
                     "css_status": null,
                     "css_responsive_status": null,
                     "css_prop_value": "rgba(23, 50, 73, 1)",
-                    "pivot": {
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "section_css_prop_id": 15,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "section_css_prop_id": 15,
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "css_prop": {
-                        "prop_id": 1,
-                        "prop_name": "marginRight",
-                        "prop_description": "lorem ipsum ....",
-                        "is_section": false,
-                        "is_component": true,
-                        "is_element": false
-                    },
-                    "css_status": null,
-                    "css_responsive_status": null,
-                    "css_prop_value": "20px",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,

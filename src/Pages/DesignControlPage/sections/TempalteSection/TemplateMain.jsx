@@ -22,15 +22,13 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-
+import './Style.css'
 
 
 //Styled Components
 const StyledTemplateMain = styled(Box)(
     () => ({
-    marginTop:'100px',
-    paddingLeft:"200px",
-    paddingRight:"200px",
+
     })
 )
 
@@ -63,7 +61,7 @@ const TemplateMain = () => {
 
 
     return (
-        <StyledTemplateMain>
+        <StyledTemplateMain class="Template">
         {sectionsOrder.map((section, index) => (
             <div key={index}>
             {section === 'NavBar' && <NavBar moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}

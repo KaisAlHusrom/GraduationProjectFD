@@ -6,6 +6,7 @@ import {
 } from 'react-redux'
 
 //Components
+import WorkElement from './WorkElement'
 
 
 
@@ -18,7 +19,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import WorkElement from './WorkElement'
+import  '../Style.css'
 
 //Styled Components
 const StyledWorkComponent = styled(Box)(() => ({}))
@@ -44,7 +45,7 @@ const WorkComponent = ( {component}) => {
 
 
     return (
-        <StyledWorkComponent sx={componentStyle}>
+        <StyledWorkComponent sx={componentStyle} className='component-query'>
             {
                 component && component.component_elements.map((element, i) => {
                     return (

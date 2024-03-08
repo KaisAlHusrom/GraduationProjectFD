@@ -16,6 +16,7 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
+import  '../Style.css'
 
 //Styled Components
 const StyledWorkElement = styled(Box)(() => ({}))
@@ -41,7 +42,7 @@ const WorkElement = ({element}) => {
 
 
     return (
-        <StyledWorkElement>
+        <StyledWorkElement className='element-query'>
             {getAppropriateTag(element.element, title, elementStyle)}
         </StyledWorkElement>
     );

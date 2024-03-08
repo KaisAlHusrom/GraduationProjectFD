@@ -7,13 +7,13 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import LanguageIcon from '@mui/icons-material/Language';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import ModeStandbyIcon from '@mui/icons-material/ModeStandby';
-import ContactlessIcon from '@mui/icons-material/Contactless';
-export const getAppropriateTag = (element, elementContent, elementStyle) => {
+import ContactlessIcon from '@mui/icons-material/Contactless'; 
+export const getAppropriateTag = (element, elementContent, elementStyle , classname) => {
     
     let modifiedElementStyle = { ...elementStyle }; 
     if (element?.element_type === "Head3") {
         return (
-            <Typography sx={modifiedElementStyle} variant="h3">{elementContent}</Typography>
+            <Typography sx={modifiedElementStyle} variant="h3" className={classname}>{elementContent}</Typography>
         );
     }
     if (element?.element_type === "Head5") {

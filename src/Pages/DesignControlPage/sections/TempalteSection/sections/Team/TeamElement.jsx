@@ -19,7 +19,10 @@ import propTypes from 'prop-types'
 
 
 //Styled Components
-const StyledTeamElement = styled(Box)(() => ({}))
+const StyledTeamElement = styled(Box)(() => ({
+    border: 'none'
+}))
+import  '../Style.css'
 
 
 
@@ -46,8 +49,10 @@ const TeamElement = ({ element }) => {
 
 
     return (
-        <StyledTeamElement>
+        <StyledTeamElement className='element-query'>
+            <>
             {getAppropriateTag(element.element, title, elementStyle)}
+</>
         </StyledTeamElement>
     );
 };

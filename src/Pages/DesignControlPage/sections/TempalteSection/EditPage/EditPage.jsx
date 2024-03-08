@@ -1,4 +1,3 @@
-//React
 import {
     useMemo, useState 
 } from 'react'
@@ -10,13 +9,13 @@ import {
 
 //Components
 import EditComponent from './EditComponent.jsx';
-import ColorButtons from '../components/ColorButtons';
-import CustomSelectInput from '../../../../../Components/CustomSelectInput/CustomSelectInput';
-import * as utils from '../StylesFunctions/SetStylesFunctions.js';
+import { AdminMainButton } from '../../../../../Components/index.jsx';
 
 //MUI
-import { Box, MenuItem, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import { styled } from '@mui/system'
+import { Edit as EditIcon } from '@mui/icons-material';
+import StyleBox from '../components/StyleBox.jsx';
 
 
 const getSectionData = async (section_id) => {
@@ -47,28 +46,36 @@ const getSectionData = async (section_id) => {
         const CarouselDataModule = await import("../sections/Header/HeaderData.json");
         return CarouselDataModule.default;
     }
-};
-
-const customSelectStyle = {
-    display: 'block',
-    width: '300px',
-    padding: '5px',
-    borderColor: 'red',
-    transition: '0.3s all',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    '&:hover': {
-        backgroundColor: "white.dark",
-        boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
-    },
+    else if (section_id === "2") {
+    const CarouselDataModule = await import("../sections/NavBar/NavBarData.json");
+        return CarouselDataModule.default;
+    }
 };
 
 
 //Styled Components
 const StyledEditPage = styled(Box)(({ theme }) => ({
     padding: theme.spacing(8),
-    backgroundColor : 'white'
+    backgroundColor : 'white',
+    
 }));
+
+
+const TooltipContainer = styled(Box)({
+    position: 'absolute',
+    top: '0',
+    left: '0',
+    opacity: 0, // Initially set opacity to 0
+    visibility: 'hidden', // Initially hide the TooltipContainer
+    transition: 'opacity 1s ease', // Apply transition effect to opacity
+});
+
+const HoverableBox = styled(Box)({
+    '&:hover > div': {
+        opacity: 1, // Show the TooltipContainers when StyledEditComponent is hovered
+        visibility: 'visible',
+    },
+});
 
 
 const EditPage = () => {
@@ -76,6 +83,8 @@ const EditPage = () => {
     const { section_id } = useParams();
     const [sectionStyle, setSectionStyle] = useState({});
     const [sectionData, setSectionData] = useState(null);
+
+    
 
     
     useMemo(() => {
@@ -103,59 +112,43 @@ const EditPage = () => {
     return (
         <StyledEditPage>
 
-            <Box key={section_id} sx={sectionStyle}>
+            <HoverableBox key={section_id} sx={sectionStyle}>
+
                 {sectionData && sectionData.section_components && sectionData.section_components.map((component, i) => (
                     <EditComponent key={i} component={component} />
                 ))}
-            </Box>
+                <TooltipContainer>
+                    <AdminMainButton
+                        title="Edit Section"
+                        type="StyleDialog"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<EditIcon />}
+                        willShow={
+                            <StyleBox 
+                            Section_Name = {"Style Section"}
+                            element_Type = 'section'
+                            sectionStyle = {sectionStyle}
+                            handleSectionStyleChange = {handleSectionStyleChange}
+                            styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
 
-            <Typography component="div" variant='h3' sx={{ textAlign: 'center', padding: '10px', color: 'warning.dark' }}>
-                Style of section
-            </Typography>
+                            />
 
-
-            <Box sx={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'grey',
-                width: '50%',
-                margin: 'auto',
-                padding: '20px',
-                borderRadius: '10px',
-            }}>
-
-                <Box sx={{ display: 'block', width: '70%' }}>
-                    <ColorButtons
-                        drawerAnchor="right"
-                        ButtonName="Change Back Color"
-                        currentColor={sectionStyle.backgroundColor}
-                        handleColorSelect={(newColor) => handleSectionStyleChange({ backgroundColor: newColor })}
-                        generateRandomColor={() => handleSectionStyleChange({ backgroundColor: `#${Math.floor(Math.random() * 16777215).toString(16)}` })}
+                        }
+                        sx={{
+                            border: '1px solid red',
+                            padding: '10px 15px',
+                            fontWeight: 'bold',
+                            color: 'white.main',
+                            backgroundColor: 'black',
+                        }}
                     />
-                </Box>
-
-                {['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width'].map((key, index) => (
-                    <CustomSelectInput
-                        key={index}
-                        name={key}
-                        className={customSelectStyle}
-                        onChange={(e) => handleSectionStyleChange({ [key]: e.target.value })}
-                        valueSet={sectionStyle[key] || ''}
-                    >
-                        {utils[key]?.map((item, index) => (
-                            <MenuItem key={index} value={item}>{item}</MenuItem>
-                        ))}
-                    </CustomSelectInput>
-                ))}
-
-
-            </Box>
+                </TooltipContainer>
+                
+            </HoverableBox>
 
         </StyledEditPage>
     );
 };
 
 export default EditPage;
-

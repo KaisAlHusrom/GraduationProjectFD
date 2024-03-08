@@ -17,6 +17,7 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import FooterElement from './FooterElement'
+import  '../Style.css'
 
 //Styled Components
 const StyledFooterComponent = styled(Box)(() => ({}))
@@ -43,8 +44,8 @@ const FooterComponent = ({component}) => {
 
 
     return (
-        <StyledFooterComponent sx = {componentStyle}>
-             {
+        <StyledFooterComponent sx = {componentStyle} className='component-query'>
+            {
                 component && component.component_elements.map((element, i) => {
                     return (
                         <FooterElement key={i} element={element} />

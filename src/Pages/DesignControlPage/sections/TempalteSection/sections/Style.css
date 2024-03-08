@@ -1,0 +1,27 @@
+/* Media queries for tablet */
+@media only screen and (max-width: 768px) {
+  .component-query {
+    width: 100% !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: auto !important; /* Adjust height for tablet */
+    margin-top: 30px !important;
+  }
+}
+
+/* Media queries for laptop/desktop */
+@media only screen and (max-width: 1024px) {
+  .component-query {
+    width: 100% !important;
+    margin-top: 40px !important;
+  }
+}
+
+/* Media queries for tablet */
+@media only screen and (max-width: 768px) {
+  .element-query {
+    font-size: 30px !important;
+    text-align: center !important;
+  }
+}

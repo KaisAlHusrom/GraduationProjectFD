@@ -24,9 +24,11 @@ import EditIcon from '@mui/icons-material/Edit';
 
 const TooltipContainer = styled(Box)({
     backgroundColor:'#ab9d9d',
-    position: 'relative',
+    position: 'absolute',
+    top: '0',
+    right: '0',
     display: 'inline-block', 
-    padding : '5px',
+    padding : '5px 10px',
     borderRadius : '5px',
 });
 

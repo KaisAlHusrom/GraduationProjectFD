@@ -60,7 +60,7 @@ const Services = ({moveSectionUp , moveSectionDown}) => {
 
         </Box>
                 
-    {ServicesData &&
+        {ServicesData &&
         ServicesData.section_components.map((component, i) => {
         return (
             <ServicesComponent key={i} component={component} />
