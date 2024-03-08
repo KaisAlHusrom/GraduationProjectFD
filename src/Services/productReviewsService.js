@@ -15,12 +15,14 @@ export const fetchProductsReviews = async () => {
                 "fetched_column": "first_name",
                 "related_table_id": "id",
                 fetch_all_data: usersService.fetchUsers,
+                add_to_add_form: true,
             },
             {
                 "field_name": "product",
                 "fetched_column": "product_name",
                 "related_table_id": "id",
                 fetch_all_data: productService.fetchProducts,
+                add_to_add_form: true,
             },
         ]
     }

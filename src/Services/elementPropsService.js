@@ -1,102 +1,118 @@
 import { fetchElementsTypes } from "./elementsTypesService"
 
-export const fetchElementProps = async () => {
-    const relations = {
-        manyToOne:[
-            
-        ],
-        manyToMany:[
-            {
-                "field_name": "element_type",
-                "fetched_column": "element_type",
-                "related_table_id": "element_type_id",
-                fetch_all_data: fetchElementsTypes,
-            }
-        ],
-        oneToMany:[
-            
-        ]
-    }
+// -------------------------------------- 
+import config from "../../Config.json"
+import axios from "axios";
+const ELEMENTS_PROPS_ROUTE = config.ServerMainRoute + "/element_props"
 
-    const columns = {
-        element_prop_id: "pk",
-        element_prop_name: "string",
-        element_prop_description: "text",
-        element_type: "many-to-many",
-    }
+const ElementPropsAPI = axios.create({
+    baseURL: ELEMENTS_PROPS_ROUTE,
+  });
 
-    const rows = [
-        {
-            element_prop_id: 1,
-            element_prop_name: "name",
-            element_prop_description: "the name prop to input fields",
-            element_type: [
+export const fetchElementProps = async (type = "all") => {
+    try {
+        const relations = {
+            manyToOne:[
+                
+            ],
+            manyToMany:[
                 {
-                    element_type_id: 1,
-                    element_type: "TextField Strings",
-                    element_type_description: "to input texts",
+                    "field_name": "element_types",
+                    "fetched_column": "element_type_name",
+                    "related_table_id": "id",
+                    add_to_add_form: true,
+                    fetch_all_data: fetchElementsTypes,
                 }
             ],
-        },
-        {
-            element_prop_id: 2,
-            element_prop_name: "value",
-            element_prop_description: "the value prop to input fields",
-            element_type: [
-                {
-                    element_type_id: 1,
-                    element_type: "TextField Strings",
-                    element_type_description: "to input texts",
-                }
-            ],
-        },
-        {
-            element_prop_id: 3,
-            element_prop_name: "href",
-            element_prop_description: "the href prop to <a href=''></a>",
-            element_type: [
-                {
-                    element_type_id: 14,
-                    element_type: "Normal link",
-                    element_type_description: "Normal links",
-                    is_child: false,
-                    children: null,
-                }
-            ],
-        },
-        {
-            element_prop_id: 4,
-            element_prop_name: "to",
-            element_prop_description: "the to prop to <NavLink to=''></NavLink>",
-            element_type: [
-                {
-                    element_type_id: 100,
-                    element_type: "Lazy link",
-                    element_type_description: "Links that download new page lazy",
-                    is_child: false,
-                    children: null,
-                }
-            ],
+            oneToMany:[
+                
+            ]
         }
-    ]
-
-    return {relations, columns, rows}
-}
-
-export const addElementProp = async () => {
-    // const data = await request.formData()
-
-    const submission = {
-        // email: data.get("email"),
-        // full_name: data.get("full_name"),
-        // password: data.get("password"),
-    }
     
-    console.log(submission)
-
-    //Send Post Request To The Server,
-
-
-
-    return {error: null}
+        const columns = {
+            id: "pk",
+            element_prop_name: "string",
+            element_prop_description: "text",
+            element_types: "many-to-many",
+        }
+    
+        let response;
+        if (type === "deleted") {
+            // Fetch deleted items
+            response = await ElementPropsAPI.get("/fetch_deleted");
+        } else {
+            // Fetch regular items
+            response = await ElementPropsAPI.get();
+        }
+    
+        const rows = response.data.data;
+        console.log(rows)
+    
+        return {relations, columns, rows}
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return error.response.data;
+    }
 }
+
+export const addElementProp = async ({request}) => {
+    try {
+        const data = await request.formData();
+
+        const submission = {
+            "element_prop_name": data.get("element_prop_name"),
+            "element_prop_description": data.get("element_prop_description"),
+            "elements_types": JSON.parse(data.get("elements_types")),
+        };
+
+        
+        const response = await ElementPropsAPI.post('', submission);
+        // Process the response data as needed
+        return response.data;
+    } catch (error) {
+        console.error('Error posting data:', error);
+        return error.response.data;
+    }
+
+
+}
+
+export const updateElementProp = async (id, newData) => {
+    try {
+        // Assuming id is included in the newData object and you're updating a specific resource identified by its id
+        const response = await ElementPropsAPI.patch(`/${id}`, newData, { method: "_PATCH" });
+        console.log(response);
+        // Process the response data as needed
+        return response.data;
+    } catch (error) {
+        console.error('Error updating data:', error);
+        return error.response.data;
+    }
+};
+
+export const deleteElementProp= async (id) => {
+    try {
+        // Assuming id is included in the newData object and you're updating a specific resource identified by its id
+        const response = await ElementPropsAPI.delete(`/${id}`);
+        console.log(response);
+        // Process the response data as needed
+        return response.data;
+    } catch (error) {
+        console.error('Error updating data:', error);
+        return error.response.data;
+    }
+};
+
+//Restore deleted items
+export const restoreElementProp = async (id) => {
+    try {
+        // Assuming id is included in the newData object and you're updating a specific resource identified by its id
+        const response = await ElementPropsAPI.put(`/restore/${id}`);
+        console.log(response);
+        // Process the response data as needed
+        return response.data;
+    } catch (error) {
+        console.error('Error updating data:', error);
+        return error.response.data;
+    }
+};

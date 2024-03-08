@@ -21,6 +21,7 @@ const fetchUsers = async () => {
                 "many-to-many-table": {
                     fetch_many_to_many_table_data: fetchUserPaymentPlan,
                 },
+                add_to_add_form: true,
             }
         ],
         oneToMany:[

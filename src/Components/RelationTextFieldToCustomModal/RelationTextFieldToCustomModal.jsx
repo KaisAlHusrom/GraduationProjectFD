@@ -12,6 +12,7 @@ import {
 import {
     Autocomplete,
     Checkbox,
+    Grid,
     TextField,
 } from '@mui/material'
 import { styled } from '@mui/system'
@@ -48,9 +49,12 @@ const RelationTextFieldToCustomModal = (props) => {
         columnName,
         columnType,
         returnedData,
+        error,
+        errorMessage
     } = props
 
     const {relations} = useLoaderData()
+
 
     //Get current relation
     const [relation, setRelation] = useState(() => {
@@ -72,7 +76,7 @@ const RelationTextFieldToCustomModal = (props) => {
     //fetch data
     useEffect(() => {
         
-        if(columnType === 'many-to-many' || columnType === 'many-to-one'){
+        if(columnType === 'many-to-many' || columnType === 'many-to-one' || columnType === 'one-to-many'){
             const fetchData = async () => {
                 const data = await relation.fetch_all_data()
                 setRelatedTableData(data.rows)
@@ -96,7 +100,7 @@ const RelationTextFieldToCustomModal = (props) => {
 
     //Input Value
     const [value, setValue] = useState(() => {
-        if(columnType === "many-to-many") {
+        if(columnType === "many-to-many" || columnType === 'one-to-many') {
             return []
         } else {
             return null
@@ -108,12 +112,13 @@ const RelationTextFieldToCustomModal = (props) => {
 
     // Assuming value is an array of selected objects
     const selectedOptions = useMemo(() => {
-        if (columnType === "many-to-many") {
+        if (columnType === "many-to-many" || columnType === 'one-to-many') {
             return relatedTableData.filter(row => {
                 // Check if originalData contains the current row's id
                 return value.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
             });
         }
+
         if (columnType === "many-to-one") {
             if(value) {
                 return relatedTableData.filter(row => row[relation["related_table_id"]] === value[relation["related_table_id"]])[0];
@@ -125,7 +130,7 @@ const RelationTextFieldToCustomModal = (props) => {
 
     const [selectedIds, setSelectedIds] = useState([])
     useEffect(() => {
-        if (columnType === "many-to-many") {
+        if (columnType === "many-to-many" || columnType === 'one-to-many') {
             if(selectedOptions && selectedOptions.length > 0) {
                 const ids = selectedOptions.map(row => row[relation["related_table_id"]])
                 setSelectedIds(() => ids);
@@ -140,75 +145,88 @@ const RelationTextFieldToCustomModal = (props) => {
         
     }, [columnType, relation, selectedOptions])
 
-    // console.log(JSON.parse(selectedOptions))
+
     return (
         <>
             {
-                columnType === "many-to-many" && relatedTableData.length > 0
-                ?    
-                    (
-                        <>
-                        <AutocompleteMultipleStyle
-                        {...defaultProps}
-                        disableClearable
-                        multiple
-                        
-                        id="combo-box-demo"
-                        size='small'
-                        renderInput={(params) => <TextField {...params} label={columnName} />} // Add name prop here
-                        onChange={(event, newValue) => handleChangeData(event, newValue)}
-                        value={selectedOptions}
-                        disableCloseOnSelect
-                        renderOption={(props, option, { selected }) => (
-                            <li 
-                                {...props}
-                            >
-                                <Checkbox
-                                    icon={<CheckBoxOutlineBlankIcon />}
-                                    checkedIcon={<CheckBoxIcon />}
-                                    style={{ marginRight: 8 }}
-                                    checked={selected}
-                                />
-                                {option[relation["fetched_column"]]}
-                            </li>
-                            )}
-                        />
-                        <input
-                        type='text'
-                        name={columnName}
-                        value={JSON.stringify(selectedIds)}
-                        onChange={() => {}}
-                        hidden
-                    
-                        />
-                    </>
-                    )
-            
-                :
-                columnType === "many-to-one" && relatedTableData.length > 0
+                relation.add_to_add_form
                 ?
-                    (
-                        <>
-                            <Autocomplete
-                            {...defaultProps}
-                            disablePortal
-                            defaultValue={columnName}
-                            id="combo-box-demo"
-                            size='small'
-                            renderInput={(params) => <TextField {...params} label={columnName} />}
-                            onChange={(event, newValue) => handleChangeData(event, newValue)}
-                            value={selectedOptions}
-                            />
-                            <input
-                            type='text'
-                            name={columnName}
-                            value={selectedIds}
-                            onChange={() => {}}
-                            hidden
+                    (columnType === "many-to-many" || columnType === 'one-to-many')
+                    ?    
+                        (
+                            <Grid item xs={12}>
+                                <AutocompleteMultipleStyle
+                                {...defaultProps}
+                                disableClearable
+                                multiple
+                                
+                                id="combo-box-demo"
+                                size='small'
+                                renderInput={(params) => <TextField
+                                    {...params} 
+                                    label={columnName} 
+                                    error={error}
+                                    helperText={errorMessage}
+                                />} // Add name prop here
+                                onChange={(event, newValue) => handleChangeData(event, newValue)}
+                                value={selectedOptions}
+                                disableCloseOnSelect
+                                renderOption={(props, option, { selected }) => (
+                                    <li 
+                                        {...props}
+                                    >
+                                        <Checkbox
+                                            icon={<CheckBoxOutlineBlankIcon />}
+                                            checkedIcon={<CheckBoxIcon />}
+                                            style={{ marginRight: 8 }}
+                                            checked={selected}
+                                        />
+                                        {option[relation["fetched_column"]]}
+                                    </li>
+                                    )}
+                                />
+                                <input
+                                type='text'
+                                name={columnName}
+                                value={JSON.stringify(selectedIds)}
+                                onChange={() => {}}
+                                hidden
                             
-                            />
-                        </>
-                    )
+                                />
+                            </Grid>
+                        )
+                
+                    :
+                    columnType === "many-to-one" && relatedTableData.length > 0
+                    ?
+                        (
+                            <Grid item xs={12}>
+                                <Autocomplete
+                                {...defaultProps}
+                                disablePortal
+                                defaultValue={columnName}
+                                id="combo-box-demo"
+                                size='small'
+                                renderInput={(params) => <TextField 
+                                    {...params} 
+                                    label={columnName} 
+                                    error={error}
+                                    helperText={errorMessage}
+                                />}
+                                onChange={(event, newValue) => handleChangeData(event, newValue)}
+                                value={selectedOptions}
+                                />
+                                <input
+                                type='text'
+                                name={columnName}
+                                value={selectedIds}
+                                onChange={() => {}}
+                                hidden
+                                
+                                />
+                            </Grid>
+                        )
+                    :null
                 :null
             }
         </>
@@ -219,6 +237,8 @@ RelationTextFieldToCustomModal.propTypes = {
     columnName: propTypes.string,
     columnType: propTypes.string,
     returnedData: propTypes.any,
+    error: propTypes.bool,
+    errorMessage: propTypes.string,
 }
 
 export default RelationTextFieldToCustomModal;

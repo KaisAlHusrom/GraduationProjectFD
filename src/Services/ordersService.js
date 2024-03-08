@@ -10,6 +10,7 @@ export const fetchOrders = async () => {
                 "fetched_column": "first_name",
                 "related_table_id": "id",
                 fetch_all_data: usersService.fetchUsers,
+                add_to_add_form: true,
             },
         ],
         manyToMany:[
@@ -25,6 +26,7 @@ export const fetchOrders = async () => {
                     ],
                     fetch_many_to_many_table_data: fetchOrderItems,
                 },
+                add_to_add_form: true,
             },
         ],
         oneToMany:[

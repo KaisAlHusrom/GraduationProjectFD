@@ -10,12 +10,14 @@ export const fetchUserPayments = async () => {
                 "fetched_column": "payment_plan_title",
                 "related_table_id": "payment_plan_id",
                 fetch_all_data: fetchPaymentPlans,
+                add_to_add_form: true,
             },
             {
                 "field_name": "user",
                 "fetched_column": "first_name",
                 "related_table_id": "id",
                 fetch_all_data: usersService.fetchUsers,
+                add_to_add_form: true,
             }
         ],
         manyToMany:[

@@ -19,6 +19,7 @@ import { DatabaseView } from '../../../../Components'
 
 
 import CodeIcon from '@mui/icons-material/Code';
+import { deleteElementType, fetchElementsTypes, restoreElementType, updateElementType } from '../../../../Services/elementsTypesService'
 
 
 //Styled Components
@@ -35,6 +36,11 @@ const ElementTypesPage = () => {
             <DatabaseView
             title={"Elements Types"}
             icon={<CodeIcon />}
+            handleUpdateData={updateElementType}
+            handleFetchData={fetchElementsTypes}
+            handleDeleteData={deleteElementType}
+            softDeletes={true}
+            handleRestoreData={restoreElementType}
             />
         </StyledElementTypesPage>
     );

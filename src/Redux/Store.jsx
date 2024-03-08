@@ -6,13 +6,15 @@ import DownloadPageSlice from './Slices/DownloadPageSlice';
 import LangSlice from './Slices/LangSlice';
 import modeSlice from './Slices/modeSlice';
 import componentsOpenSlice from './Slices/componentsOpenSlice';
+import snackbarOpenSlice from './Slices/snackbarOpenSlice';
 
 const store = configureStore({
   reducer: {
     downloadPageSlice: DownloadPageSlice,
     langSlice: LangSlice,
     modeSlice: modeSlice,
-    componentsOpenSlice: componentsOpenSlice
+    componentsOpenSlice: componentsOpenSlice,
+    snackbarOpenSlice: snackbarOpenSlice,
   },
 });
 

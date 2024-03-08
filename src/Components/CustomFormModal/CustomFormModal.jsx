@@ -1,9 +1,7 @@
 //React
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { Form, useActionData, useLocation } from 'react-router-dom'
 
@@ -31,6 +29,9 @@ import FolderZipIcon from '@mui/icons-material/FolderZip';
 import propTypes from 'prop-types'
 import { DatePicker } from '@mui/x-date-pickers'
 import RelationTextFieldToCustomModal from '../RelationTextFieldToCustomModal/RelationTextFieldToCustomModal'
+import { handleOpenSnackbar, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
+import { useMyContext } from '../DatabaseView/DatabaseView'
+
 
 //Styled Components
 const StyledCustomFormModal = styled(Box)(
@@ -133,6 +134,7 @@ const imageStyle = {
 const CustomFormModal = (props) => {
     const {
         columns,
+        title
     } = props
     
     // Define the desired order of keys
@@ -147,6 +149,7 @@ const CustomFormModal = (props) => {
         "decimal",
         "many-to-many",
         "many-to-one",
+        "one-to-many",
         "text",
         "bool",
         "file",
@@ -176,7 +179,7 @@ const CustomFormModal = (props) => {
 
 
 
-    const data = useActionData() //The data that come from the action method in the CustomRouterProvider
+    
     const location = useLocation();
 
     // Access the current path from the location object
@@ -236,6 +239,10 @@ const CustomFormModal = (props) => {
 
     //Return Inputs based on column type
     const returnInputs = (column, type, data, key) => {
+        const error = !!(data?.errors && data.errors[column]);
+        const errorMessage = data?.errors?.[column] ?? '';
+
+        
         if (type === "pk" || column === "created_at" || column === "updated_at") return;
 
         if(type === "int") {
@@ -247,10 +254,9 @@ const CustomFormModal = (props) => {
                     label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                     name={column}
                     color="primary"
-                    required
                     size="small"
-                    error={data?.error ? true : false}
-                    helperText={data?.error ? data.error : ''}
+                    error={error}
+                    helperText={errorMessage}
                     />
                 </Grid>
             )
@@ -262,7 +268,6 @@ const CustomFormModal = (props) => {
                     <FormControl
                     fullWidth
                     color="primary"
-                    required
                     size="small"
                     
                     >
@@ -273,7 +278,8 @@ const CustomFormModal = (props) => {
                             id="outlined-adornment-amount"
                             startAdornment={<InputAdornment position="start">$</InputAdornment>}
                             label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                            
+                            error={error}
+                            helperText={errorMessage}       
                         />
                     </FormControl>
                 </Grid>
@@ -288,10 +294,9 @@ const CustomFormModal = (props) => {
                 label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                 name={column}
                 color="primary"
-                required
                 size="small"
-                error={data?.error ? true : false}
-                helperText={data?.error ? data.error : ''}
+                error={error}
+                helperText={errorMessage}
                 />
             </Grid>
             )
@@ -300,15 +305,32 @@ const CustomFormModal = (props) => {
         if(type === "text") {
             return (
             <Grid key={key} item xs={12}>
-                <FormLabel>{StringHelper.capitalizeEachWord(column.split("_").join(" "))}</FormLabel>
+                <FormLabel
+                error={error}
+                >{StringHelper.capitalizeEachWord(column.split("_").join(" "))}</FormLabel>
                 <StyledTextArea
                 minRows={3} // Adjust the minimum number of rows as needed
                 maxRows={10} // Adjust the maximum number of rows as needed
                 placeholder={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                 name={column}
-                required
                 aria-label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
+                sx={{
+                    borderColor: error ? "error.main" : "transparent"
+                }}
                 />
+                {
+                error
+                ? 
+                <Box ml={2} component="span">
+                    <Typography variant="body2" component="span" color="error">
+                        {errorMessage}
+                    </Typography>
+                </Box>
+                
+                : null
+                
+                }
+                
             </Grid>
             )
         }
@@ -322,9 +344,10 @@ const CustomFormModal = (props) => {
                     name={column}
                     fullWidth 
                     value={value}
-                    required
                     onChange={handleChange} 
                     inputProps={{ maxLength: 17 }} //TODO: add validation
+                    error={error}
+                    helperText={errorMessage}
                 />
             </Grid>
             )
@@ -339,10 +362,9 @@ const CustomFormModal = (props) => {
                     label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                     name={column}
                     color="primary"
-                    required
                     size="small"
-                    error={data?.error ? true : false}
-                    helperText={data?.error ? data.error : ''}
+                    error={error}
+                    helperText={errorMessage}
                     />
                 </Grid>
                 )
@@ -358,10 +380,9 @@ const CustomFormModal = (props) => {
                     label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                     name={column}
                     color="primary"
-                    required
                     size="small"
-                    error={data?.error ? true : false}
-                    helperText={data?.error ? data.error : ''}
+                    error={error}
+                    helperText={errorMessage}
                     />
                 </Grid>
                 )
@@ -388,9 +409,9 @@ const CustomFormModal = (props) => {
                     focused
                     label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                     name={column}
-                    required
-                    error={data?.error ? true : false}
-                    helperText={data?.error ? data.error : ''}
+                    error={error}
+                    helperText={errorMessage}
+                    
                     sx={{
                         width: '100%',
                         // "& .MuiFormLabel-root": {
@@ -412,17 +433,19 @@ const CustomFormModal = (props) => {
                     <FormControlLabel
                             label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                             size="small"
+                            
                             control={
                                 <Switch 
-                                name={column}
-                                // error={errors?.is_admin ? true : false}
-                                // helperText={errors?.is_admin ? errors.is_admin : ''}
+                                    name={column}
+                                    error={error}
+                                    helperText={errorMessage}
                                 />
                             }
                         />
                 </Grid>
                 )
         }
+
 
         if(type === "image") {
             return (
@@ -443,11 +466,15 @@ const CustomFormModal = (props) => {
                     onChange={handleImageChange}
                     />
                 </Button>
+                {error ? 
                 <Box mt={1}>
                     <Typography variant="subtitle1" component="span" color="error">
-                        {data?.errors?.image ? data?.errors.image : ''}
+                        {errorMessage}
                     </Typography>
                 </Box>
+                                
+                : 
+                null}
 
                 </StyledImageBox>
             </Grid>
@@ -486,7 +513,7 @@ const CustomFormModal = (props) => {
                         </StyledUploadedFileBox>
                         )}
                         <Typography variant="subtitle1" component="span" color="error">
-                            {data?.errors?.image ? data?.errors.image : ''}
+                            {errorMessage}
                         </Typography>
                     </Box>
 
@@ -495,20 +522,39 @@ const CustomFormModal = (props) => {
             )
         }
 
-        if(type === "many-to-one" || type === "many-to-many") {
+        if(type === "many-to-one" || type === "many-to-many" || type === "one-to-many") {
             return (
-                <Grid key={key} item xs={12}>
+
                     <RelationTextFieldToCustomModal 
                     columnName={column} 
                     columnType={type} 
                     returnedData={data} 
                     key={key} 
-                    
+                    error={error}
+                    errorMessage={errorMessage}
                     />
-                </Grid>
             )
         } 
     }
+
+    //when submitting
+    const data = useActionData() //The data that come from the action method in the CustomRouterProvider
+    const { handleFetchData, setLoaderData} = useMyContext()
+    const dispatch = useDispatch()
+    useEffect(() => {
+        if(data) {
+            if(data.errors) return
+            
+            dispatch(setSnackbarMessage({message: title + " added successfully"}))
+            dispatch(handleOpenSnackbar())
+
+            const fetchData = async () => {
+                const res = await handleFetchData()
+                setLoaderData(() => res)
+            }
+            fetchData();
+        }
+    }, [data, dispatch, handleFetchData, setLoaderData, title])
 
     return (
         <Form method='post' action={currentPath} encType="multipart/form-data" >
@@ -535,7 +581,8 @@ const CustomFormModal = (props) => {
 };
 
 CustomFormModal.propTypes = {
-    columns: propTypes.object
+    columns: propTypes.object,
+    title: propTypes.string,
 }
 
 export default CustomFormModal;

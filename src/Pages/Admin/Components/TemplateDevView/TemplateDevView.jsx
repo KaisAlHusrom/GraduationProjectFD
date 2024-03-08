@@ -31,6 +31,11 @@ const StyledTemplateDevView = styled(Box)(
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        position: "sticky", // Change position to sticky
+        top: "-50px", // Stick to the top of the container
+        zIndex: "999", // Set z-index to ensure it's above other content
+        backgroundColor: theme.palette.background.paper,
+        
     })
 )
 
@@ -38,12 +43,14 @@ const StyledTemplateDevView = styled(Box)(
 const TemplateDevView = ({selectedElementState}) => {
 
 
-    const {selectedElement, setSelectedElement} = selectedElementState
+    const {selectedElement, elementStyle} = selectedElementState
+
+    console.log(elementStyle)
 
     return (
         <StyledTemplateDevView>
             {
-                generateTag(selectedElement)
+                generateTag(selectedElement, elementStyle)
             }
         </StyledTemplateDevView>
     );

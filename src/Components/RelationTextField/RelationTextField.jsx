@@ -65,7 +65,8 @@ const RelationTextField = (props) => {
         handleChangeData,
         handleEnterKeyDown,
         setNewData,
-        
+        pkColumnData,
+        row
     } = props
 
     const [relation, setRelation] = useState(() => {
@@ -100,10 +101,11 @@ const RelationTextField = (props) => {
     const defaultProps = useMemo(()=> {
         return {
             options: relatedTableData,
-            getOptionLabel: (option) => option[relation["fetched_column"]],
-            getOptionKey: (option) => option[relation["related_table_id"]],
+            getOptionLabel: (option) => option ? option[relation["fetched_column"]] || '' : '',
+            getOptionKey: (option) => option ? option[relation["related_table_id"]] : '',
         };
-    }, [relatedTableData, relation])
+    }, [relatedTableData, relation]);
+    
 
     // Assuming originalData is an array of selected objects
     const selectedOptions = useMemo(() => {
@@ -124,13 +126,12 @@ const RelationTextField = (props) => {
                 return []
             }
             if (relationType === "many-to-one") {
-                return {}
+                return null
             }
         }
 
         return null; // or any default value if needed
     }, [originalData, relatedTableData, relation, relationType]);
-
 
     
     return (
@@ -146,10 +147,10 @@ const RelationTextField = (props) => {
                         id="combo-box-demo"
                         size='small'
                         renderInput={(params) => <TextField {...params} label={columnName} name={columnName} />} // Add name prop here
-                        onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue)}
+                        onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
                         value={selectedOptions}
                         disableCloseOnSelect
-                        
+                        PaperComponent={StyledMenu}
                         renderOption={(props, option, { selected }) => (
                             <li 
                                 {...props}
@@ -175,10 +176,10 @@ const RelationTextField = (props) => {
                             id="combo-box-demo"
                             size='small'
                             renderInput={(params) => <TextField {...params} label={columnName} name={columnName} />} // Add name prop here
-                            onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue)}
+                            onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
                             value={selectedOptions}
                             disableCloseOnSelect
-                            
+                            PaperComponent={StyledMenu}
                             renderOption={(props, option, { selected }) => (
                                 <li 
                                     {...props}
@@ -204,7 +205,7 @@ const RelationTextField = (props) => {
                         id="combo-box-demo"
                         size='small'
                         renderInput={(params) => <TextField {...params} label={columnName} />}
-                        onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue)}
+                        onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
                         value={selectedOptions}
                         PaperComponent={StyledMenu}
                     />

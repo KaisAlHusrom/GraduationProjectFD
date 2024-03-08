@@ -14,6 +14,7 @@ export const fetchProductsUsedSkill = async () => {
                 "fetched_column": "product_name",
                 "related_table_id": "id",
                 fetch_all_data: productService.fetchProducts,
+                add_to_add_form: true,
             },
         ]
     }

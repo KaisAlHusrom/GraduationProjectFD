@@ -30,6 +30,7 @@ const fetchProducts = async () => {
                     "fetched_column": "first_name",
                     "related_table_id": "id",
                     fetch_all_data: usersService.fetchUsers,
+                    add_to_add_form: true,
                 },
             ],
         manyToMany:[
@@ -38,6 +39,7 @@ const fetchProducts = async () => {
                         "fetched_column": "category_name",
                         "related_table_id": "id",
                         fetch_all_data: categoriesService.fetchCategories,
+                        add_to_add_form: true,
                     }
         ],
         oneToMany: [

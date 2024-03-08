@@ -103,7 +103,7 @@ const TemplateElementSettings = (props) => {
     const defaultProps = useMemo(()=> {
         return {
             options: elementTypes,
-            getOptionLabel: (option) => option.element_type,
+            getOptionLabel: (option) => option.element_type_name,
             getOptionKey: (option) => option.element_type_id,
         };
     }, [elementTypes])
@@ -117,7 +117,7 @@ const TemplateElementSettings = (props) => {
     return (
         <StyledTemplateElementSettings container spacing={2}>
             <Grid item xxs={12}>
-                <Typography variant='subtitle1' letterSpacing={2} color="text.secondary">
+                <Typography variant='h6' letterSpacing={2} color="primary.main">
                     Element Settings
                 </Typography>
             </Grid>

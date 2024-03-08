@@ -17,3 +17,4 @@ export {default as CustomGalleryViewItem} from "./CustomGalleryViewItem/CustomGa
 export {default as RelationTextField} from "./RelationTextField/RelationTextField"
 export {default as RelationTextFieldToCustomModal} from "./RelationTextFieldToCustomModal/RelationTextFieldToCustomModal"
 export {default as RowDetailsView} from "./RowDetailsView/RowDetailsView"
+export {default as CustomSnackBar} from "./CustomSnackBar/CustomSnackBar"

@@ -266,7 +266,7 @@ const AdminMainButton = (props) => {
                     <Button
                     sx={
                         sx ?
-                        {...StyleOfIconButton, ...sx}
+                        {...StyleOfButton, ...sx}
                         :
                         StyleOfButton
                     }

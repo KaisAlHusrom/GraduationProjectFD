@@ -1,9 +1,7 @@
 //React
 import {  createContext, useContext, useEffect, useState } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 //Components
 import CustomTable from '../CustomTable/CustomTable'
@@ -24,6 +22,8 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
+import FolderDeleteOutlinedIcon from '@mui/icons-material/FolderDeleteOutlined';
+import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
 //propTypes 
 import propTypes from 'prop-types'
 import { useLoaderData } from 'react-router-dom'
@@ -31,6 +31,7 @@ import { useMemo } from 'react'
 import filterData from '../../Helpers/FilterData'
 import sortData from '../../Helpers/sortData'
 import { CustomGalleryView } from '..'
+import { handleOpenSnackbar, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
 // import usersService from '../../Services/usersService'
 
 
@@ -51,7 +52,11 @@ const DatabaseView = (props) => {
         title,
         icon,
         loaderDataProp,
-        //handleUpdateData //function to change data in database
+        handleUpdateData, //function to change data in database
+        handleFetchData,
+        handleDeleteData,
+        softDeletes,
+        handleRestoreData
     } = props
 
     const theme = useTheme()
@@ -60,6 +65,8 @@ const DatabaseView = (props) => {
     const loadedData = useLoaderData();
     const initialData = loaderDataProp ? loaderDataProp : loadedData;
     const [loaderData, setLoaderData] = useState(initialData);
+
+    
     
     //Split the columns and rows,
     const {columns, rows, relations} = loaderData;
@@ -340,19 +347,7 @@ const DatabaseView = (props) => {
     }, [allViewsSettings, viewsSettings, title]);
 
 
-    //View Options
-    const viewOptions = [
-        {
-            value: "Delete Selected",
-            icon: <DeleteOutlineOutlinedIcon />,
-            onClick: () => {console.log(selected)}
-        },
-        {
-            value: "Duplicate Selected",
-            icon: <ContentCopyOutlinedIcon />,
-            onClick: () => {console.log(selected)}
-        },
-    ]
+    
     
 
     //handlers
@@ -379,7 +374,8 @@ const DatabaseView = (props) => {
     
 
     //Handle update data when change
-    const handleChangeData = (e, type, setRowData, columnName, newValue) => {
+    const handleChangeData = async (e, type, setRowData, columnName, newValue) => {
+        
         let name = columnName
         let value = newValue
         if(type !== "many-to-many" && type !== "one-to-many" && type !== "many-to-one" && type !== "rate") {
@@ -391,37 +387,143 @@ const DatabaseView = (props) => {
                 value = e.target.files[0];
             } 
         } 
-
+        // Update the row data using the callback version of setRowData
         setRowData((prev)=> {
-            return {...prev, [name]: value}
-        })
+            const updatedRow = {...prev, [name]: value};
+
+            // Call handleUpdateData here with updatedRow
+            const shouldUpdateData = ["many-to-many", "one-to-many", "many-to-one", "rate"].includes(type);
+
+            if(shouldUpdateData) {
+                updateData(updatedRow)
+            }
+
+            return updatedRow;
+        });
+
+
     }
 
-    //Update data in database when press Enter
-    const handleEnterKeyDown = (e, type, row, setShowTextField) => {
-        if(e.key === 'Enter') {
-            const updatedRows = [...rowsArray]
-            let name = e.target.name;
-            let value = e.target.value;
-
-            if(type === "bool") {
-                value = e.target.checked;
-            } else if(type === "image" || type === "file")  {
-                value = e.target.files[0];
-            } 
-
-            updatedRows.forEach((updatedRow) => {
-                if(updatedRow.id === row.id) {
-                    row[name] = value
-                }
-            })
-            //TODO: the original data don't change, as I see, check it, and fix the problem.
-            setLoaderData(() => {
-                return {...loaderData, rows: updatedRows}
-            })
-            setShowTextField(()=> null);
+    // Update data in database when press Enter
+    const handleEnterKeyDown = async (e, type, row, setShowTextField) => {
+        if (e.key === 'Enter') {
+            setShowTextField(() => null);
+            updateData(row)
         }
     }
+
+    //when click outside data cell, item
+    const handleCellOutsideClick = async (bodyRef, clickedElement, withoutClasses, setShowAllCell, setShowTextField, row) => {
+        
+        const isSelectAutoCompleteOption = withoutClasses.some(className => clickedElement.closest(className) !== null);
+            if (!isSelectAutoCompleteOption && bodyRef.current && !bodyRef.current.contains(clickedElement)) {
+                // Clicked outside the table cell, so set showAllCell to null
+                setShowAllCell(null);
+                setShowTextField(null);
+                //TODO: you can add that the data in database will change when press outside the table cell
+                // updateData(row)
+            }
+    };
+
+    //dispatch for Snackbar
+    const dispatch = useDispatch()
+    
+    //state to show deleted records
+    const [showDeleted, setShowDeleted] = useState(false)
+
+    //UPDATE FUNCTION
+    const updateData = async (row) => {
+        const pkColumn = Object.keys(columns).find(key => columns[key] === "pk");
+        // Await the update operation to complete
+        const res = await handleUpdateData(row[pkColumn], row);
+        if(res.success) {
+            dispatch(setSnackbarMessage({message: "item updated successfully"}))
+            dispatch(handleOpenSnackbar())
+            // Fetch data after the update is completed
+            const result = await handleFetchData();
+            setLoaderData(() => result);
+
+        } else {
+            dispatch(setSnackbarMessage({message: "An error occurred while attempting to update the item."}))
+            dispatch(handleOpenSnackbar())
+        }
+    }
+
+
+    //DELETE FUNCTION
+    const deleteData = async (id) => {
+        // Await the update operation to complete
+        const res = await handleDeleteData(id);        
+        if(res.success) {
+            dispatch(setSnackbarMessage({message: "Items deleted successfully"}))
+            dispatch(handleOpenSnackbar())
+            // Fetch data after the delete is completed
+            const result = await handleFetchData();
+            setLoaderData(() => result);
+
+        } else {
+            dispatch(setSnackbarMessage({message: "An error occurred while attempting to delete the items."}))
+            dispatch(handleOpenSnackbar())
+        }
+    }
+
+    //RESTORE FUNCTION
+    const restoreData = async (id) => {
+        // Await the update operation to complete
+        const res = await handleRestoreData(id);        
+        if(res.success) {
+            dispatch(setSnackbarMessage({message: "Items restored successfully"}))
+            dispatch(handleOpenSnackbar())
+            // Fetch data after the delete is completed
+            const result = await handleFetchData("deleted");
+            setLoaderData(() => result);
+
+        } else {
+            dispatch(setSnackbarMessage({message: "An error occurred while attempting to restore the items."}))
+            dispatch(handleOpenSnackbar())
+        }
+    }
+    
+
+
+    const handleFetchDeletedItems = async () => {
+        if(showDeleted) {
+            setShowDeleted(() => false)
+            // Fetch Deleted Data
+            const result = await handleFetchData();
+            setLoaderData(() => result);
+        } else {
+            setShowDeleted(() => true)
+            // Fetch Deleted Data
+            const result = await handleFetchData("deleted");
+            setLoaderData(() => result);
+        }
+    }
+
+    //View Options
+    const viewOptions = [
+        {
+            value: showDeleted ? "Restore Selected" :"Delete Selected",
+            icon: showDeleted ? <RecyclingOutlinedIcon /> : <DeleteOutlineOutlinedIcon />,
+            onClick: showDeleted ?
+            () => {
+                selected.forEach(id => {
+                    restoreData(id)
+                })
+            }
+            :
+            () => {
+                selected.forEach(id => {
+                    deleteData(id)
+                })
+            }
+        },
+        {
+            value: "Duplicate Selected",
+            icon: <ContentCopyOutlinedIcon />,
+            onClick: () => {console.log(selected)}
+        },
+    ]
 
     // useEffect(() => {
     //     console.log(rows);
@@ -460,7 +562,16 @@ const DatabaseView = (props) => {
     
 
     return (
-            <MyContext.Provider value={{filtersCount, setFiltersCount, sortsCount, setSortsCount, viewsSettings, setViewsSettings}}>
+            <MyContext.Provider value={{filtersCount, 
+            setFiltersCount, 
+            sortsCount, 
+            setSortsCount, 
+            viewsSettings, 
+            setViewsSettings, 
+            handleCellOutsideClick, 
+            handleFetchData, 
+            setLoaderData}}
+            >
                 <StyledDatabaseView>
                     <SortFilterSection
                     dataState={[loaderData, setLoaderData]}
@@ -477,20 +588,33 @@ const DatabaseView = (props) => {
                         <CardHeader 
                             title={title}
                             action={
-                                <AdminMainButton
-                                    icon={
-                                    <MoreVertIcon sx={{
-                                        color: theme.palette.text.primary
-                                    }}/>
-                                    }
-                                    title='options'
-                                    type='menu'
-                                    appearance='iconButton'
-                                    sx={{
-                                        border: "0px"
-                                    }}
-                                    menuItems={viewOptions}
-                                />
+                                <>
+                                    <AdminMainButton
+                                        title='Show Deleted Items'
+                                        icon={<FolderDeleteOutlinedIcon />}
+                                        type='custom'
+                                        appearance='secondary'
+                                        putBorder
+                                        onClick={handleFetchDeletedItems}
+                                        sx={{
+                                            backgroundColor: showDeleted ? theme.palette.action.selected : "transparent",
+                                        }}
+                                    />
+                                    <AdminMainButton
+                                        icon={
+                                        <MoreVertIcon sx={{
+                                            color: theme.palette.text.primary
+                                        }}/>
+                                        }
+                                        title='options'
+                                        type='menu'
+                                        appearance='iconButton'
+                                        sx={{
+                                            border: "0px"
+                                        }}
+                                        menuItems={viewOptions}
+                                    />
+                                </>
                             }
                             
                             avatar={
@@ -564,6 +688,10 @@ DatabaseView.propTypes = {
     hiddenColumns: propTypes.array,
     databaseOptions: propTypes.array,
     handleUpdateData: propTypes.func,
+    handleFetchData: propTypes.func,
+    handleDeleteData: propTypes.func,
+    softDeletes: propTypes.bool,
+    handleRestoreData: propTypes.func,
     loaderDataProp: propTypes.object,
 }
 

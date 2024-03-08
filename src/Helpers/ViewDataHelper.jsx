@@ -203,10 +203,25 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
     }
 }
 
-const getAppropriateTextField = (setShowTextField, columns, column, cell, handleChangeData, row, handleEnterKeyDown, setRowData, relations) => {
+const getAppropriateTextField = (
+    setShowTextField, 
+    columns, 
+    column, 
+    cell, 
+    handleChangeData, 
+    row, 
+    handleEnterKeyDown, 
+    setRowData, 
+    relations,
+    pkColumnData
+    ) => {
 
 
     if(cell !== null){
+        const changeFunc = (event) => handleChangeData(event, columns[column], setRowData, null, null); 
+        const enterKeyDownFunc = (event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)
+
+
         if (columns[column] === "pk") return <Typography color="error" variant='body2'>Can not Update The Id</Typography>;
         if (columns[column] === "dateTime") return <Typography color="error" variant='body2'>Can not Update Timestamp fields</Typography>;
         
@@ -218,15 +233,16 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
             return <Rating
 
                 value={cell}
-                onChange={(event, newValue) => handleChangeData(event, columns[column], setRowData, column, newValue)}
-            />
+                onChange={changeFunc}
+                // onKeyDown={enterKeyDownFunc}            
+        />
         } 
 
         if(columns[column] === "bool") {
             return (
                             <Switch 
-                            onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                            onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
+                            onChange={changeFunc}
+                            onKeyDown={enterKeyDownFunc}
                             name={column}
                             checked={cell}
                             id="switch"
@@ -242,8 +258,8 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
                         type='date'
                         name={column}
                         value={dayjs(cell)}
-                    onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                    onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
+                        onChange={changeFunc}
+                        onKeyDown={enterKeyDownFunc}
                     size="small"
                     id="textField"
                     // error={data?.error ? true : false}
@@ -258,8 +274,8 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
                     }}
                     name={column}
                     value={cell}
-                    onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                    onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
+                    onChange={changeFunc}
+                    onKeyDown={enterKeyDownFunc}
                     size="small"
                 />
         }
@@ -270,8 +286,8 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
                     size="small"
                     name={column}
                     value={cell}
-                    onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                    onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
+                    onChange={changeFunc}
+                    onKeyDown={enterKeyDownFunc}
                     // error={data?.error ? true : false}
                     // helperText={data?.error ? data.error : ''}
                     />
@@ -283,8 +299,8 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
             size="small"
             name={column}
             value={cell}
-            onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-            onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
+            onChange={changeFunc}
+            onKeyDown={enterKeyDownFunc}
             />
         }
 
@@ -295,8 +311,9 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
                 placeholder={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                 name={column}
                 value={cell}
-                onChange={(event) => handleChangeData(event, columns[column], setRowData)}
-                onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
+                onChange={changeFunc}
+                onKeyDown={enterKeyDownFunc}
+                
                 />
         }
 
@@ -305,9 +322,9 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
             size="small"
             name={column}
             value={cell}
-            onChange={(event) => handleChangeData(event, columns[column], setRowData)}
             inputProps={{ maxLength: 14 }}
-            onKeyDown={(event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)}
+            onChange={changeFunc}
+            onKeyDown={enterKeyDownFunc}
             // error={data?.error ? true : false}
             // helperText={data?.error ? data.error : ''}
             />
@@ -325,6 +342,8 @@ const getAppropriateTextField = (setShowTextField, columns, column, cell, handle
                                     handleChangeData={handleChangeData}
                                     handleEnterKeyDown={handleEnterKeyDown}
                                     setNewData={setRowData}
+                                    pkColumnData={pkColumnData}
+                                    row={row}
                                 />  
                             )
         }
