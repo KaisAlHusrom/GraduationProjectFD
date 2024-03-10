@@ -22,9 +22,11 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import DeleteIcon from '@mui/icons-material/Delete';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 import AnimationIcon from '@mui/icons-material/Animation';
-import BordersDrawer from './BordersDrawer.jsx'
+// import BordersDrawer from '../EditPage/Drawers/BordersDrawer.jsx'
 import CustomAccordion from './Accordion.jsx'
-
+import AnimationsDrawer from '../EditPage/Drawers/AnimationsDrawer.jsx'
+import MarginDrawer from '../EditPage/Drawers/MarginDrawer.jsx'
+import MarginIcon from '@mui/icons-material/Margin';
 
 //Styled Components
 const StyledStyleBox = styled(Box)(
@@ -56,7 +58,6 @@ const StyleBox = ({
 }) => {
 
 
-    const [selectedBorder, setSelectedBorder] = useState(null);
     return (
         <StyledStyleBox>
             <Typography component="div" variant='h3' sx={{ textAlign: 'center', padding: '10px', color: 'white.dark' , fontWeight:'bold' , 
@@ -114,7 +115,7 @@ const StyleBox = ({
                                 <>
                                     {/* Accordion */}
                                         <Box sx={{ marginTop: '20px' }}>
-                                            <CustomAccordion selectedBorder={[selectedBorder, setSelectedBorder]}  handleSectionStyleChange = {handleSectionStyleChange}></CustomAccordion>
+                                            <CustomAccordion   handleSectionStyleChange = {handleSectionStyleChange}></CustomAccordion>
                                         </Box>
                                     {/* Accordion */}
 
@@ -134,12 +135,44 @@ const StyleBox = ({
                         
                         }}
                         />
+                        
+                    <AdminMainButton
+                                title="Margins"
+                                type='drawer'
+                                drawerAnchor = "right"
+                                putDrawerCloseButton
+                                appearance='primary'
+                                icon={<MarginIcon />}
+
+                                willShow={
+                                <>
+                                    <MarginDrawer  handleSectionStyleChange = {handleSectionStyleChange}></MarginDrawer>
+                                </>
+                                }
+                                sx={{
+                                marginTop: '10px',
+                                width: '220px',
+                                display: 'flex',
+                                flexWrap:'wrap',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                color: '#eee',
+                                backgroundColor: '#092635',
+                                fontWeight:'bold',
+                                boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
+                        
+                        }}
+                        />
                     <AdminMainButton
                             title="Animations"
                                 type='drawer'
+                                drawerAnchor = "right"
                                 putDrawerCloseButton
                                 appearance='primary'
                                 icon={<AnimationIcon />}
+                                willShow={
+                                    <AnimationsDrawer></AnimationsDrawer>
+                                }
                                 sx={{
                                 marginTop: '10px',
                                 width: '220px',

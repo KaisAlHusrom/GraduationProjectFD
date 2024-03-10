@@ -61,7 +61,7 @@ const TemplateMain = () => {
 
 
     return (
-        <StyledTemplateMain class="Template">
+        <StyledTemplateMain className="Template">
         {sectionsOrder.map((section, index) => (
             <div key={index}>
             {section === 'NavBar' && <NavBar moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}

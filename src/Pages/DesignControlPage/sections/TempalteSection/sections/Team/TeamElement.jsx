@@ -26,8 +26,6 @@ import  '../Style.css'
 
 
 
-
-
 const TeamElement = ({ element }) => {
 
     const [title, setTitle] = useState(element.element_content);

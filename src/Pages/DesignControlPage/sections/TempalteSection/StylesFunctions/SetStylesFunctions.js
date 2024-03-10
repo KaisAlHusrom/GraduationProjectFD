@@ -218,6 +218,45 @@ export const borders = {
             "border15": "2px solid #ffff00"
         }
 }
+export const marginBottom = [
+    "5px", 
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "35px",
+]
+export const marginTop = [
+    "5px", 
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "35px",
+]
+
+export const marginLeft = [
+    "5px", 
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "35px",
+]
+export const marginRight = [
+    "5px", 
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "35px",
+]
+
+
 
 
 export const handleOpacityChange = (setElementStyle) => (newOpacity) => {
