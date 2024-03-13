@@ -19,7 +19,7 @@ import { DatabaseView } from '../../../../Components'
 
 
 import CodeIcon from '@mui/icons-material/Code';
-import { deleteElementType, fetchElementsTypes, restoreElementType, updateElementType } from '../../../../Services/elementsTypesService'
+import { deleteElementType, fetchElementsTypes, permanentDeleteElementType, restoreElementType, updateElementType } from '../../../../Services/elementsTypesService'
 
 
 //Styled Components
@@ -41,6 +41,7 @@ const ElementTypesPage = () => {
             handleDeleteData={deleteElementType}
             softDeletes={true}
             handleRestoreData={restoreElementType}
+            handlePermanentDeleteData={permanentDeleteElementType}
             />
         </StyledElementTypesPage>
     );

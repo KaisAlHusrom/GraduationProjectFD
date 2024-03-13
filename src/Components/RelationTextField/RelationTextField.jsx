@@ -21,24 +21,19 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 //propTypes 
 import propTypes from 'prop-types'
-import { useTheme } from '@emotion/react';
+import {  } from '@emotion/react';
 
 //Styled Components
-const StyledRelationTextField = styled(Box)(
-    ({ theme }) => ({
-    
-    })
-)
-
 const StyledMenu = styled(Paper)(
-    ({ theme }) => ({
-        maxHeight: "100px",
-        overflow: "auto",
+    () => ({
+        // maxHeight: "100px",
+        // overflow: "auto",
+        
     })
 );
 
 const AutocompleteMultipleStyle = styled(Autocomplete)(
-    ({ theme }) => ({
+    () => ({
         "& .MuiChip-label": {
             "&:hover": {
                 overflow: "visible",
@@ -50,7 +45,16 @@ const AutocompleteMultipleStyle = styled(Autocomplete)(
                 maxWidth: "fit-content", // Change maxWidth on hover
                 zIndex: 1300,
             }
-        }
+        },
+        width: "150px"
+        
+    })
+);
+
+const StyledAutocomplete = styled(Autocomplete)(
+    () => ({
+        width: "150px"
+        
     })
 );
 
@@ -61,7 +65,7 @@ const RelationTextField = (props) => {
         relations,
         columnName,
         originalData,
-        setTextField,
+        setShowTextField,
         handleChangeData,
         handleEnterKeyDown,
         setNewData,
@@ -142,12 +146,14 @@ const RelationTextField = (props) => {
                     (
                         <AutocompleteMultipleStyle
                         {...defaultProps}
+                        fullWidth
                         disableClearable
                         multiple
                         id="combo-box-demo"
                         size='small'
                         renderInput={(params) => <TextField {...params} label={columnName} name={columnName} />} // Add name prop here
                         onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
+                        onKeyDown={(event) => handleEnterKeyDown(event, relationType, row, setShowTextField)}
                         value={selectedOptions}
                         disableCloseOnSelect
                         PaperComponent={StyledMenu}
@@ -177,6 +183,7 @@ const RelationTextField = (props) => {
                             size='small'
                             renderInput={(params) => <TextField {...params} label={columnName} name={columnName} />} // Add name prop here
                             onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
+                            onKeyDown={(event) => handleEnterKeyDown(event, relationType, row, setShowTextField)}
                             value={selectedOptions}
                             disableCloseOnSelect
                             PaperComponent={StyledMenu}
@@ -198,14 +205,15 @@ const RelationTextField = (props) => {
                 :
                     relationType === "many-to-one" && relatedTableData.length > 0
                 ?
-                    <Autocomplete
+                    <StyledAutocomplete
                         {...defaultProps}
                         disablePortal
                         
                         id="combo-box-demo"
                         size='small'
-                        renderInput={(params) => <TextField {...params} label={columnName} />}
+                        renderInput={(params) => <TextField {...params} label={columnName} name={columnName} />}
                         onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
+                        onKeyDown={(event) => handleEnterKeyDown(event, relationType, row, setShowTextField)}
                         value={selectedOptions}
                         PaperComponent={StyledMenu}
                     />

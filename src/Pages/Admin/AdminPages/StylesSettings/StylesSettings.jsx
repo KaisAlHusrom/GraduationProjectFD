@@ -22,7 +22,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
 import MouseIcon from '@mui/icons-material/Mouse';
 import FitScreenIcon from '@mui/icons-material/FitScreen';
-
+import WorkspacesOutlinedIcon from '@mui/icons-material/WorkspacesOutlined';
 
 //Styled Components
 const StyledStylesSettings = styled(Box)(
@@ -32,6 +32,12 @@ const StyledStylesSettings = styled(Box)(
 )
 
 const stylesItems = [
+    {
+        path: "styles-property-categories",
+        title: "Styles Property Categories",
+        body: "Control Style Property Categories",
+        icon: <WorkspacesOutlinedIcon color='primary' sx={{fontSize: "64px"}} />
+    },
     {
         path: "styles-properties",
         title: "Styles Properties",

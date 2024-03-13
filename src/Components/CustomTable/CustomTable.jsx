@@ -14,12 +14,13 @@ import {
     TableCell,
     TableHead,
     Table,
+    Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { useTheme } from '@emotion/react'
 
 //icons
-
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 
 //propTypes 
 import propTypes from 'prop-types'
@@ -81,6 +82,13 @@ const CustomTable = (props) => {
         borderColor: theme.palette.divider,
         textAlign: 'center',
         color: changeHeadersBackgroundColor && theme.palette.primary.contrastText,
+        position: "relative",
+    }
+
+    const styleRelationIconBox = {
+            position: "absolute",
+            left: 5,
+            top: 2,   
     }
 
     const StyledTableHead = styled(TableHead)(
@@ -106,6 +114,18 @@ const CustomTable = (props) => {
                                     return (
                                         <TableCell sx={StyleHeadTableCell} key={i}>
                                             {key.split('_').join(" ")}
+                                            {
+                                            columns[key] === "one-to-many" || 
+                                            columns[key] === "many-to-many" ||
+                                            columns[key] === "many-to-one"
+                                            ?
+                                            <Box component="span" sx={styleRelationIconBox}>
+                                                <AllInclusiveIcon
+                                                color='secondary'
+                                                />
+                                            </Box>
+                                            :null
+                                            }
                                         </TableCell>
                                     );
                                 })}

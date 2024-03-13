@@ -1,6 +1,9 @@
 import { fetchElementProps } from "./elementPropsService"
 import axios from "axios";
 
+//Redux 
+import store from "../Redux/Store"
+import { setSnackbarMessage, handleOpenSnackbar } from "../Redux/Slices/snackbarOpenSlice";
 
 
 const rows2 = [
@@ -650,16 +653,27 @@ export const addElementType = async ({request}) => {
             "element_type_name": data.get("element_type_name"),
             "element_type_description": data.get("element_type_description"),
             "is_child": data.get("is_child") === "on" ? true : false,
-            "parent_id": data.get("parent") === "" ? null : data.get("parent"),
-            "element_props": JSON.parse(data.get("element_props")),
+            "parent": data.get("parent") === "" ? null : data.get("parent"),
+            "elementProps": JSON.parse(data.get("element_props")),
         };
 
-
         const response = await ElementTypesAPI.post('', submission);
+        if(response.data.success) {
+            store.dispatch(setSnackbarMessage({message: response.data.message}))
+            store.dispatch(handleOpenSnackbar())
+        } else {
+            store.dispatch(setSnackbarMessage({message: response.data.error}))
+            store.dispatch(handleOpenSnackbar())
+        }
+
         // Process the response data as needed
         return response.data;
     } catch (error) {
         console.error('Error posting data:', error);
+
+        store.dispatch(setSnackbarMessage({message: error.response.data.error}))
+        store.dispatch(handleOpenSnackbar())
+
         return error.response.data;
     }
 }
@@ -677,10 +691,12 @@ export const updateElementType = async (id, newData) => {
     }
 };
 
-export const deleteElementType = async (id) => {
+export const deleteElementType = async (selectedIds) => {
     try {
-        // Assuming id is included in the newData object and you're updating a specific resource identified by its id
-        const response = await ElementTypesAPI.delete(`/${id}`);
+        // Convert selectedIds array to comma-separated string
+        const idList = selectedIds.join(',');
+
+        const response = await ElementTypesAPI.delete(`/${idList}`);
         console.log(response);
         // Process the response data as needed
         return response.data;
@@ -691,15 +707,34 @@ export const deleteElementType = async (id) => {
 };
 
 //Restore deleted items
-export const restoreElementType = async (id) => {
+export const restoreElementType = async (selectedIds) => {
     try {
-        // Assuming id is included in the newData object and you're updating a specific resource identified by its id
-        const response = await ElementTypesAPI.put(`/restore/${id}`);
+        // Convert selectedIds array to comma-separated string
+        const idList = selectedIds.join(',');
+
+        const response = await ElementTypesAPI.put(`/restore/${idList}`);
         console.log(response);
         // Process the response data as needed
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
+        return error.response.data;
+    }
+};
+
+export const permanentDeleteElementType = async (selectedIds) => {
+    try {
+        // Convert selectedIds array to comma-separated string
+        const idList = selectedIds.join(',');
+
+        // Send DELETE request to the server with IDs in the URL path
+        const response = await ElementTypesAPI.delete(`permanent-delete/${idList}`);
+        console.log(response);
+        
+        // Process the response data as needed
+        return response.data;
+    } catch (error) {
+        console.error('Error deleting data:', error);
         return error.response.data;
     }
 };

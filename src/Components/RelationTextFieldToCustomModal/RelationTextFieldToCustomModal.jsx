@@ -76,7 +76,8 @@ const RelationTextFieldToCustomModal = (props) => {
     //fetch data
     useEffect(() => {
         
-        if(columnType === 'many-to-many' || columnType === 'many-to-one' || columnType === 'one-to-many'){
+        if((columnType === 'many-to-many' || columnType === 'many-to-one' || columnType === 'one-to-many') &&
+            relation.add_to_add_form){
             const fetchData = async () => {
                 const data = await relation.fetch_all_data()
                 setRelatedTableData(data.rows)

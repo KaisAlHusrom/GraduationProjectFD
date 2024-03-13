@@ -88,7 +88,7 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
             }
             const listStyle = {
                 maxHeight: "100px",
-                overflow: "auto",
+                // overflow: "auto",
             }
             const listItemTextStyle = {
                 "& .MuiTypography-root": {
@@ -144,7 +144,7 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
             }
             const listStyle = {
                 maxHeight: "100px",
-                overflow: "auto",
+                // overflow: "auto",
             }
             const listItemTextStyle = {
                 "& .MuiTypography-root": {

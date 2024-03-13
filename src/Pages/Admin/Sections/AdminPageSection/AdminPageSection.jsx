@@ -1,14 +1,12 @@
 //React
-import {
-    
-} from 'react'
+import {  } from 'react'
 
 import {
     useSelector
 } from 'react-redux'
 
 //router
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
 
 
 import { CustomBreadcrumbs } from '../../../../Components';
@@ -19,6 +17,7 @@ import {
     Container,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import LoadingPage from '../../../LoadingPage/LoadingPage';
 
 //Styled Components
 
@@ -42,11 +41,16 @@ const AdminPageSection = () => {
         })
     )
 
+    const navigation = useNavigation();
+
+
+
     return (
         <StyledAdminPageSection>
             <Container maxWidth="xl">
                 <CustomBreadcrumbs />
-                <Outlet />
+                { navigation.state == "loading" ? <LoadingPage  /> : <Outlet /> }
+                {/* <LoadingPage /> */}
             </Container>
         </StyledAdminPageSection>
     );

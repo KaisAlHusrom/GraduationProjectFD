@@ -18,7 +18,7 @@ import {
 import { styled } from '@mui/system'
 
 import TuneIcon from '@mui/icons-material/Tune';
-import { deleteElementProp, fetchElementProps, updateElementProp } from '../../../../Services/elementPropsService'
+import { deleteElementProp, fetchElementProps, permanentDeleteElementProp, restoreElementProp, updateElementProp } from '../../../../Services/elementPropsService'
 
 
 //Styled Components
@@ -38,6 +38,9 @@ const ElementPropsPage = () => {
             handleUpdateData={updateElementProp}
             handleFetchData={fetchElementProps}
             handleDeleteData={deleteElementProp}
+            softDeletes={true}
+            handleRestoreData={restoreElementProp}
+            handlePermanentDeleteData={permanentDeleteElementProp}
             />
         </StyledElementPropsPage>   
     );

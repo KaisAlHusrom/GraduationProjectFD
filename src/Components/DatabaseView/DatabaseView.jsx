@@ -24,6 +24,7 @@ import TableChartIcon from '@mui/icons-material/TableChart';
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined';
 import FolderDeleteOutlinedIcon from '@mui/icons-material/FolderDeleteOutlined';
 import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
+import LayersClearIcon from '@mui/icons-material/LayersClear';
 //propTypes 
 import propTypes from 'prop-types'
 import { useLoaderData } from 'react-router-dom'
@@ -31,7 +32,7 @@ import { useMemo } from 'react'
 import filterData from '../../Helpers/FilterData'
 import sortData from '../../Helpers/sortData'
 import { CustomGalleryView } from '..'
-import { handleOpenSnackbar, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
+import { handleOpenSnackbar as handleOpenSnackbar, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
 // import usersService from '../../Services/usersService'
 
 
@@ -56,7 +57,8 @@ const DatabaseView = (props) => {
         handleFetchData,
         handleDeleteData,
         softDeletes,
-        handleRestoreData
+        handleRestoreData,
+        handlePermanentDeleteData,
     } = props
 
     const theme = useTheme()
@@ -374,7 +376,7 @@ const DatabaseView = (props) => {
     
 
     //Handle update data when change
-    const handleChangeData = async (e, type, setRowData, columnName, newValue) => {
+    const handleChangeData = async (e, type, setRowData, columnName, newValue, row) => {
         
         let name = columnName
         let value = newValue
@@ -391,16 +393,15 @@ const DatabaseView = (props) => {
         setRowData((prev)=> {
             const updatedRow = {...prev, [name]: value};
 
-            // Call handleUpdateData here with updatedRow
-            const shouldUpdateData = ["many-to-many", "one-to-many", "many-to-one", "rate"].includes(type);
+            // // Call handleUpdateData here with updatedRow
+            // const shouldUpdateData = ["many-to-many", "one-to-many", "many-to-one", "rate"].includes(type);
 
-            if(shouldUpdateData) {
-                updateData(updatedRow)
-            }
+            // if(shouldUpdateData) {
+            //     updateData(updatedRow)
+            // }
 
             return updatedRow;
         });
-
 
     }
 
@@ -434,53 +435,79 @@ const DatabaseView = (props) => {
     //UPDATE FUNCTION
     const updateData = async (row) => {
         const pkColumn = Object.keys(columns).find(key => columns[key] === "pk");
+        console.log(row[pkColumn])
         // Await the update operation to complete
         const res = await handleUpdateData(row[pkColumn], row);
         if(res.success) {
-            dispatch(setSnackbarMessage({message: "item updated successfully"}))
-            dispatch(handleOpenSnackbar())
-            // Fetch data after the update is completed
+
             const result = await handleFetchData();
             setLoaderData(() => result);
-
+            handleSnackbar("item updated successfully")
         } else {
-            dispatch(setSnackbarMessage({message: "An error occurred while attempting to update the item."}))
-            dispatch(handleOpenSnackbar())
+            handleSnackbar("An error occurred while attempting to update the item.")
         }
     }
 
 
     //DELETE FUNCTION
-    const deleteData = async (id) => {
+    const deleteData = async (selectedIds) => {
+        if(selectedIds.length === 0) {
+            handleSnackbar("There is no item selected")
+            return
+        }
         // Await the update operation to complete
-        const res = await handleDeleteData(id);        
+        const res = await handleDeleteData(selectedIds);        
         if(res.success) {
-            dispatch(setSnackbarMessage({message: "Items deleted successfully"}))
-            dispatch(handleOpenSnackbar())
             // Fetch data after the delete is completed
             const result = await handleFetchData();
             setLoaderData(() => result);
+            handleSnackbar("Items deleted successfully")
 
         } else {
-            dispatch(setSnackbarMessage({message: "An error occurred while attempting to delete the items."}))
-            dispatch(handleOpenSnackbar())
+            handleSnackbar("An error occurred while attempting to delete the items.")
         }
     }
 
     //RESTORE FUNCTION
-    const restoreData = async (id) => {
+    const restoreData = async (selectedIds) => {
+        if(selectedIds.length === 0) {
+            handleSnackbar("There is no item selected")
+            return
+        }
         // Await the update operation to complete
-        const res = await handleRestoreData(id);        
+        const res = await handleRestoreData(selectedIds);        
         if(res.success) {
-            dispatch(setSnackbarMessage({message: "Items restored successfully"}))
-            dispatch(handleOpenSnackbar())
+            handleSnackbar("Items restored successfully")
+
             // Fetch data after the delete is completed
             const result = await handleFetchData("deleted");
             setLoaderData(() => result);
 
         } else {
-            dispatch(setSnackbarMessage({message: "An error occurred while attempting to restore the items."}))
-            dispatch(handleOpenSnackbar())
+            handleSnackbar("An error occurred while attempting to restore the items.")
+        }
+    }
+
+    const permanentDeleteData = async (selectedIds) => {
+        if(selectedIds.length === 0) {
+            handleSnackbar("There is no item selected")
+            return
+        }
+        const res = await handlePermanentDeleteData(selectedIds);    
+
+        if(res.success) {
+            handleSnackbar("Items deleted permanently")
+            // Fetch data after the delete is completed
+            if(showDeleted) {
+                const result = await handleFetchData("deleted");
+                setLoaderData(() => result);
+            } else {
+                const result = await handleFetchData();
+                setLoaderData(() => result);
+            }
+
+        } else {
+            handleSnackbar("An error occurred while attempting to delete the items.")
         }
     }
     
@@ -489,15 +516,32 @@ const DatabaseView = (props) => {
     const handleFetchDeletedItems = async () => {
         if(showDeleted) {
             setShowDeleted(() => false)
+            if(selected.length > 0){
+                if(isHeaderCheckboxChecked) {
+                    setIsHeaderCheckboxChecked(() => false)
+                }
+                setSelected(() => [])
+            }
             // Fetch Deleted Data
             const result = await handleFetchData();
             setLoaderData(() => result);
         } else {
             setShowDeleted(() => true)
+            if(selected.length > 0){
+                if(isHeaderCheckboxChecked) {
+                    setIsHeaderCheckboxChecked(() => false)
+                }
+                setSelected(() => [])
+            }
             // Fetch Deleted Data
             const result = await handleFetchData("deleted");
             setLoaderData(() => result);
         }
+    }
+
+    const handleSnackbar = (message) => {
+        dispatch(setSnackbarMessage({message: message}))
+        dispatch(handleOpenSnackbar())
     }
 
     //View Options
@@ -506,17 +550,14 @@ const DatabaseView = (props) => {
             value: showDeleted ? "Restore Selected" :"Delete Selected",
             icon: showDeleted ? <RecyclingOutlinedIcon /> : <DeleteOutlineOutlinedIcon />,
             onClick: showDeleted ?
-            () => {
-                selected.forEach(id => {
-                    restoreData(id)
-                })
-            }
+            () => restoreData(selected)
             :
-            () => {
-                selected.forEach(id => {
-                    deleteData(id)
-                })
-            }
+            () => deleteData(selected)
+        },
+        {
+            value: "Delete Selected Permanently",
+            icon: <LayersClearIcon />,
+            onClick: () => permanentDeleteData(selected)
         },
         {
             value: "Duplicate Selected",
@@ -692,6 +733,7 @@ DatabaseView.propTypes = {
     handleDeleteData: propTypes.func,
     softDeletes: propTypes.bool,
     handleRestoreData: propTypes.func,
+    handlePermanentDeleteData: propTypes.func,
     loaderDataProp: propTypes.object,
 }
 

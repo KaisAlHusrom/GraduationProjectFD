@@ -45,10 +45,10 @@ const DashboardMainPage = () => {
             <Grid item xs={12}  md={4}>
                 <DailySales />
             </Grid>
-            <Grid item sx={10} md={8}>
+            <Grid item xs={10} md={8}>
                 <UniqueVisitors />
             </Grid>
-            <Grid item sx={2} md={4}>
+            <Grid item xs={2} md={4}>
                 <DeviceTraffick />
             </Grid>
             <Grid item xs={12}>

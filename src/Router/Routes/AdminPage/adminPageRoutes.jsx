@@ -14,7 +14,8 @@ import {
     UserDetailsPage,
     ElementSettingsPage,
     ElementTypesPage,
-    StylesSettings
+    StylesSettings,
+    StylesPropCategoriesPage
 } from "../../../Pages/Admin/AdminPages"
 import ElementPropsPage from "../../../Pages/Admin/AdminPages/ElementPropsPage/ElementPropsPage";
 import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
@@ -43,6 +44,7 @@ import usersService from '../../../Services/usersService';
 import { addStyleProperty, addStylePropertyValue, addStylesBreakpoint, addStylesStatus, fetchStylesBreakpoints, fetchStylesProperties, fetchStylesPropertiesValues, fetchStylesStatus } from "../../../Services/stylesSettings";
 import CreateElementTemplate from "../../../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate";
 import { fetchCreateElementNeededData } from "../../../Services/createElementsService";
+import { addStylePropCategory, fetchStylePropCategory } from "../../../Services/StylePropCategory";
 
 const adminPageRoutes = [
     {
@@ -161,6 +163,14 @@ const adminPageRoutes = [
         element: <StylesSettings />,
         path: "styles-settings",
         exact: false,
+    },
+    {
+        element: <StylesPropCategoriesPage />
+        ,
+        path: "styles-settings/styles-property-categories",
+        exact: false,
+        loader: fetchStylePropCategory,
+        action: addStylePropCategory,
     },
     {
         element: <DatabaseView

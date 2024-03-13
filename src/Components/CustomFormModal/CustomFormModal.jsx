@@ -134,7 +134,8 @@ const imageStyle = {
 const CustomFormModal = (props) => {
     const {
         columns,
-        title
+        title,
+    
     } = props
     
     // Define the desired order of keys
@@ -437,8 +438,8 @@ const CustomFormModal = (props) => {
                             control={
                                 <Switch 
                                     name={column}
-                                    error={error}
-                                    helperText={errorMessage}
+                                    // error={error}
+                                    // helperText={errorMessage}
                                 />
                             }
                         />
@@ -545,16 +546,16 @@ const CustomFormModal = (props) => {
         if(data) {
             if(data.errors) return
             
-            dispatch(setSnackbarMessage({message: title + " added successfully"}))
-            dispatch(handleOpenSnackbar())
-
-            const fetchData = async () => {
-                const res = await handleFetchData()
-                setLoaderData(() => res)
+            if(data.success) {
+                const fetchData = async () => {
+                    const res = await handleFetchData()
+                    setLoaderData(() => res)
+                }
+                fetchData();
             }
-            fetchData();
         }
     }, [data, dispatch, handleFetchData, setLoaderData, title])
+    
 
     return (
         <Form method='post' action={currentPath} encType="multipart/form-data" >
