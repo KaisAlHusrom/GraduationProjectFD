@@ -23,7 +23,6 @@ import { MainTemplateSectionSet } from './sections/TempalteSection/UseContext/Us
 const StyledDesignControlPage = styled(Box)(
     ({ theme }) => ({
         backgroundColor:'white',
-        padding:theme.spacing(2),
     })
 )
 

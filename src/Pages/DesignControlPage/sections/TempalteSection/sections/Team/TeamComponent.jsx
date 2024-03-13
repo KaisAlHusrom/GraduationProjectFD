@@ -14,6 +14,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import  '../Style.css'
 
 
 //propTypes 
@@ -21,7 +22,10 @@ import propTypes from 'prop-types'
 
 
 //Styled Components
-const StyledTeamComponent = styled(Box)(() => ({}))
+const StyledTeamComponent = styled(Box)(() => ({
+    border: 'none'
+
+}))
     
 
 
@@ -45,7 +49,7 @@ const TeamComponent = ({component}) => {
 
 
     return (
-        <StyledTeamComponent  sx={componentStyle}>
+        <StyledTeamComponent  sx={componentStyle} className='component-query'>
             {
                 component && component.component_elements.map((element, i) => {
                     return (

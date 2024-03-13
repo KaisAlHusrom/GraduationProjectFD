@@ -6,6 +6,7 @@ import {
 } from 'react-redux'
 
 //Components
+import CountersElement from './CountersElement'
 
 
 //MUI
@@ -13,10 +14,10 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import  '../Style.css'
 
 //propTypes 
 import propTypes from 'prop-types'
-import CountersElement from './CountersElement'
 
 //Styled Components
 const StyledCountersComponent = styled(Box)(() => ({}))
@@ -41,7 +42,8 @@ const CountersComponent = ({component}) => {
 
 
     return (
-        <StyledCountersComponent sx={componentStyle}>
+        <StyledCountersComponent sx={componentStyle} className='component-query'
+        >
             {
                 component && component.component_elements.map((element, i) => {
                     return (

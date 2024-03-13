@@ -1,0 +1,25 @@
+/* Media queries for tablet */
+@media only screen and (max-width: 768px) {
+  .Template {
+    width: 100% !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: auto !important; /* Adjust height for tablet */
+  }
+}
+
+/* Media queries for laptop/desktop */
+@media only screen and (max-width: 1024px) {
+  .Template {
+    margin-top: 40px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+}
+
+.Template {
+  margin-top: 100px;
+  padding-left: 200px;
+  padding-right: 200px;
+}

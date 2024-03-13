@@ -16,6 +16,7 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
+import  '../Style.css'
 
 
 //Styled Components
@@ -36,10 +37,9 @@ const NavBarComponent = ({component}) => {
         return styleObject;
     }, [component.section_css_props]);
 
-      // Define tab labels
 
     return (
-        <StyledNavBarComponent sx={componentStyle}>
+        <StyledNavBarComponent sx={componentStyle} className='component-query'>
             {
                 component && component.component_elements.map((element, i) => {
                     return (

@@ -287,7 +287,7 @@
             "section_component_id": 10,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
-            "is_template": true,
+            "is_component": true,
             "mobile_columns_count": 12,
             "tablet_columns_count": 4,
             "laptop_columns_count": 3,
@@ -529,7 +529,7 @@
                     "component_element_id": 3,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                    "is_template": true,
+                    "is_element": true,
                     "element": {
                         "element_type_id": 4,
                         "element_type": "Head3",
@@ -1563,7 +1563,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "start",
+                            "css_prop_value": "center",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -1808,7 +1808,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "start",
+                            "css_prop_value": "center",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -2583,7 +2583,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "start",
+                            "css_prop_value": "center",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -2828,7 +2828,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "start",
+                            "css_prop_value": "center",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -3603,7 +3603,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "start",
+                            "css_prop_value": "center",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -3848,7 +3848,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "start",
+                            "css_prop_value": "center",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,

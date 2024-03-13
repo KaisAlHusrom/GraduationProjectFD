@@ -68,6 +68,8 @@ export const textAlign = [
     "center", 
     "end" , 
 ]
+
+
 export const width = [
     "auto",
     "25%" , 
@@ -89,6 +91,172 @@ export const height = [
     "80vh",
     "100vh"
 ]
+export const border = [
+    'All', 
+    "Right",
+    "Left",
+    "Top"
+
+]
+export const borderSize = [
+    '0.5px', 
+    "1px",
+    "1.5px",
+    "2px",
+    "3px",
+    "4px",
+    "5px",
+    "6px",
+    "7px",
+
+]
+export const borderType = [
+    'solid', 
+    "dotted",
+    "dashed",
+    "double",
+    "groove",
+    "inset",
+    "outset",
+    "none",
+]
+export const borderColor = [
+    'black', 
+    "red",
+    "green",
+
+]
+export const borders = {
+    "border": {
+        "border0": "none",
+        "border1": "12px solid #ff0000",
+        "border2": "2px dotted #00ff00",
+        "border3": "3px dashed #0000ff",
+        "border4": "1px double #ff00ff",
+        "border5": "2px solid #ffff00",
+        "border6": "3px dotted #ff8000",
+        "border7": "1px dashed #00ff00",
+        "border8": "2px double #00ffff",
+        "border9": "3px solid #800080",
+        "border10": "1px dotted #008080",
+        "border11": "2px solid #ff0000",
+        "border12": "2px dotted #00ff00",
+        "border13": "3px dashed #0000ff",
+        "border14": "1px double #ff00ff",
+        "border15": "2px solid #ffff00"
+        },
+        "borderTop": {
+            "border0": "none",
+            "border1": "12px solid #ff0000",
+            "border2": "2px dotted #00ff00",
+            "border3": "3px dashed #0000ff",
+            "border4": "1px double #ff00ff",
+            "border5": "2px solid #ffff00",
+            "border6": "3px dotted #ff8000",
+            "border7": "1px dashed #00ff00",
+            "border8": "2px double #00ffff",
+            "border9": "3px solid #800080",
+            "border10": "1px dotted #008080",
+            "border11": "2px solid #ff0000",
+            "border12": "2px dotted #00ff00",
+            "border13": "3px dashed #0000ff",
+            "border14": "1px double #ff00ff",
+            "border15": "2px solid #ffff00"
+        },
+        "borderRight": {
+            "border0": "none",
+            "border1": "1px solid #ffff00",
+            "border2": "2px dotted #ff00ff",
+            "border3": "3px dashed #00ffff",
+            "border4": "1px double #800080",
+            "border5": "2px solid #808080",
+            "border6": "3px dotted #800000",
+            "border7": "1px dashed #008000",
+            "border8": "2px double #000080",
+            "border9": "3px solid #ff0000",
+            "border10": "1px dotted #00ff00",
+            "border11": "2px solid #ff0000",
+            "border12": "2px dotted #00ff00",
+            "border13": "3px dashed #0000ff",
+            "border14": "1px double #ff00ff",
+            "border15": "2px solid #ffff00"
+        },
+        "borderBottom": {
+            "border0": "none",
+            "border1": "1px solid #ff8000",
+            "border2": "2px dotted #0080ff",
+            "border3": "3px dashed #8000ff",
+            "border4": "1px double #808080",
+            "border5": "2px solid #ff0000",
+            "border6": "3px dotted #00ff00",
+            "border7": "1px dashed #ff8000",
+            "border8": "2px double #0080ff",
+            "border9": "3px solid #8000ff",
+            "border10": "1px dotted #808080",
+            "border11": "2px solid #ff0000",
+            "border12": "2px dotted #00ff00",
+            "border13": "3px dashed #0000ff",
+            "border14": "1px double #ff00ff",
+            "border15": "2px solid #ffff00"
+        },
+        "borderLeft": {
+            "border0": "none",
+            "border1": "1px solid #808080",
+            "border2": "2px dotted #800000",
+            "border3": "3px dashed #008000",
+            "border4": "1px double #000080",
+            "border5": "2px solid #ff8000",
+            "border6": "3px dotted #0080ff",
+            "border7": "1px dashed #8000ff",
+            "border8": "2px double #808080",
+            "border9": "3px solid #ff00ff",
+            "border10": "1px dotted #00ffff",
+            "border11": "2px solid #ff0000",
+            "border12": "2px dotted #00ff00",
+            "border13": "3px dashed #0000ff",
+            "border14": "1px double #ff00ff",
+            "border15": "2px solid #ffff00"
+        }
+}
+export const marginBottom = [
+    "5px", 
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "35px",
+]
+export const marginTop = [
+    "5px", 
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "35px",
+]
+
+export const marginLeft = [
+    "5px", 
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "35px",
+]
+export const marginRight = [
+    "5px", 
+    "10px",
+    "15px",
+    "20px",
+    "25px",
+    "30px",
+    "35px",
+]
+
+
 
 
 export const handleOpacityChange = (setElementStyle) => (newOpacity) => {

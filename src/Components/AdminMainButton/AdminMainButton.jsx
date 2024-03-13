@@ -25,22 +25,24 @@ import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutl
 //propTypes 
 
 import propTypes from 'prop-types'
+import StyleDialog from '../../Pages/DesignControlPage/components/StyleDialog';
 
 
 //Styles
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
-      right: -3,
-      top: -3,
-      border: `2px solid ${theme.palette.background.paper}`,
-      padding: '0 4px',
+        right: -3,
+        top: -3,
+        border: `2px solid ${theme.palette.background.paper}`,
+        padding: '0 4px',
     },
-  }));
+    }));
 
 
 const AdminMainButton = (props) => {
     // --- Props ---
-    const { icon, 
+    const { 
+        icon, 
         title, 
         onClick, 
         appearance, 
@@ -56,6 +58,7 @@ const AdminMainButton = (props) => {
         drawerVariant,
         putBorder,
         filled,
+        key,
         sx
     } = props
 
@@ -80,6 +83,13 @@ const AdminMainButton = (props) => {
     // --- popover states ---
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
+
+    const [openStyleDialog, setOpenStyleDialog] = useState(false);
+
+    const handleClickOpenStyleDialog = () => {
+        setOpenStyleDialog(true);
+    };
+
 
 
     //HANDLERS
@@ -163,7 +173,10 @@ const AdminMainButton = (props) => {
                             type === "modal" ? handleOpenModal :
                             type === "drawer" ? handleOpenDrawer :
                             type === "popover" ? handleOpenPopover :
+                            type === "StyleDialog" ? handleClickOpenStyleDialog :
+                            
                             type === "custom" ? onClick : undefined
+
                         }
                         >
                             {
@@ -192,6 +205,7 @@ const AdminMainButton = (props) => {
                             type === "modal" ? handleOpenModal :
                             type === "drawer" ? handleOpenDrawer :
                             type === "popover" ? handleOpenPopover :
+                            type === "StyleDialog" ? handleClickOpenStyleDialog :
                             type === "custom" ? onClick : undefined
                         }
                         >
@@ -221,6 +235,8 @@ const AdminMainButton = (props) => {
                             type === "modal" ? handleOpenModal :
                             type === "drawer" ? handleOpenDrawer :
                             type === "popover" ? handleOpenPopover :
+                            type === "StyleDialog" ? handleClickOpenStyleDialog :
+
                             type === "custom" ? onClick : undefined
                         }
                         startIcon={
@@ -259,6 +275,7 @@ const AdminMainButton = (props) => {
                         type === "modal" ? handleOpenModal :
                         type === "drawer" ? handleOpenDrawer :
                         type === "popover" ? handleOpenPopover :
+                        type === "StyleDialog" ? handleClickOpenStyleDialog :
                         type === "custom" ? onClick : undefined
                     }
                     startIcon={
@@ -394,7 +411,16 @@ const AdminMainButton = (props) => {
                     {willShow}
                 </Popover>
                 :
-                null
+                type === "StyleDialog" 
+                ? 
+                    <StyleDialog 
+                        title={title} 
+                        OpenState={[openStyleDialog, setOpenStyleDialog]}
+                        modalIcon={modalIcon}
+                    >
+                        {willShow}
+                    </StyleDialog>
+                : null
             }
             </>
     );
@@ -404,7 +430,7 @@ AdminMainButton.propTypes = {
     icon: propTypes.any,
     title: propTypes.string.isRequired,
     appearance: propTypes.oneOf(["primary", "secondary", "iconButton"]).isRequired,
-    type: propTypes.oneOf(["modal", "menu", "buttonsMenu", "drawer", "popover","custom"]).isRequired,
+    type: propTypes.oneOf(["modal", "menu", "buttonsMenu", "drawer", "popover","custom" , "StyleDialog"]).isRequired,
     onClick: propTypes.func,
     menuItems: propTypes.array,
     willShow: propTypes.element,

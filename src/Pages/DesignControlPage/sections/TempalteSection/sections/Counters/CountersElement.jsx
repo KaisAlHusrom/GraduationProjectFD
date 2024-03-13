@@ -14,6 +14,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import  '../Style.css'
 
 //propTypes 
 import propTypes from 'prop-types'
@@ -43,7 +44,7 @@ const CountersElement = ({element}) => {
 
 
     return (
-        <StyledCountersElement>
+        <StyledCountersElement className='element-query'>
             {getAppropriateTag(element.element, title, elementStyle)}
         </StyledCountersElement>
     );

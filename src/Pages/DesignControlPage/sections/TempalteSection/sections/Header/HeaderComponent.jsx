@@ -14,6 +14,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import  '../Style.css'
 
 //propTypes 
 import propTypes from 'prop-types'
@@ -40,7 +41,7 @@ const HeaderComponent = ({component}) => {
 
 
     return (
-        <StyledHeaderComponent sx = {componentStyle}>
+        <StyledHeaderComponent sx = {componentStyle} className='component-query'>
                 {
                 component && component.component_elements.map((element, i) => {
                     return (

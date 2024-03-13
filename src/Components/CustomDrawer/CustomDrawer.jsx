@@ -28,7 +28,7 @@ import propTypes from 'prop-types'
 //Styled Components
 const StyledCustomDrawer = styled(Drawer)(
     () => ({
-        zIndex: 1400,
+        zIndex: 1300,
     })
 )
 

@@ -17,6 +17,7 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
+import  '../Style.css'
 
 
 
@@ -42,7 +43,7 @@ const CarouselComponent = ({component}) => {
 
     
     return (
-        <StyledCarouselComponent  sx={componentStyle}>
+        <StyledCarouselComponent  sx={componentStyle} className='component-query'>
                 {
                 component && component.component_elements.map((element, i) => {
                     return (

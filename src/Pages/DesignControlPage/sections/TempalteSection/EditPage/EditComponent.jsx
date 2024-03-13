@@ -8,52 +8,50 @@ import {
 //Components
 import EditElement from './EditElement'
 import { AdminMainButton } from '../../../../../Components'
-import ColorButtons from '../components/ColorButtons';
-import CustomSelectInput from '../../../../../Components/CustomSelectInput/CustomSelectInput';
-import * as utils from '../StylesFunctions/SetStylesFunctions.js';
+import StyleBox from '../components/StyleBox.jsx';
 
 //propTypes 
 import propTypes from 'prop-types'
 //MUI
 import {
-    Box, MenuItem, Typography,
+    Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import DeleteIcon from '@mui/icons-material/Delete';
-
 import { Edit as EditIcon } from '@mui/icons-material';
 
 //Styled Components
-const StyledEditComponent = styled(Box)(() => ({}))
+const StyledEditComponent = styled(Box)(() => ({
+    '&  div': {
+        border: 'none'
+    },    '&:hover > div': {
+        opacity: 1, // Show the TooltipContainers when StyledEditComponent is hovered
+        visibility: 'visible',
+    },
+}));
 
 const TooltipContainer = styled(Box)({
     position: 'absolute',
     top: '0',
     left: '0',
+    opacity: 0, // Initially set opacity to 0
+    visibility: 'hidden', // Initially hide the TooltipContainer
+    transition: 'opacity 1s ease', // Apply transition effect to opacity
 });
 
 const TooltipContainerDelete = styled(Box)({
     position: 'absolute',
     top: '0',
     right: '0',
+    opacity: 0, // Initially set opacity to 0
+    visibility: 'hidden', // Initially hide the TooltipContainerDelete
+    transition: 'opacity 1s ease', // Apply transition effect to opacity
 });
-const customSelectStyle = {
-    display: 'block',
-    width: '300px',
-    padding: '5px',
-    borderColor: 'red',
-    transition: '0.3s all',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    '&:hover': {
-        backgroundColor: "white.dark",
-        boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
-    },
-};
+
 
 const EditComponent = ({component}) => {
 
-    const [componentStyle, setComponentStyle] = useState({});
+    const [componentStyle, setComponentStyle] = useState({}); 
 
     useMemo(() => {
         const dictionary = {};
@@ -70,11 +68,9 @@ const EditComponent = ({component}) => {
 
 
     const handleSectionStyleChange = (newStyle) => {
+        console.log(newStyle)
         setComponentStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
     };
-
-
-
 
 
     return (
@@ -83,51 +79,25 @@ const EditComponent = ({component}) => {
                 component && component.component_elements.map((element, i) => {
                     return (
                         <EditElement key={i} element={element} />
-
-                        
                     )
                 })
             }
             <TooltipContainer>
                 <AdminMainButton
                     title="Edit"
-                    type="modal"
+                    type="StyleDialog"
                     appearance="iconButton"
                     putTooltip
                     icon={<EditIcon />}
                     willShow={
-                        <>
+                        <StyleBox 
+                        Section_Name = {"Style Component"}
+                        element_Type = 'Component'
+                        sectionStyle = {componentStyle}
+                        handleSectionStyleChange = {handleSectionStyleChange}
+                        styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
 
-                        <Typography component="div" variant='h3' sx={{ textAlign: 'center', padding: '10px', color: 'warning.dark' }}>
-                            Style of Component
-                        </Typography>
-
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center' }}>
-                            <Box sx = {{width:'70%'}}>
-                            <ColorButtons
-                                drawerAnchor="right"
-                                ButtonName="Change Back Color"
-                                currentColor={componentStyle.backgroundColor}
-                                handleColorSelect={(newColor) => handleSectionStyleChange({ backgroundColor: newColor })}
-                                generateRandomColor={() => handleSectionStyleChange({ backgroundColor: `#${Math.floor(Math.random() * 16777215).toString(16)}` })}
-                            />
-                            </Box>
-
-                            {['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width' , 'height'].map((key, index) => (
-                                <CustomSelectInput
-                                    key={index}
-                                    name={key}
-                                    className={customSelectStyle}
-                                    onChange={(e) => handleSectionStyleChange({ [key]: e.target.value })}
-                                    valueSet={componentStyle[key]}
-                                >
-                                    {utils[key]?.map((item, index) => (
-                                        <MenuItem key={index} value={item}>{item}</MenuItem>
-                                    ))}
-                                </CustomSelectInput>
-                            ))}
-                        </Box>
-                        </>
+                        />
                     }
                     sx={{
                         border: '1px solid red',
@@ -167,3 +137,4 @@ EditComponent.propTypes = {
 
 
 export default EditComponent;
+
