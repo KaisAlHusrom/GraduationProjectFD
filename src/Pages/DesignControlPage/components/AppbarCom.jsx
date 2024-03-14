@@ -1,7 +1,5 @@
 //React
-import  {
-    
-} from 'react'
+import  { useState } from 'react'
 
 import {
     
@@ -46,13 +44,32 @@ const StyledAppbarCom = styled(Box)(
 
 
 const AppbarCom = () => {
+  const [isMobileWidth, setIsMobileWidth] = useState(false);
+  const [isTabletWidth, setIsTabletWidth] = useState(false);
+  const [isLaptopWidth, setIsLaptopWidth] = useState(true);
 
+  const handleSmartphoneClick = () => {
+    setIsMobileWidth(true);
+    setIsTabletWidth(false);
+    setIsLaptopWidth(false);
+  };
+
+  const handleTabletClick = () => {
+    setIsTabletWidth(true);
+    setIsMobileWidth(false);
+    setIsLaptopWidth(false);
+  };
+  const handleLaptopClick = () => {
+    setIsTabletWidth(false);
+    setIsMobileWidth(false);
+    setIsLaptopWidth(true);
+
+
+  }
     return (
         <StyledAppbarCom>
             <AppBar position="fixed" open={open}>
         <Toolbar sx={{
-     
-      
         }}>
 
               <Box sx={{
@@ -115,66 +132,67 @@ const AppbarCom = () => {
                       <LanguageDrawerList></LanguageDrawerList>
                     }
               />
-            
-            
                 </Box>
 
 
                   <Box sx={{
-          display: 'flex',
-          justifyContent:'center',
-          alignItems: 'center',
-          width: 'fit-content',
-          padding: '10px 15px', 
-          borderLeft:"1px solid",
-          borderColor:'success.dark',
-          }}>
-                <AdminMainButton
-                title="Smart phone"
-                icon={<SmartphoneIcon />}
-                appearance="iconButton"
-                putTooltip
-                type='custom'
-                sx={{
-                  border : 'none',
-                  padding: '10px 15px',
-                  fontWeight: 'bold',
-                  backgroundColor:'success.dark',
-                  color:'white.main',
-                  marginLeft:'10px'
-                }}
-          />
-      
-          <AdminMainButton
-                title="Tablet"
-                icon={<TabletIcon />}
-                appearance="iconButton"
-                type='custom'
-                putTooltip
-                sx={{
-                  border : 'none',
-                  padding: '10px 15px',
-                  fontWeight: 'bold',
-                  backgroundColor:'success.dark',
-                  color:'white.main',
-                  marginLeft:'10px'
-                }}
-          />
-              <AdminMainButton
-                title="Laptop"
-                icon={<LaptopIcon />}
-                appearance="iconButton"
-                type='custom'
-                putTooltip
-                sx={{
-                  border : 'none',
-                  padding: '10px 15px',
-                  fontWeight: 'bold',
-                  backgroundColor:'success.dark',
-                  color:'white.main',
-                  marginLeft:'10px'
-                }}
-          />
+                  display: 'flex',
+                  justifyContent:'center',
+                  alignItems: 'center',
+                  width: 'fit-content',
+                  padding: '10px 15px', 
+                  borderLeft:"1px solid",
+                  borderColor:'success.dark',
+                  }}>
+                      <AdminMainButton
+                        title="Smart phone"
+                        icon={<SmartphoneIcon />}
+                        appearance="iconButton"
+                        putTooltip
+                        type='custom'
+                        onClick={() => handleSmartphoneClick()}
+                        sx={{
+                          border : 'none',
+                          padding: '10px 15px',
+                          fontWeight: 'bold',
+                          backgroundColor:'success.dark',
+                          color:'white.main',
+                          marginLeft:'10px'
+                        }}
+                      />
+                          
+                      <AdminMainButton
+                          title="Tablet"
+                            icon={<TabletIcon />}
+                            appearance="iconButton"
+                            type='custom'
+                            putTooltip
+                            onClick={() => handleTabletClick()}
+                            sx={{
+                              border : 'none',
+                              padding: '10px 15px',
+                              fontWeight: 'bold',
+                              backgroundColor:'success.dark',
+                              color:'white.main',
+                              marginLeft:'10px'
+                          }}
+                        />
+                      <AdminMainButton
+                          title="Laptop"
+                          icon={<LaptopIcon />}
+                          appearance="iconButton"
+                          type='custom'
+                          putTooltip
+                          onClick={() => handleLaptopClick()}
+                          sx={{
+                            border : 'none',
+                            padding: '10px 15px',
+                            fontWeight: 'bold',
+                            backgroundColor:'success.dark',
+                            color:'white.main',
+                            marginLeft:'10px'
+                          }}
+                  />
                 </Box>
 
 
@@ -273,7 +291,7 @@ const AppbarCom = () => {
       </AppBar>
 
             <Box component="main" sx={{ p: 3 }}>
-            <TemplateMain></TemplateMain>
+            <TemplateMain isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth}/>
             </Box>
         </StyledAppbarCom>
     );

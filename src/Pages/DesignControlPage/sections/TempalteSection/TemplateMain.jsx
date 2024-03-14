@@ -26,14 +26,10 @@ import './Style.css'
 
 
 //Styled Components
-const StyledTemplateMain = styled(Box)(
-    () => ({
-
-    })
-)
+const StyledTemplateMain = styled(Box)(() => ({}))
 
 
-const TemplateMain = () => {
+const TemplateMain = ({ isMobileWidth , isTabletWidth , isLaptopWidth}) => {
 
 
     // list of section
@@ -61,7 +57,13 @@ const TemplateMain = () => {
 
 
     return (
-        <StyledTemplateMain className="Template">
+        <StyledTemplateMain className="Template"  sx={{
+            width: isMobileWidth ? '500px' :  isTabletWidth ? '50%' : isLaptopWidth  ?  '100%' : '',
+            padding: isMobileWidth ? '0px' :  isTabletWidth ? '0px' : ''
+
+                , margin : '100px auto' 
+            
+            }}>
         {sectionsOrder.map((section, index) => (
             <div key={index}>
             {section === 'NavBar' && <NavBar moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}

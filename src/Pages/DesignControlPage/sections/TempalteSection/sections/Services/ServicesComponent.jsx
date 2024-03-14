@@ -1,5 +1,5 @@
 //React
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import {
     
@@ -18,6 +18,7 @@ import  '../Style.css'
 
 //propTypes 
 import propTypes from 'prop-types'
+import { useInView } from 'react-intersection-observer'
 
 //Styled Components
 const StyledServicesComponent = styled(Box)(() => ({}))
@@ -40,9 +41,24 @@ const ServicesComponent = ({component}) => {
     }, [component.section_css_props]);
 
 
+    const [isInView, setIsInView] = useState(false);
+    const { ref, inView } = useInView();
+
+    useEffect(() => {
+        if (inView) {
+            setIsInView(true);
+        }
+    }, [inView]);
 
     return (
-        <StyledServicesComponent sx = {componentStyle} className='component-query'
+        <StyledServicesComponent sx={{
+            ...componentStyle,
+            opacity: isInView ? 1 : 0,
+            }}
+            className={isInView ? 'component-query slide-down-animation' : ''}
+            ref={ref}
+            
+
         >
             {
                 component && component.component_elements.map((element, i) => {
