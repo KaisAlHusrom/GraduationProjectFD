@@ -23,6 +23,7 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import './Style.css'
+import SliderSection from './sections/Slider/slider'
 
 
 //Styled Components
@@ -43,6 +44,7 @@ const TemplateMain = ({ isMobileWidth , isTabletWidth , isLaptopWidth}) => {
         'Work',
         'Counters',
         'Services',
+        'SliderSection',
         'Footer',
     ]);
 
@@ -75,6 +77,7 @@ const TemplateMain = ({ isMobileWidth , isTabletWidth , isLaptopWidth}) => {
             {section === 'Work' && <Work moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
             {section === 'Counters' && <Counters moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
             {section === 'Services' && <Services moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
+            {section === 'SliderSection' && <SliderSection moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
             {section === 'Footer' && <Footer />}
 
             </div>

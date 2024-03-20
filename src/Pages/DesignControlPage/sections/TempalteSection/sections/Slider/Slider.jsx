@@ -6,11 +6,8 @@ import {
 } from 'react-redux'
 
 //Components
-import HeaderData from './HeaderData.json'
-import HeaderComponent from './HeaderComponent'
+import SliderData from './SliderData.json'
 import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
-import UpDownButtons from '../../components/UpDownButtons'
-import EditLink from '../../components/EditLink'
 
 
 //MUI
@@ -18,20 +15,25 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import UpDownButtons from '../../components/UpDownButtons'
+import EditLink from '../../components/EditLink'
+import SliderComponent from './SliderComponent'
 
 //Styled Components
-const StyledHeader = styled(Box)(() => ({
-}))
+const StyledSlider = styled(Box)(
+    ({ theme }) => ({
+    
+    })
+)
 
 
-const Header = ({moveSectionUp , moveSectionDown}) => {
-
-    const {HeaderSection } = useContext(MainTemplateSectionSet)
+const SliderSection = ({moveSectionUp , moveSectionDown}) => {
+    const {SliderSection } = useContext(MainTemplateSectionSet)
 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        HeaderData.section_css_props.forEach((cssProp) => {
+        SliderData.section_css_props.forEach((cssProp) => {
         const { css_prop, css_prop_value } = cssProp;
 
         if (css_prop.is_section) {
@@ -42,12 +44,10 @@ const Header = ({moveSectionUp , moveSectionDown}) => {
         return styleObject;
     }, []);
 
-
-
     return (
-    HeaderSection ? (
-        <StyledHeader sx = {sectionStyle}  key={HeaderData.section_id}>
-            <Box sx = {{
+        SliderSection ? (
+            <StyledSlider sx= {sectionStyle}  key={SliderData.section_id}>
+                <Box sx = {{
                 display: 'flex',
                 flexDirection: 'row',
                 justifyContent:'start',
@@ -56,22 +56,21 @@ const Header = ({moveSectionUp , moveSectionDown}) => {
                 height: '100%',
             }}>
             <UpDownButtons moveSectionUp = {moveSectionUp} moveSectionDown = {moveSectionDown} ></UpDownButtons>
-
-            </Box>
-
-        {HeaderData &&
-        HeaderData.section_components.map((component, i) => {
+        </Box>
+        {SliderData &&
+        SliderData.section_components.map((component, i) => {
         return (
-            <HeaderComponent key={i} component={component} />
+            <SliderComponent key={i} component={component} />
         );
         })}
 
+            <EditLink Data = {SliderData} ></EditLink>
 
-            <EditLink Data = {HeaderData} ></EditLink>
 
-        </StyledHeader>
-        ) : null 
+        </StyledSlider>
+        
+        ) : null
     );
 };
 
-export default Header;
+export default SliderSection;

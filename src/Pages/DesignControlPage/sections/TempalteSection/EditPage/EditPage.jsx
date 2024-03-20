@@ -1,11 +1,13 @@
-import {
-    useMemo, useState 
+import React, {
+    useEffect,
+    useState 
 } from 'react'
 import { useParams } from 'react-router-dom';
 
 import {
     
 } from 'react-redux'
+import { v4 as uuidv4 } from 'uuid'; // UUID oluşturmak için
 
 //Components
 import EditComponent from './EditComponent.jsx';
@@ -16,6 +18,9 @@ import { Box } from '@mui/material';
 import { styled } from '@mui/system'
 import { Edit as EditIcon } from '@mui/icons-material';
 import StyleBox from '../components/StyleBox.jsx';
+import AddBoxIcon from '@mui/icons-material/AddBox';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+
 
 
 const getSectionData = async (section_id) => {
@@ -50,6 +55,10 @@ const getSectionData = async (section_id) => {
     const CarouselDataModule = await import("../sections/NavBar/NavBarData.json");
         return CarouselDataModule.default;
     }
+    else if (section_id === "16") {
+    const CarouselDataModule = await import("../sections/Slider/SliderData.json");
+            return CarouselDataModule.default;
+        }
 };
 
 
@@ -84,16 +93,14 @@ const EditPage = () => {
     const [sectionStyle, setSectionStyle] = useState({});
     const [sectionData, setSectionData] = useState(null);
 
-    
-
-    
-    useMemo(() => {
+    useEffect(() => {
         const fetchSectionData = async () => {
-            const data = await getSectionData(section_id);
-            setSectionData(data);
+            const fetchedData = await getSectionData(section_id);
+            setSectionData(fetchedData);
+            // setData(fetchedData); // Burada data değişkenini de güncelliyoruz
             const dictionary = {};
-            if (data && data.section_css_props) {
-                data.section_css_props.forEach((cssProp) => {
+            if (fetchedData && fetchedData.section_css_props) {
+                fetchedData.section_css_props.forEach((cssProp) => {
                     const { css_prop, css_prop_value } = cssProp;
                     if (css_prop.is_section) {
                         dictionary[css_prop.prop_name] = css_prop_value;
@@ -105,18 +112,101 @@ const EditPage = () => {
         fetchSectionData();
     }, [section_id]);
 
+    
+
     const handleSectionStyleChange = (newStyle) => {
         setSectionStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
     };
+    const addComponentForComponent = (section_component_id) => {
+        console.log(section_component_id)
+        const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
+        if (index !== -1) {
+            const newComponent = { ...sectionData.section_components[index], section_component_id: uuidv4() };
+        
+            setSectionData((prevData) => {
+                const updatedComponents = [...prevData.section_components];
+                updatedComponents.splice(index + 1, 0, newComponent);
+                return {
+                    ...prevData,
+                    section_components: updatedComponents,
+                };
+            });
+        }
+    };
+    
+    const deleteLastComponentForComponent = (section_component_id) => {
+        console.log(section_component_id)
 
+        const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
+        if (index !== -1) {
+            setSectionData((prevData) => {
+                const updatedComponents = [...prevData.section_components];
+                updatedComponents.splice(index, 1);
+                return {
+                    ...prevData,
+                    section_components: updatedComponents,
+                };
+            });
+        }
+    };
+    
+    
     return (
         <StyledEditPage>
 
             <HoverableBox key={section_id} sx={sectionStyle}>
 
-                {sectionData && sectionData.section_components && sectionData.section_components.map((component, i) => (
-                    <EditComponent key={i} component={component} />
-                ))}
+            {sectionData && sectionData.section_components && sectionData.section_components.map((component, i) => (
+                    <Box key= {component.section_component_id}  >
+
+                        <EditComponent key={i} component={component} />
+
+                        <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' , position:'absolute'}}>
+                            <AdminMainButton
+                                title="Add"
+                                type="custom"
+                                onClick={() => addComponentForComponent(component.section_component_id)}
+                                appearance="button"
+                                putTooltip
+                                icon={<AddBoxIcon />}
+                                sx={{
+                                    width:'150px',
+                                    border: '1px solid red',
+                                    padding: '10px 15px',
+                                    fontWeight: 'bold',
+                                    color: 'white.main',
+                                    backgroundColor: 'black',
+                                    transition: 'background-color 0.8s',
+                                    '&:hover': {
+                                        backgroundColor: 'gray',
+                                    },
+                                }}
+                            />
+                            <AdminMainButton
+                                title="Delete"
+                                type="custom"
+                                onClick={() => deleteLastComponentForComponent(component.section_component_id)}
+                                appearance="button"
+                                putTooltip
+                                icon={<DeleteSweepIcon />}
+                                sx={{
+                                    width:'150px',
+                                    border: '1px solid red',
+                                    padding: '10px 15px',
+                                    fontWeight: 'bold',
+                                    color: 'white.main',
+                                    backgroundColor: 'black',
+                                    transition: 'background-color 0.3s',
+                                    '&:hover': {
+                                        backgroundColor: 'gray',
+                                    },
+                                }}
+                            />
+                        </Box>
+
+                    </Box>
+))}
+
                 <TooltipContainer>
                     <AdminMainButton
                         title="Edit Section"
@@ -131,9 +221,7 @@ const EditPage = () => {
                             sectionStyle = {sectionStyle}
                             handleSectionStyleChange = {handleSectionStyleChange}
                             styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
-
                             />
-
                         }
                         sx={{
                             border: '1px solid red',
@@ -144,7 +232,8 @@ const EditPage = () => {
                         }}
                     />
                 </TooltipContainer>
-                
+            
+
             </HoverableBox>
 
         </StyledEditPage>

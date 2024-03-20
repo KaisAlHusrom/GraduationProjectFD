@@ -42,7 +42,7 @@ function App() {
   return (
       <CustomThemeProvider>
         <CustomRouterProvider />
-        <CustomSnackBar />
+          <CustomSnackBar />
       </CustomThemeProvider>
   )
 }

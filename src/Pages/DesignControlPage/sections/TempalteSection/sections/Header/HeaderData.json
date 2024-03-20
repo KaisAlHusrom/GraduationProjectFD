@@ -332,7 +332,7 @@
                     },
                     "css_status": null,
                     "css_responsive_status": null,
-                    "css_prop_value": "60%",
+                    "css_prop_value": "800px",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
@@ -1386,7 +1386,7 @@
                     },
                     "css_status": null,
                     "css_responsive_status": null,
-                    "css_prop_value": "30%",
+                    "css_prop_value": "400px",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
