@@ -38,7 +38,7 @@ const HomeDrawerList = () => {
     const { 
         HeaderSection, setHeaderSection , AboutUsPage, setAboutUsPage , setGalleryPage , GalleryPage ,TeamSection,
         setTeamSection ,CarouselSection, setCarouselSection ,WorkSection, setWorkSection ,CounterSection, setCounterSection ,
-        ServicesSection, setServicesSection} = useContext(MainTemplateSectionSet);
+        ServicesSection, setServicesSection , SliderSection, setSliderSection} = useContext(MainTemplateSectionSet);
 
 
     const [drawerItemsState, setDrawerItemsState] = useState({
@@ -51,7 +51,7 @@ const HomeDrawerList = () => {
         'Work': WorkSection,
         'Counters': CounterSection,
         'Services': ServicesSection,
-
+        'Slider' : SliderSection,
     });
     const handleItemClick = (itemName) => {
         setDrawerItemsState((prevState) => ({
@@ -81,6 +81,9 @@ const HomeDrawerList = () => {
         }
         if (itemName === 'Services') {
             setServicesSection((prevAboutUs) => !prevAboutUs);
+        }
+        if (itemName === 'Slider') {
+            setSliderSection((prevAboutUs) => !prevAboutUs);
         }
     };
 
@@ -131,6 +134,11 @@ const drawerItems = [
         name: 'Services',
         icon: <InfoIcon />,
         onClick: () => handleItemClick('Services'),
+    },
+    {
+        name: 'Slider',
+        icon: <InfoIcon />,
+        onClick: () => handleItemClick('Slider'),
     },
     ];
     const [openDialog , setOpenDialog] = useState(false)

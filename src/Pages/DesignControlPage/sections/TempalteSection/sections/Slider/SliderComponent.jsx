@@ -1,12 +1,12 @@
 //React
 import { useEffect, useMemo, useState } from 'react'
+import { useInView } from 'react-intersection-observer'
 
 import {
     
 } from 'react-redux'
 
 //Components
-import ServicesElement from './ServicesElement'
 
 
 //MUI
@@ -18,13 +18,18 @@ import  '../Style.css'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { useInView } from 'react-intersection-observer'
+import SliderElement from './SliderElement'
 
 //Styled Components
-const StyledServicesComponent = styled(Box)(() => ({}))
+const StyledSliderComponent = styled(Box)(
+    ({ theme }) => ({
+    
+    })
+)
 
 
-const ServicesComponent = ({component}) => {
+const SliderComponent = ({component}) => {
+
 
     const componentStyle = useMemo(() => {
         const styleObject = {};
@@ -40,7 +45,6 @@ const ServicesComponent = ({component}) => {
         return styleObject;
     }, [component.section_css_props]);
 
-
     const [isInView, setIsInView] = useState(false);
     const { ref, inView } = useInView();
 
@@ -50,29 +54,29 @@ const ServicesComponent = ({component}) => {
         }
     }, [inView]);
 
+
+
+
     return (
-        <StyledServicesComponent sx={{
+        <StyledSliderComponent sx={{
             ...componentStyle,
             opacity: isInView ? 1 : 0,
             }}
             className={isInView ? 'component-query slide-down-animation' : ''}
             ref={ref}
-            
-
-        >
-            {
+            >
+     {
                 component && component.component_elements.map((element, i) => {
                     return (
-                        <ServicesElement key={i} element={element} />
+                        <SliderElement key={i} element={element} />
                     )
                 })
-            }
-        </StyledServicesComponent>
+            }        </StyledSliderComponent>
     );
 };
 
-ServicesComponent.propTypes = {
+SliderComponent.propTypes = {
     component: propTypes.object
 }
 
-export default ServicesComponent;
+export default SliderComponent;

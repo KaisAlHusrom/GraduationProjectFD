@@ -1,5 +1,6 @@
 //React
-import { useContext, useMemo } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
+import { useInView } from 'react-intersection-observer';
 
 import {
     
@@ -26,6 +27,15 @@ const StyledCounters = styled(Box)(() => ({}))
 
 
 const Counters = ({moveSectionUp , moveSectionDown}) => {
+    const [isInView, setIsInView] = useState(false);
+    const { ref, inView } = useInView();
+
+    useEffect(() => {
+        if (inView) {
+            setIsInView(true);
+        }
+    }, [inView]);
+
 
     const {CounterSection } = useContext(MainTemplateSectionSet)
 
@@ -47,8 +57,12 @@ const Counters = ({moveSectionUp , moveSectionDown}) => {
     return (
 
         CounterSection ? (
-            <StyledCounters key={CountersData.section_id} sx={sectionStyle}>
-        
+            <StyledCounters key={CountersData.section_id}  sx={{
+                ...sectionStyle,
+                opacity: isInView ? 1 : 0,
+            }}
+            className={isInView ? 'opacity-animation' : ''}
+            ref={ref}>
                     <Box sx = {{
                         display: 'flex',
                         flexDirection: 'row',

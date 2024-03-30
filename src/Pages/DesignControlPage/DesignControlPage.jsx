@@ -37,8 +37,10 @@ const DesignControlPage = () => {
     const [WorkSection, setWorkSection] = useState(true)
     const [CounterSection, setCounterSection] = useState(true)
     const [ServicesSection, setServicesSection] = useState(true)
+    const [SliderSection, setSliderSection] = useState(false)
 
-    const valuesOfPages = {HeaderSection, setHeaderSection , AboutUsPage, setAboutUsPage , GalleryPage, setGalleryPage , TeamSection ,setTeamSection,CarouselSection, setCarouselSection , WorkSection, setWorkSection ,CounterSection, setCounterSection ,ServicesSection, setServicesSection}
+    const valuesOfPages = {HeaderSection, setHeaderSection , AboutUsPage, setAboutUsPage , GalleryPage, setGalleryPage , TeamSection ,setTeamSection, 
+        CarouselSection, setCarouselSection , WorkSection, setWorkSection ,CounterSection, setCounterSection ,ServicesSection, setServicesSection ,SliderSection, setSliderSection }
     return (
         <MainTemplateSectionSet.Provider value={valuesOfPages}>
         <StyledDesignControlPage>

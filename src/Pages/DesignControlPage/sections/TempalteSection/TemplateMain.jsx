@@ -23,17 +23,14 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import './Style.css'
+import SliderSection from './sections/Slider/slider'
 
 
 //Styled Components
-const StyledTemplateMain = styled(Box)(
-    () => ({
-
-    })
-)
+const StyledTemplateMain = styled(Box)(() => ({}))
 
 
-const TemplateMain = () => {
+const TemplateMain = ({ isMobileWidth , isTabletWidth , isLaptopWidth}) => {
 
 
     // list of section
@@ -47,6 +44,7 @@ const TemplateMain = () => {
         'Work',
         'Counters',
         'Services',
+        'SliderSection',
         'Footer',
     ]);
 
@@ -61,7 +59,13 @@ const TemplateMain = () => {
 
 
     return (
-        <StyledTemplateMain className="Template">
+        <StyledTemplateMain className="Template"  sx={{
+            width: isMobileWidth ? '500px' :  isTabletWidth ? '50%' : isLaptopWidth  ?  '100%' : '',
+            padding: isMobileWidth ? '0px' :  isTabletWidth ? '0px' : ''
+
+                , margin : '100px auto' 
+            
+            }}>
         {sectionsOrder.map((section, index) => (
             <div key={index}>
             {section === 'NavBar' && <NavBar moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
@@ -73,6 +77,7 @@ const TemplateMain = () => {
             {section === 'Work' && <Work moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
             {section === 'Counters' && <Counters moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
             {section === 'Services' && <Services moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
+            {section === 'SliderSection' && <SliderSection moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
             {section === 'Footer' && <Footer />}
 
             </div>

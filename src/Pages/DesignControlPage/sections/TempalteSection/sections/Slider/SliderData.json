@@ -1,5 +1,5 @@
 {
-    "section_id": 14,
+    "section_id": 16,
     "section_title": "Team",
     "Section_descriptions": "lorem ipsum ....",
     "is_template": true,
@@ -284,7 +284,7 @@
         ],
     "section_components": [
         {
-            "section_component_id": 1,
+            "section_component_id": 10,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -824,7 +824,7 @@
             ]
         },
         {
-            "section_component_id": 2,
+            "section_component_id": 10,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -1954,7 +1954,7 @@
             ]
         },
         {
-            "section_component_id": 3,
+            "section_component_id": 10,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -3083,7 +3083,7 @@
             ]
         },
         {
-            "section_component_id": 4,
+            "section_component_id": 10,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -4213,3 +4213,11 @@
         }
     ]
 }
+
+
+
+
+
+
+
+

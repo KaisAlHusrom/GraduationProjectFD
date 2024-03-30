@@ -39,14 +39,6 @@ const TooltipContainer = styled(Box)({
     transition: 'opacity 1s ease', // Apply transition effect to opacity
 });
 
-const TooltipContainerDelete = styled(Box)({
-    position: 'absolute',
-    top: '0',
-    right: '0',
-    opacity: 0, // Initially set opacity to 0
-    visibility: 'hidden', // Initially hide the TooltipContainerDelete
-    transition: 'opacity 1s ease', // Apply transition effect to opacity
-});
 
 
 const EditComponent = ({component}) => {
@@ -108,23 +100,6 @@ const EditComponent = ({component}) => {
                     }}
                 />
             </TooltipContainer>
-
-            <TooltipContainerDelete>
-                <AdminMainButton
-                    title="Delete"
-                    type="custom"
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<DeleteIcon />}
-                    sx={{
-                        border: '1px solid red',
-                        padding: '10px 15px',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: 'warning.dark',
-                    }}
-                />
-            </TooltipContainerDelete>
             
         </StyledEditComponent>
     );

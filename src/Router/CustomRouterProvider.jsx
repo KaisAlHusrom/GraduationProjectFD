@@ -18,6 +18,7 @@ import DesignOne from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/
 import Designtwo from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/Design2';
 import DesignThree from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/Design3';
 import EditPage from '../Pages/DesignControlPage/sections/TempalteSection/EditPage/EditPage';
+import LandPage from '../Pages/LandPage/LandPage';
 
 
 // ------------- NOTICES -------------
@@ -69,6 +70,8 @@ const router = createBrowserRouter(
             <Route path="DesignThree" element={<DesignThree />} />
             <Route path="DesignTwo" element={<Designtwo />} />
             <Route path="DesignOne" element={<DesignOne />} />
+            <Route path="LandPage" element={<LandPage />} />
+
         </Route>
     )
 )
