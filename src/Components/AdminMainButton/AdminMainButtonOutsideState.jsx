@@ -39,7 +39,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     }));
 
 
-const AdminMainButton = (props) => {
+const AdminMainButtonOutsideState = (props) => {
     // --- Props ---
     const { 
         icon, 
@@ -58,7 +58,8 @@ const AdminMainButton = (props) => {
         drawerVariant,
         putBorder,
         filled,
-        sx
+        sx,
+        customState
     } = props
 
     //theme
@@ -74,16 +75,16 @@ const AdminMainButton = (props) => {
     const openMenu = Boolean(menuEl)
 
     // --- modal states ---
-    const [modalOpen, setModalOpen] = useState(false)
+    const {modalOpen, setModalOpen} = customState
     
     // --- drawer states ---
-    const [drawerOpen, setDrawerOpen] = useState(false)
+    const {drawerOpen, setDrawerOpen} = customState
 
     // --- popover states ---
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
-    const [openStyleDialog, setOpenStyleDialog] = useState(false);
+    const {openStyleDialog, setOpenStyleDialog} = customState
 
     const handleClickOpenStyleDialog = () => {
         setOpenStyleDialog(true);
@@ -425,7 +426,7 @@ const AdminMainButton = (props) => {
     );
 };
 
-AdminMainButton.propTypes = {
+AdminMainButtonOutsideState.propTypes = {
     icon: propTypes.any,
     title: propTypes.string.isRequired,
     appearance: propTypes.oneOf(["primary", "secondary", "iconButton"]).isRequired,
@@ -443,6 +444,7 @@ AdminMainButton.propTypes = {
     sx: propTypes.object,
     putBorder: propTypes.bool,
     filled: propTypes.bool,
+    customState: propTypes.object
 }
 
-export default AdminMainButton;
+export default AdminMainButtonOutsideState;

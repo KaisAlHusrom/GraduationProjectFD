@@ -1,3 +1,5 @@
 {
-    "ServerMainRoute": "http://127.0.0.1:8000/api"
+    "ServerMainRoute": "http://127.0.0.1:8000/api",
+    "ServerImageRoute": "http://127.0.0.1:8000/storage/assets/images",
+    "ServerFilesRoute": "http://127.0.0.1:8000/storage/assets/files"
 }

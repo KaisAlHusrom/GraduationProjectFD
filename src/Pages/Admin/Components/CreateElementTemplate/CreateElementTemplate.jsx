@@ -16,7 +16,7 @@ import {
 import { styled } from '@mui/system'
 
 //services
-import { fetchElementsTypes } from '../../../../Services/elementsTypesService'
+import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
 import TemplateElementSettings from '../TemplateElementSettings/TemplateElementSettings'
 
 

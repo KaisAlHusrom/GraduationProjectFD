@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 // Initial State
 const initialState = {
     openSnackbar: false,
-    snackbarMessage: ""
+    snackbarMessage: "",
+    isError: false,
 }
 
 const snackbarOpenSlice = createSlice({
@@ -18,10 +19,13 @@ const snackbarOpenSlice = createSlice({
         },
         setSnackbarMessage: (state, action) => {
             state.snackbarMessage = action.payload.message;
+        },
+        setSnackbarIsError: (state, action) => {
+            state.isError = action.payload.isError;
         }
     },
 })
 
 
-export const { handleOpenSnackbar, handleCloseSnackbar, setSnackbarMessage} = snackbarOpenSlice.actions
+export const { handleOpenSnackbar, handleCloseSnackbar, setSnackbarMessage, setSnackbarIsError} = snackbarOpenSlice.actions
 export default snackbarOpenSlice.reducer

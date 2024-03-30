@@ -1,5 +1,5 @@
 //React
-import { useEffect, useMemo, useState } from 'react'
+import {  useCallback, useMemo, useRef, useState } from 'react'
 
 import {
     
@@ -10,9 +10,10 @@ import {
 
 //MUI
 import {
-    Autocomplete,
-    Box, Checkbox, MenuItem, Paper, TextField, Typography,
+    Autocomplete, Checkbox, Paper, TextField, CircularProgress
 } from '@mui/material'
+
+
 import { styled } from '@mui/system'
 
 //icons
@@ -22,6 +23,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 //propTypes 
 import propTypes from 'prop-types'
 import {  } from '@emotion/react';
+import useFetchData from '../../Helpers/useFetchData';
 
 //Styled Components
 const StyledMenu = styled(Paper)(
@@ -63,17 +65,16 @@ const RelationTextField = (props) => {
     const {
         relationType,
         relations,
-        columnName,
         originalData,
-        setShowTextField,
         handleChangeData,
         handleEnterKeyDown,
         setNewData,
-        pkColumnData,
+        columnName,
+        setShowTextField,
         row
     } = props
 
-    const [relation, setRelation] = useState(() => {
+    const [relation, ] = useState(() => {
         if(relationType === 'one-to-many'){
             return relations.oneToMany.filter(relation => relation["field_name"] === columnName)[0]
         }
@@ -87,57 +88,153 @@ const RelationTextField = (props) => {
         }
     })
 
-    const [relatedTableData, setRelatedTableData] = useState([])
-    //fetch data
-    useEffect(() => {
-        
-        if(relationType === 'many-to-many' || relationType === 'many-to-one' || relationType === 'one-to-many'){
-            const fetchData = async () => {
-                const data = await relation.fetch_all_data()
-                setRelatedTableData(data.rows)
+    //fetch related table data
+    const [searchQuery, setSearchQuery] = useState(null)
+    const search = (columnName, searchTerm) => {
+        setSearchQuery(() => {
+            return {
+                columnName: columnName,
+                searchTerm: searchTerm,
             }
-            fetchData()
-        }
-
-    }, [relation, relationType])
+        })
+    }
 
 
-    const defaultProps = useMemo(()=> {
-        return {
-            options: relatedTableData,
-            getOptionLabel: (option) => option ? option[relation["fetched_column"]] || '' : '',
-            getOptionKey: (option) => option ? option[relation["related_table_id"]] : '',
-        };
-    }, [relatedTableData, relation]);
+    const [open, setOpen] = useState(false);
+
+    const {
+        hasMore,
+        // error,
+        loading,
+        setPageNumber,
+        data
+    } = useFetchData(relation.fetch_all_data, "all", null, null, open, searchQuery)
+
+    // *** DOWNLOAD MORE WHEN SCROLLING BOTTOM
+    const observer = useRef()
+    const lastDataRowElementRef = useCallback(node => {
+
+        if (loading || !hasMore) return;
+
+        if(observer.current) observer.current.disconnect()
+
+        observer.current = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting && hasMore) {
+                setPageNumber(prev => prev + 1);
+            }
+        })
+
+        if (node) observer.current.observe(node)
+    }, [hasMore, loading, setPageNumber])
+
+
+
     
 
+
     // Assuming originalData is an array of selected objects
+    
     const selectedOptions = useMemo(() => {
+        //TODO: I have to get the selected data at the first
         if(originalData){
             if (relationType === "many-to-many" || relationType === "one-to-many") {
-                return relatedTableData.filter(row => {
+                return data.filter(row => {
                     // Check if originalData contains the current row's id
                     return originalData.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
                 });
             }
             if (relationType === "many-to-one") {
-                if(originalData) {
-                    return relatedTableData.filter(row => row[relation["related_table_id"]] === originalData[relation["related_table_id"]])[0];
-                }
+                return data.filter(row => row[relation["related_table_id"]] === originalData[relation["related_table_id"]])[0];
             }
-        } else {
-            if (relationType === "many-to-many" || relationType === "one-to-many") {
-                return []
-            }
-            if (relationType === "many-to-one") {
-                return null
-            }
+        } 
+        
+        return null
+    }, [originalData, data, relation, relationType]);
+
+    const handleChangeSearchQuery = useCallback((e) => {
+
+        // Cancel ongoing request
+        // cancelFetchDataTemplate();
+
+        setPageNumber(() => 1)
+        
+        const name = relation["fetched_column"];
+        const value = e.target.value;
+        if(value === "") {
+            setSearchQuery(() => null)
+            return
         }
+        
+        search(name, value)
+    }, [relation, setPageNumber])
 
-        return null; // or any default value if needed
-    }, [originalData, relatedTableData, relation, relationType]);
-
+    const defaultProps = useMemo(() => {
+        return {
+            options: open ? data : [],
+            getOptionLabel: (option) => option ? option[relation["fetched_column"]] || '' : '',
+            getOptionKey: (option) => option ? option[relation["related_table_id"]] : '',
+            size: 'small', // Fixed: changed = to :
+            renderInput: (params) => (
+                <TextField
+                    {...params}
+                    value={searchQuery?.searchTerm}
+                    onChange={handleChangeSearchQuery}
+                    label={columnName}
+                    name={columnName}
+                    InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                            <>
+                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                {params.InputProps.endAdornment}
+                            </>
+                        ),
+                    }}
+                />
+            ),
+            onChange: (event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row),
+            onKeyDown: (event) => handleEnterKeyDown(event, relationType, row, setShowTextField),
+            value: selectedOptions,
+            PaperComponent: StyledMenu,
+            isOptionEqualToValue: (option, value) => option[relation["fetched_column"]] === value[relation["fetched_column"]],
+            renderOption: (props, option, { index, selected }) => {
+                return (
+                    data.length === index + 1 ? (
+                        <li {...props} ref={lastDataRowElementRef}>
+                            <Checkbox
+                                icon={<CheckBoxOutlineBlankIcon />}
+                                checkedIcon={<CheckBoxIcon />}
+                                style={{ marginRight: 8 }}
+                                checked={selected}
+                            />
+                            {option[relation["fetched_column"]]}
+                        </li>
+                    ) : (
+                        <li {...props}>
+                            <Checkbox
+                                icon={<CheckBoxOutlineBlankIcon />}
+                                checkedIcon={<CheckBoxIcon />}
+                                style={{ marginRight: 8 }}
+                                checked={selected}
+                            />
+                            {option[relation["fetched_column"]]}
+                        </li>
+                    )
+                );
+            },
+            open: open,
+            onOpen: () => {
+                setOpen(true);
+            },
+            onClose: () => {
+                setOpen(false);
+            },
+            loading: loading,
+            fullWidth: true, // or fullWidth: Boolean value,
+        };
+    }, [open, data, selectedOptions, loading, relation, searchQuery?.searchTerm, handleChangeSearchQuery, columnName, handleChangeData, relationType, setNewData, row, handleEnterKeyDown, setShowTextField, lastDataRowElementRef]);
     
+
     return (
         <>
         { 
@@ -146,76 +243,32 @@ const RelationTextField = (props) => {
                     (
                         <AutocompleteMultipleStyle
                         {...defaultProps}
-                        fullWidth
                         disableClearable
                         multiple
                         id="combo-box-demo"
-                        size='small'
-                        renderInput={(params) => <TextField {...params} label={columnName} name={columnName} />} // Add name prop here
-                        onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
-                        onKeyDown={(event) => handleEnterKeyDown(event, relationType, row, setShowTextField)}
-                        value={selectedOptions}
-                        disableCloseOnSelect
-                        PaperComponent={StyledMenu}
-                        renderOption={(props, option, { selected }) => (
-                            <li 
-                                {...props}
-                            >
-                                <Checkbox
-                                    icon={<CheckBoxOutlineBlankIcon />}
-                                    checkedIcon={<CheckBoxIcon />}
-                                    style={{ marginRight: 8 }}
-                                    checked={selected}
-                                />
-                                {option[relation["fetched_column"]]}
-                            </li>
-                        )}
+                        disableCloseOnSelect // or disableCloseOnSelect: Boolean value,
                         />
                     )
                 :
-                    relationType === "many-to-many" && relatedTableData.length > 0
+                    relationType === "many-to-many"
                     ?    
                         <AutocompleteMultipleStyle
                             {...defaultProps}
                             disableClearable
                             multiple
                             id="combo-box-demo"
-                            size='small'
-                            renderInput={(params) => <TextField {...params} label={columnName} name={columnName} />} // Add name prop here
-                            onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
-                            onKeyDown={(event) => handleEnterKeyDown(event, relationType, row, setShowTextField)}
-                            value={selectedOptions}
                             disableCloseOnSelect
-                            PaperComponent={StyledMenu}
-                            renderOption={(props, option, { selected }) => (
-                                <li 
-                                    {...props}
-                                >
-                                    <Checkbox
-                                        icon={<CheckBoxOutlineBlankIcon />}
-                                        checkedIcon={<CheckBoxIcon />}
-                                        style={{ marginRight: 8 }}
-                                        checked={selected}
-                                    />
-                                    {option[relation["fetched_column"]]}
-                                </li>
-                            )}
                         />
                 
                 :
-                    relationType === "many-to-one" && relatedTableData.length > 0
+                    relationType === "many-to-one"
                 ?
+                    
                     <StyledAutocomplete
                         {...defaultProps}
                         disablePortal
-                        
                         id="combo-box-demo"
                         size='small'
-                        renderInput={(params) => <TextField {...params} label={columnName} name={columnName} />}
-                        onChange={(event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row)}
-                        onKeyDown={(event) => handleEnterKeyDown(event, relationType, row, setShowTextField)}
-                        value={selectedOptions}
-                        PaperComponent={StyledMenu}
                     />
                 :null
         }
@@ -233,6 +286,9 @@ RelationTextField.propTypes = {
     handleChangeData: propTypes.func,
     handleEnterKeyDown: propTypes.func,
     setNewData: propTypes.func,
+    columnName: propTypes.string,
+    setShowTextField: propTypes.func,
+    row: propTypes.any
 }
 
 export default RelationTextField;

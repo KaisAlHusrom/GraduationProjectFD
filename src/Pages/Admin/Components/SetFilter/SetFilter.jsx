@@ -29,9 +29,8 @@ import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import propTypes from 'prop-types'
 import StringHelper from '../../../../Helpers/StringsHelper';
 import AppliedFilterItem from '../AppliedFilterItem/AppliedFilterItem';
-import filterData from '../../../../Helpers/FilterData';
 import { useMyContext } from '../../../../Components/DatabaseView/DatabaseView';
-import { useLoaderData } from 'react-router-dom';
+
 
 
 
@@ -179,20 +178,19 @@ const getIcon = (dataType) => {
 
 const SetFilter = (props) => {
     const {
-        dataState,
-        rowsArrayState,
-        filteredDataState,
+        // dataState,
+        // filteredDataState,
         title
     } = props
 
     //Split the columns and rows,
-    const [loaderData, ] = dataState
+    // const [loaderData, ] = dataState
 
-    const [rowsArray, ] = rowsArrayState
-    const {columns} = loaderData;
+    // const [rowsArray, ] = rowsArrayState
+    const {columns} = useMyContext();
     
     // --- States ---
-    const [, setFilteredData] = filteredDataState
+
 
     //Get original filterMenuItems 
     const getMenuItems = useMemo(() => {
@@ -246,7 +244,7 @@ const SetFilter = (props) => {
 
 
     //Filters Count
-    const {setFiltersCount} = useMyContext()
+    const {setFiltersCount, setPageNumber, getAppliedFilters} = useMyContext()
 
     // --- Handlers ---
 
@@ -270,10 +268,10 @@ const SetFilter = (props) => {
             };
 
             // Update the state
-            setAppliedFilters(updatedAppliedFilters);
-
+            setAppliedFilters(() => updatedAppliedFilters);
+            
         },
-        [appliedFilters, setAppliedFilters]
+        [appliedFilters]
     );
 
     //When add possible filter to applied filters
@@ -296,16 +294,19 @@ const SetFilter = (props) => {
         const updatedFilterMenuItems = filterMenuItems.filter((existFilter) => existFilter !== filter);
 
         // Update the state
-        setAppliedFilters(updatedAppliedFilters);
+        setAppliedFilters(() => updatedAppliedFilters);
+        
         setFiltersCount(updatedAppliedFilters.length);
         setFilterMenuItems(updatedFilterMenuItems);
+
+        getAppliedFilters(updatedAppliedFilters);
     };
 
     //relations
-    const {relations} = useLoaderData()
+    // const {relations} = useLoaderData()
 
     //When delete possible filter from applied filters
-    const handleDeleteFilter = (filter) => {
+    const handleDeleteFilter = async (filter) => {
         // Find the index of the filter in appliedFilters
         const index = appliedFilters.findIndex((item) => item.filter === filter);
 
@@ -316,22 +317,31 @@ const SetFilter = (props) => {
         const updatedFilterMenuItems = [...filterMenuItems, filter];
 
         // Update the state
-        setAppliedFilters(updatedFilters);
+        setPageNumber(() => 1); //?? I have to make this 1 to get the data from the first page before change the filters, because when change filters the data will be fetched again
+        setAppliedFilters(() => updatedFilters);
+        
         setFiltersCount(updatedFilters.length);
         setFilterMenuItems(updatedFilterMenuItems);
-        setFilteredData(() => filterData(rowsArray, updatedFilters, relations))
+
+
+        getAppliedFilters(updatedFilters);
     };
     
 
-    const handleFilterData = () => {
-        setFilteredData(() => filterData(rowsArray, appliedFilters, relations))
+    const handleFilterData = async () => {
+        setPageNumber(() => 1);
+
+        getAppliedFilters(appliedFilters);
     };
 
-    const handleGetAllData = () => {
-        setAppliedFilters([])
+    const handleGetAllData = async () => {
+        setPageNumber(() => 1);
+        setAppliedFilters(() => [])
         setFiltersCount(0);
         setFilterMenuItems(()=> getMenuItems);
-        setFilteredData(null);
+
+
+        getAppliedFilters([]);
     }
 
 
@@ -446,9 +456,9 @@ const SetFilter = (props) => {
 };
 
 SetFilter.propTypes = {
-    dataState: propTypes.array.isRequired,
-    rowsArrayState: propTypes.array.isRequired,
-    filteredDataState: propTypes.array.isRequired,
+    // dataState: propTypes.array.isRequired,
+    rowsArrayState: propTypes.array,
+    // filteredDataState: propTypes.array.isRequired,
     title: propTypes.string.isRequired,
 }
 

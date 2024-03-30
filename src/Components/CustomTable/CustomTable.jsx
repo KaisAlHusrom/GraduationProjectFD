@@ -1,3 +1,6 @@
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+
+
 import {
     
 } from 'react-redux'
@@ -15,6 +18,7 @@ import {
     TableHead,
     Table,
     Box,
+    Skeleton,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { useTheme } from '@emotion/react'
@@ -26,6 +30,7 @@ import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import propTypes from 'prop-types'
 import { useLoaderData } from 'react-router-dom'
 import { useMyContext } from '../DatabaseView/DatabaseView'
+import useFetchData from '../../Helpers/useFetchData'
 
 
 
@@ -41,16 +46,22 @@ const CustomTable = (props) => {
     } = props
     
     //data state
-    const [dataWillAppear,] = dataWillAppearState
+    const {rowsArray} = dataWillAppearState
     //I get columns object to know the type of each column
-    const {columns} = useLoaderData();
+    const {columns} = useMyContext();
     //primary key
-    const pk = Object.keys(columns).find(key => columns[key] === "pk");
+    const pk = useMemo(() => Object.keys(columns).find(key => columns[key] === "pk"), [columns])
 
     
     //view settings
     //I don't put a condition if null, because I solved it in DatabaseView component
-    const {viewsSettings} = useMyContext()
+    const {
+        viewsSettings,
+        lastDataRowElementRef, //last data row ref
+        hasMore, // has more data
+        loading // loading new data
+    } = useMyContext()
+    
     const {
         showHeaders,
         selectHeaderBackgroundColor,
@@ -61,6 +72,42 @@ const CustomTable = (props) => {
 
     const selectedColor = selectHeaderBackgroundColor.find((item) => item.value)?.name
 
+    //move to right and left when keep press on the mouse 
+    // const tableRef = useRef(null);
+    // const [startX, setStartX] = useState(null);
+    // const [scrollLeft, setScrollLeft] = useState(0);
+    // const isDragging = useRef(false); // Use a ref for dragging state
+
+    // const handleMouseDown = (e) => {
+    //     if(e.which  === 3) {
+    //         e.preventDefault();
+    //         isDragging.current = true; // Update ref value directly
+    //         setStartX(e.pageX - tableRef.current.offsetLeft);
+    //         setScrollLeft(tableRef.current.scrollLeft);
+    //     }
+    // };
+
+    // const handleMouseMove = (e) => {
+    //     console.log(e.button)
+    //     if(e.which  === 3) {
+    //         e.preventDefault();
+    //         if (!isDragging.current) return; // Access ref value directly
+    //         const x = e.pageX - tableRef.current.offsetLeft;
+    //         const walk = (x - startX) * 1; // Adjust scrolling speed here
+    //         tableRef.current.scrollLeft = scrollLeft - walk;
+
+    //     }
+    // };
+
+    // const handleMouseUp = (e) => {
+    //     if(e.which  === 3) {
+    //         e.preventDefault();
+    //         isDragging.current = false; // Update ref value directly
+    //     }
+        
+    // };
+
+
     
     //Styles
     const theme = useTheme()
@@ -70,7 +117,7 @@ const CustomTable = (props) => {
         ({ theme }) => ({
             border: "1px solid",
             borderColor: theme.palette.divider,
-            height: "530px"
+            // height: "530px"
         })
     )
 
@@ -99,8 +146,14 @@ const CustomTable = (props) => {
 
     return (
         <StyledCustomTable  
+            // ref={tableRef}
+            // onMouseDown={handleMouseDown}
+            // onMouseMove={handleMouseMove}
+            // onMouseUp={handleMouseUp}
+            // onMouseLeave={handleMouseUp}
         >
-                    <Table>
+                    <Table
+                    >
                         {
                             showHeaders && columns
                             ?
@@ -138,7 +191,19 @@ const CustomTable = (props) => {
                         
                         <TableBody>
                             { 
-                            dataWillAppear && dataWillAppear.length > 0 && dataWillAppear.map((row) => {
+                            rowsArray && rowsArray.length > 0 && rowsArray.map((row, index) => {
+                                if(rowsArray.length === index + 1) {
+                                    return <CustomTableRow 
+                                    key={row[pk]} 
+                                    row={row}
+                                    selectedState={selectedState}
+                                    appearedDataCount={rowsArray.length}
+                                    handleChangeData = {handleChangeData}
+                                    handleEnterKeyDown = {handleEnterKeyDown}
+                                    filteredColumnsArray = {filteredColumnsArray}
+                                    lastRowRef={lastDataRowElementRef}
+                                    />
+                                }
                                 
 
                                 return (
@@ -146,13 +211,22 @@ const CustomTable = (props) => {
                                     key={row[pk]} 
                                     row={row}
                                     selectedState={selectedState}
-                                    appearedDataCount={dataWillAppear.length}
+                                    appearedDataCount={rowsArray.length}
                                     handleChangeData = {handleChangeData}
                                     handleEnterKeyDown = {handleEnterKeyDown}
                                     filteredColumnsArray = {filteredColumnsArray}
                                     />
                                 );
                             })
+                        }
+                        {
+                            loading
+                            &&
+                            <TableRow>
+                                <TableCell colSpan={filteredColumnsArray.length + 1 }>
+                                    <Skeleton sx={{ height: 80 }} animation="wave" variant="rectangular" />
+                                </TableCell>
+                            </TableRow>
                         }
                         </TableBody>
                     </Table>
@@ -164,7 +238,7 @@ CustomTable.propTypes = {
     showTableHeaders: propTypes.bool,
     selectedState: propTypes.array,
     filteredColumnsArray: propTypes.array,
-    dataWillAppearState: propTypes.array,
+    dataWillAppearState: propTypes.object,
     handleChangeData: propTypes.func,
     handleEnterKeyDown: propTypes.func,
     viewSettings: propTypes.object

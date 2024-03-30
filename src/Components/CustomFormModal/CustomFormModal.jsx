@@ -1,9 +1,8 @@
 //React
 import { useEffect, useState } from 'react'
 
-import { useDispatch } from 'react-redux'
 
-import { Form, useActionData, useLocation } from 'react-router-dom'
+
 
 //Helpers
 import StringHelper from '../../Helpers/StringsHelper'
@@ -29,7 +28,6 @@ import FolderZipIcon from '@mui/icons-material/FolderZip';
 import propTypes from 'prop-types'
 import { DatePicker } from '@mui/x-date-pickers'
 import RelationTextFieldToCustomModal from '../RelationTextFieldToCustomModal/RelationTextFieldToCustomModal'
-import { handleOpenSnackbar, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
 import { useMyContext } from '../DatabaseView/DatabaseView'
 
 
@@ -135,7 +133,7 @@ const CustomFormModal = (props) => {
     const {
         columns,
         title,
-    
+        setFromOpen
     } = props
     
     // Define the desired order of keys
@@ -178,86 +176,157 @@ const CustomFormModal = (props) => {
     )).length;
 
 
-
-
-    
-    const location = useLocation();
-
-    // Access the current path from the location object
-    const currentPath = location.pathname;
-
     //states
     //image type
-    const [imageSrc, setImageSrc] = useState((null));
-    const handleImageChange = (e) => {
-        const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                setImageSrc(event.target.result);
-            };
+    // const [imageSrc, setImageSrc] = useState((null));
+    // const handleImageChange = (e) => {
+    //     const file = e.target.files[0];
+    //         const reader = new FileReader();
+    //         reader.onload = (event) => {
+    //             setImageSrc(event.target.result);
+    //         };
 
-            reader.readAsDataURL(file);
-            setImageSrc(file);
-    }
+    //         reader.readAsDataURL(file);
+    //         setImageSrc(file);
+    // }
 
     //file type
     const [uploadProgress, setUploadProgress] = useState(0);
     const [fileName, setFileName] = useState("");
     const [fileSize, setFileSize] = useState(0);
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
+    // const handleFileChange = (e) => {
+    //     const file = e.target.files[0];
         
-        if (file) {
-            setFileName(file.name);
-            setFileSize(file.size);
-            const reader = new FileReader();
+    //     if (file) {
+    //         setFileName(file.name);
+    //         setFileSize(file.size);
+    //         const reader = new FileReader();
 
-            reader.onprogress = (event) => {
+    //         reader.onprogress = (event) => {
                 
-                if (event.lengthComputable) {
-                    const progress = Math.round((event.loaded / event.total) * 100);
-                    // console.log(progress)
-                    setUploadProgress(progress);
-                }
-            };
+    //             if (event.lengthComputable) {
+    //                 const progress = Math.round((event.loaded / event.total) * 100);
+    //                 // console.log(progress)
+    //                 setUploadProgress(progress);
+    //             }
+    //         };
 
-            reader.onloadend = () => {
+    //         reader.onloadend = () => {
                 
-                // Perform other operations after the file has been read (e.g., setting the image source)
-                // setImageSrc(reader.result);
-            };
+    //             // Perform other operations after the file has been read (e.g., setting the image source)
+    //             // setImageSrc(reader.result);
+    //         };
 
-            reader.readAsDataURL(file);
+    //         reader.readAsDataURL(file);
+    //     }
+    // };
+
+
+
+    // State variables for input values
+    
+    const [inputValues, setInputValues] = useState({});
+    const [image, setImage] = useState(null)
+
+    // Handle change for input fields
+    const handleChange = (e, column, newValue, relation, setAutoCompleteValue) => {
+        const name = column
+        const type = columns[column]
+        
+        let value = e.target.value;
+        
+        if(type === "many-to-many" || type === "many-to-one" || type === "rate") {
+            //?? TO send only the ids I have to setAutoCompleteValue to not change the values in Autocomplete component;
+            value = newValue;
+            setAutoCompleteValue(() => newValue)
+
+            if(type === "many-to-many") {
+                value = value ? value.map(dataObject => dataObject[relation["related_table_id"]]) : null
+            }
+
+            if(type === "many-to-one") {
+                value = value ? value[relation["related_table_id"]] : ""
+            }
+
         }
+
+        if(type === "bool") {
+            value = e.target.checked;
+        }
+
+        if(type === "image") {
+            value = e.target.files[0];
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                setImage(() => event.target.result)
+
+            };
+
+            reader.readAsDataURL(value);
+        }
+
+        if(type === "file") {
+            value = e.target.files[0];
+            if (value) {
+                setFileName(value.name);
+                setFileSize(value.size);
+                const reader = new FileReader();
+    
+                reader.onprogress = (event) => {
+                    
+                    if (event.lengthComputable) {
+                        const progress = Math.round((event.loaded / event.total) * 100);
+                        // console.log(progress)
+                        setUploadProgress(progress);
+                    }
+                };
+    
+                reader.onloadend = () => {
+                    
+                    // Perform other operations after the file has been read (e.g., setting the image source)
+                    // setImageSrc(reader.result);
+                };
+    
+                reader.readAsDataURL(value);
+            }
+        }
+
+
+        setInputValues((prevInputValues) => ({
+            ...prevInputValues,
+            [name]: value,
+        }));
+
     };
 
-
-    //phoneNumber type
-    const [value, setValue] = useState('')
-    const handleChange = (newValue) => {
-        setValue(newValue)
-    }
-
     //Return Inputs based on column type
-    const returnInputs = (column, type, data, key) => {
-        const error = !!(data?.errors && data.errors[column]);
-        const errorMessage = data?.errors?.[column] ?? '';
+    const returnInputs = (column, type, response, key) => {
+        const error = !!(response?.errors && response.errors[column]);
+        const errorMessage = response?.errors?.[column] ?? '';
+        const label = StringHelper.capitalizeEachWord(column.split("_").join(" "))
+
+        const defaultProps = {
+            fullWidth: true,
+            label: label,
+            name: column,
+            color: "primary",
+            size: "small",
+            error: error,
+            helperText: errorMessage,
+            onChange: (event) => handleChange(event, column),
+            value: inputValues[column] || "",
+        }
 
         
-        if (type === "pk" || column === "created_at" || column === "updated_at") return;
+        if (type === "pk" || column === "created_at" || column === "updated_at" || type === "one-to-many") return;
 
         if(type === "int") {
             return (
                 <Grid key={key} item xs={6}>
                     <TextField
-                    fullWidth
+                    {...defaultProps}
                     type="number"
-                    label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                    name={column}
-                    color="primary"
-                    size="small"
-                    error={error}
-                    helperText={errorMessage}
                     />
                 </Grid>
             )
@@ -273,14 +342,16 @@ const CustomFormModal = (props) => {
                     
                     >
                         <InputLabel  htmlFor="outlined-adornment-amount">
-                        {StringHelper.capitalizeEachWord(column.split("_").join(" "))}
+                        {label}
                         </InputLabel>
                         <OutlinedInput
                             id="outlined-adornment-amount"
                             startAdornment={<InputAdornment position="start">$</InputAdornment>}
-                            label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
+                            label={label}
                             error={error}
                             helperText={errorMessage}       
+                            onChange= {(event) => handleChange(event, column)}
+                            value= {inputValues[column] || ""}
                         />
                     </FormControl>
                 </Grid>
@@ -291,13 +362,7 @@ const CustomFormModal = (props) => {
             return (
             <Grid key={key} item xs={6}>
                 <TextField
-                fullWidth
-                label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                name={column}
-                color="primary"
-                size="small"
-                error={error}
-                helperText={errorMessage}
+                {...defaultProps}
                 />
             </Grid>
             )
@@ -308,7 +373,7 @@ const CustomFormModal = (props) => {
             <Grid key={key} item xs={12}>
                 <FormLabel
                 error={error}
-                >{StringHelper.capitalizeEachWord(column.split("_").join(" "))}</FormLabel>
+                >{label}</FormLabel>
                 <StyledTextArea
                 minRows={3} // Adjust the minimum number of rows as needed
                 maxRows={10} // Adjust the maximum number of rows as needed
@@ -318,6 +383,8 @@ const CustomFormModal = (props) => {
                 sx={{
                     borderColor: error ? "error.main" : "transparent"
                 }}
+                onChange= {(event) => handleChange(event, column)}
+                value= {inputValues[column] || ""}
                 />
                 {
                 error
@@ -340,15 +407,8 @@ const CustomFormModal = (props) => {
             return (
             <Grid key={key} item xs={6}>
                 <TextField 
-                    size='small' 
-                    label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                    name={column}
-                    fullWidth 
-                    value={value}
-                    onChange={handleChange} 
+                    {...defaultProps}
                     inputProps={{ maxLength: 17 }} //TODO: add validation
-                    error={error}
-                    helperText={errorMessage}
                 />
             </Grid>
             )
@@ -358,14 +418,8 @@ const CustomFormModal = (props) => {
             return (
                 <Grid key={key} item xs={6}>
                     <TextField
+                    {...defaultProps}
                     type='email'
-                    fullWidth
-                    label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                    name={column}
-                    color="primary"
-                    size="small"
-                    error={error}
-                    helperText={errorMessage}
                     />
                 </Grid>
                 )
@@ -376,14 +430,8 @@ const CustomFormModal = (props) => {
                 // <>
                 <Grid key={key} item xs={6}>
                     <TextField
+                    {...defaultProps}
                     type='password'
-                    fullWidth
-                    label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                    name={column}
-                    color="primary"
-                    size="small"
-                    error={error}
-                    helperText={errorMessage}
                     />
                 </Grid>
                 )
@@ -408,10 +456,7 @@ const CustomFormModal = (props) => {
                 <Grid key={key} item xs={columnsCount % 2 === 0 ? 6 : 12}>
                     <DatePicker 
                     focused
-                    label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
-                    name={column}
-                    error={error}
-                    helperText={errorMessage}
+                    {...defaultProps}
                     
                     sx={{
                         width: '100%',
@@ -432,14 +477,14 @@ const CustomFormModal = (props) => {
             return (
                 <Grid key={key} item xs={12}>
                     <FormControlLabel
-                            label={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
+                            label={label}
                             size="small"
-                            
                             control={
                                 <Switch 
                                     name={column}
-                                    // error={error}
-                                    // helperText={errorMessage}
+                                    onChange= {(event) => handleChange(event, column)}
+                                    checked= {inputValues[column] || false}
+                                    
                                 />
                             }
                         />
@@ -453,18 +498,18 @@ const CustomFormModal = (props) => {
             <Grid key={key} item xs={12}>
                 <StyledImageBox>
                 <img 
-                src={imageSrc ? imageSrc : empty} 
+                src={image ? image : empty} 
                 alt={column} 
                 style={imageStyle}
                 
                 />
                 <Button size='small' component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                    Upload {StringHelper.capitalizeEachWord(column.split("_").join(" "))}
+                    Upload {label}
                     <VisuallyHiddenInput 
                     type="file" 
                     accept='image/*' 
                     name={column}
-                    onChange={handleImageChange}
+                    onChange={event => handleChange(event, column)}
                     />
                 </Button>
                 {error ? 
@@ -487,12 +532,12 @@ const CustomFormModal = (props) => {
             <Grid key={key} item xs={12}>
                 <StyledFileBox>
                     <Button size='small' component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                        Upload {StringHelper.capitalizeEachWord(column.split("_").join(" "))}
+                        Upload {label}
                         <VisuallyHiddenInput 
                         type="file" 
                         accept='.zip,.rar,application/zip,application/x-rar-compressed,application/octet-stream' 
                         name={column}
-                        onChange={handleFileChange}
+                        onChange={event => handleChange(event, column)}
                         />
                     </Button>
                     <Box mt={1}>
@@ -523,47 +568,61 @@ const CustomFormModal = (props) => {
             )
         }
 
-        if(type === "many-to-one" || type === "many-to-many" || type === "one-to-many") {
+        if(type === "many-to-one" || type === "many-to-many") {
             return (
 
                     <RelationTextFieldToCustomModal 
                     columnName={column} 
                     columnType={type} 
-                    returnedData={data} 
+                    response={response} 
                     key={key} 
                     error={error}
                     errorMessage={errorMessage}
+                    handleChange={handleChange}
                     />
             )
         } 
     }
 
     //when submitting
-    const data = useActionData() //The data that come from the action method in the CustomRouterProvider
-    const { handleFetchData, setLoaderData} = useMyContext()
-    const dispatch = useDispatch()
+    const {handleAddData, setPageNumber} = useMyContext()
+    const [response, setResponse] = useState(null);
+
+
+
     useEffect(() => {
-        if(data) {
-            if(data.errors) return
-            
-            if(data.success) {
-                const fetchData = async () => {
-                    const res = await handleFetchData()
-                    setLoaderData(() => res)
-                }
-                fetchData();
+        console.log(response)
+        if(response) {
+            if(response.success) {
+                console.log("success")
+                
+                //TODO: I have to fetch the data again when new data added
+                setPageNumber(() => 1);
+                setFromOpen(() => false);
+
             }
+
+            if(response.errors) return
+            
         }
-    }, [data, dispatch, handleFetchData, setLoaderData, title])
-    
+    }, [response, title, setPageNumber, setFromOpen])
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const res = await handleAddData(inputValues)
+        console.log(res)
+        setResponse(() => res)
+    }
 
     return (
-        <Form method='post' action={currentPath} encType="multipart/form-data" >
+        <form method='post' onSubmit={handleSubmit} encType="multipart/form-data" >
             <StyledCustomFormModal>
             <Grid container spacing={2}>
                 {
                     sortedColumns && Object.entries(sortedColumns).map(([column, type], key) => (
-                            returnInputs(column, type, data, key)
+                            returnInputs(column, type, response, key)
                     ))
                 }
                 
@@ -577,13 +636,14 @@ const CustomFormModal = (props) => {
                 </Grid>
                 </Grid>
             </StyledCustomFormModal>
-        </Form>
+        </form>
     );
 };
 
 CustomFormModal.propTypes = {
     columns: propTypes.object,
     title: propTypes.string,
+    setFromOpen: propTypes.func,
 }
 
 export default CustomFormModal;

@@ -1,6 +1,6 @@
 import DateHelper from "./DateHelper";
 
-const filterData = (rowsArray, appliedFilters, relations) => {
+const filterData = async (rowsArray, appliedFilters, relations) => {
     const updatedRowsArray = rowsArray.filter(row => {
         // Loop through applied filters
         for (const appliedFilter of appliedFilters) {

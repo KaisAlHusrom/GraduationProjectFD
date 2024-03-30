@@ -178,20 +178,20 @@ const getIcon = (dataType) => {
 
 const SetSort = (props) => {
     const {
-        dataState,
-        rowsArrayState,
-        sortedDataState,
+        // dataState,
+        // rowsArrayState,
+        // sortedDataState,
         title
     } = props
 
     //Split the columns and rows,
-    const [loaderData, ] = dataState
+    // const [loaderData, ] = dataState
 
-    const [rowsArray, ] = rowsArrayState
-    const {columns} = loaderData;
+    // const [rowsArray, ] = rowsArrayState
+    const {columns} = useMyContext();
     
     // --- States ---
-    const [, setSortedData] = sortedDataState
+    // const [, setSortedData] = sortedDataState
     
     //Get original sortMenuItems 
     const getMenuItems = useMemo(() => {
@@ -250,7 +250,7 @@ const SetSort = (props) => {
 
 
     //Filters Count
-    const {setSortsCount} = useMyContext()
+    const {setSortsCount, setPageNumber, getAppliedSorts} = useMyContext()
 
     // --- Handlers ---
 
@@ -293,6 +293,8 @@ const SetSort = (props) => {
         setAppliedSorts(updatedAppliedFilters);
         setSortsCount(updatedAppliedFilters.length);
         setSortMenuItems(updatedFilterMenuItems);
+
+        getAppliedSorts(updatedAppliedFilters);
     };
 
     //When delete possible filter from applied filters
@@ -307,22 +309,30 @@ const SetSort = (props) => {
         const updatedFilterMenuItems = [...sortMenuItems, sort];
 
         // Update the state
+        setPageNumber(() => 1); //?? I have to make this 1 to get the data from the first page before change the sorts, because when change filters the data will be fetched again
+
         setAppliedSorts(updatedSorts);
         setSortsCount(updatedSorts.length);
         setSortMenuItems(updatedFilterMenuItems);
-        setSortedData(() => sortData(rowsArray, updatedSorts))
+        // setData(() => sortData(rowsArray, updatedSorts))
+        getAppliedSorts(updatedSorts);
     };
     
 
     const handleSortData = () => {
-        setSortedData(() => sortData(rowsArray, appliedSorts))
+        setPageNumber(() => 1);
+
+        getAppliedSorts(appliedSorts);
     };
 
     const handleGetAllData = () => {
-        setAppliedSorts([])
+        setPageNumber(() => 1);
+        setAppliedSorts(() => [])
         setSortsCount(0);
         setSortMenuItems(() => getMenuItems);
-        setSortedData(null);
+        
+        getAppliedSorts([])
+        // setData(null);
     }
 
 
@@ -438,10 +448,11 @@ const SetSort = (props) => {
     );
 };
 
+
 SetSort.propTypes = {
-    dataState: propTypes.array.isRequired,
-    rowsArrayState: propTypes.array.isRequired,
-    sortedDataState: propTypes.array.isRequired,
+    // dataState: propTypes.array.isRequired,
+    // rowsArrayState: propTypes.array,
+    // sortedDataState: propTypes.array.isRequired,
     title: propTypes.string.isRequired,
 }
 

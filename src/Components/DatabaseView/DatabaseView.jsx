@@ -1,5 +1,5 @@
 //React
-import {  createContext, useContext, useEffect, useState } from 'react'
+import {  createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
 
 import { useDispatch } from 'react-redux'
 
@@ -27,12 +27,10 @@ import RecyclingOutlinedIcon from '@mui/icons-material/RecyclingOutlined';
 import LayersClearIcon from '@mui/icons-material/LayersClear';
 //propTypes 
 import propTypes from 'prop-types'
-import { useLoaderData } from 'react-router-dom'
 import { useMemo } from 'react'
-import filterData from '../../Helpers/FilterData'
-import sortData from '../../Helpers/sortData'
 import { CustomGalleryView } from '..'
-import { handleOpenSnackbar as handleOpenSnackbar, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
+import { handleOpenSnackbar as handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
+import useFetchData from '../../Helpers/useFetchData'
 // import usersService from '../../Services/usersService'
 
 
@@ -52,28 +50,104 @@ const DatabaseView = (props) => {
     const {
         title,
         icon,
-        loaderDataProp,
-        handleUpdateData, //function to change data in database
+        relationships,
+        columns,
         handleFetchData,
+        // loaderDataProp,
+        handleUpdateData, //function to change data in database
         handleDeleteData,
         softDeletes,
         handleRestoreData,
         handlePermanentDeleteData,
+        handleAddData,
+        imagesFolderName
     } = props
 
     const theme = useTheme()
     
     //get the data from loader function or as prop
-    const loadedData = useLoaderData();
-    const initialData = loaderDataProp ? loaderDataProp : loadedData;
-    const [loaderData, setLoaderData] = useState(initialData);
+    // const loadedData = useLoaderData();
+    // const initialData = loaderDataProp ? loaderDataProp : loadedData;
+    // const [loaderData, setLoaderData] = useState(initialData);
 
-    
+    //show deleted records state
+    const [showDeleted, setShowDeleted] = useState(false)
     
     //Split the columns and rows,
-    const {columns, rows, relations} = loaderData;
-    const {manyToOne,
-            manyToMany} = relations
+    // const {manyToOne, manyToMany} = relationships
+
+    //***** CALLING NEW DATA WHEN SCROLLING TO THE LAST *********
+    //-- Check if there is an applied filter --
+    //Get filters from session storage
+    //Filtered Data
+    // const [filteredData, setFilteredData] = useState(null)
+    const pageFilters = useMemo(() => {
+        const storedFilters = JSON.parse(sessionStorage.getItem('filters')) || {};
+        return storedFilters[title] || {};
+    }, [title]);
+    
+    //get applied filters from SetFilter component
+    const [appliedFilters, setAppliedFilters] = useState(() => pageFilters && pageFilters.appliedFilters)
+
+    const getAppliedFilters = (appliedFilters) => {
+        setAppliedFilters(() => appliedFilters)
+    }
+
+    // filters count
+    const [filtersCount, setFiltersCount] = useState(() => appliedFilters && appliedFilters.length)
+
+
+    //Get sorts from session storage
+    //Sorted Data
+    const pageSorts = useMemo(() => {
+        const storedSorts = JSON.parse(sessionStorage.getItem('sorts')) || {};
+        return storedSorts[title] || {};
+    }, [title]);
+    const [appliedSorts, setAppliedSorts] = useState(() => pageSorts && pageSorts.appliedSorts)
+    const getAppliedSorts = (appliedSorts) => {
+        setAppliedSorts(() => appliedSorts)
+    }
+
+    // sorts count
+    const [sortsCount, setSortsCount] = useState(() => appliedSorts && appliedSorts.length)
+
+
+    
+    const {
+        hasMore,
+        error,
+        loading,
+        setPageNumber,
+        setData,
+        data
+    } = useFetchData(handleFetchData, showDeleted ? "deleted" : "all", appliedFilters, appliedSorts)
+
+    const observer = useRef()
+    const lastDataRowElementRef = useCallback(node => {
+        
+        if (loading) return 
+
+        if(observer.current) observer.current.disconnect()
+
+        observer.current = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting && hasMore) {
+                    setPageNumber(prev => {
+                        console.log(prev)
+                        return prev + 1
+                    });
+            }
+        })
+
+        if (node) observer.current.observe(node)
+    }, [loading, hasMore, setPageNumber])
+
+    useEffect(() => {
+        if(data.length === 0) {
+            // TODO: add error handling when no data passed;
+            return
+        }
+    }, [data])
+
 
     //Sorting the columns
     const allSortedColumns = useMemo(() => JSON.parse(localStorage.getItem('sortedColumns')) || {}, []);
@@ -107,7 +181,7 @@ const DatabaseView = (props) => {
     const [rowsArray, setRowsArray] = useState([])
     useEffect(()=> {
         setRowsArray(() => {
-            const newRowsArray = rows.map(data => {
+            const newRowsArray = data.map(data => {
                 const filteredData = {};
                 for (const column in data) {
                     if (!hiddenColumns.includes(column)) {
@@ -118,52 +192,36 @@ const DatabaseView = (props) => {
                 })
             return newRowsArray;
         })
-    }, [columns, hiddenColumns, manyToMany, manyToOne, rows]) 
-
-    //Filtered Data
-    const [filteredData, setFilteredData] = useState(null)
-
-    //-- Check if there is an applied filter --
-    //Get filters from session storage
-    const pageFilters = useMemo(() => {
-        const storedFilters = JSON.parse(sessionStorage.getItem('filters')) || {};
-        return storedFilters[title] || {};
-    }, [title]);
-    // filters count
-    const [filtersCount, setFiltersCount] = useState(null)
-    useEffect(() => {
-        const storedFilters = pageFilters.appliedFilters || [];
-        if(storedFilters.length > 0) {
-            setFiltersCount(storedFilters.length)
-            storedFilters.forEach(filter => {
-                if(filter.process !== "") {
-                    setFilteredData(() => filterData(rowsArray, storedFilters, relations))
-                }
-            });
-        }
-    }, [pageFilters.appliedFilters, relations, rowsArray])
+    }, [hiddenColumns, data]) 
 
 
-    //Get sorts from session storage
-    //Sorted Data
-    const [sortedData, setSortedData] = useState(null)
-    const pageSorts = useMemo(() => {
-        const storedSorts = JSON.parse(sessionStorage.getItem('sorts')) || {};
-        return storedSorts[title] || {};
-    }, [title]);
-    // sorts count
-    const [sortsCount, setSortsCount] = useState(null)
-    useEffect(() => {
-        const storedSorts = pageSorts.appliedSorts || [];
-        if(storedSorts.length > 0) {
-            setSortsCount(storedSorts.length)
-            storedSorts.forEach(filter => {
-                if(filter.process !== "") {
-                    setSortedData(() => sortData(rowsArray, storedSorts))
-                }
-            });
-        }
-    }, [pageSorts.appliedSorts, rowsArray])
+
+    
+    // useEffect(() => {
+    //     const storedFilters = pageFilters.appliedFilters || [];
+    //     if(storedFilters.length > 0) {
+    //         setFiltersCount(storedFilters.length)
+    //         storedFilters.forEach(filter => {
+    //             if(filter.process !== "") {
+    //                 setFilteredData(() => filterData(rowsArray, storedFilters, relations, handleFetchData))
+    //             }
+    //         });
+    //     }
+    // }, [pageFilters.appliedFilters, relations, rowsArray])
+
+
+    
+    // useEffect(() => {
+    //     const storedSorts = pageSorts.appliedSorts || [];
+    //     if(storedSorts.length > 0) {
+    //         setSortsCount(storedSorts.length)
+    //         storedSorts.forEach(filter => {
+    //             if(filter.process !== "") {
+    //                 setSortedData(() => sortData(rowsArray, storedSorts))
+    //             }
+    //         });
+    //     }
+    // }, [pageSorts.appliedSorts, rowsArray])
     
 
     //States
@@ -171,20 +229,20 @@ const DatabaseView = (props) => {
     const [isHeaderCheckboxChecked, setIsHeaderCheckboxChecked] = useState(false);
 
     const [dataWillAppear, setDataWillAppear] = useState([])
-    //control the data will appear based on the filteredData and sortedData
-    useEffect(()=> {
-        if(filteredData && sortedData) {
-            const stored = JSON.parse(sessionStorage.getItem('sorts')) || {};
-            const storedSorts = stored[title].appliedSorts || [];
-            setDataWillAppear(sortData(filteredData, storedSorts))
-        } else if(filteredData) {
-            setDataWillAppear(filteredData)
-        } else if(sortedData) {
-            setDataWillAppear(sortedData)
-        } else {
-            setDataWillAppear(rowsArray)
-        }
-    }, [filteredData, sortedData, rowsArray, pageSorts.appliedSorts, title])
+    // //control the data will appear based on the filteredData and sortedData
+    // useEffect(()=> {
+    //     if(filteredData && sortedData) {
+    //         const stored = JSON.parse(sessionStorage.getItem('sorts')) || {};
+    //         const storedSorts = stored[title].appliedSorts || [];
+    //         setDataWillAppear(sortData(filteredData, storedSorts))
+    //     } else if(filteredData) {
+    //         setDataWillAppear(filteredData)
+    //     } else if(sortedData) {
+    //         setDataWillAppear(sortedData)
+    //     } else {
+    //         setDataWillAppear(rowsArray)
+    //     }
+    // }, [filteredData, sortedData, rowsArray, pageSorts.appliedSorts, title])
 
     // --- View State ---
     
@@ -361,7 +419,7 @@ const DatabaseView = (props) => {
             const pkColumn = Object.keys(columns).find(key => columns[key] === "pk");
     
             if (pkColumn) {
-                const allIds = dataWillAppear
+                const allIds = data
                     .map(row => row[pkColumn]); // Use the primary key column's value as ID
                 setSelected(() => allIds);
             } else {
@@ -399,7 +457,7 @@ const DatabaseView = (props) => {
             // if(shouldUpdateData) {
             //     updateData(updatedRow)
             // }
-
+            updateData(updatedRow)
             return updatedRow;
         });
 
@@ -430,29 +488,44 @@ const DatabaseView = (props) => {
     const dispatch = useDispatch()
     
     //state to show deleted records
-    const [showDeleted, setShowDeleted] = useState(false)
+    
+    useEffect(() => {
+        if(selected.length > 0){
+            if(isHeaderCheckboxChecked) {
+                setIsHeaderCheckboxChecked(() => false)
+            }
+            setSelected(() => [])
+        }
+        // setPageNumber(() => 2)
+        // setLoaderData((prev) => {
+        //     return {
+        //         ...prev,
+        //         rows: [],
+        //     }
+        // })
+
+    // I DON"T WANT ANY DEPENDENCIES BUT showDELETED
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [showDeleted])
 
     //UPDATE FUNCTION
     const updateData = async (row) => {
-        const pkColumn = Object.keys(columns).find(key => columns[key] === "pk");
-        console.log(row[pkColumn])
-        // Await the update operation to complete
-        const res = await handleUpdateData(row[pkColumn], row);
-        if(res.success) {
-
-            const result = await handleFetchData();
-            setLoaderData(() => result);
-            handleSnackbar("item updated successfully")
-        } else {
-            handleSnackbar("An error occurred while attempting to update the item.")
-        }
+            const pkColumn = Object.keys(columns).find(key => columns[key] === "pk");
+            // Await the update operation to complete
+            const res = await handleUpdateData(row[pkColumn], row);
+            console.log(res)
+            if(res.success) {
+                await handleFetchData();
+                // setLoaderData(() => result); //I remove this because the row is actually changed
+            } 
+        
     }
 
 
     //DELETE FUNCTION
     const deleteData = async (selectedIds) => {
         if(selectedIds.length === 0) {
-            handleSnackbar("There is no item selected")
+            handleSnackbar("There is no item selected", true)
             return
         }
         // Await the update operation to complete
@@ -460,99 +533,79 @@ const DatabaseView = (props) => {
         if(res.success) {
             // Fetch data after the delete is completed
             const result = await handleFetchData();
-            setLoaderData(() => result);
-            handleSnackbar("Items deleted successfully")
-
-        } else {
-            handleSnackbar("An error occurred while attempting to delete the items.")
+            setData(() => result.rows);
+            setSelected(() => [])
         }
     }
 
     //RESTORE FUNCTION
     const restoreData = async (selectedIds) => {
         if(selectedIds.length === 0) {
-            handleSnackbar("There is no item selected")
+            handleSnackbar("There is no item selected", true)
             return
         }
         // Await the update operation to complete
         const res = await handleRestoreData(selectedIds);        
         if(res.success) {
-            handleSnackbar("Items restored successfully")
-
             // Fetch data after the delete is completed
             const result = await handleFetchData("deleted");
-            setLoaderData(() => result);
-
-        } else {
-            handleSnackbar("An error occurred while attempting to restore the items.")
+            setData(() => result.rows);
+            setSelected(() => [])
         }
     }
 
     const permanentDeleteData = async (selectedIds) => {
         if(selectedIds.length === 0) {
-            handleSnackbar("There is no item selected")
+            handleSnackbar("There is no item selected", true)
             return
         }
         const res = await handlePermanentDeleteData(selectedIds);    
 
         if(res.success) {
-            handleSnackbar("Items deleted permanently")
             // Fetch data after the delete is completed
+            let result;
             if(showDeleted) {
-                const result = await handleFetchData("deleted");
-                setLoaderData(() => result);
+                result = await handleFetchData("deleted");
+                
             } else {
-                const result = await handleFetchData();
-                setLoaderData(() => result);
+                result = await handleFetchData();
             }
-
-        } else {
-            handleSnackbar("An error occurred while attempting to delete the items.")
+            setData(() => result.rows);
+            setSelected(() => [])
         }
     }
     
 
 
     const handleFetchDeletedItems = async () => {
+        
+
         if(showDeleted) {
+            // Fetch Deleted Data
             setShowDeleted(() => false)
-            if(selected.length > 0){
-                if(isHeaderCheckboxChecked) {
-                    setIsHeaderCheckboxChecked(() => false)
-                }
-                setSelected(() => [])
-            }
-            // Fetch Deleted Data
-            const result = await handleFetchData();
-            setLoaderData(() => result);
+
+            setPageNumber(() => 1)
         } else {
-            setShowDeleted(() => true)
-            if(selected.length > 0){
-                if(isHeaderCheckboxChecked) {
-                    setIsHeaderCheckboxChecked(() => false)
-                }
-                setSelected(() => [])
-            }
             // Fetch Deleted Data
-            const result = await handleFetchData("deleted");
-            setLoaderData(() => result);
+            
+            setShowDeleted(() => true)
+
+            setPageNumber(() => 1)
         }
     }
 
-    const handleSnackbar = (message) => {
+    const handleSnackbar = (message, isError = false) => {
         dispatch(setSnackbarMessage({message: message}))
+        dispatch(setSnackbarIsError({isError: isError}))
         dispatch(handleOpenSnackbar())
     }
 
     //View Options
     const viewOptions = [
-        {
-            value: showDeleted ? "Restore Selected" :"Delete Selected",
+        softDeletes && {
+            value: showDeleted ? "Restore Selected" : "Delete Selected",
             icon: showDeleted ? <RecyclingOutlinedIcon /> : <DeleteOutlineOutlinedIcon />,
-            onClick: showDeleted ?
-            () => restoreData(selected)
-            :
-            () => deleteData(selected)
+            onClick: showDeleted ? () => restoreData(selected) : () => deleteData(selected)
         },
         {
             value: "Delete Selected Permanently",
@@ -562,9 +615,9 @@ const DatabaseView = (props) => {
         {
             value: "Duplicate Selected",
             icon: <ContentCopyOutlinedIcon />,
-            onClick: () => {console.log(selected)}
-        },
-    ]
+            onClick: () => { console.log(selected) }
+        }
+    ].filter(option => option);
 
     // useEffect(() => {
     //     console.log(rows);
@@ -597,28 +650,41 @@ const DatabaseView = (props) => {
 
     const styleCardContent = {
         border: "1px solid", 
-        borderColor: theme.palette.divider
+        borderColor: theme.palette.divider,
     }
 
     
 
     return (
-            <MyContext.Provider value={{filtersCount, 
+            <MyContext.Provider value={{
+            filtersCount, 
             setFiltersCount, 
             sortsCount, 
             setSortsCount, 
             viewsSettings, 
             setViewsSettings, 
             handleCellOutsideClick, 
+            handleAddData,
             handleFetchData, 
-            setLoaderData}}
+            lastDataRowElementRef,
+            hasMore,
+            loading,
+            data,
+            setData,
+            setPageNumber,
+            columns,
+            relationships,
+            getAppliedFilters,
+            getAppliedSorts,
+            imagesFolderName
+        }}
             >
                 <StyledDatabaseView>
                     <SortFilterSection
-                    dataState={[loaderData, setLoaderData]}
+                    // dataState={[loaderData, setLoaderData]}
                     rowsArrayState={[rowsArray, setRowsArray]}
-                    filteredDataState={[filteredData, setFilteredData]}
-                    sortedDataState={[sortedData, setSortedData]}
+                    // filteredDataState={[filteredData, setFilteredData]}
+                    // sortedDataState={[sortedData, setSortedData]}
                     allViews={allViews}
                     currentView={view}
                     hiddenColumnsState={[hiddenColumns, setHiddenColumns]}
@@ -630,7 +696,10 @@ const DatabaseView = (props) => {
                             title={title}
                             action={
                                 <>
-                                    <AdminMainButton
+                                    {
+                                        softDeletes
+                                        &&
+                                        <AdminMainButton
                                         title='Show Deleted Items'
                                         icon={<FolderDeleteOutlinedIcon />}
                                         type='custom'
@@ -640,7 +709,8 @@ const DatabaseView = (props) => {
                                         sx={{
                                             backgroundColor: showDeleted ? theme.palette.action.selected : "transparent",
                                         }}
-                                    />
+                                        />
+                                    }
                                     <AdminMainButton
                                         icon={
                                         <MoreVertIcon sx={{
@@ -693,7 +763,7 @@ const DatabaseView = (props) => {
                                 ?
                                 <CustomTable
                                     filteredColumnsArray={filteredColumnsArray}
-                                    dataWillAppearState={[dataWillAppear, setDataWillAppear]}
+                                    dataWillAppearState={{rowsArray}}
                                     selectedState={[selected, setSelected, setIsHeaderCheckboxChecked]}
                                     handleChangeData={handleChangeData}
                                     handleEnterKeyDown={handleEnterKeyDown}
@@ -723,8 +793,10 @@ const DatabaseView = (props) => {
 };
 
 DatabaseView.propTypes = {
-    title: propTypes.string,
+    title: propTypes.string.isRequired,
     icon: propTypes.element,
+    relationships: propTypes.object.isRequired,
+    columns: propTypes.object.isRequired,
     database: propTypes.array,
     hiddenColumns: propTypes.array,
     databaseOptions: propTypes.array,
@@ -734,7 +806,9 @@ DatabaseView.propTypes = {
     softDeletes: propTypes.bool,
     handleRestoreData: propTypes.func,
     handlePermanentDeleteData: propTypes.func,
+    handleAddData: propTypes.func,
     loaderDataProp: propTypes.object,
+    imagesFolderName: propTypes.string,
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

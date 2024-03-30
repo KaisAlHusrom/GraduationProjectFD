@@ -13,3 +13,7 @@ export {default as ElementSettingsPage} from "./ElementSettingsPage/ElementSetti
 export {default as ElementTypesPage} from "./ElementTypesPage/ElementTypesPage";
 export {default as StylesSettings} from "./StylesSettings/StylesSettings";
 export {default as StylesPropCategoriesPage} from "./StylesPropCategoriesPage/StylesPropCategoriesPage";
+export {default as StylesPropsPage} from "./StylesPropsPage/StylesPropsPage";
+export {default as StylePropValuesPage} from "./StylePropValuesPage/StylePropValuesPage";
+export {default as StyleStatusesPage} from "./StyleStatusesPage/StyleStatusesPage";
+export {default as StyleResponsiveBreakpointsPage} from "./StyleResponsiveBreakpointsPage/StyleResponsiveBreakpointsPage";

@@ -1,5 +1,5 @@
 //React
-import {  useEffect, useMemo, useState } from 'react'
+import {  useCallback, useMemo, useRef, useState } from 'react'
 
 import {
     
@@ -12,7 +12,10 @@ import {
 import {
     Autocomplete,
     Checkbox,
+    CircularProgress,
     Grid,
+    Paper,
+    Skeleton,
     TextField,
 } from '@mui/material'
 import { styled } from '@mui/system'
@@ -23,9 +26,19 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 //propTypes 
 import propTypes from 'prop-types'
-import { useLoaderData } from 'react-router-dom';
+import useFetchData from '../../Helpers/useFetchData';
+import { useMyContext } from '../DatabaseView/DatabaseView';
 
 //Styled Components
+//Styled Components
+const StyledMenu = styled(Paper)(
+    () => ({
+        maxHeight: "200px", //TODO: fix that there is more than one scroll element
+        overflow: "hidden",
+    })
+);
+
+
 const AutocompleteMultipleStyle = styled(Autocomplete)(
     () => ({
         "& .MuiChip-label": {
@@ -48,104 +61,202 @@ const RelationTextFieldToCustomModal = (props) => {
     const {
         columnName,
         columnType,
-        returnedData,
         error,
-        errorMessage
+        errorMessage,
+        handleChange,
+        response
     } = props
 
-    const {relations} = useLoaderData()
+    const {relationships} = useMyContext()
 
 
     //Get current relation
-    const [relation, setRelation] = useState(() => {
+    const [relation, ] = useState(() => {
         if(columnType === 'one-to-many'){
-            return relations.oneToMany.filter(relation => relation["field_name"] === columnName)[0]
+            return relationships.oneToMany.filter(relation => relation["field_name"] === columnName)[0]
         }
 
         if(columnType === 'many-to-many'){
-            return relations.manyToMany.filter(relation => relation["field_name"] === columnName)[0]
+            return relationships.manyToMany.filter(relation => relation["field_name"] === columnName)[0]
         }
 
         if(columnType === 'many-to-one'){
-            return relations.manyToOne.filter(relation => relation["field_name"] === columnName)[0]
+            return relationships.manyToOne.filter(relation => relation["field_name"] === columnName)[0]
         }
     })
 
-    //get related table data
-    const [relatedTableData, setRelatedTableData] = useState([])
-    //fetch data
-    useEffect(() => {
-        
-        if((columnType === 'many-to-many' || columnType === 'many-to-one' || columnType === 'one-to-many') &&
-            relation.add_to_add_form){
-            const fetchData = async () => {
-                const data = await relation.fetch_all_data()
-                setRelatedTableData(data.rows)
+
+
+    //fetch related table data
+    const [searchQuery, setSearchQuery] = useState(null)
+    const search = (columnName, searchTerm) => {
+        setSearchQuery(() => {
+            return {
+                columnName: columnName,
+                searchTerm: searchTerm,
             }
-            fetchData()
-        }
+        })
+    }
 
-    }, [relation, columnType])
+    const [open, setOpen] = useState(false);
 
-    const defaultProps = useMemo(()=> {
-        return {
-            options: relatedTableData,
-            getOptionLabel: (option) => option[relation["fetched_column"]],
-            getOptionKey: (option) => option[relation["related_table_id"]],
-        };
-    }, [relatedTableData, relation])
+    const {
+        hasMore,
+        // error,
+        loading,
+        setPageNumber,
+        data
+    } = useFetchData(relation.fetch_all_data, "all", null, null, open, searchQuery)
 
-    
+    // *** DOWNLOAD MORE WHEN SCROLLING BOTTOM
+    const observer = useRef()
+    const lastDataRowElementRef = useCallback(node => {
+
+        if (loading || !hasMore) return;
+
+        if(observer.current) observer.current.disconnect()
+
+        observer.current = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting && hasMore) {
+                setPageNumber(prev => prev + 1);
+            }
+        })
+
+        if (node) observer.current.observe(node)
+    }, [hasMore, loading, setPageNumber])
 
 
 
     //Input Value
-    const [value, setValue] = useState(() => {
+    const [autoCompleteValue, setAutoCompleteValue] = useState(() => {
         if(columnType === "many-to-many" || columnType === 'one-to-many') {
             return []
         } else {
             return null
         }
     })
-    const handleChangeData = (event, newValue) => {
-        setValue(() => newValue)
-    }
 
     // Assuming value is an array of selected objects
     const selectedOptions = useMemo(() => {
         if (columnType === "many-to-many" || columnType === 'one-to-many') {
-            return relatedTableData.filter(row => {
+            return data.filter(row => {
                 // Check if originalData contains the current row's id
-                return value.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
+                return autoCompleteValue.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
             });
         }
 
         if (columnType === "many-to-one") {
-            if(value) {
-                return relatedTableData.filter(row => row[relation["related_table_id"]] === value[relation["related_table_id"]])[0];
+            if(autoCompleteValue) {
+                return data.filter(row => row[relation["related_table_id"]] === autoCompleteValue[relation["related_table_id"]])[0];
             }
         }
         return null; // or any default value if needed
-    }, [columnType, relatedTableData, relation, value]);
+    }, [columnType, data, relation, autoCompleteValue]);
 
 
-    const [selectedIds, setSelectedIds] = useState([])
-    useEffect(() => {
-        if (columnType === "many-to-many" || columnType === 'one-to-many') {
-            if(selectedOptions && selectedOptions.length > 0) {
-                const ids = selectedOptions.map(row => row[relation["related_table_id"]])
-                setSelectedIds(() => ids);
-            }
-        }
-        if (columnType === "many-to-one") {
-            if(selectedOptions) {
-                const id = selectedOptions[relation["related_table_id"]]
-                setSelectedIds(() => id);
-            }
+    // const [selectedIds, setSelectedIds] = useState([])
+    // useEffect(() => {
+    //     if (columnType === "many-to-many" || columnType === 'one-to-many') {
+    //         if(selectedOptions && selectedOptions.length > 0) {
+    //             const ids = selectedOptions.map(row => row[relation["related_table_id"]])
+    //             setSelectedIds(() => ids);
+    //         }
+    //     }
+    //     if (columnType === "many-to-one") {
+    //         if(selectedOptions) {
+    //             const id = selectedOptions[relation["related_table_id"]]
+    //             setSelectedIds(() => id);
+    //         }
+    //     }
+        
+    // }, [columnType, relation, selectedOptions])
+
+    //handle change search query
+    const handleChangeSearchQuery = useCallback((e) => {
+
+        // Cancel ongoing request
+        // cancelFetchDataTemplate();
+
+        setPageNumber(() => 1)
+        
+        const name = relation["fetched_column"];
+        const value = e.target.value;
+        if(value === "") {
+            setSearchQuery(() => null)
+            return
         }
         
-    }, [columnType, relation, selectedOptions])
+        search(name, value)
+    }, [relation, setPageNumber])
 
+
+    const defaultProps = useMemo(() => {
+        return {
+            options: open ? data : [],
+            getOptionLabel: (option) => option ? option[relation["fetched_column"]] || '' : '',
+            getOptionKey: (option) => option ? option[relation["related_table_id"]] : '',
+            size: 'small', // Fixed: changed = to :
+            renderInput: (params) => (
+                <TextField
+                    {...params}
+                    error={error}
+                    helperText={errorMessage}
+                    value={searchQuery?.searchTerm}
+                    onChange={handleChangeSearchQuery}
+                    label={columnName}
+                    name={columnName}
+                    InputProps={{
+                        ...params.InputProps,
+                        endAdornment: (
+                            <>
+                                {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                {params.InputProps.endAdornment}
+                            </>
+                        ),
+                    }}
+                />
+            ),
+            onChange: (event, newValue) => handleChange(event, columnName, newValue, relation, setAutoCompleteValue),
+            value: selectedOptions,
+            isOptionEqualToValue: (option, value) => option[relation["fetched_column"]] === value[relation["fetched_column"]],
+            renderOption: (props, option, { index, selected }) => {
+                return (
+                    data.length === index + 1 ? (
+                        <li {...props} ref={lastDataRowElementRef}>
+                            <Checkbox
+                                icon={<CheckBoxOutlineBlankIcon />}
+                                checkedIcon={<CheckBoxIcon />}
+                                style={{ marginRight: 8 }}
+                                checked={selected}
+                            />
+                            {option[relation["fetched_column"]]}
+                        </li>
+                    ) : (
+                        <li {...props}>
+                            <Checkbox
+                                icon={<CheckBoxOutlineBlankIcon />}
+                                checkedIcon={<CheckBoxIcon />}
+                                style={{ marginRight: 8 }}
+                                checked={selected}
+                            />
+                            {option[relation["fetched_column"]]}
+                        </li>
+                    )
+                );
+            },
+            open: open,
+            onOpen: () => {
+                setOpen(true);
+            },
+            onClose: () => {
+                setOpen(false);
+            },
+            loading: loading,
+            fullWidth: true, // or fullWidth: Boolean value,
+            PaperComponent: StyledMenu,
+        };
+    }, [open, data, selectedOptions, loading, relation, error, errorMessage, searchQuery?.searchTerm, handleChangeSearchQuery, columnName, handleChange, lastDataRowElementRef]);
+    
 
     return (
         <>
@@ -160,45 +271,13 @@ const RelationTextFieldToCustomModal = (props) => {
                                 {...defaultProps}
                                 disableClearable
                                 multiple
-                                
-                                id="combo-box-demo"
-                                size='small'
-                                renderInput={(params) => <TextField
-                                    {...params} 
-                                    label={columnName} 
-                                    error={error}
-                                    helperText={errorMessage}
-                                />} // Add name prop here
-                                onChange={(event, newValue) => handleChangeData(event, newValue)}
-                                value={selectedOptions}
                                 disableCloseOnSelect
-                                renderOption={(props, option, { selected }) => (
-                                    <li 
-                                        {...props}
-                                    >
-                                        <Checkbox
-                                            icon={<CheckBoxOutlineBlankIcon />}
-                                            checkedIcon={<CheckBoxIcon />}
-                                            style={{ marginRight: 8 }}
-                                            checked={selected}
-                                        />
-                                        {option[relation["fetched_column"]]}
-                                    </li>
-                                    )}
-                                />
-                                <input
-                                type='text'
-                                name={columnName}
-                                value={JSON.stringify(selectedIds)}
-                                onChange={() => {}}
-                                hidden
-                            
                                 />
                             </Grid>
                         )
                 
                     :
-                    columnType === "many-to-one" && relatedTableData.length > 0
+                    columnType === "many-to-one"
                     ?
                         (
                             <Grid item xs={12}>
@@ -206,28 +285,14 @@ const RelationTextFieldToCustomModal = (props) => {
                                 {...defaultProps}
                                 disablePortal
                                 defaultValue={columnName}
-                                id="combo-box-demo"
-                                size='small'
-                                renderInput={(params) => <TextField 
-                                    {...params} 
-                                    label={columnName} 
-                                    error={error}
-                                    helperText={errorMessage}
-                                />}
-                                onChange={(event, newValue) => handleChangeData(event, newValue)}
-                                value={selectedOptions}
+
                                 />
-                                <input
-                                type='text'
-                                name={columnName}
-                                value={selectedIds}
-                                onChange={() => {}}
-                                hidden
-                                
-                                />
+
                             </Grid>
                         )
-                    :null
+                    :<Grid item xs={12}>
+                        <Skeleton variant="text" sx={{fontSize: "2rem"}} />
+                    </Grid>
                 :null
             }
         </>
@@ -237,9 +302,10 @@ const RelationTextFieldToCustomModal = (props) => {
 RelationTextFieldToCustomModal.propTypes = {
     columnName: propTypes.string,
     columnType: propTypes.string,
-    returnedData: propTypes.any,
+    response: propTypes.any,
     error: propTypes.bool,
     errorMessage: propTypes.string,
+    handleChange: propTypes.func,
 }
 
 export default RelationTextFieldToCustomModal;

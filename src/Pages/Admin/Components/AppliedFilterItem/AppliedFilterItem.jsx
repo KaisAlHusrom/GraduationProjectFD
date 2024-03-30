@@ -1,5 +1,5 @@
 //React
-import { useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
     
@@ -12,7 +12,7 @@ import StringHelper from '../../../../Helpers/StringsHelper'
 //MUI
 import {
     Autocomplete,
-    Box, Checkbox, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Paper, Select, TextField, Typography,
+    Box, Checkbox, CircularProgress, FormControl, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Select, TextField, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -23,7 +23,8 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 //propTypes 
 import propTypes from 'prop-types'
-import { useLoaderData } from 'react-router-dom'
+import { useMyContext } from '../../../../Components/DatabaseView/DatabaseView'
+import useFetchData from '../../../../Helpers/useFetchData'
 
 
 //Styled Components
@@ -92,7 +93,7 @@ const StyledDateBox = styled(Box)(
 // --- Items ---
 
 const getMenuItems = (type) => {
-    return type === "int" || type === "decimal" || type === "pk"
+    return type === "int" || type === "decimal"
     ?
     [
         {
@@ -117,7 +118,7 @@ const getMenuItems = (type) => {
         },
     ]
     :
-    type === "string" || type === "email" || type === "mobileNumber" || type === "password" || type === "text"
+    type === "string" || type === "email" || type === "mobileNumber" || type === "password" || type === "text" || type === "pk"
     ? 
     [
         {
@@ -210,13 +211,6 @@ const getDateMenuItems = () => {
     ]
 }
 
-const StyledMenu = styled(Paper)(
-    () => ({
-        maxHeight: "200px",
-        overflow: "auto",
-    })
-);
-
 const AutocompleteMultipleStyle = styled(Autocomplete)(
     () => ({
         "& .MuiChip-label": {
@@ -259,61 +253,102 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
     })
 
     //relations
-    const {relations} = useLoaderData()
-    const [relation, setRelation] = useState(() => {
+    const {relationships} = useMyContext()
+    const [relation,] = useState(() => {
         if(appliedFilter.type === 'one-to-many'){
-            return relations.oneToMany.filter(relation => relation["field_name"] === appliedFilter.value)[0]
+            return relationships.oneToMany.filter(relation => relation["field_name"] === appliedFilter.value)[0]
         }
 
         if(appliedFilter.type === 'many-to-many'){
-            return relations.manyToMany.filter(relation => relation["field_name"] === appliedFilter.value)[0]
+            return relationships.manyToMany.filter(relation => relation["field_name"] === appliedFilter.value)[0]
         }
 
         if(appliedFilter.type === 'many-to-one'){
-            return relations.manyToOne.filter(relation => relation["field_name"] === appliedFilter.value)[0]
+            return relationships.manyToOne.filter(relation => relation["field_name"] === appliedFilter.value)[0]
         }
     })
 
     //related table data if type is relation
-    const [relatedTableData, setRelatedTableData] = useState([])
-    //fetch data
-    useEffect(() => {
-        
-        if(appliedFilter.type === 'many-to-many' || appliedFilter.type === 'many-to-one' || appliedFilter.type === 'one-to-many'){
-            const fetchData = async () => {
-                const data = await relation.fetch_all_data()
-                setRelatedTableData(data.rows)
-            }
-            fetchData()
-        }
+    //fetch related table data
+    const [open, setOpen] = useState(false);
 
-    }, [appliedFilter.type, relation])
+    const {
+        hasMore,
+        // error,
+        loading,
+        setPageNumber,
+        data
+    } = useFetchData(relation && relation.fetch_all_data, "all", null, null, open)
+
+    // *** DOWNLOAD MORE WHEN SCROLLING BOTTOM
+    const observer = useRef()
+    const lastDataRowElementRef = useCallback(node => {
+
+        if (loading || !hasMore) return;
+
+        if(observer.current) observer.current.disconnect()
+
+        observer.current = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting && hasMore) {
+                setPageNumber(prev => prev + 1);
+            }
+        })
+
+        if (node) observer.current.observe(node)
+    }, [hasMore, loading, setPageNumber])
+
+    // const [relatedTableData, setRelatedTableData] = useState([])
+    //fetch data
+    // useEffect(() => {
+        
+    //     if(appliedFilter.type === 'many-to-many' || appliedFilter.type === 'many-to-one' || appliedFilter.type === 'one-to-many'){
+    //         const fetchData = async () => {
+    //             const data = await relation.fetch_all_data()
+    //             const rows = data.rows;
+    //             const options = rows.map(option => {
+    //                 const fetched_column_key = relation["fetched_column"]
+    //                 const related_table_id_key = relation["related_table_id"]
+
+    //                 const fetched_column_value = option[relation["fetched_column"]]
+    //                 const related_table_id_value = option[relation["related_table_id"]]
+                    
+    //                 return { [fetched_column_key]: fetched_column_value, [related_table_id_key]: related_table_id_value };
+    //             });
+
+    //             setRelatedTableData(() => options)
+    //         }
+    //         fetchData()
+    //     }
+
+    // }, [appliedFilter.type, relation])
+
+
 
     
 
     // Assuming originalData is an array of selected objects
     const selectedOptions = useMemo(() => {
+        //TODO: I have to get already applied filters at the first
         if (appliedFilter.type === "many-to-many" && relationValue && relationValue.length > 0) {
-            return relatedTableData.filter(row => {
+            return data.filter(row => {
                 // Check if originalData contains the current row's id
                 return relationValue.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
             });
         }
         if (appliedFilter.type === "many-to-one" && relationValue) {
-            if(relationValue) {
-                return relatedTableData.filter(row => row[relation["related_table_id"]] === relationValue[relation["related_table_id"]])[0];
-            }
+            
+            return data.filter(row => row[relation["related_table_id"]] === relationValue[relation["related_table_id"]])[0];
         }
 
         if (appliedFilter.type === "one-to-many" && relationValue && relationValue.length > 0) {
-            return relatedTableData.filter(row => {
+            return data.filter(row => {
                 // Check if originalData contains the current row's id
                 return relationValue.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
             });
         }
 
         return [];
-    }, [relationValue, relatedTableData, relation, appliedFilter.type]);
+    }, [relationValue, data, relation, appliedFilter.type]);
 
     useEffect(() => {
         const storedFilters = pageFilters.appliedFilters || [];
@@ -335,6 +370,7 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
     useEffect(() => {
         // Update the value in the parent component using the callback
         updateFilterValue(appliedFilter, process ,value, startDate, endDate, period, relationValue);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [period, startDate, endDate, value, process, relationValue]) //TODO: find what you can do to make this warning gone
 
 
@@ -371,12 +407,12 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
         
     }
 
-    const handleChangeRelationValue = (event, newValue) => {
+    const handleChangeRelationValue = useCallback((event, newValue) => {
         setRelationValue(() => {
             return newValue
         });
         
-    }
+    }, []);
 
 
     
@@ -384,15 +420,69 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
     const dateMenuItems = getDateMenuItems()
 
     //autoComplete default props
-    const defaultProps = useMemo(()=> {
-        if(appliedFilter.type === "one-to-many" || appliedFilter.type === "many-to-many" || appliedFilter.type === "many-to-one"){
+    const defaultProps = useMemo(() => {
+        if (appliedFilter.type === "one-to-many" || appliedFilter.type === "many-to-many" || appliedFilter.type === "many-to-one") {
             return {
-                options: relatedTableData,
+                options: data,
                 getOptionLabel: (option) => option[relation["fetched_column"]],
                 getOptionKey: (option) => option[relation["related_table_id"]],
+                open: open,
+                onOpen: () => {
+                    setOpen(true);
+                },
+                onClose: () => {
+                    setOpen(false);
+                },
+                loading: loading,
+                size: 'small',
+                renderInput: (params) => (
+                    <TextField
+                        {...params}
+                        label={appliedFilter.value}
+                        InputProps={{
+                            ...params.InputProps,
+                            endAdornment: (
+                                <>
+                                    {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                                    {params.InputProps.endAdornment}
+                                </>
+                            ),
+                        }}
+                    />
+                ),
+                onChange: (event, newValue) => handleChangeRelationValue(event, newValue),
+                value: selectedOptions,
+                sx: { width: "150px" },
+                isOptionEqualToValue: (option, value) => option[relation["fetched_column"]] === value[relation["fetched_column"]],
+                renderOption: (props, option, { index, selected }) => {
+                    return (
+                        data.length === index + 1 ? (
+                            <li {...props} ref={lastDataRowElementRef}>
+                                <Checkbox
+                                    icon={<CheckBoxOutlineBlankIcon />}
+                                    checkedIcon={<CheckBoxIcon />}
+                                    style={{ marginRight: 8 }}
+                                    checked={selected}
+                                />
+                                {option[relation["fetched_column"]]}
+                            </li>
+                        ) : (
+                            <li {...props}>
+                                <Checkbox
+                                    icon={<CheckBoxOutlineBlankIcon />}
+                                    checkedIcon={<CheckBoxIcon />}
+                                    style={{ marginRight: 8 }}
+                                    checked={selected}
+                                />
+                                {option[relation["fetched_column"]]}
+                            </li>
+                        )
+                    );
+                }
             };
         }
-    }, [appliedFilter.type, relatedTableData, relation])
+    }, [appliedFilter.type, data, open, loading, appliedFilter.value, handleChangeRelationValue, selectedOptions, lastDataRowElementRef, relation]);
+    
 
 
     return (
@@ -540,13 +630,7 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
                     <Autocomplete
                     {...defaultProps}
                     disablePortal
-                    sx={{width: "150px"}}
                     id="combo-box-demo"
-                    size='small'
-                    renderInput={(params) => <TextField {...params} label={appliedFilter.value} />}
-                    onChange={(event, newValue) => handleChangeRelationValue(event, newValue)}
-                    value={selectedOptions}
-                    PaperComponent={StyledMenu}
                     />
                 :
                 appliedFilter.type === "many-to-many" || appliedFilter.type === "one-to-many"
@@ -556,25 +640,7 @@ const AppliedFilterItem = ({appliedFilter, handleDeleteFilter, updateFilterValue
                     disableClearable
                     multiple
                     id="combo-box-demo"
-                    size='small'
-                    renderInput={(params) => <TextField {...params} label={appliedFilter.value} />} // Add name prop here
-                    onChange={(event, newValue) => handleChangeRelationValue(event, newValue)}
-                    value={selectedOptions}
                     disableCloseOnSelect
-                    sx={{width: "150px"}}
-                    renderOption={(props, option, { selected }) => (
-                        <li 
-                            {...props}
-                        >
-                            <Checkbox
-                                icon={<CheckBoxOutlineBlankIcon />}
-                                checkedIcon={<CheckBoxIcon />}
-                                style={{ marginRight: 8 }}
-                                checked={selected}
-                            />
-                            {option[relation["fetched_column"]]}
-                        </li>
-                    )}
                 />
                 :
                 null)

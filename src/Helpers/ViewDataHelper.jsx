@@ -15,6 +15,9 @@ import StringHelper from "./StringsHelper";
 import { Fragment } from "react";
 import { RelationTextField } from "../Components";
 
+//get server api
+import config from "../../Config.json";
+
 
 //Styles
 const StyledTextField = styled(TextField)(
@@ -54,10 +57,10 @@ const StyledTextArea = styled(TextareaAutosize)(
 
 
 //return database data
-const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations) => {
+const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations, imagesFolder) => {
     const {manyToMany, manyToOne, oneToMany} = relations
 
-    if(cell ){
+    if(cell){
         if(columns[column] === "bool") {
             if(cell === true) {
                 return <CheckIcon color='success' />
@@ -67,7 +70,8 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations)
         }
 
         if(columns[column] === "image") {
-            return <img src={`${cell}`} style={imageStyle} alt="image"  />
+            const stylePropRoute = `${config.ServerImageRoute}/${imagesFolder}/${cell}`;
+            return <img src={`${stylePropRoute}`} style={imageStyle} alt="image"  />
         } 
 
         if(columns[column] === "rate") {
@@ -224,6 +228,7 @@ const getAppropriateTextField = (
 
         if (columns[column] === "pk") return <Typography color="error" variant='body2'>Can not Update The Id</Typography>;
         if (columns[column] === "dateTime") return <Typography color="error" variant='body2'>Can not Update Timestamp fields</Typography>;
+        if (columns[column] === "one-to-many") return <Typography color="error" variant='body2'>Can not Update has many fields</Typography>;
         
         if(columns[column] === "image" || columns[column] === "file") {
             return <Typography color="error" variant='body2'>Ca not Update folders fields</Typography>
@@ -331,7 +336,7 @@ const getAppropriateTextField = (
         }
 
 
-        if(columns[column] === "many-to-many" || columns[column] === "many-to-one" || columns[column] === "one-to-many") {
+        if(columns[column] === "many-to-many" || columns[column] === "many-to-one") {
             return (
                                 <RelationTextField
                                     relationType={columns[column]}
@@ -364,6 +369,8 @@ const getAppropriateTextField = (
                                         handleChangeData={handleChangeData}
                                         handleEnterKeyDown={handleEnterKeyDown}
                                         setNewData={setRowData}
+                                        pkColumnData={pkColumnData}
+                                        row={row}
                                     />  
                                 )
             }

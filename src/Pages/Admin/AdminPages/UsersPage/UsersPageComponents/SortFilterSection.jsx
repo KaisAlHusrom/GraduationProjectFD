@@ -1,5 +1,5 @@
 //React
-import { useMemo } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 
 import {
     
@@ -16,6 +16,7 @@ import SwapVertIcon from '@mui/icons-material/SwapVert';
 
 //Components
 import {
+    AdminMainButtonOutsideState,
     CustomFormModal
 } from '../../../../../Components';
 import SetSort from '../../../Components/SetSort/SetSort';
@@ -83,18 +84,17 @@ const SortFilterSection = (props) => {
     const {
         allViews,
         currentView,
-        dataState,
+        // dataState,
         hiddenColumnsState,
         sortedColumnsState,
         rowsArrayState,
-        filteredDataState,
-        sortedDataState,
+        // filteredDataState,
+        // sortedDataState,
         title,
     } = props
 
     //data state
-    const [loaderData, ] = dataState;
-    const {columns} = loaderData;
+    const {columns} = useMyContext()
 
     // //Rows State
     // const [rowsArray, setRowsArray] = rowsArrayState;
@@ -110,8 +110,12 @@ const SortFilterSection = (props) => {
     
 
     //BUTTONS
+    //get the setModalOpen to close the modal when add new data
+    const [modalOpen, setModalOpen] = useState(false);
+
+
     const primaryButtons = [
-        <AdminMainButton
+        <AdminMainButtonOutsideState
             key={0}
             filled
             title={"Add " + StringHelper.removeSAtEnd(title)}
@@ -122,9 +126,11 @@ const SortFilterSection = (props) => {
                 <CustomFormModal
                     columns={columns}
                     title={title}
+                    setFromOpen={setModalOpen}
                 />
             }
             modalIcon={<PersonAddAltOutlinedIcon />}
+            customState={{modalOpen, setModalOpen}}
         />,
     
     ]
@@ -137,6 +143,26 @@ const SortFilterSection = (props) => {
     //     position: 'absolute',
     //     right: theme.spacing(),
     // }
+
+    const filterSecondaryButtonsStyles = useMemo(() => {
+        return {
+            borderRadius: "10px",
+            backgroundColor: filtersCount > 0 ? theme.palette.action.selected : 'transparent',
+            "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+            }
+        }
+    }, [filtersCount, theme])
+
+    const sortSecondaryButtonsStyles = useMemo(() => {
+        return {
+            borderRadius: "10px",
+            backgroundColor: sortsCount > 0 ? theme.palette.action.selected : 'transparent',
+            "&:hover": {
+                backgroundColor: theme.palette.action.hover,
+            }
+        }
+    }, [sortsCount, theme])
 
     const secondaryButtonsStyles = useMemo(() => {
         return {
@@ -164,16 +190,15 @@ const SortFilterSection = (props) => {
                 appearance={isSmallScreen ? 'iconButton' : 'primary'}
                 willShow={
                     <SetFilter 
-                        dataState={dataState} 
-                        rowsArrayState={rowsArrayState}
-                        filteredDataState={filteredDataState}
-                        sortedDataState={sortedDataState}
+                        // rowsArrayState={rowsArrayState}
+                        // filteredDataState={filteredDataState}
+                        // sortedDataState={sortedDataState}
                         title={title}
                     />
                 }
                 type='modal'
                 putBorder
-                sx={secondaryButtonsStyles}
+                sx={filterSecondaryButtonsStyles}
                 />  
                 <AdminMainButton
                 badgeContent={sortsCount}
@@ -182,16 +207,16 @@ const SortFilterSection = (props) => {
                 appearance={isSmallScreen ? 'iconButton' : 'secondary'}
                 willShow={
                     <SetSort 
-                        dataState={dataState} 
-                        rowsArrayState={rowsArrayState}
-                        sortedDataState={sortedDataState}
-                        filteredDataState={filteredDataState}
+                        // dataState={dataState} 
+                        // rowsArrayState={rowsArrayState}
+                        // sortedDataState={sortedDataState}
+                        // filteredDataState={filteredDataState}
                         title={title}
                     />
                 }
                 type='modal'
                 putBorder
-                sx={secondaryButtonsStyles}
+                sx={sortSecondaryButtonsStyles}
                 />  
 
                 <AdminMainButton

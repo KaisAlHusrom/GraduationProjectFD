@@ -1,4 +1,4 @@
-//React
+// React
 import {
     
 } from 'react'
@@ -7,43 +7,73 @@ import {
     
 } from 'react-redux'
 
-//Components
+// Components
 import { DatabaseView } from '../../../../Components'
 
-
-//MUI
+// MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
-//icons
+// icons
 import WorkspacesOutlinedIcon from '@mui/icons-material/WorkspacesOutlined';
-import { deleteStylePropCategory, fetchStylePropCategory, permanentDeleteStylePropCategory, restoreStylePropCategory, updateStylePropCategory } from '../../../../Services/StylePropCategory'
 
-//Styled Components
+// Styled Components
 const StyledStylesPropCategoriesPage = styled(Box)(
     () => ({
-    
+        // Add your styled components here
     })
 )
 
+//sever
+import { addStylePropCategory, deleteStylePropCategory, fetchStylePropCategory, permanentDeleteStylePropCategory, restoreStylePropCategory, updateStylePropCategory } from '../../../../Services/StylePropCategory'
+import { fetchStyleProps } from '../../../../Services/stylePropsService'
 
-const StylesPropCategoriesPage = () => {
+const relationships = {
+    manyToOne:[
+    ],
+    manyToMany:[
+    ],
+    oneToMany:[
+        {
+            "field_name": "style_props",
+            "fetched_column": "style_prop_normal_name",
+            "related_table_id": "id",
+            fetch_all_data: fetchStyleProps,
+            add_to_add_form: false,
+        }
+    ]
+}
+
+const columns = {
+    "id": "pk",
+    "category_name": "string",
+    "category_description": "text",
+    "style_props": "one-to-many",
+    "created_at": "dateTime",
+    "updated_at": "dateTime"
+}
+
+
+const StyleStylesPropCategoriesPage = () => {
     return (
         <StyledStylesPropCategoriesPage>
             <DatabaseView
-                    title="Styles Property Categories"
+                    title="Styles Prop Categories"
                     icon={<WorkspacesOutlinedIcon />}
                     handleFetchData={fetchStylePropCategory}
                     handleUpdateData={updateStylePropCategory}
                     handleDeleteData={deleteStylePropCategory}
-                    softDeletes={true}
                     handleRestoreData={restoreStylePropCategory}
                     handlePermanentDeleteData={permanentDeleteStylePropCategory}
+                    handleAddData={addStylePropCategory}
+                    softDeletes={true}
+                    relationships={relationships}
+                    columns={columns}
                 />
         </StyledStylesPropCategoriesPage>
     );
 };
 
-export default StylesPropCategoriesPage;
+export default StyleStylesPropCategoriesPage;

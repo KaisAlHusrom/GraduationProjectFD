@@ -27,7 +27,7 @@ import { NavLink, useLoaderData } from 'react-router-dom';
 import { useMyContext } from '../DatabaseView/DatabaseView'
 import ViewDataHelper from '../../Helpers/ViewDataHelper'
 import { useTheme } from '@emotion/react';
-import RelationTextField from '../RelationTextField/RelationTextField';
+
 
 
 
@@ -63,7 +63,8 @@ const CustomTableRow = (props) => {
         appearedDataCount,
         filteredColumnsArray,
         handleChangeData,
-        handleEnterKeyDown
+        handleEnterKeyDown,
+        lastRowRef
     } = props
 
     //view settings
@@ -84,10 +85,10 @@ const CustomTableRow = (props) => {
     const tableBodyRef = useRef(null);
 
     //I get columns object to know the type of each column
-    const {columns} = useLoaderData();
+    const {columns} = useMyContext();
 
     //Relations
-    const {relations} = useLoaderData();
+    const {relationships} = useMyContext();
 
 
     ///States
@@ -122,7 +123,7 @@ const CustomTableRow = (props) => {
         document.body.removeEventListener('mousedown', handleOutsideClick);
         };
 
-    }, []);
+    }, [handleCellOutsideClick, rowData]);
 
     //handlers
     const handleRowCheckboxChange = (event, userId) => {
@@ -152,7 +153,9 @@ const CustomTableRow = (props) => {
         setShowAllCell(() => null);
     }
 
-    
+    //images folder name
+    const {imagesFolderName} = useMyContext()
+
     // Styled Components
     const theme = useTheme()
 
@@ -216,7 +219,8 @@ const CustomTableRow = (props) => {
         
         const StyledTextFieldCell = useMemo(() => {
             return {
-                maxWidth: "200px",
+                minWidth: "200px",
+                maxWidth: "400px",
                 overflow: 'hidden',
                 borderRight: showVerticalLines ? '1px solid' : 'none',
                 textAlign: 'center',
@@ -244,8 +248,9 @@ const CustomTableRow = (props) => {
             }
         }, [theme])
 
+
     return (
-        <TableRow sx={StyledCustomTableRow} ref={tableBodyRef}>
+        <TableRow sx={StyledCustomTableRow} ref={lastRowRef}>
             <TableCell
             sx={StyledTableCell}
             >
@@ -270,17 +275,17 @@ const CustomTableRow = (props) => {
                     // Content to render when showAllCell is true
                     
                     <Fade key={`${rowData.id}-${colIndex}`} in={showAllCell === `${rowData.id}-${colIndex}`}>
-                        <TableCell sx={StyledTableCellShowAllData} onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`)}>
+                        <TableCell ref={tableBodyRef} sx={StyledTableCellShowAllData} onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`)}>
                             <Box sx={StyledRelativeBox}>
-                            {checkDatabaseDataInTable(columns, column, rowData[column], showAllCell, relations)}
+                            {checkDatabaseDataInTable(columns, column, rowData[column], showAllCell, relationships, imagesFolderName)}
                             </Box>
                         </TableCell>
                     </Fade>
                 ) : showTextField === `${rowData.id}-${colIndex}` ? (
                     // Content to render when showTextField is true
-                    <TableCell sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>
+                    <TableCell ref={tableBodyRef} sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>
                         {
-                            getAppropriateTextField(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relations, pkColumnData)
+                            getAppropriateTextField(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relationships, pkColumnData)
                         }
                     </TableCell>
                     
@@ -290,8 +295,9 @@ const CustomTableRow = (props) => {
                         sx={StyledNormalCell}
                         onClick={() => handleShowAllCell(`${rowData.id}-${colIndex}`)}
                         key={`${rowData.id}-${colIndex}`}
+                        ref={tableBodyRef}
                     >
-                        {checkDatabaseDataInTable(columns, column, rowData[column], undefined, relations)}
+                        {checkDatabaseDataInTable(columns, column, rowData[column], undefined, relationships, imagesFolderName)}
                     </TableCell>
                 )
             ))}
@@ -306,6 +312,7 @@ CustomTableRow.propTypes = {
     filteredColumnsArray: propTypes.array.isRequired,
     handleChangeData: propTypes.func,
     handleEnterKeyDown: propTypes.func,
+    lastRowRef: propTypes.any,
 }
 
 export default CustomTableRow;

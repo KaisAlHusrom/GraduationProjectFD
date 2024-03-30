@@ -18,6 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 const CustomSnackBar = () => {
     const openSnackbar = useSelector(state => state.snackbarOpenSlice.openSnackbar);
     const snackbarMessage = useSelector(state => state.snackbarOpenSlice.snackbarMessage);
+    const isError = useSelector(state => state.snackbarOpenSlice.isError);
 
 
     const dispatch = useDispatch()
@@ -46,14 +47,15 @@ const CustomSnackBar = () => {
         </>
     );
 
+
     return (
         <Snackbar
             open={openSnackbar}
-            autoHideDuration={4000}
+            autoHideDuration={3000}
             onClose={handleClose}
                     >
                     <SnackbarContent
-                        sx={{ backgroundColor: 'primary.main', color: "primary.contrastText" }} // Set your desired background color
+                        sx={{ backgroundColor: isError ? "error.main" :'primary.main', color: "primary.contrastText" }} // Set your desired background color
                         message={snackbarMessage}
                         action={action}
                     />

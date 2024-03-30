@@ -1,9 +1,6 @@
-import { fetchElementProps } from "./elementPropsService"
 import axios from "axios";
 
-//Redux 
-import store from "../Redux/Store"
-import { setSnackbarMessage, handleOpenSnackbar } from "../Redux/Slices/snackbarOpenSlice";
+
 
 
 const rows2 = [
@@ -570,171 +567,57 @@ const rows2 = [
 
 // -------------------------------------- 
 import config from "../../Config.json"
+import { addDataTemplate, deleteTemplate, fetchDataTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
 const ELEMENTS_TYPES_ROUTE = config.ServerMainRoute + "/element_types"
 
 const ElementTypesAPI = axios.create({
     baseURL: ELEMENTS_TYPES_ROUTE,
-  });
+});
 
 //---------------------------------------
+// fetch items 
+export const fetchElementTypesRows = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null) => {
+    const res = await fetchDataTemplate(ElementTypesAPI, type, pageNumber, filters, sorts, searchQuery)
+    let rows;
 
+    if(res.success){
+        rows = res.data;
+    } else {
+        rows = [];
+    }
 
-export const fetchElementsTypes = async (type = "all") => {
-    try {
-        const relations = {
-            manyToOne:[
-                {
-                    "field_name": "parent",
-                    "fetched_column": "element_type_name",
-                    "related_table_id": "id",
-                    add_to_add_form: true,
-                    fetch_all_data: fetchElementsTypes, //TODO: convert this to fetch the elements that has true value in is_child column
-                }
-            ],
-            manyToMany:[
-                {
-                    "field_name": "element_props",
-                    "fetched_column": "element_prop_name",
-                    "related_table_id": "id",
-                    add_to_add_form: true,
-                    fetch_all_data: fetchElementProps,
-                }
-            ],
-            oneToMany:[
-                {
-                    "field_name": "children",
-                    "fetched_column": "element_type_name",
-                    "related_table_id": "id",
-                    add_to_add_form: false,
-                    fetch_all_data: fetchElementsTypes, //TODO: convert this to fetch the elements that has true value in is_child column
-                }
-            ]
-        }
+    return {rows}
+}
+
+//add items
+export const addElementType = async (inputValues) => {
+    const submission = {
+        "element_type_name": inputValues["element_type_name"],
+        "element_type_description": inputValues["element_type_description"],
+        "is_child": inputValues["is_child"],
+        "parent": inputValues["parent"],
+        "elementProps": inputValues["element_props"],
+    };
     
-        const columns = {
-            id: "pk",
-            element_type_name: "string",
-            element_type_description: "text",
-            element_props: "many-to-many",
-            is_child: "bool",
-            children: "one-to-many",
-            parent: "many-to-one",
-            created_at: "dateTime",
-            updated_at: "dateTime",
-        }
-
-        let response;
-        if (type === "deleted") {
-            // Fetch deleted items
-            response = await ElementTypesAPI.get("/fetch_deleted");
-        } else {
-            // Fetch regular items
-            response = await ElementTypesAPI.get();
-        }
-
-        const rows = response.data.data;
-
-        // Return data including relations, columns, and rows
-        return { relations, columns, rows };
-
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return error.response.data;
-    }
-
+    return await addDataTemplate(ElementTypesAPI, submission)
 }
 
-
-export const addElementType = async ({request}) => {
-    try {
-        const data = await request.formData();
-
-        const submission = {
-            "element_type_name": data.get("element_type_name"),
-            "element_type_description": data.get("element_type_description"),
-            "is_child": data.get("is_child") === "on" ? true : false,
-            "parent": data.get("parent") === "" ? null : data.get("parent"),
-            "elementProps": JSON.parse(data.get("element_props")),
-        };
-
-        const response = await ElementTypesAPI.post('', submission);
-        if(response.data.success) {
-            store.dispatch(setSnackbarMessage({message: response.data.message}))
-            store.dispatch(handleOpenSnackbar())
-        } else {
-            store.dispatch(setSnackbarMessage({message: response.data.error}))
-            store.dispatch(handleOpenSnackbar())
-        }
-
-        // Process the response data as needed
-        return response.data;
-    } catch (error) {
-        console.error('Error posting data:', error);
-
-        store.dispatch(setSnackbarMessage({message: error.response.data.error}))
-        store.dispatch(handleOpenSnackbar())
-
-        return error.response.data;
-    }
-}
-
+//update items
 export const updateElementType = async (id, newData) => {
-    try {
-        // Assuming id is included in the newData object and you're updating a specific resource identified by its id
-        const response = await ElementTypesAPI.patch(`/${id}`, newData, { method: "_PATCH" });
-        console.log(response);
-        // Process the response data as needed
-        return response.data;
-    } catch (error) {
-        console.error('Error updating data:', error);
-        return error.response.data;
-    }
+    return await updateTemplate(ElementTypesAPI, id, newData);
 };
 
+//passive items
 export const deleteElementType = async (selectedIds) => {
-    try {
-        // Convert selectedIds array to comma-separated string
-        const idList = selectedIds.join(',');
+    return await deleteTemplate(ElementTypesAPI, selectedIds);
+};
 
-        const response = await ElementTypesAPI.delete(`/${idList}`);
-        console.log(response);
-        // Process the response data as needed
-        return response.data;
-    } catch (error) {
-        console.error('Error updating data:', error);
-        return error.response.data;
-    }
+//permanent Delete items
+export const permanentDeleteElementType = async (selectedIds) => {
+    return await permanentDeleteTemplate(ElementTypesAPI, selectedIds);
 };
 
 //Restore deleted items
 export const restoreElementType = async (selectedIds) => {
-    try {
-        // Convert selectedIds array to comma-separated string
-        const idList = selectedIds.join(',');
-
-        const response = await ElementTypesAPI.put(`/restore/${idList}`);
-        console.log(response);
-        // Process the response data as needed
-        return response.data;
-    } catch (error) {
-        console.error('Error updating data:', error);
-        return error.response.data;
-    }
-};
-
-export const permanentDeleteElementType = async (selectedIds) => {
-    try {
-        // Convert selectedIds array to comma-separated string
-        const idList = selectedIds.join(',');
-
-        // Send DELETE request to the server with IDs in the URL path
-        const response = await ElementTypesAPI.delete(`permanent-delete/${idList}`);
-        console.log(response);
-        
-        // Process the response data as needed
-        return response.data;
-    } catch (error) {
-        console.error('Error deleting data:', error);
-        return error.response.data;
-    }
+    return await restoreTemplate(ElementTypesAPI, selectedIds);
 };

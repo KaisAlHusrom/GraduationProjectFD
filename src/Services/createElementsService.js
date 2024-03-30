@@ -1,8 +1,8 @@
-import { fetchElementsTypes } from "./elementsTypesService"
+import { fetchElementTypesRows } from "./elementsTypesService"
 import { fetchElementStyleProperties, fetchStylesBreakpoints, fetchStylesStatus } from "./stylesSettings";
 
 export const fetchCreateElementNeededData = async () => {
-    const {rows} = await fetchElementsTypes()
+    const {rows} = await fetchElementTypesRows()
     const allElementTypes = rows;
 
     console.log(allElementTypes)
