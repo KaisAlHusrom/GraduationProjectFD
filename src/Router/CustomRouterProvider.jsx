@@ -14,11 +14,9 @@ import { Admin, DesignControlPage, ErrorPage, MainPage, NotFoundPage } from '../
 import adminPageRoutes from './Routes/AdminPage/adminPageRoutes';
 // eslint-disable-next-line no-unused-vars
 import DesignRoutes from './Routes/DesignRoutes/DesignRoutes';
-import DesignOne from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/Design1';
-import Designtwo from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/Design2';
-import DesignThree from '../Pages/DesignControlPage/sections/ReadyDesigns/NavBars/Design3';
 import EditPage from '../Pages/DesignControlPage/sections/TempalteSection/EditPage/EditPage';
 import LandPage from '../Pages/LandPage/LandPage';
+import EcommerceMain from '../Pages/Ecommerce/EcommerceMain';
 
 
 // ------------- NOTICES -------------
@@ -65,11 +63,9 @@ const router = createBrowserRouter(
             </Route>
 
             <Route path="/design-control/EditPage/:section_id" element={<EditPage />} />
+            <Route path="/Ecommerce" element={<EcommerceMain />} />
 
             <Route path="*" element={<NotFoundPage />} />
-            <Route path="DesignThree" element={<DesignThree />} />
-            <Route path="DesignTwo" element={<Designtwo />} />
-            <Route path="DesignOne" element={<DesignOne />} />
             <Route path="LandPage" element={<LandPage />} />
 
         </Route>
