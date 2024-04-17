@@ -54,7 +54,7 @@ const NavBarComponent = ({component}) => {
 };
 
 NavBarComponent.propTypes = {
-    component: propTypes.component
+    component: propTypes.object
 }
 
 export default NavBarComponent;

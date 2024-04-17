@@ -1,6 +1,6 @@
 {
     "section_id": 11,
-    "section_title": "Team",
+    "section_title": "Carousel",
     "Section_descriptions": "lorem ipsum ....",
     "is_template": true,
     "created_at": "2022-01-01 12:00:00",
@@ -27,6 +27,31 @@
                     "component_id": null,
                     "element_id": null,
                     "section_css_prop_id": 16,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "backgroundColor",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "#070F2B",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
                     "created_at": "2022-01-01 13:00:00",
                     "updated_at": "2022-01-01 13:30:00"
                 }
@@ -72,31 +97,6 @@
                 "css_status": null,
                 "css_responsive_status": null,
                 "css_prop_value": "150px",
-                "pivot": {
-                    "section_id": 3,
-                    "component_id": null,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": 3,
-                "component_id": null,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "backgroundColor",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": true,
-                    "is_component": false,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "#ececec",
                 "pivot": {
                     "section_id": 3,
                     "component_id": null,
@@ -284,7 +284,7 @@
         ],
     "section_components": [
         {
-            "section_component_id": 10,
+            "section_component_id": 1,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -317,6 +317,7 @@
                         "updated_at": "2022-01-01 13:30:00"
                     }
                 },
+        
                 {
                     "section_css_prop_id": 15,
                     "section_id": null,
@@ -551,7 +552,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -560,7 +561,7 @@
                         "element_type": "Head3",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "Know us",
+                    "element_content": "Get to know us",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -602,7 +603,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "transparent",
+                            "css_prop_value": "#070F2B",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -652,7 +653,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "black",
+                            "css_prop_value": "#eee",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -811,329 +812,8 @@
                                 "created_at": "2022-01-01 13:00:00",
                                 "updated_at": "2022-01-01 13:30:00"
                             }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "border",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "2px solid rgba(23, 50, 73, 1)",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
                         }
 
-                    ],
-                    "pivot": {
-                        "section_component_id": 10,
-                        "component_element_id": 3,
-                        "created_at": "2022-01-01 13:00:00",
-                        "updated_at": "2022-01-01 13:30:00"
-                    }
-                },
-                {
-                    "component_element_id": 3,
-                    "element_name": "Description",
-                    "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                    "is_template": true,
-                    "element": {
-                        "element_type_id": 4,
-                        "element_type": "Head3",
-                        "type_description": "this type return Typography with variant h3 tag in codes"
-                    },
-                    "element_content": "Example Description 1",
-                    "section_css_props": [
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "textAlign",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "center",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "backgroundColor",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "transparent",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "padding",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "10px",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "color",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "black",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "borderRadius",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "5px",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "fontSize",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "30px",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "fontWeight",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "700",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "margin",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "10px auto",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "display",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "flex",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "justifyContent",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "center",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "border",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "2px solid rgba(23, 50, 73, 1)",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
-                        }
-                        
                     ],
                     "pivot": {
                         "section_component_id": 10,
@@ -1145,7 +825,7 @@
             ]
         }, 
         {
-            "section_component_id": 10,
+            "section_component_id": 2,
             "component_title": "Social Media",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -1437,7 +1117,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "image",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -1446,9 +1126,8 @@
                         "element_type": "image",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "https://www.lezzat.co.uk/wp-content/uploads/2021/03/Amazon-Product-Photography-Agency-UK-1.jpg",
+                    "element_content": "https://static.vecteezy.com/system/resources/previews/008/149/102/non_2x/web-development-software-coding-and-programming-on-application-in-laptop-computer-devices-with-script-language-testing-and-graphical-icons-vector.jpg",
                     "section_css_props": [
-                        
                         {
                             "section_css_prop_id": 15,
                             "section_id": null,
@@ -1558,7 +1237,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 2,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -1567,7 +1246,7 @@
                         "element_type": "Head3",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "We Make Perfect Photos",
+                    "element_content": "Crafting Digital Excellence",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -1762,7 +1441,7 @@
                         "element_type": "text",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt",
+                    "element_content": "Our company specializes in delivering bespoke software solutions tailored to our clients' unique needs.",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -1923,7 +1602,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 4,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -2193,7 +1872,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 4,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -2466,7 +2145,7 @@
             ]
         },
         {
-            "section_component_id": 10,
+            "section_component_id": 3,
             "component_title": "Social Media",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -2489,7 +2168,7 @@
                     },
                     "css_status": null,
                     "css_responsive_status": null,
-                    "css_prop_value": "400px",
+                    "css_prop_value": "450px",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
@@ -2639,7 +2318,7 @@
                     },
                     "css_status": null,
                     "css_responsive_status": null,
-                    "css_prop_value": "rgba(23, 50, 73, 1)",
+                    "css_prop_value": "#070F2B",
                     "pivot": {
                         "section_id": null,
                         "component_id": 10,
@@ -2748,6 +2427,31 @@
                         "created_at": "2022-01-01 13:00:00",
                         "updated_at": "2022-01-01 13:30:00"
                     }
+                },
+                {
+                    "section_css_prop_id": 15,
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "css_prop": {
+                        "prop_id": 1,
+                        "prop_name": "height",
+                        "prop_description": "lorem ipsum ....",
+                        "is_section": false,
+                        "is_component": true,
+                        "is_element": false
+                    },
+                    "css_status": null,
+                    "css_responsive_status": null,
+                    "css_prop_value": "55vh",
+                    "pivot": {
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "section_css_prop_id": 15,
+                        "created_at": "2022-01-01 13:00:00",
+                        "updated_at": "2022-01-01 13:30:00"
+                    }
                 }
             ],
             "pivot": {
@@ -2758,7 +2462,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "image",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -2767,9 +2471,8 @@
                         "element_type": "image",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "https://www.lezzat.co.uk/wp-content/uploads/2021/03/Amazon-Product-Photography-Agency-UK-1.jpg",
+                    "element_content": "https://img.freepik.com/free-vector/creative-web-homepage-illustration_52683-79847.jpg",
                     "section_css_props": [
-                        
                         {
                             "section_css_prop_id": 15,
                             "section_id": null,
@@ -2879,7 +2582,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 2,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -2888,7 +2591,7 @@
                         "element_type": "Head3",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "We Make Perfect Photos",
+                    "element_content": "Building Tomorrow's Tech Today",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -3083,7 +2786,7 @@
                         "element_type": "text",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt",
+                    "element_content": "We prioritize innovation and excellence in every aspect of our programming projects, ensuring high-quality outcomes.",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -3244,7 +2947,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 4,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -3514,7 +3217,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 5,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -3787,7 +3490,7 @@
             ]
         },
         {
-            "section_component_id": 10,
+            "section_component_id": 4,
             "component_title": "Social Media",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -4079,7 +3782,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "image",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -4088,7 +3791,7 @@
                         "element_type": "image",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "https://www.lezzat.co.uk/wp-content/uploads/2021/03/Amazon-Product-Photography-Agency-UK-1.jpg",
+                    "element_content": "https://img.freepik.com/premium-vector/app-development-concept_23-2148687725.jpg",
                     "section_css_props": [
                         
                         {
@@ -4200,7 +3903,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 2,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -4209,7 +3912,7 @@
                         "element_type": "Head3",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "We Make Perfect Photos",
+                    "element_content": "Where Ideas Take Shape",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -4404,7 +4107,7 @@
                         "element_type": "text",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
-                    "element_content": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt",
+                    "element_content": "Our team of talented programmers collaborates closely to develop cutting-edge software products and applications",
                     "section_css_props": [
                         {
                             "section_css_prop_id": 15,
@@ -4565,7 +4268,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 4,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -4835,7 +4538,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 5,
                     "element_name": "name",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,

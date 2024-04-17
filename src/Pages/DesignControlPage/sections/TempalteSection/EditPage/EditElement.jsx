@@ -22,24 +22,35 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { Edit as EditIcon } from '@mui/icons-material';
+import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 
 //Styled Components
 const StyledEditElement = styled(Box)(() => ({
-}))
+    '&:hover > div': {
+        opacity: 1,
+        visibility: 'visible',
+    },
+}));
+
+
+
 
 
 const TooltipContainer = styled(Box)({
-    position: 'absolute',
-    right:'20px'
+    position: 'relative',
+    opacity: 0,
+    transition: 'opacity 1s ease',
 });
 
 
 
-const EditElement = ({element}) => {
+const EditElement = ({ element, deleteElementForComponent, componentId }) => {
 
 
     const [elementStyle, setElementStyle] = useState({});
     const [title, setTitle] = useState(element.element_content);
+
+
 
     useMemo(() => {
         const dictionary = {};
@@ -74,44 +85,70 @@ const EditElement = ({element}) => {
         utils.handleDeleteLogoClick(setTitle);
     };
 
+    const handleDeleteElementClick = () => {
+        deleteElementForComponent(componentId, element.component_element_id);
+    };
 
+    // console.log("All elements : " ,  element)
     return (
         <StyledEditElement sx= {elementStyle}>
                 {getAppropriateTag(element.element, title, elementStyle)}
-
-            <TooltipContainer>
-                <AdminMainButton
-                    title={title}
-                    type="StyleDialog"
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<EditIcon />}
-                    willShow={
-                        <StyleBox 
-                        Section_Name = {"Style Element"}
-                        title={title}
-                        handleTextFieldChange={handleTextFieldChange}
-                        element_Type = {element.element.element_type}
-                        sectionStyle = {elementStyle}
-                        handleSectionStyleChange = {handleSectionStyleChange}
-                        handleDeleteLogoClick={handleDeleteLogoClick}
-                        handleUploadImageClickWrapper = {handleUploadImageClickWrapper}
-                        styleProperties={['opacity', 'borderRadius', 'width', "fontSize", "fontWeight" , 'height']}
-                        />
                     
-                    }
-                    sx={{
-                        width:'20px',
-                        height:'20px',
-                        border: '1px solid red',
-                        padding: '10px 15px',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: 'primary.dark',
-                    }}
-                />
-            </TooltipContainer>
-            
+                <TooltipContainer>
+                    <AdminMainButton
+                        title="Edit"
+                        type="StyleDialog"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<EditIcon />}
+                        willShow={
+                            <StyleBox 
+                                Section_Name={"Style Element"}
+                                title={title}
+                                handleTextFieldChange={handleTextFieldChange}
+                                element_Type={element.element.element_type}
+                                sectionStyle={elementStyle}
+                                handleSectionStyleChange={handleSectionStyleChange}
+                                handleDeleteLogoClick={handleDeleteLogoClick}
+                                handleUploadImageClickWrapper={handleUploadImageClickWrapper}
+                                styleProperties={['opacity', 'borderRadius', 'width', "fontSize", "fontWeight", 'height']}
+                            />
+                        }
+                        sx={{
+                            width:'20px',
+                            height:'20px',
+                            border: '1px solid red',
+                            padding: '10px 15px',
+                            fontWeight: 'bold',
+                            color: 'white.main',
+                            backgroundColor: 'primary.dark',
+                            position: 'absolute',
+                            left: 0,
+                        }}
+                    />
+                    <AdminMainButton
+                        title="Delete"
+                        type="custom"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<DeleteSweepIcon />}
+                        onClick={handleDeleteElementClick}
+
+                        sx={{
+                            width:'20px',
+                            height:'20px',
+                            border: '1px solid red',
+                            padding: '10px 15px',
+                            fontWeight: 'bold',
+                            color: 'white.main',
+                            backgroundColor: 'warning.dark',
+                            position: 'absolute',
+                            right:'0'
+                        }}
+                    />
+                </TooltipContainer>
+
+
         </StyledEditElement>
     );
 };

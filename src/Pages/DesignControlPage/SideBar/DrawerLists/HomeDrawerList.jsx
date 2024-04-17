@@ -36,22 +36,22 @@ const customSearchStyle = {
 
 const HomeDrawerList = () => {
     const { 
-        HeaderSection, setHeaderSection , AboutUsPage, setAboutUsPage , setGalleryPage , GalleryPage ,TeamSection,
+        HeaderSection, setHeaderSection , TeamSection,
         setTeamSection ,CarouselSection, setCarouselSection ,WorkSection, setWorkSection ,CounterSection, setCounterSection ,
-        ServicesSection, setServicesSection , SliderSection, setSliderSection} = useContext(MainTemplateSectionSet);
+        ServicesSection, setServicesSection , SliderSection, setSliderSection , MessageSection, setMessageSection} = useContext(MainTemplateSectionSet);
 
 
     const [drawerItemsState, setDrawerItemsState] = useState({
         'Home': false,
         'Header': HeaderSection,
-        'About Us': AboutUsPage,
-        'Gallery': GalleryPage,
         'Team': TeamSection,
         'Carousel': CarouselSection,
         'Work': WorkSection,
         'Counters': CounterSection,
         'Services': ServicesSection,
         'Slider' : SliderSection,
+        'Message' : MessageSection,
+
     });
     const handleItemClick = (itemName) => {
         setDrawerItemsState((prevState) => ({
@@ -60,12 +60,6 @@ const HomeDrawerList = () => {
         }));
         if (itemName === 'Header') {
             setHeaderSection((prevAboutUs) => !prevAboutUs);
-        }
-        if (itemName === 'About Us') {
-            setAboutUsPage((prevAboutUs) => !prevAboutUs);
-        }
-        if (itemName === 'Gallery') {
-            setGalleryPage((prevAboutUs) => !prevAboutUs);
         }
         if (itemName === 'Team') {
             setTeamSection((prevAboutUs) => !prevAboutUs);
@@ -85,6 +79,9 @@ const HomeDrawerList = () => {
         if (itemName === 'Slider') {
             setSliderSection((prevAboutUs) => !prevAboutUs);
         }
+        if (itemName === 'Message') {
+            setMessageSection((prevAboutUs) => !prevAboutUs);
+        }
     };
 
 
@@ -100,16 +97,8 @@ const drawerItems = [
         icon: <InfoIcon />,
         onClick: () => handleItemClick('Header'),
     },
-    {
-        name: 'About Us',
-        icon: <InfoIcon />,
-        onClick: () => handleItemClick('About Us'),
-    },
-    {
-        name: 'Gallery',
-        icon: <CollectionsIcon />,
-        onClick: () => handleItemClick('Gallery'),
-    },
+
+
     {
         name: 'Team',
         icon: <CollectionsIcon />,
@@ -139,6 +128,11 @@ const drawerItems = [
         name: 'Slider',
         icon: <InfoIcon />,
         onClick: () => handleItemClick('Slider'),
+    },
+    {
+        name: 'Message',
+        icon: <CollectionsIcon />,
+        onClick: () => handleItemClick('Message'),
     },
     ];
     const [openDialog , setOpenDialog] = useState(false)
