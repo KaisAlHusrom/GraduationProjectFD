@@ -8,14 +8,13 @@ import { useEffect, useState } from 'react'
 import StringHelper from '../../Helpers/StringsHelper'
 import NumberHelper from '../../Helpers/NumberHelper'
 
-//images
-import empty from "../../Assets/Images/emptyProduct.webp"
 
 //Components
 import LinearProgressWithLabel from '../LinearProgressWithLabel/LinearProgressWithLabel'
 
 //MUI
 import {
+    Autocomplete,
     Box, Button, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment, InputLabel, OutlinedInput , Switch, TextField, TextareaAutosize, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
@@ -29,6 +28,7 @@ import propTypes from 'prop-types'
 import { DatePicker } from '@mui/x-date-pickers'
 import RelationTextFieldToCustomModal from '../RelationTextFieldToCustomModal/RelationTextFieldToCustomModal'
 import { useMyContext } from '../DatabaseView/DatabaseView'
+import AdminUploadImageComponent from '../AdminUploadImageComponent/AdminUploadImageComponent'
 
 
 //Styled Components
@@ -60,15 +60,6 @@ const VisuallyHiddenInput = styled('input')({
     width: 1,
 });
 
-const StyledImageBox = styled(Box)(
-    () => ({
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            width: "100%",
-    })
-)
 
 const StyledFileBox =styled(Box)(
     () => ({
@@ -119,15 +110,6 @@ const StyledTextArea = styled(TextareaAutosize)(
 
 
 
-const imageStyle = {
-    width: "140px",
-    height: "140px",
-    marginBottom: "8px",
-    borderRadius: "8px",
-}
-
-
-
 
 const CustomFormModal = (props) => {
     const {
@@ -146,6 +128,7 @@ const CustomFormModal = (props) => {
         "int",
         "date",
         "decimal",
+        "enum",
         "many-to-many",
         "many-to-one",
         "one-to-many",
@@ -156,8 +139,11 @@ const CustomFormModal = (props) => {
     //Columns after sorting them
     const sortedColumns = {};
     sortingOrder.forEach((type) => {
+        const updatedType = type.split("|")[0]
+        // console.log(type)
         Object.entries(columns).forEach(([key, value]) => {
-            if (value === type) {
+            const updatedValue = value.split("|")[0]
+            if (updatedValue === updatedType) {
                 sortedColumns[key] = value;
             }
         });
@@ -231,9 +217,13 @@ const CustomFormModal = (props) => {
     // Handle change for input fields
     const handleChange = (e, column, newValue, relation, setAutoCompleteValue) => {
         const name = column
-        const type = columns[column]
+        const type = columns[column].split("|")[0]
         
         let value = e.target.value;
+
+        if(type === "enum") {
+            value = newValue;
+        }
         
         if(type === "many-to-many" || type === "many-to-one" || type === "rate") {
             //?? TO send only the ids I have to setAutoCompleteValue to not change the values in Autocomplete component;
@@ -302,10 +292,12 @@ const CustomFormModal = (props) => {
 
     //Return Inputs based on column type
     const returnInputs = (column, type, response, key) => {
+
+
         const error = !!(response?.errors && response.errors[column]);
         const errorMessage = response?.errors?.[column] ?? '';
         const label = StringHelper.capitalizeEachWord(column.split("_").join(" "))
-
+        // console.log(type)
         const defaultProps = {
             fullWidth: true,
             label: label,
@@ -355,6 +347,34 @@ const CustomFormModal = (props) => {
                         />
                     </FormControl>
                 </Grid>
+            )
+        }
+
+        if(type === "enum") {
+
+            const values = columns[column].split('|')[1].split(",");
+            return (
+            <Grid key={key} item xs={6}>
+                <FormControl error={error} fullWidth>
+                    <Autocomplete
+                        disablePortal
+                        options={values}
+                        fullWidth
+                        size="small"
+                        value={inputValues[column] || null}
+                        onChange={(event, newValue) => handleChange(event, column, newValue)}
+                        renderInput={(params) => <TextField {...params} label={column} />}
+                        
+                    />
+                    {error
+                    ?
+                    <Typography ml={2} variant='body2' color="error">
+                        {errorMessage}
+                    </Typography>
+                    : null}
+                </FormControl>
+
+            </Grid>
             )
         }
 
@@ -496,33 +516,12 @@ const CustomFormModal = (props) => {
         if(type === "image") {
             return (
             <Grid key={key} item xs={12}>
-                <StyledImageBox>
-                <img 
-                src={image ? image : empty} 
-                alt={column} 
-                style={imageStyle}
-                
+                <AdminUploadImageComponent
+                    column={column}
+                    customOnChange={(event) => handleChange(event, column)}
+                    response={response}
+                    imageState={[image, setImage]}
                 />
-                <Button size='small' component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                    Upload {label}
-                    <VisuallyHiddenInput 
-                    type="file" 
-                    accept='image/*' 
-                    name={column}
-                    onChange={event => handleChange(event, column)}
-                    />
-                </Button>
-                {error ? 
-                <Box mt={1}>
-                    <Typography variant="subtitle1" component="span" color="error">
-                        {errorMessage}
-                    </Typography>
-                </Box>
-                                
-                : 
-                null}
-
-                </StyledImageBox>
             </Grid>
             )
         }
@@ -568,7 +567,7 @@ const CustomFormModal = (props) => {
             )
         }
 
-        if(type === "many-to-one" || type === "many-to-many") {
+        if(type === "many-to-one" || type === "many-to-many" || type === "one-to-many") {
             return (
 
                     <RelationTextFieldToCustomModal 
@@ -585,19 +584,22 @@ const CustomFormModal = (props) => {
     }
 
     //when submitting
-    const {handleAddData, setPageNumber} = useMyContext()
+    const {handleAddData, setPageNumber, pageNumber, setRefetch} = useMyContext()
     const [response, setResponse] = useState(null);
 
 
 
     useEffect(() => {
-        console.log(response)
         if(response) {
             if(response.success) {
-                console.log("success")
                 
                 //TODO: I have to fetch the data again when new data added
-                setPageNumber(() => 1);
+                if(pageNumber === 1) {
+                    setRefetch(prev => prev + 1)
+                } else {
+                    setPageNumber(() => 1);
+                }
+                
                 setFromOpen(() => false);
 
             }
@@ -605,14 +607,13 @@ const CustomFormModal = (props) => {
             if(response.errors) return
             
         }
-    }, [response, title, setPageNumber, setFromOpen])
+    }, [response, title, setPageNumber, setFromOpen, pageNumber, setRefetch])
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         const res = await handleAddData(inputValues)
-        console.log(res)
         setResponse(() => res)
     }
 
@@ -621,9 +622,12 @@ const CustomFormModal = (props) => {
             <StyledCustomFormModal>
             <Grid container spacing={2}>
                 {
-                    sortedColumns && Object.entries(sortedColumns).map(([column, type], key) => (
-                            returnInputs(column, type, response, key)
-                    ))
+                    sortedColumns && Object.entries(sortedColumns).map(([column, type], key) => {
+                        const updatedType = type.split("|")[0];   
+                        return (
+                            returnInputs(column, updatedType, response, key)
+                        )
+                    })
                 }
                 
                 

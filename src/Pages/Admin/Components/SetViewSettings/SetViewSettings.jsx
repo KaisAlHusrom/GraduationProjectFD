@@ -24,6 +24,7 @@ import { styled } from '@mui/system'
 import propTypes from 'prop-types'
 import { useMyContext } from '../../../../Components/DatabaseView/DatabaseView'
 import StringHelper from '../../../../Helpers/StringsHelper'
+import { MuiColorInput } from 'mui-color-input'
 
 
 //Styled Components
@@ -69,6 +70,18 @@ const SetViewSettings = ({view}) => {
         }));
     };
 
+    // Handler for Select changes
+    const handleChangeColor = (e, newValue, key) => {
+        const value = newValue.hex
+        const updatedViewSettings = {...viewSettings}
+        updatedViewSettings[key] = value
+
+        setViewsSettings((prevViewsSettings) => ({
+        ...prevViewsSettings,
+        [view]: updatedViewSettings,
+        }));
+    };
+
 
     return (
         <StyledSetViewSettings>
@@ -78,7 +91,7 @@ const SetViewSettings = ({view}) => {
                         <ListItem key={index}>
                             <ListItemText id="switch-list-label-wifi" primary={StringHelper.camelCaseToWords(StringHelper.capitalizeEachWord(key))} />
                             {
-                                !Array.isArray(value)
+                                typeof value === 'boolean'
                                 ?
                                 <Switch
                                 edge="end"
@@ -89,6 +102,8 @@ const SetViewSettings = ({view}) => {
                                 }}
                                 />
                                 :
+                                Array.isArray(value)
+                                ?
                                 <TextField 
                                 select
                                 value={value.find((item) => item.value)?.name || ''}
@@ -117,6 +132,19 @@ const SetViewSettings = ({view}) => {
                                             </MenuItem>
                                         ))}
                                 </TextField>
+                                :
+                                <MuiColorInput 
+                                    format="hex" 
+                                    label={key} 
+                                    onChange={(event, newValue) => handleChangeColor(event, newValue, key)} 
+                                    size="small"
+                                    value={value}
+                                    isAlphaHidden
+                                    sx={{
+                                        width: 150
+                                    }}
+                                />
+                                
                             }
                         </ListItem>
 

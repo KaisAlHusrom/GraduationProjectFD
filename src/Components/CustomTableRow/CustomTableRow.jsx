@@ -1,5 +1,5 @@
 //React
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react'
 
 import {
     
@@ -22,11 +22,13 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 //propTypes 
 import propTypes from 'prop-types'
-import { NavLink, useLoaderData } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { useMyContext } from '../DatabaseView/DatabaseView'
 import ViewDataHelper from '../../Helpers/ViewDataHelper'
 import { useTheme } from '@emotion/react';
+import CustomModal from '../CustomModal/CustomModal';
+import ImageUpdateInput from '../../Pages/Admin/Components/ImageUpdateInput/ImageUpdateInput';
 
 
 
@@ -67,6 +69,13 @@ const CustomTableRow = (props) => {
         lastRowRef
     } = props
 
+    const [modalOpen, setModalOpen] = useState(false)
+    useEffect(() => {
+        if(modalOpen === false) {
+            setShowTextField(() => null);
+        }
+    }, [modalOpen])
+
     //view settings
     //I don't put a condition if null, because I solved it in DatabaseView component
     const {viewsSettings} = useMyContext()
@@ -78,7 +87,7 @@ const CustomTableRow = (props) => {
     } = viewsSettings.table
     //selectedColor
     const selectedColor = useMemo(()=> {
-        return selectEvenRowsBackgroundColor.find((item) => item.value)?.name
+        return selectEvenRowsBackgroundColor
     }, [selectEvenRowsBackgroundColor])
 
     //Cells Ref
@@ -114,7 +123,8 @@ const CustomTableRow = (props) => {
     useEffect(() => {
         const handleOutsideClick = (event) => {
             const clickedElement = event.target;
-            const withoutClasses = ['.MuiAutocomplete-option']
+            const withoutClasses = ['.MuiAutocomplete-option', '.MuiModal-root']
+            
             handleCellOutsideClick(tableBodyRef, clickedElement, withoutClasses, setShowAllCell, setShowTextField, rowData)
         }
         document.body.addEventListener('mousedown', handleOutsideClick);
@@ -148,7 +158,11 @@ const CustomTableRow = (props) => {
         setShowTextField(() => null)
     }
 
-    const handleShowTextField = (cell_index) => {
+    const handleShowTextField = (cell_index, type) => {
+        if(type === 'image') {
+            setModalOpen(() => true);
+        }
+
         setShowTextField(() => cell_index)
         setShowAllCell(() => null);
     }
@@ -250,58 +264,81 @@ const CustomTableRow = (props) => {
 
 
     return (
-        <TableRow sx={StyledCustomTableRow} ref={lastRowRef}>
-            <TableCell
-            sx={StyledTableCell}
-            >
-                
-            <Checkbox 
-            checked={selected.includes(rowData[Object.keys(columns).find(key => columns[key] === "pk")])}
-            onChange={(event) => handleRowCheckboxChange(event, rowData[Object.keys(columns).find(key => columns[key] === "pk")])}
-            />
+        <>
+            <TableRow sx={StyledCustomTableRow} ref={lastRowRef}>
+                <TableCell
+                sx={StyledTableCell}
+                >
+                    
+                <Checkbox 
+                checked={selected.includes(rowData[Object.keys(columns).find(key => columns[key] === "pk")])}
+                onChange={(event) => handleRowCheckboxChange(event, rowData[Object.keys(columns).find(key => columns[key] === "pk")])}
+                />
 
-            <IconButton 
-            disableRipple
-            sx={styleIconButtonLink}>
-                <StyledNavLink 
-                    to={`${rowData[Object.keys(columns).find(key => columns[key] === "pk")]}`}
-                    >
-                    <OpenInNewIcon />
-                </StyledNavLink>
-            </IconButton>
-            </TableCell>
-            {filteredColumnsArray.map((column, colIndex) => (
-                showAllCell === `${rowData.id}-${colIndex}` ? (
-                    // Content to render when showAllCell is true
-                    
-                    <Fade key={`${rowData.id}-${colIndex}`} in={showAllCell === `${rowData.id}-${colIndex}`}>
-                        <TableCell ref={tableBodyRef} sx={StyledTableCellShowAllData} onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`)}>
-                            <Box sx={StyledRelativeBox}>
-                            {checkDatabaseDataInTable(columns, column, rowData[column], showAllCell, relationships, imagesFolderName)}
-                            </Box>
+                <IconButton 
+                disableRipple
+                sx={styleIconButtonLink}>
+                    <StyledNavLink 
+                        to={`${rowData[Object.keys(columns).find(key => columns[key] === "pk")]}`}
+                        >
+                        <OpenInNewIcon />
+                    </StyledNavLink>
+                </IconButton>
+                </TableCell>
+                {filteredColumnsArray.map((column, colIndex) => (
+                    showAllCell === `${rowData.id}-${colIndex}` ? (
+                        // Content to render when showAllCell is true
+                        
+                        <Fade key={`${rowData.id}-${colIndex}`} in={showAllCell === `${rowData.id}-${colIndex}`}>
+                            <TableCell ref={tableBodyRef} sx={StyledTableCellShowAllData} onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`, columns[column])}>
+                                <Box sx={StyledRelativeBox}>
+                                {checkDatabaseDataInTable(columns, column, rowData[column], showAllCell, relationships, imagesFolderName)}
+                                </Box>
+                            </TableCell>
+                        </Fade>
+                    ) : showTextField === `${rowData.id}-${colIndex}` ? (
+                        // Content to render when showTextField is true
+                        <Fragment key={`${rowData.id}-${colIndex}`}>
+                            <TableCell ref={tableBodyRef} sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>
+                                {
+                                    getAppropriateTextField(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relationships, pkColumnData)
+                                }
+                            </TableCell>
+                            {
+                                columns[column] === "image"
+                                ?
+                                <CustomModal 
+                                title={"Update Image"} 
+                                modalOpenState={[modalOpen, setModalOpen]}
+                                // modalIcon={modalIcon}
+                                >
+                                    {
+                                    <ImageUpdateInput
+                                    customHandleChange={(event) => handleChangeData(event, 'image', setRowData, null, null)}
+                                    column={column}
+                                    value={rowData[column]}
+                                    />
+                                    }
+                                </CustomModal>
+                                : null
+                            }
+                        </Fragment>
+                        
+                    ) : (
+                        // Content to render when showAllCell and showTextField are false
+                        <TableCell
+                            sx={StyledNormalCell}
+                            onClick={() => handleShowAllCell(`${rowData.id}-${colIndex}`)}
+                            key={`${rowData.id}-${colIndex}`}
+                            ref={tableBodyRef}
+                        >
+                            {checkDatabaseDataInTable(columns, column, rowData[column], undefined, relationships, imagesFolderName)}
                         </TableCell>
-                    </Fade>
-                ) : showTextField === `${rowData.id}-${colIndex}` ? (
-                    // Content to render when showTextField is true
-                    <TableCell ref={tableBodyRef} sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>
-                        {
-                            getAppropriateTextField(setShowTextField, columns, column, rowData[column], handleChangeData, rowData, handleEnterKeyDown, setRowData, relationships, pkColumnData)
-                        }
-                    </TableCell>
-                    
-                ) : (
-                    // Content to render when showAllCell and showTextField are false
-                    <TableCell
-                        sx={StyledNormalCell}
-                        onClick={() => handleShowAllCell(`${rowData.id}-${colIndex}`)}
-                        key={`${rowData.id}-${colIndex}`}
-                        ref={tableBodyRef}
-                    >
-                        {checkDatabaseDataInTable(columns, column, rowData[column], undefined, relationships, imagesFolderName)}
-                    </TableCell>
-                )
-            ))}
-        </TableRow>
+                    )
+                ))}
+            </TableRow>
+            
+        </>
     );
 };
 

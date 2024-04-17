@@ -20,6 +20,7 @@ import { addStyleProps, deleteStyleProps, fetchStyleProps, permanentDeleteStyleP
 
 // icons
 import TuneIcon from '@mui/icons-material/Tune';
+import { writeFilterObject } from '../../../../Helpers/filterData'
 // Styled Components
 const StyledStylesPropsPage = styled(Box)(
     () => ({
@@ -35,7 +36,17 @@ const relationships = {
             "related_table_id": "id",
             fetch_all_data: fetchStylePropCategory,
             add_to_add_form: true,
-        }
+        },
+        {
+            "field_name": "parent",
+            "fetched_column": "style_prop_css_name",
+            "related_table_id": "id",
+            fetch_all_data: fetchStyleProps,
+            add_to_add_form: true,
+            filters: [
+                writeFilterObject("is_child", "bool", "=", "false")
+            ] // to get only parent elements
+        },
     ],
     manyToMany:[
     ],
@@ -45,7 +56,17 @@ const relationships = {
             "fetched_column": "style_prop_value_normal_name",
             "related_table_id": "id",
             // fetch_all_data: fetchStylePropCategory,
+            add_to_add_form: true,
+        },
+        {
+            "field_name": "children",
+            "fetched_column": "style_prop_css_name",
+            "related_table_id": "id",
             add_to_add_form: false,
+            fetch_all_data: fetchStyleProps, 
+            filters: [
+                writeFilterObject("is_child", "bool", "=", "true")
+            ] // to get only children elements
         }
     ]
 }
@@ -56,12 +77,16 @@ const columns = {
     'style_prop_css_name': "string",
     'style_prop_image' : "image",
     'style_prop_description': "text",
-    'style_prop_value_type': "string",
+    'style_prop_value_type': "enum|none,color,px,string,number,vh,vw,%,px;vh;%,background,shadow,image,font,fontWeight,opacity",
+    "locateTypes": "enum|Without Directions,Normal Directions,Corner Directions",
     'is_section': "bool",
+    'is_child': "bool",
     'is_component': "bool",
     'is_element': "bool",
     'options': "one-to-many",
+    'children': "one-to-many",
     "category": "many-to-one",
+    "parent": "many-to-one",
     "created_at": "dateTime",
     "updated_at": "dateTime"
 }

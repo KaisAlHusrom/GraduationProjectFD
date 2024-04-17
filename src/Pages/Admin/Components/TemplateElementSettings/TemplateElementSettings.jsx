@@ -1,5 +1,5 @@
 //React
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import {
     
@@ -10,7 +10,6 @@ import {
 
 //MUI
 import {
-    Autocomplete,
     Box,
     Button,
     Grid, TextField, TextareaAutosize, Typography,
@@ -25,6 +24,9 @@ import empty from "../../../../Assets/Images/emptyProduct.webp"
 
 //propTypes 
 import propTypes from 'prop-types'
+import { fetchElementTypesRows } from '../../../../Services/elementsTypesService';
+import CustomLazyAutoComplete from '../../../../Components/CustomLazyAutoComplete/CustomLazyAutoComplete';
+import { writeFilterObject } from '../../../../Helpers/filterData';
 
 //Styled Components
 const StyledTemplateElementSettings = styled(Grid)(
@@ -77,15 +79,19 @@ const imageStyle = {
 const TemplateElementSettings = (props) => {
     const {
         selectedElementState,
-        elementTypesState
     } = props
+
+    
+    //open element types auto complete
+
+
+    
 
     //selected element state
     const {selectedElement, setSelectedElement} = selectedElementState
 
-    //all elements types state
-    const {elementTypes} = elementTypesState
 
+    
     //state for upload images
     const [imageSrc, setImageSrc] = useState((null));
     const handleImageChange = (e) => {
@@ -100,19 +106,13 @@ const TemplateElementSettings = (props) => {
     }
 
 
-    const defaultProps = useMemo(()=> {
-        return {
-            options: elementTypes,
-            getOptionLabel: (option) => option.element_type_name,
-            getOptionKey: (option) => option.element_type_id,
-        };
-    }, [elementTypes])
-
 
     //Handlers
-    const handleChangeElementType = (event, newValue) => {
-        setSelectedElement(() => newValue)
-    }
+    
+
+    
+
+    
 
     return (
         <StyledTemplateElementSettings container spacing={2}>
@@ -148,14 +148,13 @@ const TemplateElementSettings = (props) => {
                 </StyledImageBox>
             </Grid>
             <Grid item xxs={12} xs={6} md={4} lg={3}>
-                <Autocomplete
-                    {...defaultProps}
-                    disablePortal
-                    id="Element Types Auto Complete"
-                    renderInput={(params) => <TextField {...params} label="Element Type" />}
-                    onChange={(event, newValue) => handleChangeElementType(event, newValue)}
-                    value={selectedElement}
-                    size='small'
+                <CustomLazyAutoComplete
+                    optionId='id'
+                    optionName='element_type_name'
+                    label='Element Types'
+                    handleFetchData={fetchElementTypesRows}
+                    valueState={[selectedElement, setSelectedElement]}
+                    filters={[writeFilterObject("is_child", "bool", "=", "false")]} // to get wanted data,
                 />
             </Grid>
             <Grid item xxs={12} xs={6} md={4} lg={3}>

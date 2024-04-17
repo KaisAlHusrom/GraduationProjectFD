@@ -102,13 +102,15 @@ const RelationTextField = (props) => {
 
     const [open, setOpen] = useState(false);
 
+    
+
     const {
         hasMore,
         // error,
         loading,
         setPageNumber,
-        data
-    } = useFetchData(relation.fetch_all_data, "all", null, null, open, searchQuery)
+        data,
+    } = useFetchData(relation.fetch_all_data, "all", null, null, open, searchQuery, originalData)
 
     // *** DOWNLOAD MORE WHEN SCROLLING BOTTOM
     const observer = useRef()
@@ -126,30 +128,33 @@ const RelationTextField = (props) => {
 
         if (node) observer.current.observe(node)
     }, [hasMore, loading, setPageNumber])
-
-
-
     
 
 
     // Assuming originalData is an array of selected objects
     
-    const selectedOptions = useMemo(() => {
-        //TODO: I have to get the selected data at the first
-        if(originalData){
-            if (relationType === "many-to-many" || relationType === "one-to-many") {
-                return data.filter(row => {
-                    // Check if originalData contains the current row's id
-                    return originalData.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
-                });
-            }
-            if (relationType === "many-to-one") {
-                return data.filter(row => row[relation["related_table_id"]] === originalData[relation["related_table_id"]])[0];
-            }
-        } 
+    // const selectedOptions = useMemo(() => {
+    //     if(originalData){
+    //         if (relationType === "many-to-many" || relationType === "one-to-many") {
+    //             return data.filter(row => {
+    //                 // Check if originalData contains the current row's id
+    //                 return originalData.some(selectedObj => selectedObj[relation["related_table_id"]] === row[relation["related_table_id"]]);
+    //             }).map(row => ({
+    //                 [relation["related_table_id"]]: row[relation["related_table_id"]],
+    //                 [relation["fetched_column"]]: row[relation["fetched_column"]]
+    //             }));
+    //         }
+    //         if (relationType === "many-to-one") {
+    //             return data.filter(row => row[relation["related_table_id"]] === originalData[relation["related_table_id"]])
+    //             .map(row => ({
+    //                 [relation["related_table_id"]]: row[relation["related_table_id"]],
+    //                 [relation["fetched_column"]]: row[relation["fetched_column"]]
+    //             }))[0];
+    //         }
+    //     } 
         
-        return null
-    }, [originalData, data, relation, relationType]);
+    //     return null
+    // }, [originalData, data, relation, relationType]);
 
     const handleChangeSearchQuery = useCallback((e) => {
 
@@ -194,7 +199,7 @@ const RelationTextField = (props) => {
             ),
             onChange: (event, newValue) => handleChangeData(event, relationType, setNewData, columnName, newValue, row),
             onKeyDown: (event) => handleEnterKeyDown(event, relationType, row, setShowTextField),
-            value: selectedOptions,
+            value: originalData,
             PaperComponent: StyledMenu,
             isOptionEqualToValue: (option, value) => option[relation["fetched_column"]] === value[relation["fetched_column"]],
             renderOption: (props, option, { index, selected }) => {
@@ -232,7 +237,7 @@ const RelationTextField = (props) => {
             loading: loading,
             fullWidth: true, // or fullWidth: Boolean value,
         };
-    }, [open, data, selectedOptions, loading, relation, searchQuery?.searchTerm, handleChangeSearchQuery, columnName, handleChangeData, relationType, setNewData, row, handleEnterKeyDown, setShowTextField, lastDataRowElementRef]);
+    }, [open, data, originalData, loading, relation, searchQuery?.searchTerm, handleChangeSearchQuery, columnName, handleChangeData, relationType, setNewData, row, handleEnterKeyDown, setShowTextField, lastDataRowElementRef]);
     
 
     return (

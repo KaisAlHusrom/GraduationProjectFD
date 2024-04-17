@@ -123,7 +123,8 @@ const CustomGalleryViewItem = (props) => {
         appearedDataCount,
         filteredColumnsArray,
         handleChangeData,
-        handleEnterKeyDown
+        handleEnterKeyDown,
+        lastRowRef
     } = props
 
     //view settings
@@ -140,11 +141,10 @@ const CustomGalleryViewItem = (props) => {
     //Cells Ref
     const galleryItemRef = useRef(null);
 
-    //I get columns object to know the type of each column
-    const {columns} = useLoaderData();
+    //I get columns object to know the type of each column, and the relationships
+    const {columns, relationships, handleCellOutsideClick} = useMyContext();
 
-    //Relations
-    const {relations} = useLoaderData();
+
 
     ///States
     //make another state for row, to give the ability to change the cell directly, the data will change in database when press Enter
@@ -161,15 +161,10 @@ const CustomGalleryViewItem = (props) => {
     //when press outside the table content showAllCell will set as null
     useEffect(() => {
             const handleOutsideClick = (event) => {
-            const clickedElement = event.target;
-            const isSelectAutoCompleteOption = clickedElement.closest('.MuiAutocomplete-option')
-        
-            if (!isSelectAutoCompleteOption && galleryItemRef.current && !galleryItemRef.current.contains(clickedElement)) {
-                // Clicked outside the table cell, so set showAllCell to null
-                setShowAllCell(null);
-                setShowTextField(null);
-                //TODO: you can add that the data in database will change when press outside the table cell
-            }
+                const clickedElement = event.target;
+                const withoutClasses = ['.MuiAutocomplete-option', '.MuiModal-root']
+                
+                handleCellOutsideClick(galleryItemRef, clickedElement, withoutClasses, setShowAllCell, setShowTextField, galleryItemData)
             };
         
             document.body.addEventListener('mousedown', handleOutsideClick);
@@ -281,11 +276,11 @@ const CustomGalleryViewItem = (props) => {
                 backgroundColor: theme.palette.background.paper,
             }
         }
-    }, [theme, selected, galleryItemData.id])
+    }, [theme.palette.background.paper, theme.transitions, selected, galleryItemData, columns])
 
     return (
-        <StyledCustomGalleryViewItem ref={galleryItemRef} item xxs={12} sm={4} md={3} lg={3} xl={3}>
-            <Box sx={StyledCheckboxBox}>
+        <StyledCustomGalleryViewItem  ref={galleryItemRef} item xxs={12} sm={4} md={3} lg={3} xl={3}>
+            <Box ref={lastRowRef}  sx={StyledCheckboxBox}>
                 <Checkbox 
                 size='small'
                 checked={selected.includes(galleryItemData[Object.keys(columns).find(key => columns[key] === "pk")])}
@@ -309,7 +304,7 @@ const CustomGalleryViewItem = (props) => {
                     <Fragment key={cellKey}>
                         {columns[column] === "image" && (
                             <StyledPreviewBox key={cellKey}>
-                                {checkDatabaseDataInTable(columns, column, galleryItemData[column], undefined, relations)}
+                                {checkDatabaseDataInTable(columns, column, galleryItemData[column], undefined, relationships)}
                             </StyledPreviewBox>
                         )}
                         <StyledDataBox sx={StyleDataBox}>
@@ -327,7 +322,7 @@ const CustomGalleryViewItem = (props) => {
                                         (
                                             <Fade in={showAllCell === cellKey}>
                                                 <Box onClick={()=>handleShowTextField(cellKey)} sx={styleShowAllDataTypo} variant="body1">
-                                                    {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relations)}
+                                                    {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relationships)}
                                                 </Box>
                                             </Fade>
                                         )
@@ -337,14 +332,14 @@ const CustomGalleryViewItem = (props) => {
                                             (
                                                 <Fade in={showTextField === cellKey}>
                                                     <Box sx={styleTextFieldTypo} variant="body1">
-                                                        {columns[column] !== "image" && getAppropriateTextField(setShowTextField, columns, column, galleryItemData[column], handleChangeData, galleryItemData, handleEnterKeyDown, setGalleryItemData, relations)}
+                                                        {columns[column] !== "image" && getAppropriateTextField(setShowTextField, columns, column, galleryItemData[column], handleChangeData, galleryItemData, handleEnterKeyDown, setGalleryItemData, relationships)}
                                                     </Box>
                                                 </Fade>
                                             )
                                     :
                                         (
                                         <Box onClick={()=>handleShowAllCell(cellKey)} sx={styleDataTypo} variant="body1">
-                                            {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relations)}
+                                            {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relationships)}
                                         </Box>
                                         )
                                 ) : (
@@ -353,7 +348,7 @@ const CustomGalleryViewItem = (props) => {
                                         (
                                             <Fade in={showAllCell === cellKey}>
                                                 <Box onClick={()=>handleShowTextField(cellKey)} sx={styleShowAllDataTypo} variant="body1">
-                                                    {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relations)}
+                                                    {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relationships)}
                                                 </Box>
                                             </Fade>
                                         )
@@ -371,7 +366,7 @@ const CustomGalleryViewItem = (props) => {
                                         (
                                         <Tooltip title={column} placement='left'>
                                             <Box onClick={()=>handleShowAllCell(cellKey)} sx={styleDataTypo} variant="body1">
-                                                {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relations)}
+                                                {columns[column] !== "image" && checkDatabaseDataInTable(columns, column, galleryItemData[column], showAllCell, relationships)}
                                             </Box>
                                         </Tooltip>
                                         )

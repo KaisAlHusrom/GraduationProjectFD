@@ -7,7 +7,11 @@ const StylePropCategoryRoute = config.ServerMainRoute + "/style_props_categories
 
 const StylePropCategoryAPI = axios.create({
     baseURL: StylePropCategoryRoute,
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    }
 });
+
 
 //---------------------------------------
 // fetch items 
@@ -26,12 +30,9 @@ export const fetchStylePropCategory = async (type = "all", pageNumber = 1, filte
 
 //add items
 export const addStylePropCategory = async (inputValues) => {
-    const submission = {
-        "category_name": inputValues["category_name"],
-        "category_description": inputValues["category_description"], 
-    };
+
     
-    return await addDataTemplate(StylePropCategoryAPI, submission);
+    return await addDataTemplate(StylePropCategoryAPI, inputValues);
 }
 
 //update items

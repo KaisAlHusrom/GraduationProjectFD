@@ -134,7 +134,7 @@ const adminPageRoutes = [
         ,
         path: "element-settings/create-element-template",
         exact: false,
-        loader: fetchCreateElementNeededData,
+        // loader: fetchCreateElementNeededData,
         // action: addStylesBreakpoint,
     },
     {

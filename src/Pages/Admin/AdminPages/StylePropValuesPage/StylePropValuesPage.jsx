@@ -36,7 +36,7 @@ const relations = {
     manyToOne:[
         {
             "field_name": "style_prop",
-            "fetched_column": "style_prop_normal_name",
+            "fetched_column": "style_prop_css_name",
             "related_table_id": "id",
             fetch_all_data: fetchStyleProps,
             add_to_add_form: true,
@@ -52,7 +52,7 @@ const relations = {
 
 //columns
 const columns = {
-    id: "pk",
+    "id": "pk",
     style_prop: "many-to-one",
     style_prop_value_normal_name: "string",
     style_prop_value_css_name: "string",

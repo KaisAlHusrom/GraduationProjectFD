@@ -1,181 +1,215 @@
-import { Link, TextField, Typography } from "@mui/material"
-import { Fragment } from "react";
+import { Box, Link, Typography } from "@mui/material"
+import { Fragment, useCallback, useMemo, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import exampleImage from "../Assets/Images/exampleImage.jpg"
+import exampleImage from "../assets/images/exampleimage.jpg"
 
-export const generateTag = (selectedElement, elementStyle) => {
-    const type = selectedElement ? selectedElement.element_type_name : "";
-    const exampleText = `Example of ${type}`;
 
-    switch (type) {
-        case 'Text Field String':
+import propTypes from 'prop-types'
 
-            return <input style={elementStyle} type="text" placeholder={`Example of ${type}`}  />;
-        case 'Text Field Number':
-            return <input style={elementStyle} type="number" placeholder={`Example of ${type}`}  />;
-        case 'Text Field File':
-            return <input style={elementStyle} type="file" placeholder={`Example of ${type}`}  />;
-        case 'Heading 1':
-            return <Typography style={elementStyle} variant="h1">{exampleText}</Typography>;
-        case 'Heading 2':
-            return <Typography style={elementStyle} variant="h2">{exampleText}</Typography>;
-        case 'Heading 3':
-            return <Typography style={elementStyle} variant="h3">{exampleText}</Typography>;
-        case 'Heading 4':
-            return <Typography style={elementStyle} variant="h4">{exampleText}</Typography>;
-        case 'Heading 5':
-            return <Typography style={elementStyle} variant="h5">{exampleText}</Typography>;
-        case 'Heading 6':
-            return <Typography style={elementStyle} variant="h6">{exampleText}</Typography>;
-        case 'Subtitle 1':
-            return <Typography style={elementStyle} variant="subtitle1">{exampleText}</Typography>;
-        case 'Subtitle 2':
-            return <Typography style={elementStyle} variant="subtitle2">{exampleText}</Typography>;
+
+//functions
+const repeat = (selectedElement) => {
+    return selectedElement.children && selectedElement.children.length > 0
+    ?
+    selectedElement.children.map((child, key) => <Fragment key={key}>
+        <GenerateTag
+            key={child.id}
+            // elementStyle={elementStyle}
+            selectedElement={child}
+        />
+    </Fragment>)
+    :
+    null
+}
+
+const repeatThreeTimes = (selectedElement) => {
+    
+        return selectedElement.children && selectedElement.children.length > 0
+        ? (
+            Array.from({ length: 3 }, (_, index) => (
+                <Fragment key={index}>
+                    {selectedElement.children.map((child, key) => (
+                        <Fragment key={key}>
+                            <GenerateTag
+                                key={child.id}
+                                // elementStyle={elementStyle}
+                                selectedElement={child}
+                            />
+                        </Fragment>
+                    ))}
+                </Fragment>
+            ))
+        )
+        : null 
+    
+}
+
+export const GenerateTag = ({selectedElement, elementStyle}) => {
+    const sortedData = Array.isArray(selectedElement) ? selectedElement.sort((a, b) => a.sequence_number - b.sequence_number) : selectedElement;
+    const type = sortedData ? sortedData.element_type_name : "";
+    const key = sortedData ? sortedData.id : "";
+    let exampleText = `${type}`;
+
+    const [selectedEditableElement, setSelectedEditableElement] = useState(null)
+
+    const handleChangeSelectedEditableElement = useCallback((key) => {
+        setSelectedEditableElement(() => key)
+        console.log(selectedEditableElement)
+    }, [selectedEditableElement])
+
+
+    //Hovering
+    const [isHovered, setIsHovered] = useState(false);
+
+    const handleMouseOver = useCallback(() => {
+        setIsHovered(true);
+    }, []);
+
+    const handleMouseOut = useCallback(() => {
+        setIsHovered(false);
+    }, []);
+
+
+
+    const defaultProps = useMemo(() => {
+        return {
+            type: type,
+            key: key,
+            placeholder:type,
+            style: {
+                ...elementStyle,
+                ...(isHovered && { })
+            },
+            onClick: () => handleChangeSelectedEditableElement(key),
+            onMouseOver: handleMouseOver,
+            onMouseOut: handleMouseOut
+        }
+    }, [elementStyle, handleChangeSelectedEditableElement, handleMouseOut, handleMouseOver, isHovered, key, type])
+
+    
+
+    switch (type.toLowerCase()) {
+        case 'text field strings':
+            return <input {...defaultProps}  />;
+        case 'text field numbers':
+            return <input {...defaultProps}  />;
+        case 'text field files':
+            return <input {...defaultProps}  />;
+        case 'heading 1':
+            return <Typography {...defaultProps} variant="h1">{exampleText}</Typography>;
+        case 'heading 2':
+            return <Typography {...defaultProps} variant="h2">{exampleText}</Typography>;
+        case 'heading 3':
+            return <Typography {...defaultProps} variant="h3">{exampleText}</Typography>;
+        case 'heading 4':
+            return <Typography {...defaultProps} variant="h4">{exampleText}</Typography>;
+        case 'heading 5':
+            return <Typography {...defaultProps} variant="h5">{exampleText}</Typography>;
+        case 'heading 6':
+            return <Typography {...defaultProps} variant="h6">{exampleText}</Typography>;
+        case 'subtitle 1':
+            return <Typography {...defaultProps} variant="subtitle1">{exampleText}</Typography>;
+        case 'subtitle 2':
+            return <Typography {...defaultProps} variant="subtitle2">{exampleText}</Typography>;
         case 'body 1':
-            return <Typography style={elementStyle} variant="body1">{exampleText}</Typography>;
+            return <Typography {...defaultProps} variant="body1">{exampleText}</Typography>;
         case 'body 2':
-            return <Typography style={elementStyle} variant="body2">{exampleText}</Typography>;
-        case 'Normal link':
-            return <Link style={elementStyle} >{exampleText}</Link>
-        case 'Lazy link':
-            return <NavLink style={elementStyle}>{exampleText}</NavLink>
-        case 'list item':
-            return <li style={elementStyle}>{exampleText}</li>;
+            return <Typography {...defaultProps} variant="body2">{exampleText}</Typography>;
+        case 'normal link':
+            return <Link {...defaultProps} >{exampleText}</Link>
+        case 'lazy link':
+            return <NavLink {...defaultProps}>{exampleText}</NavLink>
+        case 'ordered list item':
+        case 'unordered list item':
+            return <li {...defaultProps}>{exampleText}</li>;
         case 'unordered list':
-
-            return <ul style={elementStyle}>
-                {
-                        selectedElement.children && selectedElement.children.length > 0
-                        ? (
-                            Array.from({ length: 3 }, (_, index) => (
-                                <Fragment key={index}>
-                                    {selectedElement.children.map((child, key) => (
-                                        <Fragment key={key}>{generateTag(child)}</Fragment>
-                                    ))}
-                                </Fragment>
-                            ))
-                        )
-                        : null 
-                    }
-            </ul>;
-        case 'ordered list':
-            return <ol>
-                    {
-                        selectedElement.children && selectedElement.children.length > 0
-                        ? (
-                            Array.from({ length: 3 }, (_, index) => (
-                                <Fragment key={index}>
-                                    {selectedElement.children.map((child, key) => (
-                                        <Fragment key={key}>{generateTag(child)}</Fragment>
-                                    ))}
-                                </Fragment>
-                            ))
-                        )
-                        : null 
-                    }
-            </ol>;
-        case 'table caption':
-            return <caption>
-                    {exampleText}
-                </caption>;
-        case 'table head':
-            return <thead>
-                {
-                    selectedElement.children && selectedElement.children.length > 0
-                    ?
-                    selectedElement.children.map((child, key) => <Fragment key={key}>{generateTag(child)}</Fragment>)
-                    :
-                    null
-                }
-                </thead>;
-        case 'table body':
-            return <tbody>
-                {
-                    selectedElement.children && selectedElement.children.length > 0
-                    ?
-                    selectedElement.children.map((child, key) => <Fragment key={key}>{generateTag(child)}</Fragment>)
-                    :
-                    null
-                }
-                </tbody>;
-        case 'table foot':
-            return <tfoot>
-                {
-                    selectedElement.children && selectedElement.children.length > 0
-                    ?
-                    selectedElement.children.map((child, key) => <Fragment key={key}>{generateTag(child)}</Fragment>)
-                    :
-                    null
-                }
-                </tfoot>;
-        case 'table row':
             return (
-                <tr>
-                    {
-                        // Check if selectedElement has children
-                        selectedElement.children && selectedElement.children.length > 0
-                        ? (
-                            // If it has children, map over them and duplicate each child
-                            Array.from({ length: 3 }, (_, index) => (
-                                // Generate the tag for each duplicated child
-                                <Fragment key={index}>
-                                    {selectedElement.children.map((child, key) => (
-                                        <Fragment key={key}>{generateTag(child)}</Fragment>
-                                    ))}
-                                </Fragment>
-                            ))
-                        )
-                        : null // If there are no children, return null
-                    }
+                <ul {...defaultProps}>
+                    {repeatThreeTimes(sortedData)}
+                </ul>
+            );
+        case 'ordered list':
+            return (
+                <ol {...defaultProps}>
+                    {repeatThreeTimes(sortedData)}
+                </ol>
+            )
+        case 'table caption':
+            return <caption {...defaultProps}>
+                {exampleText}
+            </caption>;
+        case 'table head':
+            return <thead {...defaultProps}>
+                {repeat(sortedData)}
+            </thead>;
+        case 'table body':
+            return <tbody {...defaultProps}> 
+                {repeat(sortedData)}
+            </tbody>;
+        case 'table foot':
+            return <tfoot {...defaultProps}>
+                {repeat(sortedData)}
+            </tfoot>;
+        case 'table head row':
+        case 'table body row':
+        case 'table foot row':
+            return (
+                <tr {...defaultProps}>
+                    {repeatThreeTimes(sortedData)}
                 </tr>
             );
-        
         case 'table':
-            console.log(selectedElement)
-            return <table style={elementStyle}> 
-                
-                {
-                    selectedElement.children && selectedElement.children.length > 0
-                    ?
-                    selectedElement.children.map((child, key) => <Fragment key={key}>{generateTag(child)}</Fragment>)
-                    :
-                    null
-                }
-                </table>;
-        case 'table cell':
-            return <td>{exampleText}</td>
-        case 'Text Area':
-            return <textarea style={elementStyle} name="" id="" cols="30" rows="10">{exampleText}</textarea>
-        case 'Select Option':
-            return <option>{exampleText}</option>
-        case 'Select':
-            return <select style={elementStyle}>
-                {
-                    selectedElement.children && selectedElement.children.length > 0
-                    ? (
-                        Array.from({ length: 3 }, (_, index) => (
-                            <Fragment key={index}>
-                                {selectedElement.children.map((child, key) => (
-                                    <Fragment key={key}>{generateTag(child)}</Fragment>
-                                ))}
-                            </Fragment>
-                        ))
-                    )
-                    : null 
-                };
-            </select>
-        case 'Button':
-            return <button style={elementStyle}>{exampleText}</button>;
-        case 'Image':
-            return <img style={elementStyle} src={exampleImage} alt="" />;
-        case 'Audio':
-            return <audio style={elementStyle} src=""></audio>;
-        case 'Video':
-            return <video style={elementStyle} src=""></video>;
-        case 'Iframe':
-            return <iframe style={elementStyle} src="" frameBorder="0"></iframe>;
+            return <table {...defaultProps}> 
+                {repeat(sortedData)}
+            </table>;
+        case 'table head cell':
+        case 'table body cell':
+        case 'table foot cell':
+            return <td {...defaultProps} >{exampleText}</td>
+        case 'text area':
+            return <textarea {...defaultProps} name="" id="" cols="30" rows="10" >{exampleText}</textarea>
+        case 'select input option':
+            return <option {...defaultProps} >{exampleText}</option>
+        case 'select input':
+            return <select {...defaultProps}>
+                {repeatThreeTimes(sortedData)}
+            </select>;
+        case 'button':
+            return <button {...defaultProps}>{exampleText}</button>;
+        case 'image':
+            return <img {...defaultProps} src={exampleImage} alt="" />;
+        case 'audio':
+            return <audio {...defaultProps} src=""></audio>;
+        case 'video':
+            return <video {...defaultProps} src=""></video>;
+        case 'iframe':
+            return <iframe {...defaultProps} src="" frameBorder="0"></iframe>;
+        case 'form':
+            return <form action="" {...defaultProps}>{exampleText}</form>;
+        case 'bold text':
+            return <b {...defaultProps}>{exampleText}</b>;
+        case 'canvas':
+            return <canvas id="myCanvas" width="200" height="100">{exampleText}</canvas>;
+        case 'box':
+            return <Box {...defaultProps}>{exampleText}</Box>;
+        case 'label':
+            return <label {...defaultProps}>{exampleText}</label>;
+        case 'strong text':
+            return <strong {...defaultProps}>{exampleText}</strong>;
+        case 'code':
+            exampleText = `
+            int x = 10;\n
+            int y = 15;\n
+            print(x + y)
+            `
+            return <code {...defaultProps}>{exampleText}</code>;
         default:
             return null; // Return null for unsupported types or handle accordingly
     }
+}
+
+GenerateTag.propTypes = {
+    selectedElement: propTypes.any, 
+    elementStyle: propTypes.any
 }

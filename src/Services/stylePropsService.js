@@ -5,16 +5,16 @@ import config from "../../Config.json";
 import { addDataTemplate, deleteTemplate, fetchDataTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
 const stylePropRoute = config.ServerMainRoute + "/style_props";
 
-const StylePropAddAPI = axios.create({
+const StylePropAPI = axios.create({
     baseURL: stylePropRoute,
     headers: {
         'Content-Type': 'multipart/form-data',
     }
 });
 
-const StylePropAPI = axios.create({
-    baseURL: stylePropRoute,
-});
+// const StylePropAPI = axios.create({
+//     baseURL: stylePropRoute,
+// });
 
 
 //---------------------------------------
@@ -40,17 +40,26 @@ export const addStyleProps = async (inputValues) => {
         "is_section": inputValues["is_section"] === true ? 1 : 0,
         "is_component": inputValues["is_component"] === true ? 1: 0,
         "is_element": inputValues["is_element"] === true ? 1 : 0,
+        "parent_id": inputValues["parent"],
+        "is_child": inputValues["is_child"] === true ? 1 : 0,
     };
 
 
-    return await addDataTemplate(StylePropAddAPI, submission);
+    return await addDataTemplate(StylePropAPI, submission);
 }
 
 //update items
 export const updateStyleProps = async (id, newData) => {
-    console.log(newData)
+    const submission = { 
+        ...newData, 
+        "is_section": newData["is_section"] === true ? 1 : 0,
+        "is_component": newData["is_component"] === true ? 1: 0,
+        "is_element": newData["is_element"] === true ? 1 : 0,
+        "is_child": newData["is_child"] === true ? 1 : 0,
+    };
+    console.log(submission)
 
-    return await updateTemplate(StylePropAPI, id, newData);
+    return await updateTemplate(StylePropAPI, id, submission);
 };
 
 //passive items

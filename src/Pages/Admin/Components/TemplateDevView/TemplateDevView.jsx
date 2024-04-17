@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useEffect, useState } from 'react'
 
 import {
     
@@ -12,13 +10,14 @@ import {
 
 //MUI
 import {
-    Box,
+    Box, Card, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { generateTag } from '../../../../Helpers/GenerateTag'
+import { GenerateTag } from '../../../../Helpers/GenerateTag'
+import ViewElements from '../ViewElements/ViewElements'
 
 //Styled Components
 const StyledTemplateDevView = styled(Box)(
@@ -39,18 +38,49 @@ const StyledTemplateDevView = styled(Box)(
     })
 )
 
+const StyledViewElements = styled(Card)(
+    ({ theme }) => ({
+        position: "absolute",
+        left: "0",
+        top: "0",
+        padding: theme.spacing(),
+        borderRight: "1px solid",
+        borderColor: theme.palette.divider,
+        height: "100%",
+        overflow: 'auto',
+        width: "25%"
+    })
+);
+
 
 const TemplateDevView = ({selectedElementState}) => {
 
 
     const {selectedElement, elementStyle} = selectedElementState
 
-    console.log(elementStyle)
+    const [editableElement, setEditableElement] = useState(null)
+    useEffect(() => {
+        setEditableElement(() => selectedElement ? <GenerateTag elementStyle={elementStyle} key={selectedElement.id} selectedElement={selectedElement} /> : null)
+    }, [elementStyle, selectedElement])
 
+
+    console.log(editableElement)
     return (
         <StyledTemplateDevView>
+            
             {
-                generateTag(selectedElement, elementStyle)
+                editableElement ?
+                <>
+                    <StyledViewElements>
+                        <Typography width={150} variant='body2' color="warning.main">select element</Typography>
+                        <ViewElements selectedElement={selectedElement} />
+                    </StyledViewElements>
+                    {editableElement}
+                </>
+                :
+                <Typography variant='h4' color="warning.main">
+                    Choose an element to begin editing the template!
+                </Typography>
             }
         </StyledTemplateDevView>
     );
