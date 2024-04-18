@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  React, { useState } from 'react';
 import { Box, MenuItem, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../../../Components';
@@ -15,13 +15,37 @@ import AnimationIcon from '@mui/icons-material/Animation';
 import AnimationsDrawer from '../EditPage/Drawers/AnimationsDrawer.jsx';
 import MarginDrawer from '../EditPage/Drawers/MarginDrawer.jsx';
 import MarginIcon from '@mui/icons-material/Margin';
-import CustomAccordion from './Accordion.jsx';
+import BorderDrawer from '../EditPage/Drawers/BorderDrawer.jsx';
 
 const StyledStyleBox = styled(Box)({
     borderRadius: '10px',
     boxShadow: "rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;",
     padding: (theme) => theme.spacing(4),
 });
+const customSelectStyle = {
+    '&:hover': {
+        transition: 'all 0.3s ease',
+        backgroundColor: "#09263529",
+        boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+    },
+};
+
+const ButtonStyle = {
+        margin: "10px",
+        display: 'block',
+        width: '250px',
+        padding: '10px',
+        transition: 'all 0.5s ease',
+        borderRadius: '10px',
+        cursor: 'pointer',
+        '&:hover': {
+            backgroundColor: "white.dark",
+            boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+        },
+        boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+
+}
+
 
 const StyleBox = ({
     Section_Name,
@@ -34,36 +58,6 @@ const StyleBox = ({
     title,
     handleTextFieldChange,
 }) => {
-    const [selectedMargin, setSelectedMargin] = useState(null);
-
-    const handleMarginSelect = (marginStyle) => {
-        setSelectedMargin(marginStyle);
-        handleSectionStyleChange({ margin: marginStyle });
-    };
-
-    const customSelectStyle = {
-        '&:hover': {
-            transition: 'all 0.3s ease',
-            backgroundColor: "#09263529",
-            boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
-        },
-    };
-
-    const ButtonStyle = {
-            margin: "10px",
-            display: 'block',
-            width: '250px',
-            padding: '10px',
-            transition: 'all 0.5s ease',
-            borderRadius: '10px',
-            cursor: 'pointer',
-            '&:hover': {
-                backgroundColor: "white.dark",
-                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
-            },
-            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
-
-    }
 
     return (
         <StyledStyleBox>
@@ -79,19 +73,23 @@ const StyleBox = ({
                     </Box>
 
                     {styleProperties.map((key, index) => (
-                        <CustomSelectInput
-                            sx = {ButtonStyle}
-                            key={index}
-                            name={key}
-                            className={customSelectStyle} // Burada customSelectStyle kullanıldı
-                            onChange={(e) => handleSectionStyleChange({ [key]: e.target.value })}
-                            valueSet={sectionStyle[key]}
-                        >
-                            {utils[key]?.map((item, index) => (
-                                <MenuItem key={index} value={item}>{item}</MenuItem>
-                            ))}
-                        </CustomSelectInput>
-                    ))}
+                            <React.Fragment key={index}>
+                                <CustomSelectInput
+                                    sx={ButtonStyle}
+                                    name={key}
+                                    className={customSelectStyle} 
+                                    onChange={(e) => handleSectionStyleChange({ [key]: e.target.value })}
+                                    valueSet={sectionStyle[key]}
+                                    disabled={(key === 'flexDirection' || key === 'alignItems') && sectionStyle['display'] === 'block'}
+                                >
+                                    {utils[key]?.map((item, index) => (
+                                        <MenuItem key={index} value={item}>{item}</MenuItem>
+                                    ))}
+                                </CustomSelectInput>
+                            </React.Fragment>
+                        ))}
+
+
 
                     <Box sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', alignItems: 'center', }}>
                         <AdminMainButton sx={{
@@ -106,7 +104,7 @@ const StyleBox = ({
                                     backgroundColor: '#092635',
                                     fontWeight:'bold',
                                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                                }} title="Borders" type='drawer' putDrawerCloseButton appearance='primary' icon={<BorderColorIcon />} willShow={<CustomAccordion handleSectionStyleChange={handleSectionStyleChange} />} />
+                                }} title="Borders" type='drawer' putDrawerCloseButton appearance='primary' icon={<BorderColorIcon />} willShow={<BorderDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
                         <AdminMainButton sx={{
                                     marginTop: '20px',
                                     marginBottom: '20px',
@@ -188,7 +186,7 @@ const StyleBox = ({
                                     backgroundColor: '#092635',
                                     fontWeight:'bold',
                                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                                }} title="Borders" type='drawer' putDrawerCloseButton appearance='primary' icon={<BorderColorIcon />} willShow={<CustomAccordion handleSectionStyleChange={handleSectionStyleChange} />} />
+                                }} title="Borders" type='drawer' putDrawerCloseButton appearance='primary' icon={<BorderColorIcon />} willShow={<BorderDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
                         <AdminMainButton sx={{
                                     marginTop: '20px',
                                     marginBottom: '20px',

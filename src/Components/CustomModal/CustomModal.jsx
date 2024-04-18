@@ -25,7 +25,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const ScrollableCardContent = styled(CardContent)({
   overflowY: 'auto',
-  maxHeight: '500px', // Adjust the maxHeight as needed
+  maxHeight: '700px', // Adjust the maxHeight as needed
 });
 
 const CustomModal = ({ title, modalOpenState, children, modalIcon }) => {

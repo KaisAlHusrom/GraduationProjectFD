@@ -31,6 +31,7 @@ import { useMemo } from 'react'
 import { CustomGalleryView } from '..'
 import { handleOpenSnackbar as handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
 import useFetchData from '../../Helpers/useFetchData'
+import { isArraysEqual } from '../../Helpers/DataStructureHelper'
 // import usersService from '../../Services/usersService'
 
 
@@ -119,7 +120,9 @@ const DatabaseView = (props) => {
         loading,
         setPageNumber,
         setData,
-        data
+        data,
+        setRefetch,
+        pageNumber
     } = useFetchData(handleFetchData, showDeleted ? "deleted" : "all", appliedFilters, appliedSorts)
 
     const observer = useRef()
@@ -131,8 +134,8 @@ const DatabaseView = (props) => {
 
         observer.current = new IntersectionObserver(entries => {
             if(entries[0].isIntersecting && hasMore) {
+                console.log("enter")
                     setPageNumber(prev => {
-                        console.log(prev)
                         return prev + 1
                     });
             }
@@ -150,7 +153,19 @@ const DatabaseView = (props) => {
 
 
     //Sorting the columns
-    const allSortedColumns = useMemo(() => JSON.parse(localStorage.getItem('sortedColumns')) || {}, []);
+    const allSortedColumns = useMemo(() => {
+        const storedColumns = JSON.parse(localStorage.getItem('sortedColumns'));
+        const defaultColumns = Object.keys(columns);
+    
+        // If no data in local storage or no sorted columns for the given title,
+        // or if there's a difference between columns data and stored data,
+        // use default columns
+        if (!storedColumns || !storedColumns[title] || !isArraysEqual(storedColumns[title], defaultColumns)) {
+            return { ...storedColumns, [title]: defaultColumns };
+        }
+    
+        return storedColumns;
+    }, [columns, title]);
     const storedSortedColumn = allSortedColumns[title] || {...allSortedColumns, [title]: Object.keys(columns)}[title];
     const [sortedColumns, setSortedColumns] = useState(storedSortedColumn);
     // Update local storage whenever 'updatedSortedColumns' changes
@@ -268,90 +283,13 @@ const DatabaseView = (props) => {
             viewSettings: {
                 showHeaders: true,
                 changeHeadersBackgroundColor: false,
-                selectHeaderBackgroundColor: [
-                    {
-                        name: theme.palette.primary.main,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.primary.dark,
-                        value: true,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.primary.light,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.secondary.main,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.secondary.dark,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.secondary.light,
-                        value: false,
-                        type: "color",
-                    },
-                ],
+                selectHeaderBackgroundColor: theme.palette.primary.main,
                 showHeaderVerticalLines: true,
                 showHeaderHorizontalLines: true,
                 showVerticalLines: true,
                 showHorizontalLines: true,
                 changeEvenRowsBackgroundColor: false,
-                selectEvenRowsBackgroundColor: [
-                    {
-                        name: theme.palette.action.selected,
-                        value: true,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.action.hover,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.action.active,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.action.disabled,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.action.disabledBackground,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.secondary.main,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.secondary.main,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.secondary.dark,
-                        value: false,
-                        type: "color",
-                    },
-                    {
-                        name: theme.palette.secondary.light,
-                        value: false,
-                        type: "color",
-                    },
-                ],
+                selectEvenRowsBackgroundColor: theme.palette.primary.main,
             }
         },
         gallery: {
@@ -438,7 +376,7 @@ const DatabaseView = (props) => {
         
         let name = columnName
         let value = newValue
-        if(type !== "many-to-many" && type !== "one-to-many" && type !== "many-to-one" && type !== "rate") {
+        if(type !== "many-to-many" && type !== "one-to-many" && type !== "many-to-one" && type !== "rate" && type !== "enum") {
             name = e.target.name;
             value = e.target.value;
             if(type === "bool") {
@@ -447,16 +385,24 @@ const DatabaseView = (props) => {
                 value = e.target.files[0];
             } 
         } 
+
+        if(type === "image") {
+            value = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                    // Update the row data using the callback version of setRowData
+                    setRowData((prev)=> {
+                        const updatedRow = {...prev, [name]: event.target.result};
+                        return updatedRow;
+                    });
+
+            };
+
+            reader.readAsDataURL(value);
+        }
         // Update the row data using the callback version of setRowData
         setRowData((prev)=> {
             const updatedRow = {...prev, [name]: value};
-
-            // // Call handleUpdateData here with updatedRow
-            // const shouldUpdateData = ["many-to-many", "one-to-many", "many-to-one", "rate"].includes(type);
-
-            // if(shouldUpdateData) {
-            //     updateData(updatedRow)
-            // }
             updateData(updatedRow)
             return updatedRow;
         });
@@ -511,6 +457,7 @@ const DatabaseView = (props) => {
     //UPDATE FUNCTION
     const updateData = async (row) => {
             const pkColumn = Object.keys(columns).find(key => columns[key] === "pk");
+            console.log(row[pkColumn])
             // Await the update operation to complete
             const res = await handleUpdateData(row[pkColumn], row);
             console.log(res)
@@ -532,8 +479,11 @@ const DatabaseView = (props) => {
         const res = await handleDeleteData(selectedIds);        
         if(res.success) {
             // Fetch data after the delete is completed
-            const result = await handleFetchData();
-            setData(() => result.rows);
+            if(pageNumber === 1) {
+                setRefetch(prev => prev + 1)
+            } else {
+                setPageNumber(() => 1);
+            }
             setSelected(() => [])
         }
     }
@@ -548,8 +498,11 @@ const DatabaseView = (props) => {
         const res = await handleRestoreData(selectedIds);        
         if(res.success) {
             // Fetch data after the delete is completed
-            const result = await handleFetchData("deleted");
-            setData(() => result.rows);
+            if(pageNumber === 1) {
+                setRefetch(prev => prev + 1)
+            } else {
+                setPageNumber(() => 1);
+            }
             setSelected(() => [])
         }
     }
@@ -563,14 +516,11 @@ const DatabaseView = (props) => {
 
         if(res.success) {
             // Fetch data after the delete is completed
-            let result;
-            if(showDeleted) {
-                result = await handleFetchData("deleted");
-                
+            if(pageNumber === 1) {
+                setRefetch(prev => prev + 1)
             } else {
-                result = await handleFetchData();
+                setPageNumber(() => 1);
             }
-            setData(() => result.rows);
             setSelected(() => [])
         }
     }
@@ -625,34 +575,62 @@ const DatabaseView = (props) => {
     
     //Styles
 
-    const styleCardHeader = {
-        padding: `${theme.spacing()} ${theme.spacing()}`,
-        backgroundColor: 'background.default',
-        color: theme.palette.text.primary,
-        border: '1px solid',
-        borderColor: theme.palette.divider,
-        display: 'flex',
-        alignItems: 'center',
-        ".MuiCardHeader-avatar": {
-            marginRight: "4px",
-        },
-        ".MuiCardHeader-action": {
-            margin: "0px"
+    const styleCardHeader = useMemo(() => {
+        return {
+            padding: `${theme.spacing()} ${theme.spacing()}`,
+            backgroundColor: 'background.default',
+            color: theme.palette.text.primary,
+            border: '1px solid',
+            borderColor: theme.palette.divider,
+            display: 'flex',
+            alignItems: 'center',
+            ".MuiCardHeader-avatar": {
+                marginRight: "4px",
+            },
+            ".MuiCardHeader-action": {
+                margin: "0px"
+            }
         }
-    }
+    }, [theme])
 
-    const styleTitleTypography = {
-        fontSize: theme.typography.h6.fontSize,
-        fontWeight: theme.typography.h6.fontWeight,
-        lineHeight: theme.typography.h6.lineHeight,
-        textTransform: 'capitalize',
-    }
+    const styleTitleTypography = useMemo(() => {
+        return {
+            fontSize: theme.typography.h6.fontSize,
+            fontWeight: theme.typography.h6.fontWeight,
+            lineHeight: theme.typography.h6.lineHeight,
+            textTransform: 'capitalize',
+        }
+    }, [theme])
 
-    const styleCardContent = {
-        border: "1px solid", 
-        borderColor: theme.palette.divider,
-    }
+    const styleCardContent = useMemo(() => {
+        return {
+            border: "1px solid", 
+            borderColor: theme.palette.divider,
+        }
+    }, [theme])
 
+
+    //open add form when press on ctrl + a
+    const [modalOpen, setModalOpen] = useState(false);
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            
+            // Check if Ctrl key is pressed and the pressed key is 'a' (for lowercase 'a')
+            if (event.ctrlKey && event.key === 'a') {
+                event.preventDefault()
+                // open modal here
+                setModalOpen(prev => !prev)
+            }
+        };
+    
+        // Add event listener when component mounts
+        window.addEventListener('keydown', handleKeyDown);
+
+        // Remove event listener when component unmounts
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        };
+    }, []); 
     
 
     return (
@@ -672,11 +650,13 @@ const DatabaseView = (props) => {
             data,
             setData,
             setPageNumber,
+            pageNumber,
             columns,
             relationships,
             getAppliedFilters,
             getAppliedSorts,
-            imagesFolderName
+            imagesFolderName,
+            setRefetch,
         }}
             >
                 <StyledDatabaseView>
@@ -690,6 +670,7 @@ const DatabaseView = (props) => {
                     hiddenColumnsState={[hiddenColumns, setHiddenColumns]}
                     sortedColumnsState={[sortedColumns, setSortedColumns]}
                     title={title}
+                    addModalOpenState={{modalOpen, setModalOpen}}
                     />
                     <Paper>
                         <CardHeader 
@@ -773,7 +754,7 @@ const DatabaseView = (props) => {
                                 ?
                                 <CustomGalleryView
                                     filteredColumnsArray={filteredColumnsArray}
-                                    dataWillAppearState={[dataWillAppear, setDataWillAppear]}
+                                    dataWillAppearState={{rowsArray}}
                                     selectedState={[selected, setSelected, setIsHeaderCheckboxChecked]}
                                     handleChangeData={handleChangeData}
                                     handleEnterKeyDown={handleEnterKeyDown}

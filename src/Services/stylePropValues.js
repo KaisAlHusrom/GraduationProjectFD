@@ -3,18 +3,15 @@ import axios from "axios";
 // -------------------------------------- 
 import config from "../../Config.json";
 import { addDataTemplate, deleteTemplate, fetchDataTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
-const StylePropValues = config.ServerMainRoute + "/style_prop_values";
+const StylePropValuesRoute = config.ServerMainRoute + "/style_prop_values";
 
-const StylePropValuesAddAPI = axios.create({
-    baseURL: StylePropValues,
+const StylePropValuesAPI = axios.create({
+    baseURL: StylePropValuesRoute,
     headers: {
         'Content-Type': 'multipart/form-data',
     }
 });
 
-const StylePropValuesAPI = axios.create({
-    baseURL: StylePropValues,
-});
 
 //---------------------------------------
 // fetch items 
@@ -36,14 +33,15 @@ export const addStylePropValues = async (inputValues) => {
 
     const submission = { 
         ...inputValues, 
-        "style_prop_id": inputValues["style_prop"],
+        "style_prop_id": inputValues["style_prop"] || null,
     };
 
-    return await addDataTemplate(StylePropValuesAddAPI, submission);
+    return await addDataTemplate(StylePropValuesAPI, submission);
 }
 
 //update items
 export const updateStylePropValues = async (id, newData) => {
+    console.log(newData)
     return await updateTemplate(StylePropValuesAPI, id, newData);
 };
 

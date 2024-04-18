@@ -21,6 +21,7 @@ import { DatabaseView } from '../../../../Components'
 import CodeIcon from '@mui/icons-material/Code';
 import { addElementType, deleteElementType, fetchElementTypesRows, permanentDeleteElementType, restoreElementType, updateElementType } from '../../../../Services/elementsTypesService'
 import { fetchElementProps } from '../../../../Services/elementPropsService'
+import { writeFilterObject } from '../../../../Helpers/filterData'
 
 
 //Styled Components
@@ -37,7 +38,10 @@ const relationships = {
             "fetched_column": "element_type_name",
             "related_table_id": "id",
             add_to_add_form: true,
-            fetch_all_data: fetchElementTypesRows, //TODO: convert this to fetch the elements that has true value in is_child column
+            fetch_all_data: fetchElementTypesRows,
+            filters: [
+                writeFilterObject("is_child", "bool", "=", "false")
+            ] // to get only parent elements
         }
     ],
     manyToMany:[
@@ -55,7 +59,10 @@ const relationships = {
             "fetched_column": "element_type_name",
             "related_table_id": "id",
             add_to_add_form: false,
-            fetch_all_data: fetchElementTypesRows, //TODO: convert this to fetch the elements that has true value in is_child column
+            fetch_all_data: fetchElementTypesRows, 
+            filters: [
+                writeFilterObject("is_child", "bool", "=", "true")
+            ] // to get only children elements
         }
     ]
 }
@@ -65,6 +72,7 @@ const columns = {
     element_type_name: "string",
     element_type_description: "text",
     element_props: "many-to-many",
+    sequence_number: "int",
     is_child: "bool",
     children: "one-to-many",
     parent: "many-to-one",

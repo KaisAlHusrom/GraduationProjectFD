@@ -17,6 +17,7 @@ import {
     Paper,
     Skeleton,
     TextField,
+    Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -263,7 +264,7 @@ const RelationTextFieldToCustomModal = (props) => {
             {
                 relation.add_to_add_form
                 ?
-                    (columnType === "many-to-many" || columnType === 'one-to-many')
+                    (columnType === "many-to-many")
                     ?    
                         (
                             <Grid item xs={12}>
@@ -289,6 +290,12 @@ const RelationTextFieldToCustomModal = (props) => {
                                 />
 
                             </Grid>
+                        )
+                    :
+                    columnType === 'one-to-many'
+                    ?
+                        (
+                            <Typography>aaa</Typography>
                         )
                     :<Grid item xs={12}>
                         <Skeleton variant="text" sx={{fontSize: "2rem"}} />

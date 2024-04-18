@@ -70,7 +70,7 @@ const CustomTable = (props) => {
         showHeaderHorizontalLines
     } = viewsSettings.table
 
-    const selectedColor = selectHeaderBackgroundColor.find((item) => item.value)?.name
+    const selectedColor = selectHeaderBackgroundColor
 
     //move to right and left when keep press on the mouse 
     // const tableRef = useRef(null);
@@ -113,36 +113,45 @@ const CustomTable = (props) => {
     const theme = useTheme()
 
     //Styled Components
-    const StyledCustomTable = styled(TableContainer)(
-        ({ theme }) => ({
-            border: "1px solid",
+    const StyledCustomTable = useMemo(() => {
+        return styled(TableContainer)(
+            ({ theme }) => ({
+                border: "1px solid",
+                borderColor: theme.palette.divider,
+                height: "570px",
+                // borderCollapse: "collapse"
+            })
+        )
+    }, [])
+
+    const StyleHeadTableCell = useMemo(() => {
+        return {
+            fontSize: theme.typography.h7,
+            textTransform: 'capitalize',
+            borderRight: showHeaderVerticalLines ? '1px solid' : 'none',
+            borderBottom: showHeaderHorizontalLines ? '1px solid' : 'none',
             borderColor: theme.palette.divider,
-            // height: "530px"
-        })
-    )
+            textAlign: 'center',
+            color: changeHeadersBackgroundColor && theme.palette.primary.contrastText,
+            position: "relative",
+        }
+    }, [changeHeadersBackgroundColor, showHeaderHorizontalLines, showHeaderVerticalLines, theme.palette.divider, theme.palette.primary.contrastText, theme.typography.h7])
 
-    const StyleHeadTableCell = {
-        fontSize: theme.typography.h7,
-        textTransform: 'capitalize',
-        borderRight: showHeaderVerticalLines ? '1px solid' : 'none',
-        borderBottom: showHeaderHorizontalLines ? '1px solid' : 'none',
-        borderColor: theme.palette.divider,
-        textAlign: 'center',
-        color: changeHeadersBackgroundColor && theme.palette.primary.contrastText,
-        position: "relative",
-    }
-
-    const styleRelationIconBox = {
+    const styleRelationIconBox = useMemo(() => {
+        return {
             position: "absolute",
             left: 5,
             top: 2,   
-    }
+        }
+    }, [])
 
-    const StyledTableHead = styled(TableHead)(
-        () => ({
-            backgroundColor: changeHeadersBackgroundColor && selectedColor,
-        })
-    );
+    const StyledTableHead = useMemo(() => {
+        return styled(TableHead)(
+            () => ({
+                backgroundColor: changeHeadersBackgroundColor && selectedColor,
+            })
+        );
+    }, [changeHeadersBackgroundColor, selectedColor])
 
     return (
         <StyledCustomTable  

@@ -51,6 +51,7 @@ const columns = {
     "category_name": "string",
     "category_description": "text",
     "style_props": "one-to-many",
+    "category_image": "image",
     "created_at": "dateTime",
     "updated_at": "dateTime"
 }
@@ -71,6 +72,7 @@ const StyleStylesPropCategoriesPage = () => {
                     softDeletes={true}
                     relationships={relationships}
                     columns={columns}
+                    imagesFolderName={"StylePropsCategoryImages"}
                 />
         </StyledStylesPropCategoriesPage>
     );

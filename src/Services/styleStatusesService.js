@@ -5,16 +5,13 @@ import config from "../../Config.json";
 import { addDataTemplate, deleteTemplate, fetchDataTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
 const StyleStatusServiceRoute = config.ServerMainRoute + "/style_statuses/";
 
-const StyleStatusesAddAPI = axios.create({
+const StyleStatusesAPI = axios.create({
     baseURL: StyleStatusServiceRoute,
     headers: {
         'Content-Type': 'multipart/form-data',
     }
 });
 
-const StyleStatusesAPI = axios.create({
-    baseURL: StyleStatusServiceRoute,
-});
 
 //---------------------------------------
 // fetch items 
@@ -35,7 +32,7 @@ export const fetchStyleStatuses = async (type = "all", pageNumber = 1, filters =
 export const addStyleStatuses = async (inputValues) => {
 
     
-    return await addDataTemplate(StyleStatusesAddAPI, inputValues);
+    return await addDataTemplate(StyleStatusesAPI, inputValues);
 }
 
 //update items

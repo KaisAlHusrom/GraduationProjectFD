@@ -1,6 +1,6 @@
 import DateHelper from "./DateHelper";
 
-const filterData = async (rowsArray, appliedFilters, relations) => {
+export const filterData = async (rowsArray, appliedFilters, relations) => {
     const updatedRowsArray = rowsArray.filter(row => {
         // Loop through applied filters
         for (const appliedFilter of appliedFilters) {
@@ -153,4 +153,18 @@ const filterData = async (rowsArray, appliedFilters, relations) => {
 
 };
 
-export default filterData;
+export const writeFilterObject = (column, type, process, value = "", startDate = "", endData = "", period = "", relationValue = null) => {
+    return {
+            "filter": {
+                "value": column,
+                "type": type
+            },
+            "process": process,
+            "value": value,
+            "startDate": startDate,
+            "endDate": endData,
+            "period": period,
+            "relationValue": relationValue
+        }
+ 
+}

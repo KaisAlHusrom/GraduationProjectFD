@@ -35,9 +35,7 @@ export const fetchDataTemplate = async (axiosAPI, type = "all", pageNumber = 1, 
                 },
             });
         }
-        console.log(response)
         const res = response.data;
-
         return res;
 
     } catch (error) {
@@ -95,11 +93,13 @@ export const updateTemplate = async (axiosAPI, id, newData) => {
 
         // Assuming id is included in the newData object and you're updating a specific resource identified by its id
         // Make the request with the new cancel token
-        const response = await axiosAPI.patch(
+        const response = await axiosAPI.post(
             `/${id}`, 
-            newData, 
+            {
+                ...newData,
+                _method: "PATCH",
+            }, 
             { 
-                method: "_PATCH",
                 cancelToken: cancelTokenSource.token,
                 
         });
@@ -108,7 +108,6 @@ export const updateTemplate = async (axiosAPI, id, newData) => {
             store.dispatch(setSnackbarIsError({isError: false}))
             store.dispatch(handleOpenSnackbar())
         }
-        console.log(response);
         // Process the response data as needed
         return response.data;
     } catch (error) {
@@ -140,7 +139,6 @@ export const deleteTemplate = async (axiosAPI, ids) => {
             store.dispatch(setSnackbarIsError({isError: false}))
             store.dispatch(handleOpenSnackbar())
         }
-        console.log(response);
         // Process the response data as needed
         return response.data;
     } catch (error) {
@@ -166,7 +164,6 @@ export const restoreTemplate = async (axiosAPI, ids) => {
             store.dispatch(setSnackbarIsError({isError: false}))
             store.dispatch(handleOpenSnackbar())
         }
-        console.log(response);
         // Process the response data as needed
         return response.data;
     } catch (error) {
@@ -192,7 +189,6 @@ export const permanentDeleteTemplate = async (axiosAPI, ids) => {
             store.dispatch(setSnackbarIsError({isError: false}))
             store.dispatch(handleOpenSnackbar())
         }
-        console.log(response);
         // Process the response data as needed
         return response.data;
     } catch (error) {

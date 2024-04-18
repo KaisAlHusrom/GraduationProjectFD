@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 
 export default function useFetchData(
     fetchDataFunc,
@@ -7,8 +7,15 @@ export default function useFetchData(
     sorts,
     open = true,
     searchQuery = null,
+    value
 ) {
-    const [data, setData] = useState([])
+    const [data, setData] = useState(() => {
+        if(value) {
+            return [value]
+        }
+
+        return []
+    })
 
     const [loading, setLoading] = useState(false)
 
@@ -18,7 +25,7 @@ export default function useFetchData(
 
     const [pageNumber, setPageNumber] = useState(1)
 
-    
+    const [refetch, setRefetch] = useState(0)
 
     
 
@@ -30,7 +37,6 @@ export default function useFetchData(
                 if(open && fetchDataFunc) {
                     setLoading(() => true)
                     setError(() => false)
-                    console.log(filters)
                     const res = await fetchDataFunc(type, pageNumber, filters, sorts, searchQuery)
                     
                     
@@ -38,12 +44,31 @@ export default function useFetchData(
                         setError(() => true)
                         setLoading(() => false)
                     } else {
-                        if(pageNumber === 1) {
-                            setData(() => res.rows);
-                        } else {
-                            setData(prev => [...prev, ...res.rows]);
+                        if (value) { //when value is not null, add it to the first, and delete it from the data that will be fetched
+                            const array = Array.isArray(value) && value;
+                            const filterData = (row) => { //TODO: check if every thing work correctly
+                                if (Array.isArray(value)) {
+                                    return value.some(valueRow => {
+                                        return row.id !== valueRow.id
+                                    })
+                                }
+
+                                return row.id !== value.id
+                            }
+                            
+                            if (pageNumber === 1) {
+                                setData(() => [...(array ? array : [value]), ...res.rows.filter(filterData)]);
+                            } else {
+                                setData((prev) => [...(array ? array : [value]), ...prev.filter(filterData), ...res.rows.filter(filterData)]);
+                            }
                         }
-                        console.log(res.rows)
+                        else {
+                            if(pageNumber === 1) {
+                                setData(() => res.rows);
+                            } else {
+                                setData(prev => [...prev, ...res.rows]);
+                            }
+                        }
                         setHasMore(() => res.rows.length > 0)
                         setLoading(() => false)
                     }   
@@ -55,9 +80,9 @@ export default function useFetchData(
         }
 
         fetchData()
-    }, [type, pageNumber, filters, sorts, fetchDataFunc, open, searchQuery])
+    }, [type, pageNumber, filters, sorts, fetchDataFunc, open, searchQuery, refetch, value])
     
-    return { loading, error, hasMore, setPageNumber, data, setData, pageNumber}
+    return { loading, error, hasMore, setPageNumber, data, setData, pageNumber, setRefetch}
     
 }
 

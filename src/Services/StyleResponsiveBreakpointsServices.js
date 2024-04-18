@@ -5,17 +5,13 @@ import config from "../../Config.json";
 import { addDataTemplate, deleteTemplate, fetchDataTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
 const StyleResponsiveBreakpointsRoute = config.ServerMainRoute + "/style_breakpoints";
 
-const StyleResponsiveBreakpointsAddAPI = axios.create({
+const StyleResponsiveBreakpointsAPI = axios.create({
     baseURL: StyleResponsiveBreakpointsRoute,
     headers: {
         'Content-Type': 'multipart/form-data',
     }
 });
 
-const StyleResponsiveBreakpointsAPI = axios.create({
-    baseURL: StyleResponsiveBreakpointsRoute,
-
-});
 
 //---------------------------------------
 // fetch items 
@@ -35,7 +31,7 @@ export const fetchStyleBreakpoints = async (type = "all", pageNumber = 1, filter
 //add items
 export const addStyleBreakpoints = async (inputValues) => {
 
-    return await addDataTemplate(StyleResponsiveBreakpointsAddAPI, inputValues);
+    return await addDataTemplate(StyleResponsiveBreakpointsAPI, inputValues);
 }
 
 //update items

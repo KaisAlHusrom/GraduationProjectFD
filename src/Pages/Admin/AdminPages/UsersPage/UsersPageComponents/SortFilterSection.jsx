@@ -91,6 +91,7 @@ const SortFilterSection = (props) => {
         // filteredDataState,
         // sortedDataState,
         title,
+        addModalOpenState,
     } = props
 
     //data state
@@ -111,7 +112,7 @@ const SortFilterSection = (props) => {
 
     //BUTTONS
     //get the setModalOpen to close the modal when add new data
-    const [modalOpen, setModalOpen] = useState(false);
+    const {setModalOpen} = addModalOpenState;
 
 
     const primaryButtons = [
@@ -130,7 +131,7 @@ const SortFilterSection = (props) => {
                 />
             }
             modalIcon={<PersonAddAltOutlinedIcon />}
-            customState={{modalOpen, setModalOpen}}
+            customState={addModalOpenState}
         />,
     
     ]
@@ -281,6 +282,7 @@ SortFilterSection.propTypes = {
     filteredDataState: propTypes.array,
     sortedDataState: propTypes.array,
     currentView: propTypes.string,
+    addModalOpenState:propTypes.object,
 }
 
 export default SortFilterSection;

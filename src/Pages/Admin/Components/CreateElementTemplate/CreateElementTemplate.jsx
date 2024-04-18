@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 import {
     
@@ -22,6 +22,7 @@ import TemplateElementSettings from '../TemplateElementSettings/TemplateElementS
 
 import { useLoaderData } from 'react-router-dom'
 import TemplateElementStyleSettings from '../TemplateElementStyleSettings/TemplateElementStyleSettings'
+import useFetchDataOutsideState from '../../../../Helpers/useFetchDataOutsideState'
 
 //propTypes 
 // import propTypes from 'prop-types'
@@ -36,19 +37,21 @@ const StyledCreateElementTemplate = styled(Stack)(
 
 const CreateElementTemplate = () => {
 
-    const {allElementTypes} = useLoaderData()
+    
 
-    const [elementTypes, setElementTypes] = useState(allElementTypes);
+    
 
-    const [selectedElement, setSelectedElement] = useState(() => elementTypes && elementTypes.length > 0 ? elementTypes[0] : {})
 
-    const [elementStyle, setElementStyle] = useState({})
+
+    const [selectedElement, setSelectedElement] = useState(null)
+
+    const [elementStyle, setElementStyle] = useState(null)
 
     return (
         <StyledCreateElementTemplate spacing={4} direction="column" alignItems="center">
             <TemplateDevView selectedElementState={{selectedElement, setSelectedElement, elementStyle}} />
 
-            <TemplateElementSettings elementTypesState={{elementTypes}} selectedElementState={{selectedElement, setSelectedElement}} />
+            <TemplateElementSettings selectedElementState={{selectedElement, setSelectedElement}} />
 
             <TemplateElementStyleSettings elementStyleState={{elementStyle, setElementStyle}} />
         </StyledCreateElementTemplate>
