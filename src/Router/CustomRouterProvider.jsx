@@ -17,6 +17,8 @@ import DesignRoutes from './Routes/DesignRoutes/DesignRoutes';
 import EditPage from '../Pages/DesignControlPage/sections/TempalteSection/EditPage/EditPage';
 import LandPage from '../Pages/LandPage/LandPage';
 import EcommerceMain from '../Pages/Ecommerce/EcommerceMain';
+import LoginPage from '../Pages/Ecommerce/Components/Pages/LoginPage';
+import SignUp from '../Pages/Ecommerce/Components/Pages/SignUp';
 
 
 // ------------- NOTICES -------------
@@ -64,6 +66,8 @@ const router = createBrowserRouter(
 
             <Route path="/design-control/EditPage/:section_id" element={<EditPage />} />
             <Route path="/Ecommerce" element={<EcommerceMain />} />
+            <Route path="/Login" element={<LoginPage />} />
+            <Route path="/SignUp" element={<SignUp />} />
 
             <Route path="*" element={<NotFoundPage />} />
             <Route path="LandPage" element={<LandPage />} />

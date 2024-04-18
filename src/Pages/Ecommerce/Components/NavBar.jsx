@@ -33,7 +33,6 @@ import propTypes from 'prop-types'
 //Styled Components
 const StyledNavBar = styled(Box)(
     ({ theme }) => ({
-    
     })
 )
 
@@ -60,7 +59,7 @@ const NavBar = () => {
                         <SearchIcon />
                     </IconButton>
                     <IconButton color="inherit">
-                        <Badge badgeContent={0} color="error">
+                        <Badge badgeContent={0} color="primary">
                         <ShoppingCartIcon />
                         </Badge>
                     </IconButton>
@@ -69,8 +68,13 @@ const NavBar = () => {
                     </IconButton>
                     </div>
                     {/* Example of login/signup buttons */}
-                    <Button color="inherit">Login</Button>
-                    <Button color="inherit">Sign Up</Button>
+                    <Link to="/Login" variant="body2" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Button color="inherit">Login</Button>
+                    </Link>
+
+                    <Link to="/SignUp" variant="body2" style={{ textDecoration: 'none', color: 'inherit' }}>
+                        <Button color="inherit">Sign Up</Button>
+                    </Link>
                 </Toolbar>
              </AppBar>
         </StyledNavBar>
