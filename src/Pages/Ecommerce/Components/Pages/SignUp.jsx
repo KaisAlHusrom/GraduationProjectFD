@@ -104,7 +104,7 @@ const SignUp = () => {
                 </Button>
                 <Grid container>
                     <Grid item xs>
-                    <Link href="/Login" variant="body2" style={{  color: 'inherit' }}>
+                    <Link href="/Login" variant="body2" style={{ color: 'inherit' }}>
                         {"Already have an account? Sign In"}
                     </Link>
                     </Grid>
