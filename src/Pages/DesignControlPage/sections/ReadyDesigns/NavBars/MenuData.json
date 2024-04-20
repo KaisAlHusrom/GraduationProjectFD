@@ -1,7 +1,0 @@
-{
-    "menuItems": [
-      { "label": "Profile" },
-      { "label": "My account" },
-      { "label": "Logout" }
-    ]
-}
