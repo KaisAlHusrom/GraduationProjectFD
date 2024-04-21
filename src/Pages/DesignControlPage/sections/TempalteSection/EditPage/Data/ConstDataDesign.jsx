@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid'; // UUID oluşturmak için
 
 
 
-export const css_two = [
+export const emptyDesign = [
     {
         "section_css_prop_id": 25,
         "section_id": null,
@@ -19,7 +19,7 @@ export const css_two = [
         },
         "css_status": null,
         "css_responsive_status": null,
-        "css_prop_value": "500px",
+        "css_prop_value": "400px",
         "pivot": {
             "section_id": null,
             "component_id": 20,
@@ -1207,7 +1207,7 @@ export const BoxDesignOne = [
                 },
                 "css_status": null,
                 "css_responsive_status": null,
-                "css_prop_value": "600px",
+                "css_prop_value": "400px",
                 "pivot": {
                     "section_id": null,
                     "component_id": 20,
@@ -2690,4 +2690,834 @@ export const BoxDesignOne = [
     },
 ];
 
+export const ButtonDesign = [
+    {
+        section_component_id: uuidv4(), // Generate a random integer between 0 and 999999
+        "component_title": "BoxDesignOne",
+        "component_description": "lorem ipsum ....",
+        "is_template": true,
+        "mobile_columns_count": 12,
+        "tablet_columns_count": 4,
+        "laptop_columns_count": 3,
+        "section_css_props": [
 
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "textAlign",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": false,
+                    "is_element": true
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "center",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "padding",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": false,
+                    "is_element": true
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "0.725em 1.25em 0.8em",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "boxShadow",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "0 0.05em 0.5em rgba(97, 56, 216, 0.25), 0 0.15em 0.3em -0.1em rgba(156, 28, 218, 0.25), inset 0 0 0.05em 0.0333em rgba(177, 67, 231, 0.25), inset 0 0.1em 0.2em 0em rgba(177, 67, 231, 0.25), inset 0 0.1em 0.45em rgba(97, 56, 216, 0.25)",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "transition",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "color 0.3s, background 0.3s, transform 0.75s, background-position 0.5s, box-shadow 0.5s",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "willChange",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "background-position, transform, box-shadow",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "borderRadius",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "10px",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "background",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "linear-gradient(130deg,#6138D8 25%,rgba(177, 67, 231, 0.9) 40%,rgba(177, 67, 231, 0.95) 65%,#6138D8 85%) no-repeat -1px 50% / 300% calc(100% + 2px)",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+        ],
+        "pivot": {
+            "section_id": 3,
+            "section_component_id": 10,
+            "created_at": "2022-01-01 13:00:00",
+            "updated_at": "2022-01-01 13:30:00"
+        },
+        "component_elements": [
+            {
+                "component_element_id": 1,
+                "element_name": "adding",
+                "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
+                "is_element": true,
+                "element": {
+                    "element_type_id": 4,
+                    "element_type": "Button",
+                    "type_description": "this type return Typography with variant h3 tag in codes"
+                },
+                "element_content": "Button",
+                "section_css_props": [
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "color",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "#eee",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "backgroundColor",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "transparent",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "boxShadow",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "none",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "fontSize",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "20px",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "fontWeight",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "700",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "lineHeight",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "2rem",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "width",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "400px",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    },
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "height",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "70px",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    },
+                ],
+                "pivot": {
+                    "section_component_id": 10,
+                    "component_element_id": 3,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+        ]
+    },
+    {
+        section_component_id: uuidv4(), // Generate a random integer between 0 and 999999
+        "component_title": "BoxDesignOne",
+        "component_description": "lorem ipsum ....",
+        "is_template": true,
+        "mobile_columns_count": 12,
+        "tablet_columns_count": 4,
+        "laptop_columns_count": 3,
+        "section_css_props": [
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "textAlign",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": false,
+                    "is_element": true
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "center",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "padding",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": false,
+                    "is_element": true
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "0.725em 1.25em 0.8em",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "boxShadow",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "0 0.05em 0.5em rgba(97, 56, 216, 0.25), 0 0.15em 0.3em -0.1em rgba(156, 28, 218, 0.25), inset 0 0 0.05em 0.0333em rgba(177, 67, 231, 0.25), inset 0 0.1em 0.2em 0em rgba(177, 67, 231, 0.25), inset 0 0.1em 0.45em rgba(97, 56, 216, 0.25)",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "transition",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "color 0.3s, background 0.3s, transform 0.75s, background-position 0.5s, box-shadow 0.5s",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "willChange",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "background-position, transform, box-shadow",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "borderRadius",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "10px",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+            {
+                "section_css_prop_id": 15,
+                "section_id": null,
+                "component_id": 10,
+                "element_id": null,
+                "css_prop": {
+                    "prop_id": 1,
+                    "prop_name": "background",
+                    "prop_description": "lorem ipsum ....",
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false
+                },
+                "css_status": null,
+                "css_responsive_status": null,
+                "css_prop_value": "linear-gradient(130deg,#6138D8 25%,rgba(177, 67, 231, 0.9) 40%,rgba(177, 67, 231, 0.95) 65%,#6138D8 85%) no-repeat -1px 50% / 300% calc(100% + 2px)",
+                "pivot": {
+                    "section_id": null,
+                    "component_id": 10,
+                    "element_id": null,
+                    "section_css_prop_id": 15,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+        ],
+        "pivot": {
+            "section_id": 3,
+            "section_component_id": 10,
+            "created_at": "2022-01-01 13:00:00",
+            "updated_at": "2022-01-01 13:30:00"
+        },
+        "component_elements": [
+            {
+                "component_element_id": 1,
+                "element_name": "adding",
+                "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
+                "is_element": true,
+                "element": {
+                    "element_type_id": 4,
+                    "element_type": "Submit",
+                    "type_description": "this type return Typography with variant h3 tag in codes"
+                },
+                "element_content": "Submit",
+                "section_css_props": [
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "color",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "#eee",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "backgroundColor",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "transparent",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "boxShadow",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "none",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "fontSize",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "20px",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "fontWeight",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "700",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "lineHeight",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "2rem",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    }, 
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "width",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "400px",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    },
+                    {
+                        "section_css_prop_id": 15,
+                        "section_id": null,
+                        "component_id": 10,
+                        "element_id": null,
+                        "css_prop": {
+                            "prop_id": 1,
+                            "prop_name": "height",
+                            "prop_description": "lorem ipsum ....",
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true
+                        },
+                        "css_status": null,
+                        "css_responsive_status": null,
+                        "css_prop_value": "70px",
+                        "pivot": {
+                            "section_id": null,
+                            "component_id": 10,
+                            "element_id": null,
+                            "section_css_prop_id": 15,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00"
+                        }
+                    },
+                ],
+                "pivot": {
+                    "section_component_id": 10,
+                    "component_element_id": 3,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00"
+                }
+            },
+        ]
+    },
+];

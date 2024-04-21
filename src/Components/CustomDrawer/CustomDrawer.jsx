@@ -34,9 +34,7 @@ const StyledCustomDrawer = styled(Drawer)(
 
 const StyledDrawerContent = styled(Box)(
     ({theme}) => ({
-        height: "100vh",
-        backgroundColor: theme.palette.background.default,
-        width: "350px",
+        // width: "500px",
     })
 )
 
@@ -52,7 +50,7 @@ const StyledHeaderBox = styled(Box)(
 
 
 const CustomDrawer = (props) => {
-    const { children, drawerOpenState, title, putDrawerCloseButton, anchor, variant } = props
+    const { children, drawerOpenState, title, putDrawerCloseButton, anchor, variant , drawerWidth } = props
 
     const [drawerOpen, setDrawerOpen] = drawerOpenState
 
@@ -69,7 +67,7 @@ const CustomDrawer = (props) => {
         onClose={handleCloseDrawer}
         variant={variant !== null ? variant :'temporary'}
         >
-            <StyledDrawerContent>
+            <StyledDrawerContent style = {{width: drawerWidth}}>
                 <StyledHeaderBox>
                     <Typography variant='h6' textTransform="uppercase">
                         {title}

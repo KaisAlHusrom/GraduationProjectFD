@@ -15,7 +15,7 @@ import {
     IconButton,
     Popover,
     Badge,
-    Tooltip
+    Tooltip,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system'
@@ -58,7 +58,9 @@ const AdminMainButton = (props) => {
         drawerVariant,
         putBorder,
         filled,
-        sx
+        sx,
+        drawerWidth
+
     } = props
 
     //theme
@@ -173,7 +175,6 @@ const AdminMainButton = (props) => {
                             type === "drawer" ? handleOpenDrawer :
                             type === "popover" ? handleOpenPopover :
                             type === "StyleDialog" ? handleClickOpenStyleDialog :
-                            
                             type === "custom" ? onClick : undefined
 
                         }
@@ -386,6 +387,7 @@ const AdminMainButton = (props) => {
                 putDrawerCloseButton={putDrawerCloseButton}
                 anchor={drawerAnchor}
                 variant={drawerVariant}
+                drawerWidth = {drawerWidth}
                 >
                     {willShow}
                 </CustomDrawer>

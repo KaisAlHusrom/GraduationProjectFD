@@ -384,9 +384,9 @@ const EditPage = () => {
                                 appearance="iconButton"
                                 putTooltip
                                 icon={<AddBoxIcon />}
-                               willShow={
+                                willShow={
                                 <AddComponentModal  createNewComponent = {createNewComponent}  createDesignedComponent = {createDesignedComponent}></AddComponentModal>
-                               }
+                                }
 
                                 sx={{
                                     border: '1px solid red',

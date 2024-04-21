@@ -9,7 +9,9 @@ import * as utils from '../../StylesFunctions/SetStylesFunctions.js';
 const StyledMarginDrawer = styled('div')({
     display: 'flex',
     flexDirection:'column',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%'
 });
 
 const customSelectStyle = {

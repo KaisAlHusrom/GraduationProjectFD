@@ -10,11 +10,11 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import {  useState } from 'react'
-import { BoxDesignOne, css_two } from '../EditPage/Data/ConstDataDesign';
-import { getAppropriateTag } from '../StylesFunctions/GenerateElements';
-
-
+import { BoxDesignOne, emptyDesign , ButtonDesign } from '../EditPage/Data/ConstDataDesign';
+import { AdminMainButton } from '../../../../../Components';
+import Drawer from '../EditPage/Drawers/ReadyDesign/Drawer';
+import AddCardIcon from '@mui/icons-material/AddCard';
+import GamepadIcon from '@mui/icons-material/Gamepad';
 
 //Styled Components
 const StyledAddElementModal = styled(Box)(
@@ -27,21 +27,7 @@ const StyledAddElementModal = styled(Box)(
 
 
 const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => {
-    const [selectedCss, setSelectedCss] = useState(null);
-    const [selectedBox, setSelectedBox] = useState(null);
 
-    const handleEmptyBoxClick = (cssProps) => {
-        setSelectedCss(cssProps);
-        createNewComponent(cssProps)
-        console.log(cssProps);
-    };
-
-
-    const handleBoxClick = (box) => {
-        console.log("box",box);
-        setSelectedBox(box);
-        createDesignedComponent(box)
-    };
 
     return (
         <StyledAddElementModal>
@@ -50,45 +36,184 @@ const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => 
                 justifyContent: 'space-evenly',
                 alignItems: 'center',
                 flexWrap: 'wrap',
-            }}>
-                <Box
-                    sx={css_two.map(cssProp => ({
-                        [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
-                    }))}
-                    onClick={() => handleEmptyBoxClick(css_two)}
-                />
-        {BoxDesignOne.map((boxDesign) => (
-            <Box
-                key={boxDesign.section_component_id}
-                sx={boxDesign.section_css_props.reduce(
-                    (acc, cssProp) => ({
-                        ...acc,
-                        [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
-                    }),
-                    {}
-                )}
-                onClick={() => handleBoxClick(boxDesign)}
-                className={selectedBox === boxDesign ? 'selected' : ''}
-            >
-                {/* Render component_elements inside the Box */}
-                {boxDesign.component_elements.map((element) => (
-                    <Box key={element.component_element_id}>
-                        {getAppropriateTag(element.element, element.element_content, element.section_css_props.reduce(
-                                    (acc, cssProp) => ({
-                                        ...acc,
-                                        [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
-                                    }),
-                                    {}
-                                ))}
+                }}>
+                    <AdminMainButton 
+                        title="Cards"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        icon={<AddCardIcon />}
+                        willShow={
+                            <Drawer BoxDesignOne = {BoxDesignOne}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
+                        }
+                        sx={{
+                            margin: "10px",
+                            display: 'block',
+                            width: '250px',
+                            padding: '10px',
+                            transition: 'all 0.5s ease',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            color: "#eee",
+                            cursor: 'pointer',
+                            '&:hover': {
+                                backgroundColor: "white.dark",
+                                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+                            },
+                            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                        }}>
+                    </AdminMainButton>
 
-                    </Box>
-                ))}
-            </Box>
-))}
+                    <AdminMainButton 
+                        title="Buttons"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        icon={<GamepadIcon />}
+                        willShow={
+                            <Drawer BoxDesignOne = {ButtonDesign}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
+                        }
+                        sx={{
+                            margin: "10px",
+                            display: 'block',
+                            width: '250px',
+                            padding: '10px',
+                            transition: 'all 0.5s ease',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            color: "#eee",
+                            cursor: 'pointer',
+                            '&:hover': {
+                                backgroundColor: "white.dark",
+                                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+                            },
+                            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                        }}>
 
-            </Box>
+                    </AdminMainButton>
+                    
+                    <AdminMainButton 
+                        title="Buttons"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        icon={<GamepadIcon />}
+                        willShow={
+                            <Drawer BoxDesignOne = {BoxDesignOne}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
+                        }
+                        sx={{
+                            margin: "10px",
+                            display: 'block',
+                            width: '250px',
+                            padding: '10px',
+                            transition: 'all 0.5s ease',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            color: "#eee",
+                            cursor: 'pointer',
+                            '&:hover': {
+                                backgroundColor: "white.dark",
+                                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+                            },
+                            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                        }}>
+
+                    </AdminMainButton>
+                                        
+                    <AdminMainButton 
+                        title="Buttons"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        icon={<GamepadIcon />}
+                        willShow={
+                            <Drawer BoxDesignOne = {BoxDesignOne}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
+                        }
+                        sx={{
+                            margin: "10px",
+                            display: 'block',
+                            width: '250px',
+                            padding: '10px',
+                            transition: 'all 0.5s ease',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            color: "#eee",
+                            cursor: 'pointer',
+                            '&:hover': {
+                                backgroundColor: "white.dark",
+                                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+                            },
+                            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                        }}>
+
+                    </AdminMainButton>
+
+                                        
+                    <AdminMainButton 
+                        title="Buttons"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        icon={<GamepadIcon />}
+                        willShow={
+                            <Drawer BoxDesignOne = {BoxDesignOne}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
+                        }
+                        sx={{
+                            margin: "10px",
+                            display: 'block',
+                            width: '250px',
+                            padding: '10px',
+                            transition: 'all 0.5s ease',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            color: "#eee",
+                            cursor: 'pointer',
+                            '&:hover': {
+                                backgroundColor: "white.dark",
+                                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+                            },
+                            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                        }}>
+
+                    </AdminMainButton>
+
+                                        
+                    <AdminMainButton 
+                        title="Buttons"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        icon={<GamepadIcon />}
+                        willShow={
+                            <Drawer BoxDesignOne = {BoxDesignOne}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
+                        }
+                        sx={{
+                            margin: "10px",
+                            display: 'block',
+                            width: '250px',
+                            padding: '10px',
+                            transition: 'all 0.5s ease',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            color: "#eee",
+                            cursor: 'pointer',
+                            '&:hover': {
+                                backgroundColor: "white.dark",
+                                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+                            },
+                            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                        }}>
+
+                    </AdminMainButton>
+                </Box>
         </StyledAddElementModal>
+
+
     );
 };
 
 export default AddComponentModal;
+
+
+
+

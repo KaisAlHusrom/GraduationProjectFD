@@ -3,6 +3,8 @@ import { AppBar, Box, Button, Container, Divider, Drawer, MenuItem, Toolbar, Typ
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import { styled } from '@mui/system'
+import { AdminMainButton } from '../../../Components';
+import GamepadIcon from '@mui/icons-material/Gamepad';
 
 const logoStyle = {
   width: '140px',
@@ -153,7 +155,85 @@ function NavBar() {
                     </Button>
                     </Box>
                     <Box sx={{ display: {xxs:'flex',xs: 'flex', sm: 'flex', md: 'none' } }}>
-                    <Button
+                        <AdminMainButton 
+                            title=""
+                            type="drawer"
+                            appearance="primary"
+                            putTooltip
+                            putDrawerCloseButton
+                            drawerAnchor="right"
+                            drawerWidth = '300px'
+                            icon={<MenuIcon />}
+                            willShow={
+                                <Box
+                                sx={{
+                                    minWidth: '300px',
+                                    p: 2,
+                                    backgroundColor: 'background.paper',
+                                    flexGrow: 1,
+                                }}
+                                >
+                                <StyledSearchBar
+                                    label="Search"
+                                    variant="outlined"
+                                    value={searchValue}
+                                    onChange={handleSearchChange}
+                                    fullWidth
+                                />
+                                
+                                <MenuItem onClick={() => scrollToSection('Cards')}>
+                                    Cards
+                                </MenuItem>
+                                <MenuItem onClick={() => scrollToSection('footer')}>About us</MenuItem>
+                                <Divider />
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    onClick={handleMenuOpen}
+                                    sx={{ width: '100%' }}
+                                >
+                                        Categories
+                                </Button>
+                                <Menu
+                                    anchorEl={anchorEl}
+                                    open={Boolean(anchorEl)}
+                                    onClose={handleMenuClose}
+                                >
+                                    <MenuItem onClick={handleMenuClose}>Category 1</MenuItem>
+                                    <MenuItem onClick={handleMenuClose}>Category 2</MenuItem>
+                                    <MenuItem onClick={handleMenuClose}>Category 3</MenuItem>
+                                    {/* Add more categories as needed */}
+                                </Menu>
+                                <MenuItem>
+                                    <Button
+                                    color="primary"
+                                    variant="contained"
+                                    component="a"
+                                    href="SignUp"
+                                    target="_blank"
+                                    sx={{ width: '100%' }}
+                                    >
+                                    Sign up
+                                    </Button>
+                                </MenuItem>
+                                <MenuItem>
+                                    <Button
+                                    color="primary"
+                                    variant="outlined"
+                                    component="a"
+                                    href="Login"
+                                    target="_blank"
+                                    sx={{ width: '100%' }}
+                                    >
+                                    Sign in
+                                    </Button>
+                                </MenuItem>
+                                </Box>
+                            }
+                        >
+
+                        </AdminMainButton>
+                    {/* <Button
                         variant="text"
                         color="primary"
                         aria-label="menu"
@@ -161,72 +241,9 @@ function NavBar() {
                         sx={{ minWidth: '30px', p: '4px' }}
                     >
                         <MenuIcon />
-                    </Button>
+                    </Button> */}
                     <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
-                        <Box
-                        sx={{
-                            minWidth: '60dvw',
-                            p: 2,
-                            backgroundColor: 'background.paper',
-                            flexGrow: 1,
-                        }}
-                        >
-                        <StyledSearchBar
-                            label="Search"
-                            variant="outlined"
-                            value={searchValue}
-                            onChange={handleSearchChange}
-                            fullWidth
-                        />
-                        
-                        <MenuItem onClick={() => scrollToSection('Cards')}>
-                            Cards
-                        </MenuItem>
-                        <MenuItem onClick={() => scrollToSection('footer')}>About us</MenuItem>
-                        <Divider />
-                        <Button
-                            color="primary"
-                            variant="contained"
-                            onClick={handleMenuOpen}
-                            sx={{ width: '100%' }}
-                        >
-                                Categories
-                        </Button>
-                        <Menu
-                            anchorEl={anchorEl}
-                            open={Boolean(anchorEl)}
-                            onClose={handleMenuClose}
-                        >
-                            <MenuItem onClick={handleMenuClose}>Category 1</MenuItem>
-                            <MenuItem onClick={handleMenuClose}>Category 2</MenuItem>
-                            <MenuItem onClick={handleMenuClose}>Category 3</MenuItem>
-                            {/* Add more categories as needed */}
-                        </Menu>
-                        <MenuItem>
-                            <Button
-                            color="primary"
-                            variant="contained"
-                            component="a"
-                            href="SignUp"
-                            target="_blank"
-                            sx={{ width: '100%' }}
-                            >
-                            Sign up
-                            </Button>
-                        </MenuItem>
-                        <MenuItem>
-                            <Button
-                            color="primary"
-                            variant="outlined"
-                            component="a"
-                            href="Login"
-                            target="_blank"
-                            sx={{ width: '100%' }}
-                            >
-                            Sign in
-                            </Button>
-                        </MenuItem>
-                        </Box>
+                   
                     </Drawer>
                     </Box>
                 </Toolbar>

@@ -50,58 +50,7 @@ const BoxStyle = {
     cursor: 'pointer',
   },
 };
-const css = [
-  {
-      "section_css_prop_id": 15,
-      "section_id": null,
-      "component_id": 10,
-      "element_id": null,
-      "css_prop": {
-          "prop_id": 1,
-          "prop_name": "width",
-          "prop_description": "lorem ipsum ....",
-          "is_section": false,
-          "is_component": true,
-          "is_element": false
-      },
-      "css_status": null,
-      "css_responsive_status": null,
-      "css_prop_value": "200px",
-      "pivot": {
-          "section_id": null,
-          "component_id": 10,
-          "element_id": null,
-          "section_css_prop_id": 15,
-          "created_at": "2022-01-01 13:00:00",
-          "updated_at": "2022-01-01 13:30:00"
-      }
-  },
-  {
-      "section_css_prop_id": 15,
-      "section_id": null,
-      "component_id": 10,
-      "element_id": null,
-      "css_prop": {
-          "prop_id": 1,
-          "prop_name": "height",
-          "prop_description": "lorem ipsum ....",
-          "is_section": false,
-          "is_component": true,
-          "is_element": false
-      },
-      "css_status": null,
-      "css_responsive_status": null,
-      "css_prop_value": "300px",
-      "pivot": {
-          "section_id": null,
-          "component_id": 10,
-          "element_id": null,
-          "section_css_prop_id": 15,
-          "created_at": "2022-01-01 13:00:00",
-          "updated_at": "2022-01-01 13:30:00"
-      }
-  }
-];
+
 
 const AccordionComponent = ({items , createNewElement , componentSection_component_id}) => {
   const [selectedItem, setSelectedItem] = useState(null);

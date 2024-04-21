@@ -90,6 +90,11 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
             <ContactlessIcon style={elementStyle} />
         );  
     }
+    if (element?.element_type === "Button") {
+        return (
+                <Button variant="contained" style = {elementStyle}>{elementContent}</Button>
+        );  
+    }
     if (element?.element_type === "Submit") {
         return (
                 <Button variant="contained" style = {elementStyle}><SendIcon sx={{marginRight :'20px'}}/> {elementContent}</Button>
