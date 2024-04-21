@@ -22,6 +22,7 @@ import { styled } from '@mui/system'
 import { Edit as EditIcon } from '@mui/icons-material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import AddComponentModal from '../components/AddComponentModal.jsx';
 
 const getSectionData = async (section_id) => {
     if (section_id === "10") {
@@ -59,6 +60,10 @@ const getSectionData = async (section_id) => {
     const CarouselDataModule = await import("../sections/Slider/SliderData.json");
             return CarouselDataModule.default;
         }
+        else if (section_id === "17") {
+            const CarouselDataModule = await import("../sections/SendMessage/SendMessageData.json");
+                    return CarouselDataModule.default;
+                }
 };
 
 
@@ -94,7 +99,7 @@ const HoverBox = styled(Box)({
 
 const ActionButtons = styled(Box)({
     position: 'relative',
-    bottom: '50px',
+    bottom: '0px',
     left: '50px',
     display: 'flex',
     justifyContent: 'space-around',
@@ -129,6 +134,7 @@ const EditPage = () => {
         fetchSectionData();
     }, [section_id]);
 
+
     const handleSectionStyleChange = (newStyle) => {
         setSectionStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
     };
@@ -149,7 +155,6 @@ const EditPage = () => {
     };
     
     const deleteComponentForComponent = (section_component_id) => {
-        console.log(section_component_id)
         const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
         if (index !== -1) {
             setSectionData((prevData) => {
@@ -163,17 +168,26 @@ const EditPage = () => {
         }
     };
 
-    const createNewComponent = () => {
+    const createNewComponent = (section_css_props) => {
         // Update the state to include the new component
         setSectionData((prevData) => {
-            const updatedComponents = [...prevData.section_components, createEmptyComponent()];
+            const updatedComponents = [...prevData.section_components, createEmptyComponent(section_css_props)];
             return {
                 ...prevData,
                 section_components: updatedComponents,
             };
         });
     };
-
+    const createDesignedComponent = (component) => {
+        // Update the state to include the new component
+        setSectionData((prevData) => {
+            const updatedComponents = [...prevData.section_components, component];
+            return {
+                ...prevData,
+                section_components: updatedComponents,
+            };
+        });
+    };
 
     const createNewElement = (selectedComponentId, element_type, element_content) => {
         // Yeni elementi oluştur
@@ -193,6 +207,7 @@ const EditPage = () => {
             }),
         }));
     };
+
     
     
     const deleteSection = () => {
@@ -217,8 +232,6 @@ const EditPage = () => {
             });
         }
     };
-
-    console.log ("sectionData" , sectionData)
 
     return (
         <StyledEditPage>
@@ -367,11 +380,13 @@ const EditPage = () => {
                             />
                             <AdminMainButton
                                 title="Add Components"
-                                type="custom"
+                                type="StyleDialog"
                                 appearance="iconButton"
                                 putTooltip
                                 icon={<AddBoxIcon />}
-                                onClick={createNewComponent}
+                               willShow={
+                                <AddComponentModal  createNewComponent = {createNewComponent}  createDesignedComponent = {createDesignedComponent}></AddComponentModal>
+                               }
 
                                 sx={{
                                     border: '1px solid red',
@@ -385,27 +400,6 @@ const EditPage = () => {
                                     },
                                 }}
                             />
-                            {/* <AdminMainButton
-                                title="Add Element"
-                                type="custom"
-                                appearance="iconButton"
-                                putTooltip
-                                icon={<AddBoxIcon />}
-                                onClick={() => {createNewElement(1, 'Head3', 'hello')}}
-
-                                sx={{
-                                    border: '1px solid red',
-                                    padding: '10px 15px',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: '#1B3C73',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: '#222831',
-                                    },
-                                }}
-                            /> */}
-
                         </> 
                     
                 </TooltipContainer>

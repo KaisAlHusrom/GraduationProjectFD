@@ -2435,7 +2435,7 @@
                     "element_id": null,
                     "css_prop": {
                         "prop_id": 1,
-                        "prop_name": "height",
+                        "prop_name": "min-height",
                         "prop_description": "lorem ipsum ....",
                         "is_section": false,
                         "is_component": true,

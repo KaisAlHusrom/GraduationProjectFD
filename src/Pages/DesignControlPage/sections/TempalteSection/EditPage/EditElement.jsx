@@ -40,6 +40,7 @@ const TooltipContainer = styled(Box)({
     position: 'relative',
     opacity: 0,
     transition: 'opacity 1s ease',
+    zIndex: 999,
 });
 
 
@@ -89,9 +90,14 @@ const EditElement = ({ element, deleteElementForComponent, componentId }) => {
         deleteElementForComponent(componentId, element.component_element_id);
     };
 
-    // console.log("All elements : " ,  element)
     return (
-        <StyledEditElement sx= {elementStyle}>
+        <StyledEditElement sx= {{
+            ...elementStyle , 
+            backgroundColor: 'none',
+            width:'100%',
+            margin:'0',
+            padding:'0',
+            }}>
                 {getAppropriateTag(element.element, title, elementStyle)}
                     
                 <TooltipContainer>

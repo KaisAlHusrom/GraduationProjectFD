@@ -46,7 +46,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
     }
     if (element?.element_type === "link") {
         return (
-            <Link href={elementContent} style={elementStyle} className='hid'>{elementContent}</Link>
+            <Link href={elementContent} style={elementStyle} >{elementContent}</Link>
         );
     }
     if (element?.element_type === "icon") {
@@ -92,16 +92,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
     }
     if (element?.element_type === "Submit") {
         return (
-            <Box sx = {{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-                width: '100%',
-                height: '100%'
-            }}>
                 <Button variant="contained" style = {elementStyle}><SendIcon sx={{marginRight :'20px'}}/> {elementContent}</Button>
-
-            </Box>
         );  
     }
     if (element?.element_type === "input") {

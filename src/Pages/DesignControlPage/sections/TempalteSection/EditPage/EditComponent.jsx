@@ -1,5 +1,5 @@
 //React
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import {
     
@@ -47,6 +47,10 @@ const EditComponent = ({component }) => {
 
     const [componentData, setComponentData] = useState(component);
 
+    useEffect(() => {
+        setComponentData(component)
+    }, [component])
+
     useMemo(() => {
         const dictionary = {};
         if (component.section_css_props) {
@@ -62,7 +66,6 @@ const EditComponent = ({component }) => {
 
 
     const handleSectionStyleChange = (newStyle) => {
-        console.log(newStyle)
         setComponentStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
     };
 

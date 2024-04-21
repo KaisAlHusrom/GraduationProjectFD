@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'; // UUID oluşturmak için
 
 
-export const createEmptyComponent = () => {
+export const createEmptyComponent = (section_css_props) => {
     return {
         section_component_id: uuidv4(), // Generate a random integer between 0 and 999999
         "component_title": "About Header",
@@ -10,233 +10,7 @@ export const createEmptyComponent = () => {
         "mobile_columns_count": 12,
         "tablet_columns_count": 4,
         "laptop_columns_count": 3,
-        "section_css_props": [
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "width",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "400px",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "display",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "flex",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "flexDirection",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "column",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            }, 
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "justifyContent",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "space-evenly",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "alignItems",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "center",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },  
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "height",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "300px",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "position",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "relative",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "borderRadius",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "10px",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "backgroundColor",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "grey",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            }
-        ],
+        "section_css_props": section_css_props,
         "pivot": {
             "section_id": 3,
             "section_component_id": 10,
@@ -251,10 +25,11 @@ export const createEmptyComponent = () => {
 
 
 
+
 export const createEmptyElement = (selectedComponentId ,element_type , element_content) => {
     return {
-        "component_element_id": 1,
-        "element_name": "title",
+        "component_element_id": uuidv4(),
+        "element_name": "adding",
         "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
         "is_element": true,
         "element": {
@@ -514,6 +289,7 @@ export const createEmptyElement = (selectedComponentId ,element_type , element_c
                     "updated_at": "2022-01-01 13:30:00"
                 }
             },
+    
             {
                 "section_css_prop_id": 15,
                 "section_id": null,
@@ -521,7 +297,7 @@ export const createEmptyElement = (selectedComponentId ,element_type , element_c
                 "element_id": null,
                 "css_prop": {
                     "prop_id": 1,
-                    "prop_name": "border",
+                    "prop_name": "width",
                     "prop_description": "lorem ipsum ....",
                     "is_section": false,
                     "is_component": false,
@@ -529,7 +305,7 @@ export const createEmptyElement = (selectedComponentId ,element_type , element_c
                 },
                 "css_status": null,
                 "css_responsive_status": null,
-                "css_prop_value": "2px solid #3E3232",
+                "css_prop_value": "100%",
                 "pivot": {
                     "section_id": null,
                     "component_id": 10,
@@ -539,7 +315,6 @@ export const createEmptyElement = (selectedComponentId ,element_type , element_c
                     "updated_at": "2022-01-01 13:30:00"
                 }
             }
-
         ],
         "pivot": {
             "section_component_id": 10,
