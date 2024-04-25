@@ -1,6 +1,6 @@
 {
     "section_id": 1,
-    "section_title": "Team",
+    "section_title": "Header",
     "Section_descriptions": "lorem ipsum ....",
     "is_template": true,
     "created_at": "2022-01-01 12:00:00",
@@ -309,7 +309,7 @@
         ],
     "section_components": [
         {
-            "section_component_id": 10,
+            "section_component_id": 1,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -551,7 +551,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -821,7 +821,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 2,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -1363,7 +1363,7 @@
             ]
         },
         {
-            "section_component_id": 10,
+            "section_component_id": 2,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -1605,7 +1605,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "image",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,

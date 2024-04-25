@@ -11,7 +11,7 @@ import MainDrawerList from '../SideBar/DrawerLists/MainDrawerList';
 import HomeDrawerList from '../SideBar/DrawerLists/HomeDrawerList';
 import LanguageDrawerList from '../SideBar/DrawerLists/LanguageDrawerList';
 import TemplateMain from '../sections/TempalteSection/TemplateMain';
-
+import FontFamily from './FontFamily'
 
 
 // icons 
@@ -24,6 +24,7 @@ import TabletIcon from '@mui/icons-material/Tablet';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import TurnLeftIcon from '@mui/icons-material/TurnLeft';
 import TurnRightIcon from '@mui/icons-material/TurnRight';
+import AutofpsSelectIcon from '@mui/icons-material/AutofpsSelect';
 //MUI
 import {
     AppBar,
@@ -43,11 +44,27 @@ const StyledAppbarCom = styled(Box)(
 )
 
 
+const StyleButton = {
+    border : 'none',
+    padding: '10px 15px',
+    fontWeight: 'bold',
+    backgroundColor:'success.dark',
+    '&:hover' : {
+      backgroundColor: 'warning'
+    },
+    color:'white.main',
+    marginLeft:'10px'
+  
+}
+
 const AppbarCom = () => {
   const [isMobileWidth, setIsMobileWidth] = useState(false);
   const [isTabletWidth, setIsTabletWidth] = useState(false);
   const [isLaptopWidth, setIsLaptopWidth] = useState(true);
-
+  const [selectedFontFamily, setSelectedFontFamily] = useState('');
+  const handleFontFamilyClick = (fontFamily) => {
+    setSelectedFontFamily(fontFamily);
+};
   const handleSmartphoneClick = () => {
     setIsMobileWidth(true);
     setIsTabletWidth(false);
@@ -71,26 +88,19 @@ const AppbarCom = () => {
             <AppBar position="fixed" open={open}>
         <Toolbar sx={{
         }}>
-
-              <Box sx={{
+            <Box sx={{
               display: 'flex',
               justifyContent:'start',
               alignItems: 'center',
               width: '100%'
             }}>
             <AdminMainButton
-                    title="Home"
+                    title=""
                     icon={<MenuIcon />}
                     appearance="iconButton"
                     type='drawer'
                     drawerAnchor='left'
-                    sx={{
-                      border : '1px solid',
-                      padding: '10px 15px',
-                      fontWeight: 'bold',
-                      backgroundColor:'success.dark',
-                      color:'white.main'
-                    }}
+                    sx={StyleButton}
                     willShow={
                       <MainDrawerList></MainDrawerList>
                     }
@@ -101,14 +111,7 @@ const AppbarCom = () => {
                     appearance="secondary"
                     type='drawer'
                     drawerAnchor='left'
-                    sx={{
-                      border : 'none',
-                      padding: '10px 15px',
-                      fontWeight: 'bold',
-                      backgroundColor:'success.dark',
-                      color:'white.main',
-                      marginLeft:'10px'
-                    }}
+                    sx={StyleButton}
                     willShow={
                       <HomeDrawerList></HomeDrawerList>
                     }
@@ -119,18 +122,20 @@ const AppbarCom = () => {
                     appearance="secondary"
                     type='drawer'
                     drawerAnchor='left'
-
-                    sx={{
-                      border : 'none',
-                      padding: '10px 15px',
-                      fontWeight: 'bold',
-                      backgroundColor:'success.dark',
-                      color:'white.main',
-                      marginLeft:'10px'
-                    }}
+                    sx={StyleButton}
                     willShow={
                       <LanguageDrawerList></LanguageDrawerList>
                     }
+              />
+                <AdminMainButton
+                    title="Font Family"
+                    icon={<AutofpsSelectIcon />}
+                    appearance="secondary"
+                    type='StyleDialog'
+                    drawerAnchor='left'
+                    sx={StyleButton}
+                    willShow={<FontFamily handleFontFamilyClick={handleFontFamilyClick} />}
+
               />
                 </Box>
 
@@ -291,7 +296,7 @@ const AppbarCom = () => {
       </AppBar>
 
             <Box component="main" sx={{ p: 3 }}>
-            <TemplateMain isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth}/>
+            <TemplateMain isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth} selectedFontFamily={selectedFontFamily} />
             </Box>
         </StyledAppbarCom>
     );

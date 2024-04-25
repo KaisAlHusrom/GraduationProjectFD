@@ -89,7 +89,6 @@ const Work = ({moveSectionUp , moveSectionDown}) => {
         </StyledWork>
 
         ): null
-       
     );
 };
 

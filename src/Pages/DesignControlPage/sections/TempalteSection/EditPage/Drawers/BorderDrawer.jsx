@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 
 // components
-import * as utils from '../StylesFunctions/SetStylesFunctions.js';
+import * as utils from '../../StylesFunctions/SetStylesFunctions.js';
 
 
 // mui 
@@ -66,7 +66,7 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
         },
         }));
 
-    const CustomAccordion = ({ handleSectionStyleChange }) => {
+    const BorderDrawer = ({ handleSectionStyleChange }) => {
         
             const [expanded, setExpanded] = useState(null);
             const [selectedBorder, setSelectedBorder] = useState(null);
@@ -139,4 +139,4 @@ import MuiAccordionDetails from '@mui/material/AccordionDetails';
             );
 };
 
-export default CustomAccordion;
+export default BorderDrawer;

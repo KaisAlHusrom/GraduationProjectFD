@@ -1,6 +1,6 @@
 {
     "section_id": 13,
-    "section_title": "Team",
+    "section_title": "Counters",
     "Section_descriptions": "lorem ipsum ....",
     "is_template": true,
     "created_at": "2022-01-01 12:00:00",
@@ -309,7 +309,7 @@
         ],
     "section_components": [
         {
-            "section_component_id": 10,
+            "section_component_id": 1,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -551,7 +551,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -602,7 +602,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "transparent",
+                            "css_prop_value": "#070F2B",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -652,7 +652,7 @@
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "black",
+                            "css_prop_value": "#eee",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -811,31 +811,6 @@
                                 "created_at": "2022-01-01 13:00:00",
                                 "updated_at": "2022-01-01 13:30:00"
                             }
-                        },
-                        {
-                            "section_css_prop_id": 15,
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "css_prop": {
-                                "prop_id": 1,
-                                "prop_name": "border",
-                                "prop_description": "lorem ipsum ....",
-                                "is_section": false,
-                                "is_component": false,
-                                "is_element": true
-                            },
-                            "css_status": null,
-                            "css_responsive_status": null,
-                            "css_prop_value": "2px solid rgba(23, 50, 73, 1)",
-                            "pivot": {
-                                "section_id": null,
-                                "component_id": 10,
-                                "element_id": null,
-                                "section_css_prop_id": 15,
-                                "created_at": "2022-01-01 13:00:00",
-                                "updated_at": "2022-01-01 13:30:00"
-                            }
                         }
                     ],
                     "pivot": {
@@ -848,7 +823,7 @@
             ]
         },
         {
-            "section_component_id": 10,
+            "section_component_id": 2,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -1131,7 +1106,6 @@
                         "updated_at": "2022-01-01 13:30:00"
                     }
                 },
-
                 {
                     "section_css_prop_id": 15,
                     "section_id": null,
@@ -1166,7 +1140,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -1436,7 +1410,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 2,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -1978,7 +1952,7 @@
             ]
         },
         {
-            "section_component_id": 10,
+            "section_component_id": 3,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -2296,7 +2270,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -2566,7 +2540,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 2,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -3108,7 +3082,7 @@
             ]
         },
         {
-            "section_component_id": 10,
+            "section_component_id": 4,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -3426,7 +3400,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -3696,7 +3670,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id":2,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -4238,7 +4212,7 @@
             ]
         },
         {
-            "section_component_id": 10,
+            "section_component_id": 5,
             "component_title": "About Header",
             "component_description": "lorem ipsum ....",
             "is_template": true,
@@ -4555,7 +4529,7 @@
             },
             "component_elements": [
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 1,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
@@ -4825,7 +4799,7 @@
                     }
                 },
                 {
-                    "component_element_id": 3,
+                    "component_element_id": 2,
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,

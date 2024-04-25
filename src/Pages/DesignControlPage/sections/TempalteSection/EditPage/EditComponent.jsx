@@ -1,5 +1,5 @@
 //React
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import {
     
@@ -17,8 +17,8 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import DeleteIcon from '@mui/icons-material/Delete';
 import { Edit as EditIcon } from '@mui/icons-material';
+
 
 //Styled Components
 const StyledEditComponent = styled(Box)(() => ({
@@ -41,9 +41,15 @@ const TooltipContainer = styled(Box)({
 
 
 
-const EditComponent = ({component}) => {
+const EditComponent = ({component }) => {
 
     const [componentStyle, setComponentStyle] = useState({}); 
+
+    const [componentData, setComponentData] = useState(component);
+
+    useEffect(() => {
+        setComponentData(component)
+    }, [component])
 
     useMemo(() => {
         const dictionary = {};
@@ -60,20 +66,35 @@ const EditComponent = ({component}) => {
 
 
     const handleSectionStyleChange = (newStyle) => {
-        console.log(newStyle)
         setComponentStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
+    };
+
+    const deleteElementForComponent = (Component_id, element__id) => {
+        setComponentData((prevData) => {
+            if (prevData.section_component_id === Component_id) {
+                const updatedElements = prevData.component_elements.filter(element => element.component_element_id !== element__id);
+                return {
+                ...prevData,
+                component_elements: updatedElements,
+                };
+            } else {
+                return prevData;
+            }
+            });
     };
 
 
     return (
         <StyledEditComponent sx={componentStyle}>
-            {
-                component && component.component_elements.map((element, i) => {
-                    return (
-                        <EditElement key={i} element={element} />
-                    )
-                })
-            }
+            {componentData.component_elements && componentData.component_elements.map((element, i) => (
+                <Box key={`${component.section_component_id}-${element.component_element_id}-${i}`}>
+                    <EditElement
+                    element={element}
+                    deleteElementForComponent={deleteElementForComponent}
+                    componentId={component.section_component_id}
+                    />
+                </Box>
+            ))}
             <TooltipContainer>
                 <AdminMainButton
                     title="Edit"
@@ -82,13 +103,12 @@ const EditComponent = ({component}) => {
                     putTooltip
                     icon={<EditIcon />}
                     willShow={
-                        <StyleBox 
-                        Section_Name = {"Style Component"}
-                        element_Type = 'Component'
-                        sectionStyle = {componentStyle}
-                        handleSectionStyleChange = {handleSectionStyleChange}
-                        styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
-
+                        <StyleBox
+                            Section_Name={"Style Component"}
+                            element_Type='Component'
+                            sectionStyle={componentStyle}
+                            handleSectionStyleChange={handleSectionStyleChange}
+                            styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
                         />
                     }
                     sx={{
@@ -100,7 +120,6 @@ const EditComponent = ({component}) => {
                     }}
                 />
             </TooltipContainer>
-            
         </StyledEditComponent>
     );
 };
