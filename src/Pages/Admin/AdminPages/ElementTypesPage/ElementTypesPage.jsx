@@ -73,6 +73,7 @@ const columns = {
     element_type_description: "text",
     element_props: "many-to-many",
     sequence_number: "int",
+    not_has_end_tag: "bool",
     is_child: "bool",
     children: "one-to-many",
     parent: "many-to-one",

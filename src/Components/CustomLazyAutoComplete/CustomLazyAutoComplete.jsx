@@ -21,7 +21,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 //propTypes 
 import propTypes from 'prop-types'
-import useFetchData from '../../Helpers/useFetchData';
+import useFetchData from '../../Helpers/customHooks/useFetchData';
 
 //Styled Components
 
@@ -35,12 +35,11 @@ const CustomLazyAutoComplete = (props) => {
         handleFetchData,
         valueState,
         customHandleChange,
-        filters
+        filters,
+        sx
     } = props
 
-    useEffect(() => {
-        console.log("wow")
-    }, [])
+
 
     const [value, setValue] = valueState
 
@@ -177,6 +176,7 @@ const CustomLazyAutoComplete = (props) => {
         <AutocompleteMemoized
                     {...defaultProps}
                     renderOption={renderOptionMemoized}
+                    sx={{...sx}}
         />
     );
 };
@@ -189,6 +189,7 @@ CustomLazyAutoComplete.propTypes = {
     valueState: propTypes.array.isRequired,
     customHandleChange: propTypes.func,
     filters: propTypes.array,
+    sx: propTypes.object
 }
 
 export default CustomLazyAutoComplete;

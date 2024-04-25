@@ -30,7 +30,7 @@ import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import propTypes from 'prop-types'
 import { useLoaderData } from 'react-router-dom'
 import { useMyContext } from '../DatabaseView/DatabaseView'
-import useFetchData from '../../Helpers/useFetchData'
+import useFetchData from '../../Helpers/customHooks/useFetchData'
 
 
 
@@ -149,6 +149,9 @@ const CustomTable = (props) => {
         return styled(TableHead)(
             () => ({
                 backgroundColor: changeHeadersBackgroundColor && selectedColor,
+                position: 'sticky',
+                top: 0,
+                zIndex: 500,
             })
         );
     }, [changeHeadersBackgroundColor, selectedColor])

@@ -23,40 +23,42 @@ const repeat = (selectedElement) => {
     null
 }
 
-const repeatThreeTimes = (selectedElement) => {
+// const repeatThreeTimes = (selectedElement) => {
     
-        return selectedElement.children && selectedElement.children.length > 0
-        ? (
-            Array.from({ length: 3 }, (_, index) => (
-                <Fragment key={index}>
-                    {selectedElement.children.map((child, key) => (
-                        <Fragment key={key}>
-                            <GenerateTag
-                                key={child.id}
-                                // elementStyle={elementStyle}
-                                selectedElement={child}
-                            />
-                        </Fragment>
-                    ))}
-                </Fragment>
-            ))
-        )
-        : null 
+//         return selectedElement.children && selectedElement.children.length > 0
+//         ? (
+//             Array.from({ length: 3 }, (_, index) => (
+//                 <Fragment key={index}>
+//                     {selectedElement.children.map((child, key) => (
+//                         <Fragment key={key}>
+//                             <GenerateTag
+//                                 key={child.id}
+//                                 // elementStyle={elementStyle}
+//                                 selectedElement={child}
+//                             />
+//                         </Fragment>
+//                     ))}
+//                 </Fragment>
+//             ))
+//         )
+//         : null 
     
-}
+// }
 
 export const GenerateTag = ({selectedElement, elementStyle}) => {
     const sortedData = Array.isArray(selectedElement) ? selectedElement.sort((a, b) => a.sequence_number - b.sequence_number) : selectedElement;
     const type = sortedData ? sortedData.element_type_name : "";
     const key = sortedData ? sortedData.id : "";
-    let exampleText = `${type}`;
+    const hasChildren = sortedData ? sortedData.children?.length > 0 ? true : false : false
+
+    let exampleText = hasChildren ? repeat(sortedData) : `${type}`;
 
     const [selectedEditableElement, setSelectedEditableElement] = useState(null)
 
     const handleChangeSelectedEditableElement = useCallback((key) => {
         setSelectedEditableElement(() => key)
-        console.log(selectedEditableElement)
-    }, [selectedEditableElement])
+
+    }, [])
 
 
     //Hovering
@@ -126,13 +128,13 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
         case 'unordered list':
             return (
                 <ul {...defaultProps}>
-                    {repeatThreeTimes(sortedData)}
+                    {repeat(sortedData)}
                 </ul>
             );
         case 'ordered list':
             return (
                 <ol {...defaultProps}>
-                    {repeatThreeTimes(sortedData)}
+                    {repeat(sortedData)}
                 </ol>
             )
         case 'table caption':
@@ -156,7 +158,7 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
         case 'table foot row':
             return (
                 <tr {...defaultProps}>
-                    {repeatThreeTimes(sortedData)}
+                    {repeat(sortedData)}
                 </tr>
             );
         case 'table':
@@ -166,14 +168,14 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
         case 'table head cell':
         case 'table body cell':
         case 'table foot cell':
-            return <td {...defaultProps} >{exampleText}</td>
+            return <td {...defaultProps} >{repeat(sortedData)} {exampleText}</td>
         case 'text area':
             return <textarea {...defaultProps} name="" id="" cols="30" rows="10" >{exampleText}</textarea>
         case 'select input option':
             return <option {...defaultProps} >{exampleText}</option>
         case 'select input':
             return <select {...defaultProps}>
-                {repeatThreeTimes(sortedData)}
+                {repeat(sortedData)}
             </select>;
         case 'button':
             return <button {...defaultProps}>{exampleText}</button>;
@@ -191,8 +193,6 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
             return <b {...defaultProps}>{exampleText}</b>;
         case 'canvas':
             return <canvas id="myCanvas" width="200" height="100">{exampleText}</canvas>;
-        case 'box':
-            return <Box {...defaultProps}>{exampleText}</Box>;
         case 'label':
             return <label {...defaultProps}>{exampleText}</label>;
         case 'strong text':
@@ -204,6 +204,9 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
             print(x + y)
             `
             return <code {...defaultProps}>{exampleText}</code>;
+        case 'component':
+        case 'section':
+            return <Box {...defaultProps}>{exampleText}</Box>;
         default:
             return null; // Return null for unsupported types or handle accordingly
     }
