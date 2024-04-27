@@ -1,5 +1,6 @@
 export const itemsOfTextHeading = [
     {
+        "id": 1,
         "header": "Heading 1",
         "element_content": "Empty",
         "element_type" : "Head3",
@@ -9,8 +10,10 @@ export const itemsOfTextHeading = [
         }
     },
     {
+        "id": 2,
+
         "header": "Heading 2",
-        "element_content": "empty empty empty",
+        "element_content": "empty",
         "element_type" : "Head3",
         "sx": {
             "fontSize": "1.5rem",
@@ -18,6 +21,8 @@ export const itemsOfTextHeading = [
         }
     },
     {
+        "id": 3,
+
         "header": "Heading 3",
         "element_content": "empty",
         "element_type" : "Head3",
@@ -27,6 +32,7 @@ export const itemsOfTextHeading = [
         }
     },
     {
+        "id": 4,
         "header": "Subheading 1",
         "element_content": "empty",
         "element_type" : "Head3",
@@ -36,6 +42,7 @@ export const itemsOfTextHeading = [
         }
     },
     {
+        "id": 5,
         "header": "Subheading 2",
         "element_content": "empty",
         "element_type" : "Head3",
@@ -45,6 +52,7 @@ export const itemsOfTextHeading = [
         }
     },
     {
+        "id": 6,
         "header": "Subtitle 1",
         "element_content": "empty",
         "element_type" : "Head3",
@@ -54,6 +62,7 @@ export const itemsOfTextHeading = [
         }
     },
     {
+        "id": 7,
         "header": "Subtitle 2",
         "element_content": "empty",
         "element_type" : "Head3",
@@ -64,6 +73,7 @@ export const itemsOfTextHeading = [
     },
 
     {
+        "id": 8,
         "header": "Caption",
         "element_content": "empty",
         "element_type" : "Head3",

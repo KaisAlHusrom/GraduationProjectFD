@@ -14,6 +14,8 @@ import EditComponent from './EditComponent.jsx';
 import { AdminMainButton } from '../../../../../Components/index.jsx';
 import StyleBox from '../components/StyleBox.jsx';
 import {createEmptyComponent , createEmptyElement} from './Data/ConstDataComponent.jsx'
+import {SectionsDesigns } from './Data/ConstSectionsData.jsx'
+
 import AddElementModal from '../components/AddElementModal.jsx';
 
 //MUI
@@ -23,6 +25,10 @@ import { Edit as EditIcon } from '@mui/icons-material';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import AddComponentModal from '../components/AddComponentModal.jsx';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import SectionsModal from './Modals/SectionsModal.jsx';
+
+
 
 const getSectionData = async (section_id) => {
     if (section_id === "10") {
@@ -41,7 +47,7 @@ const getSectionData = async (section_id) => {
         return CarouselDataModule.default;
     }
     else if (section_id === "14") {
-        const CarouselDataModule = await import("../sections/Services/ServicesData.json");
+        const CarouselDataModule = await import("../sections/Services/ServicesData.json");s
         return CarouselDataModule.default;
     }
     else if (section_id === "15") {
@@ -60,10 +66,11 @@ const getSectionData = async (section_id) => {
     const CarouselDataModule = await import("../sections/Slider/SliderData.json");
             return CarouselDataModule.default;
         }
-        else if (section_id === "17") {
-            const CarouselDataModule = await import("../sections/SendMessage/SendMessageData.json");
-                    return CarouselDataModule.default;
-                }
+    else if (section_id === "17") {
+        const CarouselDataModule = await import("../sections/SendMessage/SendMessageData.json");
+            return CarouselDataModule.default;
+        }
+
 };
 
 
@@ -110,6 +117,17 @@ const ActionButtons = styled(Box)({
     transition: 'opacity 0.3s ease',
     width :'100px'
 });
+const EditButtonsStyle = {
+    border: '1px solid red',
+    padding: '10px 15px',
+    fontWeight: 'bold',
+    color: 'white.main',
+    backgroundColor: '#304D30',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+        backgroundColor: 'rgb(7, 15, 43)',
+    },
+}
 
 const EditPage = () => {
     const { section_id } = useParams();
@@ -178,6 +196,7 @@ const EditPage = () => {
             };
         });
     };
+
     const createDesignedComponent = (component) => {
         // Update the state to include the new component
         setSectionData((prevData) => {
@@ -208,8 +227,7 @@ const EditPage = () => {
         }));
     };
 
-    
-    
+
     const deleteSection = () => {
         setSectionData(prevData => ({
             ...prevData,
@@ -231,21 +249,36 @@ const EditPage = () => {
                 };
             });
         }
+    }
+
+    const createNewSection = (SectionsDesigns) => {
+        setSectionData(SectionsDesigns)
+        if (SectionsDesigns && SectionsDesigns.section_css_props) {
+            const dictionary = {};
+            SectionsDesigns.section_css_props.forEach((cssProp) => {
+                const { css_prop, css_prop_value } = cssProp;
+                if (css_prop.is_section) {
+                    dictionary[css_prop.prop_name] = css_prop_value;
+                }
+            });
+            setSectionStyle(dictionary);
+        }
+        console.log(SectionsDesigns)
     };
+
 
     return (
         <StyledEditPage>
 
 
             <HoverBox key={section_id} sx={sectionStyle}>
-
                 {sectionData && sectionData.section_components && sectionData.section_components.map((component, i) => (
                     <Box key={component.section_component_id}>
                         
                         <EditComponent key={i} component={component} />
 
                         <ActionButtons className="action-buttons">
-                
+
                             <AdminMainButton
                                 title="Add"
                                 type="custom"
@@ -253,17 +286,7 @@ const EditPage = () => {
                                 appearance="iconButton"
                                 putTooltip                                
                                 icon={<AddBoxIcon />}
-                                sx={{
-                                    width: 'fit-content',
-                                    border: '1px solid red',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: '#114232',
-                                    transition: 'background-color 0.8s',
-                                    '&:hover': {
-                                        backgroundColor: '#7F9F80',
-                                    },
-                                }}
+                                sx={EditButtonsStyle}
                             />
                             <AdminMainButton
                                 title="Delete"
@@ -272,17 +295,7 @@ const EditPage = () => {
                                 appearance="iconButton"
                                 putTooltip
                                 icon={<DeleteSweepIcon />}
-                                sx={{
-                                    width: 'fit-content',
-                                    border: '1px solid red',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: '#7D0A0A',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: '#B80000',
-                                    },
-                                }}
+                                sx={EditButtonsStyle}
                             />
                             <AdminMainButton
                                 title="Delete All Component Elements"
@@ -291,17 +304,7 @@ const EditPage = () => {
                                 putTooltip
                                 onClick={() => deleteComponentElements(component.section_component_id)}
                                 icon={<DeleteSweepIcon />}
-                                sx={{
-                                    border: '1px solid red',
-                                    padding: '10px 15px',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: '#481E14',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: '#9B3922',
-                                    },
-                                }}
+                                sx={EditButtonsStyle}
                             />
                             <AdminMainButton
                                 title="Add elements"
@@ -312,97 +315,76 @@ const EditPage = () => {
                                     <AddElementModal  componentSection_component_id = {component.section_component_id} createNewElement = {createNewElement}></AddElementModal>
                                 }
                                 icon={<AddBoxIcon />}
-                                sx={{
-                                    width: 'fit-content',
-                                    border: '1px solid red',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: '#627254',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: '#76885B',
-                                    },
-                                }}
+                                sx={EditButtonsStyle}
                             />
                         </ActionButtons>
 
                     </Box>
                 ))}
 
-                <TooltipContainer>
+            <TooltipContainer>
                     
-                        <>
-                            <AdminMainButton
-                                title="Edit Section"
-                                type="StyleDialog"
-                                appearance="iconButton"
-                                putTooltip
-                                icon={<EditIcon />}
-                                willShow={
-                                    <StyleBox 
-                                        Section_Name="Style Section"
-                                        element_Type='section'
-                                        sectionStyle={sectionStyle}
-                                        handleSectionStyleChange={handleSectionStyleChange}
-                                        styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
-                                    />
-                                }
-                                sx={{
-                                    border: '1px solid red',
-                                    padding: '10px 15px',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: 'black',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: '#222831',
-                                    },
-                                }}
-                            />
-                            <AdminMainButton
-                                title="Delete All Component"
-                                type="custom"
-                                appearance="iconButton"
-                                putTooltip
-                                onClick={() => deleteSection(section_id)}
-                                icon={<DeleteSweepIcon />}
-                                sx={{
-                                    border: '1px solid red',
-                                    padding: '10px 15px',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: '#7D0A0A',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: '#B80000',
-                                    },
-                                }}
-                            />
-                            <AdminMainButton
-                                title="Add Components"
-                                type="StyleDialog"
-                                appearance="iconButton"
-                                putTooltip
-                                icon={<AddBoxIcon />}
-                                willShow={
-                                <AddComponentModal  createNewComponent = {createNewComponent}  createDesignedComponent = {createDesignedComponent}></AddComponentModal>
-                                }
+                    <Box sx = {{
+                        width :'250px',
+                        display : 'flex',
+                        justifyContent : 'space-between',
+                        alignItems : 'center',
+                    }}>
+                        <AdminMainButton
+                            title="Edit Section"
+                            type="StyleDialog"
+                            appearance="iconButton"
+                            putTooltip
+                            icon={<EditIcon />}
+                            willShow={
+                                <StyleBox 
+                                    Section_Name="Style Section"
+                                    element_Type='section'
+                                    sectionStyle={sectionStyle}
+                                    handleSectionStyleChange={handleSectionStyleChange}
+                                    styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
+                                />
+                            }
+                            sx={EditButtonsStyle}
+                        />
+                        <AdminMainButton
+                            title="Delete All Component"
+                            type="custom"
+                            appearance="iconButton"
+                            putTooltip
+                            onClick={() => deleteSection(section_id)}
+                            icon={<DeleteSweepIcon />}
+                            sx={EditButtonsStyle}
 
-                                sx={{
-                                    border: '1px solid red',
-                                    padding: '10px 15px',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: '#1B3C73',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: '#222831',
-                                    },
-                                }}
+                        />
+                        <AdminMainButton
+                            title="Add Components"
+                            type="StyleDialog"
+                            appearance="iconButton"
+                            putTooltip
+                            icon={<AddBoxIcon />}
+                            willShow={
+                            <AddComponentModal  createNewComponent = {createNewComponent}  createDesignedComponent = {createDesignedComponent}></AddComponentModal>
+                            }
+                            sx={EditButtonsStyle}
+
+                        />
+                            <AdminMainButton
+                                title="Create New Section"
+                                type="StyleDialog"
+                                appearance="iconButton"
+                                putTooltip
+                                icon={<ListAltIcon />}
+                                willShow={
+                                    <SectionsModal SectionsDesigns = {SectionsDesigns} createNewSection = {createNewSection}></SectionsModal>
+                                }
+                                sx={EditButtonsStyle}
                             />
-                        </> 
-                    
-                </TooltipContainer>
+
+
+                    </Box> 
+                
+            </TooltipContainer>
 
             </HoverBox>
 

@@ -69,6 +69,7 @@ const EditComponent = ({component }) => {
         setComponentStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
     };
 
+
     const deleteElementForComponent = (Component_id, element__id) => {
         setComponentData((prevData) => {
             if (prevData.section_component_id === Component_id) {
@@ -116,7 +117,11 @@ const EditComponent = ({component }) => {
                         padding: '10px 15px',
                         fontWeight: 'bold',
                         color: 'white.main',
-                        backgroundColor: 'primary.dark',
+                        backgroundColor: '#304D30',
+                        transition: 'background-color 0.3s',
+                        '&:hover': {
+                            backgroundColor: 'rgb(7, 15, 43)',
+                        },
                     }}
                 />
             </TooltipContainer>

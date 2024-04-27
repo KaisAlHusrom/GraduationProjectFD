@@ -97,6 +97,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId }) => {
             width:'100%',
             margin:'0',
             padding:'0',
+            position:'none',
             }}>
                 {getAppropriateTag(element.element, title, elementStyle)}
                     
@@ -121,15 +122,19 @@ const EditElement = ({ element, deleteElementForComponent, componentId }) => {
                             />
                         }
                         sx={{
-                            width:'20px',
-                            height:'20px',
+                            width:'40px',
+                            height:'40px',
                             border: '1px solid red',
                             padding: '10px 15px',
                             fontWeight: 'bold',
                             color: 'white.main',
-                            backgroundColor: 'primary.dark',
+                            backgroundColor: '#304D30',
                             position: 'absolute',
                             left: 0,
+                            transition: 'background-color 0.3s',
+                            '&:hover': {
+                                backgroundColor: 'rgb(7, 15, 43)',
+                            },
                         }}
                     />
                     <AdminMainButton
@@ -141,8 +146,8 @@ const EditElement = ({ element, deleteElementForComponent, componentId }) => {
                         onClick={handleDeleteElementClick}
 
                         sx={{
-                            width:'20px',
-                            height:'20px',
+                            width:'40px',
+                            height:'40px',
                             border: '1px solid red',
                             padding: '10px 15px',
                             fontWeight: 'bold',

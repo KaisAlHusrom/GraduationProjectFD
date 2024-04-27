@@ -30,14 +30,14 @@ const ColorBar = ({
 
 
   return (
-    <Container>
+    <Container sx = {{display : 'flex', flexDirection : 'column'}}>
 
     <Box sx={{marginBottom:'50px'}}>
-    <SketchPicker
-        color={currentColor}
-        onChange={handleColorChange}
-        onChangeComplete={(color) => handleColorSelect(color.hex)}/>
-    </Box>
+      <SketchPicker
+          color={currentColor}
+          onChange={handleColorChange}
+          onChangeComplete={(color) => handleColorSelect(color.hex)}/>
+      </Box>
 
 
         <Box>

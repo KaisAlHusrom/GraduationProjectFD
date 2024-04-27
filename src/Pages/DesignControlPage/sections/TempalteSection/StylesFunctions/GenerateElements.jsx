@@ -1,6 +1,6 @@
 // NavbarElementUtils.js
 import FacebookIcon from '@mui/icons-material/Facebook';
-import { Typography, Link, TextField, Box, Button } from '@mui/material';
+import { Typography, Link, TextField, Box, Button, Rating } from '@mui/material';
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
@@ -199,5 +199,9 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
             />
         );  
     }
-    
+    if (element?.element_type === "Rating") {
+        return (
+            <Rating style = {elementStyle} name="read-only" value={5} readOnly />
+        );  
+    }
 };

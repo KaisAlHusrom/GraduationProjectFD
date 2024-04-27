@@ -1,6 +1,9 @@
 import { v4 as uuidv4 } from 'uuid'; // UUID oluşturmak için
 
 
+
+
+
 export const createEmptyComponent = (section_css_props) => {
     return {
         section_component_id: uuidv4(), // Generate a random integer between 0 and 999999

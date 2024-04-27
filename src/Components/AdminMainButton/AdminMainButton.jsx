@@ -445,6 +445,7 @@ AdminMainButton.propTypes = {
     sx: propTypes.object,
     putBorder: propTypes.bool,
     filled: propTypes.bool,
+    drawerWidth : propTypes.string,
 }
 
 export default AdminMainButton;

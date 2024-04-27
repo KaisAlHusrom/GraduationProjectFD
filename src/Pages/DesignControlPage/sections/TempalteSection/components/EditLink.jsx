@@ -23,13 +23,17 @@ import EditIcon from '@mui/icons-material/Edit';
 
 
 const TooltipContainer = styled(Box)({
-    backgroundColor:'#ab9d9d',
+    backgroundColor:'#304D30',
     position: 'absolute',
     top: '0',
     right: '0',
     display: 'inline-block', 
     padding : '5px 10px',
     borderRadius : '5px',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+        backgroundColor: 'rgb(7, 15, 43)',
+    },
 });
 
 
@@ -39,16 +43,7 @@ const EditLink = ({ Data }) => {
         <TooltipContainer>
             <Link
                 to={`/design-control/EditPage/${Data.section_id}`}
-                sx={{
-                    padding: '10px 15px',
-                    fontWeight: 'bold',
-                    color:  "red",
-                    backgroundColor: 'primary.dark',
-                    borderRadius: '10px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    '&:hover': { backgroundColor: 'action.hover' },
+                sx = {{
                 }}
             >
                 <EditIcon

@@ -1,5 +1,6 @@
 //React
 import {
+  useEffect,
   useState
 } from 'react'
 
@@ -55,19 +56,26 @@ const BoxStyle = {
 const AccordionComponent = ({items , createNewElement , componentSection_component_id}) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const handleItemClick = (index, item) => {
-    createNewElement(componentSection_component_id,  item.element_type  , item.element_content );
+  const [designItems, setDesignItems] = useState(items);
 
-    setSelectedItem(index === selectedItem ? null : index);
-    console.log(item.element_type)
-    console.log(item.element_content)
-
-};
+  const handleItemClick = (itemId) => {
+    const selectedItem = designItems.find(item => item.id === itemId);
   
-
+    if (selectedItem) {
+      createNewElement(
+        componentSection_component_id,
+        selectedItem.element_type,
+        selectedItem.element_content
+      );
+    }
+  
+    setSelectedItem(null);
+  };
+  
   const handleCancel = () => {
     setSelectedItem(null);
   };
+  console.log(selectedItem)
 
 
     return (
@@ -84,13 +92,14 @@ const AccordionComponent = ({items , createNewElement , componentSection_compone
           }}
         >
           <Box
-            onClick={() => handleItemClick(index , item)}
+            onClick={() => handleItemClick(item.id)}
             sx={{
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: 2,
               cursor: 'pointer',
+              width : '500px'
             }}
           >
           {
@@ -101,7 +110,7 @@ const AccordionComponent = ({items , createNewElement , componentSection_compone
             
             }
 
-            <Typography>{index === selectedItem ? '-' : '+'}</Typography>
+            {/* <Typography>{index === selectedItem ? '-' : '+'}</Typography> */}
           </Box>
         </Box>
       ))}

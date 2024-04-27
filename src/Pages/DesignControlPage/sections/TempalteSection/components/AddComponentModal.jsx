@@ -10,7 +10,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { BoxDesignOne, emptyDesign , ButtonDesign } from '../EditPage/Data/ConstDataDesign';
+import { BoxDesignOne, emptyDesign , ButtonDesign , emptyDesignButton } from '../EditPage/Data/ConstDataDesign';
 import { AdminMainButton } from '../../../../../Components';
 import Drawer from '../EditPage/Drawers/ReadyDesign/Drawer';
 import AddCardIcon from '@mui/icons-material/AddCard';
@@ -71,7 +71,7 @@ const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => 
                         putTooltip
                         icon={<GamepadIcon />}
                         willShow={
-                            <Drawer BoxDesignOne = {ButtonDesign}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
+                            <Drawer BoxDesignOne = {ButtonDesign}  emptyDesign = {emptyDesignButton} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
                         }
                         sx={{
                             margin: "10px",
@@ -93,7 +93,7 @@ const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => 
                     </AdminMainButton>
                     
                     <AdminMainButton 
-                        title="Buttons"
+                        title="Images"
                         type="drawer"
                         appearance="primary"
                         putTooltip
