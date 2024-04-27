@@ -23,7 +23,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 //propTypes 
 import propTypes from 'prop-types'
 import {  } from '@emotion/react';
-import useFetchData from '../../Helpers/useFetchData';
+import useFetchData from '../../Helpers/customHooks/useFetchData';
 
 //Styled Components
 const StyledMenu = styled(Paper)(

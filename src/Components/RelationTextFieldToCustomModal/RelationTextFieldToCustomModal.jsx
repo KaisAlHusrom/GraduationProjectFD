@@ -27,7 +27,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 
 //propTypes 
 import propTypes from 'prop-types'
-import useFetchData from '../../Helpers/useFetchData';
+import useFetchData from '../../Helpers/customHooks/useFetchData';
 import { useMyContext } from '../DatabaseView/DatabaseView';
 
 //Styled Components

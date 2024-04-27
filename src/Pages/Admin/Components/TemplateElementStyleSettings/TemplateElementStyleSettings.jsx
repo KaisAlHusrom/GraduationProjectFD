@@ -26,6 +26,7 @@ import { fetchStyleBreakpoints } from '../../../../Services/StyleResponsiveBreak
 //Components
 import AppliedStyles from '../AppliedStyles/AppliedStyles.jsx'
 import StyleFieldBox from '../StyleFieldBox/StyleFieldBox.jsx'
+import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate.jsx'
 
 //Styled Components
 const StyledTemplateElementStyleSettings = styled(Grid)(
@@ -40,9 +41,9 @@ const StyledTemplateElementStyleSettings = styled(Grid)(
 
 
 
-const TemplateElementStyleSettings = ({elementStyleState}) => {
+const TemplateElementStyleSettings = () => {
     // const {elementStyleProps, stylesStatus, stylesBreakPoints} = useLoaderData()
-    const {elementStyle, setElementStyle} = elementStyleState
+    const {elementsStyle, setElementsStyle} = useMyCreateElementContext()
 
     //style status state
     const [styleStatus, setStyleStatus] = useState(null)
@@ -56,7 +57,7 @@ const TemplateElementStyleSettings = ({elementStyleState}) => {
         const css_prop_value = type === "color" ? newValue.hex : newValue;
     
         // Copy the current elementStyle object
-        const updatedStyle = { ...elementStyle };
+        const updatedStyle = { ...elementsStyle };
     
         // // Check if both styleStatus and styleBreakpoint are default
         // if (styleStatus.style_status_normal_name === stylesStatus[0].style_status_normal_name
@@ -94,7 +95,7 @@ const TemplateElementStyleSettings = ({elementStyleState}) => {
         // }
     
         // Set the updated style object in state
-        setElementStyle(updatedStyle);
+        setElementsStyle(updatedStyle);
 
     };
     

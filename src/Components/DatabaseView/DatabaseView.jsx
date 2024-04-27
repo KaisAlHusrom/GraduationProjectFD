@@ -30,7 +30,7 @@ import propTypes from 'prop-types'
 import { useMemo } from 'react'
 import { CustomGalleryView } from '..'
 import { handleOpenSnackbar as handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
-import useFetchData from '../../Helpers/useFetchData'
+import useFetchData from '../../Helpers/customHooks/useFetchData'
 import { isArraysEqual } from '../../Helpers/DataStructureHelper'
 // import usersService from '../../Services/usersService'
 
@@ -160,6 +160,8 @@ const DatabaseView = (props) => {
         // If no data in local storage or no sorted columns for the given title,
         // or if there's a difference between columns data and stored data,
         // use default columns
+        console.log(storedColumns[title])
+        console.log(defaultColumns)
         if (!storedColumns || !storedColumns[title] || !isArraysEqual(storedColumns[title], defaultColumns)) {
             return { ...storedColumns, [title]: defaultColumns };
         }

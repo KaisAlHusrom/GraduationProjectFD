@@ -27,6 +27,7 @@ import propTypes from 'prop-types'
 import { fetchElementTypesRows } from '../../../../Services/elementsTypesService';
 import CustomLazyAutoComplete from '../../../../Components/CustomLazyAutoComplete/CustomLazyAutoComplete';
 import { writeFilterObject } from '../../../../Helpers/filterData';
+import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate';
 
 //Styled Components
 const StyledTemplateElementSettings = styled(Grid)(
@@ -76,10 +77,8 @@ const imageStyle = {
 }
 
 
-const TemplateElementSettings = (props) => {
-    const {
-        selectedElementState,
-    } = props
+const TemplateElementSettings = () => {
+    
 
     
     //open element types auto complete
@@ -88,7 +87,7 @@ const TemplateElementSettings = (props) => {
     
 
     //selected element state
-    const {selectedElement, setSelectedElement} = selectedElementState
+    const {selectedElement, setSelectedElement} = useMyCreateElementContext()
 
 
     
@@ -147,21 +146,12 @@ const TemplateElementSettings = (props) => {
 
                 </StyledImageBox>
             </Grid>
-            <Grid item xxs={12} xs={6} md={4} lg={3}>
-                <CustomLazyAutoComplete
-                    optionId='id'
-                    optionName='element_type_name'
-                    label='Element Types'
-                    handleFetchData={fetchElementTypesRows}
-                    valueState={[selectedElement, setSelectedElement]}
-                    filters={[writeFilterObject("is_child", "bool", "=", "false")]} // to get wanted data,
-                />
-            </Grid>
-            <Grid item xxs={12} xs={6} md={4} lg={3}>
+            <Grid item xxs={12} xs={6} md={6} lg={4}>
                 <TextField
                 label="Element Name"
                 name='element_name'
                 size='small'
+                fullWidth
                 />
             </Grid>
             
