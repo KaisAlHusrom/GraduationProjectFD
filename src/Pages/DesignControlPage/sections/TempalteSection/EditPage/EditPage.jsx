@@ -131,8 +131,12 @@ const EditButtonsStyle = {
 
 const EditPage = () => {
     const { section_id } = useParams();
-    const [sectionStyle, setSectionStyle] = useState({});
-    const [sectionData, setSectionData] = useState(null);
+    const [sectionStyle, setSectionStyle] = useState({}); // using for changing the section style 
+    const [sectionData, setSectionData] = useState(null); // using for Control  section data 
+
+    const [AddElement , setAddElement] = useState(null) // using for add new element 
+    const [AddElementToComponentId , setAddElementToComponentId] = useState(null) // using for selected component id to add new  element
+
 
     useEffect(() => {
         const fetchSectionData = async () => {
@@ -152,11 +156,13 @@ const EditPage = () => {
         fetchSectionData();
     }, [section_id]);
 
-
+    // change the section style
     const handleSectionStyleChange = (newStyle) => {
         setSectionStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
     };
 
+
+    //  duplicate component 
     const addComponentForComponent = (section_component_id) => {
         const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
         if (index !== -1) {
@@ -171,7 +177,7 @@ const EditPage = () => {
             });
         }
     };
-    
+    //  delete the component
     const deleteComponentForComponent = (section_component_id) => {
         const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
         if (index !== -1) {
@@ -185,7 +191,7 @@ const EditPage = () => {
             });
         }
     };
-
+    // create Empty component
     const createNewComponent = (section_css_props) => {
         // Update the state to include the new component
         setSectionData((prevData) => {
@@ -196,7 +202,7 @@ const EditPage = () => {
             };
         });
     };
-
+    // create designed component
     const createDesignedComponent = (component) => {
         // Update the state to include the new component
         setSectionData((prevData) => {
@@ -208,26 +214,16 @@ const EditPage = () => {
         });
     };
 
-    const createNewElement = (selectedComponentId, element_type, element_content) => {
-        // Yeni elementi oluştur
-        const newElement = createEmptyElement(selectedComponentId, element_type, element_content);
-    
-        // Bileşenin durumunu güncelle ve yeni elementi ekleyerek
-        setSectionData((prevData) => ({
-            ...prevData,
-            section_components: prevData.section_components.map((component) => {
-                if (component.section_component_id === selectedComponentId) {
-                    return {
-                        ...component,
-                        component_elements: [...component.component_elements, newElement],
-                    };
-                }
-                return component;
-            }),
-        }));
-    };
-
-
+    // add new element to component 
+    const handleAddNewElement = (setComponent ) => {
+        setComponent((prevData) => {
+                return {
+                    ...prevData,
+                    component_elements: [...prevData.component_elements, createEmptyElement(AddElement.element.element_type, AddElement.element_content ,AddElement.section_css_props )],
+                };
+        })
+    }
+    // delete the all component in the section 
     const deleteSection = () => {
         setSectionData(prevData => ({
             ...prevData,
@@ -235,7 +231,7 @@ const EditPage = () => {
         }));
     };
 
-
+    // delete the element inside component 
     const deleteComponentElements = (section_component_id) => {
         const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
         if (index !== -1) {
@@ -250,7 +246,7 @@ const EditPage = () => {
             });
         }
     }
-
+    // create new section 
     const createNewSection = (SectionsDesigns) => {
         setSectionData(SectionsDesigns)
         if (SectionsDesigns && SectionsDesigns.section_css_props) {
@@ -263,7 +259,6 @@ const EditPage = () => {
             });
             setSectionStyle(dictionary);
         }
-        console.log(SectionsDesigns)
     };
 
 
@@ -275,7 +270,8 @@ const EditPage = () => {
                 {sectionData && sectionData.section_components && sectionData.section_components.map((component, i) => (
                     <Box key={component.section_component_id}>
                         
-                        <EditComponent key={i} component={component} />
+                        <EditComponent key={i} component={component} componentId = {AddElementToComponentId}  handleAddNewElement = {handleAddNewElement} 
+                        elements = {[AddElement , setAddElement]}/>
 
                         <ActionButtons className="action-buttons">
 
@@ -312,11 +308,13 @@ const EditPage = () => {
                                 appearance="iconButton"
                                 putTooltip
                                 willShow={
-                                    <AddElementModal  componentSection_component_id = {component.section_component_id} createNewElement = {createNewElement}></AddElementModal>
+                                    <AddElementModal setAddElementToComponentId = {setAddElementToComponentId} elements =  {[AddElement , setAddElement]}  
+                                    componentSection_component_id = {component.section_component_id} ></AddElementModal>
                                 }
                                 icon={<AddBoxIcon />}
                                 sx={EditButtonsStyle}
                             />
+
                         </ActionButtons>
 
                     </Box>

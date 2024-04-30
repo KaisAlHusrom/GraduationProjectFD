@@ -19,14 +19,44 @@ import './Style.css'
 export const getAppropriateTag = (element, elementContent, elementStyle , classname) => {
     
     let modifiedElementStyle = { ...elementStyle }; 
+    if (element?.element_type === "Head1") {
+        return (
+            <Typography sx={modifiedElementStyle} variant="h1" className={classname}>{elementContent}</Typography>
+        );
+    }
+    if (element?.element_type === "Head2") {
+        return (
+            <Typography sx={modifiedElementStyle} variant="h2" className={classname}>{elementContent}</Typography>
+        );
+    }
     if (element?.element_type === "Head3") {
         return (
             <Typography sx={modifiedElementStyle} variant="h3" className={classname}>{elementContent}</Typography>
         );
     }
+    if (element?.element_type === "Head4") {
+        return (
+            <Typography sx={modifiedElementStyle} variant="h4" className={classname}>{elementContent}</Typography>
+        );
+    }
     if (element?.element_type === "Head5") {
         return (
-            <Typography sx={modifiedElementStyle} variant="h4">{elementContent}</Typography>
+            <Typography sx={modifiedElementStyle} variant="h5">{elementContent}</Typography>
+        );
+    }
+    if (element?.element_type === "Head6") {
+        return (
+            <Typography sx={modifiedElementStyle} variant="h6">{elementContent}</Typography>
+        );
+    }
+    if (element?.element_type === "SubTitle1") {
+        return (
+            <Typography sx={modifiedElementStyle} variant="SubTitle1">{elementContent}</Typography>
+        );
+    }
+    if (element?.element_type === "SubTitle2") {
+        return (
+            <Typography sx={modifiedElementStyle} variant="SubTitle2">{elementContent}</Typography>
         );
     }
     if (element?.element_type === "description") {
@@ -92,12 +122,27 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
     }
     if (element?.element_type === "Button") {
         return (
-                <Button variant="contained" style = {elementStyle}>{elementContent}</Button>
-        );  
-    }
+            <Button variant="contained" sx={{
+                ...elementStyle,
+                backgroundColor: 'transparent',
+                '&:hover': {
+                backgroundColor: 'transparent', // Text color
+                },
+            }}>
+                {elementContent}
+            </Button>
+            );  
+        }
+        
     if (element?.element_type === "Submit") {
         return (
-                <Button variant="contained" style = {elementStyle}><SendIcon sx={{marginRight :'20px'}}/> {elementContent}</Button>
+                <Button variant="contained" style = {{
+                    ...elementStyle,
+                    backgroundColor: 'transparent',
+                '&:hover': {
+                backgroundColor: 'transparent', // Text color
+                },
+                }}><SendIcon sx={{marginRight :'20px'}}/> {elementContent}</Button>
         );  
     }
     if (element?.element_type === "input") {

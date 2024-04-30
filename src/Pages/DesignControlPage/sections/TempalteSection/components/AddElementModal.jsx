@@ -5,7 +5,6 @@ import {
 
 //Components
 import { AdminMainButton } from '../../../../../Components'
-import * as  elementItems  from '../StylesFunctions/SetElementTypes'
 
 //MUI
 import {
@@ -14,6 +13,7 @@ import {
 import { styled } from '@mui/system'
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import AccordionComponent from './AccordionComponent'
+import { ButtonElementDesign, HeadingDesign, ImageDesign, SubTitlesDesign} from '../EditPage/Data/ConstDataDesign'
 
 //Styled Components
 const StyledAddElementModal = styled(Box)(
@@ -42,7 +42,7 @@ const ButtonStyle = {
 }
 
 
-const AddElementModal = ({ componentSection_component_id, createNewElement }) => {
+const AddElementModal = ({componentSection_component_id , elements ,setAddElementToComponentId }) => {
     return (
         <StyledAddElementModal>
                 <Box sx = {{display :'flex' , flexWrap :'wrap' , justifyContent :'center'}}>
@@ -51,24 +51,55 @@ const AddElementModal = ({ componentSection_component_id, createNewElement }) =>
                             type="drawer"
                             appearance="primary"
                             putTooltip
+                            drawerWidth='500px'
+
                             willShow={
-                                <AccordionComponent items={elementItems.itemsOfTextHeading} createNewElement = {createNewElement } componentSection_component_id = {componentSection_component_id}/>
+                                <AccordionComponent elements = {elements} items={HeadingDesign} setAddElementToComponentId = {setAddElementToComponentId} 
+                                componentSection_component_id = {componentSection_component_id}/>
                             }
                             icon={<AddBoxIcon />}
                             sx = {ButtonStyle}
                         />      
+                        <AdminMainButton
+                        title="Add Subtitles"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        drawerWidth='500px'
+                        willShow={
+                            <AccordionComponent elements = {elements} items={SubTitlesDesign} setAddElementToComponentId = {setAddElementToComponentId} 
+                            componentSection_component_id = {componentSection_component_id}/>
+                        }
+                        icon={<AddBoxIcon />}
+                        sx = {ButtonStyle}
+                    />      
                     <AdminMainButton
                         title="Add Image"
                         type="drawer"
                         appearance="primary"
                         putTooltip
+                        drawerWidth='500px'
                         willShow={
-                            <AccordionComponent items={elementItems.itemsOfImages} createNewElement = {createNewElement } componentSection_component_id = {componentSection_component_id}/>
-
+                            <AccordionComponent elements = {elements} items={ImageDesign} setAddElementToComponentId = {setAddElementToComponentId} 
+                            componentSection_component_id = {componentSection_component_id}/>
                         }
                         icon={<AddBoxIcon />}
                         sx = {ButtonStyle}
                     />      
+                    <AdminMainButton
+                        title="Add Buttons"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        drawerWidth='500px'
+                        willShow={
+                            <AccordionComponent elements = {elements} items={ButtonElementDesign} setAddElementToComponentId = {setAddElementToComponentId} 
+                            componentSection_component_id = {componentSection_component_id}/>
+                        }
+                        icon={<AddBoxIcon />}
+                        sx = {ButtonStyle}
+                    />      
+                    
                         </Box>
         </StyledAddElementModal>
     );
