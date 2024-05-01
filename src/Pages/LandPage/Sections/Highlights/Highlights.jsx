@@ -10,6 +10,8 @@ import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
 import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded';
+import { useEffect, useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
     const items = [
     {
@@ -51,6 +53,16 @@ import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded';
     ];
 
 export default function Highlights() {
+    const [isInView, setIsInView] = useState(false);
+    const { ref, inView } = useInView();
+  
+    useEffect(() => {
+        if (inView) {
+            setIsInView(true);
+        }
+    }, [inView]);
+
+
 return (
     <Box
         id="highlights"
@@ -59,7 +71,10 @@ return (
             pb: { xs: 8, sm: 16 },
             color: 'white',
             bgcolor: '#06090a',
+            opacity: isInView ? 1 : 0,
         }}
+        className={isInView ? 'slide-down-animation' : ''}
+        ref={ref}
         >
         <Container
             sx={{

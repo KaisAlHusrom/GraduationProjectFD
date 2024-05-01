@@ -8,6 +8,8 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/system';
+import { useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 
 const userTestimonials = [
   {
@@ -80,6 +82,14 @@ const logoStyle = {
 export default function Testimonials() {
   const theme = useTheme();
   const logos = theme.palette.mode === 'light' ? darkLogos : whiteLogos;
+  const [isInView, setIsInView] = useState(false);
+  const { ref, inView } = useInView();
+
+  React.useEffect(() => {
+      if (inView) {
+          setIsInView(true);
+      }
+  }, [inView]);
 
   return (
     <Container
@@ -92,7 +102,10 @@ export default function Testimonials() {
         flexDirection: 'column',
         alignItems: 'center',
         gap: { xs: 3, sm: 6 },
+        opacity: isInView ? 1 : 0,
       }}
+      className={isInView ? 'opacity-animation' : ''}
+      ref={ref}
     >
       <Box
         sx={{
