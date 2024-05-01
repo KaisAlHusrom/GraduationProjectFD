@@ -84,8 +84,16 @@ const StyleFieldBox = (props) => {
                 <Typography variant='body2' fontSize={18}>
                     {stylePropName}
                 </Typography>
-                <Box width={200}>
-                    <StylePropValues label={stylePropName} stylePropValueType={stylePropValueType} stylePropValues={stylePropValues} />
+                <Box display="flex" alignItems="center" gap={2} >
+                    <Box width={250} display="flex" alignItems="center" gap={2}>
+                        <Typography variant='h7'>value: </Typography>
+                        <StylePropValues label={stylePropName} stylePropValueType={stylePropValueType} stylePropValues={stylePropValues} />
+                    </Box>
+                    <Box width={250} display="flex" alignItems="center" gap={2}>
+                    <Typography variant='h7'>when: </Typography>
+                        <StylePropValues label={stylePropName} stylePropValueType={stylePropValueType} stylePropValues={stylePropValues} />
+                    </Box>
+
                 </Box>
                 <AdminMainButton 
                     type='custom' 

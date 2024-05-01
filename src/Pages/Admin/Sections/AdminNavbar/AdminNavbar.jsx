@@ -42,6 +42,7 @@ const AdminNavbar = () => {
                 width:  "0 ",
                 border: "none",
             },
+            zIndex: 999,
         }
     })
     );

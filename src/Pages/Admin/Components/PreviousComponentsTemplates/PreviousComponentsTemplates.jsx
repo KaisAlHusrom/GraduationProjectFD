@@ -21,7 +21,6 @@ import {
     CardMedia,
     Stack,
     Typography,
-    duration,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -46,6 +45,13 @@ const PreviousComponentsTemplates = () => {
             gap={2}
             alignItems='center'
         >
+            <ComponentTemplate />
+            <ComponentTemplate />
+            <ComponentTemplate />
+            <ComponentTemplate />
+            <ComponentTemplate />
+            <ComponentTemplate />
+            <ComponentTemplate />
             <ComponentTemplate />
 
         </StyledPreviousComponentsTemplates>

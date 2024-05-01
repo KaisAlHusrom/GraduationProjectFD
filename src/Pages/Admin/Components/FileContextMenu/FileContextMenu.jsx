@@ -18,7 +18,7 @@ export default function FileContextMenu(props) {
     const theme = useTheme()
 
     return (
-        <Paper sx={{ width: 320, maxWidth: '100%' }}>
+        <Paper sx={{ width: 320, maxWidth: '100%', padding: `${theme.spacing()} 0}`, }}>
             <MenuList>
                 {
                     menuItems.map((item, key) => {

@@ -59,7 +59,7 @@ const AdminMainButton = (props) => {
         putBorder,
         filled,
         sx,
-        drawerWidth
+        drawerStyle
 
     } = props
 
@@ -387,7 +387,7 @@ const AdminMainButton = (props) => {
                 putDrawerCloseButton={putDrawerCloseButton}
                 anchor={drawerAnchor}
                 variant={drawerVariant}
-                drawerWidth = {drawerWidth}
+                drawerStyle = {drawerStyle}
                 >
                     {willShow}
                 </CustomDrawer>
@@ -445,7 +445,7 @@ AdminMainButton.propTypes = {
     sx: propTypes.object,
     putBorder: propTypes.bool,
     filled: propTypes.bool,
-    drawerWidth : propTypes.string,
+    drawerStyle: propTypes.object,
 }
 
 export default AdminMainButton;

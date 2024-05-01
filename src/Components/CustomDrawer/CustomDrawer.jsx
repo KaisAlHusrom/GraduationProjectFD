@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useMemo } from 'react'
 
 import {  } from 'react-redux'
 
@@ -24,6 +22,8 @@ import CloseIcon from '@mui/icons-material/Close';
 
 //propTypes 
 import propTypes from 'prop-types'
+import { useTheme } from '@emotion/react';
+import { Height } from '@mui/icons-material';
 
 //Styled Components
 const StyledCustomDrawer = styled(Drawer)(
@@ -50,15 +50,24 @@ const StyledHeaderBox = styled(Box)(
 
 
 const CustomDrawer = (props) => {
-    const { children, drawerOpenState, title, putDrawerCloseButton, anchor, variant , drawerWidth } = props
+    const { children, drawerOpenState, title, putDrawerCloseButton, anchor, variant , drawerStyle } = props
 
     const [drawerOpen, setDrawerOpen] = drawerOpenState
+
+    const theme = useTheme()
 
     //handlers
     const handleCloseDrawer = () => {
         setDrawerOpen(false)
     }
 
+    const staticDrawerStyle = useMemo(() => {
+        return {
+            width: 350,
+            backgroundColor: theme.palette.background.paper,
+            height: '100%'
+        }
+    }, [theme.palette.background.paper])
 
     return (
         <StyledCustomDrawer
@@ -67,7 +76,13 @@ const CustomDrawer = (props) => {
         onClose={handleCloseDrawer}
         variant={variant !== null ? variant :'temporary'}
         >
-            <StyledDrawerContent style = {{width: drawerWidth}}>
+            <StyledDrawerContent sx = {
+                drawerStyle
+                ?
+                {...staticDrawerStyle, ...drawerStyle}
+                :
+                staticDrawerStyle
+            }>
                 <StyledHeaderBox>
                     <Typography variant='h6' textTransform="uppercase">
                         {title}
@@ -95,6 +110,7 @@ CustomDrawer.propTypes = {
     putDrawerCloseButton: propTypes.bool,
     anchor: propTypes.oneOf(['right', 'left', 'top', 'bottom']),
     variant: propTypes.string,
+    drawerStyle: propTypes.object,
 }
 
 export default CustomDrawer;
