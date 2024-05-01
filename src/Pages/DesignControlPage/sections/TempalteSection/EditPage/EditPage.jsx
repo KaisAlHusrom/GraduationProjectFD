@@ -47,7 +47,7 @@ const getSectionData = async (section_id) => {
         return CarouselDataModule.default;
     }
     else if (section_id === "14") {
-        const CarouselDataModule = await import("../sections/Services/ServicesData.json");s
+        const CarouselDataModule = await import("../sections/Services/ServicesData.json");
         return CarouselDataModule.default;
     }
     else if (section_id === "15") {

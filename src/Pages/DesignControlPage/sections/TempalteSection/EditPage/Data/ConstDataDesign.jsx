@@ -2303,7 +2303,7 @@ export const BoxDesignOne = [
                 "is_element": true,
                 "element": {
                     "element_type_id": 4,
-                    "element_type": "HEADİNG",
+                    "element_type": "SubTitle2",
                     "type_description": "this type return Typography with variant h3 tag in codes"
                 },
                 "element_content": "lorem ipsum dolor sit amet, consectetur adip lorem ipsum dolor sit amet, consectetur adip... lorem ipsum dolor sit amet, consectetur adip...",

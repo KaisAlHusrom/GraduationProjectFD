@@ -1,7 +1,17 @@
+import * as React from 'react';
 import PropTypes from 'prop-types';
-import { AppBar, Box, Button, Container, Divider, Drawer, MenuItem, Toolbar, Typography } from '@mui/material';
+
+import Box from '@mui/material/Box';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import Divider from '@mui/material/Divider';
+import Typography from '@mui/material/Typography';
+import MenuItem from '@mui/material/MenuItem';
+import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from 'react';
+import ToggleColorMode from '../../ToggleColorMode';
 
 const logoStyle = {
   width: '140px',
@@ -9,8 +19,8 @@ const logoStyle = {
   cursor: 'pointer',
 };
 
-function NavBar({ mode, toggleColorMode }) {
-  const [open, setOpen] = useState(false);
+function AppAppBar({ mode, toggleColorMode }) {
+  const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen) => () => {
     setOpen(newOpen);
@@ -130,7 +140,7 @@ function NavBar({ mode, toggleColorMode }) {
                 alignItems: 'center',
               }}
             >
-              {/* <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} /> */}
+              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
               <Button
                 color="primary"
                 variant="text"
@@ -179,7 +189,7 @@ function NavBar({ mode, toggleColorMode }) {
                       flexGrow: 1,
                     }}
                   >
-                    {/* <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} /> */}
+                    <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
                   </Box>
                   <MenuItem onClick={() => scrollToSection('features')}>
                     Features
@@ -229,9 +239,9 @@ function NavBar({ mode, toggleColorMode }) {
   );
 }
 
-NavBar.propTypes = {
+AppAppBar.propTypes = {
   mode: PropTypes.oneOf(['dark', 'light']).isRequired,
   toggleColorMode: PropTypes.func.isRequired,
 };
 
-export default NavBar;
+export default AppAppBar;
