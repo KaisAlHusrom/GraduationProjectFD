@@ -41,15 +41,28 @@ const TooltipContainer = styled(Box)({
 
 
 
-const EditComponent = ({component }) => {
+const EditComponent = ({component , handleAddNewElement , elements ,  componentId}) => {
 
-    const [componentStyle, setComponentStyle] = useState({}); 
+    const [componentStyle, setComponentStyle] = useState({});  // using for control the component style 
 
-    const [componentData, setComponentData] = useState(component);
+    const [componentData, setComponentData] = useState(component); // using for control the component data
+
+    const [AddElement , setAddElement] = elements   // using for add the elements to component when user is did 
+
+
+
+    // add element to component 
+    useEffect(() => {
+        if (AddElement && componentId === component.section_component_id) {
+            handleAddNewElement(setComponentData)
+        }
+    }, [AddElement, handleAddNewElement])
+
 
     useEffect(() => {
         setComponentData(component)
     }, [component])
+
 
     useMemo(() => {
         const dictionary = {};
@@ -65,10 +78,12 @@ const EditComponent = ({component }) => {
     }, [component.section_css_props]);
 
 
+    // to change the component style 
     const handleSectionStyleChange = (newStyle) => {
         setComponentStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
     };
 
+    // to delete the element from component
     const deleteElementForComponent = (Component_id, element__id) => {
         setComponentData((prevData) => {
             if (prevData.section_component_id === Component_id) {
@@ -116,7 +131,11 @@ const EditComponent = ({component }) => {
                         padding: '10px 15px',
                         fontWeight: 'bold',
                         color: 'white.main',
-                        backgroundColor: 'primary.dark',
+                        backgroundColor: '#304D30',
+                        transition: 'background-color 0.3s',
+                        '&:hover': {
+                            backgroundColor: 'rgb(7, 15, 43)',
+                        },
                     }}
                 />
             </TooltipContainer>

@@ -12,6 +12,7 @@ import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import DevicesRoundedIcon from '@mui/icons-material/DevicesRounded';
 import EdgesensorHighRoundedIcon from '@mui/icons-material/EdgesensorHighRounded';
 import ViewQuiltRoundedIcon from '@mui/icons-material/ViewQuiltRounded';
+import { useInView } from 'react-intersection-observer';
 
 const items = [
   {
@@ -54,12 +55,12 @@ export default function Features() {
       <Grid container spacing={6}>
         <Grid item xs={12} md={6}>
           <div>
-            <Typography component="h2" variant="h4" color="black">
+            <Typography component="h2" variant="h4" color="text.primary">
               Product features
             </Typography>
             <Typography
               variant="body1"
-              color="text.dark"
+              color="text.secondary"
               sx={{ mb: { xs: 2, sm: 4 } }}
             >
               Here you can provide a brief overview of the key features of the
@@ -74,8 +75,22 @@ export default function Features() {
                 label={title}
                 onClick={() => handleItemClick(index)}
                 sx={{
-                    color : 'black',
-                    backgroundColor : '#8080803d'
+                  borderColor: (theme) => {
+                    if (theme.palette.mode === 'light') {
+                      return selectedItemIndex === index ? 'primary.light' : '';
+                    }
+                    return selectedItemIndex === index ? 'primary.light' : '';
+                  },
+                  background: (theme) => {
+                    if (theme.palette.mode === 'light') {
+                      return selectedItemIndex === index ? 'none' : '';
+                    }
+                    return selectedItemIndex === index ? 'none' : '';
+                  },
+                  backgroundColor: selectedItemIndex === index ? 'primary.main' : '',
+                  '& .MuiChip-label': {
+                    color: selectedItemIndex === index ? '#fff' : '',
+                  },
                 }}
               />
             ))}
@@ -100,10 +115,10 @@ export default function Features() {
               }}
             />
             <Box sx={{ px: 2, pb: 2 }}>
-              <Typography color="white" variant="body2" fontWeight="bold">
+              <Typography color="text.primary" variant="body2" fontWeight="bold">
                 {selectedFeature.title}
               </Typography>
-              <Typography color="text.dark" variant="body2" sx={{ my: 0.5 }}>
+              <Typography color="text.secondary" variant="body2" sx={{ my: 0.5 }}>
                 {selectedFeature.description}
               </Typography>
               <Link
@@ -184,14 +199,14 @@ export default function Features() {
                   </Box>
                   <Box sx={{ textTransform: 'none' }}>
                     <Typography
-                      color="black"
+                      color="text.primary"
                       variant="body2"
                       fontWeight="bold"
                     >
                       {title}
                     </Typography>
                     <Typography
-                      color="black"
+                      color="text.secondary"
                       variant="body2"
                       sx={{ my: 0.5 }}
                     >
@@ -240,13 +255,14 @@ export default function Features() {
           >
             <Box
               sx={{
-                backgroundColor:"none",
                 m: 'auto',
                 width: 420,
                 height: 500,
                 backgroundSize: 'contain',
                 backgroundImage: (theme) =>
-                     items[selectedItemIndex].imageLight
+                  theme.palette.mode === 'light'
+                    ? items[selectedItemIndex].imageLight
+                    : items[selectedItemIndex].imageDark,
               }}
             />
           </Card>

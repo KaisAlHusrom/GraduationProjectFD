@@ -6,7 +6,18 @@ export const productList = [
       "description": "Description of product 1.",
       "image": "https://source.unsplash.com/random/1",
       "price": 20.00,
-      "rating": 3
+      "rating": 3,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 1,
@@ -14,7 +25,18 @@ export const productList = [
       "description": "Description of product 2.",
       "image": "https://source.unsplash.com/random/2",
       "price": 25.00,
-      "rating": 4
+      "rating": 4,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 2,
@@ -22,7 +44,18 @@ export const productList = [
       "description": "Description of product 3.",
       "image": "https://source.unsplash.com/random/3",
       "price": 30.00,
-      "rating": 5
+      "rating": 5,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 3,
@@ -30,7 +63,18 @@ export const productList = [
       "description": "Description of product 4.",
       "image": "https://source.unsplash.com/random/4",
       "price": 35.00,
-      "rating": 4
+      "rating": 4,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 4,
@@ -38,7 +82,18 @@ export const productList = [
       "description": "Description of product 5.",
       "image": "https://source.unsplash.com/random/5",
       "price": 40.00,
-      "rating": 3
+      "rating": 3,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 5,
@@ -46,7 +101,18 @@ export const productList = [
       "description": "Description of product 6.",
       "image": "https://source.unsplash.com/random/6",
       "price": 45.00,
-      "rating": 4
+      "rating": 4,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 6,
@@ -54,7 +120,18 @@ export const productList = [
       "description": "Description of product 7.",
       "image": "https://source.unsplash.com/random/7",
       "price": 50.00,
-      "rating": 5
+      "rating": 5,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 7,
@@ -62,7 +139,18 @@ export const productList = [
       "description": "Description of product 8.",
       "image": "https://source.unsplash.com/random/8",
       "price": 55.00,
-      "rating": 3
+      "rating": 3,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 8,
@@ -70,7 +158,18 @@ export const productList = [
       "description": "Description of product 9.",
       "image": "https://source.unsplash.com/random/9",
       "price": 60.00,
-      "rating": 4
+      "rating": 4,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 9,
@@ -78,7 +177,18 @@ export const productList = [
       "description": "Description of product 10.",
       "image": "https://source.unsplash.com/random/10",
       "price": 65.00,
-      "rating": 5
+      "rating": 5,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 10,
@@ -86,7 +196,18 @@ export const productList = [
       "description": "Description of product 11.",
       "image": "https://source.unsplash.com/random/11",
       "price": 70.00,
-      "rating": 4
+      "rating": 4,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 11,
@@ -94,7 +215,18 @@ export const productList = [
       "description": "Description of product 12.",
       "image": "https://source.unsplash.com/random/12",
       "price": 75.00,
-      "rating": 3
+      "rating": 3,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 12,
@@ -102,7 +234,18 @@ export const productList = [
       "description": "Description of product 13.",
       "image": "https://source.unsplash.com/random/13",
       "price": 80.00,
-      "rating": 4
+      "rating": 4,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 13,
@@ -110,7 +253,18 @@ export const productList = [
       "description": "Description of product 14.",
       "image": "https://source.unsplash.com/random/14",
       "price": 85.00,
-      "rating": 5
+      "rating": 5,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     },
     {
       "id": 14,
@@ -118,7 +272,18 @@ export const productList = [
       "description": "Description of product 15.",
       "image": "https://source.unsplash.com/random/15",
       "price": 90.00,
-      "rating": 3
+      "rating": 3,
+      "views":400,
+      "sells":8,
+      "adding-date":"15-04-2014",
+      "last-updated":"30-04-2024",
+      "attached files":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+        
+      },
+      "creator":"Abdullah"
     }
   ];
   

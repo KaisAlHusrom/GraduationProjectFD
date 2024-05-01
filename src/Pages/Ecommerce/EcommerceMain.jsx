@@ -1,7 +1,8 @@
 //React
 import 
-    useHistory
- from 'react'
+{
+
+}from 'react'
 
 import {
     
@@ -16,7 +17,7 @@ import {productList} from './data/CradsData'
 
 //MUI
 import {
-    Box, Grid,
+    Box, Grid,Container
     
 } from '@mui/material'
 import { styled } from '@mui/system'
@@ -45,37 +46,32 @@ const EcommerceMain = () => {
         <StyledEcommerceMain>
             <NavBar />
             <MainSlider />
-                <Grid container spacing={1}
-                justifyContent={'center'} // Center the content on small screens
-                alignItems="center"
-                style={{ minHeight: '20vh',marginTop:'10px'}}
-                sx={{
-                    '@media (max-width: 430px)': { // Apply styles for screens under 430px
-                        display: 'block', // Turn off display flex for screens under 430px
-                      },
-                    padding: {
-                        xxs: '0 10%', // Padding for extra-extra-small screens
-                        xs: '0 10%',  // Padding for extra-small screens and below
-                        sm: '0 10%',  // Padding for small screens
-                        md: '0 10%',  // Padding for medium screens
-                        lg: '0 10%',  // Padding for large screens and above
+            <Container maxWidth="lg">
+            <Grid container
+            justifyContent={'center'} // Center the content on small screens
+            alignItems="center"
+            style={{ minHeight: '20px',marginTop:'10px'}}
+            sx={{
+                '@media (max-width: 430px)': { // Apply styles for screens under 430px
+                    display: 'block', // Turn off display flex for screens under 430px
                     },
-                  }}
-                
-                >
-                    {productList.map((product, index) => (
-                        <Grid key={index} item xs={12} sm={6} md={6} lg={3}>
-                        <ProductCard 
-                            title={product.title}
-                            description={product.description}
-                            image={product.image}
-                            price={product.price}
-                            rating={product.rating}
-                            action={() => handleLearnMoreClick(index)} 
-                        />
-                        </Grid>
-                    ))}
-                </Grid>
+                }}
+            
+            >
+                {productList.map((product, index) => (
+                    <Grid key={index} item xs={12} sm={6} md={6} lg={3}>
+                    <ProductCard 
+                        title={product.title}
+                        description={product.description}
+                        image={product.image}
+                        price={product.price}
+                        rating={product.rating}
+                        action={() => handleLearnMoreClick(index)} 
+                    />
+                    </Grid>
+                ))}
+            </Grid>
+            </Container>
             <Footer /> 
         </StyledEcommerceMain>
     );

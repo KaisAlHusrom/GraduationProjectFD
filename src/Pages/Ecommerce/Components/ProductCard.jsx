@@ -32,7 +32,7 @@ import propTypes from 'prop-types'
 const StyledProductCard = styled(Box)(
     ({ theme }) => ({
         width: '100%', // Make the card take the full width of its container
-        padding: theme.spacing(0.5), // Add padding to the card
+         // Add padding to the card
         marginBottom:"20px",
         display: 'flex',
         alignItems: 'center',
@@ -49,7 +49,7 @@ const ProductCard = (props) => {
 
     return (
         <StyledProductCard>
-            <Container id="Cards" maxWidth="lg">
+            <Container id="Cards">
                 <Card sx={{ maxWidth: 600 }}>
                     <CardMedia
                         component="img"

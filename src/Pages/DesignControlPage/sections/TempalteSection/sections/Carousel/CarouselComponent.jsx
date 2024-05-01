@@ -48,10 +48,9 @@ const CarouselComponent = ({component}) => {
                 component && component.component_elements.map((element, i) => {
                     return (
                         <CarouselElement key={i} element={element} />
-                    )
+                )
                 })
             }
-
         </StyledCarouselComponent>
     );
 };

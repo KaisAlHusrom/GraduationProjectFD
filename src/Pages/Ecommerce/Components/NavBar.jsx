@@ -4,7 +4,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
 import { styled } from '@mui/system'
 import { AdminMainButton } from '../../../Components';
-import GamepadIcon from '@mui/icons-material/Gamepad';
 
 const logoStyle = {
   width: '140px',

@@ -25,6 +25,17 @@ const StyledUpDownButtons = styled(Box)(
     })
 )
 
+const UpDownButtonsStyle = {
+    border: '1px solid red',
+    padding: '10px 15px',
+    fontWeight: 'bold',
+    color: 'white.main',
+    backgroundColor: '#304D30',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+        backgroundColor: 'rgb(7, 15, 43)',
+    },
+}
 
 const UpDownButtons = ({moveSectionUp , moveSectionDown}) => {
     return (
@@ -38,13 +49,7 @@ const UpDownButtons = ({moveSectionUp , moveSectionDown}) => {
                         appearance="iconButton"
                         putTooltip
                         icon={<ArrowUpwardIcon />}
-                        sx={{
-                            border: '1px solid red',
-                            padding: '10px 15px',
-                            fontWeight: 'bold',
-                            color: 'white.main',
-                            backgroundColor: 'warning.dark',
-                        }}
+                        sx={UpDownButtonsStyle}
                     />
             <AdminMainButton
                         title="Move Section"
@@ -53,13 +58,7 @@ const UpDownButtons = ({moveSectionUp , moveSectionDown}) => {
                         appearance="iconButton"
                         putTooltip
                         icon={<ArrowDownwardIcon />}
-                        sx={{
-                            border: '1px solid red',
-                            padding: '10px 15px',
-                            fontWeight: 'bold',
-                            color: 'white.main',
-                            backgroundColor: 'warning.dark',
-                        }}
+                        sx={UpDownButtonsStyle}
                     />
 
         </StyledUpDownButtons>

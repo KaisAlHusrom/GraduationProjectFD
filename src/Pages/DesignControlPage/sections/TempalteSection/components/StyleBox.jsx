@@ -104,7 +104,9 @@ const StyleBox = ({
                                     backgroundColor: '#092635',
                                     fontWeight:'bold',
                                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                                }} title="Borders" type='drawer' putDrawerCloseButton appearance='primary' icon={<BorderColorIcon />} willShow={<BorderDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
+                                }} title="Borders" type='drawer' 
+                                drawerWidth="350px"
+                                putDrawerCloseButton appearance='primary' icon={<BorderColorIcon />} willShow={<BorderDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
                         <AdminMainButton sx={{
                                     marginTop: '20px',
                                     marginBottom: '20px',
@@ -117,7 +119,9 @@ const StyleBox = ({
                                     backgroundColor: '#092635',
                                     fontWeight:'bold',
                                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                                }} title="Margins" type='drawer' drawerAnchor="right" putDrawerCloseButton appearance='primary' icon={<MarginIcon />} willShow={<MarginDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
+                                }}
+                                drawerWidth="350px" 
+                                title="Margins" type='drawer' drawerAnchor="right" putDrawerCloseButton appearance='primary' icon={<MarginIcon />} willShow={<MarginDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
                         <AdminMainButton sx={{
                                     marginTop: '20px',
                                     marginBottom: '20px',
@@ -130,7 +134,9 @@ const StyleBox = ({
                                     backgroundColor: '#092635',
                                     fontWeight:'bold',
                                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                                }} title="Animations" type='drawer' drawerAnchor="right" putDrawerCloseButton appearance='primary' icon={<AnimationIcon />} willShow={<AnimationsDrawer />} />
+                                }}
+                                drawerWidth = "350px"
+                                title="Animations" type='drawer' drawerAnchor="right" putDrawerCloseButton appearance='primary' icon={<AnimationIcon />} willShow={<AnimationsDrawer />} />
                     </Box>
                     {handleTextFieldChange && <CustomTextField label="Title" variant="filled" value={title} onChange={handleTextFieldChange} focused />}
                 </Box>
@@ -186,7 +192,9 @@ const StyleBox = ({
                                     backgroundColor: '#092635',
                                     fontWeight:'bold',
                                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                                }} title="Borders" type='drawer' putDrawerCloseButton appearance='primary' icon={<BorderColorIcon />} willShow={<BorderDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
+                                }}
+                                drawerWidth = "350px"
+                                title="Borders" type='drawer' putDrawerCloseButton appearance='primary' icon={<BorderColorIcon />} willShow={<BorderDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
                         <AdminMainButton sx={{
                                     marginTop: '20px',
                                     marginBottom: '20px',
@@ -199,7 +207,9 @@ const StyleBox = ({
                                     backgroundColor: '#092635',
                                     fontWeight:'bold',
                                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                                }} title="Margins" type='drawer' drawerAnchor="right" putDrawerCloseButton appearance='primary' icon={<MarginIcon />} willShow={<MarginDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
+                                }}
+                                drawerWidth = "350px"
+                                title="Margins" type='drawer' drawerAnchor="right" putDrawerCloseButton appearance='primary' icon={<MarginIcon />} willShow={<MarginDrawer handleSectionStyleChange={handleSectionStyleChange} />} />
                         <AdminMainButton sx={{
                                     marginTop: '20px',
                                     marginBottom: '20px',
@@ -212,7 +222,9 @@ const StyleBox = ({
                                     backgroundColor: '#092635',
                                     fontWeight:'bold',
                                     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-                                }} title="Animations" type='drawer' drawerAnchor="right" putDrawerCloseButton appearance='primary' icon={<AnimationIcon />} willShow={<AnimationsDrawer />} />
+                                }}
+                                drawerWidth = "350px" 
+                                title="Animations" type='drawer' drawerAnchor="right" putDrawerCloseButton appearance='primary' icon={<AnimationIcon />} willShow={<AnimationsDrawer />} />
                     </Box>
                 </Box>
             )}
