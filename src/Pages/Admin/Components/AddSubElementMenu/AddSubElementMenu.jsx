@@ -35,28 +35,31 @@ const AddSubElementMenu = (props) => {
         handleCloseMenus
     } = props
     
-    const {selectedElement, setSelectedElement} = useMyCreateElementContext()
+    const {setTemplate, template} = useMyCreateElementContext()
 
     const [selectedWillBeAddedElement, setSelectWillBeAddedElement] = useState(null)
 
     const handleAddSubElement = () => {
         if(parentElementId && selectedWillBeAddedElement) {
             // Clone the selectedElement array to avoid mutating state directly
-            const updatedSelectedElement = JSON.parse(JSON.stringify(selectedElement));
+            const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
 
             // Add the new element to the parent element in the selectedElement array
-            const parentElementFound = addElementToParent([updatedSelectedElement], parentElementId, selectedWillBeAddedElement);
+            const parentTemplateFound = addElementToParent([updatedSelectedTemplate], parentElementId, selectedWillBeAddedElement);
             
             // If the parent element is found and updated, set the new state
 
-            if (parentElementFound) {
+            if (parentTemplateFound) {
                 handleCloseMenus()
 
-                setSelectedElement(updatedSelectedElement);
+                setTemplate(() => updatedSelectedTemplate);
+
+            } else {
+                //TODO: something happen when insert not working
             }
         }
     }
-    console.log(selectedElement);
+
 
 
     return (

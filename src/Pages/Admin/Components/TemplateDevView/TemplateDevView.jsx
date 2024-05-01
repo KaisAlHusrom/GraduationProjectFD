@@ -28,7 +28,7 @@ import UndoIcon from '@mui/icons-material/Undo';
 import PreviousComponentsTemplates from '../PreviousComponentsTemplates/PreviousComponentsTemplates'
 import PhotoLibraryOutlinedIcon from '@mui/icons-material/PhotoLibraryOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
-
+import MediationOutlinedIcon from '@mui/icons-material/MediationOutlined';
 //Styled Components
 const StyledTemplateDevView = styled(Box)(
     ({ theme }) => ({
@@ -51,14 +51,8 @@ const StyledTemplateDevView = styled(Box)(
 const StyledViewElements = styled(Card)(
     ({ theme }) => ({
         position: "absolute",
-        left: "0",
-        top: "0",
-        padding: theme.spacing(),
-        borderRight: "1px solid",
-        borderColor: theme.palette.divider,
-        height: "100%",
-        overflow: 'auto',
-        width: "25%"
+        left: theme.spacing(),
+        top: theme.spacing(),
     })
 );
 
@@ -76,26 +70,36 @@ const StyledChip = styled(Chip)(
 const TemplateDevView = () => {
 
 
-    const {selectedElement, elementsStyle, mode, setMode} = useMyCreateElementContext()
+    const {template, elementsStyle, mode, setMode} = useMyCreateElementContext()
 
     const [editableElement, setEditableElement] = useState(null)
     useEffect(() => {
-        setEditableElement(() => selectedElement ? <GenerateTag elementStyle={elementsStyle} key={selectedElement.id} selectedElement={selectedElement} /> : null)
-    }, [elementsStyle, selectedElement])
+        setEditableElement(() => template ? <GenerateTag elementStyle={elementsStyle} key={template.id} selectedTemplate={template} /> : null)
+    }, [elementsStyle, template])
 
-    // console.log(editableElement)
+
     return (
         <StyledTemplateDevView>
             {
-                mode !== null &&
+                (mode !== null && editableElement === null) &&
                 <PreviousButton />
             }
             {
                 editableElement ?
                 <>
                     <StyledViewElements>
-                        <Typography width={150} variant='body2' color="warning.main">select element</Typography>
-                        <ViewElements selectedElement={selectedElement} />
+                        {/* <Typography width={150} variant='body2' color="warning.main">Design Structure</Typography> */}
+                        
+                        <AdminMainButton 
+                            title='Design Structure'
+                            appearance='iconButton'
+                            type='drawer'
+                            putBorder
+                            icon={<MediationOutlinedIcon />}
+                            willShow={<ViewElements />}
+                            drawerVariant="persistent"
+                            putDrawerCloseButton
+                        />
                     </StyledViewElements>
                     {editableElement}
                 </>
@@ -108,7 +112,7 @@ const TemplateDevView = () => {
                     alignItems: 'center',   
                 }}>
                     <Typography mb={1} variant='h4' color="warning.main">
-                    Choose an Mode
+                    Select Mode
                     </Typography>
                     <Box>
                         <StyledChip onClick={() => setMode(() => "element")}  label="Element" variant='outlined' />
@@ -182,24 +186,15 @@ const ElementModeOptions = () => {
 const ComponentModeOptions = () => {
     const {selectedElement, setSelectedElement} = useMyCreateElementContext()
 
-    const handleOpenBlankComponent = useCallback(() => {
-        const emptyComponent = {
-            "id": "81e40cfe-d1ec-49db-8595-952909d2351c",
-            "element_type_name": "Component",
-            "element_type_description": "Defines a section in any place of the document",
-            "is_child": false,
-            "parent_id": null,
-            "deleted_at": null,
-            "created_at": "2024-03-31T23:25:02.000000Z",
-            "updated_at": "2024-03-31T23:25:02.000000Z",
-            "sequence_number": 1,
-            "not_has_end_tag": false,
-            "children": [],
-            "element_props": [],
-            "parent": null
-        }
+    const handleOpenBlankComponent = useCallback(async () => {
+        const emptyComponent = await fetchElementTypesRows(
+            null,
+            null,
+            [writeFilterObject('element_type_name', 'string', '=', 'component')]
+        )
 
-        setSelectedElement(() => emptyComponent)
+
+        setSelectedElement(() => emptyComponent.rows[0])
     }, [setSelectedElement])
 
 
@@ -224,7 +219,6 @@ const ComponentModeOptions = () => {
                     putBorder
                     type='custom'
                     onClick={handleOpenBlankComponent}
-                    willShow={<PreviousComponentsTemplates />}
                     title='New Blank Component'
                     sx={{
                         fontWeight: 'normal',

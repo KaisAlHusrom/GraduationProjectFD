@@ -6,19 +6,29 @@ import exampleImage from "../assets/images/exampleimage.jpg"
 
 
 import propTypes from 'prop-types'
+import { useMyCreateElementContext } from "../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate";
+import { useTheme } from "@emotion/react";
+
+import { styled } from '@mui/system'
 
 
 //functions
 const repeat = (selectedElement) => {
     return selectedElement.children && selectedElement.children.length > 0
     ?
-    selectedElement.children.map((child, key) => <Fragment key={key}>
-        <GenerateTag
-            key={child.id}
-            // elementStyle={elementStyle}
-            selectedElement={child}
-        />
-    </Fragment>)
+    selectedElement.children.map((child, key) => {
+        // console.log(child)
+        return (
+            <Fragment key={key}>
+                <GenerateTag
+                    key={child.id}
+                    // elementStyle={elementStyle}
+                    selectedTemplate={child}
+                />
+            </Fragment>
+        )
+    }
+    )
     :
     null
 }
@@ -45,20 +55,25 @@ const repeat = (selectedElement) => {
     
 // }
 
-export const GenerateTag = ({selectedElement, elementStyle}) => {
-    const sortedData = Array.isArray(selectedElement) ? selectedElement.sort((a, b) => a.sequence_number - b.sequence_number) : selectedElement;
-    const type = sortedData ? sortedData.element_type_name : "";
+export const GenerateTag = ({selectedTemplate, elementStyle}) => {
+    const { hoveredSubElementId} = useMyCreateElementContext()
+
+    const sortedData = Array.isArray(selectedTemplate) ? selectedTemplate.sort((a, b) => a.sequence_number - b.sequence_number) : selectedTemplate;
+
+    const type = sortedData ? sortedData.element_type?.element_type_name : "";
+    const content = sortedData ? sortedData.element_content : "";
+
     const key = sortedData ? sortedData.id : "";
     const hasChildren = sortedData ? sortedData.children?.length > 0 ? true : false : false
 
-    let exampleText = hasChildren ? repeat(sortedData) : `${type}`;
+    let exampleText = hasChildren ? repeat(sortedData) : content;
 
-    const [selectedEditableElement, setSelectedEditableElement] = useState(null)
+    // const [selectedEditableElement, setSelectedEditableElement] = useState(null)
 
-    const handleChangeSelectedEditableElement = useCallback((key) => {
-        setSelectedEditableElement(() => key)
+    // const handleChangeSelectedEditableElement = useCallback((key) => {
+    //     setSelectedEditableElement(() => key)
 
-    }, [])
+    // }, [])
 
 
     //Hovering
@@ -72,7 +87,7 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
         setIsHovered(false);
     }, []);
 
-
+    const theme = useTheme()
 
     const defaultProps = useMemo(() => {
         return {
@@ -81,19 +96,67 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
             placeholder:type,
             style: {
                 ...elementStyle,
-                ...(isHovered && { })
+                ...(isHovered && { }),
+                backgroundColor: hoveredSubElementId === selectedTemplate.id && theme.palette.action.selected,
+                // padding: theme.spacing()
             },
-            onClick: () => handleChangeSelectedEditableElement(key),
+            // onClick: () => handleChangeSelectedEditableElement(key),
             onMouseOver: handleMouseOver,
-            onMouseOut: handleMouseOut
+            onMouseOut: handleMouseOut,
         }
-    }, [elementStyle, handleChangeSelectedEditableElement, handleMouseOut, handleMouseOver, isHovered, key, type])
+    }, [elementStyle, handleMouseOut, handleMouseOver, hoveredSubElementId, isHovered, key, selectedTemplate.id, theme, type])
 
-    
+    const StyledContainerBox = styled(Box)(
+        ({ theme }) => ({
+            display: "inline",
+            position: "relative",
+        })
+    );
+
+    const StyledAfterBox = styled(Box)(
+        ({ theme }) => ({
+            backgroundColor: theme.palette.primary.main,
+            position: 'absolute',
+            left: -1,
+            top: -1,
+            width: '100%',
+            height: '100%',
+            
+        })
+    );
+
+    return (
+        <>
+            <Tag 
+                type={type}
+                defaultProps={defaultProps}
+                exampleText={exampleText}
+                sortedData={sortedData}
+            />
+            {/* <StyledAfterBox></StyledAfterBox> */}
+        </>
+    )
+        
+
+}
+
+GenerateTag.propTypes = {
+    selectedTemplate: propTypes.any, 
+    elementStyle: propTypes.any
+}
+
+
+const Tag = (props) => {
+    const {
+        type,
+        defaultProps,
+        exampleText,
+        sortedData
+    } = props
 
     switch (type.toLowerCase()) {
         case 'text field strings':
-            return <input {...defaultProps}  />;
+            return (<input {...defaultProps}  />);
         case 'text field numbers':
             return <input {...defaultProps}  />;
         case 'text field files':
@@ -180,7 +243,7 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
         case 'button':
             return <button {...defaultProps}>{exampleText}</button>;
         case 'image':
-            return <img {...defaultProps} src={exampleImage} alt="" />;
+            return <img {...defaultProps} src={exampleText === "Blank Image" ? exampleImage : exampleText} alt="" />;
         case 'audio':
             return <audio {...defaultProps} src=""></audio>;
         case 'video':
@@ -198,11 +261,6 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
         case 'strong text':
             return <strong {...defaultProps}>{exampleText}</strong>;
         case 'code':
-            exampleText = `
-            int x = 10;\n
-            int y = 15;\n
-            print(x + y)
-            `
             return <code {...defaultProps}>{exampleText}</code>;
         case 'component':
         case 'section':
@@ -212,7 +270,9 @@ export const GenerateTag = ({selectedElement, elementStyle}) => {
     }
 }
 
-GenerateTag.propTypes = {
-    selectedElement: propTypes.any, 
-    elementStyle: propTypes.any
+Tag.propTypes = {
+    type: propTypes.string,
+    defaultProps: propTypes.object,
+    exampleText: propTypes.any,
+    sortedData: propTypes.any,
 }

@@ -24,7 +24,7 @@ import { CustomLazyAutoComplete } from '../../../../Components'
 //Styled Components
 const StyledStylePropValues = styled(Box)(
     ({ theme }) => ({
-    
+        width: '100%'
     })
 )
 

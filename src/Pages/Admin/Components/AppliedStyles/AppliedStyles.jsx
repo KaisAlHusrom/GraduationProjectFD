@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import {
     
@@ -21,6 +21,8 @@ import propTypes from 'prop-types'
 //prism
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
+import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
+import { extractStyles } from '../../../../Helpers/RecursiveHelpers/extractStyles'
 
 //Styled Components
 const StyledAppliedStyles = styled(Box)(
@@ -53,6 +55,18 @@ const AppliedStyles = () => {
     }, []);
 
     const [copied, setCopied] = useState(false);
+
+    const {template, selectedSubElementIds} = useMyCreateElementContext()
+    const appliedStyles = useMemo(() => {
+        if(template && selectedSubElementIds.length > 0) {
+            const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
+            const styles = extractStyles([updatedSelectedTemplate], selectedSubElementIds)
+            return styles
+        }
+        return null
+    }, [selectedSubElementIds, template])
+
+    console.log(appliedStyles)
 
     const [writtenStyle, setWrittenStyle] = useState(() => {
         return `{

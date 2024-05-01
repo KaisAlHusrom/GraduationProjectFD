@@ -1,5 +1,5 @@
 //React
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 import {
     
@@ -10,6 +10,9 @@ import {
 import TemplateDevView from '../TemplateDevView/TemplateDevView'
 
 
+
+
+
 //MUI
 import {
     Stack,
@@ -17,13 +20,13 @@ import {
 import { styled } from '@mui/system'
 
 //services
-import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
 import TemplateElementSettings from '../TemplateElementSettings/TemplateElementSettings'
 
 
-import { useLoaderData } from 'react-router-dom'
+
 import TemplateElementStyleSettings from '../TemplateElementStyleSettings/TemplateElementStyleSettings'
-import useFetchDataOutsideState from '../../../../Helpers/customHooks/useFetchDataOutsideState'
+import { transformElementTypeToDesignStructure } from '../../../../Helpers/transformData'
+
 
 //Context
 const MyCreateElementContext = createContext();
@@ -70,57 +73,26 @@ const CreateElementTemplate = () => {
 
 
     const [selectedElement, setSelectedElement] = useState(null)
-    console.log(selectedElement)
+
+
     const [template, setTemplate] = useState(null)
     useEffect(() => {
         if(selectedElement) {
-            // Function to transform the original data into the template data structure
-            const transformData = (data) => {
-                
-                // Initialize an array to hold the transformed elements
-                const transformedData = [];
-
-                // Recursive function to transform each element and its children
-                const transformElement = (element) => {
-                    // Initialize an object to hold the transformed properties
-                    const transformedElement = {};
-
-                    const exampleTitle = element.element_type_name
-
-                    console.log(element)
-
-                    // Map properties from original data to template data
-                    transformedElement['element_type_id'] = element.id;
-                    transformedElement['parent_id'] = element.parent_id;
-                    transformedElement['parent'] = element.parent;
-                    transformedElement['children'] = element.children?.map(child => transformElement(child));
-                    transformedElement['element_title'] = exampleTitle;
-                    transformedElement['element_description'] = "";
-                    transformedElement['element_image'] = ''; 
-                    transformedElement['is_template'] = true; 
-                    transformedElement['is_child'] = element.is_child;
-                    transformedElement['sequence_number'] = element.sequence_number;
-
-                    // Push the transformed element to the array
-                    transformedData.push(transformedElement);
-                    return transformedElement
-                };
-
-                // Start transformation with the root element
-                transformElement(data);
-
-                // Return the transformed data
-                return transformedData;
-            };
+            
             // Call the transformData function with the original data
-            const transformedTemplateData = transformData(selectedElement);
-            console.log(transformedTemplateData);
-            // setTemplate(() => selectedElement)
+            const transformedTemplateData = transformElementTypeToDesignStructure(selectedElement);
+            // transformedTemplateData.forEach(data => {
+            //     addDesign(data);
+            // })
+
+            // // set the template to the data that is the root of the tree, the grand father.
+            setTemplate(() => transformedTemplateData)
         }
     }, [selectedElement])
-
+    
     const [elementsStyle, setElementsStyle] = useState(null)
-    const [selectedSubElementId, setSelectedSubElementId] = useState(null)
+    const [selectedSubElementIds, setSelectedSubElementIds] = useState([])
+    const [hoveredSubElementId, setHoveredSubElementId] = useState(null)
 
     return (
         <MyCreateElementContext.Provider value={{
@@ -128,18 +100,20 @@ const CreateElementTemplate = () => {
             setSelectedElement,
             elementsStyle, 
             setElementsStyle,
-            selectedSubElementId,
-            setSelectedSubElementId,
-            mode, setMode
+            selectedSubElementIds,
+            setSelectedSubElementIds,
+            hoveredSubElementId, setHoveredSubElementId,
+            mode, setMode,
+            template, setTemplate,
         }}
         >
             
             <StyledCreateElementTemplate spacing={4} direction="column" alignItems="center">
-                <TemplateDevView selectedElementState={{selectedElement, setSelectedElement, elementsStyle}} />
+                <TemplateDevView  />
 
-                <TemplateElementSettings selectedElementState={{selectedElement, setSelectedElement}} />
+                <TemplateElementSettings  />
 
-                <TemplateElementStyleSettings elementStyleState={{elementsStyle, setElementsStyle}} />
+                <TemplateElementStyleSettings />
             </StyledCreateElementTemplate>
         </MyCreateElementContext.Provider>
         
