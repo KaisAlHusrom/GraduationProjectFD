@@ -1,9 +1,15 @@
 import PropTypes from 'prop-types';
-import { AppBar, Box, Button, Container, Divider, Drawer, MenuItem, Toolbar, Typography,TextField, Menu } from '@mui/material';
+import { AppBar, Box, Button, Container, MenuItem, Toolbar, Typography,TextField,List,ListItem,ListItemText,IconButton} from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useState } from 'react';
-import { styled } from '@mui/system'
+import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components';
+import { useNavigate} from 'react-router-dom';
 
 const logoStyle = {
   width: '140px',
@@ -16,43 +22,58 @@ const StyledSearchBar = styled(TextField)(
         marginTop: theme.spacing(2), // Add some bottom margin
     })
 );
+// Sample categories and their items
+const categories = {
+    "Category 1": [
+        { id: 1, name: "Item 1.1" },
+        { id: 2, name: "Item 1.2" },
+        { id: 3, name: "Item 1.3" }
+    ],
+    "Category 2": [
+        { id: 4, name: "Item 2.1" },
+        { id: 5, name: "Item 2.2" },
+        { id: 6, name: "Item 2.3" }
+    ],
+    // Add more categories as needed
+};
 
 function NavBar() {
-    const [open, setOpen] = useState(false);
-    const [searchValue, setSearchValue] = useState('');
-    const [anchorEl, setAnchorEl] = useState(null);
 
-    const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
+const [searchValue, setSearchValue] = useState('');
+
+const scrollToSection = (sectionId) => {
+    const sectionElement = document.getElementById(sectionId);
+    const offset = 128;
+    if (sectionElement) {
+    const targetScroll = sectionElement.offsetTop - offset;
+    sectionElement.scrollIntoView({ behavior: 'smooth' });
+    window.scrollTo({
+        top: targetScroll,
+        behavior: 'smooth',
+    });
+    
+    }
+};
+const handleCategoryItemClick = (categoryName, item) => {
+    // Handle the click event for category items
+    console.log(`Clicked on ${item.name} in ${categoryName}`);
+    // Add your handling logic here
+};
+
+
+const handleSearchChange = (event) => {
+    setSearchValue(event.target.value);
+    // Handle search functionality here if needed
+};
+const Navigate = useNavigate();
+
+const HandleMainButton = () => {
+    Navigate('/Ecommerce');
+    };
+const handleCartClick = () => {
+    Navigate('/Cart');
     };
 
-    const handleMenuClose = () => {
-    setAnchorEl(null);
-    };
-
-    const toggleDrawer = (newOpen) => () => {
-        setOpen(newOpen);
-    };
-
-    const scrollToSection = (sectionId) => {
-        const sectionElement = document.getElementById(sectionId);
-        const offset = 128;
-        if (sectionElement) {
-        const targetScroll = sectionElement.offsetTop - offset;
-        sectionElement.scrollIntoView({ behavior: 'smooth' });
-        window.scrollTo({
-            top: targetScroll,
-            behavior: 'smooth',
-        });
-        setOpen(false);
-        }
-    };
-  
-
-    const handleSearchChange = (event) => {
-        setSearchValue(event.target.value);
-        // Handle search functionality here if needed
-    };
 
   return (
     <div>
@@ -103,6 +124,7 @@ function NavBar() {
                         }
                         style={logoStyle}
                         alt="logo of sitemark"
+                        onClick={HandleMainButton}
                     />
                     <Box sx={{ display: { xxs:'none',xs: 'none', sm:"none", md: 'flex' } }}>
                         <MenuItem
@@ -129,7 +151,13 @@ function NavBar() {
                         alignItems: 'center',
                     }}
                     >
-                    
+                    <IconButton
+                        color="primary"
+                        onClick={handleCartClick} // Add your cart click handler function here
+                    >
+                        <ShoppingCartIcon />
+                    </IconButton>
+                                    
                     
                     <Button
                         color="primary"
@@ -154,7 +182,7 @@ function NavBar() {
                     </Button>
                     </Box>
                     <Box sx={{ display: {xxs:'flex',xs: 'flex', sm: 'flex', md: 'none' } }}>
-                        <AdminMainButton 
+                        <AdminMainButton
                             title=""
                             type="drawer"
                             appearance="primary"
@@ -164,14 +192,14 @@ function NavBar() {
                             drawerWidth = '300px'
                             icon={<MenuIcon />}
                             willShow={
-                                <Box
-                                sx={{
-                                    minWidth: '300px',
-                                    p: 2,
-                                    backgroundColor: 'background.paper',
-                                    flexGrow: 1,
-                                }}
-                                >
+                            <Box
+                            sx={{
+                                minWidth: '300px',
+                                p: 2,
+                                backgroundColor: 'background.paper',
+                                flexGrow: 1,
+                            }}
+                            >
                                 <StyledSearchBar
                                     label="Search"
                                     variant="outlined"
@@ -179,31 +207,31 @@ function NavBar() {
                                     onChange={handleSearchChange}
                                     fullWidth
                                 />
-                                
+                                {/* Categories Section */}
+                                <Accordion disableGutters elevation={0} square>
+                                    <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
+                                        <Typography>Categories</Typography>
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        {/* Render your categories here */}
+                                        {Object.entries(categories).map(([categoryName, categoryItems]) => (
+                                            <div key={categoryName}>
+                                                <Typography variant="subtitle1">{categoryName}</Typography>
+                                                <List>
+                                                    {categoryItems.map((item) => (
+                                                        <ListItem button key={item.id} onClick={() => handleCategoryItemClick(categoryName, item)}>
+                                                            <ListItemText primary={item.name} />
+                                                        </ListItem>
+                                                    ))}
+                                                </List>
+                                            </div>
+                                        ))}
+                                    </AccordionDetails>
+                                </Accordion>
                                 <MenuItem onClick={() => scrollToSection('Cards')}>
                                     Cards
                                 </MenuItem>
                                 <MenuItem onClick={() => scrollToSection('footer')}>About us</MenuItem>
-                                <Divider />
-                                <Button
-                                    color="primary"
-                                    variant="contained"
-                                    onClick={handleMenuOpen}
-                                    sx={{ width: '100%' }}
-                                >
-                                        Categories
-                                </Button>
-                                <Menu
-                                    anchorEl={anchorEl}
-                                    open={Boolean(anchorEl)}
-                                    onClose={handleMenuClose}
-                                >
-                                    <MenuItem onClick={handleMenuClose}>Category 1</MenuItem>
-                                    <MenuItem onClick={handleMenuClose}>Category 2</MenuItem>
-                                    <MenuItem onClick={handleMenuClose}>Category 3</MenuItem>
-                                    {/* Add more categories as needed */}
-                                </Menu>
-                                <MenuItem>
                                     <Button
                                     color="primary"
                                     variant="contained"
@@ -214,36 +242,19 @@ function NavBar() {
                                     >
                                     Sign up
                                     </Button>
-                                </MenuItem>
-                                <MenuItem>
                                     <Button
                                     color="primary"
                                     variant="outlined"
                                     component="a"
                                     href="Login"
                                     target="_blank"
-                                    sx={{ width: '100%' }}
+                                    sx={{ width: '100%',marginTop:1 }}
                                     >
                                     Sign in
                                     </Button>
-                                </MenuItem>
-                                </Box>
-                            }
-                        >
-
-                        </AdminMainButton>
-                    {/* <Button
-                        variant="text"
-                        color="primary"
-                        aria-label="menu"
-                        onClick={toggleDrawer(true)}
-                        sx={{ minWidth: '30px', p: '4px' }}
-                    >
-                        <MenuIcon />
-                    </Button> */}
-                    <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
-                   
-                    </Drawer>
+                            </Box>
+                            }>
+                    </AdminMainButton>
                     </Box>
                 </Toolbar>
             </Container>

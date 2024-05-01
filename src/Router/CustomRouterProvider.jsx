@@ -20,6 +20,7 @@ import EcommerceMain from '../Pages/Ecommerce/EcommerceMain';
 import LoginPage from '../Pages/Ecommerce/Components/Pages/LoginPage';
 import SignUp from '../Pages/Ecommerce/Components/Pages/SignUp';
 import ProductView from '../Pages/Ecommerce/Components/Pages/ProductView';
+import Cart from '../Pages/Ecommerce/Components/Pages/Cart';
 
 
 // ------------- NOTICES -------------
@@ -69,6 +70,7 @@ const router = createBrowserRouter(
             <Route path="/Ecommerce" element={<EcommerceMain />} />
             <Route path="/Login" element={<LoginPage />} />
             <Route path="/productView/:idx" element={<ProductView />} />
+            <Route path="/Cart" element={<Cart />} />
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="LandPage" element={<LandPage />} />

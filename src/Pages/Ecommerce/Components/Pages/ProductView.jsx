@@ -24,6 +24,7 @@ import images from '../../data/SliderImages';
 import { useTheme } from '@mui/material/styles';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import Footer from '../Footer';
 
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
@@ -92,7 +93,7 @@ function CustomTabPanel(props) {
                 {product.description}
               </Typography>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={12} md={12} lg={6}>
             <Box>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleTapChange} aria-label="basic tabs example">
@@ -164,7 +165,7 @@ function CustomTabPanel(props) {
                 <div style={{ position: 'static',height: '65vh',paddingTop:40}}>
                   <Divider />
                   <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>Features of the Template</Typography>
-                  
+      
 
                   <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1 }}>Title</Typography>
                   <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1 }}>Description</Typography>
@@ -176,7 +177,7 @@ function CustomTabPanel(props) {
               </CustomTabPanel>
             </Box>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={12} sm={12} md={12} lg={6}>
             <Box sx={{paddingTop:'45px' }} maxWidth="lg">
               <Card>
                 <CardContent>
@@ -307,6 +308,7 @@ function CustomTabPanel(props) {
           </Grid>
         </Grid>
       </Container>
+      <Footer />
     </div>
   );
 };
