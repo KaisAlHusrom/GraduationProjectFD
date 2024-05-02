@@ -51,8 +51,11 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                             type="drawer"
                             appearance="primary"
                             putTooltip
-                            drawerWidth='500px'
+                            drawerStyle = {{
+                                width : '500px',
+                                backgroundColor : 'transparent',
 
+                            }}
                             willShow={
                                 <AccordionComponent elements = {elements} items={HeadingDesign} setAddElementToComponentId = {setAddElementToComponentId} 
                                 componentSection_component_id = {componentSection_component_id}/>
@@ -65,7 +68,11 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                         type="drawer"
                         appearance="primary"
                         putTooltip
-                        drawerWidth='500px'
+                        drawerStyle = {{
+                            width : '400px',
+                            backgroundColor : 'transparent',
+
+                        }}
                         willShow={
                             <AccordionComponent elements = {elements} items={SubTitlesDesign} setAddElementToComponentId = {setAddElementToComponentId} 
                             componentSection_component_id = {componentSection_component_id}/>
@@ -78,7 +85,11 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                         type="drawer"
                         appearance="primary"
                         putTooltip
-                        drawerWidth='500px'
+                        drawerStyle = {{
+                            width : '400px',
+                            backgroundColor : 'transparent',
+
+                        }}
                         willShow={
                             <AccordionComponent elements = {elements} items={ImageDesign} setAddElementToComponentId = {setAddElementToComponentId} 
                             componentSection_component_id = {componentSection_component_id}/>
@@ -91,7 +102,11 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                         type="drawer"
                         appearance="primary"
                         putTooltip
-                        drawerWidth='500px'
+                        drawerStyle = {{
+                            width : '400px',
+                            backgroundColor : 'transparent',
+
+                        }}
                         willShow={
                             <AccordionComponent elements = {elements} items={ButtonElementDesign} setAddElementToComponentId = {setAddElementToComponentId} 
                             componentSection_component_id = {componentSection_component_id}/>

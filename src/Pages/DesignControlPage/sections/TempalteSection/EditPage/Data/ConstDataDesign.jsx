@@ -5374,6 +5374,8 @@ export const ButtonDesign = [
 
 
 
+// Sections
+
 export const galleryImageSection = {
         "section_id": 18,
         "section_title": "galleryImageSection",
@@ -6364,7 +6366,7 @@ export const galleryImageSection = {
                             "element_type": "image",
                             "type_description": "this type return Typography with variant h3 tag in codes"
                         },
-                        "element_content": "https://wonderwebdevelopment.com/wp-content/uploads/2015/03/Web-Design-and-Development-reload-600x400.jpg",
+                        "element_content": "https://wonderwebdevelopment.com/wp-content/uploads/2015/03/Web-Design-and-Development-reload-850x400.jpg",
                         "section_css_props": [
                             {
                                 "section_css_prop_id": 15,
@@ -8121,7 +8123,7 @@ export const TESTIMONIALSsection = {
                     "is_element": true,
                     "element": {
                         "element_type_id": 4,
-                        "element_type": "HEADING",
+                        "element_type": "SubTitle1",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
                     "element_content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores et reiciendis voluptatum, amet est natus quaerat ducimus                    ",
@@ -8357,7 +8359,7 @@ export const TESTIMONIALSsection = {
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "-60px",
+                            "css_prop_value": "-85px",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -8992,7 +8994,7 @@ export const TESTIMONIALSsection = {
                     "is_element": true,
                     "element": {
                         "element_type_id": 4,
-                        "element_type": "HEADING",
+                        "element_type": "SubTitle1",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
                     "element_content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores et reiciendis voluptatum, amet est natus quaerat ducimus                    ",
@@ -9228,7 +9230,7 @@ export const TESTIMONIALSsection = {
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "-60px",
+                            "css_prop_value": "-85px",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -9862,7 +9864,7 @@ export const TESTIMONIALSsection = {
                     "is_element": true,
                     "element": {
                         "element_type_id": 4,
-                        "element_type": "HEADING",
+                        "element_type": "SubTitle1",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
                     "element_content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores et reiciendis voluptatum, amet est natus quaerat ducimus                    ",
@@ -10098,7 +10100,7 @@ export const TESTIMONIALSsection = {
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "-60px",
+                            "css_prop_value": "-85px",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -10733,7 +10735,7 @@ export const TESTIMONIALSsection = {
                     "is_element": true,
                     "element": {
                         "element_type_id": 4,
-                        "element_type": "HEADING",
+                        "element_type": "SubTitle1",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
                     "element_content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores et reiciendis voluptatum, amet est natus quaerat ducimus                    ",
@@ -10969,7 +10971,7 @@ export const TESTIMONIALSsection = {
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "-60px",
+                            "css_prop_value": "-85px",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -11604,7 +11606,7 @@ export const TESTIMONIALSsection = {
                     "is_element": true,
                     "element": {
                         "element_type_id": 4,
-                        "element_type": "HEADING",
+                        "element_type": "SubTitle1",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
                     "element_content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores et reiciendis voluptatum, amet est natus quaerat ducimus                    ",
@@ -11840,7 +11842,7 @@ export const TESTIMONIALSsection = {
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "-60px",
+                            "css_prop_value": "-85px",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -12474,7 +12476,7 @@ export const TESTIMONIALSsection = {
                     "is_element": true,
                     "element": {
                         "element_type_id": 4,
-                        "element_type": "HEADING",
+                        "element_type": "SubTitle1",
                         "type_description": "this type return Typography with variant h3 tag in codes"
                     },
                     "element_content": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores et reiciendis voluptatum, amet est natus quaerat ducimus                    ",
@@ -12710,7 +12712,7 @@ export const TESTIMONIALSsection = {
                             },
                             "css_status": null,
                             "css_responsive_status": null,
-                            "css_prop_value": "-60px",
+                            "css_prop_value": "-85px",
                             "pivot": {
                                 "section_id": null,
                                 "component_id": 10,
@@ -12849,7 +12851,7 @@ export const HeadingDesign = [
             "element_type": "Head1",
             "type_description": "this type return Typography with variant h3 tag in codes"
         },
-        "element_content": "HEADING",
+        "element_content": "Heading",
         "section_css_props": [
             {
                 "section_css_prop_id": 15,
@@ -12866,7 +12868,7 @@ export const HeadingDesign = [
                 },
                 "css_status": null,
                 "css_responsive_status": null,
-                "css_prop_value": "200px",
+                "css_prop_value": "400px",
                 "pivot": {
                     "section_id": null,
                     "component_id": 10,
@@ -12969,7 +12971,7 @@ export const HeadingDesign = [
             "element_type": "Head2",
             "type_description": "this type return Typography with variant h3 tag in codes"
         },
-        "element_content": "HEADING",
+        "element_content": "Heading 2",
         "section_css_props": [
             {
                 "section_css_prop_id": 15,
@@ -13064,7 +13066,7 @@ export const HeadingDesign = [
             "element_type": "Head3",
             "type_description": "this type return Typography with variant h3 tag in codes"
         },
-        "element_content": "HEADING",
+        "element_content": "Heading 3",
         "section_css_props": [
             {
                 "section_css_prop_id": 15,
@@ -13159,7 +13161,7 @@ export const HeadingDesign = [
             "element_type": "Head4",
             "type_description": "this type return Typography with variant h3 tag in codes"
         },
-        "element_content": "HEADING",
+        "element_content": "Heading 4",
         "section_css_props": [
             {
                 "section_css_prop_id": 15,
@@ -13254,7 +13256,7 @@ export const HeadingDesign = [
             "element_type": "Head5",
             "type_description": "this type return Typography with variant h3 tag in codes"
         },
-        "element_content": "HEADING",
+        "element_content": "Heading 5",
         "section_css_props": [
             {
                 "section_css_prop_id": 15,
@@ -13349,7 +13351,7 @@ export const HeadingDesign = [
             "element_type": "Head6",
             "type_description": "this type return Typography with variant h3 tag in codes"
         },
-        "element_content": "HEADING",
+        "element_content": "Heading 5",
         "section_css_props": [
             {
                 "section_css_prop_id": 15,
@@ -14824,7 +14826,7 @@ export const ButtonElementDesign = [
                 },
                 "css_status": null,
                 "css_responsive_status": null,
-                "css_prop_value": "none",
+                "css_prop_value": "transparent",
                 "pivot": {
                     "section_id": null,
                     "component_id": 10,
@@ -15069,7 +15071,7 @@ export const ButtonElementDesign = [
                 },
                 "css_status": null,
                 "css_responsive_status": null,
-                "css_prop_value": "none",
+                "css_prop_value": "transparent",
                 "pivot": {
                     "section_id": null,
                     "component_id": 10,
