@@ -12,6 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from '../../ToggleColorMode';
+import { useNavigate} from 'react-router-dom';
 
 const logoStyle = {
   width: '140px',
@@ -39,6 +40,10 @@ function AppAppBar({ mode, toggleColorMode }) {
       setOpen(false);
     }
   };
+  const Navigate = useNavigate();
+  const handleEcommerceClick = () => {
+    Navigate('/Ecommerce');
+};
 
   return (
     <div>
@@ -91,6 +96,14 @@ function AppAppBar({ mode, toggleColorMode }) {
                 alt="logo of sitemark"
               />
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <MenuItem
+                  onClick={handleEcommerceClick}
+                  sx={{ py: '6px', px: '12px' }}
+                >
+                  <Typography variant="body2" color="text.primary">
+                    Ecommerce
+                  </Typography>
+                </MenuItem>
                 <MenuItem
                   onClick={() => scrollToSection('features')}
                   sx={{ py: '6px', px: '12px' }}
@@ -99,6 +112,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                     Features
                   </Typography>
                 </MenuItem>
+                
                 <MenuItem
                   onClick={() => scrollToSection('testimonials')}
                   sx={{ py: '6px', px: '12px' }}
@@ -146,7 +160,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="text"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-in/"
+                href="/Login"
                 target="_blank"
               >
                 Sign in
@@ -156,7 +170,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="contained"
                 size="small"
                 component="a"
-                href="/material-ui/getting-started/templates/sign-up/"
+                href="/SignUp"
                 target="_blank"
               >
                 Sign up

@@ -25,6 +25,7 @@ import { useTheme } from '@mui/material/styles';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
 import Footer from '../Footer';
+import CustomCard from '../UI/CustomCard';
 
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
@@ -78,6 +79,17 @@ function CustomTabPanel(props) {
     const handleTapChange = (event, newValue) => {
       setValue(newValue);
     };
+    const itemsInfo = [
+      { contentTitle: 'Added', content: product['adding-date']},
+      { contentTitle: 'Last-Updated', content: product['last-updated'] },
+      { contentTitle: 'Views', content: product.views },
+      { contentTitle: 'Sells', content: product.sells },
+      // Add more items as needed
+    ];
+    const itemsPurchase = [
+      { contentTitle: "Price", content: "$"+product.price},
+      // Add more items as needed
+    ];
 
     return (
       <div>
@@ -178,24 +190,8 @@ function CustomTabPanel(props) {
             </Box>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={6}>
-            <Box sx={{paddingTop:'45px' }} maxWidth="lg">
-              <Card>
-                <CardContent>
-                  <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                    Purchase
-                  </Typography>
-                  <Divider />
-                  <Grid item container spacing={2}>
-                    <Grid item xs={6}>
-                    <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1 }}>Price</Typography>
-                    </Grid>
-                    <Grid item xs={6}>
-                    <Typography variant="h6" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                      ${product.price}
-                    </Typography>
-                    </Grid>
-                  </Grid>
-                  <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <CustomCard title="Purchase" items={itemsPurchase}>
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button
                       onClick={() => addToCart(product)}
                       variant="contained"
@@ -217,38 +213,11 @@ function CustomTabPanel(props) {
                       Add to Cart
                     </Button>
                   </div>
-                </CardContent>
-              </Card>
+              </CustomCard>
+              
               <Divider />
-              <Box sx={{paddingTop:'20px' }} maxWidth="lg">
-              <Card>
-                <CardContent>
-                <Typography variant="h4">
-                      Product Details
-                    </Typography>
-                    <Divider />
-                  <Grid container spacing={2}>
-                    <Grid item container spacing={2}>
-                      {/* Left side: labels */}
-                      <Grid item xs={6}>
-                        <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>Added</Typography>
-                        <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>Last-Updated</Typography>
-                        <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>Views</Typography>
-                        <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>Sells</Typography>
-                      </Grid>
-
-                      {/* Right side: values */}
-                      <Grid item xs={6}>
-                        <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>{product['adding-date']}</Typography>
-                        <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>{product['last-updated']}</Typography>
-                        <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>{product.views}</Typography>
-                        <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>{product.sells}</Typography>
-                      </Grid>
-                    </Grid>
-
-                    
-                  
-                    <Grid item xs={12}>
+              <CustomCard title="info" items={itemsInfo}>
+              <Grid item xs={12}>
                       <Typography variant="body2" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
                         <Typography variant="body1" sx={{ paddingBottom: 1 }}> Attached Files: </Typography>
                         <Chip label={product["attached files"].php} color="primary" clickable style={{ marginRight: '10px' }} />
@@ -262,10 +231,9 @@ function CustomTabPanel(props) {
                         <Avatar src={product.image} sx={{ width: 32, height: 32 }} /> {product.creator}
                       </Typography>
                     </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-              </Box>
+              </CustomCard>
+              
+              
               <Divider />
               <Box sx={{paddingTop:'20px' }} maxWidth="lg">
               <Card>
@@ -291,20 +259,19 @@ function CustomTabPanel(props) {
                     {/* Right side: values */}
                     <Grid item xs={6} container direction="column">
                       <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <Rating name="quality of the work" value="2" readOnly />
+                        <Rating name="quality of the work" value={2} readOnly />
                       </Typography>
                       <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <Rating name="communication" value="5" readOnly />
+                        <Rating name="communication" value={4} readOnly />
                       </Typography>
                       <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <Rating name="usability" value="4" readOnly />
+                        <Rating name="usability" value={3} readOnly />
                       </Typography>
                     </Grid>
                   </Grid>
                 </CardContent>
               </Card>
               </Box>
-            </Box>
           </Grid>
         </Grid>
       </Container>
