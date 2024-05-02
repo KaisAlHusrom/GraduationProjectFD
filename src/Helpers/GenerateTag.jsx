@@ -10,6 +10,7 @@ import { useMyCreateElementContext } from "../Pages/Admin/Components/CreateEleme
 import { useTheme } from "@emotion/react";
 
 import { styled } from '@mui/system'
+import { convertStyleFromObjectToJsCode } from "./writeStyleObject";
 
 
 //functions
@@ -62,6 +63,7 @@ export const GenerateTag = ({selectedTemplate, elementStyle}) => {
 
     const type = sortedData ? sortedData.element_type?.element_type_name : "";
     const content = sortedData ? sortedData.element_content : "";
+    const styles = sortedData ? convertStyleFromObjectToJsCode(sortedData.styles) : []
 
     const key = sortedData ? sortedData.id : "";
     const hasChildren = sortedData ? sortedData.children?.length > 0 ? true : false : false
@@ -95,16 +97,16 @@ export const GenerateTag = ({selectedTemplate, elementStyle}) => {
             key: key,
             placeholder:type,
             style: {
-                ...elementStyle,
+                ...styles,
                 ...(isHovered && { }),
-                backgroundColor: hoveredSubElementId === selectedTemplate.id && theme.palette.action.selected,
+                backgroundColor: hoveredSubElementId === selectedTemplate.id ? theme.palette.action.selected : styles ? styles['backgroundColor'] : null,
                 // padding: theme.spacing()
             },
             // onClick: () => handleChangeSelectedEditableElement(key),
             onMouseOver: handleMouseOver,
             onMouseOut: handleMouseOut,
         }
-    }, [elementStyle, handleMouseOut, handleMouseOver, hoveredSubElementId, isHovered, key, selectedTemplate.id, theme, type])
+    }, [handleMouseOut, handleMouseOver, hoveredSubElementId, isHovered, key, selectedTemplate.id, styles, theme.palette.action.selected, type])
 
     const StyledContainerBox = styled(Box)(
         ({ theme }) => ({

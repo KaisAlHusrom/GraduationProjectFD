@@ -1,5 +1,5 @@
 //React
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
     
@@ -29,6 +29,7 @@ import AppliedStyles from '../AppliedStyles/AppliedStyles.jsx'
 import StyleFieldBox from '../StyleFieldBox/StyleFieldBox.jsx'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate.jsx'
 import { SelectStyleBreakpoints } from '../SelectStyleBreakpoints/SelectStyleBreakpoints.jsx'
+import { fetchStylePropCategory } from '../../../../Services/StylePropCategory.js'
 
 
 //Styled Components
@@ -52,6 +53,17 @@ const TemplateElementStyleSettings = () => {
     
     //style breakpoint state
     const [styleBreakpoint, setStyleBreakpoint] = useState(null)
+
+    //style categories with style props
+    const [styleCategories, setStyleCategories] = useState(null)
+    useEffect(() => {
+        const fetchStyleCategories = async () => {
+            const {rows} = await fetchStylePropCategory()
+            setStyleCategories(() => rows)
+        }
+
+        fetchStyleCategories()
+    }, [])
 
 
     //handlers 
@@ -151,13 +163,21 @@ const TemplateElementStyleSettings = () => {
                     </Typography>
                 </Grid>
                 <Grid item xxs={12}>
+                    {
+                        styleCategories && styleCategories.length > 0 
+                        ?
+                            styleCategories.map((styleCategory, key) => {
+                                return (
+                                    <StyleFieldBox 
+                                        key={key}
+                                        category={styleCategory}
+                                    />
+                                )
+                            })
+                        :
+                        null
+                    }
                     
-                    <StyleFieldBox 
-                        category='category'
-                        stylePropName='display'
-                        stylePropValueType='string'
-                        stylePropValues={[]}
-                    />
                 </Grid>
             </Grid>
             
