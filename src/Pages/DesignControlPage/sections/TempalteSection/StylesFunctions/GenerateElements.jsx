@@ -124,9 +124,11 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
         return (
             <Button variant="contained" sx={{
                 ...elementStyle,
-                backgroundColor: 'transparent',
+                transition : 'all 0.5s ease-in-out',
                 '&:hover': {
                 backgroundColor: 'transparent', // Text color
+                color : '#eee'
+
                 },
             }}>
                 {elementContent}
@@ -138,9 +140,9 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
         return (
                 <Button variant="contained" style = {{
                     ...elementStyle,
-                    backgroundColor: 'transparent',
                 '&:hover': {
                 backgroundColor: 'transparent', // Text color
+                color : '#eee'
                 },
                 }}><SendIcon sx={{marginRight :'20px'}}/> {elementContent}</Button>
         );  
