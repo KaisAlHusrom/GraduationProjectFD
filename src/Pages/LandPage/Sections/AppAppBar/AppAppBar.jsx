@@ -21,28 +21,34 @@ const logoStyle = {
 };
 
 function AppAppBar({ mode, toggleColorMode }) {
-  const [open, setOpen] = React.useState(false);
+const [open, setOpen] = React.useState(false);
 
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
-  };
+const toggleDrawer = (newOpen) => () => {
+  setOpen(newOpen);
+};
 
-  const scrollToSection = (sectionId) => {
-    const sectionElement = document.getElementById(sectionId);
-    const offset = 128;
-    if (sectionElement) {
-      const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: 'smooth' });
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      });
-      setOpen(false);
-    }
-  };
-  const Navigate = useNavigate();
-  const handleEcommerceClick = () => {
-    Navigate('/Ecommerce');
+const scrollToSection = (sectionId) => {
+  const sectionElement = document.getElementById(sectionId);
+  const offset = 128;
+  if (sectionElement) {
+    const targetScroll = sectionElement.offsetTop - offset;
+    sectionElement.scrollIntoView({ behavior: 'smooth' });
+    window.scrollTo({
+      top: targetScroll,
+      behavior: 'smooth',
+    });
+    setOpen(false);
+  }
+};
+const Navigate = useNavigate();
+const handleEcommerceClick = () => {
+  Navigate('/Ecommerce');
+};
+const handleLoginClick = () => {
+  Navigate('/Login');
+};
+const handleSignUpClick = () => {
+  Navigate('/SignUp');
 };
 
   return (
@@ -160,8 +166,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="text"
                 size="small"
                 component="a"
-                href="/Login"
-                target="_blank"
+                onClick={handleLoginClick}
               >
                 Sign in
               </Button>
@@ -170,8 +175,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                 variant="contained"
                 size="small"
                 component="a"
-                href="/SignUp"
-                target="_blank"
+                onClick={handleSignUpClick}
               >
                 Sign up
               </Button>

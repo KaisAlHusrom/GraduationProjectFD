@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import {useState } from 'react';
 import { productList } from '../../data/CradsData';
-import { useParams } from 'react-router-dom';
-import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { useParams,Link } from 'react-router-dom';
+
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
 import {
   Container,
   Typography,
@@ -12,27 +13,24 @@ import {
   Tab,
   Box,
   Divider,
-  Card,
-  CardContent,
   Chip,
   Avatar,
-  MobileStepper,
   Rating,
 } from '@mui/material';
 import NavBar from '../NavBar';
 import images from '../../data/SliderImages';
-import { useTheme } from '@mui/material/styles';
-import SwipeableViews from 'react-swipeable-views';
-import { autoPlay } from 'react-swipeable-views-utils';
 import Footer from '../Footer';
 import CustomCard from '../UI/CustomCard';
+import '../Styles/CustomSwiper.css';
+// import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
 
-
-const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
-
-
   return (
       <div
         role="tabpanel"
@@ -51,30 +49,16 @@ function CustomTabPanel(props) {
   }
 
 
-  const ProductView = (addToCart) => {
+  const ProductView = () => {
     const [value, setValue] = useState(0);
-    const [activeStep, setActiveStep] = useState(0);
-    const theme = useTheme();
-    const imagesSize = images.length;
+
+
     const { idx } = useParams();
     const product = productList.find((product) => product.id === parseInt(idx));
-
-    const handleNext = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    };
-  
-    const handleBack = () => {
-      setActiveStep((prevActiveStep) => prevActiveStep - 1);
-    };
-  
-    const handleStepChange = (step) => {
-      setActiveStep(step);
-    };
-
     if (!idx || !product) {
       return <Typography variant="h2">Product not found</Typography>;
     }
-  
+    
 
     const handleTapChange = (event, newValue) => {
       setValue(newValue);
@@ -90,11 +74,17 @@ function CustomTabPanel(props) {
       { contentTitle: "Price", content: "$"+product.price},
       // Add more items as needed
     ];
+    const itemsReviews = [
+      { contentTitle: 'quality of the work', content: <Rating name="quality of the work" value={2} readOnly />},
+      { contentTitle: 'communication', content: <Rating name="communication" value={4} readOnly /> },
+      { contentTitle: 'usability', content: <Rating name="usability" value={3} readOnly /> },
+      // Add more items as needed
+    ];
 
     return (
       <div>
       <NavBar style={{ position: 'fixed', top: 0, width: '100%', zIndex: 1000 }} />
-      <Container sx={{ marginTop: '80px' }} maxWidth="lg">
+      <Container sx={{ marginTop: '100px' }} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <Typography variant="h4" gutterBottom>
@@ -106,7 +96,6 @@ function CustomTabPanel(props) {
               </Typography>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={6}>
-            <Box>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleTapChange} aria-label="basic tabs example">
                   <Tab label="Product" />
@@ -115,66 +104,41 @@ function CustomTabPanel(props) {
               </Box>
               <CustomTabPanel value={value} index={0}>
                 <div style={{ position: 'relative'}}>
-                  <AutoPlaySwipeableViews
-                    axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-                    index={activeStep}
-                    onChangeIndex={handleStepChange}
-                    enableMouseEvents
-                    style={{ height: '100%'}}
-                  >
+                <Swiper
+                  spaceBetween={30}
+                  centeredSlides={true}
+                  autoplay={{
+                    delay: 2500,
+                    disableOnInteraction: false,
+                  }}
+                  pagination={{
+                    clickable: true,
+                  }}
+                  navigation={true}
+                  modules={[Autoplay, Pagination, Navigation]}
+                  className="mySwiper"
+                >
                   {images.map((step, index) => (
-                    <div key={step.label} >
-                            {Math.abs(activeStep - index) <= 2 ? (
-                              <Box
-                                component="img"
-                                sx={{
-                                  position: 'relative',
-                                  maxHeight: '63vh', // Limit the height of the image to 60vh
-                                  width: 'auto', // Allow the width to adjust automatically to maintain aspect ratio
-                                  maxWidth: '100%', // Ensure the image does not exceed the width of its container
-                                  objectFit:"contain"
-                                }}
-                                src={step.path}
-                                alt={step.label}
-                              />
-                            ) : null}
-                          </div>
-                        ))}
-                  </AutoPlaySwipeableViews>
-                  <MobileStepper
-                    variant='dots'
-                    steps={imagesSize}
-                    position="static"
-                    activeStep={activeStep}
-                    sx  = {{
-                      justifyContent : 'center' // did for en Abdullah Alhasan
-                    }}
-                    nextButton={
-                      <Button
-                        size="small"
-                        onClick={handleNext}
-                        disabled={activeStep === imagesSize - 1}
-                        sx={{ position: 'absolute', right: 0 }}
-                      >
-                        Next
-                        {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                      </Button>
-                    }
-                    backButton={
-                      <Button
-                        size="small"
-                        onClick={handleBack}
-                        disabled={activeStep === 0}
-                        sx={{ position: 'absolute', left: 0 }}
-                      >
-                        {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                        Back
-                      </Button>
-                    }
-                  />
+                    <SwiperSlide key={step.label}>
+                    <Box
+                      component="img"
+                      sx={{
+                        position: 'relative',
+                        maxHeight: '63vh', // Limit the height of the image to 60vh
+                        width: 'auto', // Allow the width to adjust automatically to maintain aspect ratio
+                        maxWidth: '100%', // Ensure the image does not exceed the width of its container
+                        objectFit: 'contain'
+                      }}
+                      src={step.path}
+                      alt={step.label}
+                    />
+                  </SwiperSlide>
+                  ))}
+                </Swiper>
+                  
                 </div>
                 
-                <div style={{ position: 'static',height: '65vh',paddingTop:40}}>
+                <div style={{ position: 'static',height: '65vh'}}>
                   <Divider />
                   <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>Features of the Template</Typography>
       
@@ -187,13 +151,12 @@ function CustomTabPanel(props) {
               <CustomTabPanel value={value} index={1} >
                 Item Two
               </CustomTabPanel>
-            </Box>
           </Grid>
           <Grid item xs={12} sm={12} md={12} lg={6}>
               <CustomCard title="Purchase" items={itemsPurchase}>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                    <Button
-                      onClick={() => addToCart(product)}
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <Link to={`/cart?productId=${product.id}`} >
+                    <Button 
                       variant="contained"
                       size="large"
                       fullWidth
@@ -202,7 +165,7 @@ function CustomTabPanel(props) {
                         color: '#fff',
                         border: 'none',
                         padding: '10px 10px',
-                        borderRadius: '5px',
+                        borderRadius: '10px',
                         cursor: 'pointer',
                         transition: 'background-color 0.3s ease',
                         '&:hover': {
@@ -212,66 +175,27 @@ function CustomTabPanel(props) {
                     >
                       Add to Cart
                     </Button>
-                  </div>
+                  </Link>
+                </div>
               </CustomCard>
-              
-              <Divider />
-              <CustomCard title="info" items={itemsInfo}>
-              <Grid item xs={12}>
-                      <Typography variant="body2" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <Typography variant="body1" sx={{ paddingBottom: 1 }}> Attached Files: </Typography>
-                        <Chip label={product["attached files"].php} color="primary" clickable style={{ marginRight: '10px' }} />
-                        <Chip label={product["attached files"].javascript} color="primary" clickable style={{ marginRight: '10px' }} />
-                        <Chip label={product["attached files"].html} color="primary" clickable style={{ marginRight: '10px' }} />
+              <CustomCard title="Info" items={itemsInfo}>
+                <Grid item xs={12}>
+                    <Typography variant="body2" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                      <Typography variant="body1" sx={{ paddingBottom: 1 }}> Attached Files: </Typography>
+                      <Chip label={product["attached files"].php} color="primary" clickable style={{ marginRight: '10px' }} />
+                      <Chip label={product["attached files"].javascript} color="primary" clickable style={{ marginRight: '10px' }} />
+                      <Chip label={product["attached files"].html} color="primary" clickable style={{ marginRight: '10px' }} />
 
-                      </Typography>
-                      <Divider />
-                      <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1 }}>Creator</Typography>
-                      <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px' ,paddingTop:1}}>
-                        <Avatar src={product.image} sx={{ width: 32, height: 32 }} /> {product.creator}
-                      </Typography>
-                    </Grid>
+                    </Typography>
+                    <Divider />
+                    <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1 }}>Creator</Typography>
+                    <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px' ,paddingTop:1}}>
+                      <Avatar src={product.image} sx={{ width: 32, height: 32 }} /> {product.creator}
+                    </Typography>
+                </Grid>
+              </CustomCard> 
+              <CustomCard title="Ratings" items={itemsReviews}>
               </CustomCard>
-              
-              
-              <Divider />
-              <Box sx={{paddingTop:'20px' }} maxWidth="lg">
-              <Card>
-                <CardContent>
-                  <Typography variant="h4">
-                      Ratings
-                  </Typography>
-                  <Divider />
-                  <Grid container spacing={2}>
-                    {/* Left side: labels */}
-                    <Grid item xs={6} container direction="column">
-                      <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                        quality of the work
-                      </Typography>
-                      <Typography variant="body1" sx={{ paddingTop: 1.8, paddingBottom: 1 }}>
-                        communication
-                      </Typography>
-                      <Typography variant="body1" sx={{ paddingTop: 1.8, paddingBottom: 1 }}>
-                        usability
-                      </Typography>
-                    </Grid>
-
-                    {/* Right side: values */}
-                    <Grid item xs={6} container direction="column">
-                      <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <Rating name="quality of the work" value={2} readOnly />
-                      </Typography>
-                      <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <Rating name="communication" value={4} readOnly />
-                      </Typography>
-                      <Typography variant="body1" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                        <Rating name="usability" value={3} readOnly />
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </CardContent>
-              </Card>
-              </Box>
           </Grid>
         </Grid>
       </Container>

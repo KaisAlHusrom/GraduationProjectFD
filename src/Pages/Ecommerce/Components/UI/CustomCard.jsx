@@ -31,8 +31,8 @@ const StyledCustomCard = styled(Box)(
 const CustomCard = (props) => {
     const {title,items,children} =props;
     return (
-        <Box sx={{paddingTop:'45px' }} maxWidth="lg">
-            <Card>
+        <Box sx={{paddingTop:'20px' }} maxWidth="lg">
+            <Card sx={{borderRadius:"15px"}}>
                 <CardContent>
                 <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
                     {title}
