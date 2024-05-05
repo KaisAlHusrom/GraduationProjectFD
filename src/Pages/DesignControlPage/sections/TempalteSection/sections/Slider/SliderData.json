@@ -531,6 +531,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "1",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "Head3",
@@ -1121,6 +1123,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "1",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "AssessmentIcon",
@@ -1391,6 +1395,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "2",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "Head3",
@@ -1661,6 +1667,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "3",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "text",
@@ -2250,6 +2258,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "1",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "ModeStandbyIcon",
@@ -2520,6 +2530,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "2",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "Head3",
@@ -2790,6 +2802,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "3",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "text",
@@ -3379,6 +3393,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "1",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "ContactlessIcon",
@@ -3649,6 +3665,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "2",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "Head3",
@@ -3919,6 +3937,8 @@
                     "element_name": "title",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "3",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "text",

@@ -184,6 +184,7 @@ export const SectionsDesigns = galleryImages.map((image, index) => (
                 "element_name": "adding",
                 "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                 "is_element": true,
+                "sequenceNumber" : "1",
                 "element": {
                     "element_type_id": 4,
                     "element_type": "image",

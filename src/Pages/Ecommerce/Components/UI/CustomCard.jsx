@@ -44,7 +44,7 @@ const CustomCard = (props) => {
                         <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1 }}>{item.contentTitle}</Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography variant="h6" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                        <Typography variant="h6"  sx={{ paddingTop: 1, paddingBottom: 1 }}>
                         {item.content}
                         </Typography>
                     </Grid>

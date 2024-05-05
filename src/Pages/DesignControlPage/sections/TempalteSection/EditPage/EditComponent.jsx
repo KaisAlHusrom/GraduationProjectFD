@@ -47,9 +47,11 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     const [componentData, setComponentData] = useState(component); // using for control the component data
 
-    const [AddElement , setAddElement] = elements   // using for add the elements to component when user is did 
+    const [AddElement ] = elements   // using for add the elements to component when user is did 
 
-
+    console.log(typeof(handleAddNewElement))
+    console.log(typeof(elements))
+    console.log(typeof(componentId))
 
     // add element to component 
     useEffect(() => {
@@ -98,18 +100,44 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
             });
     };
 
+    const reorderElements = (elements, oldIndex, newIndex) => {
+        const reorderedElements = [...elements];
+        const movedElement = reorderedElements.splice(oldIndex, 1)[0];
+        reorderedElements.splice(newIndex, 0, movedElement);
+        return reorderedElements;
+    };
+    const handleMoveElement = (oldIndex, newIndex) => {
+        const reorderedElements = reorderElements(componentData.component_elements, oldIndex, newIndex);
+        // Yeni sıralama ile güncellenmiş öğeleri alıp, her bir öğeye sequenceNumber'ı güncelleyerek yeni diziyi oluşturuyoruz
+        const updatedElements = reorderedElements.map((element, index) => ({
+            ...element,
+            sequenceNumber: index + 1, // Sequence number'ı 1'den başlayarak güncelliyoruz
+        }));
+        setComponentData((prevData) => ({
+            ...prevData,
+            component_elements: updatedElements,
+        }));
+    };
+    
+
+
 
     return (
         <StyledEditComponent sx={componentStyle}>
-            {componentData.component_elements && componentData.component_elements.map((element, i) => (
-                <Box key={`${component.section_component_id}-${element.component_element_id}-${i}`}>
-                    <EditElement
-                    element={element}
-                    deleteElementForComponent={deleteElementForComponent}
-                    componentId={component.section_component_id}
-                    />
-                </Box>
-            ))}
+            {componentData.component_elements
+                // Elemanları sequenceNumber özelliğine göre sırala
+                .sort((a, b) => a.sequenceNumber - b.sequenceNumber)
+                .map((element, i) => (
+                    <Box key={`${component.section_component_id}-${element.component_element_id}-${i}`}>
+                        <EditElement
+                            element={element}
+                            deleteElementForComponent={deleteElementForComponent}
+                            componentId={component.section_component_id}
+                            handleMoveElement={handleMoveElement} 
+                            componentData={componentData}
+                        />
+                    </Box>
+                ))}
             <TooltipContainer>
                 <AdminMainButton
                     title="Edit"
@@ -141,10 +169,15 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
             </TooltipContainer>
         </StyledEditComponent>
     );
+    
 };
 
 EditComponent.propTypes = {
-    component: propTypes.object
+    component: propTypes.object,
+    handleAddNewElement : propTypes.func,
+    elements : propTypes.object,
+    componentId : propTypes.object
+
 }
 
 

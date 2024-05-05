@@ -1,5 +1,4 @@
 export const productList = [
-  
     {
       "id":0,
       "title": "Product 1",
