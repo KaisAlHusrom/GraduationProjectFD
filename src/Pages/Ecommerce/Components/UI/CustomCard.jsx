@@ -39,12 +39,16 @@ const CustomCard = (props) => {
                 </Typography>
                 <Divider />
                 {items.map((item, index) => (
-                    <Grid key={index} item container spacing={2}>
+                    <Grid key={index} item container spacing={2} >
                     <Grid item xs={6}>
                         <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1 }}>{item.contentTitle}</Typography>
                     </Grid>
                     <Grid item xs={6}>
+<<<<<<< HEAD
                         <Typography variant="h6"  sx={{ paddingTop: 1, paddingBottom: 1 }}>
+=======
+                        <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1}}>
+>>>>>>> 7e320395fef398731bae47caaa6a37c7b0bd6bab
                         {item.content}
                         </Typography>
                     </Grid>

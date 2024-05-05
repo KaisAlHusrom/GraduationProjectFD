@@ -1,6 +1,6 @@
 //React
 import {
-    useEffect,useState
+    
 } from 'react'
 
 import {
@@ -8,15 +8,15 @@ import {
 } from 'react-redux'
 
 //Components
-
+import { CartData } from '../../data/CartData'
 
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { useLocation } from 'react-router-dom';
-import {productList} from '../../data/CradsData'
+
+
 //propTypes 
 import propTypes from 'prop-types'
 
@@ -28,19 +28,25 @@ const StyledCart = styled(Box)(
 )
 
 
+
 const Cart = () => {
-    const location = useLocation();
-    const searchParams = new URLSearchParams(location.search);
-    const productId = searchParams.get('productId');
+    const cartItems = CartData;
+
     return (
         <StyledCart>
-            Id:{productId}
+             <div>
+      <h1>Cart</h1>
+      <ul>
+        {cartItems.map((productId, index) => (
+          <li key={index}>{productId}</li>
+        ))}
+      </ul>
+    </div>
         </StyledCart>
     );
 };
+export default Cart;
 
 Cart.propTypes = {
     children: propTypes.array
 }
-
-export default Cart;

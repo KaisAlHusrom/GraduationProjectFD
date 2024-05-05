@@ -1,6 +1,6 @@
 import {useState } from 'react';
 import { productList } from '../../data/CradsData';
-import { useParams,Link } from 'react-router-dom';
+import { useParams,useNavigate } from 'react-router-dom';
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -22,6 +22,7 @@ import images from '../../data/SliderImages';
 import Footer from '../Footer';
 import CustomCard from '../UI/CustomCard';
 import '../Styles/CustomSwiper.css';
+import { CartData } from '../../data/CartData';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 // Import Swiper styles
@@ -51,13 +52,28 @@ function CustomTabPanel(props) {
 
   const ProductView = () => {
     const [value, setValue] = useState(0);
+    const Navigate = useNavigate();
+    const [cartItems, setCartItems] = useState(CartData);
 
-
+    
     const { idx } = useParams();
     const product = productList.find((product) => product.id === parseInt(idx));
     if (!idx || !product) {
       return <Typography variant="h2">Product not found</Typography>;
     }
+
+    const handleAddCartBtn = () => {
+      // Update the list of product IDs with the new productId
+    const updatedCartItems = [...cartItems, product.id];
+    setCartItems(updatedCartItems);
+
+    // Update the CartData with the new list of product IDs
+    CartData.push(product.id);
+      Navigate('/Cart')
+    };
+  
+
+    
     
 
     const handleTapChange = (event, newValue) => {
@@ -75,9 +91,9 @@ function CustomTabPanel(props) {
       // Add more items as needed
     ];
     const itemsReviews = [
-      { contentTitle: 'quality of the work', content: <Rating name="quality of the work" value={2} readOnly />},
-      { contentTitle: 'communication', content: <Rating name="communication" value={4} readOnly /> },
-      { contentTitle: 'usability', content: <Rating name="usability" value={3} readOnly /> },
+      { contentTitle: 'quality of the work', content: <Rating name="quality of the work" value={2} readOnly sx={{paddingTop:0.3}} />},
+      { contentTitle: 'communication', content: <Rating name="communication" value={4} readOnly sx={{paddingTop:0.8}} /> },
+      { contentTitle: 'usability', content: <Rating name="usability" value={3} readOnly sx={{paddingTop:0.6}} /> },
       // Add more items as needed
     ];
 
@@ -155,8 +171,8 @@ function CustomTabPanel(props) {
           <Grid item xs={12} sm={12} md={12} lg={6}>
               <CustomCard title="Purchase" items={itemsPurchase}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <Link to={`/cart?productId=${product.id}`} >
-                    <Button 
+                    <Button
+                      onClick={handleAddCartBtn}
                       variant="contained"
                       size="large"
                       fullWidth
@@ -175,7 +191,6 @@ function CustomTabPanel(props) {
                     >
                       Add to Cart
                     </Button>
-                  </Link>
                 </div>
               </CustomCard>
               <CustomCard title="Info" items={itemsInfo}>
