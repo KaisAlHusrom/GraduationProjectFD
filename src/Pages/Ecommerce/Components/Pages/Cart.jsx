@@ -39,7 +39,7 @@ const getProductById = (productId) => {
 const Cart = () => {
     const cartItems = CartData;
     const itemsPurchase = [
-        { contentTitle: "Price", content: "" }, // Leave the content empty initially
+        { contentTitle: "", content: "" }, // Leave the content empty initially
       ];
     const renderCartItem = (productId, index) => {
         const product = getProductById(productId);
@@ -50,8 +50,7 @@ const Cart = () => {
             {product && (
               <div>
                 <h2>{product.title}</h2>
-                <p>{product.description}</p>
-                <p>Price: ${product.price}</p>
+
                 {/* Add more product information as needed */}
               </div>
             )}
@@ -72,12 +71,11 @@ return (
             </Grid>
             <Grid item xs={12} >
                 <Box 
-                    my={4}
+                    my={3}
                     display="flex"
                     alignItems="center"
                     gap={4}
                     p={2}
-                    
                     sx={{ border: '2px solid grey' }}
                     >
                     {cartItems.length === 0 ? (
@@ -88,12 +86,19 @@ return (
                         Browse Products
                         </Button>
                     ) : (
-                        
-                        <CustomCard title="product" SecondTitle="the Cost" items={itemsPurchase}>
-                            
-                                {cartItems.map((productId, index) => renderCartItem(productId, index))}
-                            
-                        </CustomCard>
+                        <div style={{ width: '100%' }}>
+                            {cartItems.map((productId, index) => (
+                                <CustomCard
+                                    key={index} // Assuming each card needs a unique key
+                                    title={`product ${index + 1}`} // Example title
+                                    SecondTitle="the Cost" // Example second title
+                                    items={itemsPurchase}
+                                    sx={{ marginBottom: 2 }} // Set width to 100% and add margin bottom
+                                >
+                                    {renderCartItem(productId, index)}
+                                </CustomCard>
+                            ))}
+                        </div>              
                 )}
                 </Box>
             </Grid>
