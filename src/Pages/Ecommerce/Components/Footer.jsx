@@ -26,7 +26,16 @@ import propTypes from 'prop-types'
 //Styled Components
 const StyledFooter = styled(Box)(
     ({ theme }) => ({
-    
+        backgroundColor: 'black',
+        padding: '50px 0',
+        marginTop: 'auto',
+        position: "relative",
+        bottom: 0,
+        width: "100%",
+        height: "100%",
+        
+        
+        
     })
 )
 
@@ -35,7 +44,7 @@ const Footer = () => {
 
     return (
         <StyledFooter>
-            <footer style={{ backgroundColor: 'black', padding: '50px 0', marginTop: 'auto' }} id='footer'>
+            <footer id='footer'>
                 <Container maxWidth="lg">
                     <Typography variant="h6" align="center" gutterBottom>
                     Your E-commerce Site

@@ -71,10 +71,6 @@ function CustomTabPanel(props) {
     CartData.push(product.id);
       Navigate('/Cart')
     };
-  
-
-    
-    
 
     const handleTapChange = (event, newValue) => {
       setValue(newValue);

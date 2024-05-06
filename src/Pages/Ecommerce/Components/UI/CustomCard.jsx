@@ -29,14 +29,24 @@ const StyledCustomCard = styled(Box)(
 
 
 const CustomCard = (props) => {
-    const {title,items,children} =props;
+    const {title,SecondTitle,items,children} =props;
     return (
         <Box sx={{paddingTop:'20px' }} maxWidth="lg">
             <Card sx={{borderRadius:"15px"}}>
                 <CardContent>
-                <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                    <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
                     {title}
-                </Typography>
+                    </Typography>
+                    </Grid>
+                    <Grid item xs={6}>
+                    <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                    {SecondTitle}
+                    </Typography>
+                    </Grid>
+                </Grid>
+                
                 <Divider />
                 {items.map((item, index) => (
                     <Grid key={index} item container spacing={2} >
@@ -44,7 +54,9 @@ const CustomCard = (props) => {
                         <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1 }}>{item.contentTitle}</Typography>
                     </Grid>
                     <Grid item xs={6}>
-                        <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1}}>
+
+                        <Typography variant="h6"  sx={{ paddingTop: 1, paddingBottom: 1 }}>
+
                         {item.content}
                         </Typography>
                     </Grid>
