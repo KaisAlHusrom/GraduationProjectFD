@@ -10,7 +10,7 @@ import { useMyCreateElementContext } from "../Pages/Admin/Components/CreateEleme
 import { useTheme } from "@emotion/react";
 
 import { styled } from '@mui/system'
-import { convertStyleFromObjectToJsCode } from "./writeStyleObject";
+import { convertStyleFromObjectToJsCode, convertStyleToCssShape } from "./writeStyleObject";
 
 
 //functions
@@ -63,8 +63,9 @@ export const GenerateTag = ({selectedTemplate, elementStyle}) => {
 
     const type = sortedData ? sortedData.element_type?.element_type_name : "";
     const content = sortedData ? sortedData.element_content : "";
-    const styles = sortedData ? convertStyleFromObjectToJsCode(sortedData.styles) : []
-
+    const styles = useMemo(() => {
+        return sortedData ? convertStyleToCssShape(sortedData.styles) : []
+    }, [sortedData])
     const key = sortedData ? sortedData.id : "";
     const hasChildren = sortedData ? sortedData.children?.length > 0 ? true : false : false
 
@@ -163,6 +164,8 @@ const Tag = (props) => {
             return <input {...defaultProps}  />;
         case 'text field files':
             return <input {...defaultProps}  />;
+        case 'paragraph':
+            return <Typography {...defaultProps} variant="body2" component="p">{exampleText}</Typography>;
         case 'heading 1':
             return <Typography {...defaultProps} variant="h1">{exampleText}</Typography>;
         case 'heading 2':

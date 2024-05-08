@@ -20,11 +20,6 @@ import {
 import { styled } from '@mui/system'
 
 //services
-import TemplateElementSettings from '../TemplateElementSettings/TemplateElementSettings'
-
-
-
-import TemplateElementStyleSettings from '../TemplateElementStyleSettings/TemplateElementStyleSettings'
 import { transformElementTypeToDesignStructure } from '../../../../Helpers/transformData'
 
 
@@ -36,8 +31,11 @@ const MyCreateElementContext = createContext();
 
 //Styled Components
 const StyledCreateElementTemplate = styled(Stack)(
-    () => ({
-    
+    ({theme}) => ({
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: theme.spacing(2),
     })
 )
 
@@ -73,10 +71,9 @@ const CreateElementTemplate = () => {
 
 
     const [selectedElement, setSelectedElement] = useState(null)
-
-
     const [template, setTemplate] = useState(null)
     useEffect(() => {
+        //this effect for the first rendering only, because selectedElement shouldn't change later
         if(selectedElement) {
             
             // Call the transformData function with the original data
@@ -91,8 +88,23 @@ const CreateElementTemplate = () => {
     }, [selectedElement])
     
     const [elementsStyle, setElementsStyle] = useState(null)
-    const [selectedSubElementIds, setSelectedSubElementIds] = useState([])
     const [hoveredSubElementId, setHoveredSubElementId] = useState(null)
+
+    const [selectedSubElementIds, setSelectedSubElementIds] = useState([])
+    useEffect(() => {
+        if (template && template.id) {
+            setSelectedSubElementIds((prev) => {
+                if(prev.length === 0) {
+                    return [template.id]
+                }
+                return prev
+            });
+        } else {
+            setSelectedSubElementIds([]);
+        }
+
+    }, [template, setSelectedSubElementIds])
+
 
     return (
         <MyCreateElementContext.Provider value={{
@@ -108,12 +120,12 @@ const CreateElementTemplate = () => {
         }}
         >
             
-            <StyledCreateElementTemplate spacing={4} direction="column" alignItems="center">
+            <StyledCreateElementTemplate >
                 <TemplateDevView  />
 
-                <TemplateElementSettings  />
+                {/* <TemplateElementSettings  /> */}
 
-                <TemplateElementStyleSettings />
+                {/* <TemplateElementStyleSettings /> */}
             </StyledCreateElementTemplate>
         </MyCreateElementContext.Provider>
         

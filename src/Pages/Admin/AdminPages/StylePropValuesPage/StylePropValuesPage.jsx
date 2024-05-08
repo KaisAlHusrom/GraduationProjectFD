@@ -56,6 +56,7 @@ const columns = {
     style_prop: "many-to-one",
     style_prop_value_normal_name: "string",
     style_prop_value_css_name: "string",
+    style_prop_value_description: "text",
     style_prop_value_image: "image",
     created_at: "dateTime",
     updated_at: "dateTime",

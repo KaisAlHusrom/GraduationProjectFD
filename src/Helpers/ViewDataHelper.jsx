@@ -196,6 +196,7 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
 
         if(columns[column] === "many-to-one") {
             const row = manyToOne.filter(relation => relation["field_name"] === column)[0]
+
             return cell[row["fetched_column"]]
         }
 
@@ -223,12 +224,12 @@ const getAppropriateTextField = (
     ) => {
     const type = columns[column].split('|')[0]
     const values = type === "enum" ? columns[column].split('|')[1].split(",") : null;
-
+    
 
     const changeFunc = (event) => handleChangeData(event, type, setRowData, null, null); 
     const enterKeyDownFunc = (event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)
 
-    if(cell !== null){
+    // if(cell !== null){
 
 
         if (columns[column] === "pk") return <Typography color="error" variant='body2'>Can not Update The Id</Typography>;
@@ -336,7 +337,7 @@ const getAppropriateTextField = (
                 maxRows={5} // Adjust the maximum number of rows as needed
                 placeholder={StringHelper.capitalizeEachWord(column.split("_").join(" "))}
                 name={column}
-                value={cell}
+                value={cell ? cell : ""}
                 onChange={changeFunc}
                 onKeyDown={enterKeyDownFunc}
                 
@@ -375,56 +376,57 @@ const getAppropriateTextField = (
         }
         
 
-    }else {
-        if(columns[column] === "image" || columns[column] === "file") {
-            return <Typography color="info.main" variant='body2'>Updating...</Typography>;
-        } else {
-            if(columns[column] === "many-to-many" || columns[column] === "many-to-one" || columns[column] === "one-to-many") {
-                return (
-                                    <RelationTextField
-                                        relationType={columns[column]}
-                                        columnName ={column}
-                                        relations={relations}
-                                        originalData={cell}
-                                        setShowTextField={setShowTextField}
-                                        handleChangeData={handleChangeData}
-                                        handleEnterKeyDown={handleEnterKeyDown}
-                                        setNewData={setRowData}
-                                        pkColumnData={pkColumnData}
-                                        row={row}
-                                    />  
-                                )
-            }
-
-            if(type === "enum") {
-                return <Autocomplete
-                    disablePortal
-                    options={values}
-                    fullWidth
-                    size="small"
-                    value={cell}
-                    onChange={(event, newValue) => handleChangeData(event, type, setRowData, column, newValue)}
-                    renderInput={(params) => <TextField {...params} label={column} />}
-                />
-            }
-
-            if(type === "int") {
-                return <StyledTextField
-                    type="number"
-                    size="small"
-                    name={column}
-                    value={cell}
-                    onChange={changeFunc}
-                    onKeyDown={enterKeyDownFunc}
-                    // error={data?.error ? true : false}
-                    // helperText={data?.error ? data.error : ''}
-                    />
-            }
-            
-            return <CloseIcon color="error" />
-        }
     }
-}
+    // else {
+    //     if(columns[column] === "image" || columns[column] === "file") {
+    //         return <Typography color="info.main" variant='body2'>Updating...</Typography>;
+    //     } else {
+    //         if(columns[column] === "many-to-many" || columns[column] === "many-to-one" || columns[column] === "one-to-many") {
+    //             return (
+    //                                 <RelationTextField
+    //                                     relationType={columns[column]}
+    //                                     columnName ={column}
+    //                                     relations={relations}
+    //                                     originalData={cell}
+    //                                     setShowTextField={setShowTextField}
+    //                                     handleChangeData={handleChangeData}
+    //                                     handleEnterKeyDown={handleEnterKeyDown}
+    //                                     setNewData={setRowData}
+    //                                     pkColumnData={pkColumnData}
+    //                                     row={row}
+    //                                 />  
+    //                             )
+    //         }
+
+    //         if(type === "enum") {
+    //             return <Autocomplete
+    //                 disablePortal
+    //                 options={values}
+    //                 fullWidth
+    //                 size="small"
+    //                 value={cell}
+    //                 onChange={(event, newValue) => handleChangeData(event, type, setRowData, column, newValue)}
+    //                 renderInput={(params) => <TextField {...params} label={column} />}
+    //             />
+    //         }
+
+    //         if(type === "int") {
+    //             return <StyledTextField
+    //                 type="number"
+    //                 size="small"
+    //                 name={column}
+    //                 value={cell}
+    //                 onChange={changeFunc}
+    //                 onKeyDown={enterKeyDownFunc}
+    //                 // error={data?.error ? true : false}
+    //                 // helperText={data?.error ? data.error : ''}
+    //                 />
+    //         }
+            
+    //         return <CloseIcon color="error" />
+    //     }
+    // }
+
 
 const ViewDataHelper = {
     checkDatabaseDataInTable,

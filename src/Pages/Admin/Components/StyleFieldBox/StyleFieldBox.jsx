@@ -1,13 +1,19 @@
 //React
-import { useEffect, useState } from 'react'
+import { useRef, useState } from 'react'
 
-import { useDispatch } from 'react-redux'
+import {  } from 'react-redux'
 
 //Components
+import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate';
 
 
 //icons
+//icons
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 
 //MUI
 import {
@@ -22,15 +28,13 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import { AdminMainButton } from '../../../../Components'
-import StylePropValues from '../StylePropValues/StylePropValues'
+import { GetAppropriateStyleValues } from '../StylePropValues/StylePropValues'
+import ChildStylePropField from '../ChildStylePropField/ChildStylePropField';
+import useStylePropValueState from '../../../../Helpers/customHooks/useStylePropValueState';
+import { checkIfStyleExist } from '../../../../Helpers/RecursiveHelpers/styles';
 import { useTheme } from '@emotion/react';
 
-//icons
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate';
-import { addStyle, changeStyleValues, checkIfStyleExist } from '../../../../Helpers/RecursiveHelpers/styles';
-import { writeStyleObject } from '../../../../Helpers/writeStyleObject';
-import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../../Redux/Slices/snackbarOpenSlice';
+
 
 //Styled Components
 // const StyledStyleFieldBox = styled(Card)(
@@ -63,7 +67,7 @@ const StyleFieldBox = (props) => {
 
     return (
         // <StyledStyleFieldBox elevation={6}>
-            <Accordion elevation={6} sx={{
+            <Accordion elevation={4} sx={{
                 borderRadius: 1,
                 marginBottom: 0,
             }}>
@@ -109,124 +113,141 @@ const StyledStyleFieldValueBox = styled(Box)(
     ({ theme }) => ({
         display: "flex",
         justifyContent: "space-between",
-        alignItems: "center",
+        flexDirection: "column",
+        alignItems: "flex-start",
+        gap: theme.spacing(2),
         width: "90%",
         marginLeft: theme.spacing(2),
         position: "relative",
-        [theme.breakpoints.down("sm")]: {
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: theme.spacing(2),
-        }
+        // [theme.breakpoints.down("sm")]: {
+        //     flexDirection: "column",
+        //     alignItems: "flex-start",
+        //     gap: theme.spacing(2),
+        // }
     })
 );
 
 export const StyledFieldValue = ({prop}) => {
-
     const theme = useTheme()
-    const dispatch = useDispatch()
-
     const {template, setTemplate, selectedSubElementIds} = useMyCreateElementContext()
+    const [openChildren, setOpenChildren] = useState(false)
+    //ref
+    const containerRef = useRef()
     
-    const [value, setValue] = useState(() => null)
-    //extract the appropriate value from value state to cssValue
-    const [cssValue, setCssValue] = useState(null)
-    useEffect(() => {
-        if(value) {
-            console.log(value)
-            if(prop.style_prop_value_type === "color") {
-                setCssValue(() => value)
-            }
-            
-            if(prop.style_prop_value_type === "string") {
-                setCssValue(() => value.style_prop_value_css_name)
-            }
+    const {
+        value, 
+        setValue,
+        cssValue,
+        handleAddNewStyle,
+        handleDeleteStyleProp,
+        mainDirections, setMainDirections,
+        cornerDirections, setCornerDirections
+    } = useStylePropValueState(prop, template, setTemplate, selectedSubElementIds)
 
-            if(prop.style_prop_value_type !== "string") {
-                setCssValue(() => value)
-            } 
-        }
-
-    }, [prop.style_prop_value_type, value])
-
-    //when change already added style prop it will be changed directly
-    //TODO in applied styles there is delay in change state
-    useEffect(() => {
-        const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
-        if(value && selectedSubElementIds.length > 0 && checkIfStyleExist(template, selectedSubElementIds, writeStyleObject(prop, cssValue)))  {
-            const changed = changeStyleValues([updatedSelectedTemplate], selectedSubElementIds, writeStyleObject(prop, cssValue))
-            if (changed) {
-                setTemplate(() => updatedSelectedTemplate)
-                console.log(updatedSelectedTemplate)
-            } else {
-                dispatch(setSnackbarIsError({isError: true}))
-                dispatch(setSnackbarMessage({message: "This style is already added."}))
-                dispatch(handleOpenSnackbar())
-            }
-        } 
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, setTemplate, value])
-
-    
-
-    const handleAddNewStyle = () => {
-
-        if(selectedSubElementIds && selectedSubElementIds.length > 0) {
-            const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
-            const added = addStyle([updatedSelectedTemplate], selectedSubElementIds, writeStyleObject(prop, cssValue));
-            if (added) {
-                setTemplate(() => updatedSelectedTemplate)
-            } else {
-                dispatch(setSnackbarIsError({isError: true}))
-                dispatch(setSnackbarMessage({message: "This style is already added."}))
-                dispatch(handleOpenSnackbar())
-            }
-        } else {
-            dispatch(setSnackbarIsError({isError: true}))
-            dispatch(setSnackbarMessage({message: "There is no selected template"}))
-            dispatch(handleOpenSnackbar())
-            
-        }
+    const handleOpenChildren = () => {
+        setOpenChildren(prev => !prev)
     }
 
     return (
+        
+            !prop.parent_id ?
             <StyledStyleFieldValueBox>
-                <Typography variant='body2' fontSize={18}>
-                    {prop.style_prop_normal_name}
-                </Typography>
-                <Box display="flex" alignItems="center" gap={2} >
-                    <Box width={200} display="flex" alignItems="center" gap={2}>
-                        {/* <Typography variant='h7'>value: </Typography> */}
-                        <StylePropValues 
-                            label={prop.style_prop_normal_name} 
-                            stylePropValueType={prop.style_prop_value_type} 
-                            stylePropValues={prop.options} 
-                            valueState={{value, setValue, cssValue}}
-                        />
-                    </Box>
-                    {/* <Box width={250} display="flex" alignItems="center" gap={2}>
-                    <Typography variant='h7'>when: </Typography>
-                        <StylePropValues label={stylePropName} stylePropValueType={stylePropValueType} stylePropValues={stylePropValues} />
-                    </Box> */}
-
+            <Typography variant='body2' fontSize={18}>
+                {prop.style_prop_normal_name}
+            </Typography>
+            <Box width={"100%"} display="flex" alignItems="center" gap={2} >
+                <Box width={"80%"} display="flex" alignItems="center" flexDirection={'column'} gap={2} ref={containerRef} >
+                    {/* <Typography variant='h7'>value: </Typography> */}
+                    {
+                        openChildren 
+                        ?
+                            prop?.children && prop.children.length > 0 
+                            ?
+                                prop.children.map((childProp, key) => {
+                                    //TODO: fix the children style props and complete style_prop_value_type
+                                    return (
+                                        <ChildStylePropField 
+                                            key={key} prop={childProp}
+                                            valueState={{value, setValue, cssValue}}
+                                        />
+                                    )
+                                })
+                            : null
+                            
+                        :
+                            <GetAppropriateStyleValues 
+                                label={prop.style_prop_normal_name} 
+                                stylePropValueType={prop.style_prop_value_type} 
+                                stylePropValues={prop.options} 
+                                valueState={{value, setValue, cssValue}}
+                                locateTypes={prop.locateTypes}
+                                directionsState={{mainDirections, setMainDirections, cornerDirections, setCornerDirections}}
+                            />
+                    }
                 </Box>
+                {/* <Box width={250} display="flex" alignItems="center" gap={2}>
+                <Typography variant='h7'>when: </Typography>
+                    <StylePropValues label={stylePropName} stylePropValueType={stylePropValueType} stylePropValues={stylePropValues} />
+                </Box> */}
+
+            </Box>
+            <Box sx={{
+                    position: "absolute",
+                    right: -10,
+                    top: -5,
+                    // [theme.breakpoints.down("sm")]: {
+                    //     right: 0,
+                    // }
+                }}>
+            {
+                !openChildren
+                &&
+                (checkIfStyleExist(template, selectedSubElementIds, prop, cssValue)
+                ?
+                    <AdminMainButton 
+                        type='custom' 
+                        icon={<DeleteOutlineOutlinedIcon />}
+                        appearance='iconButton'
+                        title='deleteStyleProp'
+                        filled
+                        onClick={handleDeleteStyleProp}
+                        sx={{
+                            color: theme.palette.error.main
+                        }}
+                    />
+                    
+                :
+                    <AdminMainButton 
+                        type='custom' 
+                        icon={<AddOutlinedIcon />}
+                        appearance='iconButton'
+                        title='addStyleProp'
+                        filled
+                        onClick={handleAddNewStyle}
+                    />
+                )
+            }
+            {
+                prop?.children && prop?.children.length > 0 &&
                 <AdminMainButton 
                     type='custom' 
-                    icon={<AddOutlinedIcon />}
+                    icon={openChildren === true ? <KeyboardArrowUpOutlinedIcon /> :<KeyboardArrowDownOutlinedIcon />}
                     appearance='iconButton'
                     title='addStyleProp'
                     filled
+                    
+                    onClick={handleOpenChildren}
                     sx={{
-                        position: "absolute",
-                        right: -60,
-                        [theme.breakpoints.down("sm")]: {
-                            right: 0,
-                        }
+                        ml:1,
                     }}
-                    onClick={handleAddNewStyle}
                 />
-            </StyledStyleFieldValueBox>
+            }
+            </Box>
+        </StyledStyleFieldValueBox>
+
+            : null
+        
+            
     )
 }
 

@@ -90,7 +90,7 @@ export const updateTemplate = async (axiosAPI, id, newData) => {
 
         // Create a new cancel token for this request
         cancelTokenSource = axios.CancelToken.source();
-
+        console.log(newData)
         // Assuming id is included in the newData object and you're updating a specific resource identified by its id
         // Make the request with the new cancel token
         const response = await axiosAPI.post(
