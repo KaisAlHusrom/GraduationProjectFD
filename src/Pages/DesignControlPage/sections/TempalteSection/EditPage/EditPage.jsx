@@ -15,7 +15,7 @@ import { AdminMainButton } from '../../../../../Components/index.jsx';
 import StyleBox from '../components/StyleBox.jsx';
 import {createEmptyComponent , createEmptyElement} from './Data/ConstDataComponent.jsx'
 import {SectionsDesigns } from './Data/ConstSectionsData.jsx'
-
+import SectionsModal from './Modals/SectionsModal.jsx';
 import AddElementModal from '../components/AddElementModal.jsx';
 
 //MUI
@@ -26,7 +26,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import AddComponentModal from '../components/AddComponentModal.jsx';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import SectionsModal from './Modals/SectionsModal.jsx';
+
 
 
 

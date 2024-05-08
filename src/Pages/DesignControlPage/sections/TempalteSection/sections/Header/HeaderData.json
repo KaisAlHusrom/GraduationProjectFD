@@ -552,9 +552,11 @@
             "component_elements": [
                 {
                     "component_element_id": 1,
-                    "element_name": "title",
+                    "element_name": "Head3",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "1",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "Head3",
@@ -822,9 +824,11 @@
                 },
                 {
                     "component_element_id": 2,
-                    "element_name": "title",
+                    "element_name": "text",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "2",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "text",
@@ -1092,9 +1096,11 @@
                 },
                 {
                     "component_element_id": 3,
-                    "element_name": "name",
+                    "element_name": "link",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "3",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "link",
@@ -1609,6 +1615,8 @@
                     "element_name": "image",
                     "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
                     "is_template": true,
+                    "sequenceNumber" : "1",
+
                     "element": {
                         "element_type_id": 4,
                         "element_type": "image",

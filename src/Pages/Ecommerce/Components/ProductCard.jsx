@@ -23,7 +23,15 @@ import {
     Container
 } from '@mui/material'
 import { styled } from '@mui/system'
-
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+// import required modules
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import images from '../data/SliderImages';
 //propTypes 
 import propTypes from 'prop-types'
 
@@ -32,7 +40,6 @@ import propTypes from 'prop-types'
 const StyledProductCard = styled(Box)(
     ({ theme }) => ({
         width: '100%', // Make the card take the full width of its container
-         // Add padding to the card
         marginBottom:"20px",
         display: 'flex',
         alignItems: 'center',
@@ -50,22 +57,41 @@ const ProductCard = (props) => {
     return (
         <StyledProductCard>
             <Container id="Cards">
-                <Card sx={{ maxWidth: 600 }}>
+                <Card sx={{ maxWidth: 600,borderRadius:'10px',objectFit:"contain" }}>
+                <Swiper
+                    spaceBetween={30}
+                    centeredSlides={true}
+                    autoplay={false}
+                    pagination={{
+                      clickable: true,
+                    }}
+                    navigation={true}
+                    modules={[Autoplay, Pagination, Navigation]}
+                    className="mySwiper"
+                >
+                    {images.map((step, index) => (
+                    <SwiperSlide key={step.label}>
                     <CardMedia
                         component="img"
                         height="140"
-                        image={image}
-                        alt={title}
+                        image={step.path}
+                        alt={step.label}
+                        sx={{maxHeight:150,maxWidth:"100%",objectFit:"contain"}}
                     />
+                  </SwiperSlide>
+                  ))}
+                    
+                    {/* Add additional SwiperSlides if you have more images */}
+                </Swiper>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                        {title}
+                            {title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                        {description}
+                            {description}
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
-                        Price: ${price}
+                            Price: ${price}
                         </Typography>
                         <Rating name="read-only" value={rating} readOnly />
                     </CardContent>

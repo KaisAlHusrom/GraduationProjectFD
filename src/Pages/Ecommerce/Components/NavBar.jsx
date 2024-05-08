@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components';
 import { useNavigate} from 'react-router-dom';
+import HomeIcon from '@mui/icons-material/Home';
 
 const logoStyle = {
   width: '140px',
@@ -72,7 +73,16 @@ const HandleMainButton = () => {
     };
 const handleCartClick = () => {
     Navigate('/Cart');
-    };
+};
+const handleHomeClick = () => {
+    Navigate('/LandPage');
+};
+const handleLoginClick = () => {
+    Navigate('/Login');
+};
+const handleSignUpClick = () => {
+    Navigate('/SignUp');
+};
 
 
   return (
@@ -127,6 +137,11 @@ const handleCartClick = () => {
                         onClick={HandleMainButton}
                     />
                     <Box sx={{ display: { xxs:'none',xs: 'none', sm:"none", md: 'flex' } }}>
+                        <IconButton
+                            onClick={handleHomeClick} // Add your cart click handler function here
+                        >
+                            <HomeIcon />
+                        </IconButton>
                         <MenuItem
                         onClick={() => scrollToSection('Cards')}
                         sx={{ py: '6px', px: '12px' }}
@@ -164,8 +179,7 @@ const handleCartClick = () => {
                         variant="outlined"
                         size="small"
                         component="a"
-                        href="/Login"
-                        target="_blank"
+                        onClick={handleLoginClick}
                     >
                         Sign in
                     </Button>
@@ -175,8 +189,7 @@ const handleCartClick = () => {
                         variant="contained"
                         size="small"
                         component="a"
-                        href="/SignUp"
-                        target="_blank"
+                        onClick={handleSignUpClick}
                     >
                         Sign up
                     </Button>

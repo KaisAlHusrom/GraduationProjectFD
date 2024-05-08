@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import ToggleColorMode from '../../ToggleColorMode';
-import { Link } from 'react-router-dom';
+import { useNavigate} from 'react-router-dom';
 
 const logoStyle = {
   width: '140px',
@@ -21,25 +21,35 @@ const logoStyle = {
 };
 
 function AppAppBar({ mode, toggleColorMode }) {
-  const [open, setOpen] = React.useState(false);
+const [open, setOpen] = React.useState(false);
 
-  const toggleDrawer = (newOpen) => () => {
-    setOpen(newOpen);
-  };
+const toggleDrawer = (newOpen) => () => {
+  setOpen(newOpen);
+};
 
-  const scrollToSection = (sectionId) => {
-    const sectionElement = document.getElementById(sectionId);
-    const offset = 128;
-    if (sectionElement) {
-      const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: 'smooth' });
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      });
-      setOpen(false);
-    }
-  };
+const scrollToSection = (sectionId) => {
+  const sectionElement = document.getElementById(sectionId);
+  const offset = 128;
+  if (sectionElement) {
+    const targetScroll = sectionElement.offsetTop - offset;
+    sectionElement.scrollIntoView({ behavior: 'smooth' });
+    window.scrollTo({
+      top: targetScroll,
+      behavior: 'smooth',
+    });
+    setOpen(false);
+  }
+};
+const Navigate = useNavigate();
+const handleEcommerceClick = () => {
+  Navigate('/Ecommerce');
+};
+const handleLoginClick = () => {
+  Navigate('/Login');
+};
+const handleSignUpClick = () => {
+  Navigate('/SignUp');
+};
 
   return (
     <div>
@@ -93,15 +103,12 @@ function AppAppBar({ mode, toggleColorMode }) {
               />
               <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <MenuItem
-                  // onClick={() => scrollToSection('features')}
+                  onClick={handleEcommerceClick}
                   sx={{ py: '6px', px: '12px' }}
                 >
-                  <Link to={'/Ecommerce'} underline="none" style={{
-                    textDecoration: 'none',
-                    fontWeight: 'bold',
-                  }}>
-                  E-Commerce
-                  </Link>
+                  <Typography variant="body2" color="text.primary">
+                    Ecommerce
+                  </Typography>
                 </MenuItem>
                 <MenuItem
                   onClick={() => scrollToSection('features')}
@@ -111,6 +118,7 @@ function AppAppBar({ mode, toggleColorMode }) {
                     Features
                   </Typography>
                 </MenuItem>
+                
                 <MenuItem
                   onClick={() => scrollToSection('testimonials')}
                   sx={{ py: '6px', px: '12px' }}
@@ -153,22 +161,24 @@ function AppAppBar({ mode, toggleColorMode }) {
               }}
             >
               <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
-              <Link to={'/Login'} underline="none" style={{
-                    textDecoration: 'none',
-                    fontWeight: 'bold',
-                    marginRight :'20px',
-                    padding :'5px',
-                    borderRadius :'10px'
-                  }}>
-                  Login
-                  </Link>
-              <Link to={'/SignUp'} underline="none" style={{
-                    textDecoration: 'none',
-                    fontWeight: 'bold',
-                    
-                  }}>
-                  SignUp
-                  </Link>
+              <Button
+                color="primary"
+                variant="text"
+                size="small"
+                component="a"
+                onClick={handleLoginClick}
+              >
+                Sign in
+              </Button>
+              <Button
+                color="primary"
+                variant="contained"
+                size="small"
+                component="a"
+                onClick={handleSignUpClick}
+              >
+                Sign up
+              </Button>
             </Box>
             <Box sx={{ display: { sm: '', md: 'none' } }}>
               <Button

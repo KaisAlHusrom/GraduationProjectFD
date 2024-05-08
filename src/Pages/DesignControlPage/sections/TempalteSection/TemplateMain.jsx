@@ -70,7 +70,7 @@ const TemplateMain = ({ isMobileWidth, isTabletWidth, isLaptopWidth, selectedFon
         >
             {sectionsOrder.map((section, index) => (
                 <div key={index}>
-                    {section === 'NavBar' && <NavBar moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
+                    {section === 'NavBar' && <NavBar  />}
                     {section === 'Header' && <Header moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
                     {section === 'Carousel' && <Carousel moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
                     {section === 'Work' && <Work moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
