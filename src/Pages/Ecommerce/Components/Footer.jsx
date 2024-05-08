@@ -44,7 +44,7 @@ const Footer = () => {
 
     return (
         <StyledFooter>
-            <footer id='footer'>
+            <Container id='footer'>
                 <Container maxWidth="lg">
                     <Typography variant="h6" align="center" gutterBottom>
                     Your E-commerce Site
@@ -68,7 +68,7 @@ const Footer = () => {
                     </Link>
                     </Typography>
                 </Container>
-            </footer>
+            </Container>
         </StyledFooter>
     );
 };

@@ -249,8 +249,7 @@ const handleSignUpClick = () => {
                                     color="primary"
                                     variant="contained"
                                     component="a"
-                                    href="SignUp"
-                                    target="_blank"
+                                    onClick={handleSignUpClick}
                                     sx={{ width: '100%' }}
                                     >
                                     Sign up
@@ -259,8 +258,7 @@ const handleSignUpClick = () => {
                                     color="primary"
                                     variant="outlined"
                                     component="a"
-                                    href="Login"
-                                    target="_blank"
+                                    onClick={handleLoginClick}
                                     sx={{ width: '100%',marginTop:1 }}
                                     >
                                     Sign in
