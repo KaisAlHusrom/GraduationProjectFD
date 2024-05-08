@@ -47,6 +47,7 @@ const CustomTable = (props) => {
     
     //data state
     const {rowsArray} = dataWillAppearState
+    console.log(rowsArray)
     //I get columns object to know the type of each column
     const {columns} = useMyContext();
     //primary key

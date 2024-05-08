@@ -45,8 +45,9 @@ const StyledBox = styled(Box)(
     ({ theme }) => ({
         width: '100%',
         display: 'flex',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'column',
         gap: theme.spacing()
     })
 );

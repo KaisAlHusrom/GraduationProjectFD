@@ -56,8 +56,10 @@ export const updateStyleProps = async (id, newData) => {
         "is_component": newData["is_component"] === true ? 1: 0,
         "is_element": newData["is_element"] === true ? 1 : 0,
         "is_child": newData["is_child"] === true ? 1 : 0,
+        "parent_id": newData["parent"] && newData["parent"]["id"] ? newData["parent"]["id"] : "null",
+        "category_id": newData["category"]['id'] ? newData["category"]['id'] : "null",
     };
-    console.log(submission)
+    // console.log(submission)
 
     return await updateTemplate(StylePropAPI, id, submission);
 };
