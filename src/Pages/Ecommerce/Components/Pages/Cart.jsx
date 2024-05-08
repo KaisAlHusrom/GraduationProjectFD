@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useEffect, useState } from 'react'
 
 import {
     
@@ -20,37 +18,50 @@ import {
     Rating, IconButton,Avatar
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
-import { styled } from '@mui/system'
-
 
 //propTypes 
 import propTypes from 'prop-types'
 import Footer from '../Footer'
 import CustomCard from '../UI/CustomCard'
 
-//Styled Components
-const StyledCart = styled(Box)(
-    ({ theme }) => ({
-    
-    })
-)
 
 const getProductById = (productId) => {
     return productList.find(product => product.id === productId);
   };
 
+
 const Cart = () => {
     const Navigate = useNavigate();
-    const cartItems = CartData;
+    const [price, setPrice] = useState(0);
+    const [cartItems, setCartItems] = useState(CartData);
+    useEffect(() => {
+        // Calculate the total price by summing up the prices of all items in the cartItems array
+        const totalPrice = cartItems.reduce((total, { price }) => total + price, 0);
+        // Update the price state with the calculated total price
+        setPrice(totalPrice);
+    }, [cartItems]);
+
+    
     const itemsPurchase = [
         { contentTitle: "", content: "" }, // Leave the content empty initially
     ];
     const renderCartItem = (productId, index) => {
-        const product = getProductById(productId);
-        const handleItemClick = () => {
-            // Navigate to the ProductView page with the product index as a parameter
-            Navigate(`/productView/${product.id}`);
-        }
+            const product = getProductById(productId);
+            const handleItemClick = () => {
+                // Navigate to the ProductView page with the product index as a parameter
+                Navigate(`/productView/${product.id}`);
+            }
+
+    
+        const handleItemDelete = (index) => {
+            // Create a copy of the current cart items array
+            const updatedCartItems = [...cartItems];
+            // Remove the item at the specified index
+            updatedCartItems.splice(index, 1);
+            // Update the cart items state with the updated array
+            setCartItems(updatedCartItems);
+        };
+        
         return (
             <div>
                 {product && (
@@ -82,10 +93,11 @@ const Cart = () => {
                             {/* Price */}
                             <Box sx={{paddingTop:"20px",paddingLeft:"8px"}}>
                                 <h2>${product.price}</h2>
+                                
                             </Box>
                             {/* Delete Icon */}
                             <Box sx={{paddingTop:"20px"}}>
-                                <IconButton aria-label="Delete" onClick={() => {}}>
+                                <IconButton aria-label="Delete" onClick={() => handleItemDelete(index)}>
                                 <DeleteIcon color='warning' />
                                 </IconButton>
                             </Box>
@@ -137,6 +149,7 @@ return (
                                     renderCartItem(productId, index)
                                 ))}
                             </CustomCard>
+                            
 
                         </div>       
                 )}
