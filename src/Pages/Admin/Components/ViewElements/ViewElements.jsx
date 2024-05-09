@@ -60,16 +60,9 @@ const StyledViewElements = styled(Box)(
 )
 
 const ViewElements = () => {
-    const {setSelectedSubElementIds, template} = useMyCreateElementContext()
+    const {template} = useMyCreateElementContext()
 
-    useEffect(() => {
-        if (template && template.id) {
-            setSelectedSubElementIds(() => [template.id]);
-        } else {
-            setSelectedSubElementIds([]);
-        }
-
-    }, [template, setSelectedSubElementIds])
+    
 
 
     return (

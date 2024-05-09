@@ -66,7 +66,7 @@ const EcommerceMain = () => {
                         image={product.image}
                         price={product.price}
                         rating={product.rating}
-                        action={() => handleLearnMoreClick(index)} 
+                        action={() => handleLearnMoreClick(index)}
                     />
                     </Grid>
                 ))}

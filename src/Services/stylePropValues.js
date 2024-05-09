@@ -36,6 +36,8 @@ export const addStylePropValues = async (inputValues) => {
         "style_prop_id": inputValues["style_prop"] || null,
     };
 
+    console.log(submission);
+
     return await addDataTemplate(StylePropValuesAPI, submission);
 }
 

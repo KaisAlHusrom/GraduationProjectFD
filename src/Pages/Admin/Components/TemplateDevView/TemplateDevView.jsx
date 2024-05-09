@@ -10,7 +10,7 @@ import {
 
 //MUI
 import {
-    Box, Button, Card, Chip, Typography,
+    Box, Button, Chip, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -29,11 +29,14 @@ import PreviousComponentsTemplates from '../PreviousComponentsTemplates/Previous
 import PhotoLibraryOutlinedIcon from '@mui/icons-material/PhotoLibraryOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import MediationOutlinedIcon from '@mui/icons-material/MediationOutlined';
+import TemplateElementStyleSettings from '../TemplateElementStyleSettings/TemplateElementStyleSettings'
+import FormatColorFillOutlinedIcon from '@mui/icons-material/FormatColorFillOutlined';
+
 //Styled Components
 const StyledTemplateDevView = styled(Box)(
     ({ theme }) => ({
-        width: "100%",
-        minHeight: "250px",
+        width: "90%",
+        minHeight: "calc(100vh - 200px)",
         border: "1px solid",
         borderColor: theme.palette.divider,
         borderRadius: theme.spacing(2),
@@ -48,11 +51,13 @@ const StyledTemplateDevView = styled(Box)(
     })
 )
 
-const StyledViewElements = styled(Card)(
+const StyledViewElements = styled(Box)(
     ({ theme }) => ({
         position: "absolute",
-        left: theme.spacing(),
+        left: theme.spacing(3),
         top: theme.spacing(),
+        display: "flex",
+        gap: theme.spacing()
     })
 );
 
@@ -99,6 +104,19 @@ const TemplateDevView = () => {
                             willShow={<ViewElements />}
                             drawerVariant="persistent"
                             putDrawerCloseButton
+                            drawerResizable={true}
+                        />
+                        <AdminMainButton 
+                            title='Style Settings'
+                            appearance='iconButton'
+                            type='drawer'
+                            putBorder
+                            icon={<FormatColorFillOutlinedIcon />}
+                            drawerAnchor={'right'}
+                            willShow={<TemplateElementStyleSettings />}
+                            drawerVariant="persistent"
+                            putDrawerCloseButton
+                            drawerResizable={true}
                         />
                     </StyledViewElements>
                     {editableElement}
@@ -184,7 +202,7 @@ const ElementModeOptions = () => {
 
 // the options that will appear when user select component mode
 const ComponentModeOptions = () => {
-    const {selectedElement, setSelectedElement} = useMyCreateElementContext()
+    const {setSelectedElement} = useMyCreateElementContext()
 
     const handleOpenBlankComponent = useCallback(async () => {
         const emptyComponent = await fetchElementTypesRows(
