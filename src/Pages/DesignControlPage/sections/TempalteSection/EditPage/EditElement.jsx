@@ -39,8 +39,25 @@ const TooltipContainer = styled(Box)({
     opacity: 0,
     transition: 'opacity 1s ease',
     zIndex: 999,
+    
 });
 
+
+
+const buttonStyle = {
+    width: '20px',
+    height: '0px',
+    border: '1px solid red',
+    padding: '10px 15px',
+    fontWeight: 'bold',
+    color: 'white.main',
+    backgroundColor: '#062c06',
+    transition: 'background-color 0.3s',
+    marginBottom : '2px',
+    '&:hover': {
+        backgroundColor: 'rgb(7, 15, 43)',
+    },
+};
 
 
 const EditElement = ({ element, deleteElementForComponent, componentId , handleMoveElement , componentData }) => {
@@ -86,7 +103,8 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
         deleteElementForComponent(componentId, elementData.component_element_id);
     };
 
-
+    
+    // to change the order of elements 
     const handleOrderElementClick = (event, direction, currentSequenceNumber) => {
         event.stopPropagation();
         const elementsCount = componentData.component_elements.length;
@@ -98,8 +116,6 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
         }
         handleMoveElement(currentSequenceNumber - 1, newIndex);
     };
-
-
     return (
 
         <StyledEditElement
@@ -109,8 +125,10 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                 getAppropriateTag(elementData.element, title, elementStyle)
                 }
             <TooltipContainer>
+            <div style={{ position: 'absolute', height : '50px' , flexWrap : 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>
+
                 <AdminMainButton
-                    title="Edit"
+                    title = ""
                     type="StyleDialog"
                     appearance="iconButton"
                     putTooltip
@@ -128,80 +146,50 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                             styleProperties={['opacity', 'borderRadius', 'width', "fontSize", "fontWeight", 'height']}
                         />
                     }
-                    sx={{
-                        width: '40px',
-                        height: '40px',
-                        border: '1px solid red',
-                        padding: '10px 15px',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: '#304D30',
-                        position: 'absolute',
-                        left: 0,
-                        transition: 'background-color 0.3s',
-                        '&:hover': {
-                            backgroundColor: 'rgb(7, 15, 43)',
-                        },
-                    }}
+                    sx={buttonStyle}
                 />
                 <AdminMainButton
-                    title="Delete"
+                    title = ""
                     type="custom"
                     appearance="iconButton"
                     putTooltip
                     icon={<DeleteSweepIcon />}
                     onClick={handleDeleteElementClick}
-                    sx={{
-                        width: '40px',
-                        height: '40px',
-                        border: '1px solid red',
-                        padding: '10px 15px',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: 'warning.dark',
-                        position: 'absolute',
-                        right: '0'
-                    }}
-                />
-                <AdminMainButton
-                    title="Up"
-                    type="custom"
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<KeyboardArrowUpIcon />}
-                    onClick={(e) => handleOrderElementClick(e, 'up' ,elementData.sequenceNumber)}
+                    // sx = {buttonStyle}
                     sx={{
                         width: '20px',
-                        height: '20px',
+                        height: '0px',
                         border: '1px solid red',
                         padding: '10px 15px',
                         fontWeight: 'bold',
                         color: 'white.main',
                         backgroundColor: 'warning.dark',
-                        position: 'absolute',
-                        right: '150px'
+                        transition: 'background-color 0.3s',
+                        marginBottom : '2px',
+                        '&:hover': {
+                            backgroundColor: 'rgb(7, 15, 43)',
+                        },
                     }}
                 />
-                <AdminMainButton
-                    title="Down"
-                    type="custom"
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<KeyboardArrowDownIcon />}
-                    onClick={(e) => handleOrderElementClick(e, 'down' , elementData.sequenceNumber)}
-                    sx={{
-                        width: '20px',
-                        height: '20px',
-                        border: '1px solid red',
-                        padding: '10px 15px',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: 'warning.dark',
-                        position: 'absolute',
-                        right: '150px',
-                        top: '20px',
-                    }}
-                />
+            <AdminMainButton
+                title = ""
+                type="custom"
+                appearance="iconButton"
+                putTooltip
+                icon={<KeyboardArrowUpIcon />}
+                onClick={(e) => handleOrderElementClick(e, 'up' ,elementData.sequenceNumber)}
+                sx={buttonStyle}
+            />
+            <AdminMainButton
+                title = ""
+                type="custom"
+                appearance="iconButton"
+                putTooltip
+                icon={<KeyboardArrowDownIcon />}
+                onClick={(e) => handleOrderElementClick(e, 'down' , elementData.sequenceNumber)}
+                sx={buttonStyle}
+            />
+        </div>
             </TooltipContainer>
         </StyledEditElement>
         

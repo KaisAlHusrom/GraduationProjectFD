@@ -22,8 +22,6 @@ import SmartphoneIcon from '@mui/icons-material/Smartphone';
 import LaptopIcon from '@mui/icons-material/Laptop';
 import TabletIcon from '@mui/icons-material/Tablet';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
-import TurnLeftIcon from '@mui/icons-material/TurnLeft';
-import TurnRightIcon from '@mui/icons-material/TurnRight';
 import AutofpsSelectIcon from '@mui/icons-material/AutofpsSelect';
 //MUI
 import {
@@ -142,7 +140,7 @@ const AppbarCom = () => {
 
                   <Box sx={{
                   display: 'flex',
-                  justifyContent:'center',
+                  justifyContent:'',
                   alignItems: 'center',
                   width: 'fit-content',
                   padding: '10px 15px', 
@@ -199,52 +197,6 @@ const AppbarCom = () => {
                           }}
                   />
                 </Box>
-
-
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent:'center',
-                  alignItems: 'center',
-                  width: '100%',
-        
-
-                  }}>
-                <AdminMainButton
-                title="Undo"
-                icon={<TurnLeftIcon />}
-                appearance="iconButton"
-                putTooltip
-                type='custom'
-                sx={{
-                  border : 'none',
-                  padding: '10px 15px',
-                  fontWeight: 'bold',
-                  backgroundColor:'success.dark',
-                  color:'white.main',
-                  marginLeft:'10px'
-
-                }}
-          />
-      
-          <AdminMainButton
-                title="Redo"
-                icon={<TurnRightIcon />}
-                appearance="iconButton"
-                type='custom'
-                putTooltip
-                sx={{
-                  border : 'none',
-                  padding: '10px 15px',
-                  fontWeight: 'bold',
-                  backgroundColor:'success.dark',
-                  color:'white.main',
-                  marginLeft:'10px'
-
-                }}
-          />
-
-                </Box>
-
 
 
                 <Box sx={{

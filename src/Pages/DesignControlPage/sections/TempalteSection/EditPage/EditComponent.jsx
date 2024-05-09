@@ -18,6 +18,7 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { Edit as EditIcon } from '@mui/icons-material';
+import UndoIcon from '@mui/icons-material/Undo';
 
 
 //Styled Components
@@ -38,7 +39,17 @@ const TooltipContainer = styled(Box)({
     visibility: 'hidden', // Initially hide the TooltipContainer
     transition: 'opacity 1s ease', // Apply transition effect to opacity
 });
-
+const EditButtonsStyle = {
+    border: '1px solid red',
+    padding: '10px 15px',
+    fontWeight: 'bold',
+    color: 'white.main',
+    backgroundColor: '#021402',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+        backgroundColor: 'rgb(7, 15, 43)',
+    },
+}
 
 
 const EditComponent = ({component , handleAddNewElement , elements ,  componentId}) => {
@@ -48,15 +59,13 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
     const [componentData, setComponentData] = useState(component); // using for control the component data
 
     const [AddElement ] = elements   // using for add the elements to component when user is did 
-
-    console.log(typeof(handleAddNewElement))
-    console.log(typeof(elements))
-    console.log(typeof(componentId))
-
+    const [history, setHistory] = useState([]); // Kullanıcının yaptığı işlemleri saklayacak dizi
     // add element to component 
     useEffect(() => {
         if (AddElement && componentId === component.section_component_id) {
             handleAddNewElement(setComponentData)
+            setHistory(prevHistory => [...prevHistory, componentData]);
+
         }
     }, [AddElement, handleAddNewElement])
 
@@ -98,6 +107,8 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
                 return prevData;
             }
             });
+            setHistory(prevHistory => [...prevHistory, componentData]);
+
     };
 
     const reorderElements = (elements, oldIndex, newIndex) => {
@@ -117,8 +128,22 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
             ...prevData,
             component_elements: updatedElements,
         }));
+        setHistory(prevHistory => [...prevHistory, componentData]);
+
     };
-    
+
+
+    const undo = () => {
+        if (history.length > 0) {
+            // Önceki durumu alın
+            const previousState = history[history.length - 1];
+            // Önceki durumu geri yükle
+            setComponentData(previousState);
+            // Son işlemi işlem geçmişinden kaldır
+            setHistory(prevHistory => prevHistory.slice(0, -1));
+        }
+    };
+
 
 
 
@@ -154,19 +179,19 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
                             styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
                         />
                     }
-                    sx={{
-                        border: '1px solid red',
-                        padding: '10px 15px',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: '#304D30',
-                        transition: 'background-color 0.3s',
-                        '&:hover': {
-                            backgroundColor: 'rgb(7, 15, 43)',
-                        },
-                    }}
+                    sx={EditButtonsStyle}
                 />
-            </TooltipContainer>
+            </TooltipContainer>{history.length > 0 && (
+                <AdminMainButton
+                    title="Undo"
+                    type="custom"
+                    appearance="iconButton"
+                    putTooltip
+                    icon={<UndoIcon />}
+                    onClick={undo}
+                    sx={EditButtonsStyle}
+                />
+            )}
         </StyledEditComponent>
     );
     
@@ -175,8 +200,8 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 EditComponent.propTypes = {
     component: propTypes.object,
     handleAddNewElement : propTypes.func,
-    elements : propTypes.object,
-    componentId : propTypes.object
+    componentId : propTypes.object,
+    elements : propTypes.object
 
 }
 

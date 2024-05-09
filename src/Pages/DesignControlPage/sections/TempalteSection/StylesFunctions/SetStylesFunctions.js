@@ -290,3 +290,25 @@ export const handleDeleteLogoClick = (setSelectedImage) => {
     // Implement the logic to delete the logo, for example, set selectedImages to null
     setSelectedImage(null);
 };
+
+
+
+export const undo = (setComponentData, setSectionData, setHistory, history, isEditingComponent) => {
+    if (history.length > 0) {
+        const previousState = history[history.length - 1];
+        // Eğer bir bileşen üzerindeyseniz, bileşen durumunu geri alın
+        if (isEditingComponent) {
+            setComponentData(previousState);
+        } else {
+            // EditPage bileşenindeyseniz, sayfa durumunu geri alın
+            setSectionData(previousState);
+        }
+        // Geçmişten son işlemi kaldırın
+        setHistory(prevHistory => prevHistory.slice(0, -1));
+    }
+};
+
+
+
+//  edit page 
+
