@@ -37,7 +37,6 @@ const StyledTemplateMain = styled(Box)(
 const TemplateMain = ({ isMobileWidth, isTabletWidth, isLaptopWidth, selectedFontFamily }) => {
     // list of section
     const [sectionsOrder, setSectionsOrder] = useState([
-        'NavBar',
         'Header',
         'Carousel',
         'Work',
@@ -46,14 +45,29 @@ const TemplateMain = ({ isMobileWidth, isTabletWidth, isLaptopWidth, selectedFon
         'SliderSection',
         'Team',
         'Message',
-        'Footer',
     ]);
 
     // change the order of sections 
     const changeOrder = (index, direction) => {
         const newOrder = [...sectionsOrder];
         const sectionToMove = newOrder.splice(index, 1)[0];
-        const newIndex = direction === 'up' ? index - 1 : index + 1;
+        let newIndex = direction === 'up' ? index - 1 : index + 1;
+    
+        // Prevent moving the first section (NavBar) up
+        if (direction === 'up' && index === 0) {
+            return;
+        }
+    
+        // Prevent moving the last section (Footer) down
+        if (direction === 'down' && index === sectionsOrder.length - 1) {
+            return;
+        }
+    
+        // Adjust index for moving the last section down
+        if (direction === 'down' && index === sectionsOrder.length - 2) {
+            newIndex = sectionsOrder.length - 1;
+        }
+    
         newOrder.splice(newIndex, 0, sectionToMove);
         setSectionsOrder(newOrder);
     };
@@ -68,6 +82,7 @@ const TemplateMain = ({ isMobileWidth, isTabletWidth, isLaptopWidth, selectedFon
                 margin: '100px auto',
             }}
         >
+            <NavBar />
             {sectionsOrder.map((section, index) => (
                 <div key={index}>
                     {section === 'NavBar' && <NavBar  />}
@@ -80,9 +95,9 @@ const TemplateMain = ({ isMobileWidth, isTabletWidth, isLaptopWidth, selectedFon
                     {section === 'Team' && <Team moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
                     {section === 'Message' && <SendMessage moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
 
-                    {section === 'Footer' && <Footer />}
                 </div>
             ))}
+            <Footer />
         </StyledTemplateMain>
     );
 };

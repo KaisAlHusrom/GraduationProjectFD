@@ -60,6 +60,7 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     const [AddElement ] = elements   // using for add the elements to component when user is did 
     const [history, setHistory] = useState([]); // Kullanıcının yaptığı işlemleri saklayacak dizi
+
     // add element to component 
     useEffect(() => {
         if (AddElement && componentId === component.section_component_id) {
@@ -74,7 +75,6 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
         setComponentData(component)
     }, [component])
 
-
     useMemo(() => {
         const dictionary = {};
         if (component.section_css_props) {
@@ -87,7 +87,6 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
         }
         setComponentStyle(dictionary);
     }, [component.section_css_props]);
-
 
     // to change the component style 
     const handleSectionStyleChange = (newStyle) => {
@@ -117,6 +116,7 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
         reorderedElements.splice(newIndex, 0, movedElement);
         return reorderedElements;
     };
+    
     const handleMoveElement = (oldIndex, newIndex) => {
         const reorderedElements = reorderElements(componentData.component_elements, oldIndex, newIndex);
         // Yeni sıralama ile güncellenmiş öğeleri alıp, her bir öğeye sequenceNumber'ı güncelleyerek yeni diziyi oluşturuyoruz
@@ -132,7 +132,7 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     };
 
-
+    // undo last operation for the component 
     const undo = () => {
         if (history.length > 0) {
             // Önceki durumu alın
@@ -143,9 +143,6 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
             setHistory(prevHistory => prevHistory.slice(0, -1));
         }
     };
-
-
-
 
     return (
         <StyledEditComponent sx={componentStyle}>
@@ -163,6 +160,7 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
                         />
                     </Box>
                 ))}
+
             <TooltipContainer>
                 <AdminMainButton
                     title="Edit"
@@ -181,7 +179,9 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
                     }
                     sx={EditButtonsStyle}
                 />
-            </TooltipContainer>{history.length > 0 && (
+            </TooltipContainer>
+
+            {history.length > 0 && (
                 <AdminMainButton
                     title="Undo"
                     type="custom"
