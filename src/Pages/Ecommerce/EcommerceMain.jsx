@@ -30,7 +30,7 @@ import { useNavigate} from 'react-router-dom';
 
 //Styled Components
 const StyledEcommerceMain = styled(Box)(
-    ({ theme }) => ({
+    () => ({
     
     })
 )

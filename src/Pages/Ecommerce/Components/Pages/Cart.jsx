@@ -32,15 +32,35 @@ const getProductById = (productId) => {
 
 const Cart = () => {
     const Navigate = useNavigate();
-    const [price, setPrice] = useState(0);
+    const [CartTotal, setCartTotal] = useState(0);
     const [cartItems, setCartItems] = useState(CartData);
     useEffect(() => {
-        // Calculate the total price by summing up the prices of all items in the cartItems array
-        const totalPrice = cartItems.reduce((total, { price }) => total + price, 0);
-        // Update the price state with the calculated total price
-        setPrice(totalPrice);
-    }, [cartItems]);
-
+        total();
+      }, [cartItems]);
+    
+      const total = () => {
+        let totalVal = 0;
+        // Iterate over each item in cartItems
+        cartItems.forEach(itemId => {
+            // Find the product in productList by its ID
+            const product = getProductById(itemId);
+            // If product exists, add its price to the totalVal
+            if (product) {
+                totalVal += product.price;
+            }
+        });
+        // Update the state with the total price
+        setCartTotal(totalVal);
+    };
+    const handleCheckOutClick = () => {
+        // Navigate to the ProductView page with the product index as a parameter
+        Navigate(`/CheckOut`);
+    }
+    const handleBrowseClick = () => {
+        // Navigate to the ProductView page with the product index as a parameter
+        Navigate(`/Ecommerce`);
+    }
+      
     
     const itemsPurchase = [
         { contentTitle: "", content: "" }, // Leave the content empty initially
@@ -51,8 +71,6 @@ const Cart = () => {
                 // Navigate to the ProductView page with the product index as a parameter
                 Navigate(`/productView/${product.id}`);
             }
-
-    
         const handleItemDelete = (index) => {
             // Create a copy of the current cart items array
             const updatedCartItems = [...cartItems];
@@ -132,6 +150,7 @@ return (
                     >
                     {cartItems.length === 0 ? (
                         <Button variant="outlined"
+                        onClick={handleBrowseClick}
                         sx={{
                             margin: 'auto', // Center horizontally
                         }}>
@@ -149,8 +168,46 @@ return (
                                     renderCartItem(productId, index)
                                 ))}
                             </CustomCard>
-                            
-
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginTop: '1rem',width:"40%", marginLeft: "auto" }}>
+                                {/* Left side for the title */}
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6}>
+                                    <Box >
+                                        <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                            Total
+                                        </Typography>
+                                    </Box>
+                                    <Box >
+                                        <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                           Discount
+                                        </Typography>
+                                    </Box>
+                                    </Grid>
+                                
+                                {/* Right side for the content */}
+                                    <Grid item xs={6}>
+                                        <Box >
+                                            <Typography variant="h5">
+                                                ${CartTotal}
+                                            </Typography>
+                                        </Box>
+                                        <Box >
+                                            <Typography variant="h5">
+                                                -$50
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button
+                                        variant='contained' 
+                                        fullWidth
+                                        onClick={handleCheckOutClick}>
+                                            Checkout
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                                
+                            </Box>
                         </div>       
                 )}
                 </Box>

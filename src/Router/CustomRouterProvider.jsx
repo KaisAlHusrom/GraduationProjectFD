@@ -21,6 +21,8 @@ import LoginPage from '../Pages/Ecommerce/Components/Pages/LoginPage';
 import SignUp from '../Pages/Ecommerce/Components/Pages/SignUp';
 import ProductView from '../Pages/Ecommerce/Components/Pages/ProductView';
 import Cart from '../Pages/Ecommerce/Components/Pages/Cart';
+import CheckOut from '../Pages/Ecommerce/Components/Pages/CheckOut';
+
 
 
 // ------------- NOTICES -------------
@@ -69,6 +71,7 @@ const router = createBrowserRouter(
             <Route path="/design-control/EditPage/:section_id" element={<EditPage />} />
             <Route path="/Ecommerce" element={<EcommerceMain />} />
             <Route path="/Login" element={<LoginPage />} />
+            <Route path="/CheckOut" element={<CheckOut />} />
             <Route path="/productView/:idx" element={<ProductView />} />
             <Route path="/Cart" element={<Cart />} />
             <Route path="/SignUp" element={<SignUp />} />
