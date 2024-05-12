@@ -27,7 +27,6 @@ const StyledUpDownButtons = styled(Box)(
 
 const UpDownButtonsStyle = {
     border: '1px solid red',
-    padding: '10px 15px',
     fontWeight: 'bold',
     color: 'white.main',
     backgroundColor: '#304D30',

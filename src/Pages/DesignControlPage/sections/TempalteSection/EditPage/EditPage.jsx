@@ -110,21 +110,21 @@ const ActionButtons = styled(Box)({
     bottom: '0px',
     left: '50px',
     display: 'flex',
-    justifyContent: 'space-around',
+    gap :'10px',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    gap: '10px',
     opacity: 0,
     visibility: 'hidden',
     transition: 'opacity 0.3s ease',
     width :'100px'
 });
+
+
 const EditButtonsStyle = {
     border: '1px solid red',
-    padding: '10px 15px',
     fontWeight: 'bold',
     color: 'white.main',
     backgroundColor: '#304D30',
-    margin: '5px',
     transition: 'background-color 0.3s',
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
@@ -280,7 +280,6 @@ const EditPage = () => {
         closeConfirmationDialog();
     };
 
-
     // create new section 
     const createNewSection = (SectionsDesigns) => {
         setSectionData(SectionsDesigns)
@@ -297,6 +296,8 @@ const EditPage = () => {
         setHistory(prevHistory => [...prevHistory, sectionData]);
 
     };
+
+    // undo last operation for the section 
     const undo = () => {
         if (history.length > 0) {
             // Önceki durumu alın
@@ -307,6 +308,7 @@ const EditPage = () => {
             setHistory(prevHistory => prevHistory.slice(0, -1));
         }
     };
+
 
 
     return (
@@ -327,7 +329,7 @@ const EditPage = () => {
                         <ActionButtons className="action-buttons">
 
                             <AdminMainButton
-                                title="Add"
+                                title="duplicate"
                                 type="custom"
                                 onClick={() => addComponentForComponent(component.section_component_id)}
                                 appearance="iconButton"
@@ -344,11 +346,9 @@ const EditPage = () => {
                                 icon={<DeleteSweepIcon />}
                                 sx={{
                                     border: '1px solid red',
-                                    padding: '10px 15px',
                                     fontWeight: 'bold',
                                     color: 'white.main',
                                     backgroundColor: 'warning.dark',
-                                    margin: '5px',
                                     transition: 'background-color 0.3s',
                                     '&:hover': {
                                         backgroundColor: 'rgb(7, 15, 43)',
@@ -364,7 +364,6 @@ const EditPage = () => {
                                 icon={<DeleteSweepIcon />}
                                 sx={{
                                     border: '1px solid red',
-                                    padding: '10px 15px',
                                     fontWeight: 'bold',
                                     color: 'white.main',
                                     backgroundColor: 'warning.dark',
@@ -373,6 +372,7 @@ const EditPage = () => {
                                     '&:hover': {
                                         backgroundColor: 'rgb(7, 15, 43)',
                                     },
+                                    display:component.component_elements.length === 0 ? 'none' : 'flex',
                                 }}
                             />
                             <AdminMainButton
@@ -426,11 +426,9 @@ const EditPage = () => {
                             icon={<DeleteSweepIcon />}
                             sx={{
                                 border: '1px solid red',
-                                padding: '10px 15px',
                                 fontWeight: 'bold',
                                 color: 'white.main',
                                 backgroundColor: 'warning.dark',
-                                margin: '5px',
                                 transition: 'background-color 0.3s',
                                 '&:hover': {
                                     backgroundColor: 'rgb(7, 15, 43)',
@@ -450,8 +448,8 @@ const EditPage = () => {
                             sx={EditButtonsStyle}
 
                         />
-                            <AdminMainButton
-                                title="Create New Section"
+                        <AdminMainButton
+                            title="Create New Section"
                                 type="StyleDialog"
                                 appearance="iconButton"
                                 putTooltip
@@ -460,18 +458,18 @@ const EditPage = () => {
                                     <SectionsModal SectionsDesigns = {SectionsDesigns} createNewSection = {createNewSection}></SectionsModal>
                                 }
                                 sx={EditButtonsStyle}
-                            />
-
-                            <AdminMainButton
-                                title="Undo"
-                                type="custom"
-                                appearance="iconButton"
-                                putTooltip
-                                icon={<UndoIcon />}
-                                onClick={undo}
-                                sx={EditButtonsStyle}
-                                
-                            />
+                                />
+                            {history.length > 0 && (
+                                    <AdminMainButton
+                                    title="Undo"
+                                    type="custom"
+                                    appearance="iconButton"
+                                    putTooltip
+                                    icon={<UndoIcon />}
+                                    onClick={undo}
+                                    sx={EditButtonsStyle}
+                                    
+                                    />)}
                     </Box> 
                 
             </TooltipContainer>
