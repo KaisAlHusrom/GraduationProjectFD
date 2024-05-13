@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useEffect, useState } from 'react'
 
 import {
     
@@ -20,37 +18,68 @@ import {
     Rating, IconButton,Avatar
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete';
-import { styled } from '@mui/system'
-
 
 //propTypes 
 import propTypes from 'prop-types'
 import Footer from '../Footer'
 import CustomCard from '../UI/CustomCard'
 
-//Styled Components
-const StyledCart = styled(Box)(
-    ({ theme }) => ({
-    
-    })
-)
 
 const getProductById = (productId) => {
     return productList.find(product => product.id === productId);
   };
 
+
 const Cart = () => {
     const Navigate = useNavigate();
-    const cartItems = CartData;
+    const [CartTotal, setCartTotal] = useState(0);
+    const [cartItems, setCartItems] = useState(CartData);
+    useEffect(() => {
+        total();
+      }, [cartItems]);
+    
+      const total = () => {
+        let totalVal = 0;
+        // Iterate over each item in cartItems
+        cartItems.forEach(itemId => {
+            // Find the product in productList by its ID
+            const product = getProductById(itemId);
+            // If product exists, add its price to the totalVal
+            if (product) {
+                totalVal += product.price;
+            }
+        });
+        // Update the state with the total price
+        setCartTotal(totalVal);
+    };
+    const handleCheckOutClick = () => {
+        // Navigate to the ProductView page with the product index as a parameter
+        Navigate(`/CheckOut`);
+    }
+    const handleBrowseClick = () => {
+        // Navigate to the ProductView page with the product index as a parameter
+        Navigate(`/Ecommerce`);
+    }
+      
+    
     const itemsPurchase = [
         { contentTitle: "", content: "" }, // Leave the content empty initially
     ];
     const renderCartItem = (productId, index) => {
-        const product = getProductById(productId);
-        const handleItemClick = () => {
-            // Navigate to the ProductView page with the product index as a parameter
-            Navigate(`/productView/${product.id}`);
-        }
+            const product = getProductById(productId);
+            const handleItemClick = () => {
+                // Navigate to the ProductView page with the product index as a parameter
+                Navigate(`/productView/${product.id}`);
+            }
+        const handleItemDelete = (index) => {
+            // Create a copy of the current cart items array
+            const updatedCartItems = [...cartItems];
+            // Remove the item at the specified index
+            updatedCartItems.splice(index, 1);
+            // Update the cart items state with the updated array
+            setCartItems(updatedCartItems);
+        };
+        
         return (
             <div>
                 {product && (
@@ -82,10 +111,11 @@ const Cart = () => {
                             {/* Price */}
                             <Box sx={{paddingTop:"20px",paddingLeft:"8px"}}>
                                 <h2>${product.price}</h2>
+                                
                             </Box>
                             {/* Delete Icon */}
                             <Box sx={{paddingTop:"20px"}}>
-                                <IconButton aria-label="Delete" onClick={() => {}}>
+                                <IconButton aria-label="Delete" onClick={() => handleItemDelete(index)}>
                                 <DeleteIcon color='warning' />
                                 </IconButton>
                             </Box>
@@ -120,6 +150,7 @@ return (
                     >
                     {cartItems.length === 0 ? (
                         <Button variant="outlined"
+                        onClick={handleBrowseClick}
                         sx={{
                             margin: 'auto', // Center horizontally
                         }}>
@@ -137,7 +168,46 @@ return (
                                     renderCartItem(productId, index)
                                 ))}
                             </CustomCard>
-
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginTop: '1rem',width:"40%", marginLeft: "auto" }}>
+                                {/* Left side for the title */}
+                                <Grid container spacing={2}>
+                                    <Grid item xs={6}>
+                                    <Box >
+                                        <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                            Total
+                                        </Typography>
+                                    </Box>
+                                    <Box >
+                                        <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                           Discount
+                                        </Typography>
+                                    </Box>
+                                    </Grid>
+                                
+                                {/* Right side for the content */}
+                                    <Grid item xs={6}>
+                                        <Box >
+                                            <Typography variant="h5">
+                                                ${CartTotal}
+                                            </Typography>
+                                        </Box>
+                                        <Box >
+                                            <Typography variant="h5">
+                                                -$50
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xs={12}>
+                                        <Button
+                                        variant='contained' 
+                                        fullWidth
+                                        onClick={handleCheckOutClick}>
+                                            Checkout
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                                
+                            </Box>
                         </div>       
                 )}
                 </Box>
