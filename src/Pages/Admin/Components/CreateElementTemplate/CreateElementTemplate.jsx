@@ -1,9 +1,7 @@
 //React
 import { createContext, useContext, useEffect, useState } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 
 //Components
@@ -77,7 +75,7 @@ const CreateElementTemplate = () => {
         if(selectedElement) {
             
             // Call the transformData function with the original data
-            const transformedTemplateData = transformElementTypeToDesignStructure(selectedElement);
+            const transformedTemplateData = transformElementTypeToDesignStructure(selectedElement, null, mode);
             // transformedTemplateData.forEach(data => {
             //     addDesign(data);
             // })
@@ -85,7 +83,9 @@ const CreateElementTemplate = () => {
             // // set the template to the data that is the root of the tree, the grand father.
             setTemplate(() => transformedTemplateData)
         }
-    }, [selectedElement])
+    }, [mode, selectedElement])
+
+    
     
     const [elementsStyle, setElementsStyle] = useState(null)
     const [hoveredSubElementId, setHoveredSubElementId] = useState(null)
@@ -104,7 +104,6 @@ const CreateElementTemplate = () => {
         }
 
     }, [template, setSelectedSubElementIds])
-
 
     return (
         <MyCreateElementContext.Provider value={{

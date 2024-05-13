@@ -26,6 +26,7 @@ import { MuiColorInput } from 'mui-color-input'
 
 //propTypes 
 import propTypes from 'prop-types'
+import GridTemplate from '../GridTemplate/GridTemplate'
 
 
 //Styled Components
@@ -50,6 +51,17 @@ const AppropriateStyleValues = (props) => {
             radialGradientShapeValue, setRadialGradientShapeValue, valueType, setValueType
         } = props
 
+        if(type  === "gridTemplateRows") {
+            return (
+                <GridTemplate direction="row" handleChangeStylePropValue={handleChangeStylePropValue} />
+            )
+        }
+
+        if(type  === "gridTemplateColumns") {
+            return (
+                <GridTemplate direction="column" handleChangeStylePropValue={handleChangeStylePropValue} />
+            )
+        }
 
         if(type  === "string") {
             return (

@@ -3,8 +3,10 @@ import { addStyle, changeStyleValues, checkIfStyleExist, convertToCssValue, dele
 import { useDispatch } from "react-redux"
 import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from "../../Redux/Slices/snackbarOpenSlice"
 
-export default function useStylePropValueState(prop, template, setTemplate, selectedSubElementIds) {
+export default function useStylePropValueState(prop, template, setTemplate, selectedSubElementIds, breakpointState, exceptionState) {
     const dispatch = useDispatch()
+    const {styleException} = exceptionState
+    const {styleBreakpoint} = breakpointState
 
     // the directions of the css value if exist
     const [mainDirections, setMainDirections] = useState({
@@ -23,6 +25,7 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
     })
 
     const [value, setValue] = useState(() => null)
+    
 
     //extract the appropriate value from value state to cssValue
     // I use cssValue because I used value state in autocomplete and they won't be appropriate as css value
@@ -31,8 +34,8 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
     //when change style prop value for already added style prop, it will be changed directly
     useEffect(() => {
         const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
-        if(value && selectedSubElementIds.length > 0 && checkIfStyleExist(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue))  {
-            const changed = changeStyleValues(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue)
+        if(value && selectedSubElementIds.length > 0 && checkIfStyleExist(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint))  {
+            const changed = changeStyleValues(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue,  styleException, styleBreakpoint)
             if (changed) {
                 setTemplate(() => updatedSelectedTemplate)
             } else {
@@ -47,10 +50,21 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
 
     
 
+    // console.log(styleException)
+    // console.log(styleBreakpoint)
+    useEffect(() => {
+        if(value){
+            setValue(null) //TODO: the init value have to be the same with the applied styles values
+            // setStyleException(null) //TODO: the init value have to be the same with the applied styles values
+            // setStyleBreakpoint(null) //TODO: the init value have to be the same with the applied styles values
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedSubElementIds])
+
     const handleAddNewStyle = () => {
             if(selectedSubElementIds && selectedSubElementIds.length > 0) {
                 const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
-                const added = addStyle(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue);
+                const added = addStyle(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint);
                 if (added) {
                     console.log(updatedSelectedTemplate)
                     setTemplate(() => updatedSelectedTemplate)
@@ -71,7 +85,7 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
     const handleDeleteStyleProp = () => {
         if(selectedSubElementIds && selectedSubElementIds.length > 0 && cssValue) {
             const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
-            const deleted = deleteStyle(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue);
+            const deleted = deleteStyle(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint);
             if (deleted) {
                 console.log("Deleted Successfully")
                 setTemplate(() => updatedSelectedTemplate)

@@ -15,14 +15,35 @@ import {
     MenuList,
     Paper,
     TextField,
+    TextareaAutosize,
 } from '@mui/material'
 import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
+import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
 import { AdminMainButton } from '../../../../Components';
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate';
 import { changeElementContentByParentId, currentElementContent } from '../../../../Helpers/RecursiveHelpers/changeElementContent';
+
+
+const StyledTextArea = styled(TextareaAutosize)(
+    ({theme}) => ({
+        backgroundColor: theme.palette.background.paper,
+        border: "2px solid",
+        borderColor: theme.palette.divider,
+        resize: "none",
+        width: "100%",
+        borderRadius: "8px",
+        color: theme.palette.text.primary,
+        outline: "none",
+        fontSize: "1rem",
+        padding: theme.spacing(),
+        "&:focus": {
+            borderColor: theme.palette.primary.main,
+        }
+    })
+)
 
 
 const ChangeElementContent = ({parentElementId, handleCloseMenus}) => {
@@ -64,16 +85,31 @@ const ChangeElementContent = ({parentElementId, handleCloseMenus}) => {
     }
 
     const handleEnterKeyDown = (e) => {
+        // to go underline
+        if(e.shiftKey && e.key === 'Enter') {
+            return
+        }
+
         if(e.key === 'Enter') {
             handleChangeElementContent()
         }
+
     }
+
+    
 
     return (
         <Paper sx={{ width: 320, maxWidth: '100%', overflow: 'visible' }}>
             <MenuList>
                 <MenuItem>
-                    <TextField value={content} onKeyDown={handleEnterKeyDown} onChange={(e) => setContent(() => e.target.value)} label={"content"} size='small' fullWidth />
+                    <StyledTextArea
+                    minRows={3} // Adjust the minimum number of rows as needed
+                    maxRows={10} // Adjust the maximum number of rows as needed
+                    label={"content"} size='small'
+                    onChange={(e) => setContent(() => e.target.value)}
+                    onKeyDown={handleEnterKeyDown}
+                    value= {content}
+                    />
                     <AdminMainButton 
                         appearance='iconButton'
                         type='custom'

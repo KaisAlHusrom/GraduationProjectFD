@@ -23,6 +23,7 @@ import CloseIcon from '@mui/icons-material/Close';
 //propTypes 
 import propTypes from 'prop-types'
 import { useTheme } from '@emotion/react';
+import AdminMainButton from '../AdminMainButton/AdminMainButton';
 
 //Styled Components
 const handleWidth = 20; // Width of the resizing handle
@@ -44,19 +45,17 @@ const StyledDrawerContent = styled(Box)(
     })
 )
 
-const StyledHeaderBox = styled(Box)(
-    ({ theme }) => ({
-        width: "100%",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: `${theme.spacing(2)} ${theme.spacing(1)}`
-    })
-)
 
+const StyledCloseIcon = styled(Box)(
+    () => ({
+        position: 'absolute',
+        top: 15,
+        right: 15,
+    })
+);
 
 const CustomDrawer = (props) => {
-    const { children, drawerOpenState, title, putDrawerCloseButton, anchor, variant , drawerStyle, drawerResizable } = props
+    const { children, drawerOpenState, title, putDrawerCloseButton, anchor, variant , drawerStyle, drawerResizable, drawerHeaderStyle, drawerHeaderContent, withoutDrawerHeader } = props
 
     const [drawerOpen, setDrawerOpen] = drawerOpenState
 
@@ -123,6 +122,29 @@ const CustomDrawer = (props) => {
         }
     },[handlePosition])
 
+    //header style 
+    const StyledHeaderBox = useMemo(() => {
+        return styled(Box)(
+            ({ theme }) => {
+                const staticStyles = {
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: `${theme.spacing(2)} ${theme.spacing(1)}`,
+                    textTransform:"uppercase"
+                }
+                
+                return drawerHeaderStyle ?
+                {
+                    ...staticStyles, ...drawerHeaderStyle
+                }
+                : 
+                staticStyles
+            }
+        )
+    }, [drawerHeaderStyle])
+
     //static style
     const staticDrawerStyle = useMemo(() => {
         return {
@@ -131,6 +153,14 @@ const CustomDrawer = (props) => {
             height: '100%'
         }
     }, [drawerResizable, drawerWidth, theme.palette.background.paper])
+
+    const staticDrawerStyle2 = useMemo(() => {
+        return {
+            backgroundColor: theme.palette.background.paper,
+            position: 'relative',
+            height: "100vh",
+        }
+    }, [theme.palette.background.paper])
 
     return (
         <StyledCustomDrawer
@@ -147,22 +177,35 @@ const CustomDrawer = (props) => {
         }}
         >
             
-            <StyledDrawerContent sx={{position: 'relative'}}>
+            <StyledDrawerContent sx={staticDrawerStyle2}>
                 
-                <StyledHeaderBox>
-                    <Typography variant='h6' textTransform="uppercase">
-                        {title}
-                    </Typography>
-                    {
-                        putDrawerCloseButton
-                        &&
-                        <IconButton color='primary' size='small' onClick={handleCloseDrawer}>
-                            <CloseIcon />
-                        </IconButton>
-                    }
-                </StyledHeaderBox>
-                <Divider />
-
+                {
+                    !withoutDrawerHeader &&
+                    <>
+                    <StyledHeaderBox >
+                        <Typography variant='h6'>
+                            {drawerHeaderContent || title}
+                        </Typography>
+                        
+                    </StyledHeaderBox>
+                    <Divider />
+                </>
+                }
+                {
+                    putDrawerCloseButton
+                    &&
+                    <StyledCloseIcon>
+                        <AdminMainButton 
+                            type='custom'
+                            icon={<CloseIcon />}
+                            appearance='iconButton'
+                            onClick={handleCloseDrawer}
+                            title={`Close ${title}`}
+                            putTooltip
+                            toolTipPosition={"left"}
+                        />
+                    </StyledCloseIcon>
+                }
                 {children}
                 {
                     drawerResizable 
@@ -187,6 +230,9 @@ CustomDrawer.propTypes = {
     variant: propTypes.string,
     drawerStyle: propTypes.object,
     drawerResizable: propTypes.bool,
+    drawerHeaderStyle: propTypes.object, 
+    drawerHeaderContent: propTypes.string,
+    withoutDrawerHeader: propTypes.bool,
 }
 
 export default CustomDrawer;

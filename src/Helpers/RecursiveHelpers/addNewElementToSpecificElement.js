@@ -18,7 +18,7 @@ export const addElementToParent = (elements, parentId, newElement) => {
                         
                     }
 
-                    const newDesign = {...transformElementTypeToDesignStructure(newElement, element), sequence_number: sequenceNumber}
+                    const newDesign = {...transformElementTypeToDesignStructure(newElement, element, newElement.element_type_name === "Component" ? "component" : "element"), sequence_number: sequenceNumber}
                     
                     // If the parent element is found, add the new element to its children
                     element.children.push(newDesign);

@@ -36,6 +36,7 @@ import AppliedStyles from '../AppliedStyles/AppliedStyles.jsx'
 import StyleFieldBox from '../StyleFieldBox/StyleFieldBox.jsx'
 import { SelectStyleBreakpoints } from '../SelectStyleBreakpoints/SelectStyleBreakpoints.jsx'
 import { fetchStylePropCategory } from '../../../../Services/StylePropCategory.js'
+import SelectStyleExceptions from '../SelectStyleExceptions/SelectStyleExceptions.jsx';
 
 
 //Styled Components
@@ -55,7 +56,7 @@ const TemplateElementStyleSettings = () => {
     // const {template, selectedSubElementIds} = useMyCreateElementContext()
 
     //style status state
-    // const [styleStatus, setStyleStatus] = useState(null)
+    const [styleException, setStyleException] = useState(null)
     
     //style breakpoint state
     const [styleBreakpoint, setStyleBreakpoint] = useState(null)
@@ -71,15 +72,9 @@ const TemplateElementStyleSettings = () => {
         fetchStyleCategories()
     }, [])
 
-
     
     return (
         <StyledTemplateElementStyleSettings container spacing={2}>
-            <Grid item xxs={12}>
-                <Typography variant='h6' letterSpacing={2} color="primary.main">
-                    Style Settings
-                </Typography>
-            </Grid>
             <Grid container spacing={2} item xxs={12}>
                 <Grid item xxs={12}>
                     <Typography variant='subtitle1' letterSpacing={2} color="text.secondary">
@@ -94,7 +89,7 @@ const TemplateElementStyleSettings = () => {
                     
                 <Grid item xxs={12}>
                     <Typography variant='subtitle1' letterSpacing={2} color="text.secondary">
-                        Styles Status
+                    Screen Widths
                     </Typography>
                 </Grid>
                 <Grid item xxs={12}>
@@ -109,7 +104,7 @@ const TemplateElementStyleSettings = () => {
                             id="panel1-header"
                         >
                             <Typography variant='h6'>
-                                Styles Status
+                                Screen Widths
                             </Typography>
                         </AccordionSummary>
                         <AccordionDetails>
@@ -117,20 +112,39 @@ const TemplateElementStyleSettings = () => {
                         </AccordionDetails>
                     </Accordion>
                 </Grid>
-                {/* <Grid item xxs={12} xs={6} md={4} lg={3}>
-                    <CustomLazyAutoComplete
-                        optionId='id'
-                        optionName='style_status_normal_name'
-                        label='Style Statuses'
-                        handleFetchData={fetchStyleStatuses}
-                        valueState={[styleStatus, setStyleStatus]}
-                    />
-                </Grid> */}
+            </Grid>
+            <Grid container spacing={2} item xxs={12}>
+                    
+                <Grid item xxs={12}>
+                    <Typography variant='subtitle1' letterSpacing={2} color="text.secondary">
+                    Style Exceptions
+                    </Typography>
+                </Grid>
+                <Grid item xxs={12}>
+                    <Accordion elevation={4} sx={{
+                            borderRadius: 1,
+                            marginBottom: 0,
+                        }}
+                    >
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                        >
+                            <Typography variant='h6'>
+                                Style Exceptions
+                            </Typography>
+                        </AccordionSummary>
+                        <AccordionDetails>
+                            <SelectStyleExceptions state={{styleException, setStyleException}} />
+                        </AccordionDetails>
+                    </Accordion>
+                </Grid>
             </Grid>
             <Grid container spacing={2} item xxs={12}>
                 <Grid item xxs={12}>
                     <Typography variant='subtitle1' letterSpacing={2} color="text.secondary">
-                        Styles Props
+                        Properties
                     </Typography>
                 </Grid>
                 <Grid item xxs={12}>
@@ -142,6 +156,8 @@ const TemplateElementStyleSettings = () => {
                                     <StyleFieldBox 
                                         key={key}
                                         category={styleCategory}
+                                        breakpointState={{styleBreakpoint, setStyleBreakpoint}}
+                                        exceptionState={{styleException, setStyleException}}
                                     />
                                 )
                             })

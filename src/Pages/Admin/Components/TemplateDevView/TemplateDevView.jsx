@@ -1,10 +1,8 @@
 //React
 import { useCallback, useEffect, useState } from 'react'
 
-import {
-    
-} from 'react-redux'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { handleCloseLinearProgress, handleOpenLinearProgress } from '../../../../Redux/Slices/DownloadPageSlice'
 //Components
 
 
@@ -31,6 +29,7 @@ import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlin
 import MediationOutlinedIcon from '@mui/icons-material/MediationOutlined';
 import TemplateElementStyleSettings from '../TemplateElementStyleSettings/TemplateElementStyleSettings'
 import FormatColorFillOutlinedIcon from '@mui/icons-material/FormatColorFillOutlined';
+
 
 //Styled Components
 const StyledTemplateDevView = styled(Box)(
@@ -79,7 +78,7 @@ const TemplateDevView = () => {
 
     const [editableElement, setEditableElement] = useState(null)
     useEffect(() => {
-        setEditableElement(() => template ? <GenerateTag elementStyle={elementsStyle} key={template.id} selectedTemplate={template} /> : null)
+        setEditableElement(() => template ? <GenerateTag key={template.id} selectedTemplate={template} /> : null)
     }, [elementsStyle, template])
 
 
@@ -105,6 +104,10 @@ const TemplateDevView = () => {
                             drawerVariant="persistent"
                             putDrawerCloseButton
                             drawerResizable={true}
+                            drawerHeaderStyle={{
+                                textTransform: "capitalize",
+                                letterSpacing: 2,
+                            }}
                         />
                         <AdminMainButton 
                             title='Style Settings'
@@ -117,6 +120,7 @@ const TemplateDevView = () => {
                             drawerVariant="persistent"
                             putDrawerCloseButton
                             drawerResizable={true}
+                            withoutDrawerHeader
                         />
                     </StyledViewElements>
                     {editableElement}
@@ -202,9 +206,15 @@ const ElementModeOptions = () => {
 
 // the options that will appear when user select component mode
 const ComponentModeOptions = () => {
-    const {setSelectedElement} = useMyCreateElementContext()
+    const {selectedElement, setSelectedElement} = useMyCreateElementContext()
+    const dispatch = useDispatch()
+    const openLinearProgress = useSelector(state => state.downloadPageSlice.openLinearProgress)
 
     const handleOpenBlankComponent = useCallback(async () => {
+        if(!selectedElement){
+            dispatch(handleOpenLinearProgress())
+        }
+        
         const emptyComponent = await fetchElementTypesRows(
             null,
             null,
@@ -213,7 +223,15 @@ const ComponentModeOptions = () => {
 
 
         setSelectedElement(() => emptyComponent.rows[0])
-    }, [setSelectedElement])
+    }, [dispatch, selectedElement, setSelectedElement])
+
+    useEffect(() => {
+        if(openLinearProgress) {
+            if(selectedElement) {
+                dispatch(handleCloseLinearProgress())
+            }
+        }
+    }, [dispatch, openLinearProgress, selectedElement])
 
 
     return (
@@ -250,12 +268,12 @@ const ComponentModeOptions = () => {
 }
 
 
-// the options that will appear when user select component mode
+// the options that will appear when user select section mode
 const SectionModeOptions = () => {
     return (
         <>
             <Typography mb={1} variant='h4' color="warning.main">
-                Choose first element to add to the component
+                Choose first element to add to the section
             </Typography>
             <Box>
                 {/* <CustomLazyAutoComplete

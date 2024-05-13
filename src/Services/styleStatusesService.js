@@ -15,8 +15,8 @@ const StyleStatusesAPI = axios.create({
 
 //---------------------------------------
 // fetch items 
-export const fetchStyleStatuses = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null) => {
-    const res = await fetchDataTemplate(StyleStatusesAPI, type, pageNumber, filters, sorts, searchQuery);
+export const fetchStyleStatuses = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage=5) => {
+    const res = await fetchDataTemplate(StyleStatusesAPI, type, pageNumber, filters, sorts, searchQuery, perPage);
     let rows;
 
     if (res.success) {

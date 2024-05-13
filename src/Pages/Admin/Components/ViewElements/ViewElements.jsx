@@ -56,6 +56,7 @@ import ChangeImage from '../ChangeImage/ChangeImage';
 const StyledViewElements = styled(Box)(
     ({ theme }) => ({
         padding: theme.spacing(),
+
     })
 )
 
@@ -326,7 +327,7 @@ const SubElementComp = ({parent}) => {
 
     //Styled Component
     const StyledTypoItem = useMemo(() => {
-        return styled(Typography)(
+        return styled(Box)(
             ({ theme }) => ({
                 textTransform: 'capitalize',
                 padding: theme.spacing(0.5),
@@ -340,7 +341,9 @@ const SubElementComp = ({parent}) => {
                     border: '1px solid',
                     borderColor: theme.palette.warning.main,
                     backgroundColor: theme.palette.action.hover
-                }
+                },
+                overflow: "hidden",
+                
             })
         );
     }, [parent, selectedSubElementIds])
@@ -356,8 +359,15 @@ const SubElementComp = ({parent}) => {
                 component="span"
             >
                 {!parent?.element_type?.not_has_end_tag ? <CodeIcon color='primary' sx={{mr: 1}} /> : <CodeOffIcon sx={{mr: 1}} color='error' />}
-                {parent?.element_type?.element_type_name} 
-                {(parent?.element_content && parent.children.length === 0 && parent?.element_type?.element_type_name !== "Image") ? ` (${parent.element_content})` : null}
+                <Typography variant='subtitle1'>{parent?.element_type?.element_type_name} </Typography>
+                {(parent?.element_content && parent.children.length === 0 && parent?.element_type?.element_type_name !== "Image") ? 
+                    <Typography sx={{
+                        whiteSpace: "nowrap",
+                        ml: 1,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis"
+                    }} variant='subtitle2'>{` (${parent.element_content})`}</Typography>
+                : null}
                 {
                 parent?.children?.length !== 0 ? 
                     showNested[parent?.id]

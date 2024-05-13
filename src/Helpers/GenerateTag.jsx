@@ -1,6 +1,6 @@
-import { Box, Link, Typography } from "@mui/material"
-import { Fragment, useCallback, useMemo, useState } from "react";
-import { NavLink } from "react-router-dom";
+import { } from "@mui/material"
+import { Fragment, useMemo } from "react";
+import {  } from "react-router-dom";
 
 import exampleImage from "../assets/images/exampleimage.jpg"
 
@@ -10,7 +10,7 @@ import { useMyCreateElementContext } from "../Pages/Admin/Components/CreateEleme
 import { useTheme } from "@emotion/react";
 
 import { styled } from '@mui/system'
-import { convertStyleFromObjectToJsCode, convertStyleToCssShape } from "./writeStyleObject";
+import {convertStyleToCssShape } from "./writeStyleObject";
 
 
 //functions
@@ -56,77 +56,51 @@ const repeat = (selectedElement) => {
     
 // }
 
-export const GenerateTag = ({selectedTemplate, elementStyle}) => {
+export const GenerateTag = ({selectedTemplate}) => {
     const { hoveredSubElementId} = useMyCreateElementContext()
 
     const sortedData = Array.isArray(selectedTemplate) ? selectedTemplate.sort((a, b) => a.sequence_number - b.sequence_number) : selectedTemplate;
 
     const type = sortedData ? sortedData.element_type?.element_type_name : "";
     const content = sortedData ? sortedData.element_content : "";
+    const theme = useTheme()
     const styles = useMemo(() => {
-        return sortedData ? convertStyleToCssShape(sortedData.styles) : []
-    }, [sortedData])
+        return convertStyleToCssShape(sortedData.styles, theme) || []
+    }, [sortedData.styles, theme])
+
+
+
     const key = sortedData ? sortedData.id : "";
     const hasChildren = sortedData ? sortedData.children?.length > 0 ? true : false : false
 
     let exampleText = hasChildren ? repeat(sortedData) : content;
 
-    // const [selectedEditableElement, setSelectedEditableElement] = useState(null)
 
-    // const handleChangeSelectedEditableElement = useCallback((key) => {
-    //     setSelectedEditableElement(() => key)
+    // const eventListeners = useMemo(() => {
+    //     return {
+    //         onMouseOver: () => handleSetStyleExceptions('hover', true),
+    //         onMouseOut: () => handleSetStyleExceptions('hover', false),
+    //         onClick: () => handleSetStyleExceptions('click', true),
+    //         onFocus: () => handleSetStyleExceptions('focus', true),
+    //         onBlur: () => handleSetStyleExceptions('focus', false),
+            
+    //         // Add more event listeners as needed
+    //     };
+    // }, [handleSetStyleExceptions])
 
-    // }, [])
 
-
-    //Hovering
-    const [isHovered, setIsHovered] = useState(false);
-
-    const handleMouseOver = useCallback(() => {
-        setIsHovered(true);
-    }, []);
-
-    const handleMouseOut = useCallback(() => {
-        setIsHovered(false);
-    }, []);
-
-    const theme = useTheme()
+    
 
     const defaultProps = useMemo(() => {
         return {
             type: type,
             key: key,
             placeholder:type,
-            style: {
-                ...styles,
-                ...(isHovered && { }),
-                backgroundColor: hoveredSubElementId === selectedTemplate.id ? theme.palette.action.selected : styles ? styles['backgroundColor'] : null,
-                // padding: theme.spacing()
-            },
             // onClick: () => handleChangeSelectedEditableElement(key),
-            onMouseOver: handleMouseOver,
-            onMouseOut: handleMouseOut,
+            // ...eventListeners,
         }
-    }, [handleMouseOut, handleMouseOver, hoveredSubElementId, isHovered, key, selectedTemplate.id, styles, theme.palette.action.selected, type])
+    }, [key, type])
 
-    const StyledContainerBox = styled(Box)(
-        ({ theme }) => ({
-            display: "inline",
-            position: "relative",
-        })
-    );
-
-    const StyledAfterBox = styled(Box)(
-        ({ theme }) => ({
-            backgroundColor: theme.palette.primary.main,
-            position: 'absolute',
-            left: -1,
-            top: -1,
-            width: '100%',
-            height: '100%',
-            
-        })
-    );
 
     return (
         <>
@@ -135,6 +109,8 @@ export const GenerateTag = ({selectedTemplate, elementStyle}) => {
                 defaultProps={defaultProps}
                 exampleText={exampleText}
                 sortedData={sortedData}
+                styles={styles}
+                hoveredSubElementId={hoveredSubElementId}
             />
             {/* <StyledAfterBox></StyledAfterBox> */}
         </>
@@ -154,125 +130,168 @@ const Tag = (props) => {
         type,
         defaultProps,
         exampleText,
-        sortedData
+        sortedData,
+        styles,
+        hoveredSubElementId
     } = props
 
-    switch (type.toLowerCase()) {
-        case 'text field strings':
-            return (<input {...defaultProps}  />);
-        case 'text field numbers':
-            return <input {...defaultProps}  />;
-        case 'text field files':
-            return <input {...defaultProps}  />;
-        case 'paragraph':
-            return <Typography {...defaultProps} variant="body2" component="p">{exampleText}</Typography>;
-        case 'heading 1':
-            return <Typography {...defaultProps} variant="h1">{exampleText}</Typography>;
-        case 'heading 2':
-            return <Typography {...defaultProps} variant="h2">{exampleText}</Typography>;
-        case 'heading 3':
-            return <Typography {...defaultProps} variant="h3">{exampleText}</Typography>;
-        case 'heading 4':
-            return <Typography {...defaultProps} variant="h4">{exampleText}</Typography>;
-        case 'heading 5':
-            return <Typography {...defaultProps} variant="h5">{exampleText}</Typography>;
-        case 'heading 6':
-            return <Typography {...defaultProps} variant="h6">{exampleText}</Typography>;
-        case 'subtitle 1':
-            return <Typography {...defaultProps} variant="subtitle1">{exampleText}</Typography>;
-        case 'subtitle 2':
-            return <Typography {...defaultProps} variant="subtitle2">{exampleText}</Typography>;
-        case 'body 1':
-            return <Typography {...defaultProps} variant="body1">{exampleText}</Typography>;
-        case 'body 2':
-            return <Typography {...defaultProps} variant="body2">{exampleText}</Typography>;
-        case 'normal link':
-            return <Link {...defaultProps} >{exampleText}</Link>
-        case 'lazy link':
-            return <NavLink {...defaultProps}>{exampleText}</NavLink>
-        case 'ordered list item':
-        case 'unordered list item':
-            return <li {...defaultProps}>{exampleText}</li>;
-        case 'unordered list':
-            return (
-                <ul {...defaultProps}>
-                    {repeat(sortedData)}
-                </ul>
-            );
-        case 'ordered list':
-            return (
-                <ol {...defaultProps}>
-                    {repeat(sortedData)}
-                </ol>
-            )
-        case 'table caption':
-            return <caption {...defaultProps}>
-                {exampleText}
-            </caption>;
-        case 'table head':
-            return <thead {...defaultProps}>
-                {repeat(sortedData)}
-            </thead>;
-        case 'table body':
-            return <tbody {...defaultProps}> 
-                {repeat(sortedData)}
-            </tbody>;
-        case 'table foot':
-            return <tfoot {...defaultProps}>
-                {repeat(sortedData)}
-            </tfoot>;
-        case 'table head row':
-        case 'table body row':
-        case 'table foot row':
-            return (
-                <tr {...defaultProps}>
-                    {repeat(sortedData)}
-                </tr>
-            );
-        case 'table':
-            return <table {...defaultProps}> 
-                {repeat(sortedData)}
-            </table>;
-        case 'table head cell':
-        case 'table body cell':
-        case 'table foot cell':
-            return <td {...defaultProps} >{repeat(sortedData)} {exampleText}</td>
-        case 'text area':
-            return <textarea {...defaultProps} name="" id="" cols="30" rows="10" >{exampleText}</textarea>
-        case 'select input option':
-            return <option {...defaultProps} >{exampleText}</option>
-        case 'select input':
-            return <select {...defaultProps}>
-                {repeat(sortedData)}
-            </select>;
-        case 'button':
-            return <button {...defaultProps}>{exampleText}</button>;
-        case 'image':
-            return <img {...defaultProps} src={exampleText === "Blank Image" ? exampleImage : exampleText} alt="" />;
-        case 'audio':
-            return <audio {...defaultProps} src=""></audio>;
-        case 'video':
-            return <video {...defaultProps} src=""></video>;
-        case 'iframe':
-            return <iframe {...defaultProps} src="" frameBorder="0"></iframe>;
-        case 'form':
-            return <form action="" {...defaultProps}>{exampleText}</form>;
-        case 'bold text':
-            return <b {...defaultProps}>{exampleText}</b>;
-        case 'canvas':
-            return <canvas id="myCanvas" width="200" height="100">{exampleText}</canvas>;
-        case 'label':
-            return <label {...defaultProps}>{exampleText}</label>;
-        case 'strong text':
-            return <strong {...defaultProps}>{exampleText}</strong>;
-        case 'code':
-            return <code {...defaultProps}>{exampleText}</code>;
-        case 'component':
-        case 'section':
-            return <Box {...defaultProps}>{exampleText}</Box>;
-        default:
-            return null; // Return null for unsupported types or handle accordingly
-    }
+    const component = useMemo(() => {
+        let component = ""
+        switch (type.toLowerCase()) {
+            case 'text field strings':
+            case 'text field numbers':
+            case 'text field files':
+                component = "input"
+                break
+            case 'paragraph':
+                component = "p"
+                break
+            case 'heading 1':
+                component = "h1"
+                break
+            case 'heading 2':
+                component = "h2"
+                break
+            case 'heading 3':
+                component = "h3"
+                break
+            case 'heading 4':
+                component = "h4"
+                break
+            case 'heading 5':
+                component = "h5"
+                break
+            case 'heading 6':
+                component = "h6"
+                break
+            case 'subtitle 1':
+            case 'subtitle 2':
+            case 'body 1':
+            case 'body 2':
+                component = "p"
+                break
+    
+            case 'normal link':
+                component = "Link"
+                break
+            case 'lazy link':
+                component = "NavLink"
+                break
+            case 'ordered list item':
+            case 'unordered list item':
+                component = "li"
+                break
+            case 'unordered list':
+                component = "ul"
+                break
+            case 'ordered list':
+                component = "ol"
+                break
+            case 'table caption':
+                component = "caption"
+                break
+            case 'table head':
+                component = "thead"
+                break
+            case 'table body':
+                component = "tbody"
+                break
+            case 'table foot':
+                component = "tfoot"
+                break
+            case 'table head row':
+            case 'table body row':
+            case 'table foot row':
+                component = "tr"
+                break
+            case 'table':
+                component = "table"
+                break
+            case 'table head cell':
+            case 'table body cell':
+            case 'table foot cell':
+                component = "td"
+                break
+            case 'text area':
+                component = "textarea"
+                break
+            case 'select input option':
+                component = "option"
+                break
+            case 'select input':
+                component = "select"
+                break
+            case 'button':
+                component = "button"
+                break
+            case 'image':
+                component = "img"
+                break
+                // return <img {...defaultProps} src={exampleText === "Blank Image" ? exampleImage : exampleText} alt="" />;
+            case 'audio':
+                component = "audio"
+                break
+            case 'video':
+                component = "video"
+                break
+            case 'iframe':
+                component = "iframe"
+                break
+            case 'form':
+                component = "form"
+                break
+            case 'bold text':
+                component = "b"
+                break
+            case 'canvas':
+                component = "canvas"
+                break
+            case 'label':
+                component = "label"
+                break
+            case 'strong text':
+                component = "strong"
+                break
+            case 'code':
+                component = "code"
+                break
+            case 'component':
+            case 'section':
+                component = "div"
+                break;
+            default:
+                return null; // Return null for unsupported types or handle accordingly
+        }
+
+        return component
+    }, [type])
+
+    
+
+    const StyledComp = styled(component)(
+        ({theme}) => ({
+            ...styles,
+            backgroundColor: hoveredSubElementId === sortedData.id ? theme.palette.action.selected : styles ? styles['backgroundColor'] : null,
+            // padding: theme.spacing()
+        })
+    );
+
+
+    return (
+        !sortedData.element_type.not_has_end_tag ?
+                <StyledComp {...defaultProps} src={exampleText === "Blank Image" ? exampleImage : exampleText} >
+                    {
+                        sortedData?.children.length > 0 ?
+                            repeat(sortedData)
+                        :
+                        exampleText
+                    }
+                </StyledComp>
+
+            :
+            <StyledComp {...defaultProps} src={exampleText === "Blank Image" ? exampleImage : exampleText} placeholder={exampleText} />
+        
+    )
 }
 
 Tag.propTypes = {
@@ -280,4 +299,6 @@ Tag.propTypes = {
     defaultProps: propTypes.object,
     exampleText: propTypes.any,
     sortedData: propTypes.any,
+    styles: propTypes.object,
+    hoveredSubElementId: propTypes.string,
 }

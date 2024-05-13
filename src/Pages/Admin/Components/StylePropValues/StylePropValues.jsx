@@ -4,21 +4,18 @@ import { useCallback, useEffect, useMemo, useState } from 'react'
 
 
 //Components
-
+import AppropriateStyleValues from '../AppropriateStyleValues/AppropriateStyleValues'
+import { useTheme } from '@emotion/react'
 
 //MUI
 import {
-    Autocomplete,
     Box,
-    TextField,
 } from '@mui/material'
 
 
 //propTypes 
 import propTypes from 'prop-types'
-import AppropriateStyleValues from '../AppropriateStyleValues/AppropriateStyleValues'
-import { cornerDirections, normalDirections } from '../../../../Helpers/DefaultValues/autocompleteValues'
-import { useTheme } from '@emotion/react'
+
 
 
 
@@ -26,7 +23,9 @@ import { useTheme } from '@emotion/react'
 export const GetAppropriateStyleValues = (props) => {
     const {stylePropValueType, stylePropValues, label, valueState, locateTypes, directionsState} = props
 
-    const {value, setValue, cssValue }= valueState
+    const {value, setValue, 
+        // cssValue 
+    }= valueState
 
     //for width and height properties
     const [valueType, setValueType] = useState("px")
@@ -149,12 +148,25 @@ export const GetAppropriateStyleValues = (props) => {
             setValue(gradientString);
         }
 
-        if(stylePropValueType === "px" 
-        || stylePropValueType === "px;vh;%" 
-        || stylePropValueType === "px;vw;%" 
-        || stylePropValueType === "string" 
-        || stylePropValueType === "fontWeight"
-        || stylePropValueType === "opacity"
+        if(stylePropValueType  === "gridTemplateRows") {
+            const gridTemplateRows = `${newValue.join(' ')}`;
+            setValue(gridTemplateRows);
+        }
+
+        if(stylePropValueType  === "gridTemplateColumns") {
+            const gridTemplateColumns = `${newValue.join(' ')}`;
+            console.log(gridTemplateColumns);
+            setValue(gridTemplateColumns);
+        }
+
+        if( 
+            stylePropValueType === "px" 
+            || stylePropValueType === "px;vh;%" 
+            || stylePropValueType === "px;vw;%" 
+            || stylePropValueType === "string" 
+            || stylePropValueType === "position" 
+            || stylePropValueType === "fontWeight"
+            || stylePropValueType === "opacity"
         ) {
             setValue(() => newValue)
         }
@@ -311,6 +323,11 @@ export const CustomDivider = ({ anchor, directionsState, value }) => {
     );
 };
 
+CustomDivider.propTypes = {
+    anchor: propTypes.string,
+    directionsState: propTypes.array,
+    value: propTypes.any,
+}
 
 export const CustomCornerDivider = ({ anchor, directionsState, value }) => {
     const [cornerDirections, setCornerDirections] = directionsState
@@ -376,5 +393,9 @@ export const CustomCornerDivider = ({ anchor, directionsState, value }) => {
     );
 };
 
-
+CustomCornerDivider.propTypes = {
+    anchor: propTypes.string,
+    directionsState: propTypes.array,
+    value: propTypes.any,
+}
 

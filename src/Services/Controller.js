@@ -9,16 +9,17 @@ import { setSnackbarMessage, handleOpenSnackbar, setSnackbarIsError } from "../R
 // --- FETCH DATA TEMPLATE 
 
 
-export const fetchDataTemplate = async (axiosAPI, type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null) => {
+export const fetchDataTemplate = async (axiosAPI, type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage=10) => {
     try {
 
 
-        let response;
+        let response;   
         if (type === "deleted") {
             // Fetch deleted items
             response = await axiosAPI.get("/fetch_deleted", {
                 params: {
                     pageNumber: pageNumber,
+                    perPage: perPage,
                     filters: filters,
                     sorts: sorts,
                     searchQuery: searchQuery,
@@ -29,6 +30,7 @@ export const fetchDataTemplate = async (axiosAPI, type = "all", pageNumber = 1, 
             response = await axiosAPI.get("", {
                 params: {
                     pageNumber: pageNumber,
+                    perPage: perPage,
                     filters: filters,
                     sorts: sorts,
                     searchQuery: searchQuery,

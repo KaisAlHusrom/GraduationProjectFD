@@ -23,7 +23,6 @@ import { GetAppropriateStyleValues } from '../StylePropValues/StylePropValues'
 import { AdminMainButton } from '../../../../Components'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate';
 import { checkIfStyleExist } from '../../../../Helpers/RecursiveHelpers/styles';
-import { writeStyleObject } from '../../../../Helpers/writeStyleObject';
 
 import useStylePropValueState from '../../../../Helpers/customHooks/useStylePropValueState';
 import { useTheme } from '@emotion/react';
@@ -38,7 +37,7 @@ const StyledChildStylePropField = styled(Box)(
 )
 
 
-const ChildStylePropField = ({prop}) => {
+const ChildStylePropField = ({prop, breakpointState, exceptionState}) => {
     const {
         template,
         setTemplate,
@@ -55,8 +54,9 @@ const ChildStylePropField = ({prop}) => {
         handleDeleteStyleProp,
         mainDirections, setMainDirections,
         cornerDirections, setCornerDirections
-    } = useStylePropValueState(prop, template, setTemplate, selectedSubElementIds)
-
+    } = useStylePropValueState(prop, template, setTemplate, selectedSubElementIds, breakpointState, exceptionState)
+    const {styleException} = exceptionState
+    const {styleBreakpoint} = breakpointState
     
     return (
         <StyledChildStylePropField>
@@ -69,7 +69,7 @@ const ChildStylePropField = ({prop}) => {
                 locateTypes={prop.locateTypes}
             />
             {
-                checkIfStyleExist(template, selectedSubElementIds, prop, cssValue)
+                checkIfStyleExist(template, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint)
                 ?
                     <AdminMainButton 
                         type='custom' 
@@ -112,6 +112,8 @@ const ChildStylePropField = ({prop}) => {
 ChildStylePropField.propTypes = {
     prop: propTypes.object,
     valueState: propTypes.object,
+    breakpointState: propTypes.object,
+    exceptionState: propTypes.object,
     handleAddNewStyle: propTypes.func,
 }
 

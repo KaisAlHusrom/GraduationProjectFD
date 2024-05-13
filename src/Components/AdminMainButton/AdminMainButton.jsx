@@ -60,7 +60,10 @@ const AdminMainButton = (props) => {
         filled,
         sx,
         drawerStyle,
-        drawerResizable
+        drawerResizable,
+        drawerHeaderStyle,
+        drawerHeaderContent,
+        withoutDrawerHeader
 
     } = props
 
@@ -128,7 +131,7 @@ const AdminMainButton = (props) => {
     //Styled Components
     const StyleOfButton = {
         backgroundColor: filled ? (appearance === "primary" ? theme.palette.primary.main : appearance === "secondary" ? theme.palette.secondary.main : "transparent") : "transparent",
-        color: appearance === "primary" ? theme.palette.primary.contrastText : "text.primary",
+        color: appearance === "primary" && filled ? theme.palette.primary.contrastText : "text.primary",
         padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
         borderRadius: "100px",
         fontWeight: "bold",
@@ -145,7 +148,7 @@ const AdminMainButton = (props) => {
     }
 
     const StyleOfIconButton = {
-        border: '1px solid',
+        border: putBorder && '1px solid',
         borderColor: theme.palette.divider,
         borderRadius: "10px",
     }
@@ -227,7 +230,7 @@ const AdminMainButton = (props) => {
                         <Button
                         sx={
                             sx ?
-                            {...StyleOfIconButton, ...sx}
+                            {...StyleOfButton, ...sx}
                             :
                             StyleOfButton
                         }
@@ -390,6 +393,9 @@ const AdminMainButton = (props) => {
                 variant={drawerVariant}
                 drawerStyle = {drawerStyle}
                 drawerResizable={drawerResizable}
+                drawerHeaderStyle={drawerHeaderStyle}
+                drawerHeaderContent={drawerHeaderContent}
+                withoutDrawerHeader={withoutDrawerHeader}
                 >
                     {willShow}
                 </CustomDrawer>
@@ -449,6 +455,9 @@ AdminMainButton.propTypes = {
     filled: propTypes.bool,
     drawerStyle: propTypes.object,
     drawerResizable: propTypes.bool,
+    drawerHeaderStyle: propTypes.object, 
+    drawerHeaderContent: propTypes.string,
+    withoutDrawerHeader: propTypes.bool,
 }
 
 export default AdminMainButton;

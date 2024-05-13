@@ -62,6 +62,8 @@ import { useTheme } from '@emotion/react';
 const StyleFieldBox = (props) => {
     const {
         category,
+        breakpointState,
+        exceptionState
     } = props
 
 
@@ -88,7 +90,7 @@ const StyleFieldBox = (props) => {
                                 category.style_props.map((prop, key) => {
 
                                     return (
-                                        <StyledFieldValue key={key} prop={prop} />
+                                        <StyledFieldValue key={key} prop={prop} breakpointState={breakpointState} exceptionState={exceptionState} />
                                     )
                                 })
                             :null
@@ -103,6 +105,8 @@ const StyleFieldBox = (props) => {
 
 StyleFieldBox.propTypes = {
     category: propTypes.object.isRequired,
+    breakpointState: propTypes.object,
+    exceptionState: propTypes.object
 }
 
 
@@ -127,7 +131,7 @@ const StyledStyleFieldValueBox = styled(Box)(
     })
 );
 
-export const StyledFieldValue = ({prop}) => {
+export const StyledFieldValue = ({prop, breakpointState, exceptionState}) => {
     const theme = useTheme()
     const {template, setTemplate, selectedSubElementIds} = useMyCreateElementContext()
     const [openChildren, setOpenChildren] = useState(false)
@@ -142,7 +146,10 @@ export const StyledFieldValue = ({prop}) => {
         handleDeleteStyleProp,
         mainDirections, setMainDirections,
         cornerDirections, setCornerDirections
-    } = useStylePropValueState(prop, template, setTemplate, selectedSubElementIds)
+    } = useStylePropValueState(prop, template, setTemplate, selectedSubElementIds, breakpointState, exceptionState)
+
+    const {styleException} = exceptionState
+    const {styleBreakpoint} = breakpointState
 
     const handleOpenChildren = () => {
         setOpenChildren(prev => !prev)
@@ -169,6 +176,8 @@ export const StyledFieldValue = ({prop}) => {
                                         <ChildStylePropField 
                                             key={key} prop={childProp}
                                             valueState={{value, setValue, cssValue}}
+                                            breakpointState={breakpointState}
+                                            exceptionState={exceptionState}
                                         />
                                     )
                                 })
@@ -182,6 +191,7 @@ export const StyledFieldValue = ({prop}) => {
                                 valueState={{value, setValue, cssValue}}
                                 locateTypes={prop.locateTypes}
                                 directionsState={{mainDirections, setMainDirections, cornerDirections, setCornerDirections}}
+                                
                             />
                     }
                 </Box>
@@ -202,7 +212,7 @@ export const StyledFieldValue = ({prop}) => {
             {
                 !openChildren
                 &&
-                (checkIfStyleExist(template, selectedSubElementIds, prop, cssValue)
+                (checkIfStyleExist(template, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint)
                 ?
                     <AdminMainButton 
                         type='custom' 
@@ -254,4 +264,6 @@ export const StyledFieldValue = ({prop}) => {
 
 StyledFieldValue.propTypes = {
     prop: propTypes.object.isRequired,
+    breakpointState: propTypes.object,
+    exceptionState: propTypes.object
 }
