@@ -27,19 +27,20 @@ const StyledSendMessageComponent = styled(Box)(
 
 
 const SendMessageComponent = ({component}) => {
+
     const componentStyle = useMemo(() => {
         const styleObject = {};
 
-        component.section_css_props.forEach((cssProp) => {
-        const { css_prop, css_prop_value } = cssProp;
+        component.styles.forEach((cssProp) => {
+        const { style_prop, style_prop_value } = cssProp;
 
-        if (css_prop.is_component) {
-            styleObject[css_prop.prop_name] = css_prop_value;
+        if (style_prop.is_component) {
+            styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }
         });
 
         return styleObject;
-    }, [component.section_css_props]);
+    }, [component.styles]);
 
 
     const [isInView, setIsInView] = useState(false);
@@ -62,7 +63,7 @@ const SendMessageComponent = ({component}) => {
             ref={ref}
             >
             {
-                component && component.component_elements.map((element, i) => {
+                component && component.children.map((element, i) => {
                     return (
                         <SendMessageElement key={i} element={element} />
                     )

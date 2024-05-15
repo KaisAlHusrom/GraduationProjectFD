@@ -86,8 +86,8 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                         appearance="primary"
                         putTooltip
                         drawerStyle = {{
-                            width : '400px',
-                            backgroundColor : 'transparent',
+                            width : '600px',
+                            backgroundColor : '#121212',
 
                         }}
                         willShow={

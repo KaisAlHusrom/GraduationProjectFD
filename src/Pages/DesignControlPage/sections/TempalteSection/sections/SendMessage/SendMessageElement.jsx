@@ -6,6 +6,7 @@ import {
 } from 'react-redux'
 
 //Components
+import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 
 
 //propTypes 
@@ -17,7 +18,6 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
 import  '../Style.css'
 
 //Styled Components
@@ -32,21 +32,21 @@ const SendMessageElement = ({element}) => {
 
     useMemo(() => {
         const dictionary = {};
-        if (element.section_css_props) {
-            element.section_css_props.forEach((cssProp) => {
-                const { css_prop, css_prop_value } = cssProp;
-                if (css_prop.is_element) {
-                    dictionary[css_prop.prop_name] = css_prop_value;
+        if (element) {
+            element.styles.forEach((cssProp) => {
+                const { style_prop, style_prop_value } = cssProp;
+                if (style_prop.is_element) {
+                    dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
         }
         setElementStyle(dictionary);
-    }, [element.section_css_props]);
+    }, [element.styles]);
 
 
     return (
         <StyledSendMessageElement className='element-query'>
-                {getAppropriateTag(element.element, title, elementStyle)}
+                        {getAppropriateTag(element.element_type.element_type_name, element.element_content, elementStyle)}
         </StyledSendMessageElement>
     );
 };

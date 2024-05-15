@@ -45,7 +45,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm }) => {
                                 title="Cancel"
                                 type="custom"
                                 onClick={onClose}
-                                appearance="Button"
+                                appearance="primary"
                                 putTooltip
                                 // icon={<DeleteSweepIcon />}
                                 sx={{
@@ -65,7 +65,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm }) => {
                                 title="Delete"
                                 type="custom"
                                 onClick={onConfirm}
-                                appearance="Button"
+                                appearance="primary"
                                 putTooltip
                                 // icon={<DeleteSweepIcon />}
                                 sx={{
@@ -87,7 +87,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm }) => {
 };
 
 ConfirmationDialog.propTypes = {
-    open: propTypes.func,
+    open: propTypes.bool,
     onClose : propTypes.func,
     onConfirm : propTypes.func
 

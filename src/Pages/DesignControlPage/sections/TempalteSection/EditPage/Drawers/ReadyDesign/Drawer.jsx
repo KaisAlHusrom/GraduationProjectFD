@@ -17,7 +17,7 @@ import { getAppropriateTag } from '../../../StylesFunctions/GenerateElements'
 
 //Styled Components
 const StyledDrawer = styled(Box)(
-    ({ theme }) => ({
+    () => ({
 
     })
 )
@@ -31,15 +31,10 @@ const Drawer = ({createNewComponent , createDesignedComponent , BoxDesignOne , e
         setSelectedCss(cssProps);
         createNewComponent(cssProps)
     };
-
-
     const handleBoxClick = (box) => {
     
         createDesignedComponent(box)
     };
-
-    console.log(BoxDesignOne)
-
     return (
         <StyledDrawer>
             <Box sx={{
@@ -53,7 +48,7 @@ const Drawer = ({createNewComponent , createDesignedComponent , BoxDesignOne , e
         sx={{
             ...emptyDesign.reduce((acc, cssProp) => ({
                 ...acc,
-                [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
+                [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
             }), {}),
             margin: '30px', // Adjust the margin value as needed
         }}
@@ -61,12 +56,12 @@ const Drawer = ({createNewComponent , createDesignedComponent , BoxDesignOne , e
     />
     {BoxDesignOne.map((boxDesign) => (
         <Box
-            key={boxDesign.section_component_id}
+            key={boxDesign.id}
             sx={{
-                ...boxDesign.section_css_props.reduce(
+                ...boxDesign.styles.reduce(
                     (acc, cssProp) => ({
                         ...acc,
-                        [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
+                        [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
                     }),
                     {}
                 ),
@@ -75,16 +70,17 @@ const Drawer = ({createNewComponent , createDesignedComponent , BoxDesignOne , e
             onClick={() => handleBoxClick(boxDesign)}
             className={selectedBox === boxDesign ? 'selected' : ''}
         >
+
             {/* Render component_elements inside the Box if boxDesign is present */}
-            {boxDesign && boxDesign.component_elements && boxDesign.component_elements.map((element) => (
-                <Box key={element.component_element_id}>
+            {boxDesign && boxDesign.children && boxDesign.children.map((element) => (
+                <Box key={element.id}>
                     {getAppropriateTag(
-                        element.element,
+                        element.element_type.element_type_name,
                         element.element_content,
-                        element.section_css_props.reduce(
+                        element.styles.reduce(
                             (acc, cssProp) => ({
                                 ...acc,
-                                [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
+                                [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
                             }),
                             {}
                         )

@@ -6,22 +6,38 @@ import { v4 as uuidv4 } from 'uuid'; // UUID oluşturmak için
 
 export const createEmptyComponent = (section_css_props) => {
     return {
-        section_component_id: uuidv4(), // Generate a random integer between 0 and 999999
-        "component_title": "About Header",
-        "component_description": "lorem ipsum ....",
-        "is_template": true,
-        "mobile_columns_count": 12,
-        "tablet_columns_count": 4,
-        "laptop_columns_count": 3,
-        "section_css_props": section_css_props,
-        "pivot": {
-            "section_id": 3,
-            "section_component_id": 10,
-            "created_at": "2022-01-01 13:00:00",
-            "updated_at": "2022-01-01 13:30:00"
-        },
-        "component_elements": []
-    };
+        
+            "id": uuidv4(),
+            "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
+            "design_type" : "component",
+            "element_type": {
+                "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
+                "element_type_name": "Head3",
+                "element_type_description": "Defines important text",
+                "is_child": false,
+                "parent_id": null,
+                "deleted_at": null,
+                "created_at": "2024-03-31T23:28:41.000000Z",
+                "updated_at": "2024-04-04T12:08:10.000000Z",
+                "sequence_number": 1,
+                "not_has_end_tag": false,
+                "children": [],
+                "element_props": [],
+                "parent": null
+            },
+            "parent_id": "4c15ed73-5264-4d8b-8236-49c23e846a7b",
+            "children": [
+                
+            ],
+            "styles": section_css_props,
+            "design_title": null,
+            "design_description": null,
+            "design_image": null,
+            "is_template": true,
+            "is_child": false,
+            "sequence_number": 1,
+            "element_content": "Blank Strong text up"
+        }
     
 }
 
@@ -30,24 +46,36 @@ export const createEmptyComponent = (section_css_props) => {
 
 
 export const createEmptyElement = (element_type , element_content , elementCss) => {
+    console.log(elementCss)
     return {
-        "component_element_id": uuidv4(),
-        "element_name": "adding",
-        "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-        "is_element": true,
-        "element": {
-            "element_type_id": 4,
-            "element_type": element_type,
-            "type_description": "this type return Typography with variant h3 tag in codes"
+        "id": uuidv4(),
+        "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
+        "design_type" : "element",
+        "element_type": {
+            "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
+            "element_type_name": element_type,
+            "element_type_description": "Defines important text",
+            "is_child": false,
+            "parent_id": null,
+            "deleted_at": null,
+            "created_at": "2024-03-31T23:28:41.000000Z",
+            "updated_at": "2024-04-04T12:08:10.000000Z",
+            "sequence_number": 1,
+            "not_has_end_tag": false,
+            "children": [],
+            "element_props": [],
+            "parent": null
         },
-        "element_content": element_content,
-        "section_css_props": elementCss,
-        "pivot": {
-            "section_component_id": 10,
-            "component_element_id": 3,
-            "created_at": "2022-01-01 13:00:00",
-            "updated_at": "2022-01-01 13:30:00"
-        }
+        "parent_id": "4c15ed73-5264-4d8b-8236-49c23e846a7b",
+        "children": [],
+        "styles": elementCss,
+        "design_title": null,
+        "design_description": null,
+        "design_image": null,
+        "is_template": true,
+        "is_child": false,
+        "sequence_number": 1,
+        "element_content": element_content
     }
 }
 

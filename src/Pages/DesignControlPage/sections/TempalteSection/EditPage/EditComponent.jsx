@@ -63,7 +63,7 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     // add element to component 
     useEffect(() => {
-        if (AddElement && componentId === component.section_component_id) {
+        if (AddElement && componentId === component.id) {
             handleAddNewElement(setComponentData)
             setHistory(prevHistory => [...prevHistory, componentData]);
 
@@ -77,16 +77,16 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     useMemo(() => {
         const dictionary = {};
-        if (component.section_css_props) {
-            component.section_css_props.forEach((cssProp) => {
-                const { css_prop, css_prop_value } = cssProp;
-                if (css_prop.is_component) {
-                    dictionary[css_prop.prop_name] = css_prop_value;
+        if (component.styles) {
+            component.styles.forEach((cssProp) => {
+                const { style_prop, style_prop_value } = cssProp;
+                if (style_prop.is_component) {
+                    dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
         }
         setComponentStyle(dictionary);
-    }, [component.section_css_props]);
+    }, [component.styles]);
 
     // to change the component style 
     const handleSectionStyleChange = (newStyle) => {
@@ -96,11 +96,11 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
     // to delete the element from component
     const deleteElementForComponent = (Component_id, element__id) => {
         setComponentData((prevData) => {
-            if (prevData.section_component_id === Component_id) {
-                const updatedElements = prevData.component_elements.filter(element => element.component_element_id !== element__id);
+            if (prevData.id === Component_id) {
+                const updatedElements = prevData.children.filter(element => element.id !== element__id);
                 return {
                 ...prevData,
-                component_elements: updatedElements,
+                children: updatedElements,
                 };
             } else {
                 return prevData;
@@ -110,15 +110,15 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     };
 
-    const reorderElements = (elements, oldIndex, newIndex) => {
-        const reorderedElements = [...elements];
+    const reorderElements = (children, oldIndex, newIndex) => {
+        const reorderedElements = [...children];
         const movedElement = reorderedElements.splice(oldIndex, 1)[0];
         reorderedElements.splice(newIndex, 0, movedElement);
         return reorderedElements;
     };
     
     const handleMoveElement = (oldIndex, newIndex) => {
-        const reorderedElements = reorderElements(componentData.component_elements, oldIndex, newIndex);
+        const reorderedElements = reorderElements(componentData.children, oldIndex, newIndex);
         // Yeni sıralama ile güncellenmiş öğeleri alıp, her bir öğeye sequenceNumber'ı güncelleyerek yeni diziyi oluşturuyoruz
         const updatedElements = reorderedElements.map((element, index) => ({
             ...element,
@@ -126,7 +126,7 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
         }));
         setComponentData((prevData) => ({
             ...prevData,
-            component_elements: updatedElements,
+            children: updatedElements,
         }));
         setHistory(prevHistory => [...prevHistory, componentData]);
 
@@ -146,15 +146,15 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     return (
         <StyledEditComponent sx={componentStyle}>
-            {componentData.component_elements
+            {componentData.children
                 // Elemanları sequenceNumber özelliğine göre sırala
                 .sort((a, b) => a.sequenceNumber - b.sequenceNumber)
                 .map((element, i) => (
-                    <Box key={`${component.section_component_id}-${element.component_element_id}-${i}`}>
+                    <Box key={`${component.id}-${element.id}-${i}`}>
                         <EditElement
                             element={element}
                             deleteElementForComponent={deleteElementForComponent}
-                            componentId={component.section_component_id}
+                            componentId={component.id}
                             handleMoveElement={handleMoveElement} 
                             componentData={componentData}
                         />
@@ -201,7 +201,7 @@ EditComponent.propTypes = {
     component: propTypes.object,
     handleAddNewElement : propTypes.func,
     componentId : propTypes.object,
-    elements : propTypes.object
+    elements : propTypes.array
 
 }
 

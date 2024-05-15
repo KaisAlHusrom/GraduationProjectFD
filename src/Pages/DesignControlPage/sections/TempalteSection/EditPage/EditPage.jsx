@@ -63,10 +63,6 @@ const getSectionData = async (section_id) => {
     const CarouselDataModule = await import("../sections/NavBar/NavBarData.json");
         return CarouselDataModule.default;
     }
-    else if (section_id === "16") {
-    const CarouselDataModule = await import("../sections/Slider/SliderData.json");
-            return CarouselDataModule.default;
-        }
     else if (section_id === "17") {
         const CarouselDataModule = await import("../sections/SendMessage/SendMessageData.json");
             return CarouselDataModule.default;
@@ -156,11 +152,11 @@ const EditPage = () => {
             const fetchedData = await getSectionData(section_id);
             setSectionData(fetchedData);
             const dictionary = {};
-            if (fetchedData && fetchedData.section_css_props) {
-                fetchedData.section_css_props.forEach((cssProp) => {
-                    const { css_prop, css_prop_value } = cssProp;
-                    if (css_prop.is_section) {
-                        dictionary[css_prop.prop_name] = css_prop_value;
+            if (fetchedData && fetchedData.styles) {
+                fetchedData.styles.forEach((cssProp) => {
+                    const {  style_prop, style_prop_value } = cssProp;
+                    if (style_prop.is_section) {
+                        dictionary[style_prop.style_prop_css_name] = style_prop_value;
                     }
                 });
                 setSectionStyle(dictionary);
@@ -176,15 +172,15 @@ const EditPage = () => {
     //  duplicate component 
     const addComponentForComponent = (section_component_id) => {
         
-        const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
+        const index = sectionData.children.findIndex(component => component.id === section_component_id);
         if (index !== -1) {
-            const newComponent = { ...sectionData.section_components[index], section_component_id: uuidv4() };
+            const newComponent = { ...sectionData.children[index], section_component_id: uuidv4() };
             setSectionData((prevData) => {
-                const updatedComponents = [...prevData.section_components];
+                const updatedComponents = [...prevData.children];
                 updatedComponents.splice(index + 1, 0, newComponent);
                 return {
                     ...prevData,
-                    section_components: updatedComponents,
+                    children: updatedComponents,
                 };
             });
             setHistory(prevHistory => [...prevHistory, sectionData]);
@@ -193,14 +189,14 @@ const EditPage = () => {
     };
     //  delete the component
     const deleteComponentForComponent = (section_component_id) => {
-        const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
+        const index = sectionData.children.findIndex(component => component.id === section_component_id);
         if (index !== -1) {
             setSectionData((prevData) => {
-                const updatedComponents = [...prevData.section_components];
+                const updatedComponents = [...prevData.children];
                 updatedComponents.splice(index, 1);
                 return {
                     ...prevData,
-                    section_components: updatedComponents,
+                    children: updatedComponents,
                 };
             });
             setHistory(prevHistory => [...prevHistory, sectionData]);
@@ -211,10 +207,10 @@ const EditPage = () => {
     const createNewComponent = (section_css_props) => {
         // Update the state to include the new component
         setSectionData((prevData) => {
-            const updatedComponents = [...prevData.section_components, createEmptyComponent(section_css_props)];
+            const updatedComponents = [...prevData.children, createEmptyComponent(section_css_props)];
             return {
                 ...prevData,
-                section_components: updatedComponents,
+                children: updatedComponents,
             };
         });
         setHistory(prevHistory => [...prevHistory, sectionData]);
@@ -224,10 +220,10 @@ const EditPage = () => {
     const createDesignedComponent = (component) => {
         // Update the state to include the new component
         setSectionData((prevData) => {
-            const updatedComponents = [...prevData.section_components, component];
+            const updatedComponents = [...prevData.children, component];
             return {
                 ...prevData,
-                section_components: updatedComponents,
+                children: updatedComponents,
             };
         });
         setHistory(prevHistory => [...prevHistory, sectionData]);
@@ -239,7 +235,7 @@ const EditPage = () => {
         setComponent((prevData) => {
                 return {
                     ...prevData,
-                    component_elements: [...prevData.component_elements, createEmptyElement(AddElement.element.element_type, AddElement.element_content ,AddElement.section_css_props )],
+                    children: [...prevData.children, createEmptyElement(AddElement.element_type.element_type_name, AddElement.element_content ,AddElement.styles )],
                 };
         })
 
@@ -248,7 +244,7 @@ const EditPage = () => {
     const deleteSection = () => {
         setSectionData(prevData => ({
             ...prevData,
-            section_components: [] // Set section_components to an empty array
+            children: [] // Set section_components to an empty array
         }));
         setHistory(prevHistory => [...prevHistory, sectionData]);
 
@@ -257,14 +253,14 @@ const EditPage = () => {
     // delete the element inside component 
 
     const deleteComponentElements = (section_component_id) => {
-        const index = sectionData.section_components.findIndex(component => component.section_component_id === section_component_id);
+        const index = sectionData.children.findIndex(component => component.id === section_component_id);
         if (index !== -1) {
             setSectionData((prevData) => {
-                const updatedComponents = [...prevData.section_components];
-                updatedComponents[index].component_elements = [];
+                const updatedComponents = [...prevData.children];
+                updatedComponents[index].children = [];
                 return {
                     ...prevData,
-                    section_components: updatedComponents,
+                    children: updatedComponents,
                 };
             });
         }
@@ -320,8 +316,8 @@ const EditPage = () => {
                 />
 
             <HoverBox key={section_id} sx={sectionStyle}>
-                {sectionData && sectionData.section_components && sectionData.section_components.map((component, i) => (
-                    <Box key={component.section_component_id}>
+                {sectionData && sectionData.children && sectionData.children.map((component, i) => (
+                    <Box key={component.id}>
                         
                         <EditComponent key={i} component={component} componentId = {AddElementToComponentId}  handleAddNewElement = {handleAddNewElement} 
                         elements = {[AddElement , setAddElement]}/>
@@ -331,7 +327,7 @@ const EditPage = () => {
                             <AdminMainButton
                                 title="duplicate"
                                 type="custom"
-                                onClick={() => addComponentForComponent(component.section_component_id)}
+                                onClick={() => addComponentForComponent(component.id)}
                                 appearance="iconButton"
                                 putTooltip                                
                                 icon={<AddBoxIcon />}
@@ -340,7 +336,7 @@ const EditPage = () => {
                             <AdminMainButton
                                 title="Delete"
                                 type="custom"
-                                onClick={() => deleteComponentForComponent(component.section_component_id)}
+                                onClick={() => deleteComponentForComponent(component.id)}
                                 appearance="iconButton"
                                 putTooltip
                                 icon={<DeleteSweepIcon />}
@@ -360,7 +356,7 @@ const EditPage = () => {
                                 type="custom"
                                 appearance="iconButton"
                                 putTooltip
-                                onClick={() => handleConfirmation(component.section_component_id)}
+                                onClick={() => handleConfirmation(component.id)}
                                 icon={<DeleteSweepIcon />}
                                 sx={{
                                     border: '1px solid red',
@@ -372,7 +368,7 @@ const EditPage = () => {
                                     '&:hover': {
                                         backgroundColor: 'rgb(7, 15, 43)',
                                     },
-                                    display:component.component_elements.length === 0 ? 'none' : 'flex',
+                                    display:component.children.length === 0 ? 'none' : 'flex',
                                 }}
                             />
                             <AdminMainButton
@@ -382,7 +378,7 @@ const EditPage = () => {
                                 putTooltip
                                 willShow={
                                     <AddElementModal setAddElementToComponentId = {setAddElementToComponentId} elements =  {[AddElement , setAddElement]}  
-                                    componentSection_component_id = {component.section_component_id} ></AddElementModal>
+                                    componentSection_component_id = {component.id} ></AddElementModal>
                                 }
                                 icon={<AddBoxIcon />}
                                 sx={EditButtonsStyle}

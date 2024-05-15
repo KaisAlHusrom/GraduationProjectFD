@@ -33,17 +33,16 @@ const Team = ({ moveSectionUp , moveSectionDown }) => {
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        TeamData.section_css_props.forEach((cssProp) => {
-        const { css_prop, css_prop_value } = cssProp;
-
-        if (css_prop.is_section) {
-            styleObject[css_prop.prop_name] = css_prop_value;
+        TeamData.styles.forEach((cssProp) => {
+        const { style_prop, style_prop_value } = cssProp;
+        if (style_prop.is_section) {
+            styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }
         });
 
         return styleObject;
+        
     }, []);
-
     
     return (
         TeamSection ? (
@@ -63,7 +62,7 @@ const Team = ({ moveSectionUp , moveSectionDown }) => {
 
 
             {TeamData &&
-                TeamData.section_components.map((component, i) => {
+                TeamData.children.map((component, i) => {
                 return (
                     <TeamComponent key={i} component={component} />
                 );
