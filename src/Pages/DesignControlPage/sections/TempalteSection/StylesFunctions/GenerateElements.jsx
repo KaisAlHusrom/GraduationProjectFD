@@ -17,110 +17,111 @@ import './Style.css'
 
 
 export const getAppropriateTag = (element, elementContent, elementStyle , classname) => {
-    
+
+
     let modifiedElementStyle = { ...elementStyle }; 
-    if (element?.element_type === "Head1") {
+    if (element === "Head1") {
         return (
             <Typography sx={modifiedElementStyle} variant="h1" className={classname}>{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "Head2") {
+    if (element === "Head2") {
         return (
             <Typography sx={modifiedElementStyle} variant="h2" className={classname}>{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "Head3") {
+    if (element === "Head3") {
         return (
             <Typography sx={modifiedElementStyle} variant="h3" className={classname}>{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "Head4") {
+    if (element === "Head4") {
         return (
             <Typography sx={modifiedElementStyle} variant="h4" className={classname}>{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "Head5") {
+    if (element === "Head5") {
         return (
             <Typography sx={modifiedElementStyle} variant="h5">{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "Head6") {
+    if (element === "Head6") {
         return (
             <Typography sx={modifiedElementStyle} variant="h6">{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "SubTitle1") {
+    if (element === "SubTitle1") {
         return (
             <Typography sx={modifiedElementStyle} variant="SubTitle1">{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "SubTitle2") {
+    if (element === "SubTitle2") {
         return (
             <Typography sx={modifiedElementStyle} variant="SubTitle2">{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "description") {
+    if (element === "description") {
         return (
             <Typography sx={modifiedElementStyle} variant="p">{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "text") {
+    if (element === "text") {
         return (
             <Typography sx={elementStyle} variant="h6">{elementContent}</Typography>
         );
     }
-    if (element?.element_type === "image") {
+    if (element === "image") {
         return (
             <img style={elementStyle} src={elementContent} alt={elementContent} />
         );
     }
-    if (element?.element_type === "link") {
+    if (element === "link") {
         return (
             <Link href={elementContent} style={elementStyle} >{elementContent}</Link>
         );
     }
-    if (element?.element_type === "icon") {
+    if (element === "icon") {
         return (
             <FacebookIcon style={elementStyle}  />
         );
         
     }
-    if (element?.element_type === "UserIcon") {
+    if (element === "UserIcon") {
         return (
             <PersonOutlineIcon style={elementStyle} />
         );  
     }
-    if (element?.element_type === "MoneyIcon") {
+    if (element === "MoneyIcon") {
         return (
             <AttachMoneyIcon style={elementStyle} />
         );  
     }
-    if (element?.element_type === "ProjectIcon") {
+    if (element === "ProjectIcon") {
         return (
             <AccountTreeIcon style={elementStyle} />
         );  
     }
-    if (element?.element_type === "Countries") {
+    if (element === "Countries") {
         return (
             <LanguageIcon style={elementStyle} />
         );  
     }
-    if (element?.element_type === "AssessmentIcon") {
+    if (element === "AssessmentIcon") {
         return (
             <AssessmentIcon style={elementStyle} />
         );  
     }
-    if (element?.element_type === "ModeStandbyIcon") {
+    if (element === "ModeStandbyIcon") {
         return (
             <ModeStandbyIcon style={elementStyle} />
         );  
     }
-    if (element?.element_type === "ContactlessIcon") {
+    if (element === "ContactlessIcon") {
         return (
             <ContactlessIcon style={elementStyle} />
         );  
     }
-    if (element?.element_type === "Button") {
+    if (element === "Button") {
         return (
             <Button variant="contained" sx={{
                 ...elementStyle,
@@ -136,7 +137,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
             );  
         }
         
-    if (element?.element_type === "Submit") {
+    if (element === "Submit") {
         return (
                 <Button variant="contained" style = {{
                     ...elementStyle,
@@ -147,7 +148,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
                 }}><SendIcon sx={{marginRight :'20px'}}/> {elementContent}</Button>
         );  
     }
-    if (element?.element_type === "input") {
+    if (element === "input") {
         return (
             <Box
             component="form"
@@ -180,7 +181,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
         </Box>        
         );  
     }
-    if (element?.element_type === "textIconLocation") {
+    if (element === "textIconLocation") {
         return (
             <Box sx = {{
                 display: 'flex',
@@ -194,7 +195,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
             </Box>
         );  
     }
-    if (element?.element_type === "textIconPhone") {
+    if (element === "textIconPhone") {
         return (
             <Box sx = {{
                 display: 'flex',
@@ -208,7 +209,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
             </Box>
         );  
     }
-    if (element?.element_type === "textIconEmail") {
+    if (element === "textIconEmail") {
         return (
             <Box sx = {{
                 display: 'flex',
@@ -222,7 +223,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
             </Box>
         );  
     }
-    if (element?.element_type === "TextArea") {
+    if (element === "TextArea") {
         return (
             <TextField
                 sx={{
@@ -246,7 +247,7 @@ export const getAppropriateTag = (element, elementContent, elementStyle , classn
             />
         );  
     }
-    if (element?.element_type === "Rating") {
+    if (element === "Rating") {
         return (
             <Rating style = {elementStyle} name="read-only" value={5} readOnly />
         );  

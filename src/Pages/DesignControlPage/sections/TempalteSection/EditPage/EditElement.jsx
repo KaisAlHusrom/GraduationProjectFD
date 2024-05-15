@@ -68,16 +68,16 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
 
     useMemo(() => {
         const dictionary = {};
-        if (elementData.section_css_props) {
-            elementData.section_css_props.forEach((cssProp) => {
-                const { css_prop, css_prop_value } = cssProp;
-                if (css_prop.is_element) {
-                    dictionary[css_prop.prop_name] = css_prop_value;
+        if (elementData.styles) {
+            elementData.styles.forEach((cssProp) => {
+                const { style_prop, style_prop_value } = cssProp;
+                if (style_prop.is_element) {
+                    dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
         }
         setElementStyle(dictionary);
-    }, [elementData.section_css_props]);
+    }, [elementData.styles]);
 
     const handleSectionStyleChange = (newStyle) => {
         setElementStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
@@ -100,14 +100,14 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
     };
 
     const handleDeleteElementClick = () => {
-        deleteElementForComponent(componentId, elementData.component_element_id);
+        deleteElementForComponent(componentId, elementData.id);
     };
 
     
     // to change the order of elements 
     const handleOrderElementClick = (event, direction, currentSequenceNumber) => {
         event.stopPropagation();
-        const elementsCount = componentData.component_elements.length;
+        const elementsCount = componentData.children.length;
         let newIndex;
         if (direction === 'up') {
             newIndex = Math.max(currentSequenceNumber - 2, 0); // Yukarı hareket için yeni dizin hesaplama
@@ -116,13 +116,14 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
         }
         handleMoveElement(currentSequenceNumber - 1, newIndex);
     };
+
     return (
 
         <StyledEditElement
             elementStyle={{ ...elementStyle, backgroundColor: 'none', width: '100%', margin: '0 0px 20px 0', padding: '0', position: 'none' }}
         >   
                 {                        
-                getAppropriateTag(elementData.element, title, elementStyle)
+                getAppropriateTag(elementData.element_type.element_type_name, title, elementStyle)
                 }
             <TooltipContainer>
             <div style={{ position: 'absolute', height : '50px' , flexWrap : 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>
@@ -138,7 +139,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                             Section_Name={"Style Element"}
                             title={title}
                             handleTextFieldChange={handleTextFieldChange}
-                            element_Type={elementData.element.element_type}
+                            element_Type={elementData.element_type.element_type_name}
                             sectionStyle={elementStyle}
                             handleSectionStyleChange={handleSectionStyleChange}
                             handleDeleteLogoClick={handleDeleteLogoClick}
@@ -155,7 +156,6 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                     putTooltip
                     icon={<DeleteSweepIcon />}
                     onClick={handleDeleteElementClick}
-                    // sx = {buttonStyle}
                     sx={{
                         width: '20px',
                         height: '0px',
@@ -177,7 +177,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                 appearance="iconButton"
                 putTooltip
                 icon={<KeyboardArrowUpIcon />}
-                onClick={(e) => handleOrderElementClick(e, 'up' ,elementData.sequenceNumber)}
+                onClick={(e) => handleOrderElementClick(e, 'up' ,elementData.element_type.sequence_number)}
                 sx={buttonStyle}
             />
             <AdminMainButton
@@ -186,7 +186,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                 appearance="iconButton"
                 putTooltip
                 icon={<KeyboardArrowDownIcon />}
-                onClick={(e) => handleOrderElementClick(e, 'down' , elementData.sequenceNumber)}
+                onClick={(e) => handleOrderElementClick(e, 'down' , elementData.element_type.sequence_number)}
                 sx={buttonStyle}
             />
         </div>
@@ -201,7 +201,7 @@ EditElement.propTypes = {
     deleteElementForComponent: propTypes.func,
     handleMoveElement : propTypes.func,
     componentData : propTypes.object,
-    componentId : propTypes.number
+    componentId : propTypes.string
 };
 
 export default EditElement;

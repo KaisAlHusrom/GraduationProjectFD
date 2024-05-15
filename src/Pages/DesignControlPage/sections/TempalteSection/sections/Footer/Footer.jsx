@@ -26,19 +26,18 @@ const StyledFooter = styled(Box)(() => ({}))
 
 const Footer = () => {
 
-
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        FooterData.section_css_props.forEach((cssProp) => {
-        const { css_prop, css_prop_value } = cssProp;
-
-        if (css_prop.is_section) {
-            styleObject[css_prop.prop_name] = css_prop_value;
+        FooterData.styles.forEach((cssProp) => {
+        const { style_prop, style_prop_value } = cssProp;
+        if (style_prop.is_section) {
+            styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }
         });
 
         return styleObject;
+        
     }, []);
 
 
@@ -47,7 +46,7 @@ const Footer = () => {
         <StyledFooter sx = {sectionStyle} key={FooterData.section_id}>
                 
         {FooterData &&
-            FooterData.section_components.map((component, i) => {
+            FooterData.children.map((component, i) => {
                 return (
                     <FooterComponent key={i} component={component} />
                 );

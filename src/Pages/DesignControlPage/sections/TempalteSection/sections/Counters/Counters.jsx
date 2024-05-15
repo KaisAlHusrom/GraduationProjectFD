@@ -36,23 +36,24 @@ const Counters = ({moveSectionUp , moveSectionDown}) => {
         }
     }, [inView]);
 
-
+    
     const {CounterSection } = useContext(MainTemplateSectionSet)
 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        CountersData.section_css_props.forEach((cssProp) => {
-        const { css_prop, css_prop_value } = cssProp;
-
-        if (css_prop.is_section) {
-            styleObject[css_prop.prop_name] = css_prop_value;
+        CountersData.styles.forEach((cssProp) => {
+        const { style_prop, style_prop_value } = cssProp;
+        if (style_prop.is_section) {
+            styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }
         });
 
         return styleObject;
+        
     }, []);
 
+    console.log(sectionStyle)
 
     return (
 
@@ -76,7 +77,7 @@ const Counters = ({moveSectionUp , moveSectionDown}) => {
                     </Box>
                         
             {CountersData &&
-                CountersData.section_components.map((component, i) => {
+                CountersData.children.map((component, i) => {
                 return (
                     <CountersComponent key={i} component={component} />
                 );

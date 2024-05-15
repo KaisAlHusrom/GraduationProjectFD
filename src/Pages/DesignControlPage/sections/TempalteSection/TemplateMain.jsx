@@ -14,7 +14,6 @@ import Work from './sections/Work/Work'
 import Counters from './sections/Counters/Counters'
 import Services from './sections/Services/Services'
 import Footer from './sections/Footer/Footer'
-import SliderSection from './sections/Slider/slider'
 
 //MUI
 import {
@@ -91,7 +90,6 @@ const TemplateMain = ({ isMobileWidth, isTabletWidth, isLaptopWidth, selectedFon
                     {section === 'Work' && <Work moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
                     {section === 'Counters' && <Counters moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
                     {section === 'Services' && <Services moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
-                    {section === 'SliderSection' && <SliderSection moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
                     {section === 'Team' && <Team moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
                     {section === 'Message' && <SendMessage moveSectionUp={() => changeOrder(index, 'up')} moveSectionDown={() => changeOrder(index, 'down')} />}
 

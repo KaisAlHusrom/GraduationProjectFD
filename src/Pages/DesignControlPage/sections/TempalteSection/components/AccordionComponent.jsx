@@ -52,12 +52,12 @@ const AccordionComponent = ({items, componentSection_component_id , elements , s
             }}
           >
             {getAppropriateTag(
-              item.element,
+              item.element_type.element_type_name,
               item.element_content,
-              item.section_css_props.reduce(
+              item.styles.reduce(
                 (acc, cssProp) => ({
                   ...acc,
-                  [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
+                  [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
                 }),
                 {}
               )

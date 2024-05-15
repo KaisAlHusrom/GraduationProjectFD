@@ -28,20 +28,22 @@ const Header = ({moveSectionUp , moveSectionDown}) => {
 
     const {HeaderSection } = useContext(MainTemplateSectionSet)
 
+ 
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        HeaderData.section_css_props.forEach((cssProp) => {
-        const { css_prop, css_prop_value } = cssProp;
-
-        if (css_prop.is_section) {
-            styleObject[css_prop.prop_name] = css_prop_value;
+        HeaderData.styles.forEach((cssProp) => {
+        const { style_prop, style_prop_value } = cssProp;
+            console.log(style_prop)
+        if (style_prop.is_component) {
+            styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }
+
         });
 
         return styleObject;
+        
     }, []);
-
 
 
     return (
@@ -60,7 +62,7 @@ const Header = ({moveSectionUp , moveSectionDown}) => {
             </Box>
 
         {HeaderData &&
-        HeaderData.section_components.map((component, i) => {
+        HeaderData.children.map((component, i) => {
         return (
             <HeaderComponent key={i} component={component} />
         );

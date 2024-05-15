@@ -11,321 +11,328 @@ import  TESTIMONIALS from '../Assets/images/TESTIMONIALS.png';
 const galleryImages = [galleryImageSection, SERVICES , TESTIMONIALS , galleryImageSection, SERVICES , TESTIMONIALS]; // Add other images as needed
 
 // Create SectionsDesigns dynamically based on the number of imported images
+
+
+
+
 export const SectionsDesigns = galleryImages.map((image, index) => (
     {
-        section_component_id: index, // Generate a random integer between 0 and 999999
-        "component_title": "galleryImageSection",
-        "component_description": "lorem ipsum ....",
-        "is_template": true,
-        "mobile_columns_count": 12,
-        "tablet_columns_count": 4,
-        "laptop_columns_count": 3,
-        "section_css_props": [
+        "id": index,
+        "element_type_id": "81e40cfe-d1ec-49db-8595-952909d2351c",
+        "design_type" : "Component",
+        "element_type": {
+            "id": "81e40cfe-d1ec-49db-8595-952909d2351c",
+            "element_type_name": "Component",
+            "element_type_description": "Defines a section in any place of the document",
+            "is_child": false,
+            "parent_id": null,
+            "deleted_at": null,
+            "created_at": "2024-03-31T23:25:02.000000Z",
+            "updated_at": "2024-04-25T16:14:37.000000Z",
+            "sequence_number": 1,
+            "not_has_end_tag": false,
+            "children": [],
+            "element_props": [],
+            "parent": null
+        },
+        "parent_id": null,
+        "children": [
             {
-                "section_css_prop_id": 25,
-                "section_id": null,
-                "component_id": 20,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 2,
-                    "prop_name": "width",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
+                "id": uuidv4(),
+                "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
+                "design_type" : "component",
+                "element_type": {
+                    "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
+                    "element_type_name": "image",
+                    "element_type_description": "Defines important text",
+                    "is_child": false,
+                    "parent_id": null,
+                    "deleted_at": null,
+                    "created_at": "2024-03-31T23:28:41.000000Z",
+                    "updated_at": "2024-04-04T12:08:10.000000Z",
+                    "sequence_number": 1,
+                    "not_has_end_tag": false,
+                    "children": [],
+                    "element_props": [],
+                    "parent": null
                 },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "400px",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 20,
-                    "element_id": null,
-                    "section_css_prop_id": 25,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 25,
-                "section_id": null,
-                "component_id": 20,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 2,
-                    "prop_name": "borderRadius",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "10px",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 20,
-                    "element_id": null,
-                    "section_css_prop_id": 25,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "position",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "relative",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "overFlow",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "hidden",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "backgroundColor",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "#eee",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
-            },
-            {
-                "section_css_prop_id": 15,
-                "section_id": null,
-                "component_id": 10,
-                "element_id": null,
-                "css_prop": {
-                    "prop_id": 1,
-                    "prop_name": "textAlign",
-                    "prop_description": "lorem ipsum ....",
-                    "is_section": false,
-                    "is_component": true,
-                    "is_element": false
-                },
-                "css_status": null,
-                "css_responsive_status": null,
-                "css_prop_value": "center",
-                "pivot": {
-                    "section_id": null,
-                    "component_id": 10,
-                    "element_id": null,
-                    "section_css_prop_id": 15,
-                    "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
+                "parent_id": "4c15ed73-5264-4d8b-8236-49c23e846a7b",
+                "children": [
+                ],
+                "styles": [
+                    {
+                        "style_status": null,
+                        "style_responsive_breakpoint": null,
+                        "style_prop": {
+                            "id": "15",
+                            "category_id": null,
+                            "style_prop_normal_name": "width",
+                            "style_prop_css_name": "width",
+                            "style_prop_image": null,
+                            "style_prop_description": "lorem ipsum ....",
+                            "style_prop_value_type": null,
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true,
+                            "deleted_at": null,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00",
+                            "is_child": null,
+                            "parent_id": null,
+                            "locateTypes": null,
+                            "options": null
+                        },
+                        "style_prop_id": "15",
+                        "style_prop_value": "400px"
+                    },
+                    {
+                        "style_status": null,
+                        "style_responsive_breakpoint": null,
+                        "style_prop": {
+                            "id": "15",
+                            "category_id": null,
+                            "style_prop_normal_name": "height",
+                            "style_prop_css_name": "height",
+                            "style_prop_image": null,
+                            "style_prop_description": "lorem ipsum ....",
+                            "style_prop_value_type": null,
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true,
+                            "deleted_at": null,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00",
+                            "is_child": null,
+                            "parent_id": null,
+                            "locateTypes": null,
+                            "options": null
+                        },
+                        "style_prop_id": "15",
+                        "style_prop_value": "100%"
+                    },
+                    {
+                        "style_status": null,
+                        "style_responsive_breakpoint": null,
+                        "style_prop": {
+                            "id": "15",
+                            "category_id": null,
+                            "style_prop_normal_name": "borderRadius",
+                            "style_prop_css_name": "borderRadius",
+                            "style_prop_image": null,
+                            "style_prop_description": "lorem ipsum ....",
+                            "style_prop_value_type": null,
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true,
+                            "deleted_at": null,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00",
+                            "is_child": null,
+                            "parent_id": null,
+                            "locateTypes": null,
+                            "options": null
+                        },
+                        "style_prop_id": "15",
+                        "style_prop_value": "10px"
+                    },
+                    {
+                        "style_status": null,
+                        "style_responsive_breakpoint": null,
+                        "style_prop": {
+                            "id": "15",
+                            "category_id": null,
+                            "style_prop_normal_name": "objectFit",
+                            "style_prop_css_name": "objectFit",
+                            "style_prop_image": null,
+                            "style_prop_description": "lorem ipsum ....",
+                            "style_prop_value_type": null,
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true,
+                            "deleted_at": null,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00",
+                            "is_child": null,
+                            "parent_id": null,
+                            "locateTypes": null,
+                            "options": null
+                        },
+                        "style_prop_id": "15",
+                        "style_prop_value": "cover"
+                    },
+                    {
+                        "style_status": null,
+                        "style_responsive_breakpoint": null,
+                        "style_prop": {
+                            "id": "15",
+                            "category_id": null,
+                            "style_prop_normal_name": "padding",
+                            "style_prop_css_name": "padding",
+                            "style_prop_image": null,
+                            "style_prop_description": "lorem ipsum ....",
+                            "style_prop_value_type": null,
+                            "is_section": false,
+                            "is_component": false,
+                            "is_element": true,
+                            "deleted_at": null,
+                            "created_at": "2022-01-01 13:00:00",
+                            "updated_at": "2022-01-01 13:30:00",
+                            "is_child": null,
+                            "parent_id": null,
+                            "locateTypes": null,
+                            "options": null
+                        },
+                        "style_prop_id": "15",
+                        "style_prop_value": "20px"
+                    }
+                ]
+                ,
+                "design_title": null,
+                "design_description": null,
+                "design_image": null,
+                "is_template": true,
+                "is_child": false,
+                "sequence_number": 1,
+                "element_content": image
             },
         ],
-        "pivot": {
-            "section_id": 3,
-            "section_component_id": 10,
-            "created_at": "2022-01-01 13:00:00",
-            "updated_at": "2022-01-01 13:30:00"
-        },
-        "component_elements": [
+        "styles":[
             {
-                "component_element_id": 1,
-                "element_name": "adding",
-                "element_description": "lorem ipsum dolor sit amet, consectetur adip...",
-                "is_element": true,
-                "sequenceNumber" : "1",
-                "element": {
-                    "element_type_id": 4,
-                    "element_type": "image",
-                    "type_description": "this type return Typography with variant h3 tag in codes"
-                },
-                "element_content": image,
-                "section_css_props": [
-                    {
-                        "section_css_prop_id": 15,
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "css_prop": {
-                            "prop_id": 1,
-                            "prop_name": "width",
-                            "prop_description": "lorem ipsum ....",
-                            "is_section": false,
-                            "is_component": false,
-                            "is_element": true
-                        },
-                        "css_status": null,
-                        "css_responsive_status": null,
-                        "css_prop_value": "400px",
-                        "pivot": {
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "section_css_prop_id": 15,
-                            "created_at": "2022-01-01 13:00:00",
-                            "updated_at": "2022-01-01 13:30:00"
-                        }
-                    },
-                    {
-                        "section_css_prop_id": 15,
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "css_prop": {
-                            "prop_id": 1,
-                            "prop_name": "height",
-                            "prop_description": "lorem ipsum ....",
-                            "is_section": false,
-                            "is_component": false,
-                            "is_element": true
-                        },
-                        "css_status": null,
-                        "css_responsive_status": null,
-                        "css_prop_value": "100%",
-                        "pivot": {
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "section_css_prop_id": 15,
-                            "created_at": "2022-01-01 13:00:00",
-                            "updated_at": "2022-01-01 13:30:00"
-                        }
-                    },
-                    {
-                        "section_css_prop_id": 15,
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "css_prop": {
-                            "prop_id": 1,
-                            "prop_name": "borderRadius",
-                            "prop_description": "lorem ipsum ....",
-                            "is_section": false,
-                            "is_component": false,
-                            "is_element": true
-                        },
-                        "css_status": null,
-                        "css_responsive_status": null,
-                        "css_prop_value": "10px",
-                        "pivot": {
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "section_css_prop_id": 15,
-                            "created_at": "2022-01-01 13:00:00",
-                            "updated_at": "2022-01-01 13:30:00"
-                        }
-                    },
-                    {
-                        "section_css_prop_id": 15,
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "css_prop": {
-                            "prop_id": 1,
-                            "prop_name": "objectFit",
-                            "prop_description": "lorem ipsum ....",
-                            "is_section": false,
-                            "is_component": false,
-                            "is_element": true
-                        },
-                        "css_status": null,
-                        "css_responsive_status": null,
-                        "css_prop_value": "cover",
-                        "pivot": {
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "section_css_prop_id": 15,
-                            "created_at": "2022-01-01 13:00:00",
-                            "updated_at": "2022-01-01 13:30:00"
-                        }
-                    },
-                    {
-                        "section_css_prop_id": 15,
-                        "section_id": null,
-                        "component_id": 10,
-                        "element_id": null,
-                        "css_prop": {
-                            "prop_id": 1,
-                            "prop_name": "padding",
-                            "prop_description": "lorem ipsum ....",
-                            "is_section": false,
-                            "is_component": false,
-                            "is_element": true
-                        },
-                        "css_status": null,
-                        "css_responsive_status": null,
-                        "css_prop_value": "20px",
-                        "pivot": {
-                            "section_id": null,
-                            "component_id": 10,
-                            "element_id": null,
-                            "section_css_prop_id": 15,
-                            "created_at": "2022-01-01 13:00:00",
-                            "updated_at": "2022-01-01 13:30:00"
-                        }
-                    },
-                ],
-                "pivot": {
-                    "section_component_id": 10,
-                    "component_element_id": 3,
+                "style_status": null,
+                "style_responsive_breakpoint": null,
+                "style_prop": {
+                    "id": "25",
+                    "category_id": null,
+                    "style_prop_normal_name": "width",
+                    "style_prop_css_name": "width",
+                    "style_prop_image": null,
+                    "style_prop_description": "lorem ipsum ....",
+                    "style_prop_value_type": null,
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false,
+                    "deleted_at": null,
                     "created_at": "2022-01-01 13:00:00",
-                    "updated_at": "2022-01-01 13:30:00"
-                }
+                    "updated_at": "2022-01-01 13:30:00",
+                    "is_child": null,
+                    "parent_id": null,
+                    "locateTypes": null,
+                    "options": null
+                },
+                "style_prop_id": "25",
+                "style_prop_value": "400px"
             },
+            {
+                "style_status": null,
+                "style_responsive_breakpoint": null,
+                "style_prop": {
+                    "id": "25",
+                    "category_id": null,
+                    "style_prop_normal_name": "borderRadius",
+                    "style_prop_css_name": "borderRadius",
+                    "style_prop_image": null,
+                    "style_prop_description": "lorem ipsum ....",
+                    "style_prop_value_type": null,
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false,
+                    "deleted_at": null,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00",
+                    "is_child": null,
+                    "parent_id": null,
+                    "locateTypes": null,
+                    "options": null
+                },
+                "style_prop_id": "25",
+                "style_prop_value": "10px"
+            },
+            {
+                "style_status": null,
+                "style_responsive_breakpoint": null,
+                "style_prop": {
+                    "id": "15",
+                    "category_id": null,
+                    "style_prop_normal_name": "position",
+                    "style_prop_css_name": "position",
+                    "style_prop_image": null,
+                    "style_prop_description": "lorem ipsum ....",
+                    "style_prop_value_type": null,
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false,
+                    "deleted_at": null,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00",
+                    "is_child": null,
+                    "parent_id": null,
+                    "locateTypes": null,
+                    "options": null
+                },
+                "style_prop_id": "15",
+                "style_prop_value": "relative"
+            },
+
+            {
+                "style_status": null,
+                "style_responsive_breakpoint": null,
+                "style_prop": {
+                    "id": "15",
+                    "category_id": null,
+                    "style_prop_normal_name": "backgroundColor",
+                    "style_prop_css_name": "backgroundColor",
+                    "style_prop_image": null,
+                    "style_prop_description": "lorem ipsum ....",
+                    "style_prop_value_type": null,
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false,
+                    "deleted_at": null,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00",
+                    "is_child": null,
+                    "parent_id": null,
+                    "locateTypes": null,
+                    "options": null
+                },
+                "style_prop_id": "15",
+                "style_prop_value": "#eee"
+            },
+            {
+                "style_status": null,
+                "style_responsive_breakpoint": null,
+                "style_prop": {
+                    "id": "15",
+                    "category_id": null,
+                    "style_prop_normal_name": "textAlign",
+                    "style_prop_css_name": "textAlign",
+                    "style_prop_image": null,
+                    "style_prop_description": "lorem ipsum ....",
+                    "style_prop_value_type": null,
+                    "is_section": false,
+                    "is_component": true,
+                    "is_element": false,
+                    "deleted_at": null,
+                    "created_at": "2022-01-01 13:00:00",
+                    "updated_at": "2022-01-01 13:30:00",
+                    "is_child": null,
+                    "parent_id": null,
+                    "locateTypes": null,
+                    "options": null
+                },
+                "style_prop_id": "15",
+                "style_prop_value": "center"
+            }
         ]
+        ,
+        "design_title": null,
+        "design_description": null,
+        "design_image": null,
+        "is_template": true,
+        "is_child": false,
+        "sequence_number": 1,
+        "element_content": "Blank Component"
+    
     }
 ));
 

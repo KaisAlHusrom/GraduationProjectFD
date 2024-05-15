@@ -44,7 +44,7 @@ const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => 
                         putTooltip
                         drawerStyle = {{
                             width : '500px',
-                            backgroundColor : 'transparent',
+                            backgroundColor : 'black',
 
                         }}
                         icon={<AddCardIcon />}
@@ -77,7 +77,7 @@ const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => 
                         icon={<GamepadIcon />}
                         drawerStyle = {{
                             width : '500px',
-                            backgroundColor : 'transparent',
+                            backgroundColor : 'black',
                         }}
                         willShow={
                             <Drawer BoxDesignOne = {ButtonDesign}  emptyDesign = {emptyDesignButton} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
@@ -108,8 +108,8 @@ const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => 
                         putTooltip
                         drawerStyle = {{
                             width : '500px',
-                            backgroundColor : 'transparent',
-
+                            backgroundColor : 'black',
+                            
                         }}
                         icon={<GamepadIcon />}
                         willShow={
@@ -141,41 +141,7 @@ const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => 
                         putTooltip
                         drawerStyle = {{
                             width : '500px',
-                            backgroundColor : 'transparent',
-
-                        }}
-                        icon={<GamepadIcon />}
-                        willShow={
-                            <Drawer BoxDesignOne = {BoxDesignOne}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
-                        }
-                        sx={{
-                            margin: "10px",
-                            display: 'block',
-                            width: '250px',
-                            padding: '10px',
-                            transition: 'all 0.5s ease',
-                            borderRadius: '10px',
-                            fontWeight: 'bold',
-                            color: "#eee",
-                            cursor: 'pointer',
-                            '&:hover': {
-                                backgroundColor: "white.dark",
-                                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
-                            },
-                            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
-                        }}>
-
-                    </AdminMainButton>
-
-                                        
-                    <AdminMainButton 
-                        title="Buttons"
-                        type="drawer"
-                        appearance="primary"
-                        putTooltip
-                        drawerStyle = {{
-                            width : '500px',
-                            backgroundColor : 'transparent',
+                            backgroundColor : 'black',
 
                         }}
                         icon={<GamepadIcon />}
@@ -209,7 +175,41 @@ const AddComponentModal = ({ createNewComponent , createDesignedComponent }) => 
                         putTooltip
                         drawerStyle = {{
                             width : '500px',
-                            backgroundColor : 'transparent',
+                            backgroundColor : 'black',
+
+                        }}
+                        icon={<GamepadIcon />}
+                        willShow={
+                            <Drawer BoxDesignOne = {BoxDesignOne}  emptyDesign = {emptyDesign} createNewComponent = {createNewComponent} createDesignedComponent = {createDesignedComponent} ></Drawer>
+                        }
+                        sx={{
+                            margin: "10px",
+                            display: 'block',
+                            width: '250px',
+                            padding: '10px',
+                            transition: 'all 0.5s ease',
+                            borderRadius: '10px',
+                            fontWeight: 'bold',
+                            color: "#eee",
+                            cursor: 'pointer',
+                            '&:hover': {
+                                backgroundColor: "white.dark",
+                                boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
+                            },
+                            boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
+                        }}>
+
+                    </AdminMainButton>
+
+                                        
+                    <AdminMainButton 
+                        title="Buttons"
+                        type="drawer"
+                        appearance="primary"
+                        putTooltip
+                        drawerStyle = {{
+                            width : '500px',
+                            backgroundColor : 'black',
 
                         }}
                         icon={<GamepadIcon />}

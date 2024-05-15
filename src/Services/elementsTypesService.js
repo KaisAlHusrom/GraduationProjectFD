@@ -8,6 +8,9 @@ const ELEMENTS_TYPES_ROUTE = config.ServerMainRoute + "/element_types"
 
 const ElementTypesAPI = axios.create({
     baseURL: ELEMENTS_TYPES_ROUTE,
+    headers: {
+        'Content-Type': 'multipart/form-data',
+    }
 });
 
 //---------------------------------------

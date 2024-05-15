@@ -29,11 +29,10 @@ const SectionsModal = ({SectionsDesigns , createNewSection }) => {
 
 
     const handleBoxClick = (box) => {
-        console.log("box",box.section_component_id);
-        if (box.section_component_id === 0) {
+        if (box.id === 0) {
             createNewSection(galleryImageSection)
         }
-        if (box.section_component_id === 2) {
+        if (box.id === 2) {
             createNewSection(TESTIMONIALSsection)
         }
     };
@@ -50,12 +49,12 @@ const SectionsModal = ({SectionsDesigns , createNewSection }) => {
                 }}>
                 {SectionsDesigns.map((boxDesign) => (
                     <Box
-                    key={boxDesign.section_component_id}
+                    key={boxDesign.id}
                     sx={{
-                        ...boxDesign.section_css_props.reduce(
+                        ...boxDesign.styles.reduce(
                             (acc, cssProp) => ({
                                 ...acc,
-                                [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
+                                [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
                             }),
                             {}
                         ),
@@ -65,12 +64,12 @@ const SectionsModal = ({SectionsDesigns , createNewSection }) => {
                     className={selectedBox === boxDesign ? 'selected' : ''}
                 >
                     {/* Render component_elements inside the Box */}
-                    {boxDesign.component_elements.map((element) => (
-                        <Box key={element.component_element_id}>
-                            {getAppropriateTag(element.element, element.element_content, element.section_css_props.reduce(
+                    {boxDesign.children.map((element) => (
+                        <Box key={element.id}>
+                            {getAppropriateTag(element.element_type.element_type_name, element.element_content, element.styles.reduce(
                                         (acc, cssProp) => ({
                                             ...acc,
-                                            [cssProp.css_prop.prop_name]: cssProp.css_prop_value,
+                                            [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
                                         }),
                                         {}
                                     ))}

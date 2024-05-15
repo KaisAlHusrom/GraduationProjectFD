@@ -29,11 +29,11 @@ const Carousel = ({ moveSectionUp , moveSectionDown }) => {
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        CarouselData.section_css_props.forEach((cssProp) => {
-        const { css_prop, css_prop_value } = cssProp;
+        CarouselData.styles.forEach((cssProp) => {
+        const { style_prop, style_prop_value } = cssProp;
 
-        if (css_prop.is_section) {
-            styleObject[css_prop.prop_name] = css_prop_value;
+        if (style_prop.is_component) {
+            styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }
         });
 
@@ -41,11 +41,10 @@ const Carousel = ({ moveSectionUp , moveSectionDown }) => {
     }, []);
 
 
-
     return (
         CarouselSection ? (
 
-        <StyledCarousel key={CarouselData.section_id} sx={sectionStyle}>
+        <StyledCarousel key={CarouselData.id} sx={sectionStyle}>
 
             <Box sx = {{
                     display: 'flex',
@@ -61,7 +60,7 @@ const Carousel = ({ moveSectionUp , moveSectionDown }) => {
 
 
             {CarouselData &&
-                CarouselData.section_components.map((component, i) => {
+                CarouselData.children.map((component, i) => {
                 return (
                     <CarouselComponent key={i} component={component} />
                 );

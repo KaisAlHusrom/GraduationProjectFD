@@ -30,17 +30,16 @@ const Services = ({moveSectionUp , moveSectionDown}) => {
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        ServicesData.section_css_props.forEach((cssProp) => {
-        const { css_prop, css_prop_value } = cssProp;
-
-        if (css_prop.is_section) {
-            styleObject[css_prop.prop_name] = css_prop_value;
+        ServicesData.styles.forEach((cssProp) => {
+        const { style_prop, style_prop_value } = cssProp;
+        if (style_prop.is_section) {
+            styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }
         });
 
         return styleObject;
+        
     }, []);
-
 
 
 
@@ -61,7 +60,7 @@ const Services = ({moveSectionUp , moveSectionDown}) => {
         </Box>
                 
         {ServicesData &&
-        ServicesData.section_components.map((component, i) => {
+        ServicesData.children.map((component, i) => {
         return (
             <ServicesComponent key={i} component={component} />
         );

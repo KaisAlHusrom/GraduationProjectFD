@@ -7,16 +7,15 @@ import {
 
 //Components
 import MessageData from './SendMessageData.json'
-
+import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
+import UpDownButtons from '../../components/UpDownButtons'
+import EditLink from '../../components/EditLink'
+import SendMessageComponent from './SendMessageComponent'
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { MainTemplateSectionSet } from '../../UseContext/UserSetSections'
-import UpDownButtons from '../../components/UpDownButtons'
-import EditLink from '../../components/EditLink'
-import SendMessageComponent from './SendMessageComponent'
 import  '../Style.css'
 
 //Styled Components
@@ -32,21 +31,19 @@ const SendMessage = ({moveSectionUp , moveSectionDown}) => {
 
     const {MessageSection } = useContext(MainTemplateSectionSet)
 
-    
     const sectionStyle = useMemo(() => {
         const styleObject = {};
 
-        MessageData.section_css_props.forEach((cssProp) => {
-        const { css_prop, css_prop_value } = cssProp;
-
-        if (css_prop.is_section) {
-            styleObject[css_prop.prop_name] = css_prop_value;
+        MessageData.styles.forEach((cssProp) => {
+        const { style_prop, style_prop_value } = cssProp;
+        if (style_prop.is_section) {
+            styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }
         });
 
         return styleObject;
+        
     }, []);
-
 
 
     return (
@@ -66,7 +63,7 @@ const SendMessage = ({moveSectionUp , moveSectionDown}) => {
             </Box>
                     
             {MessageData &&
-                    MessageData.section_components.map((component, i) => {
+                    MessageData.children.map((component, i) => {
         return (
             <SendMessageComponent key={i} component={component} />
         );
