@@ -1,7 +1,6 @@
 //React
 import { createContext, useContext, useEffect, useState } from 'react'
 
-import { useSelector } from 'react-redux'
 
 
 //Components

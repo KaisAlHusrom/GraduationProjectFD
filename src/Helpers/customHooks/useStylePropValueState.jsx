@@ -85,6 +85,12 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
     const handleDeleteStyleProp = () => {
         if(selectedSubElementIds && selectedSubElementIds.length > 0 && cssValue) {
             const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
+            // console.log(updatedSelectedTemplate)
+            // console.log(selectedSubElementIds)
+            // console.log(prop)
+            // console.log(cssValue)
+            // console.log(styleException)
+            // console.log(styleBreakpoint)
             const deleted = deleteStyle(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint);
             if (deleted) {
                 console.log("Deleted Successfully")

@@ -13,6 +13,7 @@ import {
     Autocomplete,
     Box,
     TextField,
+    Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -79,7 +80,7 @@ const GridTemplate = ({direction, handleChangeStylePropValue}) => {
     return (
         <StyledGridTemplate>
             {
-                children ?
+                children && children.length > 0 ?
                     children.map((_, key) => {
                         return (
                             <Autocomplete
@@ -94,7 +95,8 @@ const GridTemplate = ({direction, handleChangeStylePropValue}) => {
                         )
                     })
 
-                :null
+                : 
+                <Typography variant='h7' color="warning.main">There is no children to selected element !</Typography>
             }
         </StyledGridTemplate>
     );

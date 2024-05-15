@@ -37,6 +37,7 @@ import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
 import usersService from '../../../Services/usersService';
 import CreateElementTemplate from "../../../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate";
 import { fetchCreateElementNeededData } from "../../../Services/createElementsService";
+import ElementTypesCategoriesPage from "../../../Pages/Admin/AdminPages/ElementTypesCategoriesPage/ElementTypesCategoriesPage";
 
 
 const adminPageRoutes = [
@@ -115,6 +116,12 @@ const adminPageRoutes = [
     {
         element: <ElementSettingsPage />,
         path: "element-settings",
+        exact: false,
+
+    },
+    {
+        element: <ElementTypesCategoriesPage />,
+        path: "element-settings/element-types-categories",
         exact: false,
 
     },

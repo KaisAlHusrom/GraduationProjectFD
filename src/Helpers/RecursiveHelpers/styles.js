@@ -10,6 +10,7 @@ export const extractStyles = (template, selectedIds) => {
     const exceptionStyles = {};
     const breakpointsStyles = {};
     const mixStyles = {};
+    const fromNormalNameToAllProps = {}
 
     for (const element of Array.isArray(updatedSelectedTemplate) ? updatedSelectedTemplate : [updatedSelectedTemplate]) {
         const elementKey = `${element.element_type.element_type_name}_${element.parent ? element.parent.element_type_name : 0}_${element.sequence_number}`
@@ -28,6 +29,7 @@ export const extractStyles = (template, selectedIds) => {
                     };
 
                     matchingStyles[elementKey]["mix"] = {...mixStyles}
+                    
                 } 
 
                 // Check if only status exists
@@ -52,6 +54,8 @@ export const extractStyles = (template, selectedIds) => {
                     normalStyles[style.style_prop.style_prop_normal_name] = style.style_prop_value;
                     matchingStyles[elementKey]["styles"] = {...normalStyles};
                 }
+
+                fromNormalNameToAllProps[style.style_prop.style_prop_normal_name] = style.style_prop
             }
 
 
@@ -59,72 +63,52 @@ export const extractStyles = (template, selectedIds) => {
 
         if (element.children && element.children.length > 0) {
             const childStyles = extractStyles(element.children, selectedIds);
-            for (const key in childStyles) {
+            for (const key in childStyles.matchingStyles) {
                 if (!matchingStyles[key]) {
                     matchingStyles[key] = {};
                 }
-                Object.assign(matchingStyles[key], childStyles[key]);
+                Object.assign(matchingStyles[key], childStyles.matchingStyles[key]);
             }
         }
     }
 
-    return matchingStyles;
+    return {matchingStyles, fromNormalNameToAllProps};
 };
 
 
 
 function isNewStyleAlreadyExist(element, newStyle) {
-    let same = false;
-    for (let i = 0; i < element.styles.length; i++) {
-        const style = element.styles[i];
-        //if there is not style exception and responsive breakpoint
-        if(newStyle.style_responsive_breakpoint_id === undefined && newStyle.style_status_id === undefined) {
-            if (
-                (style.style_responsive_breakpoint_id === undefined && style.style_status_id === undefined) 
-                && 
-                style.style_prop_id === newStyle.style_prop_id) {
-                same = true;
-                break
-            }
+    return element.styles.some(style => {
+        const sameResponsiveBreakpoint = style.style_responsive_breakpoint_id === newStyle.style_responsive_breakpoint_id;
+        const sameStatus = style.style_status_id === newStyle.style_status_id;
+        const sameProp = style.style_prop_id === newStyle.style_prop_id;
+
+        // If all properties match, and both style_status_id and style_responsive_breakpoint_id are present,
+        // and they match in the existing style and new style, return false
+        if (sameResponsiveBreakpoint && sameStatus && sameProp &&
+            style.style_status_id !== undefined && style.style_responsive_breakpoint_id !== undefined &&
+            (newStyle.style_status_id === undefined || newStyle.style_responsive_breakpoint_id === undefined)) {
+            return false;
         }
 
-        //if there is only style exception
-        if(newStyle.style_responsive_breakpoint_id === undefined && newStyle.style_status_id !== undefined) {
-            if (
-                style.style_responsive_breakpoint_id === undefined &&
-                style.style_status_id !== undefined && 
-                style.style_prop_id === newStyle.style_prop_id
-            )
-                {
-                same = true;
-                break
-            }
+        // If only style_status_id exists in newStyle and it's different from the existing style, return false
+        if (newStyle.style_status_id !== undefined && !sameStatus &&
+            newStyle.style_responsive_breakpoint_id === undefined && sameProp) {
+            return false;
         }
 
-        //if there is only style responsive exception
-        if(newStyle.style_responsive_breakpoint_id !== undefined && newStyle.style_status_id === undefined) {
-            if (
-                style.style_status_id === undefined &&
-                style.style_responsive_breakpoint_id !== undefined && 
-                style.style_prop_id === newStyle.style_prop_id
-            ) {
-                same = true;
-                break
-            }
+        // If only style_responsive_breakpoint_id exists in newStyle and it's different from the existing style, return false
+        if (newStyle.style_responsive_breakpoint_id !== undefined && !sameResponsiveBreakpoint &&
+            newStyle.style_status_id === undefined && sameProp) {
+            return false;
         }
 
-        // if there are both style exception and responsive breakpoint
-        if(newStyle.style_responsive_breakpoint_id !== undefined && newStyle.style_status_id !== undefined) {
-            if (style.style_responsive_breakpoint_id !== undefined && 
-                style.style_status_id !== undefined && 
-                style.style_prop_id === newStyle.style_prop_id) {
-                same = true;
-                break
-            }
-        }
-    }
-    return same;
+        return sameResponsiveBreakpoint && sameStatus && sameProp;
+    });
 }
+
+
+
 
 export const addStyle = (template, selectedIds, prop, cssValue, styleException, styleBreakpoint) => {
     let styleAdded = false;
@@ -141,9 +125,9 @@ export const addStyle = (template, selectedIds, prop, cssValue, styleException, 
                 if (!isNewStyleAlreadyExist(element, newStyle)) {
                     element.styles.push(newStyle);
                     styleAdded = true;
-                    console.log("exist");
+                    console.log("added successfully");
                 } else {
-                    console.log("not exist");
+                    console.log("can't add because it already exists");
                     // the style prop is already exist
                 }
             }
@@ -175,9 +159,9 @@ export const changeStyleValues = (template, selectedIds, prop, cssValue, styleEx
     const newStyle = writeStyleObject(prop, cssValue, styleException, styleBreakpoint)
     for (const element of Array.isArray(template) ? template : [template]) {
         if (selectedIds.includes(element.id)) {
-            //TODO: check if work true
-            if (element.styles.some(style => isStyleMatching(style, newStyle))) {
+            if (isNewStyleAlreadyExist(element, newStyle)) {
                 // Check if the newStyle is already exist in the styles
+                //TODO: check if work true
                 const style = element.styles.find(style => isStyleMatching(style, newStyle));
             
                 // Change the value
@@ -203,50 +187,15 @@ export const changeStyleValues = (template, selectedIds, prop, cssValue, styleEx
 // delete the style from template
 export const deleteStyle = (template, selectedIds, prop, cssValue, styleException, styleBreakpoint) => {
     let styleDeleted = false;
-    console.log(styleException)
-    console.log(styleBreakpoint)
-    const oldStyle = writeStyleObject(prop, cssValue, styleException, styleBreakpoint)
-    
+    const oldStyle = writeStyleObject(prop, cssValue, styleException, styleBreakpoint);
     for (const element of Array.isArray(template) ? template : [template]) {
         if (selectedIds.includes(element.id)) {
             for (let i = 0; i < element.styles.length; i++) {
                 const style = element.styles[i];
-                //if there is not style exception and responsive breakpoint
-                if(oldStyle.style_responsive_breakpoint_id === undefined && oldStyle.style_status_id === undefined) {
-                    if (style.style_prop_id === oldStyle.style_prop_id) {
-                        element.styles.splice(i, 1);
-                        styleDeleted = true;
-                        break; // Exit loop once style is deleted
-                    }
-                }
-
-                //if there is only style exception
-                if(oldStyle.style_responsive_breakpoint_id === undefined && oldStyle.style_status_id !== undefined) {
-                    if (style.style_status_id !== undefined && style.style_prop_id === oldStyle.style_prop_id) {
-                        element.styles.splice(i, 1);
-                        styleDeleted = true;
-                        break; // Exit loop once style is deleted
-                    }
-                }
-
-                //if there is only style responsive exception
-                if(oldStyle.style_responsive_breakpoint_id !== undefined && oldStyle.style_status_id === undefined) {
-                    if (style.style_responsive_breakpoint_id !== undefined && style.style_prop_id === oldStyle.style_prop_id) {
-                        element.styles.splice(i, 1);
-                        styleDeleted = true;
-                        break; // Exit loop once style is deleted
-                    }
-                }
-
-                // if there are both style exception and responsive breakpoint
-                if(oldStyle.style_responsive_breakpoint_id !== undefined && oldStyle.style_status_id !== undefined) {
-                    if (style.style_responsive_breakpoint_id !== undefined && 
-                        style.style_status_id !== undefined && 
-                        style.style_prop_id === oldStyle.style_prop_id) {
-                        element.styles.splice(i, 1);
-                        styleDeleted = true;
-                        break; // Exit loop once style is deleted
-                    }
+                if (isNewStyleAlreadyExist({ styles: [style] }, oldStyle)) {
+                    element.styles.splice(i, 1);
+                    styleDeleted = true;
+                    break; // Exit loop once style is deleted
                 }
             }
         }
@@ -262,31 +211,8 @@ export const deleteStyle = (template, selectedIds, prop, cssValue, styleExceptio
     return styleDeleted;
 };
 
-//delete styles from appliedStyles section
-export const deleteStyleWithNormalName = (template, selectedIds, propNormalName, cssValue) => {
-    let styleDeleted = false;
-    for (const element of Array.isArray(template) ? template : [template]) {
-        if (selectedIds.includes(element.id)) {
-            for (let i = 0; i < element.styles.length; i++) {
-                const style = element.styles[i];
-                if (style.style_prop.style_prop_normal_name === propNormalName) {
-                    element.styles.splice(i, 1);
-                    styleDeleted = true;
-                    break; // Exit loop once style is deleted
-                }
-            }
-        }
 
-        if (element.children && element.children.length > 0) {
-            const childStyleDeleted = deleteStyle(element.children, selectedIds, propNormalName, cssValue);
-            if (childStyleDeleted) {
-                styleDeleted = true;
-            }
-        }
-    }
 
-    return styleDeleted;
-};
 
 export const extractStylesWithoutChangeTheStructure = (template, selectedIds) => {
     const styles = []

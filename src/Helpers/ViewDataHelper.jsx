@@ -61,7 +61,6 @@ const StyledTextArea = styled(TextareaAutosize)(
 //return database data
 const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations, imagesFolder) => {
     const {manyToMany, manyToOne, oneToMany} = relations
-
     if(cell){
         if(columns[column] === "bool") {
             if(cell === true) {

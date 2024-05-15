@@ -21,7 +21,7 @@ import { styled } from '@mui/system'
 import CodeIcon from '@mui/icons-material/Code';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import TuneIcon from '@mui/icons-material/Tune';
-
+import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 
 //Styled Components
 const StyledElementSettingsPage = styled(Box)(
@@ -31,6 +31,12 @@ const StyledElementSettingsPage = styled(Box)(
 )
 
 const elementsItems = [
+    {
+        path: "element-types-categories",
+        title: "Element Types Categories",
+        body: "Control Element Types Categories",
+        icon: <WidgetsOutlinedIcon color='primary' sx={{fontSize: "64px"}} />
+    },
     {
         path: "element-types",
         title: "Element Types",

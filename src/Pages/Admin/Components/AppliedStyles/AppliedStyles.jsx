@@ -23,7 +23,7 @@ import propTypes from 'prop-types'
 
 //prism
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
-import { deleteStyleWithNormalName, extractStyles } from '../../../../Helpers/RecursiveHelpers/styles'
+import { deleteStyle, extractStyles } from '../../../../Helpers/RecursiveHelpers/styles'
 import { AdminMainButton } from '../../../../Components'
 import { useTheme } from '@emotion/react';
 import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../../Redux/Slices/snackbarOpenSlice';
@@ -52,18 +52,18 @@ const StyledAppliedStylesBox = styled(Card)(
     })
 );
 
-const AppliedStyles = () => {
+const AppliedStyles = ({styleException, styleBreakpoint}) => {
     // const [, setCopied] = useState(false);
 
     const {template, selectedSubElementIds} = useMyCreateElementContext()
     // console.log(template)
-    const appliedStyles = useMemo(() => {
-        if(template && selectedSubElementIds.length > 0) {
-            const styles = extractStyles(template, selectedSubElementIds)
-            return styles
+    const { matchingStyles, fromNormalNameToAllProps } = useMemo(() => {
+        if (template && selectedSubElementIds.length > 0) {
+            return extractStyles(template, selectedSubElementIds);
         }
-        return null
-    }, [selectedSubElementIds, template])
+        return { matchingStyles: null, fromNormalNameToAllProps: null };
+    }, [selectedSubElementIds, template]);
+    
 
     // const handleCopyCode = () => {
 
@@ -78,10 +78,16 @@ const AppliedStyles = () => {
     return (
                     <StyledAppliedStylesBox>
                         {
-                            appliedStyles &&
-                            Object.entries(appliedStyles).map(([designName, stylesTypes], key) => {
+                            matchingStyles &&
+                            Object.entries(matchingStyles).map(([designName, stylesTypes], key) => {
                                 return (
-                                    <AppliedGroupStyles key={key} designName={designName} stylesTypes={stylesTypes} />
+                                    <AppliedGroupStyles 
+                                    key={key} 
+                                    designName={designName} 
+                                    stylesTypes={stylesTypes} 
+                                    styleException={styleException} styleBreakpoint={styleBreakpoint}
+                                    fromNormalNameToAllProps={fromNormalNameToAllProps}
+                                    />
                                     
                                 );
                             })
@@ -93,7 +99,8 @@ const AppliedStyles = () => {
 };
 
 AppliedStyles.propTypes = {
-    children: propTypes.array
+    styleException: propTypes.object, 
+    styleBreakpoint: propTypes.object,
 }
 
 
@@ -104,7 +111,8 @@ export default AppliedStyles;
 const AppliedGroupStyles = (props) => {
     const {
         designName,
-        stylesTypes
+        stylesTypes,
+        styleException, styleBreakpoint, fromNormalNameToAllProps
     } = props;
 
     return (
@@ -126,7 +134,14 @@ const AppliedGroupStyles = (props) => {
                             Object.entries(stylesTypes).map(([styleType, styles], key) => {
 
                                 return (
-                                    <AppliedStyleBox key={key} styleType={styleType} styles={styles} />
+                                    <AppliedStyleBox 
+                                    styleException={styleException} 
+                                    styleBreakpoint={styleBreakpoint} 
+                                    key={key} 
+                                    styleType={styleType} 
+                                    styles={styles} 
+                                    fromNormalNameToAllProps={fromNormalNameToAllProps}
+                                    />
                                 )
                             })
                         :null
@@ -139,7 +154,10 @@ const AppliedGroupStyles = (props) => {
 
 AppliedGroupStyles.propTypes = {
     designName: propTypes.string,
-    stylesTypes: propTypes.object
+    stylesTypes: propTypes.object,
+    styleException: propTypes.object, 
+    styleBreakpoint: propTypes.object,
+    fromNormalNameToAllProps: propTypes.object
 }
 
 // ----------- APPLIED STYLES
@@ -160,7 +178,7 @@ const StyledAppliedStyleBox = styled(Card)(
     })
 );
 
-const AppliedStyleBox = ({styleType, styles}) => {
+const AppliedStyleBox = ({styleType, styles, styleException, styleBreakpoint, fromNormalNameToAllProps}) => {
     const theme = useTheme()
     const {
         template,
@@ -170,19 +188,26 @@ const AppliedStyleBox = ({styleType, styles}) => {
     const dispatch = useDispatch()
 
     const handleDeleteStyleProp = (stylePropName, stylePropValue) => {
-
-
-        const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
-        const deleted = deleteStyleWithNormalName(updatedSelectedTemplate, selectedSubElementIds, stylePropName, stylePropValue);
-        if (deleted) {
-            console.log("Deleted Successfully")
-            setTemplate(() => updatedSelectedTemplate)
+        if(selectedSubElementIds && selectedSubElementIds.length > 0 && stylePropValue) {
+            const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
+            const deleted = deleteStyle(updatedSelectedTemplate, selectedSubElementIds, fromNormalNameToAllProps[stylePropName], stylePropValue, styleException, styleBreakpoint);
+            if (deleted) {
+                console.log("Deleted Successfully")
+                setTemplate(() => updatedSelectedTemplate)
+            } else {
+                //TODO: fix that can't delete but in the mode that style prop is in, mode = (styleException, styleBreakpoint)
+                dispatch(setSnackbarIsError({isError: true}))
+                dispatch(setSnackbarMessage({message: "You are attempting to delete a style while in another mode"}))
+                dispatch(handleOpenSnackbar())
+            }
         } else {
             dispatch(setSnackbarIsError({isError: true}))
-            dispatch(setSnackbarMessage({message: "This style is not exist."}))
+            dispatch(setSnackbarMessage({message: "There is no selected template"}))
             dispatch(handleOpenSnackbar())
+            
         }
     }
+
     return (
         <StyledAppliedStyleBox elevation={6} sx={{
             display: "flex",
@@ -281,5 +306,8 @@ const AppliedStyleBox = ({styleType, styles}) => {
 
 AppliedStyleBox.propTypes = {
     styleType: propTypes.string,
-    styles: propTypes.object
+    styles: propTypes.object,
+    styleException: propTypes.object, 
+    styleBreakpoint: propTypes.object,
+    fromNormalNameToAllProps: propTypes.object
 }

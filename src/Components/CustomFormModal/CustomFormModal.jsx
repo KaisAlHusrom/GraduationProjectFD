@@ -613,7 +613,24 @@ const CustomFormModal = (props) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const res = await handleAddData(inputValues)
+        // Create a new object to store updated values
+        const updatedInputValues = {};
+
+        Object.keys(inputValues).forEach(name => {
+
+            const newValue = sortedColumns[name] === "bool" ? inputValues[name] === true ? 1 : 0 : inputValues[name]
+            // Change the key name if necessary and update the value
+            const newKeyName = sortedColumns[name] === "many-to-one" ? `${name}_id` : name;
+            updatedInputValues[newKeyName] = newValue;
+
+            // Delete the old key if it's different from the new one
+            if (newKeyName !== name) {
+                delete updatedInputValues[name];
+            }
+        });
+
+        //send the add request
+        const res = await handleAddData(updatedInputValues)
         setResponse(() => res)
     }
 

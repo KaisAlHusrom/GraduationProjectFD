@@ -19,7 +19,6 @@ export const convertStyleToCssShape = (styles, theme) => {
     const convertedStyles = {};
     const exceptionStyles = {};
     const breakpointsStyles = {};
-    const mixStyles = {};
 
     if (styles && styles.length > 0) {
         for (const style of styles) {
@@ -28,13 +27,20 @@ export const convertStyleToCssShape = (styles, theme) => {
 
             // Check if both status and breakpoint exist
             if (style.style_status && style.style_responsive_breakpoint) {
-                const propName = `${style.style_status.style_status_css_name}_${style.style_responsive_breakpoint.style_responsive_break_point_css_name}`;
-                mixStyles[propName] = {
-                    ...mixStyles[propName],
-                    [style.style_prop.style_prop_css_name]: style.style_prop_value
-                };
-            } 
+                const breakpointName = style.style_responsive_breakpoint.style_responsive_break_point_css_name;
+                const propName = theme.breakpoints.down(breakpointName);
 
+                // Ensure the object at the breakpoint key is an object
+                breakpointsStyles[propName] = breakpointsStyles[propName] || {};
+
+                // Ensure the object at the status key is an object
+                breakpointsStyles[propName][`&:${style.style_status.style_status_css_name}`] = 
+                breakpointsStyles[propName][`&:${style.style_status.style_status_css_name}`] || {};
+
+                // Add style property to the specific status and breakpoint
+                breakpointsStyles[propName][`&:${style.style_status.style_status_css_name}`][style.style_prop.style_prop_css_name] = 
+                    style.style_prop_value;
+            } 
             // Check if only status exists
             else if (style.style_status) {
                 exceptionStyles[`&:${style.style_status.style_status_css_name}`] = {
@@ -45,22 +51,15 @@ export const convertStyleToCssShape = (styles, theme) => {
             // Check if only breakpoint exists
             else if (style.style_responsive_breakpoint) {
                 const breakpointName = style.style_responsive_breakpoint.style_responsive_break_point_css_name;
-                const breakpointKey = `[theme.breakpoints.down('${breakpointName}')]`;
+                const breakpointKey = theme.breakpoints.down(breakpointName);
                 
-                const breakpointStyles = {
-                    ...breakpointsStyles[breakpointName],
-                    [style.style_prop.style_prop_css_name]: style.style_prop_value
-                };
-                
-                // Create a function from the breakpoint key to get the actual value
-                const breakpointKeyFunction = new Function('theme', `return ${breakpointKey}`);
-                
-                // Get the actual key value
-                const actualBreakpointKey = breakpointKeyFunction(theme);
-                
-                breakpointsStyles[actualBreakpointKey] = breakpointStyles;
+                // Ensure the object at the breakpoint key is an object
+                breakpointsStyles[breakpointKey] = breakpointsStyles[breakpointKey] || {};
+
+                // Add style property to the specific breakpoint
+                breakpointsStyles[breakpointKey][style.style_prop.style_prop_css_name] = 
+                    style.style_prop_value;
             }
-            
             // If neither status nor breakpoint exist
             else {
                 convertedStyles[style.style_prop.style_prop_css_name] = style.style_prop_value;
@@ -71,11 +70,11 @@ export const convertStyleToCssShape = (styles, theme) => {
     // Combine all styles into a single object
     return {
         ...convertedStyles,
-        ...mixStyles,
         ...exceptionStyles,
         ...breakpointsStyles
     };
 };
+
 
 
 export const convertStyleFromObjectToJsCode = (styles, template) => {

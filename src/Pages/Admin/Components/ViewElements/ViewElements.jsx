@@ -15,7 +15,7 @@ import AddSubElementMenu from '../AddSubElementMenu/AddSubElementMenu';
 import { removeChildrenByParentId, removeElementByParentId } from '../../../../Helpers/RecursiveHelpers/removeSelectedElement';
 import { duplicateElement } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
 import { moveElementDown, moveElementUp } from '../../../../Helpers/RecursiveHelpers/moveElement';
-import { CustomModal } from '../../../../Components';
+import { CustomDrawer, CustomModal } from '../../../../Components';
 import DesignInfo from '../DesignInfo/DesignInfo';
 import { sameTypeIds } from '../../../../Helpers/RecursiveHelpers/getIds';
 import DesignSettings from '../DesignSettings/DesignSettings';
@@ -48,6 +48,8 @@ import CodeOffIcon from '@mui/icons-material/CodeOff';
 //propTypes 
 import propTypes from 'prop-types'
 import ChangeImage from '../ChangeImage/ChangeImage';
+import { defaultDrawerWidth } from '../../../../Components/CustomDrawer/CustomDrawer';
+import ElementsCategories from '../ElementsCategories/ElementsCategories';
 
 
 
@@ -124,7 +126,11 @@ const SubElementComp = ({parent}) => {
 
     // set selected sub element to change it's style
     const handleDoubleClick = () => {
-        setSelectedSubElementIds(() => [parent.id])
+        if(selectedSubElementIds.includes(parent.id)) {
+            setSelectedSubElementIds(() => [])
+        } else {
+            setSelectedSubElementIds(() => [parent.id])
+        }
     }
 
     
@@ -137,10 +143,10 @@ const SubElementComp = ({parent}) => {
 
     //show the element that will be effected if the user will select it
     const handleMouseOver = () => {
-        setHoveredSubElementId(() => parent.id)
+        // setHoveredSubElementId(() => parent.id)
     }
     const handleMouseOut = () => {
-        setHoveredSubElementId(() => null)
+        // setHoveredSubElementId(() => null)
         
     }
 
@@ -150,13 +156,20 @@ const SubElementComp = ({parent}) => {
     const [parentElementId, setParentElementId] = useState(null)
 
     const [anchorEl, setAnchorEl] = useState(null)
-    const [anchorElAddElementMenu, setAnchorElAddElementMenu] = useState(null)
+    const [addNewElementDrawerOpen, setAddNewElementDrawerOpen] = useState(false)
+
     const [anchorChangeContentMenu, setAnchorChangeContentMenu] = useState(null)
     const [anchorChangeImageMenu, setAnchorChangeImageMenu] = useState(null)
     const closeMenus = useCallback(() => {
         setAnchorEl(null)
-        setAnchorElAddElementMenu(null)
+
+        //add element modal
+        setAddNewElementDrawerOpen(false)
+
+        //change content menu
         setAnchorChangeContentMenu(null)
+
+        //change Image Menu
         setAnchorChangeImageMenu(null)
     }, [])
 
@@ -233,73 +246,95 @@ const SubElementComp = ({parent}) => {
             text: "Add New",
             icon: <AddOutlinedIcon color='primary' />,
             shortcut: "Ctrl N",
-            onClick: (e) => {
-                setAnchorElAddElementMenu(e.currentTarget)
+            eventListener: {
+                onClick: () => {
+                    closeMenus()
+                    setAddNewElementDrawerOpen(true)
+                }
             },
+            
             putDivider: false
         },
         {
             text: "Delete",
             icon: <DeleteOutlineOutlinedIcon color='primary' />,
             shortcut: "Ctrl D",
-            onClick: handleRemoveElementWithChildren,
+            eventListener: {
+                onClick: handleRemoveElementWithChildren,
+            },
             putDivider: false
         },
         {
             text: "Remove Children",
             icon: <PlaylistRemoveOutlinedIcon color='primary' />,
             shortcut: "Ctrl E",
-            onClick: handleRemoveChildren,
+            eventListener: {
+                onClick: handleRemoveChildren,
+            },
             putDivider: false
         },
         {
             text: "Duplicate",
             icon: <ContentCopyOutlinedIcon color='primary' />,
             shortcut: "Ctrl D",
-            onClick: handleDuplicateElement,
+            eventListener: {
+                onClick: handleDuplicateElement,
+            },
             putDivider: true
         },
         {
             text: "Select Type",
             icon: <TaskAltOutlinedIcon color='primary' />,
             shortcut: "",
-            onClick: handleSelectType,
+            eventListener: {
+                onClick: handleSelectType,
+            },
             putDivider: true
         },
         {
             text: "Move Top",
             icon: <ArrowCircleUpOutlinedIcon color='primary' />,
             shortcut: "top arrow",
-            onClick: handleMoveUp,
+            eventListener: {
+                onClick: handleMoveUp,
+            },
             putDivider: false
         },
         {
             text: "Move Down",
             icon: <ArrowCircleDownOutlinedIcon color='primary' />,
             shortcut: "bottom arrow",
-            onClick: handleMoveDown,
+            eventListener: {
+                onClick: handleMoveDown,
+            },
             putDivider: true
         },
         {
             text: "Settings",
             icon: <SettingsOutlinedIcon color='primary' />,
             shortcut: "Ctrl O",
-            onClick: handleShowSettings,
+            eventListener: {
+                onClick: handleShowSettings,
+            },
             putDivider: false
         },
         {
             text: "Info",
             icon: <InfoOutlinedIcon color='primary' />,
             shortcut: "Ctrl I",
-            onClick: handleShowInfo,
+            eventListener: {
+                onClick: handleShowInfo,
+            },
             putDivider: true
         },
         parent?.children.length === 0 && parent?.element_type?.element_type_name !== "Image" && {
             text: "Change Content",
             icon: <ChangeCircleOutlinedIcon color='primary' />,
             shortcut: "",
-            onClick: (e) => {
-                setAnchorChangeContentMenu(e.currentTarget)
+            eventListener: {
+                onClick: (e) => {
+                    setAnchorChangeContentMenu(e.currentTarget)
+                }
             },
             putDivider: false
         },
@@ -307,8 +342,10 @@ const SubElementComp = ({parent}) => {
             text: "Change Image",
             icon: <ChangeCircleOutlinedIcon color='primary' />,
             shortcut: "",
-            onClick: (e) => {
-                setAnchorChangeImageMenu(e.currentTarget)
+            eventListener: {
+                onClick: (e) => {
+                    setAnchorChangeImageMenu(e.currentTarget)
+                },
             },
             putDivider: false
         }
@@ -409,14 +446,22 @@ const SubElementComp = ({parent}) => {
             </CustomMenu>
 
             {/* add new element */}
-            <CustomMenu
-                menuOpenState={[anchorElAddElementMenu, setAnchorElAddElementMenu]}
+            <CustomDrawer
+                title={"Categories"}
+                withoutDrawerHeader
+                drawerOpenState={[addNewElementDrawerOpen, setAddNewElementDrawerOpen]}
+                variant={"persistent"}
+                putDrawerCloseButton
+                drawerStyle={{
+                    marginLeft: `${defaultDrawerWidth}px`,
+                    width: "250px"
+                }}
             >
-                <AddSubElementMenu 
+                <ElementsCategories 
                     parentElementId={parentElementId}
                     handleCloseMenus={closeMenus}
                 />
-            </CustomMenu>
+            </CustomDrawer>
 
             {/* Info Modal */}
             <CustomModal
