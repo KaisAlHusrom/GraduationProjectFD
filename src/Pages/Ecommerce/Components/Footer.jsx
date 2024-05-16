@@ -25,17 +25,11 @@ import propTypes from 'prop-types'
 
 //Styled Components
 const StyledFooter = styled(Box)(
-    ({ theme }) => ({
-        backgroundColor: 'black',
+    ({theme}) => ({
+        backgroundColor: theme.palette.mode,
         padding: '50px 0',
         marginTop: 'auto',
-        position: "relative",
-        bottom: 0,
-        width: "100%",
-        height: "100%",
-        
-        
-        
+        position: "relative",  
     })
 )
 
@@ -44,19 +38,19 @@ const Footer = () => {
 
     return (
         <StyledFooter>
-            <Container id='footer'>
+            <Container id="Footer">
                 <Container maxWidth="lg">
                     <Typography variant="h6" align="center" gutterBottom>
-                    Your E-commerce Site
+                    CLISER E-commerce Site
                     </Typography>
                     <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    Explore our amazing products and enjoy shopping with us!
+                    Explore our amazing Templates and enjoy shopping with us!
                     </Typography>
                     <Typography variant="body2" color="textSecondary" align="center">
                     {'© '}
                     {new Date().getFullYear()}
                     {' '}
-                    Your E-commerce Site. All rights reserved.
+                    CLISER E-commerce Site. All rights reserved.
                     </Typography>
                     <Typography variant="body2" color="textSecondary" align="center">
                     <Link color="inherit" href="#">

@@ -15,8 +15,8 @@ const ElementTypesAPI = axios.create({
 
 //---------------------------------------
 // fetch items 
-export const fetchElementTypesRows = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null) => {
-    const res = await fetchDataTemplate(ElementTypesAPI, type, pageNumber, filters, sorts, searchQuery)
+export const fetchElementTypesRows = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage) => {
+    const res = await fetchDataTemplate(ElementTypesAPI, type, pageNumber, filters, sorts, searchQuery, perPage)
     let rows;
 
     if(res.success){
@@ -30,14 +30,16 @@ export const fetchElementTypesRows = async (type = "all", pageNumber = 1, filter
 
 //add items
 export const addElementType = async (inputValues) => {
-    const submission = {...inputValues, 'parent_id': inputValues["parent"], 'parent': null}
-    
-    return await addDataTemplate(ElementTypesAPI, submission)
+    // const submission = {...inputValues, 'parent_id': inputValues["parent"], 'parent': null}
+    console.log(inputValues)
+    return await addDataTemplate(ElementTypesAPI, inputValues)
 }
 
 //update items
 export const updateElementType = async (id, newData) => {
-    const submission = {...newData, 'parent_id': newData["parent"] ? newData["parent"]['id'] : null, 'parent': null}
+    const submission = {
+        ...newData, 
+    }
     console.log(submission)
  
     return await updateTemplate(ElementTypesAPI, id, submission);

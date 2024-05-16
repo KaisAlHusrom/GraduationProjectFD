@@ -33,7 +33,6 @@ export const addStylePropValues = async (inputValues) => {
 
     const submission = { 
         ...inputValues, 
-        "style_prop_id": inputValues["style_prop"] || null,
     };
 
     console.log(submission);

@@ -23,14 +23,14 @@ export default function FileContextMenu(props) {
                 {
                     menuItems.map((item, key) => {
                         return (
-                            <MenuItem sx={
+                            <MenuItem {...item.eventListener} sx={
                                 {
                                     borderBottom: item.putDivider && '1px solid',
                                     borderColor: theme.palette.divider,
                                     paddingBottom: item.putDivider ? theme.spacing(1.5) : theme.spacing(0.8),
                                     marginBottom: item.putDivider ? theme.spacing(1.5) : theme.spacing(0)
                                 }
-                                } onClick={item.onClick} key={key}>
+                                } key={key}>
                                 <ListItemIcon>
                                     {item.icon}
                                 </ListItemIcon>

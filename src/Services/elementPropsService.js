@@ -27,14 +27,9 @@ export const fetchElementProps = async (type = 'all', pageNumber = 1, filters = 
 }
 
 export const addElementProp = async (inputValues) => {
-    const submission = {
-        "element_prop_name": inputValues["element_prop_name"],
-        "element_prop_description": inputValues["element_prop_description"],
-        "elementTypes": inputValues["element_types"],
-    };
 
     
-    return await addDataTemplate(ElementPropsAPI, submission)
+    return await addDataTemplate(ElementPropsAPI, inputValues)
 
 
 }

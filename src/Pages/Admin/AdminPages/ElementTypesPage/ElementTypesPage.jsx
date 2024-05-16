@@ -22,6 +22,7 @@ import CodeIcon from '@mui/icons-material/Code';
 import { addElementType, deleteElementType, fetchElementTypesRows, permanentDeleteElementType, restoreElementType, updateElementType } from '../../../../Services/elementsTypesService'
 import { fetchElementProps } from '../../../../Services/elementPropsService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
+import { fetchElementTypesCategories } from '../../../../Services/elementTypesCategories'
 
 
 //Styled Components
@@ -42,7 +43,14 @@ const relationships = {
             filters: [
                 writeFilterObject("is_child", "bool", "=", "false")
             ] // to get only parent elements
-        }
+        },
+        {
+            "field_name": "category",
+            "fetched_column": "category_name",
+            "related_table_id": "id",
+            add_to_add_form: true,
+            fetch_all_data: fetchElementTypesCategories,
+        },
     ],
     manyToMany:[
         {
@@ -69,6 +77,7 @@ const relationships = {
 
 const columns = {
     id: "pk",
+    category: "many-to-one",
     element_type_name: "string",
     element_type_description: "text",
     element_props: "many-to-many",

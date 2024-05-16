@@ -7,6 +7,7 @@ const BoxStyle = {
   position: "absolute",
   top: 0,
   left: 0,
+  zIndex: 100000,
 }
 
 const LinearProgressStyle = {

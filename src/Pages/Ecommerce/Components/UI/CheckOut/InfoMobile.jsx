@@ -28,7 +28,7 @@ const StyledInfoMobile = styled(Box)(
 )
 
 
-const InfoMobile = ({totalPrice}) => {
+const InfoMobile = () => {
     const [open, setOpen] = useState(false);
 
     const toggleDrawer = (newOpen) => () => {
@@ -43,7 +43,7 @@ const InfoMobile = ({totalPrice}) => {
         >
           <CloseIcon />
         </IconButton>
-        <Info totalPrice={totalPrice} />
+        <Info/>
       </Box>
     );
     return (
@@ -57,7 +57,7 @@ const InfoMobile = ({totalPrice}) => {
                     View details
                 </Button>
                 <Drawer open={open} anchor="top" onClose={toggleDrawer(false)}>
-                    {DrawerList}
+                  {DrawerList}
                 </Drawer>
             </div>
         </StyledInfoMobile>
@@ -66,7 +66,6 @@ const InfoMobile = ({totalPrice}) => {
 
 InfoMobile.propTypes = {
     children: propTypes.array,
-    totalPrice: propTypes.string.isRequired
 }
 
 export default InfoMobile;

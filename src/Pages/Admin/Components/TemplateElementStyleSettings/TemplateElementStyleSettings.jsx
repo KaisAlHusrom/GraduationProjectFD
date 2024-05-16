@@ -82,7 +82,7 @@ const TemplateElementStyleSettings = () => {
                     </Typography>
                 </Grid>
                 <Grid item xxs={12}>
-                    <AppliedStyles />
+                    <AppliedStyles styleException={styleException} styleBreakpoint={styleBreakpoint} />
                 </Grid>
             </Grid>
             <Grid container spacing={2} item xxs={12}>

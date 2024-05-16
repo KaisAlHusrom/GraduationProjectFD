@@ -12,11 +12,8 @@ import { AdminMainButton } from '../../../Components';
 import { useNavigate} from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 
-const logoStyle = {
-  width: '140px',
-  height: 'auto',
-  cursor: 'pointer',
-};
+import CliserImageLogo from './UI/CliserImageLogo';
+
 const StyledSearchBar = styled(TextField)(
     ({ theme }) => ({
         marginBottom: theme.spacing(2),
@@ -39,6 +36,7 @@ const categories = {
 };
 
 function NavBar() {
+
 
 const [searchValue, setSearchValue] = useState('');
 
@@ -85,6 +83,7 @@ const handleSignUpClick = () => {
 };
 
 
+
   return (
     <div>
         <AppBar
@@ -128,14 +127,7 @@ const handleSignUpClick = () => {
                         px: 0,
                     }}
                     >
-                    <img
-                        src={
-                        'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/61f12e6faf73568658154dae_SitemarkDefault.svg'
-                        }
-                        style={logoStyle}
-                        alt="logo of sitemark"
-                        onClick={HandleMainButton}
-                    />
+                    <CliserImageLogo HandleMainButton={HandleMainButton} />
                     <Box sx={{ display: { xxs:'none',xs: 'none', sm:"none", md: 'flex' } }}>
                         <IconButton
                             onClick={handleHomeClick} // Add your cart click handler function here
@@ -151,7 +143,7 @@ const handleSignUpClick = () => {
                         </Typography>
                         </MenuItem>
                         <MenuItem
-                        onClick={() => scrollToSection('footer')}
+                        onClick={() => scrollToSection("Footer")}
                         sx={{ py: '6px', px: '12px' }}
                         >
                         <Typography variant="body2" color="text.primary">
@@ -198,7 +190,7 @@ const handleSignUpClick = () => {
                         <AdminMainButton
                             title=""
                             type="drawer"
-                            appearance="primary"
+                            appearance="secondary"
                             putTooltip
                             putDrawerCloseButton
                             drawerAnchor="right"
@@ -209,7 +201,7 @@ const handleSignUpClick = () => {
                             sx={{
                                 minWidth: '300px',
                                 p: 2,
-                                backgroundColor: 'background.paper',
+                                backgroundColor: 'background',
                                 flexGrow: 1,
                             }}
                             >
@@ -221,7 +213,7 @@ const handleSignUpClick = () => {
                                     fullWidth
                                 />
                                 {/* Categories Section */}
-                                <Accordion disableGutters elevation={0} square>
+                                <Accordion disableGutters elevation={0} square sx={{backgroundColor:"transparent"}}>
                                     <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
                                         <Typography>Categories</Typography>
                                     </AccordionSummary>
@@ -244,7 +236,7 @@ const handleSignUpClick = () => {
                                 <MenuItem onClick={() => scrollToSection('Cards')}>
                                     Cards
                                 </MenuItem>
-                                <MenuItem onClick={() => scrollToSection('footer')}>About us</MenuItem>
+                                <MenuItem onClick={() => scrollToSection("Footer")}>About us</MenuItem>
                                     <Button
                                     color="primary"
                                     variant="contained"

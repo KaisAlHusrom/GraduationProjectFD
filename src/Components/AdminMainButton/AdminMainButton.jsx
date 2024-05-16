@@ -63,8 +63,8 @@ const AdminMainButton = (props) => {
         drawerResizable,
         drawerHeaderStyle,
         drawerHeaderContent,
-        withoutDrawerHeader
-
+        withoutDrawerHeader,
+        drawerWidthState
     } = props
 
     //theme
@@ -396,6 +396,7 @@ const AdminMainButton = (props) => {
                 drawerHeaderStyle={drawerHeaderStyle}
                 drawerHeaderContent={drawerHeaderContent}
                 withoutDrawerHeader={withoutDrawerHeader}
+                drawerWidthState={drawerWidthState}
                 >
                     {willShow}
                 </CustomDrawer>
@@ -458,6 +459,7 @@ AdminMainButton.propTypes = {
     drawerHeaderStyle: propTypes.object, 
     drawerHeaderContent: propTypes.string,
     withoutDrawerHeader: propTypes.bool,
+    drawerWidthState: propTypes.array,
 }
 
 export default AdminMainButton;

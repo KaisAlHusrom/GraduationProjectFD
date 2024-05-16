@@ -1,6 +1,6 @@
-import { } from "@mui/material"
+import { Link } from "@mui/material"
 import { Fragment, useMemo } from "react";
-import {  } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import exampleImage from "../assets/images/exampleimage.jpg"
 
@@ -132,8 +132,12 @@ const Tag = (props) => {
         exampleText,
         sortedData,
         styles,
-        hoveredSubElementId
+        // hoveredSubElementId
     } = props
+
+    const {
+        selectedSubElementIds
+    } = useMyCreateElementContext()
 
     const component = useMemo(() => {
         let component = ""
@@ -172,10 +176,10 @@ const Tag = (props) => {
                 break
     
             case 'normal link':
-                component = "Link"
+                component = Link
                 break
             case 'lazy link':
-                component = "NavLink"
+                component = NavLink
                 break
             case 'ordered list item':
             case 'unordered list item':
@@ -268,24 +272,21 @@ const Tag = (props) => {
 
     
 
-    const StyledComp = styled(component)(
-        ({theme}) => ({
-            ...styles,
-            backgroundColor: hoveredSubElementId === sortedData.id ? theme.palette.action.selected : styles ? styles['backgroundColor'] : null,
-            // padding: theme.spacing()
-        })
-    );
-
+    const StyledComp = useMemo(() => {
+        return styled(component)(
+            ({theme}) => ({
+                ...styles,
+                backgroundColor: selectedSubElementIds.includes(sortedData.id)  ? theme.palette.action.selected : styles ? styles['backgroundColor'] : null,
+                // padding: theme.spacing()
+            })
+        );
+    
+    }, [component, selectedSubElementIds, sortedData.id, styles])
 
     return (
         !sortedData.element_type.not_has_end_tag ?
-                <StyledComp {...defaultProps} src={exampleText === "Blank Image" ? exampleImage : exampleText} >
-                    {
-                        sortedData?.children.length > 0 ?
-                            repeat(sortedData)
-                        :
-                        exampleText
-                    }
+                <StyledComp {...defaultProps} src={sortedData.element_type.element_type_name === "image" ? exampleText === "Blank Image" ? exampleImage : exampleText : null} >
+                    {exampleText}
                 </StyledComp>
 
             :

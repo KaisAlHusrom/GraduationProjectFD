@@ -11,7 +11,6 @@ import {
     Drawer,
     Box,
     Typography,
-    IconButton,
     Divider
 } from '@mui/material'
 import { styled } from '@mui/system'
@@ -33,7 +32,6 @@ const maxDrawerWidth = 600;
 
 const StyledCustomDrawer = styled(Drawer)(
     () => ({
-        zIndex: 1300,
         position: 'relative',
         
     })
@@ -55,7 +53,14 @@ const StyledCloseIcon = styled(Box)(
 );
 
 const CustomDrawer = (props) => {
-    const { children, drawerOpenState, title, putDrawerCloseButton, anchor, variant , drawerStyle, drawerResizable, drawerHeaderStyle, drawerHeaderContent, withoutDrawerHeader } = props
+    const { children, 
+        drawerOpenState, 
+        title, putDrawerCloseButton, 
+        anchor, variant , drawerStyle, 
+        drawerResizable, drawerHeaderStyle, 
+        drawerHeaderContent, withoutDrawerHeader,
+        drawerWidthState
+    } = props
 
     const [drawerOpen, setDrawerOpen] = drawerOpenState
 
@@ -69,14 +74,19 @@ const CustomDrawer = (props) => {
     
 
     //resizable drawer
-    const [drawerWidth, setDrawerWidth] = useState(defaultDrawerWidth);
+    const [drawerWidth, setDrawerWidth] = drawerWidthState || [null, null];
+    const [localDrawerWidth, setLocalDrawerWidth] = useState(defaultDrawerWidth);
     const [initialMouseX, setInitialMouseX] = useState(0);
     const [initialWidth, setInitialWidth] = useState(defaultDrawerWidth);
     const [isResizing, setIsResizing] = useState(false);
 
     const handleMouseDown = e => {
         setInitialMouseX(e.clientX);
-        setInitialWidth(drawerWidth);
+        if(drawerWidthState) {
+            setInitialWidth(drawerWidth);
+        } else {
+            setInitialWidth(localDrawerWidth)
+        }
         setIsResizing(true);
         document.addEventListener("mouseup", handleMouseUp, true);
         document.addEventListener("mousemove", handleMouseMove, true);
@@ -94,10 +104,14 @@ const CustomDrawer = (props) => {
             const deltaX = e.clientX - initialMouseX;
             const newWidth = anchor === "right" ? initialWidth - deltaX : initialWidth + deltaX ;
             if (newWidth > minDrawerWidth && newWidth < maxDrawerWidth) {
-                setDrawerWidth(newWidth);
+                if(drawerWidthState) {
+                    setDrawerWidth(newWidth);
+                } else {
+                    setLocalDrawerWidth(newWidth);
+                }
             }
         },
-        [anchor, initialMouseX, initialWidth]
+        [anchor, drawerWidthState, initialMouseX, initialWidth, setDrawerWidth]
     );
     
     
@@ -148,11 +162,12 @@ const CustomDrawer = (props) => {
     //static style
     const staticDrawerStyle = useMemo(() => {
         return {
-            width: drawerResizable ? drawerWidth : defaultDrawerWidth,
+            width: drawerResizable ? (drawerWidthState ? drawerWidth : localDrawerWidth) : defaultDrawerWidth,
             backgroundColor: theme.palette.background.paper,
-            height: '100%'
+            height: '100%',
+            zIndex: 1000
         }
-    }, [drawerResizable, drawerWidth, theme.palette.background.paper])
+    }, [drawerResizable, drawerWidth, drawerWidthState, localDrawerWidth, theme.palette.background.paper])
 
     const staticDrawerStyle2 = useMemo(() => {
         return {
@@ -233,6 +248,7 @@ CustomDrawer.propTypes = {
     drawerHeaderStyle: propTypes.object, 
     drawerHeaderContent: propTypes.string,
     withoutDrawerHeader: propTypes.bool,
+    drawerWidthState: propTypes.array,
 }
 
 export default CustomDrawer;

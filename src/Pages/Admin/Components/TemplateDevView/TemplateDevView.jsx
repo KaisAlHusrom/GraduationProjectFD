@@ -31,6 +31,7 @@ import TemplateElementStyleSettings from '../TemplateElementStyleSettings/Templa
 import FormatColorFillOutlinedIcon from '@mui/icons-material/FormatColorFillOutlined';
 
 
+
 //Styled Components
 const StyledTemplateDevView = styled(Box)(
     ({ theme }) => ({
@@ -93,7 +94,7 @@ const TemplateDevView = () => {
                 <>
                     <StyledViewElements>
                         {/* <Typography width={150} variant='body2' color="warning.main">Design Structure</Typography> */}
-                        
+                        {/* elements */}
                         <AdminMainButton 
                             title='Design Structure'
                             appearance='iconButton'
@@ -103,12 +104,13 @@ const TemplateDevView = () => {
                             willShow={<ViewElements />}
                             drawerVariant="persistent"
                             putDrawerCloseButton
-                            drawerResizable={true}
+                            // drawerResizable={true}
                             drawerHeaderStyle={{
                                 textTransform: "capitalize",
                                 letterSpacing: 2,
                             }}
                         />
+                        {/* styles */}
                         <AdminMainButton 
                             title='Style Settings'
                             appearance='iconButton'

@@ -20,7 +20,8 @@ import {
     Typography,
     CardMedia,
     Rating,
-    Container
+    Container,
+    Avatar
 } from '@mui/material'
 import { styled } from '@mui/system'
 // Import Swiper React components
@@ -50,7 +51,7 @@ const StyledProductCard = styled(Box)(
 
 const ProductCard = (props) => {
     const {
-        title, description, image, action,price,rating
+        title, description, image, action,price,rating,creator
     }=props
 
 
@@ -94,6 +95,10 @@ const ProductCard = (props) => {
                             Price: ${price}
                         </Typography>
                         <Rating name="read-only" value={rating} readOnly />
+                        <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px' ,paddingTop:1}}>
+                        <Avatar src={image} sx={{ width: 32, height: 32 }} /> {creator}
+                        </Typography>
+                        
                     </CardContent>
                     <CardActions>
                         <Button variant='contained' fullWidth onClick={action} >Learn More</Button>

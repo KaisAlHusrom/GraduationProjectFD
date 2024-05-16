@@ -5,6 +5,27 @@ import store from "../Redux/Store"
 import { setSnackbarMessage, handleOpenSnackbar, setSnackbarIsError } from "../Redux/Slices/snackbarOpenSlice";
 
 
+//function to change bool fields to 1 and 0
+function updateBoolean(newData) {
+
+    Object.keys(newData).forEach(key => {
+        // Get the value corresponding to the key
+        let value = newData[key];
+    
+        // Check if the key starts with "is_" or "not_"
+        if (key.startsWith('is_') || key.startsWith('not_')) {
+            // Convert boolean value to 1 or 0
+            value = value ? 1 : 0;
+        }
+    
+        // Update the value in the newData object
+        newData[key] = value;
+    });
+    
+
+    return newData;
+}
+
 
 // --- FETCH DATA TEMPLATE 
 
@@ -55,8 +76,8 @@ export const fetchDataTemplate = async (axiosAPI, type = "all", pageNumber = 1, 
 // --- ADD DATA TEMPLATE
 export const addDataTemplate = async (axiosAPI, data) => {
     try {
-
-        const response = await axiosAPI.post('', data);
+        const updatedData = updateBoolean(data)
+        const response = await axiosAPI.post('', updatedData);
         if(response.data.success) {
             store.dispatch(setSnackbarMessage({message: response.data.message}))
             store.dispatch(setSnackbarIsError({isError: false}))
@@ -84,6 +105,7 @@ export const addDataTemplate = async (axiosAPI, data) => {
 //--- UPDATE TEMPLATE
 let cancelTokenSource;
 export const updateTemplate = async (axiosAPI, id, newData) => {
+    const updatedData = updateBoolean(newData)
     try {
         // Cancel the previous request, if any
         if (cancelTokenSource) {
@@ -92,13 +114,12 @@ export const updateTemplate = async (axiosAPI, id, newData) => {
 
         // Create a new cancel token for this request
         cancelTokenSource = axios.CancelToken.source();
-        console.log(newData)
         // Assuming id is included in the newData object and you're updating a specific resource identified by its id
         // Make the request with the new cancel token
         const response = await axiosAPI.post(
             `/${id}`, 
             {
-                ...newData,
+                ...updatedData,
                 _method: "PATCH",
             }, 
             { 
