@@ -52,7 +52,7 @@ const EditButtonsStyle = {
 }
 
 
-const EditComponent = ({component , handleAddNewElement , elements ,  componentId}) => {
+const EditComponent = ({component , handleAddNewElement , elements ,  componentId , sectionDataState}) => {
 
     const [componentStyle, setComponentStyle] = useState({});  // using for control the component style 
 
@@ -60,20 +60,21 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     const [AddElement ] = elements   // using for add the elements to component when user is did 
     const [history, setHistory] = useState([]); // Kullanıcının yaptığı işlemleri saklayacak dizi
+    const [sectionData, setSectionData] = sectionDataState; // using for Control  section data 
 
     // add element to component 
     useEffect(() => {
         if (AddElement && componentId === component.id) {
-            handleAddNewElement(setComponentData)
+            handleAddNewElement(componentId);
             setHistory(prevHistory => [...prevHistory, componentData]);
-
         }
-    }, [AddElement, handleAddNewElement])
+    }, [AddElement, handleAddNewElement]);
 
 
     useEffect(() => {
         setComponentData(component)
     }, [component])
+
 
     useMemo(() => {
         const dictionary = {};
@@ -93,21 +94,20 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
         setComponentStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
     };
 
-    // to delete the element from component
     const deleteElementForComponent = (Component_id, element__id) => {
-        setComponentData((prevData) => {
-            if (prevData.id === Component_id) {
-                const updatedElements = prevData.children.filter(element => element.id !== element__id);
-                return {
-                ...prevData,
-                children: updatedElements,
-                };
-            } else {
-                return prevData;
-            }
-            });
-            setHistory(prevHistory => [...prevHistory, componentData]);
-
+        setSectionData(prevData => ({
+            ...prevData,
+            children: prevData.children.map(component => {
+                if (component.id === Component_id) {
+                    return {
+                        ...component,
+                        children: component.children.filter(child => child.id !== element__id)
+                    };
+                }
+                return component;
+            })
+        }));
+        setHistory(prevHistory => [...prevHistory, componentData]);
     };
 
     const reorderElements = (children, oldIndex, newIndex) => {
@@ -117,6 +117,9 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
         return reorderedElements;
     };
     
+
+
+        //  !!! this is dose not work on the sectionData !!! 
     const handleMoveElement = (oldIndex, newIndex) => {
         const reorderedElements = reorderElements(componentData.children, oldIndex, newIndex);
         // Yeni sıralama ile güncellenmiş öğeleri alıp, her bir öğeye sequenceNumber'ı güncelleyerek yeni diziyi oluşturuyoruz
@@ -132,17 +135,22 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
     };
 
+    
+    
     // undo last operation for the component 
+    //  !!! this is dose not work on the sectionData !!! 
     const undo = () => {
         if (history.length > 0) {
-            // Önceki durumu alın
-            const previousState = history[history.length - 1];
-            // Önceki durumu geri yükle
-            setComponentData(previousState);
-            // Son işlemi işlem geçmişinden kaldır
+            // Get the previous state
+            const previousState = { ...history[history.length - 1] }; // Make a copy of the previous state
+            // Restore the previous state of the entire section
+            setComponentData(previousState); // Restore previous state of componentData
+            // Remove the last operation from the history
             setHistory(prevHistory => prevHistory.slice(0, -1));
         }
     };
+
+
 
     return (
         <StyledEditComponent sx={componentStyle}>
@@ -200,7 +208,7 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 EditComponent.propTypes = {
     component: propTypes.object,
     handleAddNewElement : propTypes.func,
-    componentId : propTypes.object,
+    componentId : propTypes.string,
     elements : propTypes.array
 
 }

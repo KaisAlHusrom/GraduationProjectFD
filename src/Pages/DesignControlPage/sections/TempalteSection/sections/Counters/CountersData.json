@@ -1097,11 +1097,11 @@
                     "design_image": null,
                     "is_template": true,
                     "is_child": false,
-                    "sequence_number": 1,
+                    "sequence_number": 2,
                     "element_content": "150"
                 },
                 {
-                    "id": "2",
+                    "id": "3",
                     "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                     "design_type" : "element",
                     "element_type": {
@@ -1113,7 +1113,7 @@
                         "deleted_at": null,
                         "created_at": "2024-03-31T23:28:41.000000Z",
                         "updated_at": "2024-04-04T12:08:10.000000Z",
-                        "sequence_number": 2,
+                        "sequence_number": 3,
                         "not_has_end_tag": false,
                         "children": [],
                         "element_props": [],
@@ -1358,7 +1358,7 @@
                     "design_image": null,
                     "is_template": true,
                     "is_child": false,
-                    "sequence_number": 1,
+                    "sequence_number": 3,
                     "element_content": "Clients"
                 }
             ],

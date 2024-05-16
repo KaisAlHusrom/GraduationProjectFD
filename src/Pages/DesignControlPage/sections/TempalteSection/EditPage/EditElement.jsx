@@ -26,12 +26,12 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 
 //Styled Components
-const StyledEditElement = styled(Box)(({ elementStyle }) => ({
+const StyledEditElement = styled(Box)(({ elementstyle }) => ({
     '&:hover > div': {
         opacity: 1,
         visibility: 'visible',
     },
-    ...elementStyle,
+    ...elementstyle,
 }));
 
 const TooltipContainer = styled(Box)({
@@ -104,23 +104,24 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
     };
 
     
-    // to change the order of elements 
-    const handleOrderElementClick = (event, direction, currentSequenceNumber) => {
-        event.stopPropagation();
-        const elementsCount = componentData.children.length;
-        let newIndex;
-        if (direction === 'up') {
-            newIndex = Math.max(currentSequenceNumber - 2, 0); // Yukarı hareket için yeni dizin hesaplama
-        } else {
-            newIndex = Math.min(currentSequenceNumber, elementsCount - 1); // Aşağı hareket için yeni dizin hesaplama
-        }
-        handleMoveElement(currentSequenceNumber - 1, newIndex);
-    };
+        // to change the order of elements 
+        const handleOrderElementClick = (event, direction, currentSequenceNumber) => {
+            event.stopPropagation();
+            const elementsCount = componentData.children.length;
+            let newIndex;
+            if (direction === 'up') {
+                newIndex = Math.max(currentSequenceNumber - 2, 0); // Yukarı hareket için yeni dizin hesaplama
+            } else {
+                newIndex = Math.min(currentSequenceNumber, elementsCount - 1); // Aşağı hareket için yeni dizin hesaplama
+            }
+            handleMoveElement(currentSequenceNumber - 1, newIndex);
+        };
+    
 
     return (
 
         <StyledEditElement
-            elementStyle={{ ...elementStyle, backgroundColor: 'none', width: '100%', margin: '0 0px 20px 0', padding: '0', position: 'none' }}
+                    elementstyle={{ ...elementStyle, backgroundColor: 'none', width: '100%', margin: '0 0px 20px 0', padding: '0', position: 'none' }}
         >   
                 {                        
                 getAppropriateTag(elementData.element_type.element_type_name, title, elementStyle)

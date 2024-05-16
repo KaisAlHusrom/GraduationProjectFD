@@ -34,7 +34,6 @@ const Header = ({moveSectionUp , moveSectionDown}) => {
 
         HeaderData.styles.forEach((cssProp) => {
         const { style_prop, style_prop_value } = cssProp;
-            console.log(style_prop)
         if (style_prop.is_component) {
             styleObject[style_prop.style_prop_css_name] = style_prop_value;
         }

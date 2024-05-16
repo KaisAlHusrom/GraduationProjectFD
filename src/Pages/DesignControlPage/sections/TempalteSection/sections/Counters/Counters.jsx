@@ -52,9 +52,6 @@ const Counters = ({moveSectionUp , moveSectionDown}) => {
         return styleObject;
         
     }, []);
-
-    console.log(sectionStyle)
-
     return (
 
         CounterSection ? (

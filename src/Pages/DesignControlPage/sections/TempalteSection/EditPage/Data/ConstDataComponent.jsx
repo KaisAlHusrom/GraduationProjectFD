@@ -46,7 +46,6 @@ export const createEmptyComponent = (section_css_props) => {
 
 
 export const createEmptyElement = (element_type , element_content , elementCss) => {
-    console.log(elementCss)
     return {
         "id": uuidv4(),
         "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
