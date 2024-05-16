@@ -14,7 +14,11 @@ export const productList = [
         "php":"php",
         "javascript":"javascript",
         "html":"html"
-        
+      },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
       },
       "creator":"Abdullah"
     },
@@ -33,7 +37,11 @@ export const productList = [
         "php":"php",
         "javascript":"javascript",
         "html":"html"
-        
+      },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
       },
       "creator":"Abdullah"
     },
@@ -54,6 +62,11 @@ export const productList = [
         "html":"html"
         
       },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+      },
       "creator":"Abdullah"
     },
     {
@@ -72,6 +85,11 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
         
+      },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
       },
       "creator":"Abdullah"
     },
@@ -92,6 +110,11 @@ export const productList = [
         "html":"html"
         
       },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+      },
       "creator":"Abdullah"
     },
     {
@@ -110,6 +133,11 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
         
+      },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
       },
       "creator":"Abdullah"
     },
@@ -130,6 +158,11 @@ export const productList = [
         "html":"html"
         
       },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+      },
       "creator":"Abdullah"
     },
     {
@@ -148,6 +181,11 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
         
+      },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
       },
       "creator":"Abdullah"
     },
@@ -187,6 +225,11 @@ export const productList = [
         "html":"html"
         
       },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+      },
       "creator":"Abdullah"
     },
     {
@@ -205,6 +248,11 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
         
+      },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
       },
       "creator":"Abdullah"
     },
@@ -225,6 +273,11 @@ export const productList = [
         "html":"html"
         
       },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+      },
       "creator":"Abdullah"
     },
     {
@@ -243,6 +296,11 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
         
+      },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
       },
       "creator":"Abdullah"
     },
@@ -263,6 +321,11 @@ export const productList = [
         "html":"html"
         
       },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
+      },
       "creator":"Abdullah"
     },
     {
@@ -281,6 +344,11 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
         
+      },
+      "used Teknolojies":{
+        "php":"php",
+        "javascript":"javascript",
+        "html":"html"
       },
       "creator":"Abdullah"
     }

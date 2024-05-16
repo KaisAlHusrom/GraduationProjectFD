@@ -16,8 +16,9 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { productList } from '../../data/CradsData'
-import { CartData } from '../../data/CartData'
+import { productList } from '../../../data/CradsData'
+import { CartData } from '../../../data/CartData'
+import TotalCart from '../../../utils/TotalCart'
 
 //Styled Components
 const StyledReview = styled(Box)(
@@ -60,8 +61,8 @@ const Review = () => {
     };
     const shippingFee = 9.99;
     const calculateTotalWithShipping = () => {
-
-        return CartTotal + shippingFee;
+        const theTotal=CartTotal + shippingFee;
+        return theTotal;
     };
     return (
         <StyledReview>
@@ -73,7 +74,7 @@ const Review = () => {
                         secondary={`${cartItems.length} items were selected`}
                         />
                         <Typography variant="body1" fontWeight="medium">
-                        ${CartTotal}
+                        $<TotalCart />
                         </Typography>
                     </ListItem>
                     <ListItem sx={{ py: 1, px: 0 }}>
