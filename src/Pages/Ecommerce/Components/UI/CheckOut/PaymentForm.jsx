@@ -67,7 +67,7 @@ const PaymentForm = () => {
     };
     return (
         <StyledPaymentForm>
-            <Stack spacing={{ xs: 3, sm: 6 }} useFlexGap>
+            <Stack spacing={{ xxs: 3, sm: 6 }} useFlexGap>
                 <FormControl component="fieldset" fullWidth>
                     <RadioGroup
                     aria-label="Payment options"
@@ -133,7 +133,7 @@ const PaymentForm = () => {
                         flexDirection: 'column',
                         justifyContent: 'space-between',
                         p: 3,
-                        height: { xs: 300, sm: 350, md: 375 },
+                        height: { xxs: 300, sm: 350, md: 375 },
                         width: '100%',
                         borderRadius: '20px',
                         border: '1px solid ',
@@ -148,7 +148,7 @@ const PaymentForm = () => {
                         </Box>
                         <SimCardRoundedIcon
                         sx={{
-                            fontSize: { xs: 48, sm: 56 },
+                            fontSize: { xxs: 48, sm: 56 },
                             transform: 'rotate(90deg)',
                             color: 'text.secondary',
                         }}

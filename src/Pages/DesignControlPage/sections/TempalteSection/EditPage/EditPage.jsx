@@ -1,4 +1,5 @@
 import {
+    useCallback,
     useEffect,
     useState 
 } from 'react'
@@ -131,7 +132,7 @@ const EditPage = () => {
     const { section_id } = useParams();
     const [history, setHistory] = useState([]); // Kullanıcının yaptığı işlemleri saklayacak dizi
     const [sectionStyle, setSectionStyle] = useState({}); // using for changing the section style 
-    const [sectionData, setSectionData] = useState(null); // using for Control  section data 
+    const [sectionData, setSectionData] = useState([]); // using for Control  section data 
 
     const [AddElement , setAddElement] = useState(null) // using for add new element 
     const [AddElementToComponentId , setAddElementToComponentId] = useState(null) // using for selected component id to add new  element
@@ -146,7 +147,7 @@ const EditPage = () => {
         setConfirmationDialogOpen(false);
     };
 
-
+    //  get the section style
     useEffect(() => {
         const fetchSectionData = async () => {
             const fetchedData = await getSectionData(section_id);
@@ -171,7 +172,6 @@ const EditPage = () => {
     };
     //  duplicate component 
     const addComponentForComponent = (section_component_id) => {
-        
         const index = sectionData.children.findIndex(component => component.id === section_component_id);
         if (index !== -1) {
             const newComponent = { ...sectionData.children[index], section_component_id: uuidv4() };
@@ -231,15 +231,21 @@ const EditPage = () => {
     };
 
     // add new element to component 
-    const handleAddNewElement = (setComponent ) => {
-        setComponent((prevData) => {
-                return {
-                    ...prevData,
-                    children: [...prevData.children, createEmptyElement(AddElement.element_type.element_type_name, AddElement.element_content ,AddElement.styles )],
-                };
-        })
-
-    }
+    const handleAddNewElement = useCallback((componentId) => {
+        setSectionData((prevData) => ({
+            ...prevData,
+            children: prevData.children.map((component) => {
+                if (component.id === componentId) {
+                    return {
+                        ...component,
+                        children: [...component.children,  createEmptyElement(AddElement.element_type.element_type_name, AddElement.element_content, AddElement.styles)],
+                    };
+                }
+                return component;
+            }),
+        }));
+    }, [setSectionData, AddElement]);
+    
     // delete the all component in the section 
     const deleteSection = () => {
         setSectionData(prevData => ({
@@ -279,12 +285,12 @@ const EditPage = () => {
     // create new section 
     const createNewSection = (SectionsDesigns) => {
         setSectionData(SectionsDesigns)
-        if (SectionsDesigns && SectionsDesigns.section_css_props) {
+        if (SectionsDesigns && SectionsDesigns.styles) {
             const dictionary = {};
-            SectionsDesigns.section_css_props.forEach((cssProp) => {
-                const { css_prop, css_prop_value } = cssProp;
-                if (css_prop.is_section) {
-                    dictionary[css_prop.prop_name] = css_prop_value;
+            SectionsDesigns.styles.forEach((cssProp) => {
+                const {  style_prop, style_prop_value } = cssProp;
+                if (style_prop.is_section) {
+                    dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
             setSectionStyle(dictionary);
@@ -319,8 +325,14 @@ const EditPage = () => {
                 {sectionData && sectionData.children && sectionData.children.map((component, i) => (
                     <Box key={component.id}>
                         
-                        <EditComponent key={i} component={component} componentId = {AddElementToComponentId}  handleAddNewElement = {handleAddNewElement} 
-                        elements = {[AddElement , setAddElement]}/>
+                        <EditComponent 
+                        key={component.id} 
+                        component={component} 
+                        componentId = {AddElementToComponentId}
+                        handleAddNewElement = {handleAddNewElement} 
+                        elements = {[AddElement , setAddElement]}
+                        sectionDataState = {[sectionData, setSectionData]}
+                        />
 
                         <ActionButtons className="action-buttons">
 

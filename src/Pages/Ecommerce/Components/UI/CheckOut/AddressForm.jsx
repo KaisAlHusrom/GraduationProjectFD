@@ -35,7 +35,7 @@ const AddressForm = () => {
     return (
         <StyledAddressForm>
              <Grid container spacing={3}>
-                <FormGrid item xs={12} md={6}>
+                <FormGrid item xxs={12} md={6}>
                     <FormLabel htmlFor="first-name" required>
                     First name
                     </FormLabel>
@@ -48,7 +48,7 @@ const AddressForm = () => {
                     required
                     />
                 </FormGrid>
-                <FormGrid item xs={12} md={6}>
+                <FormGrid item xxs={12} md={6}>
                     <FormLabel htmlFor="last-name" required>
                     Last name
                     </FormLabel>
@@ -61,7 +61,7 @@ const AddressForm = () => {
                     required
                     />
                 </FormGrid>
-                <FormGrid item xs={12}>
+                <FormGrid item xxs={12}>
                     <FormLabel htmlFor="address1" required>
                     Address line 1
                     </FormLabel>
@@ -74,7 +74,7 @@ const AddressForm = () => {
                     required
                     />
                 </FormGrid>
-                <FormGrid item xs={12}>
+                <FormGrid item xxs={12}>
                     <FormLabel htmlFor="address2">Address line 2</FormLabel>
                     <OutlinedInput
                     id="address2"
@@ -85,7 +85,7 @@ const AddressForm = () => {
                     required
                     />
                 </FormGrid>
-                <FormGrid item xs={6}>
+                <FormGrid item xxs={6}>
                     <FormLabel htmlFor="city" required>
                     City
                     </FormLabel>
@@ -98,7 +98,7 @@ const AddressForm = () => {
                     required
                     />
                 </FormGrid>
-                <FormGrid item xs={6}>
+                <FormGrid item xxs={6}>
                     <FormLabel htmlFor="state" required>
                     State
                     </FormLabel>
@@ -111,7 +111,7 @@ const AddressForm = () => {
                     required
                     />
                 </FormGrid>
-                <FormGrid item xs={6}>
+                <FormGrid item xxs={6}>
                     <FormLabel htmlFor="zip" required>
                     Zip / Postal code
                     </FormLabel>
@@ -124,7 +124,7 @@ const AddressForm = () => {
                     required
                     />
                 </FormGrid>
-                <FormGrid item xs={6}>
+                <FormGrid item xxs={6}>
                     <FormLabel htmlFor="country" required>
                     Country
                     </FormLabel>
@@ -137,7 +137,7 @@ const AddressForm = () => {
                     required
                     />
                 </FormGrid>
-                <FormGrid item xs={12}>
+                <FormGrid item xxs={12}>
                     <FormControlLabel
                     control={<Checkbox name="saveAddress" value="yes" />}
                     label="Use this address for payment details"

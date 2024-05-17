@@ -29,6 +29,7 @@ import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
+import ChipSet from '../UI/ChipSet';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -93,12 +94,13 @@ function CustomTabPanel(props) {
       // Add more items as needed
     ];
 
+
     return (
       <div>
       <NavBar style={{ position: 'fixed', top: 0, width: '100%', zIndex: 1000 }} />
       <Container sx={{ marginTop: '100px' }} maxWidth="lg">
         <Grid container spacing={2}>
-          <Grid item xs={12}>
+          <Grid item xxs={12}>
             <Typography variant="h4" gutterBottom>
               {product.title}
             </Typography>
@@ -107,7 +109,7 @@ function CustomTabPanel(props) {
                 {product.description}
               </Typography>
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={6}>
+          <Grid item xxs={12} sm={12} md={12} lg={6}>
               <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={handleTapChange} aria-label="basic tabs example">
                   <Tab label="Product" />
@@ -164,7 +166,7 @@ function CustomTabPanel(props) {
                 Item Two
               </CustomTabPanel>
           </Grid>
-          <Grid item xs={12} sm={12} md={12} lg={6}>
+          <Grid item xxs={12} sm={12} md={12} lg={6}>
               <CustomCard title="Purchase" items={itemsPurchase}>
                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                     <Button
@@ -192,11 +194,10 @@ function CustomTabPanel(props) {
               <CustomCard title="Info" items={itemsInfo}>
                 <Grid item xs={12}>
                     <Typography variant="body2" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                      <Typography variant="body1" sx={{ paddingBottom: 1 }}> Attached Files: </Typography>
-                      <Chip label={product["attached files"].php} color="primary" clickable style={{ marginRight: '10px' }} />
-                      <Chip label={product["attached files"].javascript} color="primary" clickable style={{ marginRight: '10px' }} />
-                      <Chip label={product["attached files"].html} color="primary" clickable style={{ marginRight: '10px' }} />
-
+                      <ChipSet title={"Attached Files:"} label={product["attached files"]} />
+                    </Typography>
+                    <Typography variant="body2" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                      <ChipSet title={"Used Teknolojies:"} label={product["used Teknolojies"]} />
                     </Typography>
                     <Divider />
                     <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1 }}>Creator</Typography>
