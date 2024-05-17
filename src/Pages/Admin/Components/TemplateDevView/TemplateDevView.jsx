@@ -15,7 +15,6 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import { GenerateTag } from '../../../../Helpers/GenerateTag'
-import ViewElements from '../ViewElements/ViewElements'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
 import { AdminMainButton, CustomLazyAutoComplete } from '../../../../Components'
 import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
@@ -26,40 +25,55 @@ import UndoIcon from '@mui/icons-material/Undo';
 import PreviousComponentsTemplates from '../PreviousComponentsTemplates/PreviousComponentsTemplates'
 import PhotoLibraryOutlinedIcon from '@mui/icons-material/PhotoLibraryOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
-import MediationOutlinedIcon from '@mui/icons-material/MediationOutlined';
-import TemplateElementStyleSettings from '../TemplateElementStyleSettings/TemplateElementStyleSettings'
-import FormatColorFillOutlinedIcon from '@mui/icons-material/FormatColorFillOutlined';
-
-
-
+import IntegrationInstructionsOutlinedIcon from '@mui/icons-material/IntegrationInstructionsOutlined';
+import CropSquareOutlinedIcon from '@mui/icons-material/CropSquareOutlined';
+import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined';
 //Styled Components
 const StyledTemplateDevView = styled(Box)(
     ({ theme }) => ({
         width: "90%",
         minHeight: "calc(100vh - 200px)",
-        border: "1px solid",
+        border: "4px solid",
         borderColor: theme.palette.divider,
         borderRadius: theme.spacing(2),
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        position: "sticky", // Change position to sticky
-        top: "-50px", // Stick to the top of the container
         zIndex: "999", // Set z-index to ensure it's above other content
         backgroundColor: theme.palette.background.paper,
-        
+        height: "100%",
+        position: "relative"
     })
 )
 
-const StyledViewElements = styled(Box)(
+const StyledModBox = styled(Box)(
     ({ theme }) => ({
-        position: "absolute",
-        left: theme.spacing(3),
-        top: theme.spacing(),
         display: "flex",
-        gap: theme.spacing()
+        flexDirection: "column",
+        alignItems: "center",
+        padding: theme.spacing(2),
+        cursor: "pointer",
+        border: "1px solid",
+        borderColor: theme.palette.divider,
+        borderRadius: theme.spacing(2),
+        transition: theme.transitions.create("background-color", {
+            duration: theme.transitions.duration.standard,
+        }),
+        "&:hover" : {
+            backgroundColor: theme.palette.action.hover,
+        }
     })
 );
+
+// const StyledViewElements = styled(Box)(
+//     ({ theme }) => ({
+//         position: "absolute",
+//         left: theme.spacing(3),
+//         top: theme.spacing(),
+//         display: "flex",
+//         gap: theme.spacing()
+//     })
+// );
 
 const StyledChip = styled(Chip)(
     ({ theme }) => ({
@@ -92,39 +106,6 @@ const TemplateDevView = () => {
             {
                 editableElement ?
                 <>
-                    <StyledViewElements>
-                        {/* <Typography width={150} variant='body2' color="warning.main">Design Structure</Typography> */}
-                        {/* elements */}
-                        <AdminMainButton 
-                            title='Design Structure'
-                            appearance='iconButton'
-                            type='drawer'
-                            putBorder
-                            icon={<MediationOutlinedIcon />}
-                            willShow={<ViewElements />}
-                            drawerVariant="persistent"
-                            putDrawerCloseButton
-                            // drawerResizable={true}
-                            drawerHeaderStyle={{
-                                textTransform: "capitalize",
-                                letterSpacing: 2,
-                            }}
-                        />
-                        {/* styles */}
-                        <AdminMainButton 
-                            title='Style Settings'
-                            appearance='iconButton'
-                            type='drawer'
-                            putBorder
-                            icon={<FormatColorFillOutlinedIcon />}
-                            drawerAnchor={'right'}
-                            willShow={<TemplateElementStyleSettings />}
-                            drawerVariant="persistent"
-                            putDrawerCloseButton
-                            drawerResizable={true}
-                            withoutDrawerHeader
-                        />
-                    </StyledViewElements>
                     {editableElement}
                 </>
                 :
@@ -132,17 +113,26 @@ const TemplateDevView = () => {
                 ?
                 <Box sx={{
                     display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',   
+                    gap: 2,
                 }}>
-                    <Typography mb={1} variant='h4' color="warning.main">
-                    Select Mode
-                    </Typography>
-                    <Box>
-                        <StyledChip onClick={() => setMode(() => "element")}  label="Element" variant='outlined' />
-                        <StyledChip onClick={() => setMode(() => "component")}  label="Component" variant='outlined' />
-                        <StyledChip onClick={() => setMode(() => "section")}  label="Section" variant='outlined' />
-                    </Box>
+                    <StyledModBox onClick={() => setMode(() => "element")}>
+                        <IntegrationInstructionsOutlinedIcon fontSize={"large"} color='primary' />
+                        <Typography variant='h7' fontSize={20} textTransform={"capitalize"} letterSpacing={2}>
+                            Element
+                        </Typography>
+                    </StyledModBox>
+                    <StyledModBox onClick={() => setMode(() => "component")}>
+                        <CropSquareOutlinedIcon fontSize={"large"} color='primary' />
+                        <Typography variant='h7' fontSize={20} textTransform={"capitalize"} letterSpacing={2}>
+                            Component
+                        </Typography>
+                    </StyledModBox>
+                    <StyledModBox onClick={() => setMode(() => "section")}>
+                        <TableRowsOutlinedIcon fontSize={"large"} color='primary' />
+                        <Typography variant='h7' fontSize={20} textTransform={"capitalize"} letterSpacing={2}>
+                            Section
+                        </Typography>
+                    </StyledModBox>
                 </Box>
                 : 
                 <Box sx={{

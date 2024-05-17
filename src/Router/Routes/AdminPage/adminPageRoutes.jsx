@@ -136,14 +136,14 @@ const adminPageRoutes = [
         path: "element-settings/element-props",
         exact: false,
     },
-    {
-        element: <CreateElementTemplate />
-        ,
-        path: "element-settings/create-element-template",
-        exact: false,
-        // loader: fetchCreateElementNeededData,
-        // action: addStylesBreakpoint,
-    },
+    // {
+    //     element: <CreateElementTemplate />
+    //     ,
+    //     path: "element-settings/create-element-template",
+    //     exact: false,
+    //     // loader: fetchCreateElementNeededData,
+    //     // action: addStylesBreakpoint,
+    // },
     {
         element: <StylesSettings />,
         path: "styles-settings",

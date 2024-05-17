@@ -162,7 +162,7 @@ const AdminMainButton = (props) => {
             {
                 appearance === "iconButton"
                 ?
-                    putTooltip
+                    putTooltip && !disabled
                     ?
                     <Tooltip title={title} placement={toolTipPosition}>
                         <IconButton 
@@ -227,7 +227,7 @@ const AdminMainButton = (props) => {
                             }
                     </IconButton>
                 :
-                    putTooltip
+                    putTooltip && !disabled
                     ?
                     <Tooltip title={title} placement={toolTipPosition}>
                         <Button

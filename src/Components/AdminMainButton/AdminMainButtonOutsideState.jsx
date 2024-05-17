@@ -59,7 +59,14 @@ const AdminMainButtonOutsideState = (props) => {
         putBorder,
         filled,
         sx,
-        customState
+        customState,
+        drawerStyle,
+        drawerResizable,
+        drawerHeaderStyle,
+        drawerHeaderContent,
+        withoutDrawerHeader,
+        drawerWidthState,
+        disabled
     } = props
 
     //theme
@@ -75,16 +82,16 @@ const AdminMainButtonOutsideState = (props) => {
     const openMenu = Boolean(menuEl)
 
     // --- modal states ---
-    const {modalOpen, setModalOpen} = customState
+    const [modalOpen, setModalOpen] = customState
     
     // --- drawer states ---
-    const {drawerOpen, setDrawerOpen} = customState
+    const [drawerOpen, setDrawerOpen] = customState
 
     // --- popover states ---
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
-    const {openStyleDialog, setOpenStyleDialog} = customState
+    const [openStyleDialog, setOpenStyleDialog] = customState
 
     const handleClickOpenStyleDialog = () => {
         setOpenStyleDialog(true);
@@ -143,7 +150,7 @@ const AdminMainButtonOutsideState = (props) => {
     }
 
     const StyleOfIconButton = {
-        border: '1px solid',
+        border: putBorder && '1px solid',
         borderColor: theme.palette.divider,
         borderRadius: "10px",
     }
@@ -156,10 +163,11 @@ const AdminMainButtonOutsideState = (props) => {
             {
                 appearance === "iconButton"
                 ?
-                    putTooltip
+                    putTooltip && !disabled
                     ?
                     <Tooltip title={title} placement={toolTipPosition}>
                         <IconButton 
+                        disabled={disabled}
                         sx={
                             sx ?
                             {...StyleOfIconButton, ...sx}
@@ -192,6 +200,7 @@ const AdminMainButtonOutsideState = (props) => {
                     </Tooltip>
                     :
                     <IconButton 
+                        disabled={disabled}
                         sx={
                             sx ?
                             {...StyleOfIconButton, ...sx}
@@ -220,10 +229,11 @@ const AdminMainButtonOutsideState = (props) => {
                             }
                     </IconButton>
                 :
-                    putTooltip
+                    putTooltip && !disabled
                     ?
                     <Tooltip title={title} placement={toolTipPosition}>
                         <Button
+                        disabled={disabled}
                         sx={
                             sx ?
                             {...StyleOfIconButton, ...sx}
@@ -264,6 +274,7 @@ const AdminMainButtonOutsideState = (props) => {
                     </Tooltip>
                     :
                     <Button
+                    disabled={disabled}
                     sx={
                         sx ?
                         {...StyleOfButton, ...sx}
@@ -387,6 +398,12 @@ const AdminMainButtonOutsideState = (props) => {
                 putDrawerCloseButton={putDrawerCloseButton}
                 anchor={drawerAnchor}
                 variant={drawerVariant}
+                drawerStyle = {drawerStyle}
+                drawerResizable={drawerResizable}
+                drawerHeaderStyle={drawerHeaderStyle}
+                drawerHeaderContent={drawerHeaderContent}
+                withoutDrawerHeader={withoutDrawerHeader}
+                drawerWidthState={drawerWidthState}
                 >
                     {willShow}
                 </CustomDrawer>
@@ -444,7 +461,14 @@ AdminMainButtonOutsideState.propTypes = {
     sx: propTypes.object,
     putBorder: propTypes.bool,
     filled: propTypes.bool,
-    customState: propTypes.object
+    customState: propTypes.array,
+    drawerStyle: propTypes.object,
+    drawerResizable: propTypes.bool,
+    drawerHeaderStyle: propTypes.object, 
+    drawerHeaderContent: propTypes.string,
+    withoutDrawerHeader: propTypes.bool,
+    drawerWidthState: propTypes.array,
+    disabled: propTypes.bool,
 }
 
 export default AdminMainButtonOutsideState;

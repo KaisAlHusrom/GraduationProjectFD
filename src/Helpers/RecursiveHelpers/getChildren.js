@@ -1,10 +1,10 @@
 export const getChildren = (design, selectedElementId) => {
     for (const element of Array.isArray(design) ? design : [design]) {
-        if (element.id === selectedElementId) {
+        if (element?.id === selectedElementId) {
             return element.children;
         }
 
-        if (element.children && element.children.length > 0) {
+        if (element?.children && element?.children.length > 0) {
             const children = getChildren(element.children, selectedElementId); 
             if (children) {
                 return children;

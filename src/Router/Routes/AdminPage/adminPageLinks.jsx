@@ -19,6 +19,7 @@ import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import FormatPaintIcon from '@mui/icons-material/FormatPaint';
+import DesignServicesIcon from '@mui/icons-material/DesignServices';
 const adminPageLinks = [
     {
         title: "Users",
@@ -133,7 +134,13 @@ const adminPageLinks = [
             },
             
         ],
-    }
+    },
+    {
+        title: "Create New Template",
+        icon: <DesignServicesIcon sx={{color: "primary.light"}}/>,
+        path: "/create-template",
+        nestedMenu: null
+    },
 ]
 
 export default adminPageLinks

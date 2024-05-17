@@ -3,6 +3,8 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 
 
 
+
+
 //Components
 import TemplateDevView from '../TemplateDevView/TemplateDevView'
 
@@ -19,6 +21,11 @@ import { styled } from '@mui/system'
 //services
 import { transformElementTypeToDesignStructure } from '../../../../Helpers/transformData'
 import DesignOptions from '../DesignOptions/DesignOptions'
+import { useDispatch } from 'react-redux'
+import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../../Redux/Slices/snackbarOpenSlice'
+
+import { ConfirmModal } from '../../../../Components'
+
 
 
 //Context
@@ -34,11 +41,16 @@ const StyledCreateElementTemplate = styled(Stack)(
         flexDirection: 'column',
         alignItems: 'center',
         gap: theme.spacing(2),
+        height: "100vh",
+        padding: theme.spacing(2),
+        width: "100%"
     })
 )
 
 
 const CreateElementTemplate = () => {
+    const dispatch = useDispatch()
+    
 
     const [mode, setMode] = useState(null)
 
@@ -68,13 +80,23 @@ const CreateElementTemplate = () => {
 
     //add template to local storage
     //TODO: why the history return to []
-    const [history, setHistory] = useState(() => {
-        const storedHistory = JSON.parse(sessionStorage.getItem(`${mode}_history`));
-        console.log(storedHistory)
-        return storedHistory ? storedHistory : [];
-    });
+    const [history, setHistory] = useState([]);
+    // set history when mode is selected, this for first render only
+    useEffect(() => {
+        if(mode) {
+            const storedHistory = JSON.parse(sessionStorage.getItem(`${mode}_history`));
+            if(storedHistory && storedHistory.length > 0) {
+                setHistory(() => storedHistory)
+            } else {
+                sessionStorage.setItem(`${mode}_history`, JSON.stringify(history));
+            }
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mode])
+    
     const [redoHistory, setRedoHistory] = useState([])
     
+    // set template and history to local and session storages
     useEffect(() => {
         if(mode) {
             if(template) {
@@ -84,7 +106,7 @@ const CreateElementTemplate = () => {
                 sessionStorage.setItem(`${mode}_history`, JSON.stringify(history));
             }
         }
-    }, [history, mode, selectedElement, template]);
+    }, [history, mode, template]);
     
     
 
@@ -116,8 +138,12 @@ const CreateElementTemplate = () => {
                 setTemplate(previousTemplate);
                 setHistory(history.slice(0, -1)); // Remove last template from history
             }
+        } else {
+            dispatch(setSnackbarIsError({isError: true}))
+            dispatch(setSnackbarMessage({message: "There is no changes to undo"}))
+            dispatch(handleOpenSnackbar())
         }
-    }, [history, redoHistory, template]);
+    }, [dispatch, history, redoHistory, template]);
 
     //ability to redo changes:
     const handleRedo = useCallback(() => {
@@ -128,17 +154,74 @@ const CreateElementTemplate = () => {
                 setTemplate(nextTemplate);
                 setRedoHistory(redoHistory.slice(0, -1)); // Remove last template from redo history
             }
+        } else {
+            dispatch(setSnackbarIsError({isError: true}))
+            dispatch(setSnackbarMessage({message: "There is no changes to redo"}))
+            dispatch(handleOpenSnackbar())
         }
-    }, [history, redoHistory, template]);
+    }, [dispatch, history, redoHistory, template]);
+
+    //open element structure drawer
+    const [elementStructureDrawer, setElementStructureDrawer] = useState(false)
+    const handleOpenElementStructure = useCallback((e) => {
+        e.preventDefault()
+        if(template) {
+            setElementStructureDrawer(prev => !prev)
+        } else {
+            dispatch(setSnackbarIsError({isError: true}))
+            dispatch(setSnackbarMessage({message: "Select Mode"}))
+            dispatch(handleOpenSnackbar())
+        }
+    }, [dispatch, template]);
+
+    //open style options drawer
+    const [styleOptionsDrawer, setStyleOptionsDrawer] = useState(false)
+    const handleOpenStyleOptions = useCallback((e) => {
+        e.preventDefault()
+        if(template) {
+            setStyleOptionsDrawer(prev => !prev)
+        } else {
+            dispatch(setSnackbarIsError({isError: true}))
+            dispatch(setSnackbarMessage({message: "Select Mode"}))
+            dispatch(handleOpenSnackbar())
+        }
+    }, [dispatch, template]);
     
 
     
-    
+    // function to change the template based on updated template
     const handleTemplateChange = useCallback((updatedTemplate) => {
         setHistory([...history, template]);
         setRedoHistory(() => [])
         setTemplate(() => updatedTemplate);
+
+        //to close drawers when there is no template
+        if(!updatedTemplate) {
+            setElementStructureDrawer(false)
+            setStyleOptionsDrawer(false)
+        }
     }, [history, template])
+
+
+    //create new blank design
+    const handleNewDesign = useCallback(() => {
+        if(template) {
+            localStorage.removeItem(mode);
+            handleTemplateChange(null)
+        }
+    }, [handleTemplateChange, mode, template])
+
+    // * save template to database
+    const saveTemplate = () => {
+        
+    }
+
+
+    //confirm new blank design
+    const [confirmOpen, setConfirmOpen] = useState(false)
+    const handleConfirmCreateNewBlankDesign = useCallback(() => {
+        setConfirmOpen(() => true)
+    }, [])
 
     useEffect(() => {
         const handleKeyDown = (event) => {
@@ -149,6 +232,14 @@ const CreateElementTemplate = () => {
             if (event.ctrlKey && event.key === 'y') {
                 handleRedo();
             }
+
+            if (event.altKey  && event.key === 'e') {
+                handleOpenElementStructure(event);
+            }
+
+            if (event.altKey && event.key === 's') {
+                handleOpenStyleOptions(event);
+            }
         };
 
         document.addEventListener('keydown', handleKeyDown);
@@ -156,7 +247,7 @@ const CreateElementTemplate = () => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [handleRedo, handleUndo, history]);
+    }, [handleOpenElementStructure, handleOpenStyleOptions, handleRedo, handleUndo, history]);
 
     
 
@@ -169,7 +260,9 @@ const CreateElementTemplate = () => {
             hoveredSubElementId, setHoveredSubElementId,
             mode, setMode,
             template, setTemplate,
-            handleTemplateChange
+            handleTemplateChange,
+            elementStructureDrawer, setElementStructureDrawer,
+            styleOptionsDrawer, setStyleOptionsDrawer,
         }}
         >
             
@@ -177,11 +270,19 @@ const CreateElementTemplate = () => {
                 <DesignOptions 
                     handleRedo={handleRedo}
                     handleUndo={handleUndo}
+                    handleNewBlank={handleConfirmCreateNewBlankDesign}
+                    saveTemplate={saveTemplate}
                     history={history}
                     redoHistory={redoHistory}
                 />
                 <TemplateDevView   />
 
+                <ConfirmModal 
+                    title={"Create new blank design"}
+                    ConfirmMessage={"Are you sure you want to create a blank design, Your changes will ben removed"}
+                    handleAgree={handleNewDesign}
+                    confirmModalState={[confirmOpen, setConfirmOpen]}
+                />
                 {/* <TemplateElementSettings  /> */}
 
                 {/* <TemplateElementStyleSettings /> */}

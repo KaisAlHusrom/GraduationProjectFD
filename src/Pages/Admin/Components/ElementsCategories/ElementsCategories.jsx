@@ -25,6 +25,7 @@ import { defaultDrawerWidth } from '../../../../Components/CustomDrawer/CustomDr
 import CategorizedElements from '../CategorizedElements/CategorizedElements'
 import { useTheme } from '@emotion/react'
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'
+import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
 
 
 
@@ -90,16 +91,20 @@ const ElementsCategories = (props) => {
     const theme = useTheme()
 
     const [selectedCategoryId, setSelectedCategoryId] = useState(null)
+    const {
+        elementStructureDrawer
+    } = useMyCreateElementContext()
 
     const params = useMemo(() => {
         return [null, null, null, null, null, 15]
     }, [])
+
     const {
         data,
         // setData,
         download,
         // setDownload
-    } = useEffectFetchData(fetchElementTypesCategories, params);
+    } = useEffectFetchData(fetchElementTypesCategories, params, elementStructureDrawer);
     
 
 

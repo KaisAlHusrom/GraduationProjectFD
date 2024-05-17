@@ -65,7 +65,7 @@ const TemplateElementStyleSettings = () => {
     const [styleCategories, setStyleCategories] = useState(null)
     useEffect(() => {
         const fetchStyleCategories = async () => {
-            const {rows} = await fetchStylePropCategory()
+            const {rows} = await fetchStylePropCategory(null, null, null, null, null, 20)
             setStyleCategories(() => rows)
         }
 

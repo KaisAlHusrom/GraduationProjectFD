@@ -218,11 +218,11 @@ export const deleteStyle = (template, selectedIds, prop, cssValue, styleExceptio
 export const extractStylesWithoutChangeTheStructure = (template, selectedIds) => {
     const styles = []
     for (const design of Array.isArray(template) ? template : [template]) {
-        if (selectedIds.includes(design.id)) {
+        if (selectedIds.includes(design?.id)) {
             styles.push(...design.styles)
         }
 
-        if (design.children && design.children.length > 0) {
+        if (design?.children && design?.children.length > 0) {
             styles.push(...extractStylesWithoutChangeTheStructure(design.children, selectedIds)); // Accumulate styles from children
         }
     }

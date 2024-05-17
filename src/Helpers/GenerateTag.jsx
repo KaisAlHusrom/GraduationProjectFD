@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 
 import exampleImage from "../assets/images/exampleimage.jpg"
 
-
 import propTypes from 'prop-types'
 import { useMyCreateElementContext } from "../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate";
 import { useTheme } from "@emotion/react";
@@ -61,6 +60,7 @@ export const GenerateTag = ({selectedTemplate}) => {
 
     const sortedData = Array.isArray(selectedTemplate) ? selectedTemplate.sort((a, b) => a.sequence_number - b.sequence_number) : selectedTemplate;
 
+    // const id = sortedData?.id
     const type = sortedData ? sortedData.element_type?.element_type_name : "";
     const content = sortedData ? sortedData.element_content : "";
     const theme = useTheme()
@@ -88,7 +88,14 @@ export const GenerateTag = ({selectedTemplate}) => {
     //     };
     // }, [handleSetStyleExceptions])
 
+    // const handleDoubleClick = () => {
+        
+    // }
 
+    // const myDoubleClick =  useDoubleClick(
+    //     () => () => {}, 
+    //     () => handleDoubleClick
+    // )
     
 
     const defaultProps = useMemo(() => {
@@ -96,6 +103,7 @@ export const GenerateTag = ({selectedTemplate}) => {
             type: type,
             key: key,
             placeholder:type,
+            // onClick: myDoubleClick
             // onClick: () => handleChangeSelectedEditableElement(key),
             // ...eventListeners,
         }
@@ -112,6 +120,7 @@ export const GenerateTag = ({selectedTemplate}) => {
                 styles={styles}
                 hoveredSubElementId={hoveredSubElementId}
             />
+            
             {/* <StyledAfterBox></StyledAfterBox> */}
         </>
     )

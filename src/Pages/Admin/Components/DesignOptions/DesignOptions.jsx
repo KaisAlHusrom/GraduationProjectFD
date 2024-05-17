@@ -19,11 +19,19 @@ import { styled } from '@mui/system'
 //icons
 import UndoIcon from '@mui/icons-material/Undo';
 import RedoIcon from '@mui/icons-material/Redo';
-
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import MediationOutlinedIcon from '@mui/icons-material/MediationOutlined';
+import TemplateElementStyleSettings from '../TemplateElementStyleSettings/TemplateElementStyleSettings'
+import FormatColorFillOutlinedIcon from '@mui/icons-material/FormatColorFillOutlined';
+import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 //propTypes 
 import propTypes from 'prop-types'
-import { AdminMainButton } from '../../../../Components'
+import { AdminMainButton, AdminMainButtonOutsideState } from '../../../../Components'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate';
+import { useNavigate } from 'react-router-dom';
+import ViewElements from '../ViewElements/ViewElements';
+import AddDesignModal from '../AddDesignModal/AddDesignModal';
 
 //Styled Components
 const StyledDesignOptions = styled(Box)(
@@ -38,7 +46,25 @@ const StyledDesignOptions = styled(Box)(
 
 const StyledSubOptions = styled(Box)(
     ({ theme }) => ({
-        width: "50%",
+        // width: "50%",
+        display: "flex",
+        alignItems: "center",
+        gap: theme.spacing()
+    })
+);
+
+const StyledControlOptions = styled(Box)(
+    ({ theme }) => ({
+        // width: "50%",
+        display: "flex",
+        alignItems: "center",
+        gap: theme.spacing()
+    })
+);
+
+const StyledSaveOptions = styled(Box)(
+    ({ theme }) => ({
+        // width: "50%",
         display: "flex",
         alignItems: "center",
         gap: theme.spacing()
@@ -51,11 +77,26 @@ const DesignOptions = (props) => {
         handleRedo,
         handleUndo,
         history,
-        redoHistory
+        redoHistory,
+        handleNewBlank,
+        saveTemplate
     } = props;
 
     const {
-        mode
+        elementStructureDrawer, setElementStructureDrawer,
+        styleOptionsDrawer, setStyleOptionsDrawer
+    } = useMyCreateElementContext()
+
+    const navigate = useNavigate()
+    //handle go dashboard
+    const handleGoAdminDashboard =() => {
+        navigate('/admin-dashboard')
+    }
+
+
+    const {
+        mode,
+        template
     } = useMyCreateElementContext()
 
     const handleCustomUndo = () => {
@@ -66,11 +107,43 @@ const DesignOptions = (props) => {
         handleRedo()
     }
 
+    const handleCreateNew = () => {
+        handleNewBlank()
+    }
+
+    const handleSaveTemplate = () => {
+        saveTemplate()
+    }
+
     return (
         <StyledDesignOptions>
             <StyledSubOptions>
                 <AdminMainButton 
-                    title='Undo'
+                    title='Dashboard'
+                    type='custom'
+                    appearance='primary'
+                    putBorder
+                    icon={<DashboardIcon />}
+                    putTooltip
+                    toolTipPosition={"top"}
+                    onClick={handleGoAdminDashboard}
+                />
+                {
+                    // mode &&
+                    <AdminMainButton 
+                        title={`Blank ${mode}`}
+                        type='custom'
+                        appearance='primary'
+                        putBorder
+                        icon={<AddBoxOutlinedIcon />}
+                        putTooltip
+                        toolTipPosition={"top"}
+                        onClick={handleCreateNew}
+                        disabled={template === null}
+                    />
+                }
+                <AdminMainButton 
+                    title='Undo (Ctrl + Z)'
                     type='custom'
                     appearance='iconButton'
                     putBorder
@@ -78,10 +151,10 @@ const DesignOptions = (props) => {
                     putTooltip
                     toolTipPosition={"top"}
                     onClick={handleCustomUndo}
-                    disabled={mode === null || history.length === 0}
+                    disabled={template === null || history.length === 0}
                 />
                 <AdminMainButton 
-                    title='Redo'
+                    title='Redo (Ctrl + Y)'
                     type='custom'
                     appearance='iconButton'
                     putBorder
@@ -89,9 +162,73 @@ const DesignOptions = (props) => {
                     putTooltip
                     toolTipPosition={"top"}
                     onClick={handleCustomRedo}
-                    disabled={mode === null || redoHistory.length === 0}
+                    disabled={template === null || redoHistory.length === 0}
                 />
+                
+                
             </StyledSubOptions>
+            <StyledControlOptions>
+                {/* elements */}
+                <AdminMainButtonOutsideState 
+                    title='Open Design Structure (ALT + E)'
+                    appearance='iconButton'
+                    type='drawer'
+                    putBorder
+                    icon={<MediationOutlinedIcon />}
+                    willShow={<ViewElements />}
+                    drawerVariant="persistent"
+                    putDrawerCloseButton
+                    // drawerResizable={true}
+                    drawerHeaderStyle={{
+                        textTransform: "capitalize",
+                        letterSpacing: 2,
+                    }}
+                    customState={[elementStructureDrawer, setElementStructureDrawer]}
+                    putTooltip
+                    toolTipPosition={"top"}
+                    disabled={template === null}
+                    drawerHeaderContent={"Design Structure"}
+                />
+                {/* styles */}
+                <AdminMainButtonOutsideState 
+                    title='Open Style Settings (ALT + S)'
+                    appearance='iconButton'
+                    type='drawer'
+                    putBorder
+                    icon={<FormatColorFillOutlinedIcon />}
+                    drawerAnchor={'right'}
+                    willShow={<TemplateElementStyleSettings />}
+                    drawerVariant="persistent"
+                    putDrawerCloseButton
+                    drawerResizable={true}
+                    withoutDrawerHeader
+                    customState={[styleOptionsDrawer, setStyleOptionsDrawer]}
+                    putTooltip
+                    toolTipPosition={"top"}
+                    disabled={template   === null}
+                    
+                />
+                
+            </StyledControlOptions>
+            <StyledSaveOptions>
+                <AdminMainButton 
+                    title='Save Design'
+                    type='modal'
+                    appearance='primary'
+                    willShow={
+                        <AddDesignModal 
+                            handleAddData={handleSaveTemplate}
+                        />
+                    }
+                    filled
+                    putBorder
+                    icon={<FileUploadOutlinedIcon />}
+                    modalIcon={<FileUploadOutlinedIcon />}
+                    putTooltip
+                    toolTipPosition={"top"}
+                    disabled={template === null}
+                />
+            </StyledSaveOptions>
         </StyledDesignOptions>
     );
 };
@@ -99,6 +236,8 @@ const DesignOptions = (props) => {
 DesignOptions.propTypes = {
     handleRedo: propTypes.func,
     handleUndo: propTypes.func,
+    handleNewBlank: propTypes.func,
+    saveTemplate: propTypes.func,
     history: propTypes.array,
     redoHistory: propTypes.array,
 }

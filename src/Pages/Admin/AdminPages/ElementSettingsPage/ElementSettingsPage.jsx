@@ -19,7 +19,6 @@ import { styled } from '@mui/system'
 
 //icons
 import CodeIcon from '@mui/icons-material/Code';
-import DesignServicesIcon from '@mui/icons-material/DesignServices';
 import TuneIcon from '@mui/icons-material/Tune';
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';
 
@@ -48,12 +47,6 @@ const elementsItems = [
         title: "Element Props",
         body: "Control Element Props",
         icon: <TuneIcon color='primary' sx={{fontSize: "64px"}} />
-    },
-    {
-        path: "create-element-template",
-        title: "Create Element Template",
-        body: "You can create the new elements here",
-        icon: <DesignServicesIcon color='primary' sx={{fontSize: "64px"}} />
     },
 ]
 
