@@ -1,7 +1,6 @@
 //React
-import { useEffect, useState } from 'react'
+import { useMemo, useState } from 'react'
 
-import { useDispatch } from 'react-redux'
 
 //config 
 import config from "../../../../../Config.json"
@@ -25,6 +24,7 @@ import { CustomDrawer } from '../../../../Components'
 import { defaultDrawerWidth } from '../../../../Components/CustomDrawer/CustomDrawer'
 import CategorizedElements from '../CategorizedElements/CategorizedElements'
 import { useTheme } from '@emotion/react'
+import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'
 
 
 
@@ -89,25 +89,17 @@ const ElementsCategories = (props) => {
     } = props
     const theme = useTheme()
 
-    //for linear progress
-    const [download, setDownload] = useState(false)
-    
-
     const [selectedCategoryId, setSelectedCategoryId] = useState(null)
 
-    const [categories, setCategories] = useState(null)
-    useEffect(() => {
-        const fetchCategories = async () => {
-            setDownload(() => true)
-            const {rows} = await fetchElementTypesCategories(null, null, null, null, null, 15   )
-            setCategories(() => rows)
-            if(rows && rows.length > 0) {
-                setDownload(() => false)
-            }
-        }
-
-        fetchCategories()
+    const params = useMemo(() => {
+        return [null, null, null, null, null, 15]
     }, [])
+    const {
+        data,
+        // setData,
+        download,
+        // setDownload
+    } = useEffectFetchData(fetchElementTypesCategories, params);
     
 
 
@@ -131,8 +123,8 @@ const ElementsCategories = (props) => {
     return (
         <StyledElementsCategories>
             {
-                !download && categories && categories.length > 0 ?
-                    categories.map((category, key) => {
+                !download && data && data.length > 0 ?
+                data.map((category, key) => {
                         return (
                             <StyledElementCategoryBox sx={{backgroundColor: selectedCategoryId === category.id && theme.palette.action.selected}} onClick={() => handleSelectCategory(category.id)} key={key}>
                                 <StyledBoxImage>
@@ -157,6 +149,7 @@ const ElementsCategories = (props) => {
                 drawerOpenState={[elementsDrawerOpen, setElementsDrawerOpen]}
                 variant={"persistent"}
                 putDrawerCloseButton
+                drawerZIndex={-1} // * make the zIndex under 0 because this drawer is already renders inside ElementsCategories Drawer
                 drawerStyle={{
                     marginLeft: `${defaultDrawerWidth + 250}px`,
                     width: 250,

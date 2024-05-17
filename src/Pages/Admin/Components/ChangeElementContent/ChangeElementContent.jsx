@@ -10,11 +10,9 @@ import {
 
 //MUI
 import {
-    Box,
     MenuItem,
     MenuList,
     Paper,
-    TextField,
     TextareaAutosize,
 } from '@mui/material'
 import ChangeCircleOutlinedIcon from '@mui/icons-material/ChangeCircleOutlined';
@@ -48,7 +46,7 @@ const StyledTextArea = styled(TextareaAutosize)(
 
 const ChangeElementContent = ({parentElementId, handleCloseMenus}) => {
 
-    const {template, setTemplate} = useMyCreateElementContext()
+    const {template, handleTemplateChange} = useMyCreateElementContext()
 
     const [content, setContent] = useState("")
     useEffect(() => {
@@ -75,8 +73,8 @@ const ChangeElementContent = ({parentElementId, handleCloseMenus}) => {
 
             if (parentTemplateFound) {
                 handleCloseMenus()
+                handleTemplateChange(updatedSelectedTemplate)
 
-                setTemplate(() => updatedSelectedTemplate);
 
             } else {
                 //TODO: something happen when changing not working

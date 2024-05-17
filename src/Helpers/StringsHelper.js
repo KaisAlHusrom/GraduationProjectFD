@@ -26,6 +26,10 @@ function camelToSnake(camelCaseString) {
     });
 }
 
+function camelToKebab(str) {
+    return str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+}
+
 function removeSAtEnd(word) {
     const lowercasedWord = word.toLowerCase();
     if (lowercasedWord.endsWith('s') && word !== 'S') {
@@ -43,7 +47,8 @@ const StringHelper = {
     removeSAtEnd,
     camelCaseToWords,
     removeHyphens,
-    camelToSnake
+    camelToSnake,
+    camelToKebab
 }
 
 export default StringHelper

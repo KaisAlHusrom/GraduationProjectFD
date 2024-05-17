@@ -1,7 +1,5 @@
 //React
-import { useEffect, useState } from 'react'
-
-import { useDispatch } from 'react-redux'
+import { useMemo } from 'react'
 
 import config from "../../../../../Config.json"
 
@@ -20,9 +18,10 @@ import { styled } from '@mui/system'
 import propTypes from 'prop-types'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
-import { handleCloseLinearProgress, handleOpenLinearProgress } from '../../../../Redux/Slices/DownloadPageSlice'
 import { addElementToParent } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
+import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'
+import { elementTypesImagesFolderName } from '../../AdminPages/ElementTypesPage/ElementTypesPage'
 
 //Styled Components
 const StyledCategorizedElements = styled(Box)(
@@ -86,52 +85,36 @@ const CategorizedElements = (props) => {
         selectedCategoryState
     } = props
 
-    //for linear progress
-    const dispatch = useDispatch()
-    const [download, setDownload] = useState(false)
 
     //get element to add the element to it
     const {
         template,
-        setTemplate
+        handleTemplateChange
     } = useMyCreateElementContext()
 
     //selected category
     const [selectedCategoryId] = selectedCategoryState;
 
-    const [elements, setElements] = useState(null)
-    useEffect(() => {
-        const fetchCategories = async () => {
-            if(selectedCategoryId) {
-                setDownload(() => true)
-                const {rows} = await fetchElementTypesRows(
-                    null, 
-                    null, 
-                    [writeFilterObject("category_id", "many-to-one", "=", "", "", "", "", selectedCategoryId)], 
-                    null, 
-                    null, 
-                    30)
-                setElements(() => rows)
-                if(rows && rows.length > 0) {
-                    setDownload(() => false)
-                }
-            }
-        }
+    //fetch the data using useEffectFetchData
+    const params = useMemo(() => {
+        return [null, 
+                null, 
+                [writeFilterObject("category_id", "many-to-one", "=", "", "", "", "", selectedCategoryId)], 
+                null, 
+                null, 
+                30]
+    }, [selectedCategoryId])
 
-        fetchCategories()
-    }, [dispatch, selectedCategoryId])
+    const {
+        data,
+        // setData,
+        download,
+        // setDownload
+    } = useEffectFetchData(fetchElementTypesRows, params, selectedCategoryId);
 
-    //to add linear progress when changing category id
-    useEffect(() => {
-        if(download) {
-            dispatch(handleOpenLinearProgress())
-        } else {
-            dispatch(handleCloseLinearProgress())
-        }
-    }, [dispatch, download, ])
 
     const handleAddSubElement = (id) => {
-        const selectedWillBeAddedElement = elements.find(e => e.id === id);
+        const selectedWillBeAddedElement = data.find(e => e.id === id);
         if(parentElementId && selectedWillBeAddedElement) {
             
             // Clone the selectedElement array to avoid mutating state directly
@@ -144,8 +127,8 @@ const CategorizedElements = (props) => {
 
             if (parentTemplateFound) {
                 handleCloseMenus()
+                handleTemplateChange(updatedSelectedTemplate)
 
-                setTemplate(() => updatedSelectedTemplate);
 
             } else {
                 //TODO: something happen when insert not working
@@ -156,12 +139,12 @@ const CategorizedElements = (props) => {
     return (
         <StyledCategorizedElements>
             {
-                !download && elements && elements.length > 0 ?
-                        elements.map((element, key) => {
+                !download && data && data.length > 0 ?
+                        data.map((element, key) => {
                             return (
                                 <StyledElementBox onClick={() => handleAddSubElement(element.id)} key={key}>
                                     <StyledBoxImage>
-                                        {/* <StyledImage src={`${config.ServerImageRoute}/${elementTypesCategoriesImagesFolderName}/${category.category_image}`} alt="" /> */}
+                                        <StyledImage src={`${config.ServerImageRoute}/${elementTypesImagesFolderName}/${element.element_type_image}`} alt="" />
                                     </StyledBoxImage>
                                     <StyledElementNameBox>
                                         <Typography letterSpacing={2} variant='h7' textAlign={"left"}>{element.element_type_name}</Typography>

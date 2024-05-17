@@ -1,5 +1,5 @@
 //React
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useCallback, useContext, useEffect, useState } from 'react'
 
 
 
@@ -18,6 +18,7 @@ import { styled } from '@mui/system'
 
 //services
 import { transformElementTypeToDesignStructure } from '../../../../Helpers/transformData'
+import DesignOptions from '../DesignOptions/DesignOptions'
 
 
 //Context
@@ -39,56 +40,57 @@ const StyledCreateElementTemplate = styled(Stack)(
 
 const CreateElementTemplate = () => {
 
-    // useEffect(() => {
-    //     const handleBeforeUnload = (event) => {
-    //       // Cancel the event
-    //         event.preventDefault();
-    //         // Chrome requires returnValue to be set
-    //         event.returnValue = '';
-        
-    //         // Display a confirmation dialog
-    //         const confirmationMessage = 'Are you sure you want to leave?';
-            
-    //         // Some browsers ignore the return value, but you should still provide it
-    //         return confirmationMessage;
-    //     };
-        
-    //         // Add event listener when the component mounts
-    //         window.addEventListener('beforeunload', handleBeforeUnload);
-        
-    //         // Remove event listener when the component unmounts
-    //         return () => {
-    //         window.removeEventListener('beforeunload', handleBeforeUnload);
-    //     };
-    // }, []);
-
-    
     const [mode, setMode] = useState(null)
-
 
 
     const [selectedElement, setSelectedElement] = useState(null)
     const [template, setTemplate] = useState(null)
     useEffect(() => {
         //this effect for the first rendering only, because selectedElement shouldn't change later
-        if(selectedElement) {
+        
+        if(mode) {
+            const storedTemplate = JSON.parse(localStorage.getItem(mode));
+            if(storedTemplate !== null) {
+                setTemplate(() => storedTemplate)
+            } 
+            else if(selectedElement) {
+                // Call the transformData function with the original data
+                const transformedTemplateData = transformElementTypeToDesignStructure(selectedElement, null, mode);
+                // transformedTemplateData.forEach(data => {
+                //     addDesign(data);
+                // })
+                setTemplate(() => transformedTemplateData)
+            }
             
-            // Call the transformData function with the original data
-            const transformedTemplateData = transformElementTypeToDesignStructure(selectedElement, null, mode);
-            // transformedTemplateData.forEach(data => {
-            //     addDesign(data);
-            // })
-
-            // // set the template to the data that is the root of the tree, the grand father.
-            setTemplate(() => transformedTemplateData)
         }
     }, [mode, selectedElement])
 
+
+    //add template to local storage
+    //TODO: why the history return to []
+    const [history, setHistory] = useState(() => {
+        const storedHistory = JSON.parse(sessionStorage.getItem(`${mode}_history`));
+        console.log(storedHistory)
+        return storedHistory ? storedHistory : [];
+    });
+    const [redoHistory, setRedoHistory] = useState([])
+    
+    useEffect(() => {
+        if(mode) {
+            if(template) {
+                localStorage.setItem(mode, JSON.stringify(template));
+            }
+            if(history) {
+                sessionStorage.setItem(`${mode}_history`, JSON.stringify(history));
+            }
+        }
+    }, [history, mode, selectedElement, template]);
     
     
-    const [elementsStyle, setElementsStyle] = useState(null)
+
     const [hoveredSubElementId, setHoveredSubElementId] = useState(null)
 
+    //selected elements
     const [selectedSubElementIds, setSelectedSubElementIds] = useState([])
     useEffect(() => {
         if (template && template.id) {
@@ -104,22 +106,81 @@ const CreateElementTemplate = () => {
 
     }, [template, setSelectedSubElementIds])
 
+
+    // ability to undo changes:
+    const handleUndo = useCallback(() => {
+        if (history.length > 0) {
+            const previousTemplate = history[history.length - 1];
+            if (previousTemplate) {
+                setRedoHistory([...redoHistory, template]); // Move current template to redo history
+                setTemplate(previousTemplate);
+                setHistory(history.slice(0, -1)); // Remove last template from history
+            }
+        }
+    }, [history, redoHistory, template]);
+
+    //ability to redo changes:
+    const handleRedo = useCallback(() => {
+        if (redoHistory.length > 0) {
+            const nextTemplate = redoHistory[redoHistory.length - 1];
+            if (nextTemplate) {
+                setHistory([...history, template]); // Move current template to history
+                setTemplate(nextTemplate);
+                setRedoHistory(redoHistory.slice(0, -1)); // Remove last template from redo history
+            }
+        }
+    }, [history, redoHistory, template]);
+    
+
+    
+    
+    const handleTemplateChange = useCallback((updatedTemplate) => {
+        setHistory([...history, template]);
+        setRedoHistory(() => [])
+        setTemplate(() => updatedTemplate);
+    }, [history, template])
+
+    useEffect(() => {
+        const handleKeyDown = (event) => {
+            if (event.ctrlKey && event.key === 'z') {
+                handleUndo();
+            }
+
+            if (event.ctrlKey && event.key === 'y') {
+                handleRedo();
+            }
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [handleRedo, handleUndo, history]);
+
+    
+
     return (
         <MyCreateElementContext.Provider value={{
             selectedElement,
             setSelectedElement,
-            elementsStyle, 
-            setElementsStyle,
             selectedSubElementIds,
             setSelectedSubElementIds,
             hoveredSubElementId, setHoveredSubElementId,
             mode, setMode,
             template, setTemplate,
+            handleTemplateChange
         }}
         >
             
             <StyledCreateElementTemplate >
-                <TemplateDevView  />
+                <DesignOptions 
+                    handleRedo={handleRedo}
+                    handleUndo={handleUndo}
+                    history={history}
+                    redoHistory={redoHistory}
+                />
+                <TemplateDevView   />
 
                 {/* <TemplateElementSettings  /> */}
 

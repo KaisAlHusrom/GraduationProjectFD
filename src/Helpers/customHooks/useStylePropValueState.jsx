@@ -3,7 +3,7 @@ import { addStyle, changeStyleValues, checkIfStyleExist, convertToCssValue, dele
 import { useDispatch } from "react-redux"
 import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from "../../Redux/Slices/snackbarOpenSlice"
 
-export default function useStylePropValueState(prop, template, setTemplate, selectedSubElementIds, breakpointState, exceptionState) {
+export default function useStylePropValueState(prop, template, handleTemplateChange, selectedSubElementIds, breakpointState, exceptionState) {
     const dispatch = useDispatch()
     const {styleException} = exceptionState
     const {styleBreakpoint} = breakpointState
@@ -37,7 +37,7 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
         if(value && selectedSubElementIds.length > 0 && checkIfStyleExist(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint))  {
             const changed = changeStyleValues(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue,  styleException, styleBreakpoint)
             if (changed) {
-                setTemplate(() => updatedSelectedTemplate)
+                handleTemplateChange(updatedSelectedTemplate)
             } else {
                 dispatch(setSnackbarIsError({isError: true}))
                 dispatch(setSnackbarMessage({message: "This style is already added."}))
@@ -46,7 +46,7 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
         } 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dispatch, setTemplate, cssValue, selectedSubElementIds])
+    }, [dispatch, cssValue, selectedSubElementIds])
 
     
 
@@ -66,8 +66,7 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
                 const updatedSelectedTemplate = JSON.parse(JSON.stringify(template));
                 const added = addStyle(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint);
                 if (added) {
-                    console.log(updatedSelectedTemplate)
-                    setTemplate(() => updatedSelectedTemplate)
+                    handleTemplateChange(updatedSelectedTemplate)
                 } else {
                     dispatch(setSnackbarIsError({isError: true}))
                     dispatch(setSnackbarMessage({message: "This style is already added."}))
@@ -93,8 +92,7 @@ export default function useStylePropValueState(prop, template, setTemplate, sele
             // console.log(styleBreakpoint)
             const deleted = deleteStyle(updatedSelectedTemplate, selectedSubElementIds, prop, cssValue, styleException, styleBreakpoint);
             if (deleted) {
-                console.log("Deleted Successfully")
-                setTemplate(() => updatedSelectedTemplate)
+                handleTemplateChange(updatedSelectedTemplate)
             } else {
                 dispatch(setSnackbarIsError({isError: true}))
                 dispatch(setSnackbarMessage({message: "This style is not exist."}))

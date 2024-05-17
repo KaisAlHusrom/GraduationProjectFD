@@ -64,7 +64,8 @@ const AdminMainButton = (props) => {
         drawerHeaderStyle,
         drawerHeaderContent,
         withoutDrawerHeader,
-        drawerWidthState
+        drawerWidthState,
+        disabled
     } = props
 
     //theme
@@ -165,6 +166,7 @@ const AdminMainButton = (props) => {
                     ?
                     <Tooltip title={title} placement={toolTipPosition}>
                         <IconButton 
+                        disabled={disabled}
                         sx={
                             sx ?
                             {...StyleOfIconButton, ...sx}
@@ -196,6 +198,7 @@ const AdminMainButton = (props) => {
                     </Tooltip>
                     :
                     <IconButton 
+                        disabled={disabled}
                         sx={
                             sx ?
                             {...StyleOfIconButton, ...sx}
@@ -228,6 +231,7 @@ const AdminMainButton = (props) => {
                     ?
                     <Tooltip title={title} placement={toolTipPosition}>
                         <Button
+                        disabled={disabled}
                         sx={
                             sx ?
                             {...StyleOfButton, ...sx}
@@ -268,6 +272,7 @@ const AdminMainButton = (props) => {
                     </Tooltip>
                     :
                     <Button
+                    disabled={disabled}
                     sx={
                         sx ?
                         {...StyleOfButton, ...sx}
@@ -460,6 +465,7 @@ AdminMainButton.propTypes = {
     drawerHeaderContent: propTypes.string,
     withoutDrawerHeader: propTypes.bool,
     drawerWidthState: propTypes.array,
+    disabled: propTypes.bool,
 }
 
 export default AdminMainButton;

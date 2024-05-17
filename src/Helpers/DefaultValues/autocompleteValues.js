@@ -5,6 +5,9 @@ export const pixelValues = (addNegativeValues = false) => {
     });
 }
 
+export const timeValues = Array.from({ length: 601 }, (_, index) => `${index* 100}ms`);
+
+
 
 export const numberValues = Array.from({ length: 500 }, (_, index) => `${index * 2 + 2}`);
 

@@ -242,7 +242,7 @@ const Tag = (props) => {
                 component = "iframe"
                 break
             case 'form':
-                component = "form"
+                component = "form" //TODO: error occured when select this
                 break
             case 'bold text':
                 component = "b"
@@ -263,6 +263,7 @@ const Tag = (props) => {
             case 'section':
                 component = "div"
                 break;
+
             default:
                 return null; // Return null for unsupported types or handle accordingly
         }

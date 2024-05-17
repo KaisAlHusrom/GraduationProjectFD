@@ -30,12 +30,7 @@ export const defaultDrawerWidth = 350;
 const minDrawerWidth = 200;
 const maxDrawerWidth = 600;
 
-const StyledCustomDrawer = styled(Drawer)(
-    () => ({
-        position: 'relative',
-        
-    })
-)
+
 
 const StyledDrawerContent = styled(Box)(
     () => ({
@@ -59,7 +54,8 @@ const CustomDrawer = (props) => {
         anchor, variant , drawerStyle, 
         drawerResizable, drawerHeaderStyle, 
         drawerHeaderContent, withoutDrawerHeader,
-        drawerWidthState
+        drawerWidthState,
+        drawerZIndex
     } = props
 
     const [drawerOpen, setDrawerOpen] = drawerOpenState
@@ -135,6 +131,16 @@ const CustomDrawer = (props) => {
             zIndex: 2000,
         }
     },[handlePosition])
+
+    // drawer style
+    const StyledCustomDrawer = useMemo(() => {
+        return styled(Drawer)(
+            () => ({
+                position: 'relative',
+                zIndex: drawerZIndex ? drawerZIndex : 1000
+            })
+        )
+    }, [drawerZIndex])
 
     //header style 
     const StyledHeaderBox = useMemo(() => {
@@ -249,6 +255,7 @@ CustomDrawer.propTypes = {
     drawerHeaderContent: propTypes.string,
     withoutDrawerHeader: propTypes.bool,
     drawerWidthState: propTypes.array,
+    drawerZIndex: propTypes.number
 }
 
 export default CustomDrawer;

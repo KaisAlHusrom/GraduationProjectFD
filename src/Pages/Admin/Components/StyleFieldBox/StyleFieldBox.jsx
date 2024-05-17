@@ -133,7 +133,7 @@ const StyledStyleFieldValueBox = styled(Box)(
 
 export const StyledFieldValue = ({prop, breakpointState, exceptionState}) => {
     const theme = useTheme()
-    const {template, setTemplate, selectedSubElementIds} = useMyCreateElementContext()
+    const {template, handleTemplateChange, selectedSubElementIds} = useMyCreateElementContext()
     const [openChildren, setOpenChildren] = useState(false)
     //ref
     const containerRef = useRef()
@@ -146,7 +146,7 @@ export const StyledFieldValue = ({prop, breakpointState, exceptionState}) => {
         handleDeleteStyleProp,
         mainDirections, setMainDirections,
         cornerDirections, setCornerDirections
-    } = useStylePropValueState(prop, template, setTemplate, selectedSubElementIds, breakpointState, exceptionState)
+    } = useStylePropValueState(prop, template, handleTemplateChange, selectedSubElementIds, breakpointState, exceptionState)
 
     const {styleException} = exceptionState
     const {styleBreakpoint} = breakpointState

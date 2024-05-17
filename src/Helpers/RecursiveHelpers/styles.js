@@ -1,3 +1,4 @@
+import StringHelper from "../StringsHelper";
 import { writeStyleObject } from "../writeStyleObject";
 
 // export const stylesTypes = ['mix', 'styles', 'exception styles', 'screen sizes styles']
@@ -250,6 +251,10 @@ export const checkIfStyleExist = (template, selectedIds, prop, cssValue, excepti
 
 export const convertToCssValue = (prop, value, mainDirections, cornerDirections) => {
         if(value) {
+            if(prop.style_prop_value_type === "props") {
+                return StringHelper.camelToKebab(value.style_prop_css_name)
+            }
+
             if(prop.style_prop_value_type === "string") {
 
                 //if there is one value in the main directions that not null

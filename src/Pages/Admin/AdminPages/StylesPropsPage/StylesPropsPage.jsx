@@ -77,7 +77,7 @@ const columns = {
     'style_prop_css_name': "string",
     'style_prop_image' : "image",
     'style_prop_description': "text",
-    'style_prop_value_type': "enum|none,color,px,string,number,vh,vw,%,px;vh;%,px;vw;%,background-image,shadow,image,fontWeight,opacity,position,gridTemplateRows,gridTemplateColumns",
+    'style_prop_value_type': "enum|none,color,px,string,number,vh,vw,%,px;vh;%,px;vw;%,background-image,shadow,image,fontWeight,opacity,position,time,props,gridTemplateRows,gridTemplateColumns",
     "locateTypes": "enum|Without Directions,Normal Directions,Corner Directions",
     'is_section': "bool",
     'is_child': "bool",

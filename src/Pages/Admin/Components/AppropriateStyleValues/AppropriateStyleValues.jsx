@@ -8,8 +8,8 @@ import {
 } from 'react-redux'
 
 //Components
-import { conicGradientFromValues, fontWeights, imageValueTypes, linearGradientDirections, numberValues, opacities, percentValues, pixelValues, positions, radialGradientValues, vh, vw } from '../../../../Helpers/DefaultValues/autocompleteValues'
-import { AdminMainButton } from '../../../../Components'
+import { conicGradientFromValues, fontWeights, imageValueTypes, linearGradientDirections, numberValues, opacities, percentValues, pixelValues, positions, radialGradientValues, timeValues, vh, vw } from '../../../../Helpers/DefaultValues/autocompleteValues'
+import { AdminMainButton, CustomLazyAutoComplete } from '../../../../Components'
 import GradientValues from '../GradientValues/GradientValues'
 import UploadImageButton from '../UploadImageButton/UploadImageButton'
 import SetShadowValue from '../SetShadowValue/SetShadowValue'
@@ -27,6 +27,8 @@ import { MuiColorInput } from 'mui-color-input'
 //propTypes 
 import propTypes from 'prop-types'
 import GridTemplate from '../GridTemplate/GridTemplate'
+import { fetchStyleProps } from '../../../../Services/stylePropsService'
+import { writeFilterObject } from '../../../../Helpers/filterData'
 
 
 //Styled Components
@@ -37,6 +39,7 @@ const AppropriateStyleValues = (props) => {
             type,
             defaultProps,
             values,
+            valueState,
             label,
             shadows,
             setShadows,
@@ -50,6 +53,34 @@ const AppropriateStyleValues = (props) => {
             selectedColors, setSelectedColors,
             radialGradientShapeValue, setRadialGradientShapeValue, valueType, setValueType
         } = props
+        
+
+        if(type  === "props") {
+            return (
+                <CustomLazyAutoComplete
+                    handleFetchData={fetchStyleProps}
+                    filters={[
+                        writeFilterObject("category_id", "many-to-one", "!=", "", "", "", "", "3cf74981-0e33-4a88-89a3-d1bcb29d35f8")
+                    ]}
+                    label='Style Properties'
+                    optionName='style_prop_normal_name'
+                    optionId='id'
+                    valueState={[valueState.value, valueState.setValue]}
+                    customHandleChange={handleChangeStylePropValue}
+
+                />
+            )
+        }
+
+        if(type  === "time") {
+            return (
+                <Autocomplete
+                    {...defaultProps}
+                    options={timeValues}
+                    renderInput={(params) => <TextField {...params} label={label} />}
+                />
+            )
+        }
 
         if(type  === "gridTemplateRows") {
             return (
@@ -146,6 +177,14 @@ const AppropriateStyleValues = (props) => {
             )
         }
     
+        if(type  === "image"){
+            return <UploadImageButton 
+                customOnChange={handleChangeStylePropValue} 
+                imageState={[image, setImage]} 
+                label="Image" 
+                showImage={true} 
+            />
+        }
         if(type  === "background-image"){
             return (
                 <Card sx={{padding: 1, display: "flex", flexDirection:"column", gap:1, overflow: "visible"}}>
@@ -317,6 +356,7 @@ AppropriateStyleValues.propTypes = {
     type: propTypes.string,
     defaultProps: propTypes.object,
     values: propTypes.array,
+    valueState: propTypes.object,
     label: propTypes.string,
     shadows: propTypes.array,
     setShadows: propTypes.func,

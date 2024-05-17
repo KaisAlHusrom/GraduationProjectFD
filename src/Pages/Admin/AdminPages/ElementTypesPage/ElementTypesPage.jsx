@@ -77,6 +77,7 @@ const relationships = {
 
 const columns = {
     id: "pk",
+    element_type_image: "image",
     category: "many-to-one",
     element_type_name: "string",
     element_type_description: "text",
@@ -89,6 +90,8 @@ const columns = {
     created_at: "dateTime",
     updated_at: "dateTime",
 }
+
+export const elementTypesImagesFolderName = "ElementTypesImages"
 
 const ElementTypesPage = () => {
     return (
@@ -105,6 +108,7 @@ const ElementTypesPage = () => {
             handleRestoreData={restoreElementType}
             handlePermanentDeleteData={permanentDeleteElementType}
             handleAddData={addElementType}
+            imagesFolderName={elementTypesImagesFolderName}
             />
         </StyledElementTypesPage>
     );

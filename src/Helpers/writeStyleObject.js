@@ -43,10 +43,11 @@ export const convertStyleToCssShape = (styles, theme) => {
             } 
             // Check if only status exists
             else if (style.style_status) {
-                exceptionStyles[`&:${style.style_status.style_status_css_name}`] = {
-                    ...exceptionStyles[style.style_status.style_status_css_name],
-                    [style.style_prop.style_prop_css_name]: style.style_prop_value
-                };
+                const statusKey = `&:${style.style_status.style_status_css_name}`
+
+                exceptionStyles[statusKey] = exceptionStyles[statusKey] || {}
+
+                exceptionStyles[statusKey][style.style_prop.style_prop_css_name] = style.style_prop_value;
             } 
             // Check if only breakpoint exists
             else if (style.style_responsive_breakpoint) {

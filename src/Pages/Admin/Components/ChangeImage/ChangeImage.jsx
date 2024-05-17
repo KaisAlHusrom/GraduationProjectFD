@@ -10,7 +10,6 @@ import {
 
 //MUI
 import {
-    Box,
     Button,
     MenuItem,
     MenuList,
@@ -30,7 +29,7 @@ import { changeElementContentByParentId } from '../../../../Helpers/RecursiveHel
 
 const ChangeImage = ({parentElementId, handleCloseMenus}) => {
 
-    const {template, setTemplate} = useMyCreateElementContext()
+    const {template, handleTemplateChange} = useMyCreateElementContext()
 
     const [image, setImage] = useState(null)
     useEffect(() => {
@@ -46,14 +45,14 @@ const ChangeImage = ({parentElementId, handleCloseMenus}) => {
             if (parentTemplateFound) {
                 handleCloseMenus()
 
-                setTemplate(() => updatedSelectedTemplate);
+                handleTemplateChange(updatedSelectedTemplate)
 
             } else {
                 //TODO: something happen when changing not working
             }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [handleCloseMenus, image, parentElementId, setTemplate])
+    }, [handleCloseMenus, image, parentElementId])
 
 
     const handleImageChange = (e) => {
@@ -63,7 +62,6 @@ const ChangeImage = ({parentElementId, handleCloseMenus}) => {
             setImage(event.target.result);
         };
         reader.readAsDataURL(file);
-        setImage(file);
     }
     return (
         <Paper sx={{ width: 320, maxWidth: '100%', overflow: 'visible' }}>

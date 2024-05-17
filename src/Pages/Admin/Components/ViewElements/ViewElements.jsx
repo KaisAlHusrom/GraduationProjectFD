@@ -114,6 +114,7 @@ const SubElementComp = ({parent}) => {
         setSelectedSubElementIds, 
         selectedSubElementIds, 
         setHoveredSubElementId,
+        handleTemplateChange,
         template, setTemplate
     } = useMyCreateElementContext()
 
@@ -178,12 +179,12 @@ const SubElementComp = ({parent}) => {
         const parentTemplateFound = func([updatedSelectedTemplate], ...parameters)
         closeMenus()
         if (parentTemplateFound) {
-            setTemplate(() => updatedSelectedTemplate);
+            handleTemplateChange(updatedSelectedTemplate)
 
         } else {
             //TODO: something happen when not found
         }
-    }, [closeMenus, setTemplate, template])
+    }, [closeMenus, handleTemplateChange, template])
 
     //change content
     // const [content, setContent] = useState(null)
@@ -452,6 +453,7 @@ const SubElementComp = ({parent}) => {
                 drawerOpenState={[addNewElementDrawerOpen, setAddNewElementDrawerOpen]}
                 variant={"persistent"}
                 putDrawerCloseButton
+                drawerZIndex={-1} // * make the zIndex under 0 because this drawer is already renders inside viewElement Drawer
                 drawerStyle={{
                     marginLeft: `${defaultDrawerWidth}px`,
                     width: "250px"

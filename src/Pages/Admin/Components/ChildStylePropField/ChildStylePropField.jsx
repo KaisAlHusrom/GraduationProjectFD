@@ -40,7 +40,7 @@ const StyledChildStylePropField = styled(Box)(
 const ChildStylePropField = ({prop, breakpointState, exceptionState}) => {
     const {
         template,
-        setTemplate,
+        handleTemplateChange,
         selectedSubElementIds
     } = useMyCreateElementContext()
 
@@ -54,7 +54,7 @@ const ChildStylePropField = ({prop, breakpointState, exceptionState}) => {
         handleDeleteStyleProp,
         mainDirections, setMainDirections,
         cornerDirections, setCornerDirections
-    } = useStylePropValueState(prop, template, setTemplate, selectedSubElementIds, breakpointState, exceptionState)
+    } = useStylePropValueState(prop, template, handleTemplateChange, selectedSubElementIds, breakpointState, exceptionState)
     const {styleException} = exceptionState
     const {styleBreakpoint} = breakpointState
     

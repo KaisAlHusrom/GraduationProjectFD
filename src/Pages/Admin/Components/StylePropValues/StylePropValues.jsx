@@ -74,7 +74,21 @@ export const GetAppropriateStyleValues = (props) => {
         if(stylePropValueType === 'color') {
             setValue(() => newValue.hex8)
             // setValue(() => newValue)
-        } 
+        }
+
+        if(stylePropValueType === "image") {
+            if(e && e.target) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setImage(event.target.result);
+                    setValue(() => `url(${event.target.result})`)
+                };
+                reader.readAsDataURL(file);
+                setImage(file);
+            }
+        }
+
         if(stylePropValueType === "background-image") {
             if(imageValueType === "Url") {
                 if(e && e.target) {
@@ -167,6 +181,8 @@ export const GetAppropriateStyleValues = (props) => {
             || stylePropValueType === "position" 
             || stylePropValueType === "fontWeight"
             || stylePropValueType === "opacity"
+            || stylePropValueType === "props"
+            || stylePropValueType === "time"
         ) {
             setValue(() => newValue)
         }
@@ -226,6 +242,7 @@ export const GetAppropriateStyleValues = (props) => {
         <Box width="100%" display={"flex"} flexDirection={"column"} alignItems={"center"}>
             <AppropriateStyleValues
                 type={stylePropValueType}
+                valueState={valueState}
                 defaultProps={defaultProps}
                 values={stylePropValues}
                 label={label}
