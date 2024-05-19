@@ -85,6 +85,13 @@ export const updateID = (elements, value = uuIdv4()) => {
 export const cleanDesignData = (elements) => {
     for (const element of Array.isArray(elements) ? elements : [elements]) {
         delete element['element_type']
+        element["is_template"] = element["is_template"] ? 1 : 0
+        element["is_child"] = element["is_child"] ? 1 : 0
+        
+        // if(element?.element_type?.element_type_name === "Image") {
+            
+        // }
+        
         if(element.styles) {
             for(const style of element.styles) {
                 delete style["style_prop"]

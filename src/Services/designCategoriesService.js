@@ -14,7 +14,7 @@ const DesignCategoriesAPI = axios.create({
 
 //---------------------------------------
 // fetch items 
-export const fetchDesignCategories = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage=5) => {
+export const fetchDesignCategories = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage=10) => {
     const res = await fetchDataTemplate(DesignCategoriesAPI, type, pageNumber, filters, sorts, searchQuery, perPage);
     let rows;
 

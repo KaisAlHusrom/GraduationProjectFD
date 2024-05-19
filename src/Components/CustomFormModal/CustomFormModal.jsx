@@ -587,7 +587,7 @@ const CustomFormModal = (props) => {
     }
 
     //when submitting
-    const {handleAddData = () => {}, setPageNumber = () => {}, pageNumber = null, setRefetch = null} = useMyContext() || {}
+    const {handleAddData, setPageNumber, pageNumber, setRefetch} = useMyContext()
     const [response, setResponse] = useState(null);
 
 
@@ -619,7 +619,7 @@ const CustomFormModal = (props) => {
 
         Object.keys(inputValues).forEach(name => {
 
-            const newValue = sortedColumns[name] === "bool" ? inputValues[name] === true ? 1 : 0 : inputValues[name]
+            const newValue = sortedColumns[name] === "bool" ? (inputValues[name] === true || inputValues[name] === 1 ? 1 : 0) : inputValues[name]
             // Change the key name if necessary and update the value
             const newKeyName = sortedColumns[name] === "many-to-one" ? `${name}_id` : name;
             updatedInputValues[newKeyName] = newValue;

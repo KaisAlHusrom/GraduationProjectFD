@@ -1,11 +1,12 @@
 //React
-import {
-    
-} from 'react'
+import { useCallback, useMemo, useRef } from 'react'
 
 import {
     
 } from 'react-redux'
+
+import config from "../../../../../Config.json"
+export const designImagesFolderName = "DesignsImages"
 
 //image
 import compExample from "../../../../Assets/Images/compExample.png"
@@ -26,6 +27,10 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
+import { fetchDesigns } from '../../../../Services/designService'
+import { writeFilterObject } from '../../../../Helpers/filterData'
+import useFetchData from '../../../../Helpers/customHooks/useFetchData'
+import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
 
 //Styled Components
 const StyledPreviousComponentsTemplates = styled(Stack)(
@@ -38,29 +43,72 @@ const StyledPreviousComponentsTemplates = styled(Stack)(
 )
 
 
-const PreviousComponentsTemplates = () => {
+const PreviousComponentsTemplates = ({drawerState}) => {
+    const [previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen] = drawerState
+
+    const appliedFilter = useMemo(() => {
+        return [
+            writeFilterObject('design_type', 'string', '=', 'component'), 
+            writeFilterObject('parent_id', 'string', '=', null),
+        ]
+    }, [])
+    const { 
+        loading, 
+        error, 
+        hasMore, 
+        setPageNumber, 
+        data, 
+        setData, 
+        pageNumber, 
+        setRefetch
+    } = useFetchData(fetchDesigns, 'all', appliedFilter, null, previousTemplatesDrawerOpen, null, null, 5)
+    console.log(data)
+    const observer = useRef()
+    const lastDataRef = useCallback(node => {
+        
+        if (loading) return 
+
+        if(observer.current) observer.current.disconnect()
+
+        observer.current = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting && hasMore) {
+                console.log("enter")
+                    setPageNumber(prev => {
+                        return prev + 1
+                    });
+            }
+        })
+
+        if (node) observer.current.observe(node)
+    }, [loading, hasMore, setPageNumber])
+
+
     return (
         <StyledPreviousComponentsTemplates
             direction='column'
             gap={2}
             alignItems='center'
         >
-            <ComponentTemplate />
-            <ComponentTemplate />
-            <ComponentTemplate />
-            <ComponentTemplate />
-            <ComponentTemplate />
-            <ComponentTemplate />
-            <ComponentTemplate />
-            <ComponentTemplate />
+            {
+                data && data.length > 0 ?
+                    data.map((design, key) => {
+                        return (
+                            <ComponentTemplate key={key} lastDataRef={lastDataRef} design={design} setPreviousTemplatesDrawerOpen={setPreviousTemplatesDrawerOpen} />
+                        )
+                    })
+                :
+                null
+            }
+            
 
         </StyledPreviousComponentsTemplates>
     );
 };
 
 PreviousComponentsTemplates.propTypes = {
-    children: propTypes.array
+    drawerState: propTypes.array
 }
+
 
 export default PreviousComponentsTemplates;
 
@@ -107,27 +155,33 @@ const StyledComponentTemplate = styled(Card)(
         }
     })
 );
-export const ComponentTemplate = () => {
+
+
+export const ComponentTemplate = ({lastDataRef, design, setPreviousTemplatesDrawerOpen}) => {
+    const stylePropRoute = `${config.ServerImageRoute}/${designImagesFolderName}/${design['design_image']}`;
+    const {
+        setTemplate
+    } = useMyCreateElementContext()
+
+    console.log(design)
+
+    const handleSelectDesign = () => {
+        setTemplate(() => design)
+        setPreviousTemplatesDrawerOpen(() => false)
+    }
     return (
-        <StyledComponentTemplate>
+        <StyledComponentTemplate ref={lastDataRef} onClick={handleSelectDesign}>
                 <CardMedia
                     sx={{ height: 180, objectFit: 'contain', width: 200, transform: 'translate(25%, 0)' }}
-                    image={compExample}
+                    image={stylePropRoute}
                     title="green iguana"
                 />
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="div">
-                    Template Name
+                    {design.design_title}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" className="truncate">
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
-                    Lizards are a widespread group of squamate reptiles, with over 6,000
-                    species, ranging across all continents except Antarctica
+                    {design.design_description}
                     </Typography>
                 </CardContent>
                 <Box className="cover">
@@ -135,4 +189,10 @@ export const ComponentTemplate = () => {
                 </Box>
         </StyledComponentTemplate>
     )
+}
+
+ComponentTemplate.propTypes = {
+    lastDataRef: propTypes.any,
+    design: propTypes.object,
+    setPreviousTemplatesDrawerOpen: propTypes.func,
 }

@@ -25,7 +25,7 @@ import { useDispatch } from 'react-redux'
 import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../../Redux/Slices/snackbarOpenSlice'
 
 import { ConfirmModal } from '../../../../Components'
-import { addDesigns } from '../../../../Services/designService'
+import { addDesigns, updateDesigns } from '../../../../Services/designService'
 
 
 
@@ -215,6 +215,15 @@ const CreateElementTemplate = () => {
     // * save template to database
     const saveTemplate = (inputValues) => {
         addDesigns(inputValues)
+        localStorage.removeItem(mode);
+        handleTemplateChange(null)
+    }
+
+    // * update template to database
+    const updateTemplate = (inputValues) => {
+        updateDesigns(template['id'], inputValues)
+        localStorage.removeItem(mode);
+        handleTemplateChange(null)
     }
 
 
@@ -250,7 +259,7 @@ const CreateElementTemplate = () => {
         };
     }, [handleOpenElementStructure, handleOpenStyleOptions, handleRedo, handleUndo, history]);
 
-    
+    console.log(template)
 
     return (
         <MyCreateElementContext.Provider value={{
@@ -273,6 +282,7 @@ const CreateElementTemplate = () => {
                     handleUndo={handleUndo}
                     handleNewBlank={handleConfirmCreateNewBlankDesign}
                     saveTemplate={saveTemplate}
+                    updateTemplate={updateTemplate}
                     history={history}
                     redoHistory={redoHistory}
                 />

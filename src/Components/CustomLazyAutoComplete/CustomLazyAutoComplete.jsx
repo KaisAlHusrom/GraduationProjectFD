@@ -36,6 +36,7 @@ const CustomLazyAutoComplete = (props) => {
         valueState,
         customHandleChange,
         filters,
+        perPage,
         sx
     } = props
 
@@ -63,6 +64,7 @@ const CustomLazyAutoComplete = (props) => {
         setPageNumber,
         data, 
         setData,
+
     } = useFetchData(
             handleFetchData, 
             "all",
@@ -71,6 +73,7 @@ const CustomLazyAutoComplete = (props) => {
             open,
             searchQuery,
             value,
+            perPage
         )
 
     const observer = useRef()
@@ -174,6 +177,12 @@ const CustomLazyAutoComplete = (props) => {
 
     return (
         <AutocompleteMemoized
+                    ListboxProps={{
+                        sx: {
+                            zIndex: 3000,
+                            height: 150,
+                        }
+                    }}
                     {...defaultProps}
                     renderOption={renderOptionMemoized}
                     sx={{...sx}}
@@ -189,7 +198,8 @@ CustomLazyAutoComplete.propTypes = {
     valueState: propTypes.array.isRequired,
     customHandleChange: propTypes.func,
     filters: propTypes.array,
-    sx: propTypes.object
+    sx: propTypes.object,
+    perPage: propTypes.any
 }
 
 export default CustomLazyAutoComplete;

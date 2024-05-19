@@ -2,7 +2,7 @@ import axios from "axios";
 
 // -------------------------------------- 
 import config from "../../Config.json";
-import { addDataTemplate, deleteTemplate, fetchDataTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
+import { addDataTemplate, checkIfRecordExistTemplate, deleteTemplate, fetchDataTemplate, fetchSpecificRecordTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
 const DesignRouter = config.ServerMainRoute + "/designs";
 
 const DesignAPI = axios.create({
@@ -13,6 +13,34 @@ const DesignAPI = axios.create({
 });
 
 //---------------------------------------
+//fetch specific record from database
+export const fetchSpecificDesign = async (id) => {
+    const res = await fetchSpecificRecordTemplate(DesignAPI, id);
+    let row;
+
+    if (res.success) {
+        row = res.data;
+    } else {
+        row = null;
+    }
+
+    return row;
+}
+
+//check if design is exist in the database
+export const checkSpecificDesign = async (id) => {
+    const res = await checkIfRecordExistTemplate(DesignAPI, id);
+    let check;
+
+    if (res.success) {
+        check = res.data;
+    } else {
+        check = false;
+    }
+
+    return check;
+}
+
 // fetch items 
 export const fetchDesigns = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage=5) => {
     const res = await fetchDataTemplate(DesignAPI, type, pageNumber, filters, sorts, searchQuery, perPage);

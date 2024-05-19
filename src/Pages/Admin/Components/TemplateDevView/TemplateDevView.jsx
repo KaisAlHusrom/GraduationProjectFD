@@ -16,7 +16,7 @@ import { styled } from '@mui/system'
 import propTypes from 'prop-types'
 import { GenerateTag } from '../../../../Helpers/GenerateTag'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
-import { AdminMainButton, CustomLazyAutoComplete } from '../../../../Components'
+import { AdminMainButton, AdminMainButtonOutsideState, CustomLazyAutoComplete } from '../../../../Components'
 import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 
@@ -199,6 +199,9 @@ const ElementModeOptions = () => {
 // the options that will appear when user select component mode
 const ComponentModeOptions = () => {
     const {selectedElement, setSelectedElement} = useMyCreateElementContext()
+    const [previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen] = useState(false)
+
+
     const dispatch = useDispatch()
     const openLinearProgress = useSelector(state => state.downloadPageSlice.openLinearProgress)
 
@@ -228,13 +231,14 @@ const ComponentModeOptions = () => {
 
     return (
             <Box>
-                <AdminMainButton
+                <AdminMainButtonOutsideState
                     appearance='primary'
                     putBorder
                     type='drawer'
-                    willShow={<PreviousComponentsTemplates />}
+                    willShow={<PreviousComponentsTemplates drawerState={[previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen]} />}
                     title='Select From Previous Templates'
                     drawerAnchor={'right'}
+                    customState={[previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen]}
                     sx={{
                         marginRight: 2,
                         fontWeight: 'normal',

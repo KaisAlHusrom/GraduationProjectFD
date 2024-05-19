@@ -224,3 +224,51 @@ export const permanentDeleteTemplate = async (axiosAPI, ids) => {
         return error.response.data;
     }
 }
+
+// fetch specific record
+export const fetchSpecificRecordTemplate = async (axiosAPI, id) => {
+    try {
+        
+
+        const response = await axiosAPI.get(`fetch/${id}`);
+        // if(response.status === 200) {
+        //     store.dispatch(setSnackbarMessage({message: "C"}))
+        //     store.dispatch(setSnackbarIsError({isError: false}))
+        //     store.dispatch(handleOpenSnackbar())
+        // }
+        // Process the response data as needed
+        return response.data;
+    } catch (error) {
+        console.error('Error updating data:', error);
+
+        // store.dispatch(setSnackbarMessage({message: error.response.data.message}))
+        // store.dispatch(setSnackbarIsError({isError: true}))
+        // store.dispatch(handleOpenSnackbar())
+        
+        return error.response.data;
+    }
+}
+
+//check if record exist 
+export const checkIfRecordExistTemplate = async (axiosAPI, id) => {
+    try {
+        
+
+        const response = await axiosAPI.get(`check/${id}`);
+        // if(response.status === 200) {
+        //     store.dispatch(setSnackbarMessage({message: "C"}))
+        //     store.dispatch(setSnackbarIsError({isError: false}))
+        //     store.dispatch(handleOpenSnackbar())
+        // }
+        // Process the response data as needed
+        return response.data;
+    } catch (error) {
+        console.error('Error updating data:', error);
+
+        store.dispatch(setSnackbarMessage({message: error.response.data.message}))
+        store.dispatch(setSnackbarIsError({isError: true}))
+        store.dispatch(handleOpenSnackbar())
+        
+        return error.response.data;
+    }
+}

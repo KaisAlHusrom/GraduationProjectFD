@@ -133,7 +133,7 @@ const AdminMainButtonOutsideState = (props) => {
     //Styled Components
     const StyleOfButton = {
         backgroundColor: filled ? (appearance === "primary" ? theme.palette.primary.main : appearance === "secondary" ? theme.palette.secondary.main : "transparent") : "transparent",
-        color: appearance === "primary" ? theme.palette.primary.contrastText : "text.primary",
+        color: appearance === "primary" && filled ? theme.palette.primary.contrastText : "text.primary",
         padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
         borderRadius: "100px",
         fontWeight: "bold",

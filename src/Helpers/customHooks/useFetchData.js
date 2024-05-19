@@ -7,7 +7,8 @@ export default function useFetchData(
     sorts,
     open = true,
     searchQuery = null,
-    value
+    value,
+    perPage,
 ) {
     const [data, setData] = useState(() => {
         if(value) {
@@ -34,10 +35,15 @@ export default function useFetchData(
 
         const fetchData = async () => {
             try {
+                //fetch data only one time when perPage equal to all
+                if(perPage === "all" && pageNumber !== 1) {
+                    return
+                }
+                
                 if(open && fetchDataFunc) {
                     setLoading(() => true)
                     setError(() => false)
-                    const res = await fetchDataFunc(type, pageNumber, filters, sorts, searchQuery)
+                    const res = await fetchDataFunc(type, pageNumber, filters, sorts, searchQuery, perPage)
                     
                     
                     if(res.error) {
@@ -80,7 +86,7 @@ export default function useFetchData(
         }
 
         fetchData()
-    }, [type, pageNumber, filters, sorts, fetchDataFunc, open, searchQuery, refetch, value])
+    }, [type, pageNumber, filters, sorts, fetchDataFunc, open, searchQuery, refetch, value, perPage])
     
     return { loading, error, hasMore, setPageNumber, data, setData, pageNumber, setRefetch}
     
