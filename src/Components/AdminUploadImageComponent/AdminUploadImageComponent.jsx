@@ -86,7 +86,6 @@ const AdminUploadImageComponent = (props) => {
     
     const handleChange = (e) => {
         const value = e.target.files[0];
-        console.log("working")
         const reader = new FileReader();
         reader.onload = (event) => {
             setImage(() => event.target.result)
@@ -97,7 +96,7 @@ const AdminUploadImageComponent = (props) => {
     }
 
 
-    const {imagesFolderName} = useMyContext()
+    const {imagesFolderName = ""} = useMyContext() || {}
 
     const valueRoute = useMemo(() => value ? `${config.ServerImageRoute}/${imagesFolderName}/${value}` : null, [imagesFolderName, value])
 

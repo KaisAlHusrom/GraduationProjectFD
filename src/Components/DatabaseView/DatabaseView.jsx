@@ -671,7 +671,7 @@ const DatabaseView = (props) => {
                     hiddenColumnsState={[hiddenColumns, setHiddenColumns]}
                     sortedColumnsState={[sortedColumns, setSortedColumns]}
                     title={title}
-                    addModalOpenState={{modalOpen, setModalOpen}}
+                    addModalOpenState={[modalOpen, setModalOpen]}
                     />
                     <Paper>
                         <CardHeader 

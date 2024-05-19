@@ -7,8 +7,7 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import PaletteOutlinedIcon from '@mui/icons-material/PaletteOutlined';
 import FontDownloadOutlinedIcon from '@mui/icons-material/FontDownloadOutlined';
 import DocumentScannerOutlinedIcon from '@mui/icons-material/DocumentScannerOutlined';
-import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined';
-import AppsOutlinedIcon from '@mui/icons-material/AppsOutlined';
+import GridViewIcon from '@mui/icons-material/GridView';
 import CodeOffOutlinedIcon from '@mui/icons-material/CodeOffOutlined';
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import ThumbsUpDownOutlinedIcon from '@mui/icons-material/ThumbsUpDownOutlined';
@@ -93,6 +92,11 @@ const adminPageLinks = [
         path: "",
         nestedMenu: [
             {
+                title: "Design Categories",
+                icon: <GridViewIcon color='primary.contrastText' />,
+                path: "design-categories"
+            },
+            {
                 title: "Colors Settings",
                 icon: <PaletteOutlinedIcon color='primary.contrastText' />,
                 path: "colors-settings"
@@ -106,16 +110,6 @@ const adminPageLinks = [
                 title: "Pages Settings",
                 icon: <DocumentScannerOutlinedIcon color='primary.contrastText' />,
                 path: "pages-settings"
-            },
-            {
-                title: "Section Settings",
-                icon: <TableRowsOutlinedIcon color='primary.contrastText' />,
-                path: "section-settings"
-            },
-            {
-                title: "Component Settings",
-                icon: <AppsOutlinedIcon color='primary.contrastText' />,
-                path: "component-settings"
             },
             {
                 title: "Element Settings",

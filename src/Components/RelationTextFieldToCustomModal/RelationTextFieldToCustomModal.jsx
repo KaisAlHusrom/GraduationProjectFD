@@ -65,10 +65,11 @@ const RelationTextFieldToCustomModal = (props) => {
         error,
         errorMessage,
         handleChange,
-        response
+        response,
+        customRelationships
     } = props
 
-    const {relationships} = useMyContext()
+    const {relationships} = useMyContext() || customRelationships
 
 
     //Get current relation
@@ -107,7 +108,7 @@ const RelationTextFieldToCustomModal = (props) => {
         loading,
         setPageNumber,
         data
-    } = useFetchData(relation.fetch_all_data, "all", null, null, open, searchQuery)
+    } = useFetchData(relation.fetch_all_data, "all", relation.filters, null, open, searchQuery)
 
     // *** DOWNLOAD MORE WHEN SCROLLING BOTTOM
     const observer = useRef()

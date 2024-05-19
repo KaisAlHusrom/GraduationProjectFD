@@ -112,7 +112,7 @@ const SortFilterSection = (props) => {
 
     //BUTTONS
     //get the setModalOpen to close the modal when add new data
-    const {setModalOpen} = addModalOpenState;
+    const [,setModalOpen] = addModalOpenState;
 
 
     const primaryButtons = [
@@ -282,7 +282,7 @@ SortFilterSection.propTypes = {
     filteredDataState: propTypes.array,
     sortedDataState: propTypes.array,
     currentView: propTypes.string,
-    addModalOpenState:propTypes.object,
+    addModalOpenState:propTypes.array,
 }
 
 export default SortFilterSection;

@@ -328,7 +328,7 @@ const SubElementComp = ({parent}) => {
             },
             putDivider: true
         },
-        parent?.children.length === 0 && parent?.element_type?.element_type_name !== "Image" && {
+        parent?.children?.length === 0 && parent?.element_type?.element_type_name !== "Image" && {
             text: "Change Content",
             icon: <ChangeCircleOutlinedIcon color='primary' />,
             shortcut: "",

@@ -50,7 +50,7 @@ export const duplicateElement = (elements, parentId, newElement) => {
                 
             }
 
-            //TODO: I should change all the id's inside the new element, not just the parent id
+            //* I should change all the id's inside the new element, not just the parent id
             updateID([newElement])
             const newDesign = {...newElement, sequence_number: sequenceNumber}
             
@@ -68,13 +68,34 @@ export const duplicateElement = (elements, parentId, newElement) => {
     return false; // Parent element not found
 }
 
-export const updateID = (elements) => {
-    for (const element of elements) {
-        element['id'] = uuIdv4()
+
+
+export const updateID = (elements, value = uuIdv4()) => {
+    for (const element of Array.isArray(elements) ? elements : [elements]) {
+        element['id'] = value === "remove" ? null : value;
         if (element.children && element.children.length > 0) {
-            if (updateID(element.children)) {
-                return true;
-            }
-        } 
+            updateID(element.children, value);
+        }
     }
+
+    return elements;
+}
+
+// clear long un need objects
+export const cleanDesignData = (elements) => {
+    for (const element of Array.isArray(elements) ? elements : [elements]) {
+        delete element['element_type']
+        if(element.styles) {
+            for(const style of element.styles) {
+                delete style["style_prop"]
+                delete style["style_status"]
+                delete style["style_responsive_breakpoint"]
+            }
+        }
+        if (element.children && element.children.length > 0) {
+            cleanDesignData(element.children);
+        }
+    }
+
+    return elements;
 }

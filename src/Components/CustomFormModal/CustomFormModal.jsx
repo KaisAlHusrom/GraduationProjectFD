@@ -115,7 +115,9 @@ const CustomFormModal = (props) => {
     const {
         columns,
         title,
-        setFromOpen
+        setFromOpen,
+        handleCustomAddData,
+        customRelationships
     } = props
     
     // Define the desired order of keys
@@ -578,13 +580,14 @@ const CustomFormModal = (props) => {
                     error={error}
                     errorMessage={errorMessage}
                     handleChange={handleChange}
+                    customRelationships={customRelationships}
                     />
             )
         } 
     }
 
     //when submitting
-    const {handleAddData, setPageNumber, pageNumber, setRefetch} = useMyContext()
+    const {handleAddData = () => {}, setPageNumber = () => {}, pageNumber = null, setRefetch = null} = useMyContext() || {}
     const [response, setResponse] = useState(null);
 
 
@@ -592,8 +595,6 @@ const CustomFormModal = (props) => {
     useEffect(() => {
         if(response) {
             if(response.success) {
-                
-                //TODO: I have to fetch the data again when new data added
                 if(pageNumber === 1) {
                     setRefetch(prev => prev + 1)
                 } else {
@@ -630,7 +631,7 @@ const CustomFormModal = (props) => {
         });
 
         //send the add request
-        const res = await handleAddData(updatedInputValues)
+        const res = handleCustomAddData ? await handleCustomAddData(updatedInputValues) : await handleAddData(updatedInputValues)
         setResponse(() => res)
     }
 
@@ -663,8 +664,10 @@ const CustomFormModal = (props) => {
 
 CustomFormModal.propTypes = {
     columns: propTypes.object,
+    customRelationships: propTypes.object,
     title: propTypes.string,
     setFromOpen: propTypes.func,
+    handleCustomAddData: propTypes.func,
 }
 
 export default CustomFormModal;

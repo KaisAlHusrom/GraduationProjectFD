@@ -1,5 +1,4 @@
 //Pages
-import { DatabaseView } from "../../../Components";
 import {
     DashboardMainPage,
     ProductsPage,
@@ -19,7 +18,8 @@ import {
     StylesPropsPage,
     StylePropValuesPage,
     StyleStatusesPage,
-    StyleResponsiveBreakpointsPage
+    StyleResponsiveBreakpointsPage,
+    DesignCategories
 } from "../../../Pages/Admin/AdminPages"
 import ElementPropsPage from "../../../Pages/Admin/AdminPages/ElementPropsPage/ElementPropsPage";
 import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
@@ -35,8 +35,6 @@ import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
 
 //Users Services
 import usersService from '../../../Services/usersService';
-import CreateElementTemplate from "../../../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate";
-import { fetchCreateElementNeededData } from "../../../Services/createElementsService";
 import ElementTypesCategoriesPage from "../../../Pages/Admin/AdminPages/ElementTypesCategoriesPage/ElementTypesCategoriesPage";
 
 
@@ -180,7 +178,11 @@ const adminPageRoutes = [
         ,
         path: "styles-settings/styles-breakpoints",
         exact: false,
-
+    },
+    {
+        element: <DesignCategories />,
+        path: "design-categories",
+        exact: false,
     },
     
 ]

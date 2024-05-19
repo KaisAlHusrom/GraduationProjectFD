@@ -17,3 +17,4 @@ export {default as StylesPropsPage} from "./StylesPropsPage/StylesPropsPage";
 export {default as StylePropValuesPage} from "./StylePropValuesPage/StylePropValuesPage";
 export {default as StyleStatusesPage} from "./StyleStatusesPage/StyleStatusesPage";
 export {default as StyleResponsiveBreakpointsPage} from "./StyleResponsiveBreakpointsPage/StyleResponsiveBreakpointsPage";
+export {default as DesignCategories} from "./DesignCategories/DesignCategories";

@@ -7,6 +7,8 @@ import {
     
 } from 'react-redux'
 
+import _ from 'lodash';
+
 //Components
 
 
@@ -27,11 +29,14 @@ import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined';
 //propTypes 
 import propTypes from 'prop-types'
-import { AdminMainButton, AdminMainButtonOutsideState } from '../../../../Components'
+import { AdminMainButton, AdminMainButtonOutsideState, CustomFormModal } from '../../../../Components'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate';
 import { useNavigate } from 'react-router-dom';
 import ViewElements from '../ViewElements/ViewElements';
 import AddDesignModal from '../AddDesignModal/AddDesignModal';
+import { fetchDesignCategories } from '../../../../Services/designCategoriesService';
+import { writeFilterObject } from '../../../../Helpers/filterData';
+import { cleanDesignData, updateID } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
 
 //Styled Components
 const StyledDesignOptions = styled(Box)(
@@ -110,10 +115,20 @@ const DesignOptions = (props) => {
     const handleCreateNew = () => {
         handleNewBlank()
     }
+    console.log(template)
+    const handleSaveTemplate = (inputValues) => {
+        let updatedTemplate = _.cloneDeep(template);
+        updatedTemplate["is_template"] = true,
+        updatedTemplate["design_type"] = mode,
+        updatedTemplate["design_title"] = inputValues["design_title"],
+        updatedTemplate["category_id"] = inputValues["category_id"],
+        updatedTemplate["design_description"] = inputValues["design_description"],
+        updatedTemplate["design_image"] = inputValues["design_image"],
+        cleanDesignData(updatedTemplate)
 
-    const handleSaveTemplate = () => {
-        saveTemplate()
+        saveTemplate(updatedTemplate)
     }
+
 
     return (
         <StyledDesignOptions>
@@ -216,8 +231,37 @@ const DesignOptions = (props) => {
                     type='modal'
                     appearance='primary'
                     willShow={
-                        <AddDesignModal 
-                            handleAddData={handleSaveTemplate}
+                        <CustomFormModal 
+                            title={"Add New Design"}
+                            columns={{
+                                id: "pk",
+                                design_image: "image",
+                                category: "many-to-one",
+                                design_title: "string",
+                                design_description: "text",
+                            }}
+                            setFromOpen={() => {}}
+                            handleCustomAddData={handleSaveTemplate}
+                            customRelationships={{
+                                relationships:{
+                                    manyToOne:[
+                                        {
+                                            "field_name": "category",
+                                            "fetched_column": "category_name",
+                                            "related_table_id": "id",
+                                            add_to_add_form: true,
+                                            fetch_all_data: fetchDesignCategories,
+                                            filters: [
+                                                writeFilterObject("design_type", "string", "=", mode)
+                                            ]
+                                        },
+                                    ],
+                                    manyToMany:[
+                                    ],
+                                    oneToMany:[
+                                    ]
+                                }
+                            }}
                         />
                     }
                     filled

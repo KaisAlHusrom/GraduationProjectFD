@@ -25,6 +25,7 @@ import { useDispatch } from 'react-redux'
 import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../../Redux/Slices/snackbarOpenSlice'
 
 import { ConfirmModal } from '../../../../Components'
+import { addDesigns } from '../../../../Services/designService'
 
 
 
@@ -212,8 +213,8 @@ const CreateElementTemplate = () => {
     }, [handleTemplateChange, mode, template])
 
     // * save template to database
-    const saveTemplate = () => {
-        
+    const saveTemplate = (inputValues) => {
+        addDesigns(inputValues)
     }
 
 
