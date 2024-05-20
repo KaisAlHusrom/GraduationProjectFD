@@ -23,6 +23,7 @@ import ProductView from '../Pages/Ecommerce/Components/Pages/ProductView';
 import Cart from '../Pages/Ecommerce/Components/Pages/Cart';
 import CheckOut from '../Pages/Ecommerce/Components/Pages/CheckOut';
 import CreateElementTemplate from '../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate';
+import Products from '../Pages/Ecommerce/Components/Pages/Products';
 
 
 
@@ -74,6 +75,7 @@ const router = createBrowserRouter(
             <Route path="/Ecommerce" element={<EcommerceMain />} />
             <Route path="/Login" element={<LoginPage />} />
             <Route path="/CheckOut" element={<CheckOut />} />
+            <Route path="/Products" element={<Products />} />
             <Route path="/productView/:idx" element={<ProductView />} />
             <Route path="/Cart" element={<Cart />} />
             <Route path="/SignUp" element={<SignUp />} />
