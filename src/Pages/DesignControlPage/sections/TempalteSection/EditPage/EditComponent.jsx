@@ -109,7 +109,7 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
         }));
         setHistory(prevHistory => [...prevHistory, componentData]);
     };
-
+    
     const reorderElements = (children, oldIndex, newIndex) => {
         const reorderedElements = [...children];
         const movedElement = reorderedElements.splice(oldIndex, 1)[0];
@@ -120,35 +120,32 @@ const EditComponent = ({component , handleAddNewElement , elements ,  componentI
 
 
         //  !!! this is dose not work on the sectionData !!! 
-    const handleMoveElement = (oldIndex, newIndex) => {
-        const reorderedElements = reorderElements(componentData.children, oldIndex, newIndex);
-        // Yeni sıralama ile güncellenmiş öğeleri alıp, her bir öğeye sequenceNumber'ı güncelleyerek yeni diziyi oluşturuyoruz
-        const updatedElements = reorderedElements.map((element, index) => ({
-            ...element,
-            sequenceNumber: index + 1, // Sequence number'ı 1'den başlayarak güncelliyoruz
-        }));
-        setComponentData((prevData) => ({
-            ...prevData,
-            children: updatedElements,
-        }));
-        setHistory(prevHistory => [...prevHistory, componentData]);
-
-    };
-
+        const handleMoveElement = (oldIndex, newIndex) => {
+            const reorderedElements = reorderElements(componentData.children, oldIndex, newIndex);
+            // Yeni sıralama ile güncellenmiş öğeleri alıp, her bir öğeye sequenceNumber'ı güncelleyerek yeni diziyi oluşturuyoruz
+            const updatedElements = reorderedElements.map((element, index) => ({
+                ...element,
+                sequence_number: index + 1, // Sequence number'ı 1'den başlayarak güncelliyoruz
+            }));
+            setComponentData((prevData) => ({
+                ...prevData,
+                children: updatedElements,
+            }));
+            setHistory(prevHistory => [...prevHistory, componentData]);
+        };
     
-    
-    // undo last operation for the component 
-    //  !!! this is dose not work on the sectionData !!! 
-    const undo = () => {
-        if (history.length > 0) {
-            // Get the previous state
-            const previousState = { ...history[history.length - 1] }; // Make a copy of the previous state
-            // Restore the previous state of the entire section
-            setComponentData(previousState); // Restore previous state of componentData
-            // Remove the last operation from the history
-            setHistory(prevHistory => prevHistory.slice(0, -1));
-        }
-    };
+        // undo last operation for the component 
+        //  !!! this is dose not work on the sectionData !!! 
+        const undo = () => {
+            if (history.length > 0) {
+                // Get the previous state
+                const previousState = { ...history[history.length - 1] }; // Make a copy of the previous state
+                // Restore the previous state of the entire section
+                setComponentData(previousState); // Restore previous state of componentData
+                // Remove the last operation from the history
+                setHistory(prevHistory => prevHistory.slice(0, -1));
+            }
+        };
 
 
 

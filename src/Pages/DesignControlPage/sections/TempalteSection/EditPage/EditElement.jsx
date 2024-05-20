@@ -105,18 +105,18 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
 
     
         // to change the order of elements 
-        const handleOrderElementClick = (event, direction, currentSequenceNumber) => {
-            event.stopPropagation();
-            const elementsCount = componentData.children.length;
-            let newIndex;
-            if (direction === 'up') {
-                newIndex = Math.max(currentSequenceNumber - 2, 0); // Yukarı hareket için yeni dizin hesaplama
-            } else {
-                newIndex = Math.min(currentSequenceNumber, elementsCount - 1); // Aşağı hareket için yeni dizin hesaplama
-            }
-            handleMoveElement(currentSequenceNumber - 1, newIndex);
-        };
-    
+    const handleOrderElementClick = (event, direction, currentSequenceNumber) => {
+        event.stopPropagation();
+        const elementsCount = componentData.children.length;
+        let newIndex;
+        if (direction === 'up') {
+            newIndex = Math.max(currentSequenceNumber - 2, 0); // Yukarı hareket için yeni dizin hesaplama
+        } else {
+            newIndex = Math.min(currentSequenceNumber, elementsCount - 1); // Aşağı hareket için yeni dizin hesaplama
+        }
+        handleMoveElement(currentSequenceNumber - 1, newIndex);
+    };
+        
 
     return (
 
@@ -178,7 +178,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                 appearance="iconButton"
                 putTooltip
                 icon={<KeyboardArrowUpIcon />}
-                onClick={(e) => handleOrderElementClick(e, 'up' ,elementData.element_type.sequence_number)}
+                onClick={(e) => handleOrderElementClick(e, 'up' ,elementData.sequence_number)}
                 sx={buttonStyle}
             />
             <AdminMainButton
@@ -187,7 +187,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                 appearance="iconButton"
                 putTooltip
                 icon={<KeyboardArrowDownIcon />}
-                onClick={(e) => handleOrderElementClick(e, 'down' , elementData.element_type.sequence_number)}
+                onClick={(e) => handleOrderElementClick(e, 'down' , elementData.sequence_number)}
                 sx={buttonStyle}
             />
         </div>

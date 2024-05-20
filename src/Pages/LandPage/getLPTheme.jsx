@@ -118,8 +118,11 @@ const getDesignTokens = (mode) => ({
       ...(mode === 'dark' && { default: gray[900], paper: gray[800] }),
     },
     text: {
+      light: "#000",
+      dark : '#eee',
       primary: gray[800],
       secondary: gray[600],
+      border: gray[300],
       ...(mode === 'dark' && { primary: '#fff', secondary: gray[400] }),
     },
     action: {

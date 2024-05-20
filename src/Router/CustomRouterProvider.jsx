@@ -23,6 +23,9 @@ import ProductView from '../Pages/Ecommerce/Components/Pages/ProductView';
 import Cart from '../Pages/Ecommerce/Components/Pages/Cart';
 import CheckOut from '../Pages/Ecommerce/Components/Pages/CheckOut';
 import CreateElementTemplate from '../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate';
+import MyWebSite from '../Pages/NewWebSite/Pages/MyWebSite/sections/ManageWebsites/MyWebSite';
+import CreateWebsite from '../Pages/NewWebSite/Pages/MyWebSite/sections/createWebsite/createWebsite';
+import Profile from '../Pages/NewWebSite/Pages/Profile/Profile';
 
 
 
@@ -79,6 +82,16 @@ const router = createBrowserRouter(
             <Route path="/SignUp" element={<SignUp />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="LandPage" element={<LandPage />} />
+
+
+            {/* after  loging */}
+                <Route 
+                path="profile"
+                element={<Profile/>}
+                >
+                    <Route path="MyWebSite" element={<MyWebSite />} />
+                    <Route path="CreateWebsite" element={<CreateWebsite />} />
+                </Route>
 
         </Route>
     )
