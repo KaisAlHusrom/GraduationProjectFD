@@ -20,7 +20,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"websites"
     },
     {
       "id": 1,
@@ -43,7 +44,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"websites"
     },
     {
       "id": 2,
@@ -67,7 +69,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"websites"
     },
     {
       "id": 3,
@@ -91,7 +94,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"websites"
     },
     {
       "id": 4,
@@ -115,7 +119,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"WordPress"
     },
     {
       "id": 5,
@@ -139,7 +144,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"WordPress"
     },
     {
       "id": 6,
@@ -163,7 +169,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"WordPress"
     },
     {
       "id": 7,
@@ -187,7 +194,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"WordPress"
     },
     {
       "id": 8,
@@ -206,7 +214,8 @@ export const productList = [
         "html":"html"
         
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"Blog"
     },
     {
       "id": 9,
@@ -230,7 +239,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"Blog"
     },
     {
       "id": 10,
@@ -254,7 +264,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"Blog"
     },
     {
       "id": 11,
@@ -278,7 +289,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"Blog"
     },
     {
       "id": 12,
@@ -302,7 +314,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"Recommended Templates"
     },
     {
       "id": 13,
@@ -326,7 +339,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"Recommended Templates"
     },
     {
       "id": 14,
@@ -350,7 +364,8 @@ export const productList = [
         "javascript":"javascript",
         "html":"html"
       },
-      "creator":"Abdullah"
+      "creator":"Abdullah",
+      "Category":"Recommended Templates"
     }
   ];
   

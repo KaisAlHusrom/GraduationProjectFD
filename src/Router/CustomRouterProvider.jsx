@@ -23,9 +23,13 @@ import ProductView from '../Pages/Ecommerce/Components/Pages/ProductView';
 import Cart from '../Pages/Ecommerce/Components/Pages/Cart';
 import CheckOut from '../Pages/Ecommerce/Components/Pages/CheckOut';
 import CreateElementTemplate from '../Pages/Admin/Components/CreateElementTemplate/CreateElementTemplate';
+<<<<<<< HEAD
 import MyWebSite from '../Pages/NewWebSite/Pages/MyWebSite/sections/ManageWebsites/MyWebSite';
 import CreateWebsite from '../Pages/NewWebSite/Pages/MyWebSite/sections/createWebsite/createWebsite';
 import Profile from '../Pages/NewWebSite/Pages/Profile/Profile';
+=======
+import Products from '../Pages/Ecommerce/Components/Pages/Products';
+>>>>>>> 981e66fee7422664a73956b42f0e371e000f25e2
 
 
 
@@ -77,6 +81,7 @@ const router = createBrowserRouter(
             <Route path="/Ecommerce" element={<EcommerceMain />} />
             <Route path="/Login" element={<LoginPage />} />
             <Route path="/CheckOut" element={<CheckOut />} />
+            <Route path="/Products" element={<Products />} />
             <Route path="/productView/:idx" element={<ProductView />} />
             <Route path="/Cart" element={<Cart />} />
             <Route path="/SignUp" element={<SignUp />} />
