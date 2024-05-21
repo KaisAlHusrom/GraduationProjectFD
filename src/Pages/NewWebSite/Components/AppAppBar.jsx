@@ -77,7 +77,7 @@ const AppAppBar = ({ mode, toggleColorMode }) => {
 
 
   const handleMyWebSiteClick = () => {
-    Navigate('/MyWebSite');
+    Navigate('/Profile/MyWebSite');
   };
 
   const handleLanguageChange = (event) => {
