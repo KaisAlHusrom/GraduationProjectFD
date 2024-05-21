@@ -1,7 +1,7 @@
 import { Box, TextField } from '@mui/material';
 
 // CustomTextField component
-const CustomTextField = ({ id, label, variant, style, value, onChange }) => {
+const CustomTextField = ({ id, label, variant, style, value, onChange, disableHover, labelStyle, inputStyle, sxStyle }) => {
   // Handler function for TextField value change
   const handleChange = (event) => {
     if (onChange) {
@@ -11,11 +11,24 @@ const CustomTextField = ({ id, label, variant, style, value, onChange }) => {
   };
 
   return (
-    <Box sx={{ width:"75%", ...style  , marginTop:"20px" , marginBottom:'20px'}}>
+    <Box sx={{ width: "75%", ...style }}>
       {/* MUI TextField with props */}
-      <TextField id={id} label={label} variant={variant} value={value} onChange={onChange} sx= {
-        {width: '100%'}
-      } />
+      <TextField
+        id={id}
+        label={label}
+        variant={variant}
+        value={value}
+        onChange={handleChange}
+        size={"small"}
+        sx={{
+          width: '100%',
+          textAlign: 'center',
+          ...(disableHover ? { '&:focus': { backgroundColor: 'transparent', outline: '0px' } } : {}),
+          ...sxStyle
+        }}
+        InputLabelProps={{ style: labelStyle }}  // Apply label style
+        inputProps={{ style: inputStyle }}        // Apply input style
+      />
     </Box>
   );
 };

@@ -83,9 +83,9 @@ function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
       setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
     };
   
-    const toggleCustomTheme = () => {
-      setShowCustomTheme((prev) => !prev);
-    };
+    // const toggleCustomTheme = () => {
+    //   setShowCustomTheme((prev) => !prev);
+    // };
   
     return (
       <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>

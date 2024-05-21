@@ -51,7 +51,7 @@ const StyledProductCard = styled(Box)(
 
 const ProductCard = (props) => {
     const {
-        title, description, image, action,price,rating,creator
+        title, description, image, action,price,rating,creator,Category
     }=props
 
 
@@ -93,6 +93,9 @@ const ProductCard = (props) => {
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
                             Price: ${price}
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                            Category: {Category}
                         </Typography>
                         <Rating name="read-only" value={rating} readOnly />
                         <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px' ,paddingTop:1}}>

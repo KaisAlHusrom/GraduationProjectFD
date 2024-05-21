@@ -26,7 +26,6 @@ import SendMessage from './sections/SendMessage/SendMessage'
 const StyledTemplateMain = styled(Box)(
     ({ fontFamily }) => css`
         font-family: ${fontFamily};
-
         h1, h2, h3, h4, h5, h6 {
             font-family: ${fontFamily};
         }

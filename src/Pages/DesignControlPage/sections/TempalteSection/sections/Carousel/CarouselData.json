@@ -3,9 +3,9 @@
     "element_type_id": "81e40cfe-d1ec-49db-8595-952909d2351c",
     "design_type" : "section",
     "element_type": {
-        "id": "81e40cfe-d1ec-49db-8595-952909d2351c",
+        "id": "1",
         "element_type_name": "Component",
-        "element_type_description": "Defines a section in any place of the document",
+        "element_type_description": "this will create a 3  box component have 1 image and title and desc",
         "is_child": false,
         "parent_id": null,
         "deleted_at": null,
@@ -26,7 +26,7 @@
             "element_type": {
                 "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                 "element_type_name": "Head3",
-                "element_type_description": "Defines important text",
+                "element_type_description": "Defines important text h3",
                 "is_child": false,
                 "parent_id": null,
                 "deleted_at": null,
@@ -69,12 +69,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "textAlign",
                                 "style_prop_css_name": "textAlign",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -92,12 +92,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 2,
                                 "category_id": null,
                                 "style_prop_normal_name": "backgroundColor",
                                 "style_prop_css_name": "backgroundColor",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -115,7 +115,7 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 3,
                                 "category_id": null,
                                 "style_prop_normal_name": "padding",
                                 "style_prop_css_name": "padding",
@@ -138,12 +138,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 4,
                                 "category_id": null,
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -161,12 +161,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 5,
                                 "category_id": null,
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -184,12 +184,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 6,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -207,12 +207,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 7,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -230,12 +230,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 8,
                                 "category_id": null,
                                 "style_prop_normal_name": "margin",
                                 "style_prop_css_name": "margin",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -253,12 +253,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 9,
                                 "category_id": null,
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -276,12 +276,12 @@
                             "style_status": null,
                             "style_responsive_breakpoint": null,
                             "style_prop": {
-                                "id": 15,
+                                "id": 10,
                                 "category_id": null,
                                 "style_prop_normal_name": "justifyContent",
                                 "style_prop_css_name": "justifyContent",
                                 "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -308,12 +308,12 @@
                     "style_status": null,
                     "style_responsive_breakpoint": null,
                     "style_prop": {
-                        "id": 15,
+                        "id": 1,
                         "category_id": null,
                         "style_prop_normal_name": "width",
                         "style_prop_css_name": "width",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "px",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -331,12 +331,12 @@
                     "style_status": null,
                     "style_responsive_breakpoint": null,
                     "style_prop": {
-                        "id": 15,
+                        "id": 2,
                         "category_id": null,
                         "style_prop_normal_name": "display",
                         "style_prop_css_name": "display",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "string",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -354,12 +354,12 @@
                     "style_status": null,
                     "style_responsive_breakpoint": null,
                     "style_prop": {
-                        "id": 15,
+                        "id": 3,
                         "category_id": null,
                         "style_prop_normal_name": "flexDirection",
                         "style_prop_css_name": "flexDirection",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "string",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -377,12 +377,12 @@
                     "style_status": null,
                     "style_responsive_breakpoint": null,
                     "style_prop": {
-                        "id": 15,
+                        "id": 4,
                         "category_id": null,
                         "style_prop_normal_name": "justifyContent",
                         "style_prop_css_name": "justifyContent",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "string",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -400,12 +400,12 @@
                     "style_status": null,
                     "style_responsive_breakpoint": null,
                     "style_prop": {
-                        "id": 15,
+                        "id": 5,
                         "category_id": null,
                         "style_prop_normal_name": "alignItems",
                         "style_prop_css_name": "alignItems",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "string",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -423,12 +423,12 @@
                     "style_status": null,
                     "style_responsive_breakpoint": null,
                     "style_prop": {
-                        "id": 15,
+                        "id": 6,
                         "category_id": null,
                         "style_prop_normal_name": "height",
                         "style_prop_css_name": "height",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "px",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -446,12 +446,12 @@
                     "style_status": null,
                     "style_responsive_breakpoint": null,
                     "style_prop": {
-                        "id": 15,
+                        "id": 7,
                         "category_id": null,
                         "style_prop_normal_name": "padding",
                         "style_prop_css_name": "padding",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "px",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -469,12 +469,12 @@
                     "style_status": null,
                     "style_responsive_breakpoint": null,
                     "style_prop": {
-                        "id": 15,
+                        "id": 8,
                         "category_id": null,
                         "style_prop_normal_name": "marginTop",
                         "style_prop_css_name": "marginTop",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "px",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -497,7 +497,7 @@
                         "style_prop_normal_name": "position",
                         "style_prop_css_name": "position",
                         "style_prop_description": "lorem ipsum ....",
-                        "style_prop_value_type": null,
+                        "style_prop_value_type": "string",
                         "is_section": false,
                         "is_component": true,
                         "is_element": false,
@@ -518,13 +518,12 @@
             "is_template": true,
             "is_child": false,
             "sequence_number": 1,
-            "element_content": "Blank Strong text up"
+            "element_content": "Component"
         },
         {
             "id": "2",
             "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
             "design_type" : "component",
-
             "element_type": {
                 "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                 "element_type_name": "Head3",
@@ -546,7 +545,6 @@
                     "id": "1",
                     "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                     "design_type" : "element",
-
                     "element_type": {
                         "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                         "element_type_name": "image",
@@ -574,8 +572,8 @@
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -587,7 +585,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "1",
                             "style_prop_value": "100%"
                         },
                         {
@@ -599,7 +597,7 @@
                                 "style_prop_normal_name": "textAlign",
                                 "style_prop_css_name": "textAlign",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "textAlign",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -612,7 +610,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "2",
                             "style_prop_value": "center"
                         },
                         {
@@ -624,8 +622,8 @@
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "borderRadius",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -637,7 +635,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "3",
                             "style_prop_value": "10px"
                         },
                         {
@@ -649,8 +647,8 @@
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -662,7 +660,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "4",
                             "style_prop_value": "15px"
                         }
                         
@@ -707,8 +705,8 @@
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -720,7 +718,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "1",
                             "style_prop_value": "100%"
                         },
                         {
@@ -732,7 +730,7 @@
                                 "style_prop_normal_name": "textAlign",
                                 "style_prop_css_name": "textAlign",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "textAlign",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -745,7 +743,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "2",
                             "style_prop_value": "center"
                         },
                         {
@@ -757,7 +755,7 @@
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "color",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -770,7 +768,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "3",
                             "style_prop_value": "#b9b9b9"
                         },
                         {
@@ -782,7 +780,7 @@
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "fontWeight",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -795,7 +793,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "4",
                             "style_prop_value": "700"
                         },
                         {
@@ -807,8 +805,8 @@
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -820,7 +818,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "5",
                             "style_prop_value": "30px"
                         },
                         {
@@ -832,7 +830,7 @@
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "display",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -845,7 +843,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "6",
                             "style_prop_value": "flex"
                         },
                         {
@@ -857,8 +855,8 @@
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -870,11 +868,9 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "7",
                             "style_prop_value": "5px"
                         }
-                        
-                        
                     ],
                     "design_title": null,
                     "design_description": null,
@@ -908,16 +904,16 @@
                     "children": [],
                     "styles": [
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": true,
                                 "is_component": true,
                                 "is_element": true,
@@ -928,20 +924,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "100%"
+                                },
+                                "style_prop_id": "1",
+                                "style_prop_value": "100%"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "color",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -953,20 +949,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "#b9b9b9"
+                                },
+                                "style_prop_id": "2",
+                                "style_prop_value": "#b9b9b9"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "fontWeight",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -978,21 +974,21 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "500"
+                                },
+                                "style_prop_id": "3",
+                                "style_prop_value": "500"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "px",
                                 "is_section": true,
                                 "is_component": true,
                                 "is_element": true,
@@ -1003,21 +999,21 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "20px"
+                                },
+                                "style_prop_id": "4",
+                                "style_prop_value": "20px"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": true,
                                 "is_component": true,
                                 "is_element": true,
@@ -1028,20 +1024,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "20px"
+                                },
+                                "style_prop_id": "5",
+                                "style_prop_value": "20px"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "display",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -1053,9 +1049,9 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "flex"
+                                },
+                                "style_prop_id": "6",
+                                "style_prop_value": "flex"
                             }
                     ],
                     "design_title": null,
@@ -1070,7 +1066,6 @@
                     "id": "4",
                     "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                     "design_type" : "element",
-
                     "element_type": {
                         "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                         "element_type_name": "link",
@@ -1093,13 +1088,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "color",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1118,13 +1113,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 2,
                                 "category_id": null,
                                 "style_prop_normal_name": "opacity",
                                 "style_prop_css_name": "opacity",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "opacity",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1143,13 +1138,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 3,
                                 "category_id": null,
                                 "style_prop_normal_name": "backgroundColor",
                                 "style_prop_css_name": "backgroundColor",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "backgroundColor",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1168,13 +1163,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 4,
                                 "category_id": null,
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "borderRadius",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1193,13 +1188,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 4,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "font",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1218,12 +1213,12 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 5,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "fontWeight",
                                 "style_prop_value_type": null,
                                 "is_section": false,
                                 "is_component": false,
@@ -1248,8 +1243,8 @@
                                 "style_prop_normal_name": "padding",
                                 "style_prop_css_name": "padding",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "padding",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1273,8 +1268,8 @@
                                 "style_prop_normal_name": "textDecoration",
                                 "style_prop_css_name": "textDecoration",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "textDecoration",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1298,8 +1293,8 @@
                                 "style_prop_normal_name": "marginRight",
                                 "style_prop_css_name": "marginRight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "marginRight",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1323,8 +1318,8 @@
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "display",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1375,13 +1370,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "color",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1400,13 +1395,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 2,
                                 "category_id": null,
                                 "style_prop_normal_name": "opacity",
                                 "style_prop_css_name": "opacity",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "opacity",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1425,13 +1420,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 3,
                                 "category_id": null,
                                 "style_prop_normal_name": "backgroundColor",
                                 "style_prop_css_name": "backgroundColor",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "backgroundColor",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1450,13 +1445,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 4,
                                 "category_id": null,
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "borderRadius",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1475,13 +1470,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 5,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "font",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1500,13 +1495,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 6,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontWeight",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1525,13 +1520,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 7,
                                 "category_id": null,
                                 "style_prop_normal_name": "padding",
                                 "style_prop_css_name": "padding",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "padding",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1550,13 +1545,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 8,
                                 "category_id": null,
                                 "style_prop_normal_name": "textDecoration",
                                 "style_prop_css_name": "textDecoration",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "textDecoration",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1575,13 +1570,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 9,
                                 "category_id": null,
                                 "style_prop_normal_name": "marginRight",
                                 "style_prop_css_name": "marginRight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "marginRight",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1600,13 +1595,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 10,
                                 "category_id": null,
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "display",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -1641,8 +1636,8 @@
                         "style_prop_normal_name": "width",
                         "style_prop_css_name": "width",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "width",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -1654,7 +1649,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "1",
                     "style_prop_value": "400px"
                 },
                 {
@@ -1666,7 +1661,7 @@
                         "style_prop_normal_name": "display",
                         "style_prop_css_name": "display",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "display",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -1679,7 +1674,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "2",
                     "style_prop_value": "flex"
                 },
                 {
@@ -1691,7 +1686,7 @@
                         "style_prop_normal_name": "flexWrap",
                         "style_prop_css_name": "flexWrap",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "flexWrap",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -1704,7 +1699,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "3",
                     "style_prop_value": "wrap"
                 },
                 {
@@ -1716,7 +1711,7 @@
                         "style_prop_normal_name": "flexWrap",
                         "style_prop_css_name": "flexWrap",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "flexWrap",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -1729,7 +1724,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "4",
                     "style_prop_value": "wrap"
                 },
                 {
@@ -1741,7 +1736,7 @@
                         "style_prop_normal_name": "justifyContent",
                         "style_prop_css_name": "justifyContent",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "justifyContent",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -1754,7 +1749,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "5",
                     "style_prop_value": "start"
                 },
                 {
@@ -1766,7 +1761,7 @@
                         "style_prop_normal_name": "flexDirection",
                         "style_prop_css_name": "flexDirection",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "flexDirection",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -1779,7 +1774,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "6",
                     "style_prop_value": "row"
                 },
                 {
@@ -1791,7 +1786,7 @@
                         "style_prop_normal_name": "alignItems",
                         "style_prop_css_name": "alignItems",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "alignItems",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -1804,7 +1799,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "7",
                     "style_prop_value": "start"
                 },
                 {
@@ -1816,7 +1811,7 @@
                         "style_prop_normal_name": "backgroundColor",
                         "style_prop_css_name": "backgroundColor",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "backgroundColor",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -1829,7 +1824,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "8",
                     "style_prop_value": "rgba(23, 50, 73, 1)"
                 },
                 {
@@ -1841,8 +1836,8 @@
                         "style_prop_normal_name": "padding",
                         "style_prop_css_name": "padding",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "padding",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -1854,7 +1849,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "9",
                     "style_prop_value": "10px"
                 },
                 {
@@ -1866,8 +1861,8 @@
                         "style_prop_normal_name": "borderRadius",
                         "style_prop_css_name": "borderRadius",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "borderRadius",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -1879,7 +1874,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "10",
                     "style_prop_value": "10px"
                 },
                 {
@@ -1891,8 +1886,8 @@
                         "style_prop_normal_name": "marginTop",
                         "style_prop_css_name": "marginTop",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "marginTop",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -1904,7 +1899,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "11",
                     "style_prop_value": "10px"
                 },
                 {
@@ -1916,7 +1911,7 @@
                         "style_prop_normal_name": "position",
                         "style_prop_css_name": "position",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "position",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -1929,11 +1924,9 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "12",
                     "style_prop_value": "relative"
                 }
-                
-                
             ],
             "design_title": null,
             "design_description": null,
@@ -1968,7 +1961,6 @@
                     "id": "1",
                     "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                     "design_type" : "element",
-
                     "element_type": {
                         "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                         "element_type_name": "image",
@@ -1996,8 +1988,8 @@
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2009,7 +2001,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "1",
                             "style_prop_value": "100%"
                         },
                         {
@@ -2021,7 +2013,7 @@
                                 "style_prop_normal_name": "textAlign",
                                 "style_prop_css_name": "textAlign",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "textAlign",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -2034,7 +2026,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "2",
                             "style_prop_value": "center"
                         },
                         {
@@ -2046,8 +2038,8 @@
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "borderRadius",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2059,7 +2051,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "3",
                             "style_prop_value": "10px"
                         },
                         {
@@ -2071,8 +2063,8 @@
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2084,7 +2076,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "4",
                             "style_prop_value": "15px"
                         }
                         
@@ -2129,8 +2121,8 @@
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2142,7 +2134,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "1",
                             "style_prop_value": "100%"
                         },
                         {
@@ -2154,7 +2146,7 @@
                                 "style_prop_normal_name": "textAlign",
                                 "style_prop_css_name": "textAlign",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "textAlign",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -2167,7 +2159,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "2",
                             "style_prop_value": "center"
                         },
                         {
@@ -2179,7 +2171,7 @@
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "color",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -2192,7 +2184,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "3",
                             "style_prop_value": "#b9b9b9"
                         },
                         {
@@ -2204,7 +2196,7 @@
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "fontWeight",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -2217,7 +2209,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "4",
                             "style_prop_value": "700"
                         },
                         {
@@ -2229,8 +2221,8 @@
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "font",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2242,7 +2234,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "5",
                             "style_prop_value": "30px"
                         },
                         {
@@ -2254,7 +2246,7 @@
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "display",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -2267,7 +2259,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "6",
                             "style_prop_value": "flex"
                         },
                         {
@@ -2279,8 +2271,8 @@
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2292,7 +2284,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "7",
                             "style_prop_value": "5px"
                         }
                         
@@ -2310,7 +2302,6 @@
                     "id": "3",
                     "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                     "design_type" : "element",
-
                     "element_type": {
                         "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                         "element_type_name": "text",
@@ -2330,16 +2321,16 @@
                     "children": [],
                     "styles": [
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": true,
                                 "is_component": true,
                                 "is_element": true,
@@ -2350,20 +2341,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "100%"
+                                },
+                                "style_prop_id": "1",
+                                "style_prop_value": "100%"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "color",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -2376,20 +2367,20 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                               },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                              "style_prop_id": "2",
                               "style_prop_value": "#b9b9b9"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "fontWeight",
+                                "style_prop_value_type": "font",
                                 "is_section": true,
                                 "is_component": true,
                                 "is_element": true,
@@ -2400,20 +2391,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "500"
+                                },
+                                "style_prop_id": "3",
+                                "style_prop_value": "500"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "fontSize",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -2425,21 +2416,21 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "20px"
+                                },
+                                "style_prop_id": "4",
+                                "style_prop_value": "20px"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": true,
                                 "is_component": true,
                                 "is_element": true,
@@ -2450,20 +2441,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "20px"
+                                },
+                                "style_prop_id": "5",
+                                "style_prop_value": "20px"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "display",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -2475,9 +2466,9 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "flex"
+                                },
+                                "style_prop_id": "6",
+                                "style_prop_value": "flex"
                             }
                     ],
                     "design_title": null,
@@ -2515,13 +2506,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "color",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2540,13 +2531,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 2,
                                 "category_id": null,
                                 "style_prop_normal_name": "opacity",
                                 "style_prop_css_name": "opacity",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "opacity",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2558,20 +2549,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 2,
                                 "style_prop_value": "1"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 3,
                                 "category_id": null,
                                 "style_prop_normal_name": "backgroundColor",
                                 "style_prop_css_name": "backgroundColor",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "backgroundColor",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2583,20 +2574,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 3,
                                 "style_prop_value": "#3E3232"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 4,
                                 "category_id": null,
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "borderRadius",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2608,20 +2599,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 4,
                                 "style_prop_value": "5px"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 5,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "sont",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2633,20 +2624,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 5,
                                 "style_prop_value": "20px"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 6,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontWeight",
+                                "style_prop_value_type": "font",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2658,20 +2649,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 6,
                                 "style_prop_value": "700"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 7,
                                 "category_id": null,
                                 "style_prop_normal_name": "padding",
                                 "style_prop_css_name": "padding",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "padding",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2683,20 +2674,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 7,
                                 "style_prop_value": "10px"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 8,
                                 "category_id": null,
                                 "style_prop_normal_name": "textDecoration",
                                 "style_prop_css_name": "textDecoration",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "textDecoration",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2708,20 +2699,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 8,
                                 "style_prop_value": "none"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "marginRight",
                                 "style_prop_css_name": "marginRight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "marginRight",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2733,20 +2724,20 @@
                                 "locateTypes": null,
                                     "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 9,
                                 "style_prop_value": "10px"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "display",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2758,7 +2749,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 10,
                                 "style_prop_value": "flex"
                             }
                     ],
@@ -2797,13 +2788,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "color",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2822,13 +2813,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "opacity",
                                 "style_prop_css_name": "opacity",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "opacity",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2840,20 +2831,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 2,
                                 "style_prop_value": "1"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "backgroundColor",
                                 "style_prop_css_name": "backgroundColor",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "backgroundColor",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2865,20 +2856,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 3,
                                 "style_prop_value": "#3E3232"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "borderRadius",
-                                "style_prop_css_name": "borderRadius",
+                                "style_prop_css_name": "border Radius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "borderRadius",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2890,20 +2881,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 4,
                                 "style_prop_value": "5px"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2915,20 +2906,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 5,
                                 "style_prop_value": "20px"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontWeight",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2940,7 +2931,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 6,
                                 "style_prop_value": "700"
                             },
                             {
@@ -2952,8 +2943,8 @@
                                 "style_prop_normal_name": "padding",
                                 "style_prop_css_name": "padding",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "padding",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2965,20 +2956,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 7,
                                 "style_prop_value": "10px"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "textDecoration",
                                 "style_prop_css_name": "textDecoration",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "textDecoration",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -2990,7 +2981,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 8,
                                 "style_prop_value": "none"
                             },
                             {
@@ -3002,8 +2993,8 @@
                                 "style_prop_normal_name": "marginRight",
                                 "style_prop_css_name": "marginRight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "marginRight",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3015,7 +3006,7 @@
                                 "locateTypes": null,
                                     "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 9,
                                 "style_prop_value": "10px"
                             },
                             {
@@ -3027,8 +3018,8 @@
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "display",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3040,7 +3031,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 10,
                                 "style_prop_value": "flex"
                             }
                     ],
@@ -3063,8 +3054,8 @@
                         "style_prop_normal_name": "width",
                         "style_prop_css_name": "width",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "width",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -3076,7 +3067,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "1",
                     "style_prop_value": "400px"
                 },
                 {
@@ -3088,7 +3079,7 @@
                         "style_prop_normal_name": "display",
                         "style_prop_css_name": "display",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "display",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -3101,7 +3092,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "2",
                     "style_prop_value": "flex"
                 },
                 {
@@ -3113,7 +3104,7 @@
                         "style_prop_normal_name": "flexWrap",
                         "style_prop_css_name": "flexWrap",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "flexWrap",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -3126,7 +3117,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "3",
                     "style_prop_value": "wrap"
                 },
                 {
@@ -3138,7 +3129,7 @@
                         "style_prop_normal_name": "flexWrap",
                         "style_prop_css_name": "flexWrap",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "flexWrap",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -3151,7 +3142,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "4",
                     "style_prop_value": "wrap"
                 },
                 {
@@ -3163,7 +3154,7 @@
                         "style_prop_normal_name": "justifyContent",
                         "style_prop_css_name": "justifyContent",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "justifyContent",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -3176,7 +3167,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "5",
                     "style_prop_value": "start"
                 },
                 {
@@ -3188,7 +3179,7 @@
                         "style_prop_normal_name": "flexDirection",
                         "style_prop_css_name": "flexDirection",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "flexDirection",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -3201,7 +3192,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "6",
                     "style_prop_value": "row"
                 },
                 {
@@ -3213,7 +3204,7 @@
                         "style_prop_normal_name": "alignItems",
                         "style_prop_css_name": "alignItems",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "alignItems",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -3226,7 +3217,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "7",
                     "style_prop_value": "start"
                 },
                 {
@@ -3238,7 +3229,7 @@
                         "style_prop_normal_name": "backgroundColor",
                         "style_prop_css_name": "backgroundColor",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "backgroundColor",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -3251,7 +3242,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "8",
                     "style_prop_value": "rgba(23, 50, 73, 1)"
                 },
                 {
@@ -3263,8 +3254,8 @@
                         "style_prop_normal_name": "padding",
                         "style_prop_css_name": "padding",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "padding",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -3276,7 +3267,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "9",
                     "style_prop_value": "10px"
                 },
                 {
@@ -3288,8 +3279,8 @@
                         "style_prop_normal_name": "borderRadius",
                         "style_prop_css_name": "borderRadius",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "borderRadius",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -3301,7 +3292,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "10",
                     "style_prop_value": "10px"
                 },
                 {
@@ -3313,8 +3304,8 @@
                         "style_prop_normal_name": "marginTop",
                         "style_prop_css_name": "marginTop",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "marginTop",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -3326,7 +3317,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "11",
                     "style_prop_value": "10px"
                 },
                 {
@@ -3338,7 +3329,7 @@
                         "style_prop_normal_name": "position",
                         "style_prop_css_name": "position",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "position",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -3351,7 +3342,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "12",
                     "style_prop_value": "relative"
                 }
                 
@@ -3417,8 +3408,8 @@
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3430,7 +3421,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "1",
                             "style_prop_value": "100%"
                         },
                         {
@@ -3442,7 +3433,7 @@
                                 "style_prop_normal_name": "textAlign",
                                 "style_prop_css_name": "textAlign",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "textAlign",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -3455,7 +3446,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "2",
                             "style_prop_value": "center"
                         },
                         {
@@ -3467,8 +3458,8 @@
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "borderRadius",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3480,7 +3471,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "3",
                             "style_prop_value": "10px"
                         },
                         {
@@ -3492,8 +3483,8 @@
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3505,7 +3496,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "4",
                             "style_prop_value": "15px"
                         }
                         
@@ -3550,8 +3541,8 @@
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3563,7 +3554,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "1",
                             "style_prop_value": "100%"
                         },
                         {
@@ -3575,7 +3566,7 @@
                                 "style_prop_normal_name": "textAlign",
                                 "style_prop_css_name": "textAlign",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "textAlign",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -3588,7 +3579,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "2",
                             "style_prop_value": "center"
                         },
                         {
@@ -3600,7 +3591,7 @@
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "color",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -3613,7 +3604,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "3",
                             "style_prop_value": "#b9b9b9"
                         },
                         {
@@ -3625,7 +3616,7 @@
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "fontWeight",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -3638,7 +3629,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "4",
                             "style_prop_value": "700"
                         },
                         {
@@ -3650,8 +3641,8 @@
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3663,7 +3654,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "5",
                             "style_prop_value": "30px"
                         },
                         {
@@ -3675,7 +3666,7 @@
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "display",
                                 "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
@@ -3688,7 +3679,7 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "6",
                             "style_prop_value": "flex"
                         },
                         {
@@ -3700,8 +3691,8 @@
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3713,11 +3704,9 @@
                                 "locateTypes": "Normal Directions",
                                 "options": []
                             },
-                            "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                            "style_prop_id": "7",
                             "style_prop_value": "5px"
                         }
-                        
-                        
                     ],
                     "design_title": null,
                     "design_description": null,
@@ -3731,7 +3720,6 @@
                     "id": "3",
                     "element_type_id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                     "design_type" : "element",
-
                     "element_type": {
                         "id": "f43978cc-29ee-4793-b4c6-b41d6ef7cd79",
                         "element_type_name": "text",
@@ -3751,16 +3739,16 @@
                     "children": [],
                     "styles": [
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "width",
                                 "style_prop_css_name": "width",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "width",
+                                "style_prop_value_type": "px",
                                 "is_section": true,
                                 "is_component": true,
                                 "is_element": true,
@@ -3771,20 +3759,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "100%"
+                                },
+                                "style_prop_id": "1",
+                                "style_prop_value": "100%"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "color",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -3796,20 +3784,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "#b9b9b9"
+                                },
+                                "style_prop_id": "2",
+                                "style_prop_value": "#b9b9b9"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "fontWeight",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -3821,20 +3809,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "500"
+                                },
+                                "style_prop_id": "3",
+                                "style_prop_value": "500"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "fontSize",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -3846,21 +3834,21 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "20px"
+                                },
+                                "style_prop_id": "4",
+                                "style_prop_value": "20px"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "marginBottom",
                                 "style_prop_css_name": "marginBottom",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
-                                "style_prop_value_type": "string",
+                                "style_prop_description": "marginBottom",
+                                "style_prop_value_type": "px",
                                 "is_section": true,
                                 "is_component": true,
                                 "is_element": true,
@@ -3871,20 +3859,20 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "20px"
+                                },
+                                "style_prop_id": "5",
+                                "style_prop_value": "20px"
                             },
                             {
-                              "style_status": null,
-                              "style_responsive_breakpoint": null,
-                              "style_prop": {
+                                "style_status": null,
+                                "style_responsive_breakpoint": null,
+                                "style_prop": {
                                 "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
                                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                                "style_prop_description": "Border Style",
+                                "style_prop_description": "display",
                                 "style_prop_value_type": "string",
                                 "is_section": true,
                                 "is_component": true,
@@ -3896,9 +3884,9 @@
                                 "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
                                 "locateTypes": "Normal Directions",
                                 "options": []
-                              },
-                              "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
-                              "style_prop_value": "flex"
+                                },
+                                "style_prop_id": "6",
+                                "style_prop_value": "flex"
                             }
                     ],
                     "design_title": null,
@@ -3941,8 +3929,8 @@
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "color",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3966,8 +3954,8 @@
                                 "style_prop_normal_name": "opacity",
                                 "style_prop_css_name": "opacity",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "opacity",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -3979,20 +3967,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 2,
                                 "style_prop_value": "1"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "backgroundColor",
                                 "style_prop_css_name": "backgroundColor",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "backgroundColor",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4004,20 +3992,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 3,
                                 "style_prop_value": "#3E3232"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "borderRadius",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4029,7 +4017,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 4,
                                 "style_prop_value": "5px"
                             },
                             {
@@ -4041,8 +4029,8 @@
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4054,20 +4042,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 5,
                                 "style_prop_value": "20px"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontWeight",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4079,7 +4067,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 6,
                                 "style_prop_value": "700"
                             },
                             {
@@ -4091,8 +4079,8 @@
                                 "style_prop_normal_name": "padding",
                                 "style_prop_css_name": "padding",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "padding",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4104,7 +4092,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 7,
                                 "style_prop_value": "10px"
                             },
                             {
@@ -4116,8 +4104,8 @@
                                 "style_prop_normal_name": "textDecoration",
                                 "style_prop_css_name": "textDecoration",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "textDecoration",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4129,20 +4117,20 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 8,
                                 "style_prop_value": "none"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "marginRight",
                                 "style_prop_css_name": "marginRight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "marginRight",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4154,7 +4142,7 @@
                                 "locateTypes": null,
                                     "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 9,
                                 "style_prop_value": "10px"
                             },
                             {
@@ -4166,8 +4154,8 @@
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "display",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4179,7 +4167,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 10,
                                 "style_prop_value": "flex"
                             }
                     ],
@@ -4218,13 +4206,13 @@
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "color",
                                 "style_prop_css_name": "color",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "color",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4248,8 +4236,8 @@
                                 "style_prop_normal_name": "opacity",
                                 "style_prop_css_name": "opacity",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "opacity",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4261,7 +4249,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 2,
                                 "style_prop_value": "1"
                             },
                             {
@@ -4273,8 +4261,8 @@
                                 "style_prop_normal_name": "backgroundColor",
                                 "style_prop_css_name": "backgroundColor",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "backgroundColor",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4286,19 +4274,19 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 3,
                                 "style_prop_value": "#3E3232"
                             },
                             {
                                 "style_status": null,
                                 "style_responsive_breakpoint": null,
                                 "style_prop": {
-                                "id": 15,
+                                "id": 1,
                                 "category_id": null,
                                 "style_prop_normal_name": "borderRadius",
                                 "style_prop_css_name": "borderRadius",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "borderRadius",
                                 "style_prop_value_type": null,
                                 "is_section": false,
                                 "is_component": false,
@@ -4311,7 +4299,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 4,
                                 "style_prop_value": "5px"
                             },
                             {
@@ -4323,8 +4311,8 @@
                                 "style_prop_normal_name": "fontSize",
                                 "style_prop_css_name": "fontSize",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontSize",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4336,7 +4324,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 5,
                                 "style_prop_value": "20px"
                             },
                             {
@@ -4348,8 +4336,8 @@
                                 "style_prop_normal_name": "fontWeight",
                                 "style_prop_css_name": "fontWeight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "fontWeight",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4361,7 +4349,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 6,
                                 "style_prop_value": "700"
                             },
                             {
@@ -4373,8 +4361,8 @@
                                 "style_prop_normal_name": "padding",
                                 "style_prop_css_name": "padding",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "padding",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4386,7 +4374,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 7,
                                 "style_prop_value": "10px"
                             },
                             {
@@ -4398,8 +4386,8 @@
                                 "style_prop_normal_name": "textDecoration",
                                 "style_prop_css_name": "textDecoration",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "textDecoration",
+                                "style_prop_value_type": "string",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4411,7 +4399,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 8,
                                 "style_prop_value": "none"
                             },
                             {
@@ -4423,8 +4411,8 @@
                                 "style_prop_normal_name": "marginRight",
                                 "style_prop_css_name": "marginRight",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
-                                "style_prop_value_type": null,
+                                "style_prop_description": "marginRight",
+                                "style_prop_value_type": "px",
                                 "is_section": false,
                                 "is_component": false,
                                 "is_element": true,
@@ -4436,7 +4424,7 @@
                                 "locateTypes": null,
                                     "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 9,
                                 "style_prop_value": "10px"
                             },
                             {
@@ -4448,7 +4436,7 @@
                                 "style_prop_normal_name": "display",
                                 "style_prop_css_name": "display",
                                 "style_prop_image": null,
-                                "style_prop_description": "lorem ipsum ....",
+                                "style_prop_description": "display",
                                 "style_prop_value_type": null,
                                 "is_section": false,
                                 "is_component": false,
@@ -4461,7 +4449,7 @@
                                 "locateTypes": null,
                                 "options": null
                                 },
-                                "style_prop_id": 1,
+                                "style_prop_id": 10,
                                 "style_prop_value": "flex"
                             }
                     ],
@@ -4484,8 +4472,8 @@
                         "style_prop_normal_name": "width",
                         "style_prop_css_name": "width",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "width",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -4497,7 +4485,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "1",
                     "style_prop_value": "400px"
                 },
                 {
@@ -4509,7 +4497,7 @@
                         "style_prop_normal_name": "display",
                         "style_prop_css_name": "display",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "display",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -4522,7 +4510,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "2",
                     "style_prop_value": "flex"
                 },
                 {
@@ -4534,7 +4522,7 @@
                         "style_prop_normal_name": "flexWrap",
                         "style_prop_css_name": "flexWrap",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "flexWrap",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -4547,32 +4535,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
-                    "style_prop_value": "wrap"
-                },
-                {
-                    "style_status": null,
-                    "style_responsive_breakpoint": null,
-                    "style_prop": {
-                        "id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
-                        "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
-                        "style_prop_normal_name": "flexWrap",
-                        "style_prop_css_name": "flexWrap",
-                        "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
-                        "is_section": true,
-                        "is_component": true,
-                        "is_element": true,
-                        "deleted_at": null,
-                        "created_at": "2024-04-05T02:15:07.000000Z",
-                        "updated_at": "2024-05-06T14:49:59.000000Z",
-                        "is_child": true,
-                        "parent_id": "7b8c0895-cfd6-4f92-bc23-04a5b6087632",
-                        "locateTypes": "Normal Directions",
-                        "options": []
-                    },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "3",
                     "style_prop_value": "wrap"
                 },
                 {
@@ -4584,7 +4547,7 @@
                         "style_prop_normal_name": "justifyContent",
                         "style_prop_css_name": "justifyContent",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "justifyContent",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -4597,7 +4560,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "4",
                     "style_prop_value": "start"
                 },
                 {
@@ -4609,7 +4572,7 @@
                         "style_prop_normal_name": "flexDirection",
                         "style_prop_css_name": "flexDirection",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "flexDirection",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -4622,7 +4585,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "5",
                     "style_prop_value": "row"
                 },
                 {
@@ -4634,7 +4597,7 @@
                         "style_prop_normal_name": "alignItems",
                         "style_prop_css_name": "alignItems",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "alignItems",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -4647,7 +4610,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "6",
                     "style_prop_value": "start"
                 },
                 {
@@ -4659,7 +4622,7 @@
                         "style_prop_normal_name": "backgroundColor",
                         "style_prop_css_name": "backgroundColor",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "backgroundColor",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -4672,7 +4635,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "7",
                     "style_prop_value": "rgba(23, 50, 73, 1)"
                 },
                 {
@@ -4684,8 +4647,8 @@
                         "style_prop_normal_name": "padding",
                         "style_prop_css_name": "padding",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "padding",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -4697,7 +4660,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "8",
                     "style_prop_value": "10px"
                 },
                 {
@@ -4709,8 +4672,8 @@
                         "style_prop_normal_name": "borderRadius",
                         "style_prop_css_name": "borderRadius",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "borderRadius",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -4722,7 +4685,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "9",
                     "style_prop_value": "10px"
                 },
                 {
@@ -4734,8 +4697,8 @@
                         "style_prop_normal_name": "marginTop",
                         "style_prop_css_name": "marginTop",
                         "style_prop_image": null,
-                        "style_prop_description": "Border Style",
-                        "style_prop_value_type": "string",
+                        "style_prop_description": "marginTop",
+                        "style_prop_value_type": "px",
                         "is_section": true,
                         "is_component": true,
                         "is_element": true,
@@ -4747,7 +4710,7 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "3c8aeb14-0c6e-4eaf-8945-ff1d8c5a6a91",
+                    "style_prop_id": "10",
                     "style_prop_value": "10px"
                 },
                 {
@@ -4759,7 +4722,7 @@
                         "style_prop_normal_name": "position",
                         "style_prop_css_name": "position",
                         "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                        "style_prop_description": "Border Style",
+                        "style_prop_description": "position",
                         "style_prop_value_type": "string",
                         "is_section": true,
                         "is_component": true,
@@ -4772,11 +4735,9 @@
                         "locateTypes": "Normal Directions",
                         "options": []
                     },
-                    "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                    "style_prop_id": "11",
                     "style_prop_value": "relative"
                 }
-                
-                
             ],
             "design_title": null,
             "design_description": null,
@@ -4792,13 +4753,13 @@
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "width",
                 "style_prop_css_name": "width",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
-                "style_prop_value_type": "string",
+                "style_prop_description": "width",
+                "style_prop_value_type": "px",
                 "is_section": true,
                 "is_component": true,
                 "is_element": true,
@@ -4811,20 +4772,20 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "1",
             "style_prop_value": "100%"
         },
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "paddingTop",
                 "style_prop_css_name": "paddingTop",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
-                "style_prop_value_type": "string",
+                "style_prop_description": "paddingTop",
+                "style_prop_value_type": "px",
                 "is_section": true,
                 "is_component": true,
                 "is_element": true,
@@ -4837,20 +4798,20 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "2",
             "style_prop_value": "150px"
         },
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "paddingBottom",
                 "style_prop_css_name": "paddingBottom",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
-                "style_prop_value_type": "string",
+                "style_prop_description": "paddingBottom",
+                "style_prop_value_type": "px",
                 "is_section": true,
                 "is_component": true,
                 "is_element": true,
@@ -4863,19 +4824,19 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "3",
             "style_prop_value": "150px"
         },  
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "position",
                 "style_prop_css_name": "position",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
+                "style_prop_description": "position",
                 "style_prop_value_type": "string",
                 "is_section": true,
                 "is_component": true,
@@ -4889,19 +4850,19 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "4",
             "style_prop_value": "relative"
         },
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "display",
                 "style_prop_css_name": "display",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
+                "style_prop_description": "display",
                 "style_prop_value_type": "string",
                 "is_section": true,
                 "is_component": true,
@@ -4915,19 +4876,19 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "5",
             "style_prop_value": "flex"
         },
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "flexWrap",
                 "style_prop_css_name": "flexWrap",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
+                "style_prop_description": "flexWrap",
                 "style_prop_value_type": "string",
                 "is_section": true,
                 "is_component": true,
@@ -4941,19 +4902,19 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "6",
             "style_prop_value": "wrap"
         },
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "alignItems",
                 "style_prop_css_name": "alignItems",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
+                "style_prop_description": "alignItems",
                 "style_prop_value_type": "string",
                 "is_section": true,
                 "is_component": true,
@@ -4967,19 +4928,19 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "7",
             "style_prop_value": "center"
         },
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "flexDirection",
                 "style_prop_css_name": "flexDirection",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
+                "style_prop_description": "flexDirection",
                 "style_prop_value_type": "string",
                 "is_section": true,
                 "is_component": true,
@@ -4993,19 +4954,19 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "7",
             "style_prop_value": "row"
         },
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "justifyContent",
                 "style_prop_css_name": "justifyContent",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
+                "style_prop_description": "justifyContent",
                 "style_prop_value_type": "string",
                 "is_section": true,
                 "is_component": true,
@@ -5019,20 +4980,20 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "8",
             "style_prop_value": "space-evenly"
         },
         {
             "style_status": null,
             "style_responsive_breakpoint": null,
             "style_prop": {
-                "id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+                "id": "1",
                 "category_id": "23ea7b12-e3eb-41c5-b367-db61b9e070f3",
                 "style_prop_normal_name": "margin",
                 "style_prop_css_name": "margin",
                 "style_prop_image": "1712283307_660f5eaba3e1e.png",
-                "style_prop_description": "Border Style",
-                "style_prop_value_type": "string",
+                "style_prop_description": "margin",
+                "style_prop_value_type": "px",
                 "is_section": true,
                 "is_component": true,
                 "is_element": true,
@@ -5045,7 +5006,7 @@
                 "options": [
                 ]
             },
-            "style_prop_id": "5555071f-d30d-43d8-99c3-e43073391d9f",
+            "style_prop_id": "9",
             "style_prop_value": "auto"
         }
     ],
@@ -5055,5 +5016,5 @@
     "is_template": true,
     "is_child": false,
     "sequence_number": 1,
-    "element_content": "Blank Component"
+    "element_content": "SECTION"
 }

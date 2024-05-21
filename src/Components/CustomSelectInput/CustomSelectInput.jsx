@@ -1,6 +1,3 @@
-//React
-import { useState } from 'react'
-
 import {
     
 } from 'react-redux'
@@ -23,7 +20,7 @@ const StyledCustomSelectInput = styled(Box)(() => ({}))
 
 
 
-const CustomSelectInput = ({id,name , children ,className ,  onChange , valueSet , disabled , sx}) => {
+const CustomSelectInput = ({id,name , children ,className ,  onChange , valueSet , disabled , sx , required}) => {
 
 
     const value = valueSet
@@ -35,7 +32,8 @@ const CustomSelectInput = ({id,name , children ,className ,  onChange , valueSet
             <InputLabel id="demo-simple-select-label" sx = {{
                 fontWeight:'bold',
                 fontSize: '16px',
-            }}>{name}</InputLabel>
+            }}>{name}
+            </InputLabel>
             <Select sx = {className}
                 labelId="demo-simple-select-label"
                 id={id}
@@ -43,6 +41,7 @@ const CustomSelectInput = ({id,name , children ,className ,  onChange , valueSet
                 label={name}
                 onChange={onChange}
                 disabled={disabled}
+                required={required} // Pass the required prop to the Select component
             >
                 {children}
             </Select>
@@ -53,4 +52,3 @@ const CustomSelectInput = ({id,name , children ,className ,  onChange , valueSet
 };
 
 export default CustomSelectInput;
-
