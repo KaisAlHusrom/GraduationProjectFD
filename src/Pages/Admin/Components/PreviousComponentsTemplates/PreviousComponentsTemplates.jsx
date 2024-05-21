@@ -1,9 +1,7 @@
 //React
 import { useCallback, useMemo, useRef } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import config from "../../../../../Config.json"
 export const designImagesFolderName = "DesignsImages"
@@ -27,10 +25,11 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { fetchDesigns } from '../../../../Services/designService'
+import { fetchDesigns, fetchSpecificDesign } from '../../../../Services/designService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 import useFetchData from '../../../../Helpers/customHooks/useFetchData'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
+import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../../Redux/Slices/snackbarOpenSlice'
 
 //Styled Components
 const StyledPreviousComponentsTemplates = styled(Stack)(
@@ -163,11 +162,19 @@ export const ComponentTemplate = ({lastDataRef, design, setPreviousTemplatesDraw
         setTemplate
     } = useMyCreateElementContext()
 
-    console.log(design)
+    const dispatch = useDispatch()
 
-    const handleSelectDesign = () => {
-        setTemplate(() => design)
-        setPreviousTemplatesDrawerOpen(() => false)
+    const handleSelectDesign = async () => {
+        //to fetch the design with all it's children
+        const selectedDesign = await fetchSpecificDesign(design?.id);
+        if(selectedDesign) {
+            setTemplate(() => selectedDesign)
+            setPreviousTemplatesDrawerOpen(() => false)
+        } else {
+            dispatch(handleOpenSnackbar())
+            dispatch(setSnackbarIsError({isError: true}))
+            dispatch(setSnackbarMessage({message: "There is no design like this"}))
+        }
     }
     return (
         <StyledComponentTemplate ref={lastDataRef} onClick={handleSelectDesign}>

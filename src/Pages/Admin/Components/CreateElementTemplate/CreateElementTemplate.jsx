@@ -83,17 +83,17 @@ const CreateElementTemplate = () => {
     //TODO: why the history return to []
     const [history, setHistory] = useState([]);
     // set history when mode is selected, this for first render only
-    useEffect(() => {
-        if(mode) {
-            const storedHistory = JSON.parse(sessionStorage.getItem(`${mode}_history`));
-            if(storedHistory && storedHistory.length > 0) {
-                setHistory(() => storedHistory)
-            } else {
-                sessionStorage.setItem(`${mode}_history`, JSON.stringify(history));
-            }
-        }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [mode])
+    // useEffect(() => {
+    //     if(mode) {
+    //         const storedHistory = JSON.parse(sessionStorage.getItem(`${mode}_history`));
+    //         if(storedHistory && storedHistory.length > 0) {
+    //             setHistory(() => storedHistory)
+    //         } else {
+    //             // sessionStorage.setItem(`${mode}_history`, JSON.stringify(history));
+    //         }
+    //     }
+    // // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [mode])
     
     const [redoHistory, setRedoHistory] = useState([])
     
@@ -104,7 +104,7 @@ const CreateElementTemplate = () => {
                 localStorage.setItem(mode, JSON.stringify(template));
             }
             if(history) {
-                sessionStorage.setItem(`${mode}_history`, JSON.stringify(history));
+                // sessionStorage.setItem(`${mode}_history`, JSON.stringify(history));
             }
         }
     }, [history, mode, template]);

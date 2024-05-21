@@ -1,3 +1,4 @@
+import { base64ToFile } from "../ImageHelper";
 import { transformElementTypeToDesignStructure } from "../transformData";
 import { v4 as uuIdv4 } from 'uuid';
 
@@ -83,26 +84,57 @@ export const updateID = (elements, value = uuIdv4()) => {
 
 // clear long un need objects
 export const cleanDesignData = (elements) => {
-    for (const element of Array.isArray(elements) ? elements : [elements]) {
-        delete element['element_type']
-        element["is_template"] = element["is_template"] ? 1 : 0
-        element["is_child"] = element["is_child"] ? 1 : 0
-        
-        // if(element?.element_type?.element_type_name === "Image") {
+    const formData = new FormData();
+
+    const processElements = (elems, parentKey = '') => {
+        for (const [index, element] of elems.entries()) {
+            const elementKey = parentKey ? `${parentKey}[${index}]` : `${index}`;
+
+            element["is_template"] = element["is_template"] ? 1 : 0;
+            element["is_child"] = element["is_child"] ? 1 : 0;
             
-        // }
-        
-        if(element.styles) {
-            for(const style of element.styles) {
-                delete style["style_prop"]
-                delete style["style_status"]
-                delete style["style_responsive_breakpoint"]
+            if (element?.element_type?.element_type_name === "Image") {
+                const base64String = element.element_content;
+                const filename = 'image.png'; // You can generate a unique filename if needed
+                const file = base64ToFile(base64String, filename);
+                if (file) {
+                    element.element_content = file;
+                } else {
+                    console.error('Failed to convert base64 string to file for element:', element);
+                }
+            }
+
+            delete element['element_type'];
+            
+            if (element.styles) {
+                for (const [styleIndex, style] of element.styles.entries()) {
+                    delete style["style_prop"];
+                    delete style["style_status"];
+                    delete style["style_responsive_breakpoint"];
+
+                    // Append styles to FormData
+                    for (const key in style) {
+                        if (style.hasOwnProperty(key)) {
+                            formData.append(`elements[${elementKey}][styles][${styleIndex}][${key}]`, style[key]);
+                        }
+                    }
+                }
+            }
+
+            if (element.children && element.children.length > 0) {
+                processElements(element.children, `${elementKey}[children]`);
+            }
+
+            // Append element properties to FormData
+            for (const key in element) {
+                if (element.hasOwnProperty(key) && key !== 'styles' && key !== 'children') {
+                    formData.append(`elements[${elementKey}][${key}]`, element[key]);
+                }
             }
         }
-        if (element.children && element.children.length > 0) {
-            cleanDesignData(element.children);
-        }
-    }
+    };
 
-    return elements;
-}
+    processElements(Array.isArray(elements) ? elements : [elements]);
+
+    return formData;
+};
