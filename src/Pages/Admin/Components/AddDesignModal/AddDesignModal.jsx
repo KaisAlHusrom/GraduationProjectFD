@@ -217,7 +217,7 @@ const AddDesignModal = ({handleAddData, handleUpdateData, setModalOpen}) => {
                 <Grid item xs={12}>
                     <CustomLazyAutoComplete 
                         handleFetchData={fetchDesignCategories}
-                        filters={[writeFilterObject("design_type", "string", "=", "component")]}
+                        filters={[writeFilterObject("design_type", "string", "=", mode)]}
                         perPage={"all"}
                         label='Category'
                         optionId='id'

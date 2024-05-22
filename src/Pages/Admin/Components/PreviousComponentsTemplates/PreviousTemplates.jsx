@@ -1,15 +1,11 @@
 //React
 import { useCallback, useMemo, useRef } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import config from "../../../../../Config.json"
 export const designImagesFolderName = "DesignsImages"
 
-//image
-import compExample from "../../../../Assets/Images/compExample.png"
 
 //Components
 
@@ -20,6 +16,7 @@ import {
     Card,
     CardContent,
     CardMedia,
+    Skeleton,
     Stack,
     Typography,
 } from '@mui/material'
@@ -27,10 +24,11 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { fetchDesigns } from '../../../../Services/designService'
+import { fetchDesigns, fetchSpecificDesign } from '../../../../Services/designService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 import useFetchData from '../../../../Helpers/customHooks/useFetchData'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
+import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../../Redux/Slices/snackbarOpenSlice'
 
 //Styled Components
 const StyledPreviousComponentsTemplates = styled(Stack)(
@@ -43,26 +41,27 @@ const StyledPreviousComponentsTemplates = styled(Stack)(
 )
 
 
-const PreviousComponentsTemplates = ({drawerState}) => {
+const PreviousTemplates = ({drawerState}) => {
     const [previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen] = drawerState
-
+    const {mode} = useMyCreateElementContext()
     const appliedFilter = useMemo(() => {
         return [
-            writeFilterObject('design_type', 'string', '=', 'component'), 
+            writeFilterObject('design_type', 'string', '=', mode), 
             writeFilterObject('parent_id', 'string', '=', null),
         ]
-    }, [])
+    }, [mode])
     const { 
         loading, 
-        error, 
+        // error, 
         hasMore, 
         setPageNumber, 
         data, 
-        setData, 
-        pageNumber, 
-        setRefetch
+        // setData, 
+        // pageNumber, 
+        // setRefetch
     } = useFetchData(fetchDesigns, 'all', appliedFilter, null, previousTemplatesDrawerOpen, null, null, 5)
-    console.log(data)
+
+
     const observer = useRef()
     const lastDataRef = useCallback(node => {
         
@@ -97,7 +96,11 @@ const PreviousComponentsTemplates = ({drawerState}) => {
                         )
                     })
                 :
-                null
+                <>
+                <Skeleton width="90%" variant='rectangular' height={150} animation="wave"></Skeleton>
+                <Skeleton width="90%" variant='rectangular' height={150} animation="wave"></Skeleton>
+                <Skeleton width="90%" variant='rectangular' height={150} animation="wave"></Skeleton>
+                </>
             }
             
 
@@ -105,12 +108,12 @@ const PreviousComponentsTemplates = ({drawerState}) => {
     );
 };
 
-PreviousComponentsTemplates.propTypes = {
+PreviousTemplates.propTypes = {
     drawerState: propTypes.array
 }
 
 
-export default PreviousComponentsTemplates;
+export default PreviousTemplates;
 
 
 //Component Template component
@@ -163,12 +166,22 @@ export const ComponentTemplate = ({lastDataRef, design, setPreviousTemplatesDraw
         setTemplate
     } = useMyCreateElementContext()
 
-    console.log(design)
+    const dispatch = useDispatch()
 
-    const handleSelectDesign = () => {
-        setTemplate(() => design)
-        setPreviousTemplatesDrawerOpen(() => false)
+    const handleSelectDesign = async () => {
+        //to fetch the design with all it's children
+        const selectedDesign = await fetchSpecificDesign(design?.id);
+        if(selectedDesign) {
+            setTemplate(() => selectedDesign)
+            setPreviousTemplatesDrawerOpen(() => false)
+        } else {
+            dispatch(handleOpenSnackbar())
+            dispatch(setSnackbarIsError({isError: true}))
+            dispatch(setSnackbarMessage({message: "There is no design like this"}))
+        }
     }
+
+
     return (
         <StyledComponentTemplate ref={lastDataRef} onClick={handleSelectDesign}>
                 <CardMedia

@@ -1,5 +1,5 @@
 //React
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { handleCloseLinearProgress, handleOpenLinearProgress } from '../../../../Redux/Slices/DownloadPageSlice'
@@ -8,7 +8,7 @@ import { handleCloseLinearProgress, handleOpenLinearProgress } from '../../../..
 
 //MUI
 import {
-    Box, Button, Chip, Typography,
+    Box, Button, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -16,18 +16,20 @@ import { styled } from '@mui/system'
 import propTypes from 'prop-types'
 import { GenerateTag } from '../../../../Helpers/GenerateTag'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
-import { AdminMainButton, AdminMainButtonOutsideState, CustomLazyAutoComplete } from '../../../../Components'
+import { AdminMainButton, AdminMainButtonOutsideState } from '../../../../Components'
 import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 
 //icons
 import UndoIcon from '@mui/icons-material/Undo';
-import PreviousComponentsTemplates from '../PreviousComponentsTemplates/PreviousComponentsTemplates'
+import PreviousTemplates from '../PreviousComponentsTemplates/PreviousTemplates'
 import PhotoLibraryOutlinedIcon from '@mui/icons-material/PhotoLibraryOutlined';
 import CheckBoxOutlineBlankOutlinedIcon from '@mui/icons-material/CheckBoxOutlineBlankOutlined';
 import IntegrationInstructionsOutlinedIcon from '@mui/icons-material/IntegrationInstructionsOutlined';
 import CropSquareOutlinedIcon from '@mui/icons-material/CropSquareOutlined';
 import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined';
+import ElementsCategories from '../ElementsCategories/ElementsCategories'
+
 //Styled Components
 const StyledTemplateDevView = styled(Box)(
     ({ theme }) => ({
@@ -75,16 +77,6 @@ const StyledModBox = styled(Box)(
 //     })
 // );
 
-const StyledChip = styled(Chip)(
-    ({ theme }) => ({
-        cursor: 'pointer',
-        marginRight: theme.spacing(),
-        fontSize: theme.spacing(2),
-        // "&:hover": {
-        //     backgroundColor: theme.palette.primary.main,
-        // }
-    })
-);
 
 const TemplateDevView = () => {
 
@@ -140,20 +132,7 @@ const TemplateDevView = () => {
                     flexDirection: 'column',
                     alignItems: 'center',   
                 }}>
-                    {
-                        //when user select element mode
-                        mode === 'element'
-                        ?
-                            <ElementModeOptions />
-                        : 
-                        // When the user select component mode
-                        mode === "component"
-                        ?
-                            <ComponentModeOptions />
-                        :
-                            // when user select section mode
-                            <SectionModeOptions />
-                    }
+                    <ModeOptions />
                     
                 </Box>
                 
@@ -169,124 +148,6 @@ TemplateDevView.propTypes = {
 export default TemplateDevView;
 
 
-// to select the element that user want to edit on it
-const ElementModeOptions = () => {
-    const {selectedElement, setSelectedElement} = useMyCreateElementContext()
-
-    return (
-        <>
-        <Typography mb={1} variant='h4' color="warning.main">
-            Choose an element type to begin editing
-        </Typography>
-        <Box>
-            <CustomLazyAutoComplete
-                optionId='id'
-                optionName='element_type_name'
-                label='Element Types'
-                handleFetchData={fetchElementTypesRows}
-                valueState={[selectedElement, setSelectedElement]}
-                filters={[writeFilterObject("is_child", "bool", "=", "false")]} // to get wanted data,
-                sx={{
-                    width: "300px"
-                }}
-            />
-        </Box>
-        </>
-    )
-}
-
-
-// the options that will appear when user select component mode
-const ComponentModeOptions = () => {
-    const {selectedElement, setSelectedElement} = useMyCreateElementContext()
-    const [previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen] = useState(false)
-
-
-    const dispatch = useDispatch()
-    const openLinearProgress = useSelector(state => state.downloadPageSlice.openLinearProgress)
-
-    const handleOpenBlankComponent = useCallback(async () => {
-        if(!selectedElement){
-            dispatch(handleOpenLinearProgress())
-        }
-        
-        const emptyComponent = await fetchElementTypesRows(
-            null,
-            null,
-            [writeFilterObject('element_type_name', 'string', '=', 'component')]
-        )
-
-
-        setSelectedElement(() => emptyComponent.rows[0])
-    }, [dispatch, selectedElement, setSelectedElement])
-
-    useEffect(() => {
-        if(openLinearProgress) {
-            if(selectedElement) {
-                dispatch(handleCloseLinearProgress())
-            }
-        }
-    }, [dispatch, openLinearProgress, selectedElement])
-
-
-    return (
-            <Box>
-                <AdminMainButtonOutsideState
-                    appearance='primary'
-                    putBorder
-                    type='drawer'
-                    willShow={<PreviousComponentsTemplates drawerState={[previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen]} />}
-                    title='Select From Previous Templates'
-                    drawerAnchor={'right'}
-                    customState={[previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen]}
-                    sx={{
-                        marginRight: 2,
-                        fontWeight: 'normal',
-                        textTransform: "capitalize",
-                    }}
-                    icon={<PhotoLibraryOutlinedIcon />}
-                />
-                <AdminMainButton
-                    appearance='primary'
-                    putBorder
-                    type='custom'
-                    onClick={handleOpenBlankComponent}
-                    title='New Blank Component'
-                    sx={{
-                        fontWeight: 'normal',
-                        textTransform: "capitalize",
-                    }}
-                    icon={<CheckBoxOutlineBlankOutlinedIcon />}
-                    
-                />
-            </Box>
-    )
-}
-
-
-// the options that will appear when user select section mode
-const SectionModeOptions = () => {
-    return (
-        <>
-            <Typography mb={1} variant='h4' color="warning.main">
-                Choose first element to add to the section
-            </Typography>
-            <Box>
-                {/* <CustomLazyAutoComplete
-                    optionId='id'
-                    optionName='element_type_name'
-                    label='Element Types'
-                    handleFetchData={fetchElementTypesRows}
-                    valueState={[selectedElement, setSelectedElement]}
-                    filters={[writeFilterObject("is_child", "bool", "=", "false")]} // to get wanted data,
-                    sx={{
-                        width: "300px"
-                    }}
-                /> */}
-            </Box>
-        </>
-    )
-}
 
 
 // -------------- PREV BUTTON ---------------
@@ -295,7 +156,7 @@ const StyledPrevButton = styled(Button)(
         position: "absolute",
         top: 0,
         left: 0,
-        borderRadius: "0 0 8px 0"
+        borderRadius: "12px 0 8px 0"
     })
 );
 const PreviousButton = () => {
@@ -309,5 +170,104 @@ const PreviousButton = () => {
         <StyledPrevButton onClick={handleClick} variant="outlined" startIcon={<UndoIcon />}>
             Previous
         </StyledPrevButton>
+    )
+}
+
+const ModeOptions = () => {
+    const {selectedElement, setSelectedElement} = useMyCreateElementContext()
+    const [previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen] = useState(false)
+    const {mode} = useMyCreateElementContext()
+
+    const dispatch = useDispatch()
+    const openLinearProgress = useSelector(state => state.downloadPageSlice.openLinearProgress)
+
+    const handleOpenBlank = useCallback(async () => {
+        if(mode !== 'element') {
+            if(!selectedElement){
+                dispatch(handleOpenLinearProgress())
+            }
+            
+            const emptyComponent = await fetchElementTypesRows(
+                null,
+                null,
+                [writeFilterObject('element_type_name', 'string', '=', mode)]
+            )
+    
+    
+            setSelectedElement(() => emptyComponent.rows[0])
+        } 
+    }, [dispatch, mode, selectedElement, setSelectedElement])
+
+    useEffect(() => {
+        if(openLinearProgress) {
+            if(selectedElement) {
+                dispatch(handleCloseLinearProgress())
+            }
+        }
+    }, [dispatch, openLinearProgress, selectedElement])
+
+    const [elementOpenDrawer, setElementOpenDrawer] = useState(false)
+    const closeMenus = useCallback(() => {
+        setElementOpenDrawer(false)
+    }, [])
+
+    //styles
+    const buttonStyles = useMemo(() => {
+        return {
+            marginRight: 2,
+            fontWeight: 'bold',
+            fontSize: "16px",
+            textTransform: "capitalize",
+            borderRadius: theme => theme.spacing(1),
+            padding: theme => `${theme.spacing(4)} ${theme.spacing(2)}`,
+        }
+    }, [])
+
+    return (
+            <Box>
+                <AdminMainButtonOutsideState
+                    appearance='primary'
+                    putBorder
+                    type='drawer'
+                    willShow={<PreviousTemplates drawerState={[previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen]} />}
+                    title='Select From Previous Templates'
+                    drawerAnchor={'right'}
+                    customState={[previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen]}
+                    sx={buttonStyles}
+                    icon={<PhotoLibraryOutlinedIcon />}
+                />
+                {
+                    mode !== "element"
+                    ?
+                    <AdminMainButton
+                        appearance='primary'
+                        putBorder
+                        type='custom'
+                        onClick={handleOpenBlank}
+                        title={'New Blank ' + mode}
+                        sx={buttonStyles}
+                        icon={<CheckBoxOutlineBlankOutlinedIcon />}    
+                    />
+                    :
+                    <AdminMainButtonOutsideState
+                        appearance='primary'
+                        putBorder
+                        type='drawer'
+                        customState={[elementOpenDrawer, setElementOpenDrawer]}
+                        title={'New Blank ' + mode}
+                        drawerHeaderContent={"Element Categories"}
+                        withoutDrawerHeader
+                        sx={buttonStyles}
+                        icon={<CheckBoxOutlineBlankOutlinedIcon />}
+                        willShow={
+                            <ElementsCategories 
+                                parentElementId={null}
+                                handleCloseMenus={closeMenus}
+                                drawerOpen={elementOpenDrawer}
+                            />
+                        }    
+                    />
+                }
+            </Box>
     )
 }

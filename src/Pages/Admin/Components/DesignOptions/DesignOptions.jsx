@@ -125,6 +125,7 @@ const DesignOptions = (props) => {
         updatedTemplate["category_id"] = inputValues["category_id"],
         updatedTemplate["design_description"] = inputValues["design_description"],
         updatedTemplate["design_image"] = inputValues["design_image"],
+
         cleanDesignData(updatedTemplate)
 
         saveTemplate(updatedTemplate)
@@ -140,7 +141,6 @@ const DesignOptions = (props) => {
         updatedTemplate["design_description"] = inputValues["design_description"],
         updatedTemplate["design_image"] = inputValues["design_image"],
         cleanDesignData(updatedTemplate)
-
         updateTemplate(updatedTemplate)
     }
 

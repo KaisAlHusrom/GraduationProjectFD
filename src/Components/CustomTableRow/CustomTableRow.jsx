@@ -78,7 +78,7 @@ const CustomTableRow = (props) => {
 
     //view settings
     //I don't put a condition if null, because I solved it in DatabaseView component
-    const {viewsSettings} = useMyContext()
+    const {viewsSettings, disableUpdate} = useMyContext()
     const {
         showVerticalLines,
         showHorizontalLines,
@@ -296,7 +296,7 @@ const CustomTableRow = (props) => {
                                 </Box>
                             </TableCell>
                         </Fade>
-                    ) : showTextField === `${rowData.id}-${colIndex}` ? (
+                    ) : showTextField === `${rowData.id}-${colIndex}` && !disableUpdate ? (
                         // Content to render when showTextField is true
                         <Fragment key={`${rowData.id}-${colIndex}`}>
                             <TableCell ref={tableBodyRef} sx={StyledTextFieldCell} key={`${rowData.id}-${colIndex}`}>

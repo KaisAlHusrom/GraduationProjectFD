@@ -11,6 +11,8 @@ import { useTheme } from "@emotion/react";
 import { styled } from '@mui/system'
 import {convertStyleToCssShape } from "./writeStyleObject";
 
+import config from "../../Config.json"
+const designImagesFolderName = "ImagesInsideDesigns"
 
 //functions
 const repeat = (selectedElement) => {
@@ -293,14 +295,33 @@ const Tag = (props) => {
     
     }, [component, selectedSubElementIds, sortedData.id, styles])
 
+
+
+    const getImageSrc = useMemo(() => {
+        if (sortedData.element_type.element_type_name === "Image") {
+            if (exampleText === "Blank Image") {
+                return exampleImage;
+            } else if (exampleText.startsWith("data:")) {
+
+                return exampleText;
+            } else {
+
+                return `${config.ServerImageRoute}/${designImagesFolderName}/${exampleText}`;
+            }
+        }
+        return null;
+    }, [exampleText, sortedData.element_type.element_type_name])
+    
+
     return (
         !sortedData.element_type.not_has_end_tag ?
-                <StyledComp {...defaultProps} src={sortedData.element_type.element_type_name === "image" ? exampleText === "Blank Image" ? exampleImage : exampleText : null} >
+            
+                <StyledComp {...defaultProps} src={getImageSrc} >
                     {exampleText}
                 </StyledComp>
 
             :
-            <StyledComp {...defaultProps} src={exampleText === "Blank Image" ? exampleImage : exampleText} placeholder={exampleText} />
+            <StyledComp {...defaultProps} src={getImageSrc} placeholder={exampleText} />
         
     )
 }

@@ -10,17 +10,9 @@ import {
 
 //MUI
 import {
-    Box,
     Grid,
-    TextField,
-    FormControl,
-    FormLabel,
-    RadioGroup,
-    FormControlLabel,
-    Radio,
-    Rating,
 } from '@mui/material'
-import { styled } from '@mui/system'
+import { } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
@@ -29,13 +21,9 @@ import { productList } from '../../data/CradsData'
 import ProductCard from '../ProductCard'
 import { useNavigate } from 'react-router-dom'
 import Footer from '../Footer'
+import SideBar from '../UI/SideBar'
 
 //Styled Components
-const StyledProducts = styled(Box)(
-    () => ({
-    
-    })
-)
 
 
 
@@ -69,7 +57,6 @@ const Products = () => {
     function filteredData(products, category, price, rating, query) {
       let filteredProducts = products;
   
-      // Filtering based on query (search term)
     // Filtering based on query (search term)
     if (query) {
         filteredProducts = filteredProducts.filter(
@@ -79,113 +66,63 @@ const Products = () => {
         );
       }
   
-      // Applying selected category filter
-      if (category) {
-        filteredProducts = filteredProducts.filter(
-          product => product.Category === category
-        );
-      }
-  
-      // Applying selected price filter
-      if (price) {
-        filteredProducts = filteredProducts.filter(
-          product => product.price <= price
-        );
-      }
-  
-      // Applying selected rating filter
-      if (rating) {
-        filteredProducts = filteredProducts.filter(
-          product => product.rating >= rating
-        );
-      }
-  
-      return (
-        <Grid container spacing={2}>
-          {filteredProducts.map((product, index) => (
-            <Grid key={index} item xs={12} sm={6} md={6} lg={4}>
-              <ProductCard
-                title={product.title}
-                description={product.description}
-                image={product.image}
-                price={product.price}
-                rating={product.rating}
-                creator={product.creator}
-                Category={product.Category}
-                action={() => handleLearnMoreClick(index)}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      );
-    }
-  
-    const result = filteredData(productList, selectedCategory, selectedPrice, selectedRating, query);
-  
-    const SidebarContent = () => (
-      <Grid container spacing={2} direction="column">
-        {/* Search Bar */}
-        <Grid item sx={{ margin: 2, alignItems: "center" }}>
-          <TextField
-            fullWidth
-            variant="outlined"
-            label="Search"
-            onChange={handleInputChange}
-            value={query}
-          />
-        </Grid>
-  
-        {/* Categories */}
-        <Grid item>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Categories</FormLabel>
-            <RadioGroup aria-label="categories" name="categories" onChange={handleCategoryChange}>
-                <FormControlLabel value="" control={<Radio />} label="All" />
-                <FormControlLabel value="websites" control={<Radio />} label="Websites" />
-                <FormControlLabel value="WordPress" control={<Radio />} label="WordPress" />
-                <FormControlLabel value="Blog" control={<Radio />} label="Blog" />
-                <FormControlLabel value="Recommended Templates" control={<Radio />} label="Recommended Templates" />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-  
-        {/* Prices */}
-        <Grid item>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Prices</FormLabel>
-            <RadioGroup aria-label="prices" name="prices" onChange={handlePriceChange}>
-            <FormControlLabel value="" control={<Radio />} label="All" />
-              <FormControlLabel value={30} control={<Radio />} label="0-30" />
-              <FormControlLabel value={50} control={<Radio />} label="30-50" />
-              <FormControlLabel value={70} control={<Radio />} label="50-70" />
-              <FormControlLabel value={90} control={<Radio />} label="70-90" />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-  
-        {/* Ratings */}
-        <Grid item>
-          <FormControl component="fieldset">
-            <FormLabel component="legend">Ratings</FormLabel>
-            <RadioGroup aria-label="ratings" name="ratings" onChange={handleRatingChange}>
-            <FormControlLabel value="" control={<Radio />} label="All" />
-              <FormControlLabel value={5} control={<Radio />} label="5 Stars" />
-              <FormControlLabel value={4} control={<Radio />} label="4 Stars" />
-              <FormControlLabel value={3} control={<Radio />} label="3 Stars" />
-              <FormControlLabel value={2} control={<Radio />} label="2 Stars" />
-            </RadioGroup>
-          </FormControl>
-        </Grid>
-      </Grid>
+    // Applying selected category filter
+    if (category) {
+    filteredProducts = filteredProducts.filter(
+        product => product.Category === category
     );
-  
+    }
+
+    // Applying selected price filter
+    if (price) {
+    filteredProducts = filteredProducts.filter(product => {
+        if (price === '0-30') return product.price <= 30;
+        if (price === '30-50') return product.price > 30 && product.price <= 50;
+        if (price === '50-70') return product.price > 50 && product.price <= 70;
+        if (price === '70-90') return product.price > 70 && product.price <= 90;
+        return true;
+      });
+    }
+
+
+    // Applying selected rating filter
+    if (rating) {
+        filteredProducts = filteredProducts.filter(product => product.rating >= parseInt(rating, 10));
+      }
+
+    return (
+    <Grid container spacing={2}>
+        {filteredProducts.map((product, index) => (
+        <Grid key={index} item xs={12} sm={6} md={6} lg={4}>
+            <ProductCard
+            title={product.title}
+            description={product.description}
+            image={product.image}
+            price={product.price}
+            rating={product.rating}
+            creator={product.creator}
+            Category={product.Category}
+            action={() => handleLearnMoreClick(index)}
+            />
+        </Grid>
+        ))}
+    </Grid>
+    );
+    }
+    const result = filteredData(productList, selectedCategory, selectedPrice, selectedRating, query);
+
     return (
       <div>
         <NavBar />
         <Grid container style={{ minHeight: '20px', marginTop: '10px' }}>
           {/* Sidebar */}
           <Grid item xs={12} md={2} marginTop={15} border={1}>
-            <SidebarContent />
+            <SideBar 
+            query={query} 
+            handleInputChange={handleInputChange} 
+            handleCategoryChange={handleCategoryChange} 
+            handlePriceChange={handlePriceChange}
+            handleRatingChange={handleRatingChange} />
           </Grid>
           {/* Main Content */}
           <Grid item xs={12} md={10} marginTop={15}>
