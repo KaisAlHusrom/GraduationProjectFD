@@ -61,7 +61,11 @@ const DatabaseView = (props) => {
         handleRestoreData,
         handlePermanentDeleteData,
         handleAddData,
-        imagesFolderName
+        imagesFolderName,
+        disableUpdate,
+        disableInsert,
+        addingPage,
+        customAppliedFilters
     } = props
 
     const theme = useTheme()
@@ -88,7 +92,7 @@ const DatabaseView = (props) => {
     }, [title]);
     
     //get applied filters from SetFilter component
-    const [appliedFilters, setAppliedFilters] = useState(() => pageFilters && pageFilters.appliedFilters)
+    const [appliedFilters, setAppliedFilters] = useState(() => pageFilters && Object.keys(pageFilters).length > 0 ? pageFilters.appliedFilters : [])
 
     const getAppliedFilters = (appliedFilters) => {
         setAppliedFilters(() => appliedFilters)
@@ -113,17 +117,21 @@ const DatabaseView = (props) => {
     const [sortsCount, setSortsCount] = useState(() => appliedSorts && appliedSorts.length)
 
 
-    
+    const lastShapeAppliedFilters = useMemo(() => {
+        return customAppliedFilters ? [...appliedFilters, ...customAppliedFilters] : appliedFilters
+    }, [appliedFilters, customAppliedFilters])
+
+
     const {
         hasMore,
-        error,
+        // error,
         loading,
         setPageNumber,
         setData,
         data,
         setRefetch,
         pageNumber
-    } = useFetchData(handleFetchData, showDeleted ? "deleted" : "all", appliedFilters, appliedSorts)
+    } = useFetchData(handleFetchData, showDeleted ? "deleted" : "all", lastShapeAppliedFilters, appliedSorts)
 
     const observer = useRef()
     const lastDataRowElementRef = useCallback(node => {
@@ -244,7 +252,7 @@ const DatabaseView = (props) => {
     const [selected, setSelected] = useState([])
     const [isHeaderCheckboxChecked, setIsHeaderCheckboxChecked] = useState(false);
 
-    const [dataWillAppear, setDataWillAppear] = useState([])
+    // const [dataWillAppear, setDataWillAppear] = useState([])
     // //control the data will appear based on the filteredData and sortedData
     // useEffect(()=> {
     //     if(filteredData && sortedData) {
@@ -373,7 +381,7 @@ const DatabaseView = (props) => {
     
 
     //Handle update data when change
-    const handleChangeData = async (e, type, setRowData, columnName, newValue, row) => {
+    const handleChangeData = async (e, type, setRowData, columnName, newValue) => {
         
         let name = columnName
         let value = newValue
@@ -404,7 +412,9 @@ const DatabaseView = (props) => {
         // Update the row data using the callback version of setRowData
         setRowData((prev)=> {
             const updatedRow = {...prev, [name]: value};
-            updateData(updatedRow)
+            if(!disableUpdate) {
+                updateData(updatedRow)
+            }
             return updatedRow;
         });
 
@@ -419,7 +429,7 @@ const DatabaseView = (props) => {
     }
 
     //when click outside data cell, item
-    const handleCellOutsideClick = async (bodyRef, clickedElement, withoutClasses, setShowAllCell, setShowTextField, row) => {
+    const handleCellOutsideClick = async (bodyRef, clickedElement, withoutClasses, setShowAllCell, setShowTextField) => {
         
         const isSelectAutoCompleteOption = withoutClasses.some(className => clickedElement.closest(className) !== null);
             if (!isSelectAutoCompleteOption && bodyRef.current && !bodyRef.current.contains(clickedElement)) {
@@ -508,6 +518,7 @@ const DatabaseView = (props) => {
         }
     }
 
+    //PERMANENT DELETE FUNCTION
     const permanentDeleteData = async (selectedIds) => {
         if(selectedIds.length === 0) {
             handleSnackbar("There is no item selected", true)
@@ -658,6 +669,9 @@ const DatabaseView = (props) => {
             getAppliedSorts,
             imagesFolderName,
             setRefetch,
+            disableUpdate,
+            disableInsert,
+            addingPage
         }}
             >
                 <StyledDatabaseView>
@@ -791,6 +805,10 @@ DatabaseView.propTypes = {
     handleAddData: propTypes.func,
     loaderDataProp: propTypes.object,
     imagesFolderName: propTypes.string,
+    disableUpdate: propTypes.bool,
+    disableInsert: propTypes.bool,
+    addingPage: propTypes.string,
+    customAppliedFilters: propTypes.array,
 }
 
 // eslint-disable-next-line react-refresh/only-export-components

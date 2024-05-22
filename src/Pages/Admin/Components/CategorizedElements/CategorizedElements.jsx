@@ -22,6 +22,7 @@ import { addElementToParent } from '../../../../Helpers/RecursiveHelpers/addNewE
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'
 import { elementTypesImagesFolderName } from '../../AdminPages/ElementTypesPage/ElementTypesPage'
+import { transformElementTypeToDesignStructure } from '../../../../Helpers/transformData'
 
 //Styled Components
 const StyledCategorizedElements = styled(Box)(
@@ -89,7 +90,9 @@ const CategorizedElements = (props) => {
     //get element to add the element to it
     const {
         template,
-        handleTemplateChange
+        setTemplate,
+        handleTemplateChange,
+        mode
     } = useMyCreateElementContext()
 
     //selected category
@@ -133,6 +136,11 @@ const CategorizedElements = (props) => {
             } else {
                 //TODO: something happen when insert not working
             }
+        } else {
+            //when there is on selected parent id, the parent will be the selected element
+            const transformedTemplateData = transformElementTypeToDesignStructure(selectedWillBeAddedElement, null, mode);
+            setTemplate(() => transformedTemplateData)
+
         }
     }
 

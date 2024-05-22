@@ -64,6 +64,8 @@ const CreateElementTemplate = () => {
         if(mode) {
             const storedTemplate = JSON.parse(localStorage.getItem(mode));
             if(storedTemplate !== null) {
+                // console.log(storedTemplate)
+                
                 setTemplate(() => storedTemplate)
             } 
             else if(selectedElement) {
@@ -80,7 +82,7 @@ const CreateElementTemplate = () => {
 
 
     //add template to local storage
-    //TODO: why the history return to []
+    //TODO: fix history maximum array length or size
     const [history, setHistory] = useState([]);
     // set history when mode is selected, this for first render only
     // useEffect(() => {
@@ -100,7 +102,9 @@ const CreateElementTemplate = () => {
     // set template and history to local and session storages
     useEffect(() => {
         if(mode) {
+            
             if(template) {
+                
                 localStorage.setItem(mode, JSON.stringify(template));
             }
             if(history) {
@@ -195,7 +199,7 @@ const CreateElementTemplate = () => {
         setHistory([...history, template]);
         setRedoHistory(() => [])
         setTemplate(() => updatedTemplate);
-
+        setSelectedElement(() => null)
         //to close drawers when there is no template
         if(!updatedTemplate) {
             setElementStructureDrawer(false)
@@ -259,7 +263,7 @@ const CreateElementTemplate = () => {
         };
     }, [handleOpenElementStructure, handleOpenStyleOptions, handleRedo, handleUndo, history]);
 
-    console.log(template)
+
 
     return (
         <MyCreateElementContext.Provider value={{

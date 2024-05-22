@@ -26,6 +26,7 @@ import CategorizedElements from '../CategorizedElements/CategorizedElements'
 import { useTheme } from '@emotion/react'
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
+import { writeFilterObject } from '../../../../Helpers/filterData'
 
 
 
@@ -86,7 +87,8 @@ const StyledCategoryNameBox = styled(Box)(
 const ElementsCategories = (props) => {
     const {
         parentElementId,
-        handleCloseMenus
+        handleCloseMenus,
+        drawerOpen
     } = props
     const theme = useTheme()
 
@@ -96,7 +98,9 @@ const ElementsCategories = (props) => {
     } = useMyCreateElementContext()
 
     const params = useMemo(() => {
-        return [null, null, null, null, null, 15]
+        return [null, null, [
+            writeFilterObject("category_name", "string", "!=", "Containers")
+        ], null, null, 15]
     }, [])
 
     const {
@@ -104,9 +108,9 @@ const ElementsCategories = (props) => {
         // setData,
         download,
         // setDownload
-    } = useEffectFetchData(fetchElementTypesCategories, params, elementStructureDrawer);
+    } = useEffectFetchData(fetchElementTypesCategories, params, drawerOpen ? drawerOpen : elementStructureDrawer);
     
-
+    console.log(data)
 
     //open element drawer
     const [elementsDrawerOpen, setElementsDrawerOpen] = useState(false)
@@ -156,7 +160,7 @@ const ElementsCategories = (props) => {
                 putDrawerCloseButton
                 drawerZIndex={-1} // * make the zIndex under 0 because this drawer is already renders inside ElementsCategories Drawer
                 drawerStyle={{
-                    marginLeft: `${defaultDrawerWidth + 250}px`,
+                    marginLeft: drawerOpen ? `${defaultDrawerWidth}px` :`${defaultDrawerWidth + 250}px`,
                     width: 250,
                 }}
             >
@@ -173,6 +177,7 @@ const ElementsCategories = (props) => {
 ElementsCategories.propTypes = {
     parentElementId: propTypes.string,
     handleCloseMenus: propTypes.func,
+    drawerOpen: propTypes.bool,
 }
 
 export default ElementsCategories;

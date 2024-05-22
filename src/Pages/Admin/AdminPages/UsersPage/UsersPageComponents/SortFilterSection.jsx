@@ -39,6 +39,7 @@ import propTypes from 'prop-types'
 import { AdminMainButton } from '../../../../../Components';
 import { useMyContext } from '../../../../../Components/DatabaseView/DatabaseView';
 import SetViewSettings from '../../../Components/SetViewSettings/SetViewSettings';
+import { useNavigate } from 'react-router-dom';
 
 
 //Styled Components
@@ -107,13 +108,17 @@ const SortFilterSection = (props) => {
     const [sortedColumns, setSortedColumns] = sortedColumnsState;
 
     //Filters Count
-    const {filtersCount, sortsCount} = useMyContext()
+    const {filtersCount, sortsCount, addingPage, disableInsert} = useMyContext()
     
 
     //BUTTONS
     //get the setModalOpen to close the modal when add new data
     const [,setModalOpen] = addModalOpenState;
 
+    const navigate = useNavigate()
+    const handleGoToAddingPage = () => {
+        navigate(addingPage);
+    }
 
     const primaryButtons = [
         <AdminMainButtonOutsideState
@@ -122,7 +127,8 @@ const SortFilterSection = (props) => {
             title={"Add " + StringHelper.removeSAtEnd(title)}
             icon={<AddIcon />}
             appearance="primary"
-            type='modal'
+            type={disableInsert && addingPage ? 'custom' :'modal'}
+            onClick={disableInsert && addingPage ? handleGoToAddingPage : null}
             willShow={
                 <CustomFormModal
                     columns={columns}

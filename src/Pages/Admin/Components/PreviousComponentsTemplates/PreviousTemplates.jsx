@@ -6,8 +6,6 @@ import { useDispatch } from 'react-redux'
 import config from "../../../../../Config.json"
 export const designImagesFolderName = "DesignsImages"
 
-//image
-import compExample from "../../../../Assets/Images/compExample.png"
 
 //Components
 
@@ -18,6 +16,7 @@ import {
     Card,
     CardContent,
     CardMedia,
+    Skeleton,
     Stack,
     Typography,
 } from '@mui/material'
@@ -42,26 +41,27 @@ const StyledPreviousComponentsTemplates = styled(Stack)(
 )
 
 
-const PreviousComponentsTemplates = ({drawerState}) => {
+const PreviousTemplates = ({drawerState}) => {
     const [previousTemplatesDrawerOpen, setPreviousTemplatesDrawerOpen] = drawerState
-
+    const {mode} = useMyCreateElementContext()
     const appliedFilter = useMemo(() => {
         return [
-            writeFilterObject('design_type', 'string', '=', 'component'), 
+            writeFilterObject('design_type', 'string', '=', mode), 
             writeFilterObject('parent_id', 'string', '=', null),
         ]
-    }, [])
+    }, [mode])
     const { 
         loading, 
-        error, 
+        // error, 
         hasMore, 
         setPageNumber, 
         data, 
-        setData, 
-        pageNumber, 
-        setRefetch
+        // setData, 
+        // pageNumber, 
+        // setRefetch
     } = useFetchData(fetchDesigns, 'all', appliedFilter, null, previousTemplatesDrawerOpen, null, null, 5)
-    console.log(data)
+
+
     const observer = useRef()
     const lastDataRef = useCallback(node => {
         
@@ -96,7 +96,11 @@ const PreviousComponentsTemplates = ({drawerState}) => {
                         )
                     })
                 :
-                null
+                <>
+                <Skeleton width="90%" variant='rectangular' height={150} animation="wave"></Skeleton>
+                <Skeleton width="90%" variant='rectangular' height={150} animation="wave"></Skeleton>
+                <Skeleton width="90%" variant='rectangular' height={150} animation="wave"></Skeleton>
+                </>
             }
             
 
@@ -104,12 +108,12 @@ const PreviousComponentsTemplates = ({drawerState}) => {
     );
 };
 
-PreviousComponentsTemplates.propTypes = {
+PreviousTemplates.propTypes = {
     drawerState: propTypes.array
 }
 
 
-export default PreviousComponentsTemplates;
+export default PreviousTemplates;
 
 
 //Component Template component
@@ -176,6 +180,8 @@ export const ComponentTemplate = ({lastDataRef, design, setPreviousTemplatesDraw
             dispatch(setSnackbarMessage({message: "There is no design like this"}))
         }
     }
+
+
     return (
         <StyledComponentTemplate ref={lastDataRef} onClick={handleSelectDesign}>
                 <CardMedia

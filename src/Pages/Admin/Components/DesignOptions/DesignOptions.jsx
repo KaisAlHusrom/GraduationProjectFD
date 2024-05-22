@@ -141,7 +141,6 @@ const DesignOptions = (props) => {
         updatedTemplate["design_description"] = inputValues["design_description"],
         updatedTemplate["design_image"] = inputValues["design_image"],
         cleanDesignData(updatedTemplate)
-        console.log(updatedTemplate)
         updateTemplate(updatedTemplate)
     }
 

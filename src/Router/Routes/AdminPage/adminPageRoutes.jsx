@@ -36,6 +36,7 @@ import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
 //Users Services
 import usersService from '../../../Services/usersService';
 import ElementTypesCategoriesPage from "../../../Pages/Admin/AdminPages/ElementTypesCategoriesPage/ElementTypesCategoriesPage";
+import DesignsPage from "../../../Pages/Admin/AdminPages/DesignsPage/DesignsPage";
 
 
 const adminPageRoutes = [
@@ -182,6 +183,11 @@ const adminPageRoutes = [
     {
         element: <DesignCategories />,
         path: "design-categories",
+        exact: false,
+    },
+    {
+        element: <DesignsPage />,
+        path: "designs",
         exact: false,
     },
     

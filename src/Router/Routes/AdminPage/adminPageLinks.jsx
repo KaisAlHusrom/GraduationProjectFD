@@ -19,6 +19,9 @@ import PaymentsIcon from '@mui/icons-material/Payments';
 import StarRateIcon from '@mui/icons-material/StarRate';
 import FormatPaintIcon from '@mui/icons-material/FormatPaint';
 import DesignServicesIcon from '@mui/icons-material/DesignServices';
+import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
+
+
 const adminPageLinks = [
     {
         title: "Users",
@@ -95,6 +98,11 @@ const adminPageLinks = [
                 title: "Design Categories",
                 icon: <GridViewIcon color='primary.contrastText' />,
                 path: "design-categories"
+            },
+            {
+                title: "Designs",
+                icon: <PreviewOutlinedIcon color='primary.contrastText' />,
+                path: "designs"
             },
             {
                 title: "Colors Settings",

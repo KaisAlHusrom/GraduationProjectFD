@@ -142,7 +142,7 @@ const CustomGalleryViewItem = (props) => {
     const galleryItemRef = useRef(null);
 
     //I get columns object to know the type of each column, and the relationships
-    const {columns, relationships, handleCellOutsideClick} = useMyContext();
+    const {columns, relationships, handleCellOutsideClick, disableUpdate} = useMyContext();
 
 
 
@@ -327,7 +327,7 @@ const CustomGalleryViewItem = (props) => {
                                             </Fade>
                                         )
                                     :
-                                    showTextField === cellKey
+                                    showTextField === cellKey && !disableUpdate
                                     ?
                                             (
                                                 <Fade in={showTextField === cellKey}>
@@ -353,7 +353,7 @@ const CustomGalleryViewItem = (props) => {
                                             </Fade>
                                         )
                                     :
-                                    showTextField === cellKey
+                                    showTextField === cellKey && !disableUpdate
                                     ?
                                             (
                                                 <Fade in={showTextField === cellKey}>
