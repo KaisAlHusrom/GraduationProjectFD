@@ -25,7 +25,10 @@ const StyledWebSiteType = styled(Box)(
         display : 'flex',
         justifyContent: "center",
         alignItems: "center",
+        flexWrap : 'wrap',
+        gap : 20,
         marginBottom: theme.spacing(4)
+        
     })
 )
 
@@ -40,7 +43,6 @@ const BoxDesign = {
     borderColor : (theme) =>
         theme.divider,
     padding : '20px',
-    marginRight : '20px', 
     height : '430px',
     borderRadius : '20px',
     '&:hover': {

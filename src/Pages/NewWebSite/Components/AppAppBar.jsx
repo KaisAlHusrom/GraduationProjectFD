@@ -38,6 +38,8 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import logoLight from '../../../assets/Images/Cliser-Light-Theme.png';
 import logoDark from '../../../assets/Images/Cliser-Dark-Theme.png';
 
+
+
 const logoStyle = {
   width: '100px',
   height: 'auto',
@@ -146,6 +148,7 @@ const AppAppBar = ({ mode, toggleColorMode }) => {
                   <img src={ mode === 'light' ? logoLight : logoDark}
                         style={logoStyle}
                         alt="logo of sitemark"
+                        
                       />
                   <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                     <MenuItem

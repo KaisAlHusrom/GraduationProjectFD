@@ -12,6 +12,7 @@ import {
     Stack,
     alpha
 } from '@mui/material';
+import { addWebProject } from '../../../../../../Services/webProjectsService';
 
 // Styled Components
 const StyledMain = styled(Box)(() => ({}));
@@ -66,8 +67,27 @@ const Main = () => {
         inputElement.click();
     };
 
-    const handleSubmit = () => {
-        console.log("Submitted data:", { name, description, selectedLanguage, selectedIndustry, uploadedImage });
+
+
+    const handleSubmit = async() => {
+
+        const data = {
+            'user_id' : "7b5ed12e-1852-11ef-9062-3822e21e8ed2",
+            'project_title' : name, 
+            'project_logo' : uploadedImage,
+            'project_type' :  selectedBox,
+            'project_job' :  selectedIndustry,
+            'project_description': description,
+            'is_template' : 0,
+            'is_own_project' : 0,
+        }
+
+        const res = await  addWebProject(data)
+        console.log(res)
+            if(res.success) {
+                console.log(res.data)
+            }
+            console.log("Submitted data:", { name, description, selectedLanguage, selectedIndustry, uploadedImage });
 
         // setUploadedImage("");
         // setName("");
@@ -99,11 +119,11 @@ const Main = () => {
                     }}
                 >
                     <Stack spacing={2} useFlexGap sx={{
-                        width: { xs: '100%', sm: '70%' },
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        flexWrap: 'wrap',
                     }}>
                         {currentStep === 1 && (
                             <StartWebSite

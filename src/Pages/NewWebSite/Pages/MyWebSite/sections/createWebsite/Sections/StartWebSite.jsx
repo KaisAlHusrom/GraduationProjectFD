@@ -25,7 +25,13 @@ import EastIcon from '@mui/icons-material/East';
 //Styled Components
 const StyledStartWebSite = styled(Box)(
     ({ theme }) => ({
-    
+        width: '100%',
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        paddingLeft: '15px'
     })
 )
 const CircularButton = styled(Box)(({ theme, selected }) => ({
@@ -85,6 +91,7 @@ const StartWebSite = ({selectedBoxState , handleBoxClick , handleNextClick }) =>
                         flexDirection: 'row',
                         justifyContent: 'center',
                         alignItems: 'center',
+                        flexWrap: 'wrap',
                     }}>
                         <SelectableBox
                             id="Box-simple"

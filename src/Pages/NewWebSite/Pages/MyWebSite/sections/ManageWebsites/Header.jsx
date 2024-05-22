@@ -57,12 +57,12 @@ const Header = () => {
                 pb: { xs: 8, sm: 12 },
             }}
         >
-        <Stack spacing={2} useFlexGap sx={{ width: { xs: '100%', sm: '70%' } , 
+        <Stack spacing={2} useFlexGap sx={{ 
                 display: 'flex',
                 flexDirection :'row',
-                justifyContent: 'space-between',
+                justifyContent: 'center',
                 alignItems: 'center',
-    
+                flexWrap : 'wrap',
                 }}>
                 <Box>
                     <Typography
@@ -88,32 +88,27 @@ const Header = () => {
 
 
                     </Typography>
-            </Box>
-                <Stack
-                    direction={{ xs: 'column', sm: 'row' }}
-                    alignSelf="center"
-                    spacing={1}
-                    useFlexGap
-                    sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
-                >
-            
-                    <AdminMainButton
-                                title = "New Website"
-                                appearance='primary'
-                                type="custom"
-                                onClick = {handleCreateWebSiteClick}
-                                filled
-                                sx = {{
-                                    color: "primary.contrastText",
-                                    width : '200px', 
-                                    '&:hover': {
-                                        backgroundColor: 'primary.dark',
-                                    },
-                                }}
-                            />
+                </Box>
+
+                  <Box>
+                  <AdminMainButton
+                        title = "New Website"
+                        appearance='primary'
+                        type="custom"
+                        onClick = {handleCreateWebSiteClick}
+                        filled
+                        sx = {{
+                            color: "primary.contrastText",
+                            width : '200px', 
+                            '&:hover': {
+                                backgroundColor: 'primary.dark',
+                            },
+                        }}
+                    />
+                  </Box>
                             
                 </Stack>
-                </Stack>
+        
         
         </Container>
     </Box>

@@ -16,14 +16,13 @@ import WebSiteType from './WebSiteType'
 //Styled Components
 const StyledMyWebSite = styled(Box)(
     () => ({
-        height : "100vh", 
+        height : "100%", 
     })
 )
 
 
 const MyWebSite = () => {
     return (
-
         <StyledMyWebSite>
                 <Header></Header>
                 <WebSiteType></WebSiteType>
