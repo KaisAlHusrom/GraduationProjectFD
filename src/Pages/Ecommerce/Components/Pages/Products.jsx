@@ -35,7 +35,7 @@ const Products = () => {
     const [query, setQuery] = useState("");
   
     const handleLearnMoreClick = (index) => {
-      navigate(`/productView/${index}`);
+      navigate(`/cliser-digital-market/productView/${index}`);
     };
   
     const handleInputChange = (event) => {
@@ -87,7 +87,7 @@ const Products = () => {
 
     // Applying selected rating filter
     if (rating) {
-        filteredProducts = filteredProducts.filter(product => product.rating >= parseInt(rating, 10));
+        filteredProducts = filteredProducts.filter(product => product.rating === parseInt(rating, 10));
       }
 
     return (

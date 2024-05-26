@@ -34,6 +34,7 @@ import ViewElements from '../ViewElements/ViewElements';
 import AddDesignModal from '../AddDesignModal/AddDesignModal';
 
 import { cleanDesignData } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
+import ViewPageElements from '../ViewPageElements/ViewPageElements';
 
 //Styled Components
 const StyledDesignOptions = styled(Box)(
@@ -205,7 +206,7 @@ const DesignOptions = (props) => {
                     type='drawer'
                     putBorder
                     icon={<MediationOutlinedIcon />}
-                    willShow={<ViewElements />}
+                    willShow={mode === "page" ? <ViewPageElements /> :<ViewElements />}
                     drawerVariant="persistent"
                     putDrawerCloseButton
                     // drawerResizable={true}

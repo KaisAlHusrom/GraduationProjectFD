@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import {
     
@@ -7,7 +7,6 @@ import {
 import { useNavigate} from 'react-router-dom';
 
 //Components
-import { CartData } from '../../data/CartData'
 import { productList } from '../../data/CradsData'
 import NavBar from '../NavBar'
 
@@ -33,12 +32,15 @@ const getProductById = (productId) => {
 const Cart = () => {
     const Navigate = useNavigate();
     const [CartTotal, setCartTotal] = useState(0);
-    const [cartItems, setCartItems] = useState(CartData);
-    useEffect(() => {
-        total();
-      }, [cartItems]);
-    
-      const total = () => {
+    const [cartItems, setCartItems] = useState(() => {
+        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
+        if(cart_data) {
+            return cart_data;
+        }
+        return []
+    })
+
+    const total = useCallback(() => {
         let totalVal = 0;
         // Iterate over each item in cartItems
         cartItems.forEach(itemId => {
@@ -51,16 +53,24 @@ const Cart = () => {
         });
         // Update the state with the total price
         setCartTotal(totalVal);
-    };
+    }, [cartItems])
+    
+    useEffect(() => {
+        total();
+    }, [cartItems, total]);
+
+    
+    
+
     const handleCheckOutClick = () => {
         // Navigate to the ProductView page with the product index as a parameter
-        Navigate(`/CheckOut`);
+        Navigate(`/cliser-digital-market/CheckOut`);
     }
     const handleBrowseClick = () => {
         // Navigate to the ProductView page with the product index as a parameter
-        Navigate(`/Ecommerce`);
+        Navigate(`/cliser-digital-market/main`);
     }
-      
+    
     
     const itemsPurchase = [
         { contentTitle: "", content: "" }, // Leave the content empty initially
@@ -69,7 +79,7 @@ const Cart = () => {
             const product = getProductById(productId);
             const handleItemClick = () => {
                 // Navigate to the ProductView page with the product index as a parameter
-                Navigate(`/productView/${product.id}`);
+                Navigate(`cliser-digital-market/productView/${product.id}`);
             }
         const handleItemDelete = (index) => {
             // Create a copy of the current cart items array
@@ -81,7 +91,7 @@ const Cart = () => {
         };
         
         return (
-            <div>
+            <div key={index}>
                 {product && (
                     <li key={index} style={{ listStyleType: 'none', borderBottom: index === cartItems.length - 1 ? 'none' : '1px solid grey'  }}>
                     <Grid container>
@@ -179,7 +189,7 @@ return (
                                     </Box>
                                     <Box >
                                         <Typography variant="h5" sx={{ textAlign: 'left' }}>
-                                           Discount
+                                            Discount
                                         </Typography>
                                     </Box>
                                     </Grid>

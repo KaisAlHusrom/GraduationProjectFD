@@ -86,7 +86,6 @@ const StyledCategoryNameBox = styled(Box)(
 
 const ElementsCategories = (props) => {
     const {
-        parentElementId,
         handleCloseMenus,
         drawerOpen
     } = props
@@ -94,14 +93,17 @@ const ElementsCategories = (props) => {
 
     const [selectedCategoryId, setSelectedCategoryId] = useState(null)
     const {
-        elementStructureDrawer
+        elementStructureDrawer,
+        mode,
     } = useMyCreateElementContext()
 
+    //TODO: you can add rule that is the user can't add component or sections to elements, 
     const params = useMemo(() => {
         return [null, null, [
-            writeFilterObject("category_name", "string", "!=", "Containers")
+            (mode === "element") && writeFilterObject("category_name", "string", "!=", "Containers") ,
+            // (mode === "section") && writeFilterObject("category_name", "string", "!=", "Containers")
         ], null, null, 15]
-    }, [])
+    }, [mode])
 
     const {
         data,
@@ -165,7 +167,6 @@ const ElementsCategories = (props) => {
                 }}
             >
                 <CategorizedElements 
-                    parentElementId={parentElementId}
                     handleCloseMenus={handleCloseMenus}
                     selectedCategoryState={[selectedCategoryId, setSelectedCategoryId]}
                 />

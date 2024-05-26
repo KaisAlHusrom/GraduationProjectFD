@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import propTypes from 'prop-types';
 import { CartData } from '../data/CartData';
 import { productList } from '../data/CradsData';
@@ -9,13 +9,15 @@ const getProductById = (productId) => {
 
 const TotalCart = () => {
     const [CartTotal, setCartTotal] = useState(0);
-    const cartItems = CartData;
+    const cartItems = useMemo(() => {
+        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
+        if(cart_data) {
+            return cart_data;
+        }
+        return []
+    }, []);
 
-    useEffect(() => {
-        total();
-    }, [cartItems]);
-
-    const total = () => {
+    const total = useCallback(() => {
         let totalVal = 0;
         // Iterate over each item in cartItems
         cartItems.forEach(itemId => {
@@ -28,7 +30,13 @@ const TotalCart = () => {
         });
         // Update the state with the total price
         setCartTotal(totalVal);
-    };
+    }, [cartItems])
+    
+    useEffect(() => {
+        total();
+    }, [cartItems, total]);
+
+    
 
     return CartTotal;
 };

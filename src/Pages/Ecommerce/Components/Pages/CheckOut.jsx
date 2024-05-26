@@ -1,5 +1,5 @@
 //React
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
     
@@ -56,7 +56,16 @@ function getStepContent(step) {
 const CheckOut = () => {
     const Navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
-    const cartItems = (CartData);
+
+    const cartItems = useMemo(() => {
+        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
+        if(cart_data) {
+            return cart_data;
+        }
+        return []
+    }, []);
+
+
     const handleNext = () => {
         setActiveStep(activeStep + 1);
       };
@@ -69,7 +78,7 @@ const CheckOut = () => {
       }
     return (
         <StyledCheckOut>
-            <Grid container sx={{ height: { xxs:'100%',xs: '100%', sm: '100dvh' } }}>
+            <Grid container sx={{ height: { xxs:'100%',xs: '100%', sm: '100dvh' }, marginTop: 8 }}>
                 <Grid
                 item
                 xxs={12}
@@ -88,22 +97,6 @@ const CheckOut = () => {
                     gap: 4,
                 }}
                 >
-                    <Box
-                    sx={{
-                    display: 'flex',
-                    alignItems: 'end',
-                    height: 150,
-                    }}
-                    >
-                        <Button
-                        startIcon={<ArrowBackRoundedIcon />}
-                        onClick={handleBackToMain}
-                        sx={{ ml: '-8px' }}
-                        >
-                        Back to
-                        <CliserImageLogo handleBackToMain={handleBackToMain} />
-                        </Button> 
-                    </Box>
                     <Box
                         sx={{
                         display: 'flex',
@@ -152,15 +145,7 @@ const CheckOut = () => {
                             justifyContent: 'space-between',
                         }}
                         >
-                            <Button
-                            startIcon={<ArrowBackRoundedIcon />}
-                            component="a"
-                            onClick={handleBackToMain}
-                            sx={{ alignSelf: 'start' }}
-                            >
-                                Back to
-                                <CliserImageLogo handleBackToMain={{handleBackToMain}} />
-                            </Button>
+                        
                         </Box>
                         <Box
                         sx={{

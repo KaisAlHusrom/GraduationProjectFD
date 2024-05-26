@@ -81,7 +81,6 @@ const StyledElementNameBox = styled(Box)(
 
 const CategorizedElements = (props) => {
     const {
-        parentElementId,
         handleCloseMenus,
         selectedCategoryState
     } = props
@@ -92,8 +91,10 @@ const CategorizedElements = (props) => {
         template,
         setTemplate,
         handleTemplateChange,
-        mode
+        mode,
+        parentElementId
     } = useMyCreateElementContext()
+
 
     //selected category
     const [selectedCategoryId] = selectedCategoryState;
@@ -102,11 +103,14 @@ const CategorizedElements = (props) => {
     const params = useMemo(() => {
         return [null, 
                 null, 
-                [writeFilterObject("category_id", "many-to-one", "=", "", "", "", "", selectedCategoryId)], 
+                [
+                    writeFilterObject("category_id", "many-to-one", "=", "", "", "", "", selectedCategoryId),
+                    (mode === "section" || mode === "component") && writeFilterObject("element_type_name", 'string', '!=', "section")
+                ], 
                 null, 
                 null, 
                 30]
-    }, [selectedCategoryId])
+    }, [selectedCategoryId, mode])
 
     const {
         data,

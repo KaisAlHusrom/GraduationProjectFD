@@ -221,8 +221,14 @@ const CustomFormModal = (props) => {
         const name = column
         const type = columns[column].split("|")[0]
         
-        let value = e.target.value;
+        let value = e?.target?.value;
 
+        if(type === "date") {
+            value = `${e['$y']}-${e['$M']}-${e['$D']}`;
+            console.log(value)
+
+        }
+        
         if(type === "enum") {
             value = newValue;
         }
@@ -295,7 +301,6 @@ const CustomFormModal = (props) => {
     //Return Inputs based on column type
     const returnInputs = (column, type, response, key) => {
 
-
         const error = !!(response?.errors && response.errors[column]);
         const errorMessage = response?.errors?.[column] ?? '';
         const label = StringHelper.capitalizeEachWord(column.split("_").join(" "))
@@ -306,10 +311,10 @@ const CustomFormModal = (props) => {
             name: column,
             color: "primary",
             size: "small",
-            error: error,
-            helperText: errorMessage,
             onChange: (event) => handleChange(event, column),
             value: inputValues[column] || "",
+            error: error,
+            helperText: errorMessage,
         }
 
         
@@ -332,21 +337,23 @@ const CustomFormModal = (props) => {
                     <FormControl
                     fullWidth
                     color="primary"
-                    size="small"
-                    
+                    size="small" 
                     >
-                        <InputLabel  htmlFor="outlined-adornment-amount">
+                        <InputLabel>
                         {label}
                         </InputLabel>
                         <OutlinedInput
-                            id="outlined-adornment-amount"
                             startAdornment={<InputAdornment position="start">$</InputAdornment>}
                             label={label}
-                            error={error}
-                            helperText={errorMessage}       
                             onChange= {(event) => handleChange(event, column)}
                             value= {inputValues[column] || ""}
                         />
+                        {error
+                        ?
+                        <Typography ml={2} variant='body2' color="error">
+                            {errorMessage}
+                        </Typography>
+                        : null}
                     </FormControl>
                 </Grid>
             )
@@ -477,18 +484,14 @@ const CustomFormModal = (props) => {
             return (
                 <Grid key={key} item xs={columnsCount % 2 === 0 ? 6 : 12}>
                     <DatePicker 
-                    focused
-                    {...defaultProps}
-                    
+                    fullWidth={true}
+                    label={label}
+                    name= {column}
+                    color= "primary"
+                    size= "small"
+                    onChange= {(event, newValue) => handleChange(event, column, newValue)}
                     sx={{
                         width: '100%',
-                        // "& .MuiFormLabel-root": {
-                        //     // fontSize: "0.75rem",
-                        //     lineHeight: "0.8rem",
-                        // },
-                        // "& .MuiInputBase-root.MuiOutlinedInput-root": {
-                        //     // fontSize: "0.305rem",
-                        // }
                     }}
                     />
                 </Grid>

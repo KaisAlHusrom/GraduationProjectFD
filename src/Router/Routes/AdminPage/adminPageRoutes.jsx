@@ -33,10 +33,10 @@ import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
 
 
 
-//Users Services
-import usersService from '../../../Services/usersService';
+
 import ElementTypesCategoriesPage from "../../../Pages/Admin/AdminPages/ElementTypesCategoriesPage/ElementTypesCategoriesPage";
 import DesignsPage from "../../../Pages/Admin/AdminPages/DesignsPage/DesignsPage";
+import WebProjectsPage from "../../../Pages/Admin/AdminPages/WebProjectsPage/WebProjectsPage";
 
 
 const adminPageRoutes = [
@@ -56,7 +56,7 @@ const adminPageRoutes = [
         element: <UserDetailsPage />,
         path: "users/:user_id",
         exact: false,
-        loader: usersService.fetchUser,
+        // loader: ufetchUser,
     },
     {
         element: <PaymentPlansPage />,
@@ -188,6 +188,11 @@ const adminPageRoutes = [
     {
         element: <DesignsPage />,
         path: "designs",
+        exact: false,
+    },
+    {
+        element: <WebProjectsPage />,
+        path: "web-projects",
         exact: false,
     },
     
