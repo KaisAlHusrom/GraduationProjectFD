@@ -6,7 +6,10 @@ import {
 } from 'react-redux'
 
 //Components
-import { getAppropriateTag } from '../../StylesFunctions/GenerateElements'
+
+
+//propTypes 
+import propTypes from 'prop-types'
 
 
 //MUI
@@ -14,20 +17,22 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import  '../Style.css'
-
-//propTypes 
-import propTypes from 'prop-types'
+import { getAppropriateTag } from '../../../TempalteSection/StylesFunctions/GenerateElements'
 
 //Styled Components
-const StyledHeaderElement = styled(Box)(() => ({}))
+const StyledEmptyElement = styled(Box)(
+    ({ theme }) => ({
+    
+    })
+)
 
 
-const HeaderElement = ({element}) => {
+const EmptyElement = ({element}) => {
 
 
     const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
+
 
     useMemo(() => {
         const dictionary = {};
@@ -42,15 +47,19 @@ const HeaderElement = ({element}) => {
         setElementStyle(dictionary);
     }, [element.styles]);
 
+
+
     return (
-        <StyledHeaderElement className='element-query'>
-                        {getAppropriateTag(element.element_type.element_type_name, element.element_content, elementStyle)}
-        </StyledHeaderElement>
+        <StyledEmptyElement className='element-query'>
+                {getAppropriateTag(element.element_type.element_type_name, element.element_content, elementStyle)}
+        </StyledEmptyElement>
     );
 };
 
-HeaderElement.propTypes = {
+
+EmptyElement.propTypes = {
     element: propTypes.object
 }
 
-export default HeaderElement;
+
+export default EmptyElement;

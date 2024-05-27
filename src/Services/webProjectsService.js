@@ -2,7 +2,7 @@ import axios from "axios";
 
 // -------------------------------------- 
 import config from "../../Config.json";
-import { addDataTemplate, deleteTemplate, fetchDataTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
+import { addDataTemplate, deleteTemplate, fetchDataTemplate, fetchSpecificRecordTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
 const WepProjects = config.ServerMainRoute + "/web-projects";
 
 const WepProjectsAPI = axios.create({
@@ -26,6 +26,21 @@ export const fetchWebProject = async (type = "all", pageNumber = 1, filters = []
 
     return { rows };
 }
+
+
+export const fetchSpecificWebProject = async (id) => {
+    const res = await fetchSpecificRecordTemplate(WepProjectsAPI, id);
+    let row;
+
+    if (res.success) {
+        row = res.data;
+    } else {
+        row = null;
+    }
+
+    return row;
+}
+
 
 //add items
 export const addWebProject = async (inputValues) => {

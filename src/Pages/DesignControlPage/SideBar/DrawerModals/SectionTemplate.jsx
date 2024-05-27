@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 
 import {
     
@@ -24,11 +22,16 @@ import { styled } from '@mui/system'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { fetchDesigns } from '../../../../Services/designService'
+import PreviousTemplates from '../../../Admin/Components/PreviousComponentsTemplates/PreviousTemplates'
+import { useMyCreateElementContext } from '../../../Admin/Components/CreateElementTemplate/CreateElementTemplate'
+import { writeFilterObject } from '../../../../Helpers/filterData'
+import useFetchData from '../../../../Helpers/customHooks/useFetchData'
 
 
 
 //Styled Components
-const StyledTemplatesDrawerModel = styled(Box)(
+const StyledSectionTemplate = styled(Box)(
     ({theme}) => ({
         padding: theme.spacing(8)
     })
@@ -81,14 +84,62 @@ const ButtonsItems = [
         name: "show Template",
         onClick: () => {console.log("Show all users")}
     },
- 
- 
 ]
 
 
-const TemplatesDrawerModel = () => {
+
+
+
+
+
+const SectionTemplate = ({drawerState}) => {
+
+
+    const appliedFilter = useMemo(() => {
+        return [
+            writeFilterObject('design_type', 'string', '=', 'section'), 
+            writeFilterObject('parent_id', 'string', '=', null),
+        ]
+    }, [])
+    const { 
+        loading, 
+        // error, 
+        hasMore, 
+        setPageNumber, 
+        data, 
+        // setData, 
+        // pageNumber, 
+        // setRefetch
+    } = useFetchData(fetchDesigns, 'all', appliedFilter, null, drawerState, null, null, 5)
+        console.log(data)
+
+
+
+
+        //  when scrolling the data is come 
+    const observer = useRef()
+    const lastDataRef = useCallback(node => {
+        
+        if (loading) return 
+
+        if(observer.current) observer.current.disconnect()
+
+        observer.current = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting && hasMore) {
+                console.log("enter")
+                    setPageNumber(prev => {
+                        return prev + 1
+                    });
+            }
+        })
+
+        if (node) observer.current.observe(node)
+    }, [loading, hasMore, setPageNumber])
+
+
+
     return (
-        <StyledTemplatesDrawerModel>
+        <StyledSectionTemplate>
             <StyledOfFiltering>
             <SearchInput className="custom-search-input" style={customSearchStyle} />
                 <AdminMainButton
@@ -137,8 +188,11 @@ const TemplatesDrawerModel = () => {
                 }}
                 />
             </StyledOfCards>
-        </StyledTemplatesDrawerModel>
+
+
+
+        </StyledSectionTemplate>
     );
 };
 
-export default TemplatesDrawerModel;
+export default SectionTemplate;

@@ -5,24 +5,21 @@ import {
 import { styled } from '@mui/system';
 import StreetviewIcon from '@mui/icons-material/Streetview';
 import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton';
-import TemplatesDrawerModel from '../DrawerModals/TemplatesDrawerModel';
+import SectionTemplate from '../DrawerModals/SectionTemplate';
 import DialogCom from '../../components/DialogCom';
 
 const StyledMainDrawerList = styled(Box)(({ theme }) => ({
   color: theme.palette.success.main,
+  marginTop : '40px'
 }));
 
 const MainDrawerList = () => {
   const [openDialog , setOpenDialog] = useState(false)
 
-  
-
   return (
     <StyledMainDrawerList>
-  
-
       <AdminMainButton
-        title="Look at templates"
+        title="Look at Sections"
         type="custom"
         onClick={ () => setOpenDialog(true)}
         sx={{
@@ -39,8 +36,8 @@ const MainDrawerList = () => {
         icon={<StreetviewIcon />}
       />
 
-      <DialogCom title={"Look at templates" || ''} dialogOpenState={[openDialog, setOpenDialog]}>
-            <TemplatesDrawerModel />
+      <DialogCom title={"Look at Sections" || ''} dialogOpenState={[openDialog, setOpenDialog]}>
+            <SectionTemplate drawerState = {openDialog}/>
           </DialogCom>
     </StyledMainDrawerList>
   );

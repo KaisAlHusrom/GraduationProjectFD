@@ -14,7 +14,6 @@ import { Admin, DesignControlPage, ErrorPage, MainPage, NotFoundPage } from '../
 import adminPageRoutes from './Routes/AdminPage/adminPageRoutes';
 // eslint-disable-next-line no-unused-vars
 import DesignRoutes from './Routes/DesignRoutes/DesignRoutes';
-import EditPage from '../Pages/DesignControlPage/sections/TempalteSection/EditPage/EditPage';
 import LandPage from '../Pages/LandPage/LandPage';
 import EcommerceMain from '../Pages/Ecommerce/EcommerceMain';
 import LoginPage from '../Pages/Ecommerce/Components/Pages/LoginPage';
@@ -27,6 +26,8 @@ import MyWebSite from '../Pages/NewWebSite/Pages/MyWebSite/sections/ManageWebsit
 import CreateWebsite from '../Pages/NewWebSite/Pages/MyWebSite/sections/createWebsite/createWebsite';
 import Profile from '../Pages/NewWebSite/Pages/Profile/Profile';
 import Products from '../Pages/Ecommerce/Components/Pages/Products';
+import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
+import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/EditPage';
 
 
 
@@ -70,11 +71,17 @@ const router = createBrowserRouter(
             path="design-control"  
             element={<DesignControlPage />} 
             > 
-
             </Route>
+            <Route path="Empty-design/:id"   element={<Main />} /> 
+
+
+
             <Route path="create-template" element={<CreateElementTemplate />} />
 
-            <Route path="/design-control/EditPage/:section_id" element={<EditPage />} />
+            {/* <Route path="/design-control/EditPage/:section_id" element={<EditPage />} /> */}
+            <Route path="/Empty-design/EditPage/:section_id" element={<EditPage />} />
+
+
             <Route path="/Ecommerce" element={<EcommerceMain />} />
             <Route path="/Login" element={<LoginPage />} />
             <Route path="/CheckOut" element={<CheckOut />} />

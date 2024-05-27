@@ -30,6 +30,8 @@ import {
     Toolbar,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import EmptyTemplate from '../sections/EmptyDesign/EmptyTemplate';
+import ToggleColorMode from '../../LandPage/ToggleColorMode';
 
 
 
@@ -55,7 +57,7 @@ const StyleButton = {
   
 }
 
-const AppbarCom = () => {
+const AppbarCom = ({ mode, toggleColorMode }) => {
   const [isMobileWidth, setIsMobileWidth] = useState(false);
   const [isTabletWidth, setIsTabletWidth] = useState(false);
   const [isLaptopWidth, setIsLaptopWidth] = useState(true);
@@ -147,6 +149,8 @@ const AppbarCom = () => {
                   borderLeft:"1px solid",
                   borderColor:'success.dark',
                   }}>
+                    <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+
                       <AdminMainButton
                         title="Smart phone"
                         icon={<SmartphoneIcon />}
@@ -238,17 +242,14 @@ const AppbarCom = () => {
                   marginLeft:'10px'
                 }}
           />
-
-        
-      
-         
                 </Box>
         </Toolbar>
         
       </AppBar>
 
             <Box component="main" sx={{ p: 3 }}>
-            <TemplateMain isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth} selectedFontFamily={selectedFontFamily} />
+              <EmptyTemplate selectedFontFamily={selectedFontFamily} isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth}/>
+              {/* <TemplateMain isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth} selectedFontFamily={selectedFontFamily} /> */}
             </Box>
         </StyledAppbarCom>
     );
