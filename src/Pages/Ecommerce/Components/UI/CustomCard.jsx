@@ -72,7 +72,7 @@ const CustomCard = (props) => {
 };
 
 CustomCard.propTypes = {
-    children: propTypes.array,
+    children: propTypes.any,
     items: propTypes.array
 }
 

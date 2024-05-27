@@ -4,7 +4,8 @@ import categoriesService from "./categoriesService"
 import { fetchProductsFeatures } from "./productsFeaturesService"
 import { fetchProductsMedia } from "./productsMedia"
 import { fetchProductsUsedSkill } from "./productsUsedSkills"
-import usersService from "./usersService"
+import { fetchUsers } from "./usersService"
+// import usersService from "./usersService"
 
 const fetchProducts = async () => {
 
@@ -29,7 +30,7 @@ const fetchProducts = async () => {
                     "field_name": "user",
                     "fetched_column": "first_name",
                     "related_table_id": "id",
-                    fetch_all_data: usersService.fetchUsers,
+                    fetch_all_data: fetchUsers,
                     add_to_add_form: true,
                 },
             ],

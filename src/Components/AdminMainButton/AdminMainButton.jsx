@@ -66,7 +66,8 @@ const AdminMainButton = (props) => {
         drawerHeaderContent,
         withoutDrawerHeader,
         drawerWidthState,
-        disabled
+        disabled,
+        drawerZIndex
     } = props
 
     //theme
@@ -403,6 +404,7 @@ const AdminMainButton = (props) => {
                 drawerHeaderContent={drawerHeaderContent}
                 withoutDrawerHeader={withoutDrawerHeader}
                 drawerWidthState={drawerWidthState}
+                drawerZIndex={drawerZIndex}
                 >
                     {willShow}
                 </CustomDrawer>

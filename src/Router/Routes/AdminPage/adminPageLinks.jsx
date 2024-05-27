@@ -138,6 +138,12 @@ const adminPageLinks = [
         ],
     },
     {
+        title: "Web Projects",
+        icon: <DesignServicesIcon sx={{color: "primary.light"}}/>,
+        path: "web-projects",
+        nestedMenu: null
+    },
+    {
         title: "Create New Template",
         icon: <DesignServicesIcon sx={{color: "primary.light"}}/>,
         path: "/create-template",

@@ -1,5 +1,9 @@
 import axios from "axios";
 
+// Configure axios to include credentials (cookies) with each request
+// axios.defaults.withCredentials = true;
+
+
 //Redux 
 import store from "../Redux/Store"
 import { setSnackbarMessage, handleOpenSnackbar, setSnackbarIsError } from "../Redux/Slices/snackbarOpenSlice";

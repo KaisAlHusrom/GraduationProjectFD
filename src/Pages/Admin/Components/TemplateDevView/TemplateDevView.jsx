@@ -29,7 +29,7 @@ import IntegrationInstructionsOutlinedIcon from '@mui/icons-material/Integration
 import CropSquareOutlinedIcon from '@mui/icons-material/CropSquareOutlined';
 import TableRowsOutlinedIcon from '@mui/icons-material/TableRowsOutlined';
 import ElementsCategories from '../ElementsCategories/ElementsCategories'
-
+import WebOutlinedIcon from '@mui/icons-material/WebOutlined';
 //Styled Components
 const StyledTemplateDevView = styled(Box)(
     ({ theme }) => ({
@@ -85,7 +85,11 @@ const TemplateDevView = () => {
 
     const [editableElement, setEditableElement] = useState(null)
     useEffect(() => {
-        setEditableElement(() => template ? <GenerateTag key={template.id} selectedTemplate={template} /> : null)
+        if(mode !== "page") {
+            setEditableElement(() => template ? <GenerateTag key={template.id} selectedTemplate={template} /> : null)
+        } else {
+            //
+        }
     }, [elementsStyle, template])
 
 
@@ -123,6 +127,12 @@ const TemplateDevView = () => {
                         <TableRowsOutlinedIcon fontSize={"large"} color='primary' />
                         <Typography variant='h7' fontSize={20} textTransform={"capitalize"} letterSpacing={2}>
                             Section
+                        </Typography>
+                    </StyledModBox>
+                    <StyledModBox onClick={() => setMode(() => "page")}>
+                        <WebOutlinedIcon fontSize={"large"} color='primary' />
+                        <Typography variant='h7' fontSize={20} textTransform={"capitalize"} letterSpacing={2}>
+                            Page
                         </Typography>
                     </StyledModBox>
                 </Box>
@@ -182,7 +192,7 @@ const ModeOptions = () => {
     const openLinearProgress = useSelector(state => state.downloadPageSlice.openLinearProgress)
 
     const handleOpenBlank = useCallback(async () => {
-        if(mode !== 'element') {
+        if(mode !== 'element' && mode !== 'page') {
             if(!selectedElement){
                 dispatch(handleOpenLinearProgress())
             }
@@ -196,6 +206,11 @@ const ModeOptions = () => {
     
             setSelectedElement(() => emptyComponent.rows[0])
         } 
+
+        //when open new blank page
+        if(mode === 'page') {
+            setSelectedElement(() => 'blank page')
+        }
     }, [dispatch, mode, selectedElement, setSelectedElement])
 
     useEffect(() => {
@@ -261,7 +276,6 @@ const ModeOptions = () => {
                         icon={<CheckBoxOutlineBlankOutlinedIcon />}
                         willShow={
                             <ElementsCategories 
-                                parentElementId={null}
                                 handleCloseMenus={closeMenus}
                                 drawerOpen={elementOpenDrawer}
                             />

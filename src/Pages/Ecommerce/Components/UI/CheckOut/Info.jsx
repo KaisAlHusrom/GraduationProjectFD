@@ -1,5 +1,5 @@
 //React
-import {} from 'react'
+import { useMemo } from 'react'
 
 import {
     
@@ -31,7 +31,14 @@ const StyledInfo = styled(Box)(
 
 
 const Info = () => {
-    const cartItems = (CartData);
+    const cartItems = useMemo(() => {
+        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
+        if(cart_data) {
+            return cart_data;
+        }
+        return []
+    }, []);
+    
     const renderCartItem = (productId, index)=>{
         const product = getProductById(productId)
         return(

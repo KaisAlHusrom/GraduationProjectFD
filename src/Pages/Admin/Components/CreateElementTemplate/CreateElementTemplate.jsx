@@ -55,7 +55,7 @@ const CreateElementTemplate = () => {
 
     const [mode, setMode] = useState(null)
 
-
+    const [parentElementId, setParentElementId] = useState(null)
     const [selectedElement, setSelectedElement] = useState(null)
     const [template, setTemplate] = useState(null)
     useEffect(() => {
@@ -69,12 +69,18 @@ const CreateElementTemplate = () => {
                 setTemplate(() => storedTemplate)
             } 
             else if(selectedElement) {
-                // Call the transformData function with the original data
-                const transformedTemplateData = transformElementTypeToDesignStructure(selectedElement, null, mode);
-                // transformedTemplateData.forEach(data => {
-                //     addDesign(data);
-                // })
-                setTemplate(() => transformedTemplateData)
+                if(selectedElement === "blank page") {
+                    // Call the transformData function with the original data
+                    const transformedTemplateData = blankNewPage();
+
+                    setTemplate(() => transformedTemplateData)
+                }else {
+                    // Call the transformData function with the original data
+                    const transformedTemplateData = transformElementTypeToDesignStructure(selectedElement, null, mode);
+
+                    setTemplate(() => transformedTemplateData)
+                
+                }
             }
             
         }
@@ -277,6 +283,7 @@ const CreateElementTemplate = () => {
             handleTemplateChange,
             elementStructureDrawer, setElementStructureDrawer,
             styleOptionsDrawer, setStyleOptionsDrawer,
+            parentElementId, setParentElementId
         }}
         >
             
@@ -290,6 +297,7 @@ const CreateElementTemplate = () => {
                     history={history}
                     redoHistory={redoHistory}
                 />
+
                 <TemplateDevView   />
 
                 <ConfirmModal 

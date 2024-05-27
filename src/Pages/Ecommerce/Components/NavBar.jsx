@@ -6,13 +6,14 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components';
 import { useNavigate} from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
 
 import CliserImageLogo from './UI/CliserImageLogo';
+import zIndex from '@mui/material/styles/zIndex';
 
 const StyledSearchBar = styled(TextField)(
     ({ theme }) => ({
@@ -67,13 +68,13 @@ const handleSearchChange = (event) => {
 const Navigate = useNavigate();
 
 const HandleMainButton = () => {
-    Navigate('/Ecommerce');
+    Navigate('/cliser-digital-market/main');
     };
 const handleCartClick = () => {
-    Navigate('/Cart');
+    Navigate('/cliser-digital-market/Cart');
 };
 const handleHomeClick = () => {
-    Navigate('/LandPage');
+    Navigate('/cliser-digital-market/LandPage');
 };
 const handleLoginClick = () => {
     Navigate('/Login');
@@ -82,7 +83,10 @@ const handleSignUpClick = () => {
     Navigate('/SignUp');
 };
 
-
+    const itemsCount = useMemo(() => {
+        const count = JSON.parse(localStorage.getItem('cart_data'))?.length;
+        return count
+    }, [])
 
   return (
     <div>
@@ -158,12 +162,14 @@ const handleSignUpClick = () => {
                         alignItems: 'center',
                     }}
                     >
-                    <IconButton
-                        color="primary"
-                        onClick={handleCartClick} // Add your cart click handler function here
-                    >
-                        <ShoppingCartIcon />
-                    </IconButton>
+                    <AdminMainButton 
+                        appearance='iconButton'
+                        type='custom'
+                        icon={<ShoppingCartIcon />}
+                        onClick={handleCartClick}
+                        title='Cart'
+                        badgeContent={itemsCount}
+                    />
                                     
                     
                     <Button
@@ -196,6 +202,8 @@ const handleSignUpClick = () => {
                             drawerAnchor="right"
                             drawerWidth = '300px'
                             icon={<MenuIcon />}
+                            drawerZIndex={1200}
+                            withoutDrawerHeader
                             willShow={
                             <Box
                             sx={{
@@ -203,6 +211,7 @@ const handleSignUpClick = () => {
                                 p: 2,
                                 backgroundColor: 'background',
                                 flexGrow: 1,
+                                marginTop: 3
                             }}
                             >
                                 <StyledSearchBar
@@ -256,7 +265,8 @@ const handleSignUpClick = () => {
                                     Sign in
                                     </Button>
                             </Box>
-                            }>
+                            }
+                            >
                     </AdminMainButton>
                     </Box>
                 </Toolbar>

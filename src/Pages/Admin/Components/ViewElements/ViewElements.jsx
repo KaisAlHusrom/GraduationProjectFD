@@ -115,7 +115,8 @@ const SubElementComp = ({parent}) => {
         selectedSubElementIds, 
         setHoveredSubElementId,
         handleTemplateChange,
-        template, setTemplate
+        template, setTemplate,
+        parentElementId, setParentElementId
     } = useMyCreateElementContext()
 
     const [showNested, setShowNested] = useState({});
@@ -154,7 +155,6 @@ const SubElementComp = ({parent}) => {
 
 
     //or right mouse click
-    const [parentElementId, setParentElementId] = useState(null)
 
     const [anchorEl, setAnchorEl] = useState(null)
     const [addNewElementDrawerOpen, setAddNewElementDrawerOpen] = useState(false)

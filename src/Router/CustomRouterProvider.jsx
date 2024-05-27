@@ -28,6 +28,7 @@ import Profile from '../Pages/NewWebSite/Pages/Profile/Profile';
 import Products from '../Pages/Ecommerce/Components/Pages/Products';
 import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/EditPage';
+import CliserDigitalMarketHomePage from '../Pages/Ecommerce/Components/Pages/CliserDigitalMarketHomePage';
 
 
 
@@ -83,14 +84,21 @@ const router = createBrowserRouter(
 
 
             <Route path="/Ecommerce" element={<EcommerceMain />} />
+            <Route path="/design-control/EditPage/:section_id" element={<EditPage />} />
+
+            {/* E commerce routes */}
+            <Route path="/cliser-digital-market" element={<EcommerceMain />}>
+                <Route path="main" element={<CliserDigitalMarketHomePage />} />
+                <Route path="CheckOut" element={<CheckOut />} />
+                <Route path="Products" element={<Products />} />
+                <Route path="productView/:idx" element={<ProductView />} />
+                <Route path="Cart" element={<Cart />} />
+            </Route>
+            
             <Route path="/Login" element={<LoginPage />} />
-            <Route path="/CheckOut" element={<CheckOut />} />
-            <Route path="/Products" element={<Products />} />
-            <Route path="/productView/:idx" element={<ProductView />} />
-            <Route path="/Cart" element={<Cart />} />
             <Route path="/SignUp" element={<SignUp />} />
-            <Route path="*" element={<NotFoundPage />} />
-            <Route path="LandPage" element={<LandPage />} />
+            
+            <Route path="/LandPage" element={<LandPage />} />
 
 
             {/* after  loging */}
@@ -102,6 +110,8 @@ const router = createBrowserRouter(
                     <Route path="CreateWebsite" element={<CreateWebsite />} />
                 </Route>
 
+
+                <Route path="*" element={<NotFoundPage />} />
         </Route>
     )
 )

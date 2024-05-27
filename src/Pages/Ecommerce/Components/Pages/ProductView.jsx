@@ -1,4 +1,4 @@
-import {useState } from 'react';
+import {useEffect, useState } from 'react';
 import { productList } from '../../data/CradsData';
 import { useParams,useNavigate } from 'react-router-dom';
 
@@ -54,7 +54,13 @@ function CustomTabPanel(props) {
   const ProductView = () => {
     const [value, setValue] = useState(0);
     const Navigate = useNavigate();
-    const [cartItems, setCartItems] = useState(CartData);
+    const [cartItems, setCartItems] = useState(() => {
+      const cart_data = JSON.parse(localStorage.getItem("cart_data"));
+      if(cart_data) {
+        return cart_data;
+      }
+      return []
+    })
 
     
     const { idx } = useParams();
@@ -64,13 +70,15 @@ function CustomTabPanel(props) {
     }
 
     const handleAddCartBtn = () => {
-      // Update the list of product IDs with the new productId
-    const updatedCartItems = [...cartItems, product.id];
-    setCartItems(updatedCartItems);
+        // Update the list of product IDs with the new productId
+      const updatedCartItems = [...cartItems, product.id];
+      setCartItems(() => updatedCartItems);
+      localStorage.setItem("cart_data", JSON.stringify(updatedCartItems)) 
 
-    // Update the CartData with the new list of product IDs
-    CartData.push(product.id);
-      Navigate('/Cart')
+
+      // Update the CartData with the new list of product IDs
+      CartData.push(product.id);
+      Navigate('/cliser-digital-market/Cart')
     };
 
     const handleTapChange = (event, newValue) => {
@@ -97,7 +105,6 @@ function CustomTabPanel(props) {
 
     return (
       <div>
-      <NavBar style={{ position: 'fixed', top: 0, width: '100%', zIndex: 1000 }} />
       <Container sx={{ marginTop: '100px' }} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xxs={12}>
