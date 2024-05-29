@@ -29,7 +29,7 @@ const StyledFooter = styled(Box)(
         backgroundColor: theme.palette.mode,
         padding: '50px 0',
         marginTop: 'auto',
-        position: "relative",  
+        position: "relative",
     })
 )
 

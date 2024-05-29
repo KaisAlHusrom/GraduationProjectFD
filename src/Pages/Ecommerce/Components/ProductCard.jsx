@@ -39,7 +39,7 @@ import propTypes from 'prop-types'
 
 //Styled Components
 const StyledProductCard = styled(Box)(
-    ({ theme }) => ({
+    () => ({
         width: '100%', // Make the card take the full width of its container
         marginBottom:"20px",
         display: 'flex',
@@ -59,31 +59,31 @@ const ProductCard = (props) => {
         <StyledProductCard>
             <Container id="Cards">
                 <Card sx={{ maxWidth: 600,borderRadius:'10px',objectFit:"contain" }}>
-                <Swiper
-                    spaceBetween={30}
-                    centeredSlides={true}
-                    autoplay={false}
-                    pagination={{
-                      clickable: true,
-                    }}
-                    navigation={true}
-                    modules={[Autoplay, Pagination, Navigation]}
-                    className="mySwiper"
-                >
-                    {images.map((step, index) => (
-                    <SwiperSlide key={step.label}>
-                    <CardMedia
-                        component="img"
-                        height="140"
-                        image={step.path}
-                        alt={step.label}
-                        sx={{maxHeight:150,maxWidth:"100%",objectFit:"contain"}}
-                    />
-                  </SwiperSlide>
-                  ))}
-                    
-                    {/* Add additional SwiperSlides if you have more images */}
-                </Swiper>
+                    <Swiper
+                        spaceBetween={30}
+                        centeredSlides={true}
+                        autoplay={false}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        navigation={true}
+                        modules={[Autoplay, Pagination, Navigation]}
+                        className="mySwiper"
+                    >
+                        {images.map((step, index) => (
+                        <SwiperSlide key={step.label}>
+                        <CardMedia
+                            component="img"
+                            height="140"
+                            image={step.path}
+                            alt={step.label}
+                            sx={{maxHeight:150,maxWidth:"100%",objectFit:"contain"}}
+                        />
+                        </SwiperSlide>
+                        ))}
+                        
+                        {/* Add additional SwiperSlides if you have more images */}
+                    </Swiper>
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                             {title}
