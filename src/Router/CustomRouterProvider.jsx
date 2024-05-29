@@ -73,14 +73,14 @@ const router = createBrowserRouter(
             element={<DesignControlPage />} 
             > 
             </Route>
-            <Route path="Empty-design/:id"   element={<Main />} /> 
+            <Route path="empty-design/:id"   element={<Main />} /> 
 
 
 
             <Route path="create-template" element={<CreateElementTemplate />} />
 
             {/* <Route path="/design-control/EditPage/:section_id" element={<EditPage />} /> */}
-            <Route path="/Empty-design/EditPage/:section_id" element={<EditPage />} />
+            <Route path="/empty-design/EditPage/:section_id" element={<EditPage />} />
 
 
             <Route path="/Ecommerce" element={<EcommerceMain />} />

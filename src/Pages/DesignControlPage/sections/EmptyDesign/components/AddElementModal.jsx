@@ -51,6 +51,8 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                             type="drawer"
                             appearance="primary"
                             putTooltip
+                            drawerZIndex = "10000"
+
                             drawerStyle = {{
                                 width : '500px',
                                 backgroundColor : 'transparent',
@@ -66,8 +68,10 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                         <AdminMainButton
                         title="Add Subtitles"
                         type="drawer"
+                        drawerZIndex = "10000"
                         appearance="primary"
                         putTooltip
+                        drawe
                         drawerStyle = {{
                             width : '400px',
                             backgroundColor : 'transparent',
@@ -83,6 +87,8 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                     <AdminMainButton
                         title="Add Image"
                         type="drawer"
+                        drawerZIndex = "10000"
+
                         appearance="primary"
                         putTooltip
                         drawerStyle = {{
@@ -100,6 +106,8 @@ const AddElementModal = ({componentSection_component_id , elements ,setAddElemen
                     <AdminMainButton
                         title="Add Buttons"
                         type="drawer"
+                        drawerZIndex = "10000"
+
                         appearance="primary"
                         putTooltip
                         drawerStyle = {{

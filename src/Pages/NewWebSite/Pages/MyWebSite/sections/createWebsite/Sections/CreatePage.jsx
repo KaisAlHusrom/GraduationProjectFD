@@ -89,7 +89,7 @@ const CreatePage = ({
                             theme.palette.mode === 'light' ? 'text.light' : 'text.dark',
                     }}
                 >
-                    Create a new website
+                    Create a First Page 
                 </Typography>
 
                 <Box sx={{ width: '100%', maxWidth: '600px' }}>

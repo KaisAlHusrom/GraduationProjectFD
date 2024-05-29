@@ -19,8 +19,8 @@ const StylePropAPI = axios.create({
 
 //---------------------------------------
 // fetch items 
-export const fetchStyleProps = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null) => {
-    const res = await fetchDataTemplate(StylePropAPI, type, pageNumber, filters, sorts, searchQuery);
+export const fetchStyleProps = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null , perPage) => {
+    const res = await fetchDataTemplate(StylePropAPI, type, pageNumber, filters, sorts, searchQuery , perPage);
     let rows;
 
     if (res.success) {

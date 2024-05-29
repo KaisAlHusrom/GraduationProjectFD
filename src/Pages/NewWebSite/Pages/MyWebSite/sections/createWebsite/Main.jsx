@@ -96,7 +96,7 @@ const Main = () => {
             const res = await addWepPages(data);
             if (res.success) {
                 setPageId(res.data.id); 
-                    navigate('/Empty-design/' + webProjectId)
+                    navigate('/empty-design/' + webProjectId)
             }
         } catch (error) {
             console.error('Error submitting page:', error);

@@ -16,7 +16,9 @@ import Select from '@mui/material/Select';
 
 
 //Styled Components
-const StyledCustomSelectInput = styled(Box)(() => ({}))
+const StyledCustomSelectInput = styled(Box)(() => ({
+    zIndex: 100000,
+}))
 
 
 

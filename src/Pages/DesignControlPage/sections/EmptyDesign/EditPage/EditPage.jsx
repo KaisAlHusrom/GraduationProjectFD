@@ -16,10 +16,21 @@ import EditComponent from './EditComponent.jsx';
 import { AdminMainButton } from '../../../../../Components/index.jsx';
 import StyleBox from '../components/StyleBox.jsx';
 import {createEmptyComponent , createEmptyElement} from './Data/ConstDataComponent.jsx'
-import {SectionsDesigns } from './Data/ConstSectionsData.jsx'
-import SectionsModal from './Modals/SectionsModal.jsx';
 import AddElementModal from '../components/AddElementModal.jsx';
 import AddComponentModal from '../components/AddComponentModal.jsx';
+import ConfirmationDialog from '../components/ConfirmationDialog.jsx';
+
+
+//  helpers 
+import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
+import useEffectFetchData from '../../../../../Helpers/customHooks/useEffectFetchData.jsx';
+import { writeFilterObject } from '../../../../../Helpers/filterData.js';
+
+// services 
+import { fetchStylePropCategory } from '../../../../../Services/StylePropCategory.js';
+import {  fetchSpecificDesign } from '../../../../../Services/designService.js';
+
+
 
 //MUI
 import { Box } from '@mui/material';
@@ -29,15 +40,7 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import UndoIcon from '@mui/icons-material/Undo';
-import ConfirmationDialog from '../components/ConfirmationDialog.jsx';
-import { writeFilterObject } from '../../../../../Helpers/filterData.js';
-import useFetchData from '../../../../../Helpers/customHooks/useFetchData.js';
-import { fetchDesigns } from '../../../../../Services/designService.js';
-
-
-
-const getSectionData = async (section_id) => {
-};
+import SaveIcon from '@mui/icons-material/Save';
 
 
 
@@ -45,6 +48,7 @@ const getSectionData = async (section_id) => {
 const StyledEditPage = styled(Box)(({ theme }) => ({
     padding: theme.spacing(8),
     backgroundColor: 'white',
+    minHeight :'100vh'
 }));
 
 
@@ -91,7 +95,7 @@ const EditButtonsStyle = {
     border: '1px solid red',
     fontWeight: 'bold',
     color: 'white.main',
-    backgroundColor: '#304D30',
+    backgroundColor: 'success.dark',
     transition: 'background-color 0.3s',
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
@@ -101,20 +105,7 @@ const EditButtonsStyle = {
 const EditPage = () => {
 
     const { section_id } = useParams();
-    console.log(" EditPage section_id", section_id);
-
-
-    const appliedFilter = useMemo(() => {
-        return [
-            writeFilterObject('design_type', 'string', '=', 'section'), 
-            writeFilterObject('parent_id', 'string', '=', null),
-            writeFilterObject('id', 'string', '=',section_id ),
-        ]
-    }, [section_id])
-    const {loading, hasMore, setPageNumber, data } = useFetchData(fetchDesigns, 'all', appliedFilter, null, true, null, null, 5)
-    console.log( "EditPage data", data)
-
-
+    const [styleCategories, setStyleCategories] = useState(null)
 
     const [history, setHistory] = useState([]); // Kullanıcının yaptığı işlemleri saklayacak dizi
     const [sectionStyle, setSectionStyle] = useState({}); // using for changing the section style 
@@ -124,6 +115,38 @@ const EditPage = () => {
     const [AddElementToComponentId , setAddElementToComponentId] = useState(null) // using for selected component id to add new  element
 
     const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+
+
+    const appliedFilterForComponent = useMemo(() => {
+        return [
+            writeFilterObject('design_type', 'string', '=', 'component'), 
+        ];
+    }, []);
+
+    const appliedFilterForSections = useMemo(() => {
+        return [
+            writeFilterObject('design_type', 'string', '=', 'section'), 
+        ];
+    }, []);
+
+    const params = useMemo(()=> {
+        return [section_id]  
+    } , [section_id])
+
+        //style categories with style props
+
+    useEffect(() => {
+        const fetchStyleCategories = async () => {
+            const {rows} = await fetchStylePropCategory(null, null, null, null, null, 20)
+            setStyleCategories(() => rows)
+        }
+
+        fetchStyleCategories()
+    }, [])
+
+
+    const {loading, hasMore, setPageNumber, data ,setData} = useEffectFetchData(fetchSpecificDesign,params , true , true )
+
 
     const openConfirmationDialog = () => {
         setConfirmationDialogOpen(true);
@@ -135,34 +158,35 @@ const EditPage = () => {
 
     //  get the section style
     useEffect(() => {
-        const fetchSectionData = async () => {
+        if (data) {
             setSectionData(data);
             const dictionary = {};
-            if (data) {
-                data.forEach((item) => {
-                    if (item.styles) {
-                    item.styles.forEach((cssProp) => {
-                        const { style_prop, style_prop_value } = cssProp;
-                        if (style_prop.is_section) {
-                            dictionary[style_prop.style_prop_css_name] = style_prop_value;
-                        }
-                    });
-                    }
-                });
-                setSectionStyle(dictionary);
-                }
-        };
-        fetchSectionData();
 
-        
+            if (data.styles) {
+                data.styles.forEach((cssProp) => {
+                const { style_prop, style_prop_value } = cssProp;
+                if (style_prop.is_section) {
+                    dictionary[style_prop.style_prop_css_name] = style_prop_value;
+                }
+            });
+            }
+        setSectionStyle(dictionary);
+        }
     }, [data]);
 
-    console.log(sectionStyle)
 
     // change the section style
-    const handleSectionStyleChange = (newStyle) => {
-        setSectionStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
-    };
+    const handleSectionStyleChange = useCallback((cssValue, prop) => {
+        setData((prevData) => {
+            const updatedSectionData = { ...prevData }; // Kopya alarak güncelleme yap
+
+            const changed = addStyleAbdullah(updatedSectionData, [section_id], prop, cssValue, null, null);
+    
+            return updatedSectionData;
+        });
+    }, [section_id, setData]);
+    
+
     //  duplicate component 
     const addComponentForComponent = (section_component_id) => {
         const index = sectionData.children.findIndex(component => component.id === section_component_id);
@@ -213,16 +237,19 @@ const EditPage = () => {
     const createDesignedComponent = (component) => {
         // Update the state to include the new component
         setSectionData((prevData) => {
-            const updatedComponents = [...prevData.children, component];
+            // Check if prevData exists and has children
+            const updatedComponents = prevData && Array.isArray(prevData.children) 
+                ? [...prevData.children, component] 
+                : [component];
+            
             return {
                 ...prevData,
                 children: updatedComponents,
             };
         });
         setHistory(prevHistory => [...prevHistory, sectionData]);
-
     };
-
+    
     // add new element to component 
     const handleAddNewElement = useCallback((componentId) => {
         setSectionData((prevData) => ({
@@ -304,7 +331,7 @@ const EditPage = () => {
         }
     };
 
-
+    console.log(sectionStyle)
 
     return (
         <StyledEditPage>
@@ -326,7 +353,7 @@ const EditPage = () => {
                         elements = {[AddElement , setAddElement]}
                         sectionDataState = {[sectionData, setSectionData]}
                         />
-
+                        
                         <ActionButtons className="action-buttons">
 
                             <AdminMainButton
@@ -413,7 +440,7 @@ const EditPage = () => {
                                     element_Type='section'
                                     sectionStyle={sectionStyle}
                                     handleSectionStyleChange={handleSectionStyleChange}
-                                    styleProperties={['opacity', 'borderRadius', 'display', 'flexDirection', 'alignItems', 'width', 'height']}
+                                    styleCategories={styleCategories}
                                 />
                             }
                             sx={EditButtonsStyle}
@@ -444,7 +471,10 @@ const EditPage = () => {
                             putTooltip
                             icon={<AddBoxIcon />}
                             willShow={
-                            <AddComponentModal  createNewComponent = {createNewComponent}  createDesignedComponent = {createDesignedComponent}></AddComponentModal>
+                            <AddComponentModal  createNewDesign = {createNewComponent} 
+                            createDesignedDesign = {createDesignedComponent}
+                            appliedFilter = {appliedFilterForComponent}
+                            ></AddComponentModal>
                             }
                             sx={EditButtonsStyle}
 
@@ -456,7 +486,13 @@ const EditPage = () => {
                                 putTooltip
                                 icon={<ListAltIcon />}
                                 willShow={
-                                    <SectionsModal SectionsDesigns = {SectionsDesigns} createNewSection = {createNewSection}></SectionsModal>
+                                    // <SectionsModal SectionsDesigns = {SectionsDesigns} createNewSection = {createNewSection}></SectionsModal>
+                                    <AddComponentModal  
+                                    createNewDesign = {createNewSection}  
+                                    createDesignedDesign = {createDesignedComponent} 
+                                    appliedFilter = {appliedFilterForSections}
+                                    ></AddComponentModal>
+
                                 }
                                 sx={EditButtonsStyle}
                                 />
@@ -477,10 +513,36 @@ const EditPage = () => {
 
             </HoverBox>
 
+
+            <AdminMainButton
+                title="Save"
+                type="custom"
+                // onClick={}
+                appearance="primary"
+                putTooltip                                
+                icon={<SaveIcon />}
+                sx={{
+                    border: '1px solid red',
+                    fontWeight: 'bold',
+                    color: 'white.main',
+                    backgroundColor: 'primary.dark',
+                    transition: 'background-color 0.3s',
+                    '&:hover': {
+                        backgroundColor: 'rgb(7, 15, 43)',
+                    },
+                    position: 'absolute',
+                    right: '100px',
+                    marginTop: '20px',
+                }}
+            />
+
+
+
         </StyledEditPage>
     );
 };
 
 export default EditPage;  
+
 
 

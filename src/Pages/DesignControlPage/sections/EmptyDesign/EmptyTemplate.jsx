@@ -76,9 +76,10 @@ const EmptyTemplate = ({
         }}
         >
             <NavBar />
-            <EmptySection  />
             {sectionsOrder.map((section, index) => (
                 <div key={index}>
+                                <EmptySection  />
+
                 </div>
             ))}
         </StyledEmptyTemplate>

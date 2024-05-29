@@ -39,15 +39,13 @@ const TooltipContainer = styled(Box)({
 
 
 const EditLink = ({ section_id }) => {
-    console.log(" edit Link section_id" , section_id);
     return (
         <TooltipContainer>
             <Link
                 // to={`/design-control/EditPage/${id}`}
                 
-                 to={`/Empty-design/EditPage/${section_id}`}
+                 to={`/empty-design/EditPage/${section_id}`}
 
-                Empty-design
                 sx = {{
                 }}
             >

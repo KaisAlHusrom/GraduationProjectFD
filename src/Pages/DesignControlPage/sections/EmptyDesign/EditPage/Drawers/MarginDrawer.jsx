@@ -11,7 +11,9 @@ const StyledMarginDrawer = styled('div')({
     flexDirection:'column',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '100%'
+    width: '100%',
+
+
 });
 
 const customSelectStyle = {
@@ -20,6 +22,7 @@ const customSelectStyle = {
         backgroundColor: "#09263529",
         boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
     },
+    zIndex: 100000,
 };
 const ButtonStyle = {
     margin: "10px",

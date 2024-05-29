@@ -28,7 +28,7 @@ const StyledEmptySection = styled(Box)(
     })
 )
 
-const HeaderData = []
+
 
 
 
@@ -49,8 +49,7 @@ const EmptySection = ({moveSectionUp , moveSectionDown}) => {
     const {loading, hasMore, setPageNumber, data } = useFetchData(fetchDesigns, 'all', appliedFilter, null, true, null, null, 5)
 
 
-        console.log(data) 
-
+    console.log(data)
 
         const sectionStyle = useMemo(() => {
             const styleObject = {};
@@ -70,7 +69,6 @@ const EmptySection = ({moveSectionUp , moveSectionDown}) => {
                 return styleObject;
             }, [data]);
             
-                console.log(sectionStyle)
 
 
     return (
@@ -93,13 +91,12 @@ const EmptySection = ({moveSectionUp , moveSectionDown}) => {
                                     fontWeight : 'bold',
                                     color : 'black'
                                 }}>{item.element_content}</Typography>
-                                    <EditLink section_id={item.id} />
                                 </Box>
                                 
-                            ) : <EmptyComponent component={component} key= {i}/>
+                            ) : null 
                             
-                            ))}
-                           
+                            ))}<EditLink section_id={item.id} />
+
                         </Box>
 
                         ))}

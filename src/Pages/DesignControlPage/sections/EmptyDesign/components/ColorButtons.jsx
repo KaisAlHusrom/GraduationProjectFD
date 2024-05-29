@@ -14,7 +14,7 @@ const ColorButtons = ({ drawerAnchor,  ButtonName , handleColorSelect, handleOpa
         type='drawer'
         putDrawerCloseButton
         appearance='primary'
-      
+        drawerZIndex = "10000"
         drawerAnchor={drawerAnchor}
         willShow={
         <ColorBar

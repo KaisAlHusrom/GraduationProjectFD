@@ -28,7 +28,6 @@ const StyledEmptyComponent = styled(Box)(
 
 const EmptyComponent = ({component}) => {
 
-    console.log("component",component)
     const componentStyle = useMemo(() => {
 
 

@@ -1,5 +1,5 @@
 //React
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
     
@@ -11,84 +11,67 @@ import {
 //MUI
 import {
     Box,
+    Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { getAppropriateTag } from '../../../StylesFunctions/GenerateElements'
+import { writeFilterObject } from '../../../../../../../Helpers/filterData'
+import useFetchData from '../../../../../../../Helpers/customHooks/useFetchData'
+import { fetchDesign } from '../../../../../../../Services/designServic'
 
 //Styled Components
 const StyledDrawer = styled(Box)(
-    () => ({
-
+    ({theme}) => ({
+        backgroundColor: theme.palette.background.paper
     })
 )
 
 
-const Drawer = ({createNewComponent , createDesignedComponent , BoxDesignOne , emptyDesign}) => {
+const Drawer = ({createNewDesign , createDesignedDesign  , DesignId , appliedFilterType}) => {
     const [selectedCss, setSelectedCss] = useState(null);
     const [selectedBox, setSelectedBox] = useState(null);
 
+
+    const appliedFilter = useMemo(() => {
+        return [
+            writeFilterObject('design_type', 'string', '=', appliedFilterType), 
+            writeFilterObject('category_id', 'string', '=', DesignId), 
+
+        ];
+    }, [DesignId , appliedFilterType]);
+
+    const { loading, hasMore, setPageNumber, data } = useFetchData(fetchDesign, 'all', appliedFilter, null, true, null, null, 10);
+
+
+
     const handleEmptyBoxClick = (cssProps) => {
         setSelectedCss(cssProps);
-        createNewComponent(cssProps)
+        createNewDesign(cssProps)
     };
     const handleBoxClick = (box) => {
-    
-        createDesignedComponent(box)
+        createDesignedDesign(box)
     };
+
+
     return (
         <StyledDrawer>
             <Box sx={{
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    boxSizing: 'border-box',
-}}>
-    <Box
-        sx={{
-            ...emptyDesign.reduce((acc, cssProp) => ({
-                ...acc,
-                [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
-            }), {}),
-            margin: '30px', // Adjust the margin value as needed
-        }}
-        onClick={() => handleEmptyBoxClick(emptyDesign)}
-    />
-    {BoxDesignOne.map((boxDesign) => (
-        <Box
-            key={boxDesign.id}
-            sx={{
-                ...boxDesign.styles.reduce(
-                    (acc, cssProp) => ({
-                        ...acc,
-                        [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
-                    }),
-                    {}
-                ),
-                margin: '20px', // Adjust the margin value as needed
-            }}
-            onClick={() => handleBoxClick(boxDesign)}
-            className={selectedBox === boxDesign ? 'selected' : ''}
-        >
-
-            {/* Render component_elements inside the Box if boxDesign is present */}
-            {boxDesign && boxDesign.children && boxDesign.children.map((element) => (
-                <Box key={element.id}>
-                    {getAppropriateTag(
-                        element.element_type.element_type_name,
-                        element.element_content,
-                        element.styles.reduce(
-                            (acc, cssProp) => ({
-                                ...acc,
-                                [cssProp.style_prop.style_prop_css_name]: cssProp.style_prop_value,
-                            }),
-                            {}
-                        )
-                    )}
-                </Box>
-            ))}
-        </Box>
-    ))}
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                boxSizing: 'border-box',
+                }}>
+                    {data.map((componentDesign) => (
+                        <>
+                        <Typography >{componentDesign.id}</Typography>
+                        <Typography >{componentDesign.design_title}</Typography>
+                        <Typography >{componentDesign.design_description}</Typography>
+                        <Typography >{componentDesign.design_type}</Typography>
+                        <Typography >{componentDesign.element_content}</Typography>
+                        </>
+                    ))}
+    
             </Box>
 
         </StyledDrawer>
