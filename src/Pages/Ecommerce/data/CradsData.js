@@ -3,7 +3,7 @@ export const productList = [
       "id":0,
       "title": "Product 1",
       "description": "Description of product 1.",
-      "image": "https://source.unsplash.com/random/1",
+      "image": "https://source.unsplash.com/random/800x600",
       "price": 20.00,
       "rating": 3,
       "views":400,

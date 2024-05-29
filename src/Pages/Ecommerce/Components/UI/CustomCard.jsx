@@ -14,17 +14,13 @@ import {
 import {
     Box,Card,CardContent,Typography,Divider,Grid
 } from '@mui/material'
-import { styled } from '@mui/system'
+
 
 //propTypes 
 import propTypes from 'prop-types'
 
 //Styled Components
-const StyledCustomCard = styled(Box)(
-    () => ({
-    
-    })
-)
+
 
 
 
@@ -73,7 +69,9 @@ const CustomCard = (props) => {
 
 CustomCard.propTypes = {
     children: propTypes.any,
-    items: propTypes.array
+    items: propTypes.array,
+    title:propTypes.string,
+    SecondTitle:propTypes.string
 }
 
 export default CustomCard;

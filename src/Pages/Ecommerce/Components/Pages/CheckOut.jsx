@@ -2,13 +2,11 @@
 import { useMemo, useState } from 'react'
 
 import {
-    
 } from 'react-redux'
 
 //Components
 import Info from "../UI/CheckOut/Info"
 import InfoMobile from "../UI/CheckOut/InfoMobile"
-import AddressForm from '../UI/CheckOut/AddressForm';
 import PaymentForm from '../UI/CheckOut/PaymentForm';
 import Review from '../UI/CheckOut/Review';
 
@@ -17,17 +15,12 @@ import {
     Box,Button,Card,CardContent,Grid,Stack,Step,StepLabel,Stepper,Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
 
 //propTypes 
 import propTypes from 'prop-types'
-import { useNavigate } from 'react-router-dom';
-import CliserImageLogo from '../UI/CliserImageLogo';
-import { CartData } from '../../data/CartData';
-
 
 
 //Styled Components
@@ -36,15 +29,13 @@ const StyledCheckOut = styled(Box)(
     
     })
 )
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = [ 'Payment details', 'Review your order'];
 
 function getStepContent(step) {
     switch (step) {
         case 0:
-            return <AddressForm />;
-        case 1:
             return <PaymentForm />;
-        case 2:
+        case 1:
             return <Review />;
         default:
         throw new Error('Unknown step');
@@ -54,7 +45,6 @@ function getStepContent(step) {
 
 
 const CheckOut = () => {
-    const Navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
 
     const cartItems = useMemo(() => {
@@ -73,12 +63,9 @@ const CheckOut = () => {
       const handleBack = () => {
         setActiveStep(activeStep - 1);
       };
-      const handleBackToMain = ()=>{
-        Navigate(`/Ecommerce`);
-      }
     return (
         <StyledCheckOut>
-            <Grid container sx={{ height: { xxs:'100%',xs: '100%', sm: '100dvh' }, marginTop: 8 }}>
+            <Grid container sx={{ height: { xxs:'100%',xs: '100%', sm:'100dvh' } }}>
                 <Grid
                 item
                 xxs={12}
@@ -89,7 +76,7 @@ const CheckOut = () => {
                     display: { xxs: 'none',xs: 'none', md: 'flex' },
                     flexDirection: 'column',
                     backgroundColor: 'background.paper',
-                    borderRight: { sm: 'none', md: '1px solid' },
+                    borderRight: { sm: 'none', md: '2px solid' },
                     borderColor: { sm: 'none', md: 'divider' },
                     alignItems: 'start',
                     pt: 4,
@@ -123,6 +110,7 @@ const CheckOut = () => {
                     width: '100%',
                     backgroundColor: { xs: 'transparent', sm: 'background.default' },
                     alignItems: 'start',
+                    marginTop:1,
                     pt: { xxs: 2, sm: 4 },
                     px: { xxs: 2, sm: 10 },
                     gap: { xxs: 4, md: 8 },
@@ -139,7 +127,7 @@ const CheckOut = () => {
                     >
                         <Box
                         sx={{
-                            display: {xxs:"flex", xs: 'flex', md: 'none' },
+                            display: {xxs:"flex", xs: 'flex', md: 'none',xxl:"100%",xl:"100%" },
                             flexDirection: 'row',
                             width: '100%',
                             justifyContent: 'space-between',
@@ -154,7 +142,7 @@ const CheckOut = () => {
                             justifyContent: 'space-between',
                             alignItems: 'flex-end',
                             flexGrow: 1,
-                            height: 150,
+                            height: 60,
                         }}
                         >
                             <Stepper

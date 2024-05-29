@@ -7,7 +7,6 @@ import {
 
 //Components
 import { productList } from '../../../data/CradsData'
-import { CartData } from '../../../data/CartData'
 
 //MUI
 import {

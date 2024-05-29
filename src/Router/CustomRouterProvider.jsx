@@ -84,12 +84,17 @@ const router = createBrowserRouter(
 
 
             <Route path="/Ecommerce" element={<EcommerceMain />} />
+            <Route path="Empty-design/:id"   element={<Main />} /> 
+            <Route path="create-template" element={<CreateElementTemplate />} />
+
+            {/* <Route path="/design-control/EditPage/:section_id" element={<EditPage />} /> */}
+            <Route path="/Empty-design/EditPage/:section_id" element={<EditPage />} />
             <Route path="/design-control/EditPage/:section_id" element={<EditPage />} />
 
             {/* E commerce routes */}
             <Route path="/cliser-digital-market" element={<EcommerceMain />}>
                 <Route path="main" element={<CliserDigitalMarketHomePage />} />
-                <Route path="CheckOut" element={<CheckOut />} />
+                <Route path="checkout" element={<CheckOut />} />
                 <Route path="Products" element={<Products />} />
                 <Route path="productView/:idx" element={<ProductView />} />
                 <Route path="Cart" element={<Cart />} />

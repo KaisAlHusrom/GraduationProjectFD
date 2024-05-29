@@ -1,4 +1,4 @@
-import {useEffect, useState } from 'react';
+import { useState } from 'react';
 import { productList } from '../../data/CradsData';
 import { useParams,useNavigate } from 'react-router-dom';
 
@@ -13,13 +13,12 @@ import {
   Tab,
   Box,
   Divider,
-  Chip,
   Avatar,
   Rating,
 } from '@mui/material';
-import NavBar from '../NavBar';
+
 import images from '../../data/SliderImages';
-import Footer from '../Footer';
+
 import CustomCard from '../UI/CustomCard';
 import '../Styles/CustomSwiper.css';
 import { CartData } from '../../data/CartData';
@@ -63,23 +62,22 @@ function CustomTabPanel(props) {
     })
 
     
-    const { idx } = useParams();
-    const product = productList.find((product) => product.id === parseInt(idx));
-    if (!idx || !product) {
-      return <Typography variant="h2">Product not found</Typography>;
-    }
-
     const handleAddCartBtn = () => {
         // Update the list of product IDs with the new productId
       const updatedCartItems = [...cartItems, product.id];
       setCartItems(() => updatedCartItems);
-      localStorage.setItem("cart_data", JSON.stringify(updatedCartItems)) 
-
+      localStorage.setItem("cart_data", JSON.stringify(updatedCartItems))
 
       // Update the CartData with the new list of product IDs
       CartData.push(product.id);
       Navigate('/cliser-digital-market/Cart')
     };
+    
+    const { idx } = useParams();
+    const product = productList.find((product) => product.id === parseInt(idx));
+    if (!idx || !product) {
+      return <Typography variant="h2">Product not found</Typography>;
+    }
 
     const handleTapChange = (event, newValue) => {
       setValue(newValue);
@@ -140,7 +138,7 @@ function CustomTabPanel(props) {
                   className="mySwiper"
                 >
                   {images.map((step, index) => (
-                    <SwiperSlide key={step.label}>
+                    <SwiperSlide key={index}>
                     <Box
                       component="img"
                       sx={{
@@ -218,7 +216,7 @@ function CustomTabPanel(props) {
           </Grid>
         </Grid>
       </Container>
-      <Footer />
+
     </div>
   );
 };
