@@ -10,7 +10,6 @@ import {
 
 } from '@mui/material';
 
-
 //propTypes 
 import propTypes from 'prop-types';
 import CustomCard from '../UI/CustomCard';
@@ -18,6 +17,7 @@ import { CartData } from '../../data/CartData';
 
 // Import the utility function
 import { renderCartItem } from '../../utils/RenderCartItems';
+import ProductsTape from '../UI/ProductsTape';
 
 const getProductById = (productId) => {
     return productList.find(product => product.id === productId);
@@ -117,9 +117,9 @@ const Cart = () => {
                                             renderCartItem(productId, index, cartItems, handleRemoveCartBtn, navigate)
                                         ))}
                                     </CustomCard>
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginTop: '1rem', width: { xs: "100%", sm: "60%", md: "40%" }, marginLeft: "auto" }}>
-                                        <Grid container spacing={2}>
-                                            <Grid item xs={6}>
+                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginTop: '1rem', width: { xs: "100%", sm: "100%", md: "40%" }, marginLeft: "auto" }}>
+                                        <Grid container spacing={1}>
+                                            <Grid item xxs={6}>
                                                 <Box>
                                                     <Typography variant="h5" sx={{ textAlign: 'left' }}>
                                                         Total
@@ -131,7 +131,7 @@ const Cart = () => {
                                                     </Typography>
                                                 </Box>
                                             </Grid>
-                                            <Grid item xs={6}>
+                                            <Grid item xxs={6}>
                                                 <Box>
                                                     <Typography variant="h5">
                                                         ${CartTotal}
@@ -143,7 +143,7 @@ const Cart = () => {
                                                     </Typography>
                                                 </Box>
                                             </Grid>
-                                            <Grid item xs={12}>
+                                            <Grid item xxs={12}>
                                                 <Button
                                                     variant='contained'
                                                     fullWidth
@@ -157,7 +157,11 @@ const Cart = () => {
                             )}
                         </Box>
                     </Grid>
+                    <Grid item xs={12}>
+                            <ProductsTape title="You Might Like" />
+                    </Grid>
                 </Grid>
+
             </Container>
         </div>
     );

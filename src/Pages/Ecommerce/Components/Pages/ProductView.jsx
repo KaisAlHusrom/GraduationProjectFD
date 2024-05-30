@@ -29,6 +29,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import ChipSet from '../UI/ChipSet';
+import ProductsTape from '../UI/ProductsTape';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -213,6 +214,9 @@ function CustomTabPanel(props) {
               </CustomCard> 
               <CustomCard title="Ratings" items={itemsReviews}>
               </CustomCard>
+          </Grid>
+          <Grid item xxs={12}>
+              <ProductsTape title="You Might Like" />
           </Grid>
         </Grid>
       </Container>

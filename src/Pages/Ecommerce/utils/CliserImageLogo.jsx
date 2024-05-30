@@ -8,8 +8,8 @@ import {
 } from 'react-redux'
 
 //Components
-import CliserDark from "../../data/Cliser-Dark-Theme.png"
-import CliserLight from "../../data/Cliser-Light-Theme.png"
+import CliserDark from "../data/Cliser-Dark-Theme.png"
+import CliserLight from "../data/Cliser-Light-Theme.png"
 import { useSelector } from 'react-redux';
 
 

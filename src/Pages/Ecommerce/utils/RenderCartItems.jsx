@@ -28,7 +28,7 @@ export const renderCartItem = (productId, index, cartItems, handleRemoveCartBtn,
                 >
                     <Grid container>
                         {/* Left part: Image, Title, and Creator */}
-                        <Grid item xxs={6}>
+                        <Grid item xxs={12} xs={12} sm={6} md={6} lg={6}>
                             <Box display="flex" alignItems="center">
                                 {/* Image */}
                                 <Box mr={2}>
@@ -52,7 +52,7 @@ export const renderCartItem = (productId, index, cartItems, handleRemoveCartBtn,
                             </Box>
                         </Grid>
                         {/* Right part: Price */}
-                        <Grid item xxs={6}>
+                        <Grid item xxs={12} xs={12} sm={6} md={6} lg={6}>
                             <Box display="flex" alignItems="center" justifyContent="space-between">
                                 {/* Price */}
                                 <Box sx={{ paddingTop: '20px', paddingLeft: '8px' }}>

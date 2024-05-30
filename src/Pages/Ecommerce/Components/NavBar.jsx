@@ -17,7 +17,7 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import CliserImageLogo from './UI/CliserImageLogo';
+import CliserImageLogo from '../utils/CliserImageLogo';
 
 
 /* to be fixed to center the label on the middle horizontally */
