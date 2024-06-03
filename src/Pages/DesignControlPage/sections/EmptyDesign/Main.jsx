@@ -38,7 +38,7 @@ const Main = () => {
     const {data} = useEffectFetchData(fetchSpecificWebProject , params , true , true)
 
 
-    
+    console.log("webProjectId" , id)
 
 
 

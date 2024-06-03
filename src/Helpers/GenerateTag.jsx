@@ -58,7 +58,7 @@ const repeat = (selectedElement) => {
 // }
 
 export const GenerateTag = ({selectedTemplate}) => {
-    const { hoveredSubElementId} = useMyCreateElementContext()
+    // const { hoveredSubElementId} = useMyCreateElementContext()
 
     const sortedData = Array.isArray(selectedTemplate) ? selectedTemplate.sort((a, b) => a.sequence_number - b.sequence_number) : selectedTemplate;
 
@@ -120,7 +120,7 @@ export const GenerateTag = ({selectedTemplate}) => {
                 exampleText={exampleText}
                 sortedData={sortedData}
                 styles={styles}
-                hoveredSubElementId={hoveredSubElementId}
+                // hoveredSubElementId={hoveredSubElementId}
             />
             
             {/* <StyledAfterBox></StyledAfterBox> */}
@@ -146,9 +146,9 @@ const Tag = (props) => {
         // hoveredSubElementId
     } = props
 
-    const {
-        selectedSubElementIds
-    } = useMyCreateElementContext()
+    // const {
+    //     selectedSubElementIds
+    // } = useMyCreateElementContext()
 
     const component = useMemo(() => {
         let component = ""
@@ -288,12 +288,12 @@ const Tag = (props) => {
         return styled(component)(
             ({theme}) => ({
                 ...styles,
-                backgroundColor: selectedSubElementIds.includes(sortedData.id)  ? theme.palette.action.selected : styles ? styles['backgroundColor'] : null,
+                // backgroundColor: selectedSubElementIds.includes(sortedData.id)  ? theme.palette.action.selected : styles ? styles['backgroundColor'] : null,
                 // padding: theme.spacing()
             })
         );
     
-    }, [component, selectedSubElementIds, sortedData.id, styles])
+    }, [component, styles])
 
 
 
@@ -305,7 +305,6 @@ const Tag = (props) => {
 
                 return exampleText;
             } else {
-
                 return `${config.ServerImageRoute}/${designImagesFolderName}/${exampleText}`;
             }
         }

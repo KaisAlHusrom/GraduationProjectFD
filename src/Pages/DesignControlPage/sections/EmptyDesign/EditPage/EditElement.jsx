@@ -1,31 +1,29 @@
-//React
 import {
-    useMemo, useState
-} from 'react'
+    useCallback,
+    useEffect,
+    useMemo,
+    useState
+} from 'react';
 import propTypes from 'prop-types';
 
-import {
-    
-} from 'react-redux'
-
-//Components
-import { getAppropriateTag } from '../StylesFunctions/GenerateElements';
+// Components
 import { AdminMainButton } from '../../../../../Components';
 import * as utils from '../StylesFunctions/SetStylesFunctions.js';
 import StyleBox from '../components/StyleBox.jsx';
 
-//MUI
+// MUI
 import {
     Box,
-} from '@mui/material'
-import { styled } from '@mui/system'
+} from '@mui/material';
+import { styled } from '@mui/system';
 import { Edit as EditIcon } from '@mui/icons-material';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
+import { GenerateTagEdit } from '../components/GenerateTagEdit .jsx';
 
-
-//Styled Components
+// Styled Components
 const StyledEditElement = styled(Box)(({ elementstyle }) => ({
     '&:hover > div': {
         opacity: 1,
@@ -39,10 +37,7 @@ const TooltipContainer = styled(Box)({
     opacity: 0,
     transition: 'opacity 1s ease',
     zIndex: 999,
-    
 });
-
-
 
 const buttonStyle = {
     width: '20px',
@@ -53,23 +48,37 @@ const buttonStyle = {
     color: 'white.main',
     backgroundColor: '#062c06',
     transition: 'background-color 0.3s',
-    marginBottom : '2px',
+    marginBottom: '2px',
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
     },
 };
 
+const EditElement = ({ 
+        elementData,
+        deleteElementForComponent,
+        componentId, 
+        handleMoveElement,
+        componentDataState,
+        styleCategories, 
+        sectionDataState }) => {
 
-const EditElement = ({ element, deleteElementForComponent, componentId , handleMoveElement , componentData }) => {
+    const [element, setElementData] = useState(elementData);
+    const [componentData, setComponentData] = componentDataState;
+    const [title, setTitle] = useState(element.element_content);
+    const [sectionData, setSectionData] = sectionDataState;
     const [elementStyle, setElementStyle] = useState({});
-    const [elementData] = useState(element); // using for control the component data
+    const [history, setHistory] = useState([]);
+    
+    useEffect(() => {
+        setElementData(element);
+    }, [element]);
 
-    const [title, setTitle] = useState(elementData.element_content);
 
     useMemo(() => {
         const dictionary = {};
-        if (elementData.styles) {
-            elementData.styles.forEach((cssProp) => {
+        if (element.styles) {
+            element.styles.forEach((cssProp) => {
                 const { style_prop, style_prop_value } = cssProp;
                 if (style_prop.is_element) {
                     dictionary[style_prop.style_prop_css_name] = style_prop_value;
@@ -77,22 +86,84 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
             });
         }
         setElementStyle(dictionary);
-    }, [elementData.styles]);
+    }, [element.styles]);
 
-    const handleSectionStyleChange = (newStyle) => {
-        setElementStyle((prevStyle) => ({ ...prevStyle, ...newStyle }));
-    };
+
+    const handleSectionStyleChange = useCallback((cssValue, prop) => {
+        setComponentData((prevData) => {
+            const updatedSectionData = { ...prevData }; // Update with a copy
+            const changed = addStyleAbdullah(updatedSectionData, [element.id], prop, cssValue, null, null);
+            if (changed) {
+                // Update componentStyle on style change
+                const dictionary = {};
+                if (element.styles) {
+                    element.styles.forEach((cssProp) => {
+                        const { style_prop, style_prop_value } = cssProp;
+                        if (style_prop.is_element) {
+                            dictionary[style_prop.style_prop_css_name] = style_prop_value;
+                        }
+                    });
+                }
+                setElementStyle(dictionary);
+            }
+            return updatedSectionData;
+        });
+        setHistory(prevHistory => [...prevHistory, JSON.parse(JSON.stringify(sectionData))]);
+    }, [element.id, element.styles, sectionData, setComponentData]);
+
 
     const handleTextFieldChange = (e) => {
-        setTitle(e.target.value);
+        const newTitle = e.target.value;
+        setTitle(newTitle);
+        setElementData((prevData) => {
+            const updatedElementData = { ...prevData, element_content: newTitle };
+            return updatedElementData;
+        });
+
+        setSectionData((prevSectionData) => {
+            const updatedSectionData = { ...prevSectionData };
+            updatedSectionData.children = updatedSectionData.children.map(component => {
+                if (component.id === componentId) {
+                    return {
+                        ...component,
+                        children: component.children.map(child => {
+                            if (child.id === element.id) {
+                                return { ...child, element_content: newTitle };
+                            }
+                            return child;
+                        })
+                    };
+                }
+                return component;
+            });
+            return updatedSectionData;
+        });
     };
 
     const handleImageChangeWrapper = (file) => {
         utils.handleImageChange(file, setTitle);
     };
 
-    const handleUploadImageClickWrapper = () => {
-        utils.handleUploadImageClick(handleImageChangeWrapper);
+    const handleUploadImageClickWrapper = (e) => {
+        utils.handleUploadImageClick(e, handleImageChangeWrapper);
+        setSectionData((prevSectionData) => {
+            const updatedSectionData = { ...prevSectionData };
+            updatedSectionData.children = updatedSectionData.children.map(component => {
+                if (component.id === componentId) {
+                    return {
+                        ...component,
+                        children: component.children.map(child => {
+                            if (child.id === element.id) {
+                                return { ...child, element_content: title };
+                            }
+                            return child;
+                        })
+                    };
+                }
+                return component;
+            });
+            return updatedSectionData;
+        });
     };
 
     const handleDeleteLogoClick = () => {
@@ -100,117 +171,109 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
     };
 
     const handleDeleteElementClick = () => {
-        deleteElementForComponent(componentId, elementData.id);
+        deleteElementForComponent(componentId, element.id);
     };
-
-    
-        // to change the order of elements 
-    const handleOrderElementClick = (event, direction, currentSequenceNumber) => {
+    const handleOrderElementClick = (event, direction, sequence_number) => {
         event.stopPropagation();
         const elementsCount = componentData.children.length;
+        const currentSequenceNumber = sequence_number; // Elementin mevcut sıra numarasını kullan
         let newIndex;
+    
         if (direction === 'up') {
-            newIndex = Math.max(currentSequenceNumber - 2, 0); // Yukarı hareket için yeni dizin hesaplama
+            newIndex = Math.max(currentSequenceNumber - 1, 0); // Yukarı hareket için yeni index
         } else {
-            newIndex = Math.min(currentSequenceNumber, elementsCount - 1); // Aşağı hareket için yeni dizin hesaplama
+            newIndex = Math.min(currentSequenceNumber + 1, elementsCount - 1); // Aşağı hareket için yeni index
         }
-        handleMoveElement(currentSequenceNumber - 1, newIndex);
+    
+        // Elemanların sırasını güncelle
+        handleMoveElement(currentSequenceNumber, newIndex, componentId);
     };
-        
+    
+    
+    
+    
 
+    console.log(element.sequence_number , element.element_content)
     return (
-
-        <StyledEditElement
-                    elementstyle={{ ...elementStyle, backgroundColor: 'none', width: '100%', margin: '0 0px 20px 0', padding: '0', position: 'none' }}
-        >   
-                {                        
-                getAppropriateTag(elementData.element_type.element_type_name, title, elementStyle)
-                }
+        <StyledEditElement>
+            <GenerateTagEdit selectedTemplate={element} elementStyle={elementStyle}></GenerateTagEdit>
             <TooltipContainer>
-            <div style={{ position: 'absolute', height : '50px' , flexWrap : 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ position: 'absolute', height: '50px', flexWrap: 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>
+                    <AdminMainButton
+                        title=""
+                        type="StyleDialog"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<EditIcon />}
+                        willShow={
+                            <StyleBox
+                                Section_Name={"Style Element"}
+                                title={title}
+                                handleTextFieldChange={handleTextFieldChange}
+                                element_Type={element.element_type.element_type_name}
+                                handleSectionStyleChange={handleSectionStyleChange}
+                                handleDeleteLogoClick={handleDeleteLogoClick}
+                                handleUploadImageClickWrapper={handleUploadImageClickWrapper}
+                                styleCategories={styleCategories}
+                            />
+                        }
+                        sx={buttonStyle}
+                    />
+                    <AdminMainButton
+                        title=""
+                        type="custom"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<DeleteSweepIcon />}
+                        onClick={handleDeleteElementClick}
+                        sx={{
+                            width: '20px',
+                            height: '0px',
+                            border: '1px solid red',
+                            padding: '10px 15px',
+                            fontWeight: 'bold',
+                            color: 'white.main',
+                            backgroundColor: 'warning.dark',
+                            transition: 'background-color 0.3s',
+                            marginBottom: '2px',
+                            '&:hover': {
+                                backgroundColor: 'rgb(7, 15, 43)',
+                            },
+                        }}
+                    />
+                    <AdminMainButton
+                        title=""
+                        type="custom"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<KeyboardArrowUpIcon />}
+                        onClick={(e) => handleOrderElementClick(e, 'up', element.sequence_number)}
+                        sx={buttonStyle}
+                    />
+                    <AdminMainButton
+                        title=""
+                        type="custom"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<KeyboardArrowDownIcon />}
+                        onClick={(e) => handleOrderElementClick(e, 'down', element.sequence_number )}
+                        sx={buttonStyle}
+                    />
 
-                <AdminMainButton
-                    title = ""
-                    type="StyleDialog"
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<EditIcon />}
-                    willShow={
-                        <StyleBox
-                            Section_Name={"Style Element"}
-                            title={title}
-                            handleTextFieldChange={handleTextFieldChange}
-                            element_Type={elementData.element_type.element_type_name}
-                            sectionStyle={elementStyle}
-                            handleSectionStyleChange={handleSectionStyleChange}
-                            handleDeleteLogoClick={handleDeleteLogoClick}
-                            handleUploadImageClickWrapper={handleUploadImageClickWrapper}
-                            styleProperties={['opacity', 'borderRadius', 'width', "fontSize", "fontWeight", 'height']}
-                        />
-                    }
-                    sx={buttonStyle}
-                />
-                <AdminMainButton
-                    title = ""
-                    type="custom"
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<DeleteSweepIcon />}
-                    onClick={handleDeleteElementClick}
-                    sx={{
-                        width: '20px',
-                        height: '0px',
-                        border: '1px solid red',
-                        padding: '10px 15px',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: 'warning.dark',
-                        transition: 'background-color 0.3s',
-                        marginBottom : '2px',
-                        '&:hover': {
-                            backgroundColor: 'rgb(7, 15, 43)',
-                        },
-                    }}
-                />
-            <AdminMainButton
-                title = ""
-                type="custom"
-                appearance="iconButton"
-                putTooltip
-                icon={<KeyboardArrowUpIcon />}
-                onClick={(e) => handleOrderElementClick(e, 'up' ,elementData.sequence_number)}
-                sx={buttonStyle}
-            />
-            <AdminMainButton
-                title = ""
-                type="custom"
-                appearance="iconButton"
-                putTooltip
-                icon={<KeyboardArrowDownIcon />}
-                onClick={(e) => handleOrderElementClick(e, 'down' , elementData.sequence_number)}
-                sx={buttonStyle}
-            />
-        </div>
+                </div>
             </TooltipContainer>
         </StyledEditElement>
-        
     );
 };
 
 EditElement.propTypes = {
-    element: propTypes.object,
+    elementData: propTypes.object,
     deleteElementForComponent: propTypes.func,
-    handleMoveElement : propTypes.func,
-    componentData : propTypes.object,
-    componentId : propTypes.string
+    handleMoveElement: propTypes.func,
+    componentDataState: propTypes.array,
+    componentId: propTypes.string,
+    styleCategories: propTypes.array,
+    sectionDataState: propTypes.array,
 };
 
 export default EditElement;
-
-
-
-
-
-
-
-    

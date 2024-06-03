@@ -8,7 +8,7 @@ const StyledStylesCategory = styled(Box)({});
 
 
 
-const StylesCategory = ({ category, handleSectionStyleChange  }) => {
+const StylesCategory = ({ category, handleSectionStyleChange ,  sectionStyleProps}) => {
     const [selectedOption, setSelectedOption] = useState('');
 
 
@@ -20,6 +20,8 @@ const StylesCategory = ({ category, handleSectionStyleChange  }) => {
             prop={prop}
             key={key}
             handleSectionStyleChange={handleSectionStyleChange}
+            sectionStyleProps = {sectionStyleProps}
+
             />
         ))}
         </StyledStylesCategory>

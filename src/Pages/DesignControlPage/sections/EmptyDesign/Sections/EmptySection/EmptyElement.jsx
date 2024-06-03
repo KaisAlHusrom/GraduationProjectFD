@@ -17,26 +17,21 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { getAppropriateTag } from '../../../TempalteSection/StylesFunctions/GenerateElements'
+import { GenerateTagEdit } from '../../components/GenerateTagEdit '
 
 //Styled Components
-const StyledEmptyElement = styled(Box)(
-    ({ theme }) => ({
-    
-    })
-)
 
+const StyledEmptyElement = styled(Box)(({ elementstyle }) => ({
+
+}));
 
 const EmptyElement = ({element}) => {
 
 
-    const [title, setTitle] = useState(element.element_content);
     const [elementStyle, setElementStyle] = useState({});
-
-
     useMemo(() => {
         const dictionary = {};
-        if (element) {
+        if (element.styles) {
             element.styles.forEach((cssProp) => {
                 const { style_prop, style_prop_value } = cssProp;
                 if (style_prop.is_element) {
@@ -47,11 +42,11 @@ const EmptyElement = ({element}) => {
         setElementStyle(dictionary);
     }, [element.styles]);
 
-
+    console.log(elementStyle)
 
     return (
         <StyledEmptyElement className='element-query'>
-                {getAppropriateTag(element.element_type.element_type_name, element.element_content, elementStyle)}
+                <GenerateTagEdit selectedTemplate={element} elementStyle={elementStyle}></GenerateTagEdit>
         </StyledEmptyElement>
     );
 };

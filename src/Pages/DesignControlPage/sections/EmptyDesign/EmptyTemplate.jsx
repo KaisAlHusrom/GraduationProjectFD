@@ -1,5 +1,5 @@
 //React
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
     
@@ -15,6 +15,10 @@ import {
 import { styled  , css} from '@mui/system'
 import NavBar from '../TempalteSection/sections/NavBar/NavBar';
 import EmptySection from './Sections/EmptySection/EmptySection';
+import { fetchWepPages } from '../../../../Services/WepPages';
+import { useParams } from 'react-router-dom';
+import { writeFilterObject } from '../../../../Helpers/filterData';
+import useFetchData from '../../../../Helpers/customHooks/useFetchData';
 
 //Styled Components
 
@@ -36,7 +40,6 @@ const EmptyTemplate = ({
      // list of section
         const [sectionsOrder, setSectionsOrder] = useState([
             'Header',
-
         ]);
 
         // change the order of sections 
@@ -63,7 +66,24 @@ const EmptyTemplate = ({
             newOrder.splice(newIndex, 0, sectionToMove);
             setSectionsOrder(newOrder);
         };
+
+        const {id} = useParams()
+
         
+        
+     const appliedFilter = useMemo(() => {
+            return [
+                writeFilterObject('web_project_id', 'string', '=', id), 
+            ]
+        }, [id])
+    
+        // const {loading, hasMore, setPageNumber, data } = useFetchData(fetchDesigns, 'all', appliedFilter, null, true, null, null, 5)
+
+        console.log("id" , id)
+        const {loading, hasMore, setPageNumber, data } = useFetchData(fetchWepPages, 'all', appliedFilter, null, true, null, null, 10)
+
+        console.log("template" , data)
+
 
     return (
         <StyledEmptyTemplate 
@@ -76,9 +96,9 @@ const EmptyTemplate = ({
         }}
         >
             <NavBar />
-            {sectionsOrder.map((section, index) => (
+            {data[0]?.designs?.map((section, index) => (
                 <div key={index}>
-                                <EmptySection  />
+                    <EmptySection designData = {section} />
 
                 </div>
             ))}

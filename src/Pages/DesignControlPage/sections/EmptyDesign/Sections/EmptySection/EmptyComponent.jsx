@@ -1,5 +1,5 @@
 //React
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
     
@@ -17,6 +17,7 @@ import {
     Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import EmptyElement from './EmptyElement'
 
 //Styled Components
 const StyledEmptyComponent = styled(Box)(
@@ -27,42 +28,34 @@ const StyledEmptyComponent = styled(Box)(
 
 
 const EmptyComponent = ({component}) => {
+    const [componentStyle, setComponentStyle] = useState({}); // using for control the component style 
 
-    const componentStyle = useMemo(() => {
-
-
-        const styleObject = {};
-        if (component) {
-            component.forEach((item) => {
-                if (item.styles) {
-                item.styles.forEach((cssProp) => {
-                    const { style_prop, style_prop_value } = cssProp;
-                    if (style_prop.is_section) {
-                    styleObject[style_prop.style_prop_css_name] = style_prop_value;
-                    }
-                });
+    useMemo(() => {
+        const dictionary = {};
+        if (component.styles) {
+            component.styles.forEach((cssProp) => {
+                const { style_prop, style_prop_value } = cssProp;
+                if (style_prop.is_component) {
+                    dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
-            }
-        return styleObject;
-    }, [component]);
-
+        }
+        setComponentStyle(dictionary);
+    }, [component.styles]);
 
 
 
     return (
-        <StyledEmptyComponent sx = {componentStyle} className='component-query'>
+            <StyledEmptyComponent sx={componentStyle} className='component-query'>
                 {
-                component && component.children.map((element, i) => {
-                    return (
-                        // <HeaderElement key={i} element={element} />
-                        <>
-                        <Typography>Component</Typography>
-                        </>
-                    )
-                })
-            }
-        </StyledEmptyComponent>
+                    component && component.children
+                        .sort((a, b) => a.sequence_number - b.sequence_number)
+                        .map((element, i) => (
+                            <EmptyElement key={i} element={element}/>
+                        ))
+                }
+            </StyledEmptyComponent>
+
     );
 };
 

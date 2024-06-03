@@ -389,8 +389,11 @@ const EditPage = () => {
                                 appearance="iconButton"
                                 putTooltip
                                 willShow={
-                                    <AddElementModal setAddElementToComponentId = {setAddElementToComponentId} elements =  {[AddElement , setAddElement]}  
-                                    componentSection_component_id = {component.id} ></AddElementModal>
+                                    <AddElementModal 
+                                    setAddElementToComponentId = {setAddElementToComponentId} 
+                                    elements =  {[AddElement , setAddElement]}  
+                                    componentSection_component_id = {component.id} 
+                                    ></AddElementModal>
                                 }
                                 icon={<AddBoxIcon />}
                                 sx={EditButtonsStyle}

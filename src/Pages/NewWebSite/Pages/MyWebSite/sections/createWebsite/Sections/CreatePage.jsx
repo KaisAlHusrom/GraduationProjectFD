@@ -68,7 +68,7 @@ const CreatePage = ({
 }) => {
 
     const isSubmitDisabled = !page_title || !page_description || !uploadedImagePage; // Disable submit button if any of the inputs are empty
-
+    
     return (
         <StyledCreatePage>
             <Box

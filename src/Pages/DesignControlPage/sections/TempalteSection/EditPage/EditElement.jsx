@@ -124,7 +124,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId , handleM
                     elementstyle={{ ...elementStyle, backgroundColor: 'none', width: '100%', margin: '0 0px 20px 0', padding: '0', position: 'none' }}
         >   
                 {                        
-                getAppropriateTag(elementData.element_type.element_type_name, title, elementStyle)
+                // getAppropriateTag(elementData.element_type.element_type_name, title, elementStyle)
                 }
             <TooltipContainer>
             <div style={{ position: 'absolute', height : '50px' , flexWrap : 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>

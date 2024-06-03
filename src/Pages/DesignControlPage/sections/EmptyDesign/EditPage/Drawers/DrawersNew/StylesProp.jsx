@@ -23,19 +23,19 @@ const StyledStylesProp = styled(Box)(
     })
 )
 
-export const Test = ({ prop, handleSectionStyleChange }) => {
-    // Ensure styleState is an array with two elements [valueStyle, setValueStyle]
+export const Test = ({ prop, handleSectionStyleChange , sectionStyleProps }) => {
     const [value , setValue] = useState(null)
     const [mainDirections, setMainDirections] = useState({});
     const [cornerDirections, setCornerDirections] = useState({});
     const cssValue = useMemo(() => convertToCssValue(prop, value, mainDirections, cornerDirections), [cornerDirections, mainDirections, prop, value]);
 
+        
 
     useEffect(() => {
         if(cssValue) {
             handleSectionStyleChange(cssValue, prop , prop.style_prop_css_name)
         }
-    } , [cssValue, handleSectionStyleChange, prop])
+    } , [cssValue, prop])
     
 
         return (

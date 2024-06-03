@@ -18,9 +18,7 @@ import { EmptyTemplateSectionSet } from '../../UseContext/UserSetSections'
 import UpDownButtons from '../../../TempalteSection/components/UpDownButtons'
 import EditLink from '../../../TempalteSection/components/EditLink'
 import EmptyComponent from './EmptyComponent'
-import { writeFilterObject } from '../../../../../../Helpers/filterData'
-import useFetchData from '../../../../../../Helpers/customHooks/useFetchData'
-import { fetchDesigns } from '../../../../../../Services/designService'
+
 
 //Styled Components
 const StyledEmptySection = styled(Box)(
@@ -34,41 +32,29 @@ const StyledEmptySection = styled(Box)(
 
 
 
-const EmptySection = ({moveSectionUp , moveSectionDown}) => {
+const EmptySection = ({moveSectionUp , moveSectionDown , designData}) => {
     const {EmptySection } = useContext(EmptyTemplateSectionSet)
 
-    const appliedFilter = useMemo(() => {
-        return [
-            writeFilterObject('design_type', 'string', '=', 'section'), 
-            writeFilterObject('parent_id', 'string', '=', null),
-        ]
-    }, [])
+
     
-
-
-    const {loading, hasMore, setPageNumber, data } = useFetchData(fetchDesigns, 'all', appliedFilter, null, true, null, null, 5)
-
-
-    console.log(data)
-
         const sectionStyle = useMemo(() => {
             const styleObject = {};
-                if (data) {
-                data.forEach((item) => {
-                    if (item.styles) {
-                    item.styles.forEach((cssProp) => {
+                if (designData) {
+                    if (designData?.styles) {
+                        designData?.styles.forEach((cssProp) => {
                         const { style_prop, style_prop_value } = cssProp;
                         if (style_prop.is_section) {
                         styleObject[style_prop.style_prop_css_name] = style_prop_value;
                         }
                     });
                     }
-                });
+                
                 }
             
                 return styleObject;
-            }, [data]);
-            
+            }, [designData]);
+
+            console.log("sectionStyle" , sectionStyle)
 
 
     return (
@@ -81,26 +67,24 @@ const EmptySection = ({moveSectionUp , moveSectionDown}) => {
             }}>
                 <UpDownButtons moveSectionUp = {moveSectionUp} moveSectionDown = {moveSectionDown} ></UpDownButtons>
                 </Box>
-                {data && data.map((item, index) => (
-                        <Box key={index} sx={sectionStyle}>
-                            {item.children && item.children.map((component, i) => (
-                            item.design_title === "Empty_Section" ? (
-                                <Box key={i}>
-                                <Typography sx = {{
-                                    fontSize : '20px', 
-                                    fontWeight : 'bold',
-                                    color : 'black'
-                                }}>{item.element_content}</Typography>
-                                </Box>
-                                
-                            ) : null 
-                            
-                            ))}<EditLink section_id={item.id} />
+                            <Box sx={sectionStyle}>
+                                    {designData.children && designData.children.map((component, i) => (
+                                        designData.design_title === "Empty_Section" && designData.is_template === 1 ? (
+                                            <Box key={i}>
+                                                <Typography sx={{
+                                                    fontSize: '20px',
+                                                    fontWeight: 'bold',
+                                                    color: 'black'
+                                                }}>{component.element_content}</Typography>
+                                            </Box>
+                                        ) : <EmptyComponent  key= {i} 
+                                            component={component} 
 
-                        </Box>
+                                        />
+                                    ))}
+                                    <EditLink section_id={designData.id} />
+            </Box>
 
-                        ))}
-                        
             </StyledEmptySection>
             ) : null 
     );

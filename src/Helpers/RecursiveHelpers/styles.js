@@ -152,7 +152,6 @@ export const addStyle = (template, selectedIds, prop, cssValue, styleException, 
 export const addStyleAbdullah = (template, selectedIds, prop, cssValue, styleException, styleBreakpoint) => {
     let styleAdded = false;
     const newStyle = writeStyleObject2(prop, cssValue, styleException, styleBreakpoint)
-
     for (const element of Array.isArray(template) ? template : [template]) {
         if (selectedIds.includes(element.id)) {
             if (element.styles.length === 0) {
@@ -179,7 +178,7 @@ export const addStyleAbdullah = (template, selectedIds, prop, cssValue, styleExc
         }
 
         if (element.children && element.children.length > 0) {
-            const childStyleAdded = addStyle(element.children, selectedIds, prop, cssValue, styleException, styleBreakpoint);
+            const childStyleAdded = addStyleAbdullah(element.children, selectedIds, prop, cssValue, styleException, styleBreakpoint);
             if (childStyleAdded) {
                 styleAdded = true;
             }

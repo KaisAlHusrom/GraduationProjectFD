@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
 import { styled } from '@mui/system';
 import StartWebSite from './Sections/StartWebSite';
 import InfoWebSite from './Sections/InfoWebSite';
@@ -8,6 +8,13 @@ import { useNavigate } from 'react-router-dom';
 import { addWebProject } from '../../../../../../Services/webProjectsService';
 import { addWepPages } from '../../../../../../Services/WepPages';
 import { addWepProjectPages } from '../../../../../../Services/WebProjectPages';
+import { writeFilterObject } from '../../../../../../Helpers/filterData';
+import useFetchData from '../../../../../../Helpers/customHooks/useFetchData';
+import { addDesigns, fetchDesigns, fetchSpecificDesign } from '../../../../../../Services/designService';
+import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData';
+import { fetchElementTypesRows } from '../../../../../../Services/elementsTypesService';
+import { cleanDesignDataDesignPage, updateID, updateID2 } from '../../../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
+import { v4 as uuIdv4 } from 'uuid';
 
 const StyledMain = styled(Box)(() => ({}));
 
@@ -57,6 +64,7 @@ const Main = () => {
         inputElement.click();
     }, []);
 
+
     const handleSubmit = useCallback(async () => {
         const data = {
             user_id: "be53c718-1115-4cd7-bee8-b0c2bef4735b",
@@ -73,7 +81,6 @@ const Main = () => {
             const res = await addWebProject(data);
             if (res.success) {
                 setWebProjectId(res.data.id);
-                console.log("res.data.id web project", res.data.id);
                 setCurrentStep((prevStep) => prevStep + 1);
             }
         } catch (error) {
@@ -81,10 +88,18 @@ const Main = () => {
         }
     }, [name, uploadedImage, selectedBox, selectedIndustry, description]);
 
+
+    const params = useMemo(()=> {
+        return ["fa6c8712-c89e-4c22-a840-bd52e3ebca0e"]  
+    } , [])
+
+
+    const {data } = useEffectFetchData(fetchSpecificDesign,params , true , true )
+
+    
     const handleSubmitPage = async () => {
-        console.log("webProjectId" , webProjectId)
         try {
-            const data = {
+            const dataPage = {
                 page_title: pageTitle,
                 page_image: uploadedImagePage,
                 page_description: pageDescription,
@@ -92,20 +107,40 @@ const Main = () => {
                 web_project_id : webProjectId,
                 page_path:"/"
             };
-
-            const res = await addWepPages(data);
+            const section = await handleOpenBlank() 
+            
+            const res = await addWepPages(dataPage);
             if (res.success) {
+
                 setPageId(res.data.id); 
-                    navigate('/empty-design/' + webProjectId)
+                    updateID2(data)
+                    cleanDesignDataDesignPage(data)
+                    data['page_id'] = res.data.id
+                    const addSection = await addDesigns(data)
+                    if(addSection.success) {
+                        navigate('/empty-design/' + webProjectId  )
+                    }
             }
         } catch (error) {
             console.error('Error submitting page:', error);
         }
 
-        
+
 
     }
 
+
+    const handleOpenBlank = useCallback(async () => {
+
+            const emptyComponent = await fetchElementTypesRows(
+                null,
+                null,
+                [writeFilterObject('element_type_name', 'string', '=', "section")]
+            )
+
+            return  emptyComponent.rows[0]
+        //when open new blank page
+    }, [])
 
 
 

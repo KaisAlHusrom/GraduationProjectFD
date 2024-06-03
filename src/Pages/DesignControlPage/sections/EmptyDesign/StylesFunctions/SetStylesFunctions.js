@@ -269,21 +269,19 @@ export const handleBorderRadiusChange = (setElementStyle) => (newBorderRadius) =
     }));
 };
 
-export const handleUploadImageClick = (handleImageChange) => {
-    const inputElement = document.createElement('input');
-    inputElement.type = 'file';
-    inputElement.accept = 'image/*';
-    inputElement.onchange = (e) => {
-        const file = e.target.files[0];
-        handleImageChange(file);
+export const handleUploadImageClick = (e,handleImageChange) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (event) => {
+        handleImageChange(event.target.result);
     };
-    inputElement.click();
+    reader.readAsDataURL(file);
+    handleImageChange(file);
 };
 
 export const handleImageChange = (file, setSelectedImage) => {
     if (file) {
-        const imageUrl = URL.createObjectURL(file);
-        setSelectedImage(imageUrl);
+        setSelectedImage(file);
     }
     };
 export const handleDeleteLogoClick = (setSelectedImage) => {
