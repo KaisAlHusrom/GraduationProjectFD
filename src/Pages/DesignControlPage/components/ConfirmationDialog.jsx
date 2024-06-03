@@ -3,7 +3,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import { AdminMainButton } from '../../../../../Components';
+import { AdminMainButton } from '../../../Components';
 import WarningIcon from '@mui/icons-material/Warning';
 //propTypes 
 import propTypes from 'prop-types'

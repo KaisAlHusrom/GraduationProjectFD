@@ -6,7 +6,8 @@ import {
 } from 'react-redux'
 
 //Components
-
+import EmptyComponent from './EmptyComponent'
+import PropTypes from 'prop-types';
 
 //MUI
 import {
@@ -15,22 +16,16 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { EmptyTemplateSectionSet } from '../../UseContext/UserSetSections'
-import UpDownButtons from '../../../TempalteSection/components/UpDownButtons'
-import EditLink from '../../../TempalteSection/components/EditLink'
-import EmptyComponent from './EmptyComponent'
+import EditLink from '../../../../components/EditLink';
+import UpDownButtons from '../../../../components/UpDownButtons';
+
 
 
 //Styled Components
 const StyledEmptySection = styled(Box)(
-    ({ theme }) => ({    
+    () => ({    
     })
 )
-
-
-
-
-
-
 
 const EmptySection = ({moveSectionUp , moveSectionDown , designData}) => {
     const {EmptySection } = useContext(EmptyTemplateSectionSet)
@@ -54,7 +49,6 @@ const EmptySection = ({moveSectionUp , moveSectionDown , designData}) => {
                 return styleObject;
             }, [designData]);
 
-            console.log("sectionStyle" , sectionStyle)
 
 
     return (
@@ -82,14 +76,18 @@ const EmptySection = ({moveSectionUp , moveSectionDown , designData}) => {
 
                                         />
                                     ))}
-                                    <EditLink section_id={designData.id} />
+                                    <EditLink design_id={designData.id} />
             </Box>
 
             </StyledEmptySection>
             ) : null 
     );
 };
-
+EmptySection.propTypes = {
+    moveSectionUp: PropTypes.func,
+    moveSectionDown: PropTypes.func,
+    designData: PropTypes.object,
+};
 export default EmptySection;
 
 

@@ -5,8 +5,6 @@ import {
 import { styled } from '@mui/system';
 import StreetviewIcon from '@mui/icons-material/Streetview';
 import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton';
-import SectionTemplate from '../DrawerModals/SectionTemplate';
-import DialogCom from '../../components/DialogCom';
 
 const StyledMainDrawerList = styled(Box)(({ theme }) => ({
   color: theme.palette.success.main,
@@ -35,10 +33,6 @@ const MainDrawerList = () => {
         }}
         icon={<StreetviewIcon />}
       />
-
-      <DialogCom title={"Look at Sections" || ''} dialogOpenState={[openDialog, setOpenDialog]}>
-            <SectionTemplate drawerState = {openDialog}/>
-          </DialogCom>
     </StyledMainDrawerList>
   );
 };

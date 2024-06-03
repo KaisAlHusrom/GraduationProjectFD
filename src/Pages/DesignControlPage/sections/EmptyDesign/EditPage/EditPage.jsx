@@ -4,10 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 // Components
 import EditComponent from './EditComponent.jsx';
-import StyleBox from '../components/StyleBox.jsx';
-import ConfirmationDialog from '../components/ConfirmationDialog.jsx';
-import ModalDesignCategories from '../components/ModalDesignCategories.jsx';
-import { AdminMainButton } from '../../../../../Components/index.jsx';
 
 // Helpers
 import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
@@ -30,6 +26,10 @@ import UndoIcon from '@mui/icons-material/Undo';
 import SaveIcon from '@mui/icons-material/Save';
 import ElementsTypeModal from './Modals/ElementsTypeModal.jsx';
 import { updateDesign } from '../../../../../Services/designServic.js';
+import { AdminMainButton } from '../../../../../Components/index.jsx';
+import ModalDesignCategories from '../../../components/ModalDesignCategories.jsx';
+import StyleBox from '../../../components/StyleBox.jsx';
+import ConfirmationDialog from '../../../components/ConfirmationDialog.jsx';
 
 
 // Helper function to recursively generate new IDs for nested children
@@ -237,25 +237,20 @@ const EditPage = () => {
     };
     
     // add new element to component 
-    const handleAddNewElement = useCallback((componentId, element) => {
-        setData((prevData) => {
-            const updatedComponents = prevData.children.map((component) => {
+    const handleAddNewElement = useCallback((componentId , element) => {
+        setData((prevData) => ({
+            ...prevData,
+            children: prevData.children.map((component) => {
                 if (component.id === componentId) {
-                    const newElement = { ...element, sequence_number: component.children.length + 1 }; // Yeni elemanın sequence_number değeri
                     return {
                         ...component,
-                        children: [...component.children, newElement],
+                        children: [...component.children,  element],
                     };
                 }
                 return component;
-            });
-            return {
-                ...prevData,
-                children: updatedComponents,
-            };
-        });
+            }),
+        }));
     }, [setData]);
-    
     
     // delete the all component in the section 
     const deleteSection = () => {
@@ -329,10 +324,10 @@ const EditPage = () => {
     }
 
 
-
-
     return (
         <StyledEditPage>
+
+
             <AdminMainButton
                 title="Save"
                 type="custom"
@@ -374,10 +369,10 @@ const EditPage = () => {
                     }}>
                         <EditComponent 
                             key={component.id} 
-                            componentData={component} 
+                            component={component} 
                             componentId = {AddElementToComponentId}
                             handleAddNewElement = {handleAddNewElement} 
-                            elementsState = {[AddElement , setAddElement]}
+                            elements = {[AddElement , setAddElement]}
                             sectionDataState = {[sectionData, setSectionData]}
                             styleCategories = {styleCategories}
                         />
@@ -440,7 +435,7 @@ const EditPage = () => {
                                 putTooltip
                                 willShow={
                                     <ElementsTypeModal
-                                    createDesignFunction = {handleAddNewElement}
+                                    createDesignedDesign = {handleAddNewElement}
                                     selected_parent_id = {component.id}                                     
                                     />
                                 }
@@ -504,10 +499,10 @@ const EditPage = () => {
                             icon={<AddBoxIcon />}
                             willShow={
                             <ModalDesignCategories  
-                                createDesignFunction = {createDesignedComponent}
-                                appliedFilter = {appliedFilterForComponent}
-                                selected_parent_id = {section_id} 
-                                NameOfCategories = {'component'}
+                            createDesignedDesign = {createDesignedComponent}
+                            appliedFilter = {appliedFilterForComponent}
+                            selected_parent_id = {section_id} 
+                            NameOfCategories = {'component'}
                             ></ModalDesignCategories>
                             }
                             sx={EditButtonsStyle}
@@ -521,7 +516,7 @@ const EditPage = () => {
                                 icon={<ListAltIcon />}
                                 willShow={
                                     <ModalDesignCategories  
-                                    createDesignFunction = {createNewSection} 
+                                    createDesignedDesign = {createNewSection} 
                                     appliedFilter = {appliedFilterForSections}
                                     NameOfCategories = {'section'}
 

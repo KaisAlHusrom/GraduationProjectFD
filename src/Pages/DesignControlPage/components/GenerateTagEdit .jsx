@@ -1,9 +1,9 @@
 import { Fragment, useMemo } from "react";
 import PropTypes from "prop-types";
 import { styled, useTheme } from "@mui/system";
-import exampleImage from "../../../../../assets/images/exampleimage.jpg"; // Örnek resim yolu
+import exampleImage from "../../../assets/images/exampleimage.jpg"; // Örnek resim yolu
 import { Link, NavLink } from "react-router-dom";
-import config from "../../../../../../Config.json"; // Uygulamanızdaki yapılandırma dosyasının doğru yolunu sağlayın
+import config from "../../../../Config.json"; // Uygulamanızdaki yapılandırma dosyasının doğru yolunu sağlayın
 
 const designImagesFolderName = "ImagesInsideDesigns";
 const repeat = (selectedElement) => {

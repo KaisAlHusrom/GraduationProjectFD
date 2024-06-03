@@ -2,8 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Components
 import EditElement from './EditElement';
-import { AdminMainButton } from '../../../../../Components';
-import StyleBox from '../components/StyleBox.jsx';
 
 // propTypes
 import propTypes from 'prop-types';
@@ -15,6 +13,8 @@ import { Edit as EditIcon } from '@mui/icons-material';
 import UndoIcon from '@mui/icons-material/Undo';
 
 import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
+import { AdminMainButton } from '../../../../../Components/index.jsx';
+import StyleBox from '../../../components/StyleBox.jsx';
 
 // Styled Components
 const StyledEditComponent = styled(Box)(() => ({
@@ -50,10 +50,10 @@ const EditButtonsStyle = {
     },
 };
 
-const EditComponent = ({ componentData, handleAddNewElement, elementsState, componentId, sectionDataState, styleCategories }) => {
+const EditComponent = ({ component, handleAddNewElement, elements, componentId, sectionDataState, styleCategories }) => {
     const [componentStyle, setComponentStyle] = useState({}); // using for control the component style 
-    const [component, setComponent] = useState(componentData); // using for control the component data
-    const [AddElement] = elementsState; // using for add the elements to component when user is did 
+    const [componentData, setComponentData] = useState(component); // using for control the component data
+    const [AddElement] = elements; // using for add the elements to component when user is did 
     const [history, setHistory] = useState([]); // Store user actions
     const [sectionData, setSectionData] = sectionDataState; // using for Control  section data 
 
@@ -66,7 +66,7 @@ const EditComponent = ({ componentData, handleAddNewElement, elementsState, comp
     }, [AddElement, component.id, componentId, handleAddNewElement, sectionData]);
 
     useEffect(() => {
-        setComponent(component);
+        setComponentData(component);
     }, [component]);
 
     useMemo(() => {
@@ -84,7 +84,7 @@ const EditComponent = ({ componentData, handleAddNewElement, elementsState, comp
 
     // Change the section style
     const handleSectionStyleChange = useCallback((cssValue, prop) => {
-        setComponent((prevData) => {
+        setComponentData((prevData) => {
             const updatedSectionData = { ...prevData }; // Update with a copy
             const changed = addStyleAbdullah(updatedSectionData, [prevData.id], prop, cssValue, null, null);
             if (changed) {
@@ -124,9 +124,11 @@ const EditComponent = ({ componentData, handleAddNewElement, elementsState, comp
 
 
     const handleMoveElement = (oldIndex, newIndex, parent_id) => {
-        setComponent((prevData) => {
+        console.log("parent_id", parent_id);
+        setComponentData((prevData) => {
             if (prevData.id === parent_id) {
                 const updatedElements = component.children.map((element, index) => {
+                    console.log("element", element);
                     if (element.sequence_number === oldIndex) {
                         element.sequence_number = newIndex;
                     } else if (element.sequence_number === newIndex) {
@@ -163,11 +165,11 @@ const EditComponent = ({ componentData, handleAddNewElement, elementsState, comp
             .map((element, i) => (
                 <Box key={`${component.id}-${element.id}-${i}`} sx={{ padding: '0px' }}>
                     <EditElement
-                        elementData={element}
+                        element={element}
                         deleteElementForComponent={deleteElementForComponent}
                         componentId={component.id}
                         handleMoveElement={handleMoveElement}
-                        componentDataState={[component, setComponent]}
+                        componentDataState={[component, setComponentData]}
                         styleCategories={styleCategories}
                         sectionDataState={sectionDataState}
                     />
@@ -183,8 +185,8 @@ const EditComponent = ({ componentData, handleAddNewElement, elementsState, comp
                 icon={<EditIcon />}
                 willShow={
                     <StyleBox
-                        Section_Name={"Style Component"}
-                        element_Type='Component'
+                        name_of_design={"Style Component"}
+                        type_of_design='Component'
                         sectionStyle={componentStyle}
                         handleSectionStyleChange={handleSectionStyleChange}
                         styleCategories={styleCategories}
@@ -210,10 +212,10 @@ const EditComponent = ({ componentData, handleAddNewElement, elementsState, comp
 };
 
 EditComponent.propTypes = {
-    componentData: propTypes.object,
+    component: propTypes.object,
     handleAddNewElement: propTypes.func,
     componentId: propTypes.string,
-    elementsState: propTypes.array,
+    elements: propTypes.array,
     sectionDataState: propTypes.array,
     styleCategories: propTypes.array,
 };

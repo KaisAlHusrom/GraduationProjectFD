@@ -1,10 +1,10 @@
 //React
-import { useMemo, useState } from 'react'
+import { useMemo, } from 'react'
 
 import {
     
 } from 'react-redux'
-
+import PropTypes from 'prop-types'; 
 //Components
 
 
@@ -13,7 +13,6 @@ import {
     Box,
 } from '@mui/material'
 import { styled  , css} from '@mui/system'
-import NavBar from '../TempalteSection/sections/NavBar/NavBar';
 import EmptySection from './Sections/EmptySection/EmptySection';
 import { fetchWepPages } from '../../../../Services/WepPages';
 import { useParams } from 'react-router-dom';
@@ -37,53 +36,14 @@ const EmptyTemplate = ({
     isTabletWidth, 
     isLaptopWidth,
 }) => {
-     // list of section
-        const [sectionsOrder, setSectionsOrder] = useState([
-            'Header',
-        ]);
-
-        // change the order of sections 
-        const changeOrder = (index, direction) => {
-            const newOrder = [...sectionsOrder];
-            const sectionToMove = newOrder.splice(index, 1)[0];
-            let newIndex = direction === 'up' ? index - 1 : index + 1;
-        
-            // Prevent moving the first section (NavBar) up
-            if (direction === 'up' && index === 0) {
-                return;
-            }
-        
-            // Prevent moving the last section (Footer) down
-            if (direction === 'down' && index === sectionsOrder.length - 1) {
-                return;
-            }
-        
-            // Adjust index for moving the last section down
-            if (direction === 'down' && index === sectionsOrder.length - 2) {
-                newIndex = sectionsOrder.length - 1;
-            }
-        
-            newOrder.splice(newIndex, 0, sectionToMove);
-            setSectionsOrder(newOrder);
-        };
 
         const {id} = useParams()
-
-        
-        
-     const appliedFilter = useMemo(() => {
+        const appliedFilter = useMemo(() => {
             return [
                 writeFilterObject('web_project_id', 'string', '=', id), 
             ]
         }, [id])
-    
-        // const {loading, hasMore, setPageNumber, data } = useFetchData(fetchDesigns, 'all', appliedFilter, null, true, null, null, 5)
-
-        console.log("id" , id)
-        const {loading, hasMore, setPageNumber, data } = useFetchData(fetchWepPages, 'all', appliedFilter, null, true, null, null, 10)
-
-        console.log("template" , data)
-
+        const { data } = useFetchData(fetchWepPages, 'all', appliedFilter, null, true, null, null, 10)
 
     return (
         <StyledEmptyTemplate 
@@ -95,15 +55,22 @@ const EmptyTemplate = ({
             margin: '100px auto',
         }}
         >
-            <NavBar />
+            {/* <NavBar /> */}
             {data[0]?.designs?.map((section, index) => (
                 <div key={index}>
-                    <EmptySection designData = {section} />
+                    <EmptySection designData = {section}  />
 
                 </div>
             ))}
         </StyledEmptyTemplate>
     );
+};
+
+EmptyTemplate.propTypes = {
+    selectedFontFamily: PropTypes.string,
+    isMobileWidth: PropTypes.bool,
+    isTabletWidth: PropTypes.bool,
+    isLaptopWidth: PropTypes.bool,
 };
 
 export default EmptyTemplate;

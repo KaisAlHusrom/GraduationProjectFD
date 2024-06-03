@@ -6,12 +6,12 @@ import {
     Typography,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import { AdminMainButton } from '../../../../../Components';
+import { AdminMainButton } from '../../../Components';
 import AddCardIcon from '@mui/icons-material/AddCard';
-import { fetchDesignCategories } from '../../../../../Services/designCategoriesService';
-import useFetchData from '../../../../../Helpers/customHooks/useFetchData';
-import DrawerSelectedCategoryDesigns from '../EditPage/Drawers/ReadyDesign/DrawerSelectedCategoryDesigns';
-import { fetchElementTypesCategories } from '../../../../../Services/elementTypesCategories';
+import { fetchDesignCategories } from '../../../Services/designCategoriesService';
+import useFetchData from '../../../Helpers/customHooks/useFetchData';
+import DrawerSelectedCategoryDesigns from '../sections/EmptyDesign/EditPage/Drawers/ReadyDesign/DrawerSelectedCategoryDesigns';
+import { fetchElementTypesCategories } from '../../../Services/elementTypesCategories';
 
 // Styled Components
 const StyledModalDesignCategories = styled(Box)(
@@ -40,7 +40,7 @@ const ButtonStyle = {
     boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
 }
 
-const ModalDesignCategories = ({  createDesignFunction, appliedFilter, selected_parent_id, NameOfCategories }) => {
+const ModalDesignCategories = ({  createDesignedDesign, appliedFilter, selected_parent_id, NameOfCategories }) => {
 
     const fetchFunction = NameOfCategories === "Empty"
         ? fetchElementTypesCategories
@@ -75,7 +75,7 @@ const ModalDesignCategories = ({  createDesignFunction, appliedFilter, selected_
                             willShow={
                                 <DrawerSelectedCategoryDesigns
                                     design_category_id={Design.id}
-                                    createDesignedDesign={createDesignFunction}
+                                    createDesignedDesign={createDesignedDesign}
                                     appliedFilterType={NameOfCategories === 'Empty' ? Design.id : Design.design_type}
                                     selected_parent_id={selected_parent_id}
                                 />

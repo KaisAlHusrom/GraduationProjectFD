@@ -36,18 +36,16 @@ const TooltipContainer = styled(Box)({
     },
 });
 
+import PropTypes from 'prop-types';
 
 
-const EditLink = ({ section_id }) => {
+const EditLink = ({ design_id }) => {
     return (
         <TooltipContainer>
             <Link
                 // to={`/design-control/EditPage/${id}`}
                 
-                 to={`/empty-design/EditPage/${section_id}`}
-
-                sx = {{
-                }}
+                    to={`/Empty-design/EditPage/${design_id}`}
             >
                 <EditIcon
                     sx={{
@@ -59,5 +57,7 @@ const EditLink = ({ section_id }) => {
         </TooltipContainer>
     );
 };
-
+EditLink.propTypes = {
+    design_id: PropTypes.string.isRequired,
+};
 export default EditLink;

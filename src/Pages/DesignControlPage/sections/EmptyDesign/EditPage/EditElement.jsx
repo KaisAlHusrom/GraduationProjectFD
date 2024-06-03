@@ -7,9 +7,8 @@ import {
 import propTypes from 'prop-types';
 
 // Components
-import { AdminMainButton } from '../../../../../Components';
 import * as utils from '../StylesFunctions/SetStylesFunctions.js';
-import StyleBox from '../components/StyleBox.jsx';
+
 
 // MUI
 import {
@@ -21,7 +20,9 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
-import { GenerateTagEdit } from '../components/GenerateTagEdit .jsx';
+import { AdminMainButton } from '../../../../../Components/index.jsx';
+import StyleBox from '../../../components/StyleBox.jsx';
+import { GenerateTagEdit } from '../../../components/GenerateTagEdit .jsx';
 
 // Styled Components
 const StyledEditElement = styled(Box)(({ elementstyle }) => ({
@@ -54,18 +55,11 @@ const buttonStyle = {
     },
 };
 
-const EditElement = ({ 
-        elementData,
-        deleteElementForComponent,
-        componentId, 
-        handleMoveElement,
-        componentDataState,
-        styleCategories, 
-        sectionDataState }) => {
+const EditElement = ({ element, deleteElementForComponent, componentId, handleMoveElement, componentDataState, styleCategories, sectionDataState }) => {
 
-    const [element, setElementData] = useState(elementData);
+    const [elementData, setElementData] = useState(element);
     const [componentData, setComponentData] = componentDataState;
-    const [title, setTitle] = useState(element.element_content);
+    const [title, setTitle] = useState(elementData.element_content);
     const [sectionData, setSectionData] = sectionDataState;
     const [elementStyle, setElementStyle] = useState({});
     const [history, setHistory] = useState([]);
@@ -127,7 +121,7 @@ const EditElement = ({
                     return {
                         ...component,
                         children: component.children.map(child => {
-                            if (child.id === element.id) {
+                            if (child.id === elementData.id) {
                                 return { ...child, element_content: newTitle };
                             }
                             return child;
@@ -153,7 +147,7 @@ const EditElement = ({
                     return {
                         ...component,
                         children: component.children.map(child => {
-                            if (child.id === element.id) {
+                            if (child.id === elementData.id) {
                                 return { ...child, element_content: title };
                             }
                             return child;
@@ -171,7 +165,7 @@ const EditElement = ({
     };
 
     const handleDeleteElementClick = () => {
-        deleteElementForComponent(componentId, element.id);
+        deleteElementForComponent(componentId, elementData.id);
     };
     const handleOrderElementClick = (event, direction, sequence_number) => {
         event.stopPropagation();
@@ -191,12 +185,11 @@ const EditElement = ({
     
     
     
-    
 
     console.log(element.sequence_number , element.element_content)
     return (
         <StyledEditElement>
-            <GenerateTagEdit selectedTemplate={element} elementStyle={elementStyle}></GenerateTagEdit>
+            <GenerateTagEdit selectedTemplate={elementData} elementStyle={elementStyle}></GenerateTagEdit>
             <TooltipContainer>
                 <div style={{ position: 'absolute', height: '50px', flexWrap: 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>
                     <AdminMainButton
@@ -207,10 +200,10 @@ const EditElement = ({
                         icon={<EditIcon />}
                         willShow={
                             <StyleBox
-                                Section_Name={"Style Element"}
+                                name_of_design={"Style Element"}
                                 title={title}
                                 handleTextFieldChange={handleTextFieldChange}
-                                element_Type={element.element_type.element_type_name}
+                                type_of_design={element.element_type.element_type_name}
                                 handleSectionStyleChange={handleSectionStyleChange}
                                 handleDeleteLogoClick={handleDeleteLogoClick}
                                 handleUploadImageClickWrapper={handleUploadImageClickWrapper}
@@ -247,7 +240,7 @@ const EditElement = ({
                         appearance="iconButton"
                         putTooltip
                         icon={<KeyboardArrowUpIcon />}
-                        onClick={(e) => handleOrderElementClick(e, 'up', element.sequence_number)}
+                        onClick={(e) => handleOrderElementClick(e, 'up', elementData.sequence_number)}
                         sx={buttonStyle}
                     />
                     <AdminMainButton
@@ -256,7 +249,7 @@ const EditElement = ({
                         appearance="iconButton"
                         putTooltip
                         icon={<KeyboardArrowDownIcon />}
-                        onClick={(e) => handleOrderElementClick(e, 'down', element.sequence_number )}
+                        onClick={(e) => handleOrderElementClick(e, 'down', elementData.sequence_number )}
                         sx={buttonStyle}
                     />
 
@@ -267,7 +260,7 @@ const EditElement = ({
 };
 
 EditElement.propTypes = {
-    elementData: propTypes.object,
+    element: propTypes.object,
     deleteElementForComponent: propTypes.func,
     handleMoveElement: propTypes.func,
     componentDataState: propTypes.array,

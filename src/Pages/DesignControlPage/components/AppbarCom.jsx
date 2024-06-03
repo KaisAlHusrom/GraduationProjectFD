@@ -10,7 +10,6 @@ import AdminMainButton from '../../../Components/AdminMainButton/AdminMainButton
 import MainDrawerList from '../SideBar/DrawerLists/MainDrawerList';
 import HomeDrawerList from '../SideBar/DrawerLists/HomeDrawerList';
 import LanguageDrawerList from '../SideBar/DrawerLists/LanguageDrawerList';
-import TemplateMain from '../sections/TempalteSection/TemplateMain';
 import FontFamily from './FontFamily'
 
 

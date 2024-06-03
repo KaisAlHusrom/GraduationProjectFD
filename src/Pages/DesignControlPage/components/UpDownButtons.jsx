@@ -6,9 +6,10 @@ import {
 import {
     
 } from 'react-redux'
+import PropTypes from 'prop-types';
 
 //Components
-import { AdminMainButton } from '../../../../../Components'
+import { AdminMainButton } from '../../../Components'
 
 
 //MUI
@@ -20,7 +21,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 //Styled Components
 const StyledUpDownButtons = styled(Box)(
-    ({ theme }) => ({
+    () => ({
     
     })
 )
@@ -63,5 +64,8 @@ const UpDownButtons = ({moveSectionUp , moveSectionDown}) => {
         </StyledUpDownButtons>
     );
 };
-
+UpDownButtons.propTypes = {
+    moveSectionUp: PropTypes.func,
+    moveSectionDown: PropTypes.func,
+};
 export default UpDownButtons;

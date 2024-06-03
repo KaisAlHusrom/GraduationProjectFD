@@ -17,7 +17,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { GenerateTagEdit } from '../../components/GenerateTagEdit '
+import { GenerateTagEdit } from '../../../../components/GenerateTagEdit '
 
 //Styled Components
 
@@ -42,7 +42,6 @@ const EmptyElement = ({element}) => {
         setElementStyle(dictionary);
     }, [element.styles]);
 
-    console.log(elementStyle)
 
     return (
         <StyledEmptyElement className='element-query'>

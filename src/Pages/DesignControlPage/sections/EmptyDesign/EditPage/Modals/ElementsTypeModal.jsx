@@ -4,7 +4,7 @@ import { useMemo } from 'react'
 import {
     
 } from 'react-redux'
-
+import PropTypes from 'prop-types';
 //Components
 import { AdminMainButton } from '../../../../../../Components'
 
@@ -15,12 +15,12 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import AddCardIcon from '@mui/icons-material/AddCard';
-import ModalDesignCategories from '../../components/ModalDesignCategories'
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
+import ModalDesignCategories from '../../../../components/ModalDesignCategories';
 
 //Styled Components
 const StyledElementsTypeModal = styled(Box)(
-    ({ theme }) => ({
+    () => ({
         display : 'flex', 
         flexWrap : 'wrap',
         justifyContent : 'center',
@@ -50,7 +50,7 @@ const ButtonStyle = {
 }
 
 const ElementsTypeModal = ({
-     createDesignFunction, selected_parent_id
+    createDesignedDesign, selected_parent_id
 }) => {
 
     const appliedFilterForDesignCategory = useMemo(() => {
@@ -75,7 +75,7 @@ const ElementsTypeModal = ({
                             icon={<AddCardIcon />}
                             willShow={
                                 <ModalDesignCategories  
-                                createDesignFunction = {createDesignFunction}
+                                createDesignedDesign = {createDesignedDesign}
                                 appliedFilter = {appliedFilterForDesignCategory}
                                 selected_parent_id = {selected_parent_id} 
                                 NameOfCategories = {"Template"}
@@ -94,7 +94,7 @@ const ElementsTypeModal = ({
                             }}
                             willShow={
                                 <ModalDesignCategories  
-                                createDesignedDesign = {createDesignFunction}
+                                createDesignedDesign = {createDesignedDesign}
                                 appliedFilter = {null}
                                 selected_parent_id = {selected_parent_id} 
                                 NameOfCategories = {"Empty"}
@@ -106,5 +106,8 @@ const ElementsTypeModal = ({
         </StyledElementsTypeModal>
     );
 };
-
+ElementsTypeModal.propTypes = {
+    createDesignedDesign: PropTypes.func.isRequired,
+    selected_parent_id: PropTypes.string.isRequired,
+};
 export default ElementsTypeModal;
