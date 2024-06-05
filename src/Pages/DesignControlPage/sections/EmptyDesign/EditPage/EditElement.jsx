@@ -74,7 +74,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId, handleMo
         if (element.styles) {
             element.styles.forEach((cssProp) => {
                 const { style_prop, style_prop_value } = cssProp;
-                if (style_prop.is_element) {
+                if (style_prop?.is_element) {
                     dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
@@ -93,7 +93,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId, handleMo
                 if (element.styles) {
                     element.styles.forEach((cssProp) => {
                         const { style_prop, style_prop_value } = cssProp;
-                        if (style_prop.is_element) {
+                        if (style_prop?.is_element) {
                             dictionary[style_prop.style_prop_css_name] = style_prop_value;
                         }
                     });
@@ -186,7 +186,6 @@ const EditElement = ({ element, deleteElementForComponent, componentId, handleMo
     
     
 
-    console.log(element.sequence_number , element.element_content)
     return (
         <StyledEditElement>
             <GenerateTagEdit selectedTemplate={elementData} elementStyle={elementStyle}></GenerateTagEdit>
@@ -203,7 +202,7 @@ const EditElement = ({ element, deleteElementForComponent, componentId, handleMo
                                 name_of_design={"Style Element"}
                                 title={title}
                                 handleTextFieldChange={handleTextFieldChange}
-                                type_of_design={element.element_type.element_type_name}
+                                type_of_design={element?.element_type?.element_type_name}
                                 handleSectionStyleChange={handleSectionStyleChange}
                                 handleDeleteLogoClick={handleDeleteLogoClick}
                                 handleUploadImageClickWrapper={handleUploadImageClickWrapper}

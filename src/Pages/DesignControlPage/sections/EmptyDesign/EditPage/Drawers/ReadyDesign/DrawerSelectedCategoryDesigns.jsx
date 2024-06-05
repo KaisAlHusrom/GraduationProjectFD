@@ -1,15 +1,32 @@
 import { useMemo, useState } from 'react';
-import { Box, Container, Skeleton, Typography } from '@mui/material';
+import { Box, Skeleton, Typography } from '@mui/material';
 import { styled } from '@mui/system';
-import { writeFilterObject } from '../../../../../../../Helpers/filterData';
-import useFetchData from '../../../../../../../Helpers/customHooks/useFetchData';
-import { fetchDesign } from '../../../../../../../Services/designServic';
-import CustomAlert from '../../../../../../../Components/CustomAlert/CustomAlert';
-import { v4 as uuidv4 } from 'uuid';
-import { fetchElementTypesRows } from '../../../../../../../Services/elementsTypesService';
-import config from '../../../../../../../../Config.json'
+
+
+// helpers 
 import { transformElementTypeToDesignStructure } from '../../../../../../../Helpers/transformData';
-import { cleanDesignDataDesignPage } from '../../../../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
+import config from '../../../../../../../../Config.json'
+import useFetchData from '../../../../../../../Helpers/customHooks/useFetchData';
+import { writeFilterObject } from '../../../../../../../Helpers/filterData';
+
+
+// services 
+import { fetchElementTypesRows } from '../../../../../../../Services/elementsTypesService';
+import { fetchDesign } from '../../../../../../../Services/designServic';
+
+
+// component 
+import CustomAlert from '../../../../../../../Components/CustomAlert/CustomAlert';
+
+
+
+// mui
+
+import { v4 as uuidv4 } from 'uuid';
+
+
+// PropTypes
+import PropTypes from 'prop-types';
 
 const StyledDrawerSelectedCategoryDesigns = styled(Box)(
     ({ theme }) => ({
@@ -74,10 +91,14 @@ const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_i
             const newElement = { ...componentDesign, id: uuidv4() , is_template : 0 , is_child : 1, parent_id :selected_parent_id };
             setAlert(true);
             createDesignedDesign(selected_parent_id, newElement);
-        } else {
+        } else if(componentDesign.design_type === "component"){
             const newComponent = { ...componentDesign, id: uuidv4(), is_template : 0 , is_child : 1  , parent_id :selected_parent_id };
             setAlert(true);
             createDesignedDesign(newComponent);
+        }else if(componentDesign.design_type === "section"){
+            const newSection = { ...componentDesign, id: uuidv4(), is_template : 0 , is_child : 1 };
+            setAlert(true);
+            createDesignedDesign(newSection);
         }
     };
 
@@ -139,8 +160,15 @@ const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_i
     
 };
 
+DrawerSelectedCategoryDesigns.propTypes = {
+    createDesignedDesign: PropTypes.func,
+    design_category_id: PropTypes.string,
+    appliedFilterType: PropTypes.string,
+    selected_parent_id: PropTypes.string,
+};
+
+
 export default DrawerSelectedCategoryDesigns;
 
 
 
-//   //when there is on selected parent id, the parent will be the selected element

@@ -165,14 +165,17 @@ export const cleanDesignDataDesignPage = (elements) => {
             element['updated_at'] = null
             element['parent_id'] = parentId; 
             if (element?.element_type?.element_type_name === "Image") {
-                const base64String = element.element_content;
-                const filename = 'image.png'; // You can generate a unique filename if needed
-                const file = base64ToFile(base64String, filename);
-                if (file) {
-                    element.element_content = file;
-                } else {
-                    console.error('Failed to convert base64 string to file for element:', element);
+                if (!(element.element_content instanceof File ) && !(element.element_content.endsWith(".png"))) {
+                    const base64String = element.element_content;
+                    const filename = 'image.png'; // You can generate a unique filename if needed
+                    const file = base64ToFile(base64String, filename);
+                    if (file) {
+                        element.element_content = file;
+                    } else {
+                        console.error('Failed to convert base64 string to file for element:', element);
+                    }
                 }
+                
             }
 
             delete element['element_type'];

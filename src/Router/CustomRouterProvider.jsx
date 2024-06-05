@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 //pages
-import { Admin, DesignControlPage, ErrorPage, MainPage, NotFoundPage } from '../Pages';
+import { Admin, ErrorPage, MainPage, NotFoundPage } from '../Pages';
 
 
 
@@ -67,12 +67,12 @@ const router = createBrowserRouter(
             </Route>
 
                {/* Design Control Page Routes */}
-            <Route 
+            {/* <Route 
             exact 
             path="design-control"  
             element={<DesignControlPage />} 
             > 
-            </Route>
+            </Route> */}
             <Route path="empty-design/:id"   element={<Main />} /> 
 
 
@@ -84,7 +84,7 @@ const router = createBrowserRouter(
 
 
             <Route path="/Ecommerce" element={<EcommerceMain />} />
-            <Route path="Empty-design/:id"   element={<Main />} /> 
+            {/* <Route path="Empty-design/:id"   element={<Main />} />  */}
             <Route path="create-template" element={<CreateElementTemplate />} />
 
             {/* <Route path="/design-control/EditPage/:section_id" element={<EditPage />} /> */}

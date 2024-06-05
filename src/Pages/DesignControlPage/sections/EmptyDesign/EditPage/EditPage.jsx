@@ -162,7 +162,7 @@ const EditPage = () => {
             if (data.styles) {
                 data.styles.forEach((cssProp) => {
                 const { style_prop, style_prop_value } = cssProp;
-                if (style_prop.is_section) {
+                if (style_prop?.is_section) {
                     dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
@@ -184,45 +184,74 @@ const EditPage = () => {
     }, [section_id, setData]);
 
 
-    // Duplicate component
     const addComponentForComponent = (section_component_id) => {
         const index = sectionData.children.findIndex(component => component.id === section_component_id);
         if (index !== -1) {
             const newComponent = generateNewIdsForChildren(sectionData.children[index]);
+    
+            // Find the maximum sequence_number among the children
+            const maxSequenceNumber = Math.max(...sectionData.children.map(component => component.sequence_number));
+            
+            // Set the new component's sequence_number to maxSequenceNumber + 1
+            newComponent.sequence_number = maxSequenceNumber + 1;
+    
             setSectionData((prevData) => {
                 const updatedComponents = [...prevData.children];
+    
+                // Insert the new component after the current component
                 updatedComponents.splice(index + 1, 0, newComponent);
+    
+                // Sort the components by sequence_number to ensure order is maintained
+                updatedComponents.sort((a, b) => a.sequence_number - b.sequence_number);
+    
                 return {
                     ...prevData,
                     children: updatedComponents,
                 };
             });
+    
             setHistory(prevHistory => [...prevHistory, sectionData]);
         }
     };
-
-    //  delete the component
+    
+    
     const deleteComponentForComponent = (section_component_id) => {
         const index = sectionData.children.findIndex(component => component.id === section_component_id);
         if (index !== -1) {
             setData((prevData) => {
                 const updatedComponents = [...prevData.children];
                 updatedComponents.splice(index, 1);
+    
+                // Yalnızca bir bileşen varsa ve sequence_number 3 ise, sequence_number değerini 1'e düşür
+                if (updatedComponents.length === 1 && updatedComponents[0].sequence_number === 3) {
+                    updatedComponents[0].sequence_number = 1;
+                }
+    
                 return {
                     ...prevData,
                     children: updatedComponents,
                 };
             });
             setHistory(prevHistory => [...prevHistory, sectionData]);
-
         }
     };
+    
 
     // create designed component
     const createDesignedComponent = (component) => {
-        // Update the state to include the new component
+        // Yeni bileşenin sequence_number değerini belirlemek için mevcut bileşenleri kontrol et
+        let maxSequenceNumber = 0;
+        sectionData.children.forEach(existingComponent => {
+            if (existingComponent.sequence_number > maxSequenceNumber) {
+                maxSequenceNumber = existingComponent.sequence_number;
+            }
+        });
+    
+        // Yeni bileşenin sequence_number değeri mevcut en yüksek sequence_number değerinden 1 fazla olmalı
+        component.sequence_number = maxSequenceNumber + 1;
+    
+        // State'i güncelle ve yeni bileşeni ekle
         setData((prevData) => {
-            // Check if prevData exists and has children
             const updatedComponents = prevData && Array.isArray(prevData.children) 
                 ? [...prevData.children, component] 
                 : [component];
@@ -232,9 +261,10 @@ const EditPage = () => {
                 children: updatedComponents,
             };
         });
-
+    
         setHistory(prevHistory => [...prevHistory, data]);
     };
+    
     
     // add new element to component 
     const handleAddNewElement = useCallback((componentId , element) => {
@@ -282,7 +312,7 @@ const EditPage = () => {
         setAddElementToComponentId(section_component_id);
         openConfirmationDialog();
     };
-
+    
     const handleConfirmDelete = () => {
         deleteComponentElements(AddElementToComponentId);
         closeConfirmationDialog();
@@ -363,18 +393,18 @@ const EditPage = () => {
             />
 
             <HoverBox key={section_id} sx={sectionStyle}>
-                {sectionData && sectionData.children && sectionData.children.map((component, i) => (
-                    <Box key = {i} sx = {{
-                        height : 'fit-content'
-                    }}>
+                {sectionData && sectionData.children && sectionData.children.slice() // Diziyi mutasyona uğratmamak için slice kullanıyoruz
+                    .sort((a, b) => a.sequence_number - b.sequence_number)
+                    .map((component, i) => (
+                        <Box key={component.id}>
                         <EditComponent 
                             key={component.id} 
                             component={component} 
-                            componentId = {AddElementToComponentId}
-                            handleAddNewElement = {handleAddNewElement} 
-                            elements = {[AddElement , setAddElement]}
-                            sectionDataState = {[sectionData, setSectionData]}
-                            styleCategories = {styleCategories}
+                            componentId={AddElementToComponentId}
+                            handleAddNewElement={handleAddNewElement} 
+                            elements={[AddElement, setAddElement]}
+                            sectionDataState={[sectionData, setSectionData]}
+                            styleCategories={styleCategories}
                         />
                         
                         <ActionButtons className="action-buttons">

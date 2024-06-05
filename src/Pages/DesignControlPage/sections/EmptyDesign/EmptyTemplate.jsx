@@ -6,18 +6,17 @@ import {
 } from 'react-redux'
 import PropTypes from 'prop-types'; 
 //Components
-
+import { useParams } from 'react-router-dom';
+import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData';
+import { fetchSpecificWebProject } from '../../../../Services/webProjectsService';
+import EmptySection from './Sections/EmptySection/EmptySection';
 
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled  , css} from '@mui/system'
-import EmptySection from './Sections/EmptySection/EmptySection';
-import { fetchWepPages } from '../../../../Services/WepPages';
-import { useParams } from 'react-router-dom';
-import { writeFilterObject } from '../../../../Helpers/filterData';
-import useFetchData from '../../../../Helpers/customHooks/useFetchData';
+
 
 //Styled Components
 
@@ -38,13 +37,16 @@ const EmptyTemplate = ({
 }) => {
 
         const {id} = useParams()
-        const appliedFilter = useMemo(() => {
+        const params = useMemo(() => {
             return [
-                writeFilterObject('web_project_id', 'string', '=', id), 
+                id
             ]
         }, [id])
-        const { data } = useFetchData(fetchWepPages, 'all', appliedFilter, null, true, null, null, 10)
 
+        
+        const { data } = useEffectFetchData(fetchSpecificWebProject, params , true , true )
+
+        
     return (
         <StyledEmptyTemplate 
         fontFamily={selectedFontFamily}
@@ -56,12 +58,15 @@ const EmptyTemplate = ({
         }}
         >
             {/* <NavBar /> */}
-            {data[0]?.designs?.map((section, index) => (
-                <div key={index}>
-                    <EmptySection designData = {section}  />
+            { data && data.pages[0]?.designs
+                .sort((a, b) => a.sequence_number - b.sequence_number)
+                .map((section, index) => (
+                    <div key={index}>
+                        <EmptySection designData={section} />
+                    </div>
+                ))
+            }
 
-                </div>
-            ))}
         </StyledEmptyTemplate>
     );
 };

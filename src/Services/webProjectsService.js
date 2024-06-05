@@ -38,6 +38,8 @@ export const fetchSpecificWebProject = async (id) => {
         row = null;
     }
 
+    console.log("Row" , row)
+
     return row;
 }
 

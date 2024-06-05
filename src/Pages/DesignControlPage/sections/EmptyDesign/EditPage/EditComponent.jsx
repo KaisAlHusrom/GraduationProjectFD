@@ -74,7 +74,7 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
         if (component.styles) {
             component.styles.forEach((cssProp) => {
                 const { style_prop, style_prop_value } = cssProp;
-                if (style_prop.is_component) {
+                if (style_prop?.is_component) {
                     dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
@@ -93,7 +93,7 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
                 if (updatedSectionData.styles) {
                     updatedSectionData.styles.forEach((cssProp) => {
                         const { style_prop, style_prop_value } = cssProp;
-                        if (style_prop.is_component) {
+                        if (style_prop?.is_component) {
                             dictionary[style_prop.style_prop_css_name] = style_prop_value;
                         }
                     });
@@ -156,6 +156,8 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
     };  
 
 
+    console.log(component.sequence_number , component.element_content)
+    console.log(sectionData)
 
     return (
         <StyledEditComponent sx={{ ...componentStyle, position: 'relative' }}>
@@ -195,7 +197,7 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
                 sx={EditButtonsStyle}
             />
         </TooltipContainer>
-
+{/* 
         {history.length > 0 && (
             <AdminMainButton
                 title="Undo"
@@ -206,7 +208,7 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
                 onClick={undo}
                 sx={EditButtonsStyle}
             />
-        )}
+        )} */}
     </StyledEditComponent>
     );
 };

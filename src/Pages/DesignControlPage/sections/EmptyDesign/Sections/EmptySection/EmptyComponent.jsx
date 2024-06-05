@@ -14,7 +14,6 @@ import propTypes from 'prop-types'
 //MUI
 import {
     Box,
-    Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 import EmptyElement from './EmptyElement'
@@ -35,7 +34,7 @@ const EmptyComponent = ({component}) => {
         if (component.styles) {
             component.styles.forEach((cssProp) => {
                 const { style_prop, style_prop_value } = cssProp;
-                if (style_prop.is_component) {
+                if (style_prop?.is_component) {
                     dictionary[style_prop.style_prop_css_name] = style_prop_value;
                 }
             });
@@ -46,7 +45,7 @@ const EmptyComponent = ({component}) => {
 
 
     return (
-            <StyledEmptyComponent sx={componentStyle} className='component-query'>
+            <StyledEmptyComponent sx={{...componentStyle , position : 'relative'}} className='component-query'>
                 {
                     component && component.children
                         .sort((a, b) => a.sequence_number - b.sequence_number)

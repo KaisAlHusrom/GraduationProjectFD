@@ -31,7 +31,6 @@ const EmptySection = ({moveSectionUp , moveSectionDown , designData}) => {
     const {EmptySection } = useContext(EmptyTemplateSectionSet)
 
 
-    
         const sectionStyle = useMemo(() => {
             const styleObject = {};
                 if (designData) {
@@ -49,8 +48,6 @@ const EmptySection = ({moveSectionUp , moveSectionDown , designData}) => {
                 return styleObject;
             }, [designData]);
 
-
-
     return (
         EmptySection ? (
             <StyledEmptySection sx = {{position : 'relative'}}  >
@@ -62,8 +59,8 @@ const EmptySection = ({moveSectionUp , moveSectionDown , designData}) => {
                 <UpDownButtons moveSectionUp = {moveSectionUp} moveSectionDown = {moveSectionDown} ></UpDownButtons>
                 </Box>
                             <Box sx={sectionStyle}>
-                                    {designData.children && designData.children.map((component, i) => (
-                                        designData.design_title === "Empty_Section" && designData.is_template === 1 ? (
+                                    {designData.children && designData.children.sort((a, b) => a.sequence_number - b.sequence_number).map((component, i) => (
+                                        designData.design_title === "Empty_Section" && designData.is_template === 1  ? (
                                             <Box key={i}>
                                                 <Typography sx={{
                                                     fontSize: '20px',

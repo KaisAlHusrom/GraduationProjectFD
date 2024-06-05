@@ -1,27 +1,23 @@
-import { Fragment, useMemo } from "react";
+import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import { styled, useTheme } from "@mui/system";
-import exampleImage from "../../../assets/images/exampleimage.jpg"; // Örnek resim yolu
+import { styled } from "@mui/system";
+import exampleImage from "../../../assets/images/exampleimage.jpg"; 
 import { Link, NavLink } from "react-router-dom";
-import config from "../../../../Config.json"; // Uygulamanızdaki yapılandırma dosyasının doğru yolunu sağlayın
+import config from "../../../../Config.json"; 
 
 const designImagesFolderName = "ImagesInsideDesigns";
+
 const repeat = (selectedElement) => {
   return selectedElement.children && selectedElement.children.length > 0
     ? selectedElement.children.map((child, key) => (
         <Fragment key={key}>
-          <GenerateTagEdit
-            key={child.id}
-            // elementStyle={elementStyle}
-            selectedTemplate={child}
-          />
+          <GenerateTagEdit key={child.id} selectedTemplate={child} />
         </Fragment>
       ))
     : null;
 };
 
-export const GenerateTagEdit = ({ selectedTemplate, elementStyle }) => {
-  const theme = useTheme();
+const GenerateTagEdit = ({ selectedTemplate, elementStyle }) => {
   const sortedData = Array.isArray(selectedTemplate)
     ? selectedTemplate.sort((a, b) => a.sequence_number - b.sequence_number)
     : selectedTemplate;
@@ -32,11 +28,11 @@ export const GenerateTagEdit = ({ selectedTemplate, elementStyle }) => {
   const hasChildren = sortedData?.children?.length > 0;
   const exampleText = hasChildren ? repeat(sortedData, GenerateTagEdit) : content;
 
-  const defaultProps = useMemo(() => ({
+  const defaultProps = {
     type,
     key,
     placeholder: type,
-  }), [key, type]);
+  };
 
   return (
     <Tag
@@ -51,12 +47,11 @@ export const GenerateTagEdit = ({ selectedTemplate, elementStyle }) => {
 
 GenerateTagEdit.propTypes = {
   selectedTemplate: PropTypes.any,
-  elementStyle: PropTypes.object
+  elementStyle: PropTypes.object,
 };
 
-const Tag = ({ type, defaultProps, exampleText, sortedData, elementStyle }) => {
-
-  const component = useMemo(() => {
+const Tag = ({ type, exampleText, sortedData, elementStyle }) => {
+  const component = (() => {
     switch (type.toLowerCase()) {
       case "text field strings":
       case "text field numbers":
@@ -65,17 +60,12 @@ const Tag = ({ type, defaultProps, exampleText, sortedData, elementStyle }) => {
       case "paragraph":
         return "p";
       case "heading 1":
-        return "h1";
       case "heading 2":
-        return "h2";
       case "heading 3":
-        return "h3";
       case "heading 4":
-        return "h4";
       case "heading 5":
-        return "h5";
       case "heading 6":
-        return "h6";
+        return `h${parseInt(type.toLowerCase().replace("heading ", ""), 10)}`;
       case "subtitle 1":
       case "subtitle 2":
       case "body 1":
@@ -144,20 +134,22 @@ const Tag = ({ type, defaultProps, exampleText, sortedData, elementStyle }) => {
       default:
         return null;
     }
-  }, [type]);
+  })();
 
-  const initialStyles = useMemo(() => ({
+  if (!component) {
+    return null;
+  }
+
+  const initialStyles = {
     width: type.toLowerCase() === "image" ? "100%" : undefined,
     height: type.toLowerCase() === "image" ? "100%" : undefined,
-  }), [type]);
-
-  const StyledComp = useMemo(() => styled(component)(({ theme }) => ({
-    ...initialStyles,
     ...elementStyle,
-  })), [component, elementStyle, initialStyles]);
+  };
 
-  const getImageSrc = useMemo(() => {
-    if (sortedData.element_type.element_type_name === "Image") {
+  const StyledComp = styled(component)(initialStyles);
+
+  const getImageSrc = () => {
+    if (sortedData && sortedData.element_type && sortedData.element_type.element_type_name === "Image") {
       if (exampleText === "Blank Image") {
         return exampleImage;
       } else if (exampleText.startsWith("data:")) {
@@ -167,23 +159,24 @@ const Tag = ({ type, defaultProps, exampleText, sortedData, elementStyle }) => {
       }
     }
     return null;
-  }, [exampleText, sortedData.element_type.element_type_name]);
+  };
+
+  const imageSrc = getImageSrc();
 
   return !sortedData.element_type.not_has_end_tag ? (
-    <StyledComp {...defaultProps} src={getImageSrc}>
+    <StyledComp src={imageSrc}>
       {exampleText}
     </StyledComp>
   ) : (
-    <StyledComp {...defaultProps} src={getImageSrc} placeholder={exampleText} />
+    <StyledComp src={imageSrc} placeholder={exampleText} />
   );
 };
 
 Tag.propTypes = {
   type: PropTypes.string,
-  defaultProps: PropTypes.object,
   exampleText: PropTypes.any,
   sortedData: PropTypes.any,
   elementStyle: PropTypes.object,
 };
 
-export { Tag };
+export { GenerateTagEdit, Tag };

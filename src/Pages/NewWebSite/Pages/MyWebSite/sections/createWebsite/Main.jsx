@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { styled } from '@mui/system';
 import StartWebSite from './Sections/StartWebSite';
 import InfoWebSite from './Sections/InfoWebSite';
@@ -6,15 +6,12 @@ import CreatePage from './Sections/CreatePage';
 import { Box, Container, Stack, alpha } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { addWebProject } from '../../../../../../Services/webProjectsService';
-import { addWepPages } from '../../../../../../Services/WepPages';
-import { addWepProjectPages } from '../../../../../../Services/WebProjectPages';
+import { addWepPages, fetchWepPages } from '../../../../../../Services/WepPages';
 import { writeFilterObject } from '../../../../../../Helpers/filterData';
 import useFetchData from '../../../../../../Helpers/customHooks/useFetchData';
-import { addDesigns, fetchDesigns, fetchSpecificDesign } from '../../../../../../Services/designService';
-import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData';
-import { fetchElementTypesRows } from '../../../../../../Services/elementsTypesService';
-import { cleanDesignDataDesignPage, updateID, updateID2 } from '../../../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
+import { cleanDesignDataDesignPage, updateID2 } from '../../../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
 import { v4 as uuIdv4 } from 'uuid';
+import _ from 'lodash';
 
 const StyledMain = styled(Box)(() => ({}));
 
@@ -30,7 +27,6 @@ const Main = () => {
     const [pageDescription, setPageDescription] = useState('');
     const [uploadedImagePage, setUploadedImagePage] = useState(null);
     const [webProjectId, setWebProjectId] = useState(null);
-    const [pageId, setPageId] = useState(null);
 
     const navigate = useNavigate();
 
@@ -89,61 +85,45 @@ const Main = () => {
     }, [name, uploadedImage, selectedBox, selectedIndustry, description]);
 
 
-    const params = useMemo(()=> {
-        return ["fa6c8712-c89e-4c22-a840-bd52e3ebca0e"]  
-    } , [])
 
-
-    const {data } = useEffectFetchData(fetchSpecificDesign,params , true , true )
+    const appliedFilter = useMemo(() => {
+        return [
+            writeFilterObject('is_template', 'bool', '=', 'true'), 
+        ]
+        
+    }, [])
+    const { data } = useFetchData(fetchWepPages, 'all', appliedFilter, null, true, null, null, 10)
+    console.log(data)
 
     
     const handleSubmitPage = async () => {
         try {
-            const dataPage = {
-                page_title: pageTitle,
-                page_image: uploadedImagePage,
-                page_description: pageDescription,
-                is_template: 0,
-                web_project_id : webProjectId,
-                page_path:"/"
-            };
-            const section = await handleOpenBlank() 
+            let updatedTemplate = _.cloneDeep(data[0]);
+            updatedTemplate["page_title"] = pageTitle,
+            updatedTemplate["page_image"] = uploadedImagePage,
+            updatedTemplate["page_description"] = pageDescription,
+            updatedTemplate["is_template"] = 0,
+            updatedTemplate["web_project_id"] = webProjectId,
+            updatedTemplate["page_path"] = "/"
+            updatedTemplate['id'] = uuIdv4()
+            updateID2(updatedTemplate?.designs)
+            cleanDesignDataDesignPage(updatedTemplate.designs)
+            updatedTemplate['designs'] = updatedTemplate['designs']?.map((design) => {
+                design['page_id'] = updatedTemplate.id;
+                return design;
+            });
             
-            const res = await addWepPages(dataPage);
-            if (res.success) {
-
-                setPageId(res.data.id); 
-                    updateID2(data)
-                    cleanDesignDataDesignPage(data)
-                    data['page_id'] = res.data.id
-                    const addSection = await addDesigns(data)
-                    if(addSection.success) {
-                        navigate('/empty-design/' + webProjectId  )
-                    }
+            const res = await addWepPages(updatedTemplate);
+            
+            if(res.success) {
+                navigate('/empty-design/' + webProjectId  )
             }
+
         } catch (error) {
             console.error('Error submitting page:', error);
         }
 
-
-
     }
-
-
-    const handleOpenBlank = useCallback(async () => {
-
-            const emptyComponent = await fetchElementTypesRows(
-                null,
-                null,
-                [writeFilterObject('element_type_name', 'string', '=', "section")]
-            )
-
-            return  emptyComponent.rows[0]
-        //when open new blank page
-    }, [])
-
-
-
 
 
     return (
