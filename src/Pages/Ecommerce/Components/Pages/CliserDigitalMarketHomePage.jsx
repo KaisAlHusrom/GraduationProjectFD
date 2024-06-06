@@ -17,10 +17,8 @@ import {
     Grid,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import ProductCard from '../ProductCard'
-import { useNavigate } from 'react-router-dom'
-import { productList } from '../../data/CradsData'
 import MainSlider from '../MainSlider'
+import ProductsTape from '../UI/ProductsTape'
 
 //Styled Components
 const StyledCliserDigitalMarketHomePage = styled(Box)(
@@ -32,11 +30,6 @@ const StyledCliserDigitalMarketHomePage = styled(Box)(
 
 const CliserDigitalMarketHomePage = () => {
 
-    const Navigate = useNavigate();
-    const handleLearnMoreClick = (index) => {
-        // Navigate to the ProductView page with the product index as a parameter
-        Navigate(`/cliser-digital-market/productView/${index}`);
-    };
 
     return (
         <StyledCliserDigitalMarketHomePage>
@@ -53,19 +46,9 @@ const CliserDigitalMarketHomePage = () => {
                     }}
                 
                 >
-                    {productList.map((product, index) => (
-                        <Grid key={index} item xs={12} sm={6} md={6} lg={3}>
-                        <ProductCard 
-                            title={product.title}
-                            description={product.description}
-                            image={product.image}
-                            price={product.price}
-                            rating={product.rating}
-                            creator={product.creator}
-                            action={() => handleLearnMoreClick(index)}
-                        />
-                        </Grid>
-                    ))}
+                    <ProductsTape title="Recommended" Cat="Web Page Front-End Templates" />
+                    <ProductsTape title="WordPress" Cat="" />
+                    <ProductsTape title="Blog" Cat="Portfolio Templates" />
                 </Grid>
             </Container>
         </StyledCliserDigitalMarketHomePage>

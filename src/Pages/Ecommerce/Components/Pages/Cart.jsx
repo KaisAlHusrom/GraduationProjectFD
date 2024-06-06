@@ -80,90 +80,88 @@ const Cart = () => {
     ];
 
     return (
-<div>
-            <Container sx={{ marginTop: '100px', minHeight: "67vh" }} maxWidth="lg">
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Typography variant="h4" gutterBottom>
-                            Cart
-                        </Typography>
-                        <Divider />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Box
-                            my={3}
-                            display="flex"
-                            alignItems="center"
-                            gap={4}
-                            p={2}
-                            sx={{ marginTop: "-1rem" }}
-                        >
-                            {cartItems.length === 0 ? (
-                                <Button variant="outlined"
-                                    onClick={handleBrowseClick}
-                                    sx={{
-                                        margin: 'auto', // Center horizontally
-                                    }}>
-                                    Browse Products
-                                </Button>
-                            ) : (
-                                <div style={{ width: '100%' }}>
-                                    <CustomCard
-                                        title={`product`} // Example title
-                                        items={itemsPurchase}
-                                        sx={{ marginBottom: 2 }} // Set width to 100% and add margin bottom
-                                    >
-                                        {cartItems.map((productId, index) => (
-                                            renderCartItem(productId, index, cartItems, handleRemoveCartBtn, navigate)
-                                        ))}
-                                    </CustomCard>
-                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginTop: '1rem', width: { xs: "100%", sm: "100%", md: "40%" }, marginLeft: "auto" }}>
-                                        <Grid container spacing={1}>
-                                            <Grid item xxs={6}>
-                                                <Box>
-                                                    <Typography variant="h5" sx={{ textAlign: 'left' }}>
-                                                        Total
-                                                    </Typography>
-                                                </Box>
-                                                <Box>
-                                                    <Typography variant="h5" sx={{ textAlign: 'left' }}>
-                                                        Discount
-                                                    </Typography>
-                                                </Box>
-                                            </Grid>
-                                            <Grid item xxs={6}>
-                                                <Box>
-                                                    <Typography variant="h5">
-                                                        ${CartTotal}
-                                                    </Typography>
-                                                </Box>
-                                                <Box>
-                                                    <Typography variant="h5">
-                                                        -$50
-                                                    </Typography>
-                                                </Box>
-                                            </Grid>
-                                            <Grid item xxs={12}>
-                                                <Button
-                                                    variant='contained'
-                                                    fullWidth
-                                                    onClick={handleCheckOutClick}>
-                                                    Checkout
-                                                </Button>
-                                            </Grid>
-                                        </Grid>
-                                    </Box>
-                                </div>
-                            )}
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12}>
-                            <ProductsTape title="You Might Like" />
-                    </Grid>
-                </Grid>
+        <Container sx={{ marginTop: '100px', minHeight: "67vh" }} maxWidth="lg">
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <Typography variant="h4" gutterBottom>
+                    Cart
+                </Typography>
+                <Divider />
+            </Grid>
+            <Grid item xs={12}>
+                <Box
+                    my={3}
+                    display="flex"
+                    alignItems="center"
+                    gap={4}
+                    p={2}
+                    sx={{ marginTop: "-1rem" }}
+                >
+                    {cartItems.length === 0 ? (
+                        <Button variant="outlined"
+                            onClick={handleBrowseClick}
+                            sx={{
+                                margin: 'auto', // Center horizontally
+                            }}>
+                            Browse Products
+                        </Button>
+                    ) : (
+                        <div style={{ width: '100%' }}>
+                            <CustomCard
+                                title={`product`} // Example title
+                                items={itemsPurchase}
+                                sx={{ marginBottom: 2 }} // Set width to 100% and add margin bottom
+                            >
+                                {cartItems.map((productId, index) => (
+                                    renderCartItem(productId, index, cartItems, handleRemoveCartBtn, navigate)
+                                ))}
+                            </CustomCard>
+                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginTop: '1rem', width: { xs: "100%", sm: "100%", md: "40%" }, marginLeft: "auto" }}>
+                                <Grid container spacing={1}>
+                                    <Grid item xxs={6}>
+                                        <Box>
+                                            <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                                Total
+                                            </Typography>
+                                        </Box>
+                                        <Box>
+                                            <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                                Discount
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xxs={6}>
+                                        <Box>
+                                            <Typography variant="h5">
+                                                ${CartTotal}
+                                            </Typography>
+                                        </Box>
+                                        <Box>
+                                            <Typography variant="h5">
+                                                -$50
+                                            </Typography>
+                                        </Box>
+                                    </Grid>
+                                    <Grid item xxs={12}>
+                                        <Button
+                                            variant='contained'
+                                            fullWidth
+                                            onClick={handleCheckOutClick}>
+                                            Checkout
+                                        </Button>
+                                    </Grid>
+                                </Grid>
+                            </Box>
+                        </div>
+                    )}
+                </Box>
+            </Grid>
+            <Grid item xxs={12}>
+                    <ProductsTape title="You Might Like" />
+            </Grid>
+        </Grid>
 
-            </Container>
-        </div>
+    </Container>
     );
 };
 

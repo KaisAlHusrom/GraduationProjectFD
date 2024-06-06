@@ -23,18 +23,11 @@ import CliserImageLogo from '../utils/CliserImageLogo';
 /* to be fixed to center the label on the middle horizontally */
 const StyledSearchBar = styled(TextField)(
     ({ theme }) => ({
-        display: 'flex',
-        alignItems: 'center', // Center the label vertically
-        justifyContent: 'center', // Center horizontally
-        borderRadius: '20px', // Adding rounded corners
-        backgroundColor:" #606060", // Adding background color
-        '& .MuiInputLabel-root': {
-            fontSize: '0.9rem', // Smaller label font size
-        },
+
         '& .MuiOutlinedInput-root': {
             borderRadius: '20px', // Full rounded corners
-            padding: theme.spacing(1), // Adjusting padding for smaller size
-            height: '36px', // Adjusting height for smaller size
+            // padding: theme.spacing(1), // Adjusting padding for smaller size
+
         },
     })
 );
@@ -126,7 +119,7 @@ const itemsCount = useMemo(() => {
 }, [])
 
   return (
-    <div>
+    <Box >
         {isSmallScreen ? (
                 <div>
                 <BottomNavigation
@@ -276,10 +269,10 @@ const itemsCount = useMemo(() => {
                 <AppBar
                 position="fixed"
                 sx={{
-                boxShadow: 0,
-                bgcolor: 'transparent',
-                backgroundImage: 'none',
-                mt: 2,
+                    boxShadow: 0,
+                    bgcolor: 'transparent',
+                    backgroundImage: 'none',
+                    mt: 2,
                 }}
             >
                 <Container maxWidth="lg">
@@ -346,6 +339,7 @@ const itemsCount = useMemo(() => {
                                 variant="outlined"
                                 value={searchValue}
                                 onChange={handleSearchChange}
+                                size='small'
                             />
                         <AdminMainButton 
                             appearance='iconButton'
@@ -459,7 +453,7 @@ const itemsCount = useMemo(() => {
             </AppBar>
             )}
 
-    </div>
+    </Box>
   );
 }
 

@@ -28,7 +28,6 @@ import { Outlet, useLocation} from 'react-router-dom';
 //Styled Components
 const StyledEcommerceMain = styled(Box)(
     () => ({
-    
     })
 )
 
