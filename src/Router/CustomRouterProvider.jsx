@@ -18,7 +18,6 @@ import adminPageRoutes from './Routes/AdminPage/adminPageRoutes';
 // import DesignRoutes from './Routes/DesignRoutes/DesignRoutes';
 
 
-import EditPage from '../Pages/DesignControlPage/sections/TempalteSection/EditPage/EditPage';
 import LandPage from '../Pages/LandPage/LandPage';
 
 
@@ -31,8 +30,6 @@ import CreateElementTemplate from '../Pages/Admin/Components/CreateElementTempla
 import MyWebSite from '../Pages/NewWebSite/Pages/MyWebSite/sections/ManageWebsites/MyWebSite';
 import CreateWebsite from '../Pages/NewWebSite/Pages/MyWebSite/sections/createWebsite/createWebsite';
 import Products from '../Pages/Ecommerce/Components/Pages/Products';
-import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
-import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/EditPage';
 import CliserDigitalMarketHomePage from '../Pages/Ecommerce/Components/Pages/CliserDigitalMarketHomePage';
 
 //Auth Pages
@@ -48,6 +45,9 @@ import RequireSignOut from './Requires/RequireSignOut';
 //Profile Pages
 import Profile from '../Pages/NewWebSite/Profile';
 import ProfileHomePage from "../Pages/NewWebSite/Pages/ProfileHomePage/ProfileHomePage"
+import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/EditPage';
+import EmptyTemplate from '../Pages/DesignControlPage/sections/EmptyDesign/EmptyTemplate';
+import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 
 
 // ------------- NOTICES -------------
@@ -105,19 +105,13 @@ const router = createBrowserRouter(
                     <Route path="create-new-project" element={<CreateWebsite />} />
                 </Route>
 
-                {/* //* Design Control Page Routes */}
-                <Route 
-                exact 
-                path="design-control"  
-                element={<DesignControlPage />} 
-                > 
-                </Route>
-                <Route path="/design-control/EditPage/:section_id" element={<EditPage />} />
-                
+                {/* //* Design Control Page Routes */}  
+                <Route path="/empty-design/EditPage/:section_id" element={<EditPage />} />
+                <Route path="/empty-design/:id" element={<Main />} />
             {/* </Route> */}
             
 
-            
+                            
 
             
 

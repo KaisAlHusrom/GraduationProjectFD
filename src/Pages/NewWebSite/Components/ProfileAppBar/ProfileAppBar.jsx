@@ -34,7 +34,6 @@ import LanguageIcon from '@mui/icons-material/Language';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
-import CliserImageLogo from '../../../Ecommerce/Components/UI/CliserImageLogo';
 import NavList from './SubComponents/NavList';
 import NotificationsList from '../../../Admin/Components/NotificationsList';
 import { changeMode } from '../../../../Redux/Slices/modeSlice';

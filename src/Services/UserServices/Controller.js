@@ -2,6 +2,8 @@ import axios from "axios";
 import config from "../../../Config.json"
 import { updateBoolean } from "../utils/cleanData";
 import store from "../../Redux/Store";
+import { handleCloseLinearProgress, handleOpenLinearProgress } from "../../Redux/Slices/DownloadPageSlice";
+import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from "../../Redux/Slices/snackbarOpenSlice";
 
 
 //ADMIN AXIOS MAIN INSTANCE
@@ -73,11 +75,17 @@ export const fetchDataUserTemplate = async (axiosAPI, type = "all", pageNumber =
 export const addDataUserTemplate = async (axiosAPI, data) => {
     try {
         const updatedData = updateBoolean(data)
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.post('', updatedData);
+        store.dispatch(handleCloseLinearProgress())
         if(response.data.success) {
-            //TODO
+            store.dispatch(setSnackbarMessage({message: response.data.message}))
+            store.dispatch(setSnackbarIsError({isError: false}))
+            store.dispatch(handleOpenSnackbar())
         } else {
-            //TODO
+            store.dispatch(setSnackbarMessage({message: response.data.error}))
+            store.dispatch(setSnackbarIsError({isError: true}))
+            store.dispatch(handleOpenSnackbar())
         }
 
         // Process the response data as needed
@@ -105,6 +113,8 @@ export const updateDataUserTemplate = async (axiosAPI, id, newData) => {
         cancelTokenSource = axios.CancelToken.source();
         // Assuming id is included in the newData object and you're updating a specific resource identified by its id
         // Make the request with the new cancel token
+        store.dispatch(handleOpenLinearProgress())
+
         const response = await axiosAPI.post(
             `/${id}`, 
             {
@@ -115,8 +125,12 @@ export const updateDataUserTemplate = async (axiosAPI, id, newData) => {
                 cancelToken: cancelTokenSource.token,
                 
         });
+        store.dispatch(handleCloseLinearProgress())
+
         if(response.status === 200) {
-            //TODO
+            store.dispatch(setSnackbarMessage({message: "Items have been successfully updated."}))
+            store.dispatch(setSnackbarIsError({isError: false}))
+            store.dispatch(handleOpenSnackbar())
         }
         // Process the response data as needed
         return response.data;
@@ -127,9 +141,9 @@ export const updateDataUserTemplate = async (axiosAPI, id, newData) => {
         } else {
             // Handle other errors
             console.error('Error updating data:', error);
-
-            //TODO
-
+            store.dispatch(setSnackbarMessage({message: error.response.data.message}))
+            store.dispatch(setSnackbarIsError({isError: true}))
+            store.dispatch(handleOpenSnackbar())
             return error.response.data;
         }
     }

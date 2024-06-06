@@ -23,7 +23,7 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import { NavLink, useNavigate } from 'react-router-dom';
-import CliserImageLogo from '../../../../Ecommerce/Components/UI/CliserImageLogo';
+import CliserImageLogo from '../../../../Ecommerce/utils/CliserImageLogo';
 
 //Styled Components
 

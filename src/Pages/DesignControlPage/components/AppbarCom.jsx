@@ -31,7 +31,7 @@ import {
     Toolbar,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import ToggleColorMode from '../../LandPage/ToggleColorMode';
+import ToggleColorMode from '../../../Components/ToggleColorMode/ToggleColorMode';
 
 
 

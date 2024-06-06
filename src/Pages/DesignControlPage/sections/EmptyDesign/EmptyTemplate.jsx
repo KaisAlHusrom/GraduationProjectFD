@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 //Components
 import { useParams } from 'react-router-dom';
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData';
-import { fetchSpecificWebProject } from '../../../../Services/webProjectsService';
 import EmptySection from './Sections/EmptySection/EmptySection';
 
 //MUI
@@ -16,6 +15,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled  , css} from '@mui/system'
+import { fetchSpecificUserWebProject } from '../../../../Services/UserServices/Services/webProjectsUsersService';
 
 
 //Styled Components
@@ -44,9 +44,9 @@ const EmptyTemplate = ({
         }, [id])
 
         
-        const { data } = useEffectFetchData(fetchSpecificWebProject, params , true , true )
+        const { data } = useEffectFetchData(fetchSpecificUserWebProject, params , true , true )
 
-        
+            console.log("Empty ",data )
     return (
         <StyledEmptyTemplate 
         fontFamily={selectedFontFamily}

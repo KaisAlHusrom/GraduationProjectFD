@@ -8,10 +8,12 @@ import {
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components';
 import AddCardIcon from '@mui/icons-material/AddCard';
-import { fetchDesignCategories } from '../../../Services/designCategoriesService';
 import useFetchData from '../../../Helpers/customHooks/useFetchData';
 import DrawerSelectedCategoryDesigns from '../sections/EmptyDesign/EditPage/Drawers/ReadyDesign/DrawerSelectedCategoryDesigns';
-import { fetchElementTypesCategories } from '../../../Services/elementTypesCategories';
+import { fetchUserDesignCategories } from '../../../Services/UserServices/Services/designCategoriesUserService';
+import { fetchUserElementTypesCategories } from '../../../Services/UserServices/Services/elementTypeCategoriesUsersService';
+
+
 
 // Styled Components
 const StyledModalDesignCategories = styled(Box)(
@@ -43,8 +45,8 @@ const ButtonStyle = {
 const ModalDesignCategories = ({  createDesignedDesign, appliedFilter, selected_parent_id, NameOfCategories }) => {
 
     const fetchFunction = NameOfCategories === "Empty"
-        ? fetchElementTypesCategories
-        : fetchDesignCategories;
+        ? fetchUserElementTypesCategories
+        : fetchUserDesignCategories;
 
     const { data, loading } = useFetchData(fetchFunction, 'all', appliedFilter, null, true, null, null, 100);
     return (

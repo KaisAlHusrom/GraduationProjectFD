@@ -5,13 +5,18 @@ import InfoWebSite from './Sections/InfoWebSite';
 import CreatePage from './Sections/CreatePage';
 import { Box, Container, Stack, alpha } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { addWebProject } from '../../../../../../Services/webProjectsService';
-import { addWepPages, fetchWepPages } from '../../../../../../Services/WepPages';
+
+
 import { writeFilterObject } from '../../../../../../Helpers/filterData';
 import useFetchData from '../../../../../../Helpers/customHooks/useFetchData';
+
 import { cleanDesignDataDesignPage, updateID2 } from '../../../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
+
+
 import { v4 as uuIdv4 } from 'uuid';
 import _ from 'lodash';
+import { addUserPages, fetchUserPages } from '../../../../../../Services/UserServices/Services/pagesUsersService';
+import { addUserWebProject } from '../../../../../../Services/UserServices/Services/webProjectsUsersService';
 
 const StyledMain = styled(Box)(() => ({}));
 
@@ -74,7 +79,7 @@ const Main = () => {
         };
 
         try {
-            const res = await addWebProject(data);
+            const res = await addUserWebProject(data);
             if (res.success) {
                 setWebProjectId(res.data.id);
                 setCurrentStep((prevStep) => prevStep + 1);
@@ -92,7 +97,7 @@ const Main = () => {
         ]
         
     }, [])
-    const { data } = useFetchData(fetchWepPages, 'all', appliedFilter, null, true, null, null, 10)
+    const { data } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 10)
     console.log(data)
 
     
@@ -113,7 +118,7 @@ const Main = () => {
                 return design;
             });
             
-            const res = await addWepPages(updatedTemplate);
+            const res = await addUserPages(updatedTemplate);
             
             if(res.success) {
                 navigate('/empty-design/' + webProjectId  )

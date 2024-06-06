@@ -11,8 +11,6 @@ import { writeFilterObject } from '../../../../../../../Helpers/filterData';
 
 
 // services 
-import { fetchElementTypesRows } from '../../../../../../../Services/elementsTypesService';
-import { fetchDesign } from '../../../../../../../Services/designServic';
 
 
 // component 
@@ -27,6 +25,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 // PropTypes
 import PropTypes from 'prop-types';
+import { fetchUserDesigns } from '../../../../../../../Services/UserServices/Services/designUsersService';
+import { fetchUserElementTypes } from '../../../../../../../Services/UserServices/Services/elementsTypesUsersService';
 
 const StyledDrawerSelectedCategoryDesigns = styled(Box)(
     ({ theme }) => ({
@@ -53,10 +53,10 @@ const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_i
     let fetchFunction;
     let nameOfFunction ;
     if (appliedFilterType === "element" || appliedFilterType === "component" || appliedFilterType === "section" ) {
-        fetchFunction = fetchDesign;
+        fetchFunction = fetchUserDesigns;
         nameOfFunction = "fetchDesign";
     } else {
-        fetchFunction = fetchElementTypesRows;
+        fetchFunction = fetchUserElementTypes;
         nameOfFunction = "fetchElementTypesRows";
 
     }

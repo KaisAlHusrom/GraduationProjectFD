@@ -12,8 +12,7 @@ import { cleanDesignDataDesignPage } from '../../../../../Helpers/RecursiveHelpe
 import { writeFilterObject } from '../../../../../Helpers/filterData.js';
 
 // Services
-import { fetchStylePropCategory } from '../../../../../Services/StylePropCategory.js';
-import { fetchSpecificDesign } from '../../../../../Services/designService.js';
+
 
 // MUI
 import { Alert, AlertTitle, Box } from '@mui/material';
@@ -25,11 +24,12 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import UndoIcon from '@mui/icons-material/Undo';
 import SaveIcon from '@mui/icons-material/Save';
 import ElementsTypeModal from './Modals/ElementsTypeModal.jsx';
-import { updateDesign } from '../../../../../Services/designServic.js';
 import { AdminMainButton } from '../../../../../Components/index.jsx';
 import ModalDesignCategories from '../../../components/ModalDesignCategories.jsx';
 import StyleBox from '../../../components/StyleBox.jsx';
 import ConfirmationDialog from '../../../components/ConfirmationDialog.jsx';
+import { fetchSpecificUserDesign, updateUserDesigns } from '../../../../../Services/UserServices/Services/designUsersService.js';
+import { fetchUserStylePropCategories } from '../../../../../Services/UserServices/Services/stylesPropsCategoriesUsersService.js';
 
 
 // Helper function to recursively generate new IDs for nested children
@@ -133,7 +133,7 @@ const EditPage = () => {
     //style categories with style props
     useEffect(() => {
         const fetchStyleCategories = async () => {
-            const {rows} = await fetchStylePropCategory(null, null, null, null, null, 100)
+            const {rows} = await fetchUserStylePropCategories(null, null, null, null, null, 100)
             setStyleCategories(() => rows)
         }
 
@@ -141,7 +141,7 @@ const EditPage = () => {
     }, [])
 
 
-    const { data ,setData} = useEffectFetchData(fetchSpecificDesign,params , true , true )
+    const { data ,setData} = useEffectFetchData(fetchSpecificUserDesign,params , true , true )
 
 
     const openConfirmationDialog = () => {
@@ -350,7 +350,7 @@ const EditPage = () => {
     const SaveSectionData =async ()=> {
 
         cleanDesignDataDesignPage(sectionData) 
-        const updatedDesign = await updateDesign(section_id , sectionData)
+        const updatedDesign = await updateUserDesigns(section_id , sectionData)
     }
 
 

@@ -20,13 +20,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { changeMode } from '../../Redux/Slices/modeSlice';
 
 //LOGO
-import CliserImageLogo from '../../Pages/Ecommerce/Components/UI/CliserImageLogo';
+
 
 //components
 import ToggleColorMode from '../ToggleColorMode/ToggleColorMode';
 import AdminMainButton from '../AdminMainButton/AdminMainButton';
 import MainAppBarDrawerNavList from '../MainAppBarDrawerNavList/MainAppBarDrawerNavList';
 import { useMemo } from 'react';
+import CliserImageLogo from '../../Pages/Ecommerce/utils/CliserImageLogo';
 
 
 function MainAppBar({auth}) {

@@ -3,7 +3,7 @@
 // -------------------------------------- 
 import { USERS_MAIN_INSTANCE_ROUTE, addDataUserTemplate, 
     checkIfRecordExistUserTemplate, 
-    createSubUserAxiosInstance, 
+    createSubUsersAxiosInstance, 
     deleteDataUserTemplate, 
     fetchDataUserTemplate, 
     fetchSpecificRecordUserTemplate, 
@@ -14,7 +14,7 @@ import { USERS_MAIN_INSTANCE_ROUTE, addDataUserTemplate,
 
 const DesignRouter = USERS_MAIN_INSTANCE_ROUTE + "/designs";
 
-const DesignAPI = createSubUserAxiosInstance({
+const DesignAPI = createSubUsersAxiosInstance({
     baseURL: DesignRouter,
 });
 

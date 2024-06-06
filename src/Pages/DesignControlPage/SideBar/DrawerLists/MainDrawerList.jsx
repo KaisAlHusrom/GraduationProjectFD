@@ -13,8 +13,7 @@ import { writeFilterObject } from '../../../../Helpers/filterData';
 
 
 // services
-import { addDesigns } from '../../../../Services/designService';
-import { fetchWepPages } from '../../../../Services/WepPages';
+
 
 
 // Component
@@ -25,6 +24,8 @@ import { AdminMainButton } from '../../../../Components';
 
 // PropTypes
 import PropTypes from 'prop-types';
+import { fetchUserPages } from '../../../../Services/UserServices/Services/pagesUsersService';
+import { addUserDesigns } from '../../../../Services/UserServices/Services/designUsersService';
 
 
 const StyledMainDrawerList = styled(Box)(() => ({
@@ -53,7 +54,7 @@ const MainDrawerList = ({parent_id}) => {
       ]
   }, [parent_id])
 
-    const { data } = useFetchData(fetchWepPages, 'all', appliedFilter, null, true, null, null, 10)
+    const { data } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 10)
 
 
 
@@ -82,7 +83,7 @@ const MainDrawerList = ({parent_id}) => {
 
         
 
-          const res = await addDesigns(sectionData);
+          const res = await addUserDesigns(sectionData);
           console.log("res" , res);
           console.log("sectionData after" , sectionData)
 
