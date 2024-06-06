@@ -1,5 +1,5 @@
 import StringHelper from "../StringsHelper";
-import { writeStyleObject } from "../writeStyleObject";
+import { writeStyleObject, writeStyleObject2 } from "../writeStyleObject";
 
 // export const stylesTypes = ['mix', 'styles', 'exception styles', 'screen sizes styles']
 
@@ -78,8 +78,8 @@ export const extractStyles = (template, selectedIds) => {
 
 
 
-function isNewStyleAlreadyExist(element, newStyle) {
-    return element.styles.some(style => {
+export function isNewStyleAlreadyExist(element, newStyle) {
+    return element?.styles?.some(style => {
         const sameResponsiveBreakpoint = style.style_responsive_breakpoint_id === newStyle.style_responsive_breakpoint_id;
         const sameStatus = style.style_status_id === newStyle.style_status_id;
         const sameProp = style.style_prop_id === newStyle.style_prop_id;
@@ -107,6 +107,7 @@ function isNewStyleAlreadyExist(element, newStyle) {
         return sameResponsiveBreakpoint && sameStatus && sameProp;
     });
 }
+
 
 
 
@@ -139,6 +140,45 @@ export const addStyle = (template, selectedIds, prop, cssValue, styleException, 
 
         if (element.children && element.children.length > 0) {
             const childStyleAdded = addStyle(element.children, selectedIds, prop, cssValue, styleException, styleBreakpoint);
+            if (childStyleAdded) {
+                styleAdded = true;
+            }
+        }
+    }
+
+    return styleAdded;
+};
+
+export const addStyleAbdullah = (template, selectedIds, prop, cssValue, styleException, styleBreakpoint) => {
+    let styleAdded = false;
+    const newStyle = writeStyleObject2(prop, cssValue, styleException, styleBreakpoint)
+    for (const element of Array.isArray(template) ? template : [template]) {
+        if (selectedIds.includes(element.id)) {
+            if (element.styles.length === 0) {
+                element.styles.push(newStyle);
+                styleAdded = true;
+            } else {
+                //check if no one of the existing styles is equal to the new style
+                //TODO: check if work true
+                if (!isNewStyleAlreadyExist(element, newStyle)) {
+                    element.styles.push(newStyle);
+                    styleAdded = true;
+                    console.log("added successfully");
+                } else {
+                    const style = element.styles.find(style => isStyleMatching(style, newStyle));
+            
+                    // Change the value
+                    style.style_prop_value = newStyle.style_prop_value;
+                    styleAdded = true;
+                }
+            }
+        } else {
+            console.log("There is no selected id")
+            
+        }
+
+        if (element.children && element.children.length > 0) {
+            const childStyleAdded = addStyleAbdullah(element.children, selectedIds, prop, cssValue, styleException, styleBreakpoint);
             if (childStyleAdded) {
                 styleAdded = true;
             }
@@ -258,14 +298,14 @@ export const convertToCssValue = (prop, value, mainDirections, cornerDirections)
             if(prop.style_prop_value_type === "string") {
 
                 //if there is one value in the main directions that not null
-                if (!Object.values(mainDirections).every(value => value === null)) {
+                if (!Object.values(mainDirections)?.every(value => value === null)) {
                     console.log(mainDirections);
                     const directionsValue = `${mainDirections["top"]?.style_prop_value_css_name || nullValues(prop)} ${mainDirections["right"]?.style_prop_value_css_name || nullValues(prop)} ${mainDirections["bottom"]?.style_prop_value_css_name || nullValues(prop)} ${mainDirections["left"]?.style_prop_value_css_name || nullValues(prop)}`;
                     return directionsValue;
                 }
 
                 //if there is one value in the corner directions that not null
-                if (!Object.values(cornerDirections).every(value => value === null)) {
+                if (!Object.values(cornerDirections)?.every(value => value === null)) {
                     console.log(mainDirections);
                     const directionsValue = `${cornerDirections["topLeft"]?.style_prop_value_css_name || nullValues(prop)} ${cornerDirections["topRight"]?.style_prop_value_css_name || nullValues(prop)} ${cornerDirections["bottomRight"]?.style_prop_value_css_name || nullValues(prop)} ${cornerDirections["bottomLeft"]?.style_prop_value_css_name || nullValues(prop)}`;
                     return directionsValue;
@@ -274,13 +314,13 @@ export const convertToCssValue = (prop, value, mainDirections, cornerDirections)
                 return value.style_prop_value_css_name
             }
             
-            if (!Object.values(mainDirections).every(value => value === null)){
+            if (!Object.values(mainDirections)?.every(value => value === null)){
                 console.log(mainDirections)
                 const directionsValue = `${mainDirections["top"] || nullValues(prop)} ${mainDirections["right"] || nullValues(prop)} ${mainDirections["bottom"] || nullValues(prop)} ${mainDirections["left"] || nullValues(prop)}`
                 return directionsValue
             }
 
-            if (!Object.values(cornerDirections).every(value => value === null)) {
+            if (!Object.values(cornerDirections)?.every(value => value === null)) {
                 console.log(cornerDirections)
                 const directionsValue = `${cornerDirections["topLeft"] || nullValues(prop)} ${cornerDirections["topRight"] || nullValues(prop)} ${cornerDirections["bottomRight"] || nullValues(prop)} ${cornerDirections["bottomLeft"] || nullValues(prop)}`;
                 return directionsValue;

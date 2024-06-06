@@ -13,6 +13,18 @@ export const writeStyleObject = (prop, value = null, status = null, breakpoint =
     }
 }
 
+export const writeStyleObject2 = (prop, value = null, status = null, breakpoint = null) => {
+    return {
+        style_status: status,
+        style_status_id: status ? status.id:null,
+        style_responsive_breakpoint: breakpoint,
+        style_responsive_breakpoint_id: breakpoint ? breakpoint.id:null,
+        style_prop: prop,
+        style_prop_id: prop ? prop.id:null,
+        style_prop_value: value
+    }
+}
+
 
 export const convertStyleToCssShape = (styles, theme) => {
     const allStyles = {};

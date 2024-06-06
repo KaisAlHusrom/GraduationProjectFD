@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 
 //pages
-import { Admin, DesignControlPage, ErrorPage, MainPage, NotFoundPage } from '../Pages';
+import { Admin, ErrorPage, MainPage, NotFoundPage } from '../Pages';
 
 
 
@@ -31,6 +31,8 @@ import CreateElementTemplate from '../Pages/Admin/Components/CreateElementTempla
 import MyWebSite from '../Pages/NewWebSite/Pages/MyWebSite/sections/ManageWebsites/MyWebSite';
 import CreateWebsite from '../Pages/NewWebSite/Pages/MyWebSite/sections/createWebsite/createWebsite';
 import Products from '../Pages/Ecommerce/Components/Pages/Products';
+import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
+import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/EditPage';
 import CliserDigitalMarketHomePage from '../Pages/Ecommerce/Components/Pages/CliserDigitalMarketHomePage';
 
 //Auth Pages

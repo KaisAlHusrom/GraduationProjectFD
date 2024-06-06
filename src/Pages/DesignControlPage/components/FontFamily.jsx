@@ -47,7 +47,6 @@ const FontFamily = ({  handleFontFamilyClick ,}) => {
     };
 
     useEffect(() => {
-        console.log(selectedFontFamily);
     }, [selectedFontFamily]);
 
     return (

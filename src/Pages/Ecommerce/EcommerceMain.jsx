@@ -10,14 +10,11 @@ import {
 
 //Components
 import NavBar from './Components/NavBar'
-import MainSlider from './Components/MainSlider'
-import ProductCard from './Components/ProductCard'
 import Footer from './Components/Footer'
-import {productList} from './data/CradsData'
 
 //MUI
 import {
-    Box, Grid,Container
+    Box
     
 } from '@mui/material'
 import { styled } from '@mui/system'
@@ -25,27 +22,25 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 
-import { Outlet, useNavigate} from 'react-router-dom';
+import { Outlet, useLocation} from 'react-router-dom';
 
 
 //Styled Components
 const StyledEcommerceMain = styled(Box)(
     () => ({
-    
     })
 )
 
 
 const EcommerceMain = () => {
+    const location = useLocation();
+    const isCheckoutPage = location.pathname.includes('/checkout');
     
     return (
         <StyledEcommerceMain>
-            <NavBar />
-            
-
+            {!isCheckoutPage && <NavBar />}
             <Outlet />
-
-            <Footer /> 
+            <Footer />
         </StyledEcommerceMain>
     );
 };

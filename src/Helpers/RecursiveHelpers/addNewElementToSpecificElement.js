@@ -82,6 +82,17 @@ export const updateID = (elements, value = uuIdv4()) => {
     return elements;
 }
 
+export const updateID2 = (elements) => {
+    for (const element of Array.isArray(elements) ? elements : [elements]) {
+        element['id'] =  uuIdv4();
+        if (element.children && element.children.length > 0) {
+            updateID2(element.children);
+        }
+    }
+
+    return elements;
+}
+
 // clear long un need objects
 export const cleanDesignData = (elements) => {
     const formData = new FormData();
@@ -123,6 +134,69 @@ export const cleanDesignData = (elements) => {
 
             if (element.children && element.children.length > 0) {
                 processElements(element.children, `${elementKey}[children]`);
+            }
+
+            // Append element properties to FormData
+            for (const key in element) {
+                if (element.hasOwnProperty(key) && key !== 'styles' && key !== 'children') {
+                    formData.append(`elements[${elementKey}][${key}]`, element[key]);
+                }
+            }
+        }
+    };
+
+    processElements(Array.isArray(elements) ? elements : [elements]);
+
+    return formData;
+};
+
+
+
+export const cleanDesignDataDesignPage = (elements) => {
+    const formData = new FormData();
+
+    const processElements = (elems, parentKey = '' , parentId = null) => {
+        for (const [index, element] of elems.entries()) {
+            const elementKey = parentKey ? `${parentKey}[${index}]` : `${index}`;
+
+            element["is_template"] = 0;
+            element["is_child"] = element["is_child"] ? 1 : 0;
+            element['created_at'] = null
+            element['updated_at'] = null
+            element['parent_id'] = parentId; 
+            if (element?.element_type?.element_type_name === "Image") {
+                if (!(element.element_content instanceof File ) && !(element.element_content.endsWith(".png"))) {
+                    const base64String = element.element_content;
+                    const filename = 'image.png'; // You can generate a unique filename if needed
+                    const file = base64ToFile(base64String, filename);
+                    if (file) {
+                        element.element_content = file;
+                    } else {
+                        console.error('Failed to convert base64 string to file for element:', element);
+                    }
+                }
+                
+            }
+
+            delete element['element_type'];
+            
+            if (element.styles) {
+                for (const [styleIndex, style] of element.styles.entries()) {
+                    delete style["style_prop"];
+                    delete style["style_status"];
+                    delete style["style_responsive_breakpoint"];
+
+                    // Append styles to FormData
+                    for (const key in style) {
+                        if (style.hasOwnProperty(key)) {
+                            formData.append(`elements[${elementKey}][styles][${styleIndex}][${key}]`, style[key]);
+                        }
+                    }
+                }
+            }
+
+            if (element.children && element.children.length > 0) {
+                processElements(element.children, `${elementKey}[children]` , element.id);
             }
 
             // Append element properties to FormData

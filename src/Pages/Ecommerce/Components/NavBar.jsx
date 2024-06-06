@@ -1,26 +1,44 @@
 import PropTypes from 'prop-types';
-import { AppBar, Box, Button, Container, MenuItem, Toolbar, Typography,TextField,List,ListItem,ListItemText,IconButton} from '@mui/material';
+import { AppBar, Box, Button, Container, MenuItem, Toolbar, Typography,TextField,List,ListItem,ListItemText,IconButton,Badge, Dialog, DialogContent, Slide} from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import MenuIcon from '@mui/icons-material/Menu';
-import { useMemo, useState } from 'react';
+import { forwardRef, useMemo, useState } from 'react';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components';
 import { useNavigate} from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+import SearchIcon from '@mui/icons-material/Search';
+import { useMediaQuery, useTheme } from '@mui/material';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import CloseIcon from '@mui/icons-material/Close';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
-import CliserImageLogo from './UI/CliserImageLogo';
-import zIndex from '@mui/material/styles/zIndex';
+import CliserImageLogo from '../utils/CliserImageLogo';
 
+
+/* to be fixed to center the label on the middle horizontally */
 const StyledSearchBar = styled(TextField)(
     ({ theme }) => ({
-        marginBottom: theme.spacing(2),
-        marginTop: theme.spacing(2), // Add some bottom margin
+
+        '& .MuiOutlinedInput-root': {
+            borderRadius: '20px', // Full rounded corners
+            // padding: theme.spacing(1), // Adjusting padding for smaller size
+
+        },
     })
 );
+const StyledBadge = styled(Badge)(({ theme }) => ({
+    '& .MuiBadge-badge': {
+        right: -3,
+        top: -3,
+        border: `1px solid ${theme.palette.background.paper}`,
+        padding: '0 4px',
+    },
+    }));
 // Sample categories and their items
 const categories = {
     "Category 1": [
@@ -35,11 +53,18 @@ const categories = {
     ],
     // Add more categories as needed
 };
+const Transition = forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+  });
 
 function NavBar() {
-
-
+const theme = useTheme();
+const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+const [value, setValue] = useState(0);
 const [searchValue, setSearchValue] = useState('');
+const [openSearch, setSearchOpen] = useState(false);
+const [openAccount, setAccountOpen] = useState(false);
+const Navigate = useNavigate();
 
 const scrollToSection = (sectionId) => {
     const sectionElement = document.getElementById(sectionId);
@@ -54,18 +79,23 @@ const scrollToSection = (sectionId) => {
     
     }
 };
-const handleCategoryItemClick = (categoryName, item) => {
-    // Handle the click event for category items
-    console.log(`Clicked on ${item.name} in ${categoryName}`);
-    // Add your handling logic here
-};
 
 
 const handleSearchChange = (event) => {
     setSearchValue(event.target.value);
     // Handle search functionality here if needed
 };
-const Navigate = useNavigate();
+const handleSearchClick = () => {
+    setSearchOpen(true);
+};
+const handleAccountClick = () => {
+    setAccountOpen(true);
+};
+
+const handleClose = () => {
+    setSearchOpen(false);
+    setAccountOpen(false);
+};
 
     const HandleMainButton = () => {
     Navigate('/cliser-digital-market');
@@ -83,10 +113,10 @@ const handleSignUpClick = () => {
     Navigate('auth/sign-up');
 };
 
-    const itemsCount = useMemo(() => {
-        const count = JSON.parse(localStorage.getItem('cart_data'))?.length;
-        return count
-    }, [])
+const itemsCount = useMemo(() => {
+    const count = JSON.parse(localStorage.getItem('cart_data'))?.length;
+    return count
+}, [])
 
     return (
     <div>

@@ -1,57 +1,43 @@
-//React
-import {
-    
-} from 'react'
+import PropTypes from 'prop-types';
+import { Box, Chip, Typography } from '@mui/material';
+import { styled } from '@mui/system';
 
-import {
-    
-} from 'react-redux'
+// Styled Components
+const StyledChipSet = styled(Box)({
+    // Add your custom styles here
+});
 
-//Components
+const ChipSet = ({ title, label }) => {
+    // Ensure label is an array, or set it to an empty array if undefined
+    const chipLabels = Array.isArray(label) ? label : [];
 
-
-//MUI
-import {
-    Box,
-    Chip,
-    Typography,
-} from '@mui/material'
-import { styled } from '@mui/system'
-
-//propTypes 
-import propTypes from 'prop-types'
-
-//Styled Components
-const StyledChipSet = styled(Box)(
-    () => ({
-    })
-)
-
-
-const ChipSet = ({title,label}) => {
     return (
-        <div>
-            <Typography variant="body1" sx={{ paddingBottom: 1 }}> {title} </Typography>
-            <>
-                {Object.keys(label).map((key, index) => (
-                    <Chip
-                        key={index}
-                        label={label[key]}
-                        color="primary"
-                        clickable
-                        style={{ marginRight: '10px' }}
-                    />
-                ))}
-            </>
-        </div>
-        
+        <StyledChipSet>
+            <Typography variant="body1" sx={{ paddingBottom: 1 }}>
+                {title}
+            </Typography>
+            {chipLabels.map((item, index) => (
+                <Chip
+                    key={index}
+                    label={item}
+                    color="primary"
+                    clickable
+                    style={{ marginRight: '10px' }}
+                />
+            ))}
+        </StyledChipSet>
     );
 };
 
 ChipSet.propTypes = {
-    children: propTypes.array,
-    title: propTypes.string,
-    label: propTypes.array.isRequired
-}
+    title: PropTypes.string,
+    label: PropTypes.arrayOf(PropTypes.string) // Define label as an array of strings
+};
+
+// Default props
+ChipSet.defaultProps = {
+    title: '',
+    label: []
+};
 
 export default ChipSet;

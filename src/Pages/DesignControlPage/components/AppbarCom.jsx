@@ -1,16 +1,17 @@
 //React
-import  { useState } from 'react'
 
 import {
     
 } from 'react-redux'
+
+
+import PropTypes from 'prop-types';
 
 //Components
 import AdminMainButton from '../../../Components/AdminMainButton/AdminMainButton'
 import MainDrawerList from '../SideBar/DrawerLists/MainDrawerList';
 import HomeDrawerList from '../SideBar/DrawerLists/HomeDrawerList';
 import LanguageDrawerList from '../SideBar/DrawerLists/LanguageDrawerList';
-import TemplateMain from '../sections/TempalteSection/TemplateMain';
 import FontFamily from './FontFamily'
 
 
@@ -30,14 +31,14 @@ import {
     Toolbar,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import ToggleColorMode from '../../LandPage/ToggleColorMode';
 
 
 
 //Styled Components
 const StyledAppbarCom = styled(Box)(
-    ({theme}) => ({
-      color: theme.palette.warning.main ,
-
+    () => ({
+    
     })
 )
 
@@ -55,35 +56,19 @@ const StyleButton = {
   
 }
 
-const AppbarCom = () => {
-  const [isMobileWidth, setIsMobileWidth] = useState(false);
-  const [isTabletWidth, setIsTabletWidth] = useState(false);
-  const [isLaptopWidth, setIsLaptopWidth] = useState(true);
-  const [selectedFontFamily, setSelectedFontFamily] = useState('');
-  const handleFontFamilyClick = (fontFamily) => {
-    setSelectedFontFamily(fontFamily);
-};
-  const handleSmartphoneClick = () => {
-    setIsMobileWidth(true);
-    setIsTabletWidth(false);
-    setIsLaptopWidth(false);
-  };
+const AppbarCom = ({ mode, toggleColorMode , 
+  handleFontFamilyClick , 
+  handleSmartphoneClick,
+  handleTabletClick , 
+  handleLaptopClick,
+  parent_id,
+}) => {
 
-  const handleTabletClick = () => {
-    setIsTabletWidth(true);
-    setIsMobileWidth(false);
-    setIsLaptopWidth(false);
-  };
-  const handleLaptopClick = () => {
-    setIsTabletWidth(false);
-    setIsMobileWidth(false);
-    setIsLaptopWidth(true);
-
-
-  }
     return (
         <StyledAppbarCom>
-            <AppBar position="fixed" open={open}>
+            <AppBar position="fixed" open={open} sx = {{
+              backgroundColor : 'background.default'
+            }}>
         <Toolbar sx={{
         }}>
             <Box sx={{
@@ -100,8 +85,9 @@ const AppbarCom = () => {
                     drawerAnchor='left'
                     sx={StyleButton}
                     willShow={
-                      <MainDrawerList></MainDrawerList>
+                      <MainDrawerList parent_id = {parent_id}></MainDrawerList>
                     }
+
               />
               <AdminMainButton
                     title="Home"
@@ -147,6 +133,8 @@ const AppbarCom = () => {
                   borderLeft:"1px solid",
                   borderColor:'success.dark',
                   }}>
+                    <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+
                       <AdminMainButton
                         title="Smart phone"
                         icon={<SmartphoneIcon />}
@@ -238,20 +226,24 @@ const AppbarCom = () => {
                   marginLeft:'10px'
                 }}
           />
-
-        
-      
-         
                 </Box>
         </Toolbar>
         
       </AppBar>
-
-            <Box component="main" sx={{ p: 3 }}>
-            <TemplateMain isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth} selectedFontFamily={selectedFontFamily} />
-            </Box>
         </StyledAppbarCom>
     );
 };
+
+
+AppbarCom.propTypes = {
+  mode: PropTypes.string, // Assuming mode is a string
+  toggleColorMode: PropTypes.func,
+  handleFontFamilyClick: PropTypes.func,
+  handleSmartphoneClick: PropTypes.func,
+  handleTabletClick: PropTypes.func,
+  handleLaptopClick: PropTypes.func,
+  parent_id : PropTypes.string,
+};
+
 
 export default AppbarCom;

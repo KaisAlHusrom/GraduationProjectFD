@@ -1,5 +1,5 @@
-import {useEffect, useState } from 'react';
-import { productList } from '../../data/CradsData';
+import { useState } from 'react';
+import { productList,NewList } from '../../data/CradsData';
 import { useParams,useNavigate } from 'react-router-dom';
 
 // Import Swiper React components
@@ -13,13 +13,12 @@ import {
   Tab,
   Box,
   Divider,
-  Chip,
   Avatar,
   Rating,
 } from '@mui/material';
-import NavBar from '../NavBar';
+
 import images from '../../data/SliderImages';
-import Footer from '../Footer';
+
 import CustomCard from '../UI/CustomCard';
 import '../Styles/CustomSwiper.css';
 import { CartData } from '../../data/CartData';
@@ -30,6 +29,8 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import ChipSet from '../UI/ChipSet';
+import ProductsTape from '../UI/ProductsTape';
+import { calculateAverageRating } from '../../utils/functions';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -63,42 +64,52 @@ function CustomTabPanel(props) {
     })
 
     
-    const { idx } = useParams();
-    const product = productList.find((product) => product.id === parseInt(idx));
-    if (!idx || !product) {
-      return <Typography variant="h2">Product not found</Typography>;
-    }
-
     const handleAddCartBtn = () => {
         // Update the list of product IDs with the new productId
       const updatedCartItems = [...cartItems, product.id];
       setCartItems(() => updatedCartItems);
-      localStorage.setItem("cart_data", JSON.stringify(updatedCartItems)) 
-
+      localStorage.setItem("cart_data", JSON.stringify(updatedCartItems))
 
       // Update the CartData with the new list of product IDs
       CartData.push(product.id);
       Navigate('/cliser-digital-market/Cart')
     };
+    
 
+    const { idx } = useParams();
+    console.log(idx)
+    const product = NewList.find((product) => product.id === idx);
+    if (!idx || !product) {
+      return <Typography variant="h2">Product not found</Typography>;
+    }
+    
+    const skillNames = product.product_used_skills.map(skill => skill.product_used_skill_name);
+
+    const Features = product.product_features
     const handleTapChange = (event, newValue) => {
       setValue(newValue);
     };
     const itemsInfo = [
-      { contentTitle: 'Added', content: product['adding-date']},
-      { contentTitle: 'Last-Updated', content: product['last-updated'] },
+      { contentTitle: 'Added', content: product.created_at},
+      { contentTitle: 'Last-Updated', content: product.updated_at},
       { contentTitle: 'Views', content: product.views },
       { contentTitle: 'Sells', content: product.sells },
       // Add more items as needed
     ];
     const itemsPurchase = [
-      { contentTitle: "Price", content: "$"+product.price},
+      { contentTitle: "Price", content: "$"+product.product_price},
       // Add more items as needed
     ];
     const itemsReviews = [
-      { contentTitle: 'quality of the work', content: <Rating name="quality of the work" value={2} readOnly sx={{paddingTop:0.3}} />},
-      { contentTitle: 'communication', content: <Rating name="communication" value={4} readOnly sx={{paddingTop:0.8}} /> },
-      { contentTitle: 'usability', content: <Rating name="usability" value={3} readOnly sx={{paddingTop:0.6}} /> },
+      { contentTitle: 'quality of the work',
+       content: <Rating name="quality of the work"
+                  value={calculateAverageRating(product.product_reviews, 'design_quality_rate')} readOnly sx={{paddingTop:0.3}} />},
+      { contentTitle: 'communication',
+       content: <Rating name="communication" 
+                  value={calculateAverageRating(product.product_reviews, 'communication_rate')} readOnly sx={{paddingTop:0.8}} /> },
+      { contentTitle: 'usability',
+       content: <Rating name="usability"
+                   value={calculateAverageRating(product.product_reviews, 'ease_of_use_rate')} readOnly sx={{paddingTop:0.6}} /> },
       // Add more items as needed
     ];
 
@@ -109,11 +120,11 @@ function CustomTabPanel(props) {
         <Grid container spacing={2}>
           <Grid item xxs={12}>
             <Typography variant="h4" gutterBottom>
-              {product.title}
+              {product.product_name}
             </Typography>
             <Divider />
             <Typography variant="body1" color="text.secondary">
-                {product.description}
+                {product.product_short_description}
               </Typography>
           </Grid>
           <Grid item xxs={12} sm={12} md={12} lg={6}>
@@ -140,7 +151,7 @@ function CustomTabPanel(props) {
                   className="mySwiper"
                 >
                   {images.map((step, index) => (
-                    <SwiperSlide key={step.label}>
+                    <SwiperSlide key={index}>
                     <Box
                       component="img"
                       sx={{
@@ -159,13 +170,21 @@ function CustomTabPanel(props) {
                   
                 </div>
                 
-                <div style={{ position: 'static',height: '65vh'}}>
+                <div style={{ position: 'static', height: '65vh' }}>
                   <Divider />
-                  <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>Features of the Template</Typography>
-      
-
-                  <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1 }}>Title</Typography>
-                  <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1 }}>Description</Typography>
+                  <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                    Features of the Template
+                  </Typography>
+                  {Features.map((feature, index) => (
+                    <Box key={index} sx={{ marginBottom: 2, padding: 2, backgroundColor: '', borderRadius: '8px' }}>
+                      <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1, fontWeight: 'bold' }}>
+                        {feature.product_feature_name}
+                      </Typography>
+                      <Typography variant="h6" sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                        {feature.product_feature_description}
+                      </Typography>
+                    </Box>
+                  ))}
                 </div>
 
               </CustomTabPanel>
@@ -201,24 +220,24 @@ function CustomTabPanel(props) {
               <CustomCard title="Info" items={itemsInfo}>
                 <Grid item xs={12}>
                     <Typography variant="body2" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                      <ChipSet title={"Attached Files:"} label={product["attached files"]} />
-                    </Typography>
-                    <Typography variant="body2" gutterBottom sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                      <ChipSet title={"Used Teknolojies:"} label={product["used Teknolojies"]} />
+                      <ChipSet title={"Used Teknolojies:"} label={skillNames} />
                     </Typography>
                     <Divider />
                     <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1 }}>Creator</Typography>
                     <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px' ,paddingTop:1}}>
-                      <Avatar src={product.image} sx={{ width: 32, height: 32 }} /> {product.creator}
+                      <Avatar src={product} sx={{ width: 32, height: 32 }} /> {product.creator}
                     </Typography>
                 </Grid>
               </CustomCard> 
               <CustomCard title="Ratings" items={itemsReviews}>
               </CustomCard>
           </Grid>
+          <Grid item xxs={12}>
+              <ProductsTape title="You Might Like" Cat="" />
+          </Grid>
         </Grid>
       </Container>
-      <Footer />
+
     </div>
   );
 };
