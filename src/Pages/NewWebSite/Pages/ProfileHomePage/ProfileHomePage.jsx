@@ -31,7 +31,7 @@ const ProfileHomePage = () => {
         <Container maxWidth='xl' >
             <StyledProfileHomePage container spacing={2}>
                 <Grid item xs={12} md={4}>
-                    <UserInfo />
+                    {/* <UserInfo />/ */}
                 </Grid>
                 <Grid item xs={12} md={8}>
                 StoreOutlinedIcon
