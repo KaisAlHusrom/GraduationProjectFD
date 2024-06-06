@@ -14,7 +14,7 @@ checkIfRecordExistUserTemplate,
 } from "../Controller";
 
 const ProductsMediaRouteForUsers = USERS_MAIN_INSTANCE_ROUTE + "/products-media";
-
+export const mediaFolderName = "ProductsMedia"
 const ProductsMediaUsersAxios = createSubUsersAxiosInstance({
     baseURL: ProductsMediaRouteForUsers,
 });
