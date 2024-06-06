@@ -11,17 +11,8 @@ import { useTheme } from '@emotion/react';
 
 
 
-const pData = [0, 2400, 1398, 9800, 3908, 4800, 3800, 4300];
-const xLabels = [
-    "",
-    'MON',
-    'TUE',
-    'WED',
-    'THU',
-    'FRI',
-    'SAT',
-    'SUN',
-];
+const pData = [2400, 1398, 9800, 3908, 4800, 3800, 4300];
+const xLabels = [1, 2, 3, 4, 5, 6, 7];  // Mapping days to numbers
 
 //Styles
 const StyledWebsiteViews = styled(Card)(

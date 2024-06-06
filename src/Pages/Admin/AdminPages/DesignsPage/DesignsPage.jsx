@@ -13,12 +13,12 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { deleteDesigns, fetchDesigns, permanentDeleteDesigns, restoreDesigns } from '../../../../Services/designService'
+import { deleteDesigns, fetchDesigns, permanentDeleteDesigns, restoreDesigns } from '../../../../Services/AdminServices/Services/designService'
 
 // icons
 import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
-import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
-import { fetchDesignCategories } from '../../../../Services/designCategoriesService'
+import { fetchElementTypesRows } from '../../../../Services/AdminServices/Services/elementsTypesService'
+import { fetchDesignCategories } from '../../../../Services/AdminServices/Services/designCategoriesService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 
 // Styled Components

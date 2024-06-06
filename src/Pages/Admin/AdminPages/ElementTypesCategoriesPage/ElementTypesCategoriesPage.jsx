@@ -21,8 +21,8 @@ import { addElementTypesCategories, deleteElementTypesCategories,
     fetchElementTypesCategories, 
     permanentDeleteElementTypesCategories, 
     restoreElementTypesCategories, 
-    updateElementTypesCategories } from '../../../../Services/elementTypesCategories'
-import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
+    updateElementTypesCategories } from '../../../../Services/AdminServices/Services/elementTypesCategories'
+import { fetchElementTypesRows } from '../../../../Services/AdminServices/Services/elementsTypesService'
 
 // icons
 import WidgetsOutlinedIcon from '@mui/icons-material/WidgetsOutlined';

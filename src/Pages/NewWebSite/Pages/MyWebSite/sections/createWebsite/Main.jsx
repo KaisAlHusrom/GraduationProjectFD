@@ -12,7 +12,7 @@ import {
     Stack,
     alpha
 } from '@mui/material';
-import { addWebProject } from '../../../../../../Services/webProjectsService';
+import { addWebProject } from '../../../../../../Services/AdminServices/Services/webProjectsService';
 
 // Styled Components
 const StyledMain = styled(Box)(() => ({}));

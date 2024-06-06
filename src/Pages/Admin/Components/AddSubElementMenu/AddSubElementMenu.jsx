@@ -21,7 +21,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 //propTypes 
 import propTypes from 'prop-types'
 import { AdminMainButton, CustomLazyAutoComplete } from '../../../../Components';
-import { fetchElementTypesRows } from '../../../../Services/elementsTypesService';
+import { fetchElementTypesRows } from '../../../../Services/AdminServices/Services/elementsTypesService';
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate';
 import { addElementToParent } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
 

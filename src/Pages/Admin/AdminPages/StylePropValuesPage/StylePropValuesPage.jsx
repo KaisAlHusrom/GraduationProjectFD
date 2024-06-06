@@ -19,10 +19,10 @@ import { styled } from '@mui/system'
 
 //icons
 import FormatColorFillIcon from '@mui/icons-material/FormatColorFill';
-import { fetchStyleProps } from '../../../../Services/stylePropsService'
+import { fetchStyleProps } from '../../../../Services/AdminServices/Services/stylePropsService'
 
 //services
-import { addStylePropValues, deleteStylePropValues, fetchStylePropValues, permanentDeleteStylePropValues, restoreStylePropValues, updateStylePropValues } from '../../../../Services/stylePropValues'
+import { addStylePropValues, deleteStylePropValues, fetchStylePropValues, permanentDeleteStylePropValues, restoreStylePropValues, updateStylePropValues } from '../../../../Services/AdminServices/Services/stylePropValues'
 
 //Styled Components
 const StyledStylePropValuesPage = styled(Box)(

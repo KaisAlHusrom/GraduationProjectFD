@@ -18,8 +18,8 @@ import {
 import { styled } from '@mui/system'
 
 import TuneIcon from '@mui/icons-material/Tune';
-import { addElementProp, deleteElementProp, fetchElementProps, permanentDeleteElementProp, restoreElementProp, updateElementProp } from '../../../../Services/elementPropsService'
-import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
+import { addElementProp, deleteElementProp, fetchElementProps, permanentDeleteElementProp, restoreElementProp, updateElementProp } from '../../../../Services/AdminServices/Services/elementPropsService'
+import { fetchElementTypesRows } from '../../../../Services/AdminServices/Services/elementsTypesService'
 
 
 //Styled Components

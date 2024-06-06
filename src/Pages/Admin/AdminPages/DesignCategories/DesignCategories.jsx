@@ -15,7 +15,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { addDesignCategories, deleteDesignCategories, fetchDesignCategories, permanentDeleteDesignCategories, restoreDesignCategories, updateDesignCategories } from '../../../../Services/designCategoriesService'
+import { addDesignCategories, deleteDesignCategories, fetchDesignCategories, permanentDeleteDesignCategories, restoreDesignCategories, updateDesignCategories } from '../../../../Services/AdminServices/Services/designCategoriesService'
 
 // icons
 

@@ -67,20 +67,20 @@ const handleSearchChange = (event) => {
 };
 const Navigate = useNavigate();
 
-const HandleMainButton = () => {
-    Navigate('/cliser-digital-market/main');
+    const HandleMainButton = () => {
+    Navigate('/cliser-digital-market');
     };
 const handleCartClick = () => {
     Navigate('/cliser-digital-market/Cart');
 };
 const handleHomeClick = () => {
-    Navigate('/cliser-digital-market/LandPage');
+    Navigate('/');
 };
 const handleLoginClick = () => {
-    Navigate('/Login');
+    Navigate('auth/login');
 };
 const handleSignUpClick = () => {
-    Navigate('/SignUp');
+    Navigate('auth/sign-up');
 };
 
     const itemsCount = useMemo(() => {
@@ -88,7 +88,7 @@ const handleSignUpClick = () => {
         return count
     }, [])
 
-  return (
+    return (
     <div>
         <AppBar
             position="fixed"

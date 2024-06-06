@@ -15,8 +15,8 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { fetchStylePropCategory } from '../../../../Services/StylePropCategory'
-import { addStyleProps, deleteStyleProps, fetchStyleProps, permanentDeleteStyleProps, restoreStyleProps, updateStyleProps } from '../../../../Services/stylePropsService'
+import { fetchStylePropCategory } from '../../../../Services/AdminServices/Services/StylePropCategory'
+import { addStyleProps, deleteStyleProps, fetchStyleProps, permanentDeleteStyleProps, restoreStyleProps, updateStyleProps } from '../../../../Services/AdminServices/Services/stylePropsService'
 
 // icons
 import TuneIcon from '@mui/icons-material/Tune';

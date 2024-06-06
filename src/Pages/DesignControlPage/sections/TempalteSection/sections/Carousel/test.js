@@ -2,7 +2,7 @@ import axios from "axios";
 
 // -------------------------------------- 
 import config from "../../Config.json";
-import { addDataTemplate, deleteTemplate, fetchDataTemplate, permanentDeleteTemplate, restoreTemplate, updateTemplate } from "./Controller";
+import { addDataAdminTemplate, deleteDataAdminTemplate, fetchDataAdminTemplate, permanentDeleteDataAdminTemplate, restoreDataAdminTemplate, updateDataAdminTemplate } from "./Controller";
 const ROUTE = config.ServerMainRoute + "/ENDPOINT";
 
 const API = axios.create({
@@ -15,7 +15,7 @@ const API = axios.create({
 //---------------------------------------
 // fetch items 
 export const fetchTITLE = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage=5) => {
-    const res = await fetchDataTemplate(API, type, pageNumber, filters, sorts, searchQuery, perPage);
+    const res = await fetchDataAdminTemplate(API, type, pageNumber, filters, sorts, searchQuery, perPage);
     let rows;
 
     if (res.success) {
@@ -32,25 +32,25 @@ export const addTITLE = async (inputValues) => {
     const submission = {
         // Define your input values here
     };
-    return await addDataTemplate(API, submission);
+    return await addDataAdminTemplate(API, submission);
 }
 
 //update items
 export const updateTITLE = async (id, newData) => {
-    return await updateTemplate(API, id, newData);
+    return await updateDataAdminTemplate(API, id, newData);
 };
 
 //passive items
 export const deleteTITLE = async (selectedIds) => {
-    return await deleteTemplate(API, selectedIds);
+    return await deleteDataAdminTemplate(API, selectedIds);
 };
 
 //permanent Delete items
 export const permanentDeleteTITLE = async (selectedIds) => {
-    return await permanentDeleteTemplate(API, selectedIds);
+    return await permanentDeleteDataAdminTemplate(API, selectedIds);
 };
 
 //Restore deleted items
 export const restoreTITLE = async (selectedIds) => {
-    return await restoreTemplate(API, selectedIds);
+    return await restoreDataAdminTemplate(API, selectedIds);
 };

@@ -39,17 +39,11 @@ const DeviceTraffick = () => {
             
             series={[
                 {
-                data: [
-                    {   id: 0, 
-                        value: 63, 
-                        label: 'Desktop', 
-                        color: theme.palette.primary.main
-                    
-                    },
-                    { id: 1, value: 15, label: 'Tablet', color: theme.palette.primary.light },
-                    { id: 2, value: 23, label: 'Mobile' , color: theme.palette.secondary.main},
-
-                ],
+                    data: [
+                        { id: '1', value: 63, label: 'Desktop', color: theme.palette.primary.main },
+                        { id: '2', value: 15, label: 'Tablet', color: theme.palette.primary.light },
+                        { id: '3', value: 23, label: 'Mobile', color: theme.palette.secondary.main },
+                    ],
                         innerRadius: 30,
                         outerRadius: 100,
                         paddingAngle: 5,

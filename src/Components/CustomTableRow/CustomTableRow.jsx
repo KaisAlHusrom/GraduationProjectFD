@@ -29,6 +29,8 @@ import ViewDataHelper from '../../Helpers/ViewDataHelper'
 import { useTheme } from '@emotion/react';
 import CustomModal from '../CustomModal/CustomModal';
 import ImageUpdateInput from '../../Pages/Admin/Components/ImageUpdateInput/ImageUpdateInput';
+import UploadFileButton from '../UploadFileButton/UploadFileButton';
+import VideoUpdateInput from '../../Pages/Admin/Components/VideoUpdateInput/VideoUpdateInput';
 
 
 
@@ -99,6 +101,10 @@ const CustomTableRow = (props) => {
     //Relations
     const {relationships} = useMyContext();
 
+    //files states
+    const [uploadProgress, setUploadProgress] = useState(0);
+    const [fileName, setFileName] = useState("");
+    const [fileSize, setFileSize] = useState(0);
 
     ///States
     //make another state for row, to give the ability to change the cell directly, the data will change in database when press Enter
@@ -159,7 +165,7 @@ const CustomTableRow = (props) => {
     }
 
     const handleShowTextField = (cell_index, type) => {
-        if(type === 'image') {
+        if(type === 'image' || type === "file" || type === "image:video") {
             setModalOpen(() => true);
         }
 
@@ -168,7 +174,7 @@ const CustomTableRow = (props) => {
     }
 
     //images folder name
-    const {imagesFolderName} = useMyContext()
+    const {imagesFolderName, filesFolderName} = useMyContext()
 
     // Styled Components
     const theme = useTheme()
@@ -208,8 +214,6 @@ const CustomTableRow = (props) => {
 
         const StyledTableCellShowAllData = useMemo(() => {
             return {
-                
-                
                 position: "relative",
             }
         }, []);
@@ -244,8 +248,8 @@ const CustomTableRow = (props) => {
 
         const StyledRelativeBox = useMemo(() => {
             return {
-                width: "calc(100% + 20px)",
-                height: "calc(100% + 20px)",
+                width: "200px",
+                height: "200px",
                 position: "absolute",
                 left: "-10px",
                 top: "-10px",
@@ -292,7 +296,7 @@ const CustomTableRow = (props) => {
                         <Fade key={`${rowData.id}-${colIndex}`} in={showAllCell === `${rowData.id}-${colIndex}`}>
                             <TableCell ref={tableBodyRef} sx={StyledTableCellShowAllData} onClick={() => handleShowTextField(`${rowData.id}-${colIndex}`, columns[column])}>
                                 <Box sx={StyledRelativeBox}>
-                                {checkDatabaseDataInTable(columns, column, rowData[column], showAllCell, relationships, imagesFolderName)}
+                                {checkDatabaseDataInTable(columns, column, rowData[column], showAllCell, relationships, imagesFolderName, filesFolderName)}
                                 </Box>
                             </TableCell>
                         </Fade>
@@ -320,7 +324,47 @@ const CustomTableRow = (props) => {
                                     />
                                     }
                                 </CustomModal>
-                                : null
+                                : columns[column] === "file"
+                                ?
+                                <CustomModal 
+                                title={"Update File"} 
+                                modalOpenState={[modalOpen, setModalOpen]}
+                                // modalIcon={modalIcon}
+                                >
+                                    {
+                                    <UploadFileButton 
+                                    customOnChange={(event) => handleChangeData(event, 'file', setRowData, null, null, {setFileName, setFileSize, setUploadProgress})}
+                                    label={column + "File"}
+                                    value={rowData[column]}
+                                    name={column}
+                                    fileStates={{fileName, setFileName, fileSize, setFileSize, uploadProgress, setUploadProgress}}
+                                />
+                                    }
+                                </CustomModal>
+                                : columns[column] === "image:video"
+                                ?
+                                <CustomModal 
+                                title={"Update Image"} 
+                                modalOpenState={[modalOpen, setModalOpen]}
+                                // modalIcon={modalIcon}
+                                >
+                                    {
+                                    rowData[column] instanceof File ? rowData[column]?.name?.match(/\.(mp4|webm|ogg)$/i) : rowData[column]?.match(/\.(mp4|webm|ogg)$/i)
+                                    ?
+                                        <VideoUpdateInput
+                                            customHandleChange={(event) => handleChangeData(event, 'image:video', setRowData, null, null)}
+                                            column={column}
+                                            value={rowData[column]}
+                                        />
+                                    :
+                                        <ImageUpdateInput
+                                            customHandleChange={(event) => handleChangeData(event, 'image:video', setRowData, null, null)}
+                                            column={column}
+                                            value={rowData[column]}
+                                        />
+                                    }
+                                </CustomModal>
+                                :null
                             }
                         </Fragment>
                         
@@ -332,7 +376,7 @@ const CustomTableRow = (props) => {
                             key={`${rowData.id}-${colIndex}`}
                             ref={tableBodyRef}
                         >
-                            {checkDatabaseDataInTable(columns, column, rowData[column], undefined, relationships, imagesFolderName)}
+                            {checkDatabaseDataInTable(columns, column, rowData[column], undefined, relationships, imagesFolderName, filesFolderName)}
                         </TableCell>
                     )
                 ))}

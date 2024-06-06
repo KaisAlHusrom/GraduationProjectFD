@@ -1,5 +1,5 @@
 //React
-import { useState } from 'react'
+import { } from 'react'
 
 import {
     
@@ -10,12 +10,9 @@ import {
 //MUI
 import {
     Box,
-    CssBaseline,
     Divider,
-    ThemeProvider,
     ToggleButton,
     ToggleButtonGroup,
-    createTheme,
 } from '@mui/material'
 import './style.css'
 import Hero from './Sections/Hero/Hero'
@@ -27,9 +24,10 @@ import FAQ from './Sections/FAQ/FAQ'
 import Footer from './Sections/Footer/Footer'
 import AutoAwesomeRoundedIcon from '@mui/icons-material/AutoAwesomeRounded';
 import PropTypes from 'prop-types';
-import getLPTheme from './getLPTheme';
-import AppAppBar from './Sections/AppAppBar/AppAppBar'
+
 import LogoCollection from './LogoCollection'
+import MainAppBar from '../../Components/MainAppBar/MainAppBar'
+
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
     return (
@@ -74,23 +72,27 @@ function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
   };
   
   export default function LandingPage() {
-    const [mode, setMode] = useState('light');
-    const [showCustomTheme, setShowCustomTheme] = useState(true);
-    const LPtheme = createTheme(getLPTheme(mode));
-    const defaultTheme = createTheme({ palette: { mode } });
-  
-    const toggleColorMode = () => {
-      setMode((prev) => (prev === 'dark' ? 'light' : 'dark'));
-    };
-  
+
     // const toggleCustomTheme = () => {
     //   setShowCustomTheme((prev) => !prev);
     // };
-  
+
+    // const [data, setData] = useState(null)
+    // useEffect(() => {
+    //   const fetchUser = async () => {
+    //     const res = await fetchUserData()
+    //     console.log(res)
+    //     if(res.success) {
+    //       setData(res.data)
+    //     }
+    //   }
+
+    //   fetchUser()
+    // }, [])
+
     return (
-      <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
-        <CssBaseline />
-        <AppAppBar mode={mode} toggleColorMode={toggleColorMode} />
+      <>
+        <MainAppBar />
         <Hero />
         <Box sx={{ bgcolor: 'background.default' }}>
           <LogoCollection />
@@ -107,6 +109,6 @@ function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
           <Footer />
         </Box>
 
-      </ThemeProvider>
+      </>
     );
   }

@@ -6,29 +6,33 @@ import { useEffect, useState } from 'react'
 
 //Helpers
 import StringHelper from '../../Helpers/StringsHelper'
-import NumberHelper from '../../Helpers/NumberHelper'
+
 
 
 //Components
-import LinearProgressWithLabel from '../LinearProgressWithLabel/LinearProgressWithLabel'
+
 
 //MUI
 import {
     Autocomplete,
-    Box, Button, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment, InputLabel, OutlinedInput , Switch, TextField, TextareaAutosize, Typography,
+    Box, Button, FormControl, FormControlLabel, FormLabel, Grid, InputAdornment, InputLabel, OutlinedInput , Rating, Switch, TextField, TextareaAutosize, Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
 //Icons
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import FolderZipIcon from '@mui/icons-material/FolderZip';
 
+import BrokenImageOutlinedIcon from '@mui/icons-material/BrokenImageOutlined';
+import OndemandVideoOutlinedIcon from '@mui/icons-material/OndemandVideoOutlined';
 //propTypes 
 import propTypes from 'prop-types'
 import { DatePicker } from '@mui/x-date-pickers'
 import RelationTextFieldToCustomModal from '../RelationTextFieldToCustomModal/RelationTextFieldToCustomModal'
 import { useMyContext } from '../DatabaseView/DatabaseView'
 import AdminUploadImageComponent from '../AdminUploadImageComponent/AdminUploadImageComponent'
+import AdminMainButton from '../AdminMainButton/AdminMainButton'
+import AdminUploadVideoComponent from '../AdminUploadVideoComponent/AdminUploadVideoComponent'
+import UploadFileButton from '../UploadFileButton/UploadFileButton'
+import { MAX_FILE_SIZE } from '../../Services/AdminServices/Services/productsService'
 
 
 //Styled Components
@@ -48,47 +52,6 @@ const StyledSubmitButton = styled(Button)(
     })
 )
 
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-});
-
-
-const StyledFileBox =styled(Box)(
-    () => ({
-        display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-            width: "100%",
-    })
-)
-
-const StyledUploadedFileBox = styled(Box)(
-    ({ theme }) => ({
-        display: "flex",
-        width: "100%",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: theme.palette.action.selected,
-        padding: `0 ${theme.spacing()}`,
-        borderRadius: "8px",
-    })
-)
-
-const StyledFileNameProgress = styled(Box)(
-    ({theme}) => ({
-        maxWidth: "280px",
-        margin: theme.spacing()
-    })
-)
 
 const StyledTextArea = styled(TextareaAutosize)(
     ({theme}) => ({
@@ -123,6 +86,7 @@ const CustomFormModal = (props) => {
     // Define the desired order of keys
     const sortingOrder = [
         "image",
+        "image:video",
         "email",
         "password",
         "string",
@@ -135,6 +99,7 @@ const CustomFormModal = (props) => {
         "many-to-one",
         "one-to-many",
         "text",
+        "rate",
         "bool",
         "file",
     ];
@@ -214,14 +179,31 @@ const CustomFormModal = (props) => {
     // State variables for input values
     
     const [inputValues, setInputValues] = useState({});
+    useEffect(() => {
+        if(Object.values(columns).includes("bool")) {
+            Object.entries(columns).forEach(([column, type]) => {
+                if (type === "bool") {
+                    inputValues[column] = false;
+                }
+            })
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [columns])
+
     const [image, setImage] = useState(null)
+    const [video, setVideo] = useState(null)
+
+    //media type state
+    const [mediaType, setMediaType] = useState('image')
 
     // Handle change for input fields
     const handleChange = (e, column, newValue, relation, setAutoCompleteValue) => {
+        
         const name = column
-        const type = columns[column].split("|")[0]
+        const type = columns[column]?.split("|")[0]
         
         let value = e?.target?.value;
+
 
         if(type === "date") {
             value = `${e['$y']}-${e['$M']}-${e['$D']}`;
@@ -229,11 +211,11 @@ const CustomFormModal = (props) => {
 
         }
         
-        if(type === "enum") {
+        if(type === "enum"|| type === "rate") {
             value = newValue;
         }
         
-        if(type === "many-to-many" || type === "many-to-one" || type === "rate") {
+        if(type === "many-to-many" || type === "many-to-one") {
             //?? TO send only the ids I have to setAutoCompleteValue to not change the values in Autocomplete component;
             value = newValue;
             setAutoCompleteValue(() => newValue)
@@ -264,8 +246,45 @@ const CustomFormModal = (props) => {
             reader.readAsDataURL(value);
         }
 
+        if(type === "image:video") {
+            if(mediaType === "video") {
+                value = e.target.files[0];
+                //! because there is no any file in this project except products, I sue max file that in products service
+                if (value.size > MAX_FILE_SIZE) {
+                    console.error(`File size should not exceed ${MAX_FILE_SIZE / (1024 * 1024)} MB.`);
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setVideo(() => event.target.result)
+    
+                };
+    
+                reader.readAsDataURL(value);
+            } else {
+                value = e.target.files[0];
+                //! because there is no any file in this project except products, I sue max file that in products service
+                if (value.size > MAX_FILE_SIZE) {
+                    console.error(`File size should not exceed ${MAX_FILE_SIZE / (1024 * 1024)} MB.`);
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    setImage(() => event.target.result)
+
+                };
+
+                reader.readAsDataURL(value);
+            }
+        }
+
+
         if(type === "file") {
             value = e.target.files[0];
+            if (value.size > MAX_FILE_SIZE) {
+                console.error(`File size should not exceed ${MAX_FILE_SIZE / (1024 * 1024)} MB.`);
+                return;
+            }
             if (value) {
                 setFileName(value.name);
                 setFileSize(value.size);
@@ -531,50 +550,96 @@ const CustomFormModal = (props) => {
             )
         }
 
-        if(type === "file") {
+        if(type === "image:video") {
+
             return (
             <Grid key={key} item xs={12}>
-                <StyledFileBox>
-                    <Button size='small' component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-                        Upload {label}
-                        <VisuallyHiddenInput 
-                        type="file" 
-                        accept='.zip,.rar,application/zip,application/x-rar-compressed,application/octet-stream' 
-                        name={column}
-                        onChange={event => handleChange(event, column)}
+                {
+                    mediaType === "image"
+                    ?
+                        <AdminUploadImageComponent
+                            column={column}
+                            customOnChange={(event) => handleChange(event, column)}
+                            response={response}
+                            imageState={[image, setImage]}
                         />
-                    </Button>
-                    <Box mt={1}>
-                        {uploadProgress > 0 && (
-                        <StyledUploadedFileBox>
-                            <Box>
-                                <FolderZipIcon color='primary' />
-                            </Box>
-                            <StyledFileNameProgress>
-                                <Typography variant='body1' sx={{
-                                    overflow: 'hidden', 
-                                    whiteSpace: 'nowrap', 
-                                    textOverflow: 'ellipsis',
-                                }}>
-                                    {fileName} | {NumberHelper.formatFileSize(fileSize)}
-                                </Typography>
-                                <LinearProgressWithLabel value={uploadProgress} />
-                            </StyledFileNameProgress>
-                        </StyledUploadedFileBox>
-                        )}
-                        <Typography variant="subtitle1" component="span" color="error">
-                            {errorMessage}
-                        </Typography>
-                    </Box>
-
-                </StyledFileBox>
+                    :
+                        <AdminUploadVideoComponent
+                            column={column}
+                            customOnChange={(event) => handleChange(event, column)}
+                            response={response}
+                            videoState={[video, setVideo]}
+                        />
+                }
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    mt: 2,
+                    gap: 1,
+                }}>
+                    <AdminMainButton 
+                        type='custom'
+                        appearance='iconButton'
+                        onClick={() => setMediaType("image")}
+                        title='image'
+                        putTooltip
+                        toolTipPosition={"top"}
+                        putBorder
+                        icon={<BrokenImageOutlinedIcon />}
+                        sx={{
+                            backgroundColor: mediaType === "image" && ((theme) => theme.palette.action.selected),
+                        }}
+                    />  
+                    <AdminMainButton 
+                        type='custom'
+                        appearance='iconButton'
+                        onClick={() => setMediaType("video")}
+                        title='video'
+                        putTooltip
+                        toolTipPosition={"top"}
+                        putBorder
+                        icon={<OndemandVideoOutlinedIcon />}
+                        sx={{
+                            backgroundColor: mediaType === "video" && ((theme) => theme.palette.action.selected),
+                        }}
+                    />  
+                </Box>
             </Grid>
             )
         }
 
+        if(type === "file") {
+
+            return (
+            <Grid key={key} item xs={12}>
+                <UploadFileButton 
+                    customOnChange={(event) => handleChange(event, column)}
+                    label={column + "File"}
+                    errorMessage={errorMessage}
+                    fileStates={{uploadProgress, setUploadProgress, fileName, setFileName, fileSize, setFileSize}}
+                    name={column}
+                />
+            </Grid>
+            )
+        }
+
+        if(type === "rate") {
+            return <Grid key={key} item xs={12}>
+
+                    <Typography variant='subtitle1'>{label}</Typography>
+                    <Rating
+                        name={column}
+                        onChange={ (event,newValue) => handleChange(event, column, newValue)}
+                        value= {inputValues[column] || ""}
+                        label={label}         
+                    />
+            </Grid>
+
+        } 
+
         if(type === "many-to-one" || type === "many-to-many" || type === "one-to-many") {
             return (
-
                     <RelationTextFieldToCustomModal 
                     columnName={column} 
                     columnType={type} 
@@ -634,6 +699,7 @@ const CustomFormModal = (props) => {
         });
 
         //send the add request
+        // console.log(updatedInputValues)
         const res = handleCustomAddData ? await handleCustomAddData(updatedInputValues) : await handleAddData(updatedInputValues)
         setResponse(() => res)
     }

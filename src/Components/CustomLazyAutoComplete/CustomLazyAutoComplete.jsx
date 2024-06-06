@@ -95,7 +95,7 @@ const CustomLazyAutoComplete = (props) => {
     const handleChangeSearchQuery = useCallback((e) => {
 
         // Cancel ongoing request
-        // cancelFetchDataTemplate();
+        // cancelfetchDataAdminTemplate();
 
         setPageNumber(() => 1)
         

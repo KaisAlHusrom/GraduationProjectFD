@@ -66,7 +66,8 @@ const AdminMainButtonOutsideState = (props) => {
         drawerHeaderContent,
         withoutDrawerHeader,
         drawerWidthState,
-        disabled
+        disabled,
+        drawerZIndex
     } = props
 
     //theme
@@ -404,6 +405,7 @@ const AdminMainButtonOutsideState = (props) => {
                 drawerHeaderContent={drawerHeaderContent}
                 withoutDrawerHeader={withoutDrawerHeader}
                 drawerWidthState={drawerWidthState}
+                drawerZIndex={drawerZIndex}
                 >
                     {willShow}
                 </CustomDrawer>
@@ -469,6 +471,7 @@ AdminMainButtonOutsideState.propTypes = {
     withoutDrawerHeader: propTypes.bool,
     drawerWidthState: propTypes.array,
     disabled: propTypes.bool,
+    drawerZIndex: propTypes.number,
 }
 
 export default AdminMainButtonOutsideState;

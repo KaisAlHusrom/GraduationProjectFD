@@ -17,7 +17,7 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import { writeFilterObject } from '../../../../Helpers/filterData'
-import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
+import { fetchElementTypesRows } from '../../../../Services/AdminServices/Services/elementsTypesService'
 import { addElementToParent } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'

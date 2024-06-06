@@ -25,17 +25,8 @@ const StyledDailySales = styled(Card)(
     })
 )
 
-const pData = [0, 2000, 2500, 1000, 500, 1300, 800, 900];
-const xLabels = [
-    "",
-    'MON',
-    'TUE',
-    'WED',
-    'THU',
-    'FRI',
-    'SAT',
-    'SUN',
-];
+const pData = [2000, 2500, 1000, 500, 1300, 800, 900];
+const xLabels = [1, 2, 3, 4, 5, 6, 7];  // Mapping days to numbers
 
 
 const DailySales = () => {

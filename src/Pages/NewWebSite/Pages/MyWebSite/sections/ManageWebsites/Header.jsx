@@ -31,7 +31,7 @@ const Header = () => {
 
 
     const handleCreateWebSiteClick= () => {
-    Navigate('/Profile/CreateWebsite');
+    Navigate('/profile/create-new-project');
     };
 
 

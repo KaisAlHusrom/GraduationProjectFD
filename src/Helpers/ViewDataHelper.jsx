@@ -7,18 +7,39 @@ import { styled } from '@mui/system'
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import DateHelper from "./DateHelper";
-
+import GetAppOutlinedIcon from '@mui/icons-material/GetAppOutlined';
 
 //images
 //images
 import noPicture from "../Assets/Images/no-pictures.png"
 import StringHelper from "./StringsHelper";
 import { Fragment } from "react";
-import {  RelationTextField } from "../Components";
+import {  AdminMainButton, RelationTextField } from "../Components";
 
 //get server api
 import config from "../../Config.json";
 
+const getOptionLabel = (option, relation) => {
+    if (!option) return '';
+    const fetchedColumn = relation["fetched_column"];
+    
+    if (fetchedColumn.includes('.')) {
+        
+        const parts = fetchedColumn.split('.');
+        let value = option;
+        for (let part of parts) {
+            if (value && Object.prototype.hasOwnProperty.call(value, part)) {
+                value = value[part];
+            } else {
+                return '';
+            }
+        }
+        
+        return value || '';
+    } else {
+        return option[fetchedColumn] || '';
+    }
+}
 
 
 //Styles
@@ -32,10 +53,17 @@ const StyledTextField = styled(TextField)(
 );
 
 const imageStyle = {
-    width: "60px",
-    height: "60px",
+    width: "100px",
+    height: "100px",
     objectFit: "contain",
     borderRadius: "50%"
+}
+
+const videoStyle = {
+    width: "150px",
+    height: "150px",
+    objectFit: "contain",
+
 }
 
 const StyledTextArea = styled(TextareaAutosize)(
@@ -59,7 +87,7 @@ const StyledTextArea = styled(TextareaAutosize)(
 
 
 //return database data
-const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations, imagesFolder) => {
+const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations, imagesFolder, filesFolderName) => {
     const {manyToMany, manyToOne, oneToMany} = relations
     if(cell){
         if(columns[column] === "bool") {
@@ -73,7 +101,47 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
         if(columns[column] === "image") {
             const stylePropRoute = cell.startsWith("data") ? cell : `${config.ServerImageRoute}/${imagesFolder}/${cell}`;
             return <img src={`${stylePropRoute}`} style={imageStyle} alt="image"  />
+        }
+
+        if(columns[column] === "file") {
+
+            const fileRoute = cell.startsWith("data") ? null : `${config.ServerFilesRoute}/${filesFolderName}/${cell}`; 
+            const downloadFile = () => {
+                const link = document.createElement('a');
+                link.href = fileRoute;
+                link.setAttribute('download', true);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            };
+
+            return <>
+                {/* <Typography variant="body1" textOverflow={"ellipsis"} whiteSpace={'wrap'} width={'100%'} overflow={'hidden'}>{cell}</Typography> */}
+                <AdminMainButton
+                        type="custom"
+                        appearance="iconButton"
+                        title={cell.startsWith("data") ? "New File" : cell}
+                        putTooltip
+                        toolTipPosition={"top"}
+                        putBorder
+                        icon={<GetAppOutlinedIcon />}
+                        onClick={cell.startsWith("data") ? () => {console.warn("You can't download file now you upload")} :downloadFile}
+                    />
+            </>
         } 
+
+        if (columns[column] === "image:video") {
+            const stylePropRouteImage = cell.startsWith("data") ? cell : `${config.ServerImageRoute}/${imagesFolder}/${cell}`;
+            const stylePropRouteVideo = cell.startsWith("data:video/mp4") ? cell : `${config.ServerVideoRoute}/${imagesFolder}/${cell}`;
+            const isVideo = stylePropRouteVideo.match(/\.(mp4|webm|ogg)$/i) || stylePropRouteVideo.startsWith("data:video/mp4");
+        
+            return isVideo  ? (
+                <video src={stylePropRouteVideo} style={videoStyle} controls />
+            ) : (
+                <img src={stylePropRouteImage} style={imageStyle} alt="media" />
+            );
+        }
+        
 
         if(columns[column] === "rate") {
             return <Rating name="read-only" value={cell} readOnly />
@@ -87,6 +155,7 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
             return `${cell}$`
         }
 
+        
         if(columns[column] === "one-to-many") {
             if(cell.length === 0) {
                 return <CloseIcon color="error" />
@@ -117,12 +186,12 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
                         showAllCell
                         ?
                         cell.map((item, key) => {
+                            const data = getOptionLabel(item, row)
                             return (
                                 <Fragment key={key}>
                                     <ListItem>
                                         <ListItemText primary={
-
-                                            item[row["fetched_column"]]
+                                            data
                                         } />
                                     </ListItem>
                                     <Divider />
@@ -134,7 +203,7 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
                         (
                             <ListItem>
                                 <ListItemText sx={listItemTextStyle} primary={
-                                    cell[0][row["fetched_column"]]
+                                    getOptionLabel(cell[0], row)
                                 } />
                             </ListItem>
                         )
@@ -166,6 +235,7 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
                 
             }
             const row = manyToMany.filter(relation => relation["field_name"] === column)[0]
+            
             return (
                 <List sx={listStyle}>
                     
@@ -173,10 +243,11 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
                         showAllCell
                         ?
                         cell.map((item, key) => {
+                            const data = getOptionLabel(item, row)
                             return (
                                 <Fragment key={key}>
                                     <ListItem>
-                                        <ListItemText primary={item[row["fetched_column"]]} />
+                                        <ListItemText primary={data} />
                                     </ListItem>
                                     <Divider />
                                 </Fragment>
@@ -185,7 +256,7 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
                         :
                         (
                             <ListItem>
-                                <ListItemText  sx={listItemTextStyle} primary={cell[0][row["fetched_column"]]} />
+                                <ListItemText  sx={listItemTextStyle} primary={getOptionLabel(cell[0], row)} />
                             </ListItem>
                         )
                     }
@@ -195,8 +266,8 @@ const checkDatabaseDataInTable = (columns, column, cell, showAllCell, relations,
 
         if(columns[column] === "many-to-one") {
             const row = manyToOne.filter(relation => relation["field_name"] === column)[0]
-
-            return cell[row["fetched_column"]]
+            const data = getOptionLabel(cell, row)
+            return data
         }
 
         return cell
@@ -225,7 +296,7 @@ const getAppropriateTextField = (
     const values = type === "enum" ? columns[column].split('|')[1].split(",") : null;
     
 
-    const changeFunc = (event) => handleChangeData(event, type, setRowData, null, null); 
+    const changeFunc = (event, newValue) => handleChangeData(event, type, setRowData, column, newValue); 
     const enterKeyDownFunc = (event) => handleEnterKeyDown(event, columns[column], row, setShowTextField)
 
     // if(cell !== null){
@@ -236,10 +307,14 @@ const getAppropriateTextField = (
         if (columns[column] === "one-to-many") return <Typography color="error" variant='body2'>Can not Update has many fields</Typography>;
         
         if(columns[column] === "file") {
-            return <Typography color="error" variant='body2'>Ca not Update folders fields</Typography>
+            return <Typography color="info.main" variant='body2'>Updating...</Typography>;
         } 
 
         if (columns[column] === "image") {
+            return <Typography color="info.main" variant='body2'>Updating...</Typography>;
+        }
+
+        if (columns[column] === "image:video") {
             return <Typography color="info.main" variant='body2'>Updating...</Typography>;
         }
         
@@ -429,7 +504,8 @@ const getAppropriateTextField = (
 
 const ViewDataHelper = {
     checkDatabaseDataInTable,
-    getAppropriateTextField
+    getAppropriateTextField,
+    getOptionLabel
 }
 
 export default ViewDataHelper

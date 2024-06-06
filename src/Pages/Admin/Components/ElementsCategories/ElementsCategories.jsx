@@ -19,7 +19,7 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { fetchElementTypesCategories } from '../../../../Services/elementTypesCategories'
+import { fetchElementTypesCategories } from '../../../../Services/AdminServices/Services/elementTypesCategories'
 import { CustomDrawer } from '../../../../Components'
 import { defaultDrawerWidth } from '../../../../Components/CustomDrawer/CustomDrawer'
 import CategorizedElements from '../CategorizedElements/CategorizedElements'

@@ -67,7 +67,8 @@ const AdminMainButton = (props) => {
         withoutDrawerHeader,
         drawerWidthState,
         disabled,
-        drawerZIndex
+        drawerZIndex,
+        menuPaperProps
     } = props
 
     //theme
@@ -325,6 +326,9 @@ const AdminMainButton = (props) => {
                 MenuListProps={{
                     "aria-labelledby": `by-${title}-menu`,
                 }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                PaperProps={menuPaperProps}
                 >
                     {
                         menuItems.map((item, key) => {
@@ -338,8 +342,8 @@ const AdminMainButton = (props) => {
                                 fontWeight: item.selected ? "bold" : "normal",
                             }}
                             >
-                            {item.icon && item.icon}
-                            {item.value}
+                                {item.icon && item.icon}
+                                {item.value}
                             </MenuItem>
                             )
                         })
@@ -356,9 +360,7 @@ const AdminMainButton = (props) => {
                 anchorEl={menuEl} 
                 open={openMenu} 
                 onClose={handleCloseSortMenu}
-                MenuListProps={{
-                    "aria-labelledby": `by-${title}-menu`,
-                }}
+                PaperProps={menuPaperProps}
                 >
                     {
                         menuItems.map((item, key) => {
@@ -469,6 +471,9 @@ AdminMainButton.propTypes = {
     withoutDrawerHeader: propTypes.bool,
     drawerWidthState: propTypes.array,
     disabled: propTypes.bool,
+    drawerZIndex: propTypes.number,
+    menuPaperProps: propTypes.object,
+
 }
 
 export default AdminMainButton;

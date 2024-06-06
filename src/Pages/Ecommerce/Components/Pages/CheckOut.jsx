@@ -17,16 +17,13 @@ import {
     Box,Button,Card,CardContent,Grid,Stack,Step,StepLabel,Stepper,Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
-import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
 
 //propTypes 
 import propTypes from 'prop-types'
-import { useNavigate } from 'react-router-dom';
-import CliserImageLogo from '../UI/CliserImageLogo';
-import { CartData } from '../../data/CartData';
+
 
 
 
@@ -54,7 +51,6 @@ function getStepContent(step) {
 
 
 const CheckOut = () => {
-    const Navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
 
     const cartItems = useMemo(() => {
@@ -68,14 +64,12 @@ const CheckOut = () => {
 
     const handleNext = () => {
         setActiveStep(activeStep + 1);
-      };
+    };
     
-      const handleBack = () => {
+    const handleBack = () => {
         setActiveStep(activeStep - 1);
-      };
-      const handleBackToMain = ()=>{
-        Navigate(`/Ecommerce`);
-      }
+    };
+
     return (
         <StyledCheckOut>
             <Grid container sx={{ height: { xxs:'100%',xs: '100%', sm: '100dvh' }, marginTop: 8 }}>

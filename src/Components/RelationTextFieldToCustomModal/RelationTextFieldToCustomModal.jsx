@@ -29,6 +29,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import propTypes from 'prop-types'
 import useFetchData from '../../Helpers/customHooks/useFetchData';
 import { useMyContext } from '../DatabaseView/DatabaseView';
+import ViewDataHelper from '../../Helpers/ViewDataHelper';
 
 //Styled Components
 //Styled Components
@@ -65,15 +66,16 @@ const RelationTextFieldToCustomModal = (props) => {
         error,
         errorMessage,
         handleChange,
-        response,
-        customRelationships
+        // response,
+        // customRelationships
     } = props
 
-    const {relationships} = useMyContext() || customRelationships
+    const {relationships} = useMyContext()
 
 
     //Get current relation
-    const [relation, ] = useState(() => {
+    
+    const relation = useMemo(() => {
         if(columnType === 'one-to-many'){
             return relationships.oneToMany.filter(relation => relation["field_name"] === columnName)[0]
         }
@@ -85,9 +87,9 @@ const RelationTextFieldToCustomModal = (props) => {
         if(columnType === 'many-to-one'){
             return relationships.manyToOne.filter(relation => relation["field_name"] === columnName)[0]
         }
-    })
+    }, [columnName, columnType, relationships.manyToMany, relationships.manyToOne, relationships.oneToMany])
 
-
+    
 
     //fetch related table data
     const [searchQuery, setSearchQuery] = useState(null)
@@ -108,7 +110,7 @@ const RelationTextFieldToCustomModal = (props) => {
         loading,
         setPageNumber,
         data
-    } = useFetchData(relation.fetch_all_data, "all", relation.filters, null, open, searchQuery)
+    } = useFetchData(relation?.fetch_all_data, "all", relation?.filters, null, open, searchQuery)
 
     // *** DOWNLOAD MORE WHEN SCROLLING BOTTOM
     const observer = useRef()
@@ -156,28 +158,12 @@ const RelationTextFieldToCustomModal = (props) => {
     }, [columnType, data, relation, autoCompleteValue]);
 
 
-    // const [selectedIds, setSelectedIds] = useState([])
-    // useEffect(() => {
-    //     if (columnType === "many-to-many" || columnType === 'one-to-many') {
-    //         if(selectedOptions && selectedOptions.length > 0) {
-    //             const ids = selectedOptions.map(row => row[relation["related_table_id"]])
-    //             setSelectedIds(() => ids);
-    //         }
-    //     }
-    //     if (columnType === "many-to-one") {
-    //         if(selectedOptions) {
-    //             const id = selectedOptions[relation["related_table_id"]]
-    //             setSelectedIds(() => id);
-    //         }
-    //     }
-        
-    // }, [columnType, relation, selectedOptions])
 
     //handle change search query
     const handleChangeSearchQuery = useCallback((e) => {
 
         // Cancel ongoing request
-        // cancelFetchDataTemplate();
+        // cancelfetchDataAdminTemplate();
 
         setPageNumber(() => 1)
         
@@ -191,11 +177,34 @@ const RelationTextFieldToCustomModal = (props) => {
         search(name, value)
     }, [relation, setPageNumber])
 
+    // const [pivotValues, setPivotValues] = useState({})
+    // const pivots = useMemo(() => {
+    //     return relation ? relation.pivots : null //TODO: do the pivots in many to many relations
+    // }, [relation])
 
+    // console.log(pivots)
+    // const handlePivotChange = (event, column) => {
+    //     const value = event?.target?.value;
+    //     const name = column ? column : event?.target?.name;
+
+    //     setPivotValues((prev) => {
+    //         return {...prev, [name]: value}
+    //     })
+
+    //     handleChange(event, column)
+    // }
+
+
+    
+
+    
+
+    // console.log(data)
+    // console.log(relation["fetched_column"])
     const defaultProps = useMemo(() => {
         return {
             options: open ? data : [],
-            getOptionLabel: (option) => option ? option[relation["fetched_column"]] || '' : '',
+            getOptionLabel: option => ViewDataHelper.getOptionLabel(option, relation),
             getOptionKey: (option) => option ? option[relation["related_table_id"]] : '',
             size: 'small', // Fixed: changed = to :
             renderInput: (params) => (
@@ -231,7 +240,7 @@ const RelationTextFieldToCustomModal = (props) => {
                                 style={{ marginRight: 8 }}
                                 checked={selected}
                             />
-                            {option[relation["fetched_column"]]}
+                            {ViewDataHelper.getOptionLabel(option, relation)}
                         </li>
                     ) : (
                         <li {...props}>
@@ -241,7 +250,7 @@ const RelationTextFieldToCustomModal = (props) => {
                                 style={{ marginRight: 8 }}
                                 checked={selected}
                             />
-                            {option[relation["fetched_column"]]}
+                            {ViewDataHelper.getOptionLabel(option, relation)}
                         </li>
                     )
                 );
@@ -263,7 +272,7 @@ const RelationTextFieldToCustomModal = (props) => {
     return (
         <>
             {
-                relation.add_to_add_form
+                relation?.add_to_add_form
                 ?
                     (columnType === "many-to-many")
                     ?    
@@ -275,6 +284,12 @@ const RelationTextFieldToCustomModal = (props) => {
                                 multiple
                                 disableCloseOnSelect
                                 />
+                                {/* {
+                                    pivots &&
+                                    Object.entries(relation.pivots).map(([column, type], key) => {
+                                        returnInputs(column, type, response, key)
+                                    })
+                                } */}
                             </Grid>
                         )
                 

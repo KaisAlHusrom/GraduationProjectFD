@@ -58,7 +58,7 @@ const WebSiteType = () => {
 
 
     const handleCreateWebSiteClick= () => {
-    Navigate('/Profile/CreateWebsite');
+    Navigate('/profile/create-new-project');
     };
 
 

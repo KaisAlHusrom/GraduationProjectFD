@@ -35,7 +35,7 @@ import propTypes from 'prop-types'
 import AppliedStyles from '../AppliedStyles/AppliedStyles.jsx'
 import StyleFieldBox from '../StyleFieldBox/StyleFieldBox.jsx'
 import { SelectStyleBreakpoints } from '../SelectStyleBreakpoints/SelectStyleBreakpoints.jsx'
-import { fetchStylePropCategory } from '../../../../Services/StylePropCategory.js'
+import { fetchStylePropCategory } from '../../../../Services/AdminServices/Services/StylePropCategory.js'
 import SelectStyleExceptions from '../SelectStyleExceptions/SelectStyleExceptions.jsx';
 
 

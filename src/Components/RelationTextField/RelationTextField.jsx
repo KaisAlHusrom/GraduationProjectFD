@@ -24,6 +24,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import propTypes from 'prop-types'
 import {  } from '@emotion/react';
 import useFetchData from '../../Helpers/customHooks/useFetchData';
+import ViewDataHelper from '../../Helpers/ViewDataHelper';
 
 //Styled Components
 const StyledMenu = styled(Paper)(
@@ -159,7 +160,7 @@ const RelationTextField = (props) => {
     const handleChangeSearchQuery = useCallback((e) => {
 
         // Cancel ongoing request
-        // cancelFetchDataTemplate();
+        // cancelfetchDataAdminTemplate();
 
         setPageNumber(() => 1)
         
@@ -176,7 +177,7 @@ const RelationTextField = (props) => {
     const defaultProps = useMemo(() => {
         return {
             options: open ? data : [],
-            getOptionLabel: (option) => option ? option[relation["fetched_column"]] || '' : '',
+            getOptionLabel: (option) => ViewDataHelper.getOptionLabel(option, relation),
             getOptionKey: (option) => option ? option[relation["related_table_id"]] : '',
             size: 'small', // Fixed: changed = to :
             renderInput: (params) => (
@@ -212,7 +213,7 @@ const RelationTextField = (props) => {
                                 style={{ marginRight: 8 }}
                                 checked={selected}
                             />
-                            {option[relation["fetched_column"]]}
+                            {ViewDataHelper.getOptionLabel(option, relation)}
                         </li>
                     ) : (
                         <li {...props}>
@@ -222,7 +223,7 @@ const RelationTextField = (props) => {
                                 style={{ marginRight: 8 }}
                                 checked={selected}
                             />
-                            {option[relation["fetched_column"]]}
+                            {ViewDataHelper.getOptionLabel(option, relation)}
                         </li>
                     )
                 );

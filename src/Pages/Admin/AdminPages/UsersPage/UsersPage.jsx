@@ -15,10 +15,11 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { addUsers, deleteUsers, fetchUsers, permanentDeleteUsers, restoreUsers, updateUsers } from '../../../../Services/usersService'
+import { addUsers, deleteUsers, fetchUsers, permanentDeleteUsers, restoreUsers, updateUsers } from '../../../../Services/AdminServices/Services/usersService'
 
 // icons
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
+import { fetchPaymentPlans } from '../../../../Services/AdminServices/Services/paymentPlans'
 // Styled Components
 const StyledUsersPage = styled(Box)(
     () => ({
@@ -30,13 +31,6 @@ const relationships = {
     manyToOne:[
     ],
     manyToMany:[
-        {
-            "field_name": "paymentPlans",
-            "fetched_column": "payment_plan_title",
-            "related_table_id": "id",
-            add_to_add_form: true,
-            fetch_all_data: null, 
-        },
     ],
     oneToMany:[
     ]
@@ -54,7 +48,6 @@ const columns = {
     'withdrawable_balance': "decimal",
     'email': "email",
     'password': "password",
-    'paymentPlans': "many-to-many",
     "created_at": "dateTime",
     "updated_at": "dateTime"
 }

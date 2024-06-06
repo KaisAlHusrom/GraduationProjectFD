@@ -18,7 +18,7 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { fetchStyleStatuses } from '../../../../Services/styleStatusesService'
+import { fetchStyleStatuses } from '../../../../Services/AdminServices/Services/styleStatusesService'
 import { AdminMainButton } from '../../../../Components'
 import { useTheme } from '@emotion/react'
 

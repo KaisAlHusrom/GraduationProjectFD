@@ -27,7 +27,7 @@ import { MuiColorInput } from 'mui-color-input'
 //propTypes 
 import propTypes from 'prop-types'
 import GridTemplate from '../GridTemplate/GridTemplate'
-import { fetchStyleProps } from '../../../../Services/stylePropsService'
+import { fetchStyleProps } from '../../../../Services/AdminServices/Services/stylePropsService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 
 

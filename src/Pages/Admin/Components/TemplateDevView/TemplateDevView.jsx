@@ -17,7 +17,7 @@ import propTypes from 'prop-types'
 import { GenerateTag } from '../../../../Helpers/GenerateTag'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
 import { AdminMainButton, AdminMainButtonOutsideState } from '../../../../Components'
-import { fetchElementTypesRows } from '../../../../Services/elementsTypesService'
+import { fetchElementTypesRows } from '../../../../Services/AdminServices/Services/elementsTypesService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 
 //icons

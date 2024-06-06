@@ -1,7 +1,5 @@
 //React
-import {
-    
-} from 'react'
+import { useEffect } from 'react'
 
 import { useSelector } from 'react-redux'
 
@@ -18,6 +16,9 @@ import {
     Box
 } from '@mui/material'
 import {  styled } from '@mui/system'
+import UserProvider from '../../Contexts/UserProvider';
+import { isTokenValid } from '../../Helpers/utils/auth';
+
 
 
 
@@ -30,19 +31,25 @@ const StyledMainPage = styled(Box)(
 
 
 const MainPage = () => {
+    
+    useEffect(() => {
+        isTokenValid()
+    }, [])
 
     //download progresses
     const openLinearProgress = useSelector(state => state.downloadPageSlice.openLinearProgress)
     const openCircularProgress = useSelector(state => state.downloadPageSlice.openCircularProgress)
     return (
         <StyledMainPage>
-                {
-                    openLinearProgress && <CustomLinearProgress />
-                }
-                {
-                    openCircularProgress && <CustomCircularProgress />
-                }
-                <Outlet />
+                {/* <UserProvider> */}
+                        {
+                            openLinearProgress && <CustomLinearProgress />
+                        }
+                        {
+                            openCircularProgress && <CustomCircularProgress />
+                        }
+                        <Outlet />
+                {/* </UserProvider> */}
         </StyledMainPage>
     );
 };

@@ -24,7 +24,7 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { fetchDesigns, fetchSpecificDesign } from '../../../../Services/designService'
+import { fetchDesigns, fetchSpecificDesign } from '../../../../Services/AdminServices/Services/designService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 import useFetchData from '../../../../Helpers/customHooks/useFetchData'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'

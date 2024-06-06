@@ -19,10 +19,10 @@ import { DatabaseView } from '../../../../Components'
 
 
 import CodeIcon from '@mui/icons-material/Code';
-import { addElementType, deleteElementType, fetchElementTypesRows, permanentDeleteElementType, restoreElementType, updateElementType } from '../../../../Services/elementsTypesService'
-import { fetchElementProps } from '../../../../Services/elementPropsService'
+import { addElementType, deleteElementType, fetchElementTypesRows, permanentDeleteElementType, restoreElementType, updateElementType } from '../../../../Services/AdminServices/Services/elementsTypesService'
+import { fetchElementProps } from '../../../../Services/AdminServices/Services/elementPropsService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
-import { fetchElementTypesCategories } from '../../../../Services/elementTypesCategories'
+import { fetchElementTypesCategories } from '../../../../Services/AdminServices/Services/elementTypesCategories'
 
 
 //Styled Components

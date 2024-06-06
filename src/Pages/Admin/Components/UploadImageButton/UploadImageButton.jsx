@@ -63,7 +63,7 @@ const UploadImageButton = ({imageState, showImage, label, customOnChange}) => {
     const [image, setImage] = imageState
 
     const handleImageChange = (e) => {
-        console.log("why")
+
         const file = e.target.files[0];
         const reader = new FileReader();
         reader.onload = (event) => {

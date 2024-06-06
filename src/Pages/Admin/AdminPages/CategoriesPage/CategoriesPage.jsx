@@ -1,4 +1,4 @@
-//React
+// React
 import {
     
 } from 'react'
@@ -7,44 +7,65 @@ import {
     
 } from 'react-redux'
 
-//Components
+// Components
 import { DatabaseView } from '../../../../Components'
 
-//icons
-import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
-//MUI
+// MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import categoriesService from '../../../../Services/categoriesService';
 
-//Styled Components
+//services
+import { addProductsCategories, deleteProductsCategories, fetchProductsCategories, permanentDeleteProductsCategories, restoreProductsCategories, updateProductsCategories } from '../../../../Services/AdminServices/Services/categoriesService'
+
+// icons
+
+// Styled Components
 const StyledCategoriesPage = styled(Box)(
-    ({ theme }) => ({
-    
+    () => ({
+        // Add your styled components here
     })
 )
 
-const usersOptions = [
-    {
-        value: "Delete Users",
-        icon: <DeleteOutlineOutlinedIcon />,
-        onClick: () => {console.log("delete")}
-    }
-]
+const relationships = {
+    manyToOne:[
+    ],
+    manyToMany:[
+    ],
+    oneToMany:[
+    ]
+}
+
+const columns = {
+    "id": "pk",
+    'category_name': "string",
+    'category_image': "image",
+    'category_description': "text",
+    "created_at": "dateTime",
+    "updated_at": "dateTime"
+}
+
+const imagesFolderName = "ProductsCategoryImages"
 
 
 const CategoriesPage = () => {
     return (
         <StyledCategoriesPage>
             <DatabaseView
-                databaseOptions={usersOptions}
-                title="Categories"
-                icon={<CategoryOutlinedIcon />}
-                handleUpdateData={categoriesService.updateCategory}
-            />
+                    title="Products Categories"
+                    icon={null}
+                    handleFetchData={fetchProductsCategories}
+                    handleUpdateData={updateProductsCategories}
+                    handleDeleteData={deleteProductsCategories}
+                    handleRestoreData={restoreProductsCategories}
+                    handlePermanentDeleteData={permanentDeleteProductsCategories}
+                    handleAddData={addProductsCategories}
+                    softDeletes={true}
+                    relationships={relationships}
+                    columns={columns}
+                    imagesFolderName={imagesFolderName}
+                />
         </StyledCategoriesPage>
     );
 };

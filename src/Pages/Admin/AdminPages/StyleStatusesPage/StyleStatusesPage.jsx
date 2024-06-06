@@ -19,7 +19,7 @@ import { styled } from '@mui/system'
 import MouseIcon from '@mui/icons-material/Mouse';
 
 //server
-import { addStyleStatuses, deleteStyleStatuses, fetchStyleStatuses, permanentDeleteStyleStatuses, restoreStyleStatuses, updateStyleStatuses } from '../../../../Services/styleStatusesService'
+import { addStyleStatuses, deleteStyleStatuses, fetchStyleStatuses, permanentDeleteStyleStatuses, restoreStyleStatuses, updateStyleStatuses } from '../../../../Services/AdminServices/Services/styleStatusesService'
 
 // icons
 

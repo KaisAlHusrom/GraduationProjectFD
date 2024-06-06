@@ -27,12 +27,12 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import { AdminUploadImageComponent, CustomLazyAutoComplete } from '../../../../Components'
-import { fetchDesignCategories } from '../../../../Services/designCategoriesService'
+import { fetchDesignCategories } from '../../../../Services/AdminServices/Services/designCategoriesService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
 import StringHelper from '../../../../Helpers/StringsHelper'
 import { useMyCreateElementContext } from '../CreateElementTemplate/CreateElementTemplate'
 
-import { fetchSpecificDesign } from '../../../../Services/designService'
+import { fetchSpecificDesign } from '../../../../Services/AdminServices/Services/designService'
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'
 
 //Styled Components

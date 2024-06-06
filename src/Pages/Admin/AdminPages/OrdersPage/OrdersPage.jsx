@@ -1,40 +1,90 @@
-//React
+// React
 import {
     
 } from 'react'
+
+//services
+import { 
+addOrders,
+deleteOrders,
+fetchOrders,
+permanentDeleteOrders,
+restoreOrders,
+updateOrders,
+} from '../../../../Services/AdminServices/Services/ordersService'
+
 
 import {
     
 } from 'react-redux'
 
-//Components
+// Components
+import { DatabaseView } from '../../../../Components'
 
-
-//MUI
+// MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { DatabaseView } from '../../../../Components'
+import { fetchProducts } from '../../../../Services/AdminServices/Services/productsService'
 
+// icons
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
-//Styled Components
+
+// Styled Components
 const StyledOrdersPage = styled(Box)(
-    ({ theme }) => ({
-    
+    () => ({
+        // Add your styled components here
     })
 )
+
+const relationships = {
+    manyToOne:[
+    ],
+    manyToMany:[
+        {
+            "field_name": "products",
+            "fetched_column": "product_name",
+            "related_table_id": "id",
+            add_to_add_form: true, //TODO: false for now, add with pivot
+            fetch_all_data: fetchProducts, 
+            pivots: {
+                'quantity': "int",
+                'sub_total': 'decimal'
+            }
+        }
+    ],
+    oneToMany:[
+    ]
+}
+
+const columns = {
+    "id": "pk",
+    'user_id': "many-to-one",
+    'total_amount': "decimal",
+    'status': "enum|accepted,rejected,pending",
+    'products': "many-to-many",
+    "created_at": "dateTime",
+    "updated_at": "dateTime"
+}
 
 
 const OrdersPage = () => {
     return (
         <StyledOrdersPage>
             <DatabaseView
-                // databaseOptions={usersOptions}
-                title="Orders"
-                icon={<BorderColorOutlinedIcon />}
-                // handleUpdateData={}
-            />
+                    title="Orders"
+                    icon={<BorderColorOutlinedIcon />}
+                    handleFetchData={fetchOrders}
+                    handleUpdateData={updateOrders}
+                    handleDeleteData={deleteOrders}
+                    handleRestoreData={restoreOrders}
+                    handlePermanentDeleteData={permanentDeleteOrders}
+                    handleAddData={addOrders}
+                    softDeletes={true}
+                    relationships={relationships}
+                    columns={columns}
+                />
         </StyledOrdersPage>
     );
 };

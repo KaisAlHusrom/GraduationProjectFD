@@ -1,6 +1,6 @@
 // temporary id generation
 import { v4 as uuIdv4 } from 'uuid';
-import { fetchElementTypesRows } from '../Services/elementsTypesService';
+import { fetchElementTypesRows } from '../Services/AdminServices/Services/elementsTypesService';
 import { writeFilterObject } from './filterData';
 
 // Function to transform the original data into the template data structure

@@ -36,7 +36,10 @@ import OrdersPage from "../../../Pages/Admin/AdminPages/OrdersPage/OrdersPage";
 
 import ElementTypesCategoriesPage from "../../../Pages/Admin/AdminPages/ElementTypesCategoriesPage/ElementTypesCategoriesPage";
 import DesignsPage from "../../../Pages/Admin/AdminPages/DesignsPage/DesignsPage";
-import WebProjectsPage from "../../../Pages/Admin/AdminPages/WebProjectsPage/WebProjectsPage";
+import WebProjectsPage from "../../../Pages/Admin/AdminPages/WebProjects/WebProjects";
+import PaymentsPage from "../../../Pages/Admin/AdminPages/PaymentsPage/PaymentsPage";
+import UsersPaymentsPlansPage from "../../../Pages/Admin/AdminPages/UsersPaymentsPlansPage/UsersPaymentsPlansPage";
+import PagesPage from "../../../Pages/Admin/AdminPages/PagesPage/PagesPage";
 
 
 const adminPageRoutes = [
@@ -53,6 +56,11 @@ const adminPageRoutes = [
         exact: false,
     },
     {
+        element: <PaymentsPage />,
+        path: "payments",
+        exact: false,
+    },
+    {
         element: <UserDetailsPage />,
         path: "users/:user_id",
         exact: false,
@@ -61,6 +69,12 @@ const adminPageRoutes = [
     {
         element: <PaymentPlansPage />,
         path: "payment-plans",
+        exact: false,
+
+    },
+    {
+        element: <UsersPaymentsPlansPage />,
+        path: "users-payments-plans",
         exact: false,
 
     },
@@ -102,7 +116,7 @@ const adminPageRoutes = [
     },
     {
         element: <CategoriesPage />,
-        path: "categories",
+        path: "products-categories",
         exact: false,
 
     },
@@ -193,6 +207,11 @@ const adminPageRoutes = [
     {
         element: <WebProjectsPage />,
         path: "web-projects",
+        exact: false,
+    },
+    {
+        element: <PagesPage />,
+        path: "pages",
         exact: false,
     },
     

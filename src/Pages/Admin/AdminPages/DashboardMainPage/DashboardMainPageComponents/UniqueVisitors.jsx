@@ -25,17 +25,10 @@ const StyledUniqueVisitors = styled(Card)(
     })
 )
 
-const uvData = [0, 2000, 2500, 1000, 500, 1300, 800, 900];
-const sessions = [0, 200, 350, 1000, 450, 600, 800, 300]
+const uvData = [2000, 2500, 1000, 500, 1300, 800, 900];
+const sessions = [200, 350, 1000, 450, 600, 800, 300]
 const xLabels = [
-    "",
-    'MON',
-    'TUE',
-    'WED',
-    'THU',
-    'FRI',
-    'SAT',
-    'SUN',
+1,2,3,4,5,6,7
 ];
 
 const UniqueVisitors = () => {

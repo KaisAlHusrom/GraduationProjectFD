@@ -8,7 +8,7 @@ import PhoneAndroidOutlinedIcon from '@mui/icons-material/PhoneAndroidOutlined';
 
 
 import { AdminMainButton } from '../../../../Components';
-import { fetchStyleBreakpoints } from '../../../../Services/StyleResponsiveBreakpointsServices';
+import { fetchStyleBreakpoints } from '../../../../Services/AdminServices/Services/StyleResponsiveBreakpointsServices';
 
 import { Box, Skeleton } from '@mui/material';
 

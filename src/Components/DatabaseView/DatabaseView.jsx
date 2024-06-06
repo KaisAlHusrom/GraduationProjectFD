@@ -32,6 +32,7 @@ import { CustomGalleryView } from '..'
 import { handleOpenSnackbar as handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../Redux/Slices/snackbarOpenSlice'
 import useFetchData from '../../Helpers/customHooks/useFetchData'
 import { isArraysEqual } from '../../Helpers/DataStructureHelper'
+import { MAX_FILE_SIZE } from '../../Services/AdminServices/Services/productsService'
 // import usersService from '../../Services/usersService'
 
 
@@ -62,6 +63,7 @@ const DatabaseView = (props) => {
         handlePermanentDeleteData,
         handleAddData,
         imagesFolderName,
+        filesFolderName,
         disableUpdate,
         disableInsert,
         addingPage,
@@ -381,7 +383,7 @@ const DatabaseView = (props) => {
     
 
     //Handle update data when change
-    const handleChangeData = async (e, type, setRowData, columnName, newValue) => {
+    const handleChangeData = async (e, type, setRowData, columnName, newValue, fileSetStates) => {
         
         let name = columnName
         let value = newValue
@@ -397,6 +399,11 @@ const DatabaseView = (props) => {
 
         if(type === "image") {
             value = e.target.files[0];
+            //! because there is no any file in this project except products, I sue max file that in products service
+            if (value.size > MAX_FILE_SIZE) {
+                console.error(`File size should not exceed ${MAX_FILE_SIZE / (1024 * 1024)} MB.`);
+                return;
+            }
             const reader = new FileReader();
             reader.onload = (event) => {
                     // Update the row data using the callback version of setRowData
@@ -407,6 +414,58 @@ const DatabaseView = (props) => {
 
             };
 
+            reader.readAsDataURL(value);
+        }
+
+        if(type === "image:video") {
+            value = e.target.files[0];
+            //! because there is no any file in this project except products, I sue max file that in products service
+            if (value.size > MAX_FILE_SIZE) {
+                console.error(`File size should not exceed ${MAX_FILE_SIZE / (1024 * 1024)} MB.`);
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                    // Update the row data using the callback version of setRowData
+                    setRowData((prev)=> {
+                        const updatedRow = {...prev, [name]: event.target.result};
+                        return updatedRow;
+                    });
+
+            };
+
+            reader.readAsDataURL(value);
+        }
+
+        if(type === "file") {
+            const {setFileName, setFileSize, setUploadProgress} = fileSetStates
+
+            value = e.target.files[0];
+            //! because there is no any file in this project except products, I sue max file that in products service
+            if (value.size > MAX_FILE_SIZE) {
+                console.error(`File size should not exceed ${MAX_FILE_SIZE / (1024 * 1024)} MB.`);
+                return;
+            }
+            console.log(value)
+
+            setFileName(value.name);
+            setFileSize(value.size);
+            const reader = new FileReader();
+            reader.onprogress = (event) => {
+                
+                if (event.lengthComputable) {
+                    const progress = Math.round((event.loaded / event.total) * 100);
+                    // console.log(progress)
+                    setUploadProgress(progress);
+                }
+            };
+            reader.onloadend = (event) => {
+                // Update the row data using the callback version of setRowData
+                setRowData((prev)=> {
+                    const updatedRow = {...prev, [name]: event.target.result};
+                    return updatedRow;
+                });
+            };
             reader.readAsDataURL(value);
         }
         // Update the row data using the callback version of setRowData
@@ -668,6 +727,7 @@ const DatabaseView = (props) => {
             getAppliedFilters,
             getAppliedSorts,
             imagesFolderName,
+            filesFolderName,
             setRefetch,
             disableUpdate,
             disableInsert,
@@ -805,6 +865,7 @@ DatabaseView.propTypes = {
     handleAddData: propTypes.func,
     loaderDataProp: propTypes.object,
     imagesFolderName: propTypes.string,
+    filesFolderName: propTypes.string,
     disableUpdate: propTypes.bool,
     disableInsert: propTypes.bool,
     addingPage: propTypes.string,

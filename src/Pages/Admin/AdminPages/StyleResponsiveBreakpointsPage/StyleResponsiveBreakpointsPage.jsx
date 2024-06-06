@@ -15,7 +15,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { addStyleBreakpoints, deleteStyleBreakpoints, fetchStyleBreakpoints, permanentDeleteStyleBreakpoints, restoreStyleBreakpoints, updateStyleBreakpoints } from '../../../../Services/StyleResponsiveBreakpointsServices'
+import { addStyleBreakpoints, deleteStyleBreakpoints, fetchStyleBreakpoints, permanentDeleteStyleBreakpoints, restoreStyleBreakpoints, updateStyleBreakpoints } from '../../../../Services/AdminServices/Services/StyleResponsiveBreakpointsServices'
 
 // icons
 import FitScreenIcon from '@mui/icons-material/FitScreen';

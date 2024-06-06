@@ -1,42 +1,87 @@
-//React
+// React
 import {
     
 } from 'react'
+
+//services
+import { 
+addPaymentPlanFeatures,
+deletePaymentPlanFeatures,
+fetchPaymentPlanFeatures,
+permanentDeletePaymentPlanFeatures,
+restorePaymentPlanFeatures,
+updatePaymentPlanFeatures,
+paymentPlaneFeaturesImagesFolderName
+} from '../../../../Services/AdminServices/Services/paymentPlanFeatures'
+
 
 import {
     
 } from 'react-redux'
 
-//Components
+// Components
 import { DatabaseView } from '../../../../Components'
 
-
-//MUI
+// MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
 
-//icons
+// icons
 import StarRateIcon from '@mui/icons-material/StarRate';
-
-//Styled Components
+import { fetchPaymentPlans } from '../../../../Services/AdminServices/Services/paymentPlans'
+// Styled Components
 const StyledPaymentPlanFeaturesPage = styled(Box)(
-    ({ theme }) => ({
-    
+    () => ({
+        // Add your styled components here
     })
 )
+
+const relationships = {
+    manyToOne:[
+    ],
+    manyToMany:[
+        {
+            "field_name": "plans",
+            "fetched_column": "payment_plan_title",
+            "related_table_id": "id",
+            fetch_all_data: fetchPaymentPlans,
+            add_to_add_form: true,
+        },
+    ],
+    oneToMany:[
+    ]
+}
+
+const columns = {
+    "id": "pk",
+    'payment_plan_feature_name': "string",
+    'payment_plan_feature_image': "image",
+    'payment_plan_feature_description': "text",
+    'plans': "many-to-many",
+    "created_at": "dateTime",
+    "updated_at": "dateTime"
+}
 
 
 const PaymentPlanFeaturesPage = () => {
     return (
         <StyledPaymentPlanFeaturesPage>
             <DatabaseView
-                // databaseOptions={featuresOptions}
-                title="Payment Plans Features"
-                icon={<StarRateIcon />}
-                // handleUpdateData={productFeaturesService.fetchProductsFeatures}
-            />
+                    title="Payment Plan Features"
+                    icon={<StarRateIcon color='primary.contrastText' />}
+                    handleFetchData={fetchPaymentPlanFeatures}
+                    handleUpdateData={updatePaymentPlanFeatures}
+                    handleDeleteData={deletePaymentPlanFeatures}
+                    handleRestoreData={restorePaymentPlanFeatures}
+                    handlePermanentDeleteData={permanentDeletePaymentPlanFeatures}
+                    handleAddData={addPaymentPlanFeatures}
+                    softDeletes={false}
+                    relationships={relationships}
+                    columns={columns}
+                    imagesFolderName={paymentPlaneFeaturesImagesFolderName}
+                />
         </StyledPaymentPlanFeaturesPage>
     );
 };

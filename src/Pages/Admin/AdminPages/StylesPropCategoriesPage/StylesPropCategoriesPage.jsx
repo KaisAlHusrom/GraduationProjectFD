@@ -27,8 +27,8 @@ const StyledStylesPropCategoriesPage = styled(Box)(
 )
 
 //sever
-import { addStylePropCategory, deleteStylePropCategory, fetchStylePropCategory, permanentDeleteStylePropCategory, restoreStylePropCategory, updateStylePropCategory } from '../../../../Services/StylePropCategory'
-import { fetchStyleProps } from '../../../../Services/stylePropsService'
+import { addStylePropCategory, deleteStylePropCategory, fetchStylePropCategory, permanentDeleteStylePropCategory, restoreStylePropCategory, updateStylePropCategory } from '../../../../Services/AdminServices/Services/StylePropCategory'
+import { fetchStyleProps } from '../../../../Services/AdminServices/Services/stylePropsService'
 
 const relationships = {
     manyToOne:[

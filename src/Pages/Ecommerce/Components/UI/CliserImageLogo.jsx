@@ -19,8 +19,8 @@ import propTypes from 'prop-types'
 //Styled Components
 
 const logoStyle = {
-    width: '100px',
-    height: '100px',
+    width: '80px',
+    height: '80px',
     cursor: 'pointer',
   };
 

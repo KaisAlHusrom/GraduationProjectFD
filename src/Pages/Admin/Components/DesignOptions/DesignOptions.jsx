@@ -83,7 +83,7 @@ const DesignOptions = (props) => {
         redoHistory,
         handleNewBlank,
         saveTemplate,
-        updateTemplate
+        updateDataAdminTemplate
     } = props;
 
     const {
@@ -133,7 +133,7 @@ const DesignOptions = (props) => {
     }
 
     //update existing template
-    const handleUpdateTemplate = (inputValues) => {
+    const handleupdateDataAdminTemplate = (inputValues) => {
         let updatedTemplate = _.cloneDeep(template);
         updatedTemplate["is_template"] = 1,
         updatedTemplate["design_type"] = mode,
@@ -142,7 +142,7 @@ const DesignOptions = (props) => {
         updatedTemplate["design_description"] = inputValues["design_description"],
         updatedTemplate["design_image"] = inputValues["design_image"],
         cleanDesignData(updatedTemplate)
-        updateTemplate(updatedTemplate)
+        updateDataAdminTemplate(updatedTemplate)
     }
 
 
@@ -250,7 +250,7 @@ const DesignOptions = (props) => {
                     willShow={
                         <AddDesignModal
                         handleAddData={handleSaveTemplate}
-                        handleUpdateData={handleUpdateTemplate}
+                        handleUpdateData={handleupdateDataAdminTemplate}
                         setModalOpen={setModalOpen}
                         />
                     }
@@ -272,7 +272,7 @@ DesignOptions.propTypes = {
     handleUndo: propTypes.func,
     handleNewBlank: propTypes.func,
     saveTemplate: propTypes.func,
-    updateTemplate: propTypes.func,
+    updateDataAdminTemplate: propTypes.func,
     history: propTypes.array,
     redoHistory: propTypes.array,
 }
