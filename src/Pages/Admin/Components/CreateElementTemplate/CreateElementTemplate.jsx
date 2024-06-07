@@ -71,9 +71,9 @@ const CreateElementTemplate = () => {
             else if(selectedElement) {
                 if(selectedElement === "blank page") {
                     // Call the transformData function with the original data
-                    const transformedTemplateData = blankNewPage();
+                    // const transformedTemplateData = blankNewPage();
 
-                    setTemplate(() => transformedTemplateData)
+                    // setTemplate(() => transformedTemplateData)
                 }else {
                     // Call the transformData function with the original data
                     const transformedTemplateData = transformElementTypeToDesignStructure(selectedElement, null, mode);
