@@ -19,7 +19,7 @@ import TranslateIcon from '@mui/icons-material/Translate';
 import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton'
 import NewLanguageDrawerModel from '../DrawerModals/NewLanguageDrawerModel';
 import CustomAlert from '../../../../Components/CustomAlert/CustomAlert';
-import DialogCom from '../../components/DialogCom';
+import { ButtonStyle } from '../../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 
 //Styled Components
 const StyledLanguageDrawerList = styled(Box)(
@@ -27,6 +27,7 @@ const StyledLanguageDrawerList = styled(Box)(
         padding:theme.spacing()
     })
 )
+
 
 
 const drawerItems = [
@@ -100,11 +101,11 @@ const customSearchStyle = {
     display: 'flex', 
     justifyContent: 'center',
     margin:'20px', 
-    color:'white'
+    color:'white',
+
 };
 
 const LanguageDrawerList = () => {
-    const [openDialog , setOpenDialog] = useState(false)
 
     const [open, setOpen] = useState(false);
 
@@ -145,29 +146,18 @@ const LanguageDrawerList = () => {
 
                 <AdminMainButton 
                 title='Add New Language'
-                type='custom'
+                type='StyleDialog'
                 appearance='secondary'
                 putTooltip
-                onClick={ () => setOpenDialog(true)}
-                sx={{
-                    marginTop: '10px',
-                    width: '100%',
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center',
-                    padding: '10px 15px',
-                    fontWeight: 'bold',
-                    color: 'white.main',
-                    backgroundColor:'success.dark',
-                    '&:hover' : {backgroundColor: 'action.hover'}, 
+                willShow={
+                    <NewLanguageDrawerModel />
 
-                }}
+                }
+                sx={ButtonStyle}
                 icon={<AddIcon />}
                 />
             </List> 
-            <DialogCom title={"Add New Language" || ''} dialogOpenState={[openDialog, setOpenDialog]}>
-            <NewLanguageDrawerModel />
-          </DialogCom>
+          
             <CustomAlert AlertOpenState={[open, setOpen]}  title="Maked Defualt"></CustomAlert>
 
         </StyledLanguageDrawerList>

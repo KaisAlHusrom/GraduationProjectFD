@@ -26,6 +26,7 @@ import useFetchData from '../../../../Helpers/customHooks/useFetchData';
 import { addUserPages, fetchUserPages } from '../../../../Services/UserServices/Services/pagesUsersService';
 import { cleanDesignDataDesignPage, updateID2 } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
 import { v4 as uuIdv4 } from 'uuid';
+import { ButtonStyle } from '../../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 
 //Styled Components
 const StyledAddNewPage = styled(Box)(
@@ -38,19 +39,7 @@ const TextFiledStyle = {
 
     
 }
-const ButtonStyle = {
-    marginTop: "20px",
-    width: '100%',
-    maxWidth: '420px',
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: '#eee',
-    backgroundColor: '#092635',
-    fontWeight: 'bold',
-    boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-};
+
 const AddNewPage = ({WepProject_id}) => {
 
     const [title , setTitle] = useState()

@@ -15,8 +15,8 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { changeMode } from '../../../../Redux/Slices/modeSlice'
 import Container from '@mui/material/Container';
+import { useColorMode, useScreenWidth } from './StylesFunctions/SetStylesFunctions'
 
 
 //Styled Components
@@ -33,58 +33,44 @@ const Main = () => {
 
     const [EmptySection, setEmptySection] = useState(true)
     const valuesOfPages = {EmptySection, setEmptySection }
-    const mode = useSelector(state => state.modeSlice.mode)
-    const [isMobileWidth, setIsMobileWidth] = useState(false);
-    const [isTabletWidth, setIsTabletWidth] = useState(false);
-    const [isLaptopWidth, setIsLaptopWidth] = useState(true);
+   
     const [selectedFontFamily, setSelectedFontFamily] = useState('');
 
     const handleFontFamilyClick = (fontFamily) => {
         setSelectedFontFamily(fontFamily);
     };
-    const handleSmartphoneClick = () => {
-        setIsMobileWidth(true);
-        setIsTabletWidth(false);
-        setIsLaptopWidth(false);};
-    
-    const handleTabletClick = () => {
-    setIsTabletWidth(true);
-    setIsMobileWidth(false);
-    setIsLaptopWidth(false);
-    };
-    const handleLaptopClick = () => {
-    setIsTabletWidth(false);
-    setIsMobileWidth(false);
-    setIsLaptopWidth(true);
 
+    const {
+        isMobileWidth,
+        isTabletWidth,
+        isLaptopWidth,
+        handleSmartphoneClick,
+        handleTabletClick,
+        handleLaptopClick,
+    } = useScreenWidth();
 
-    }
-
-    const dispatch = useDispatch()
-
-    const toggleColorMode = () => {
-        if(mode === 'dark' ) {
-            dispatch(changeMode({mode : 'light'}))
-        } 
-        if(mode === 'light' ) {
-            dispatch(changeMode({mode : 'dark'}))
-        } 
-        };
-
+    const { mode, toggleColorMode } = useColorMode();
 
     return (
 
         <EmptyTemplateSectionSet.Provider value={valuesOfPages}>
         <StyledMain>
-                <AppbarCom mode={mode} toggleColorMode={toggleColorMode}  
-                handleFontFamilyClick = {handleFontFamilyClick}
-                handleSmartphoneClick = {handleSmartphoneClick}
-                handleTabletClick = {handleTabletClick}
-                handleLaptopClick = {handleLaptopClick}
-                WepProject_id = {id}
+            <AppbarCom
+                    mode={mode}
+                    toggleColorMode={toggleColorMode}
+                    handleFontFamilyClick={handleFontFamilyClick}
+                    handleSmartphoneClick={handleSmartphoneClick}
+                    handleTabletClick={handleTabletClick}
+                    handleLaptopClick={handleLaptopClick}
+                    WepProject_id={id}
                 />
                 <Container fixed>
-                <EmptyTemplate  selectedFontFamily={selectedFontFamily} isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth}/>
+                <EmptyTemplate  
+                selectedFontFamily={selectedFontFamily} 
+                isMobileWidth={isMobileWidth} 
+                isTabletWidth = {isTabletWidth} 
+                isLaptopWidth = {isLaptopWidth}
+                />
 
                 </Container>
 

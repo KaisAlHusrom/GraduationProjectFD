@@ -46,7 +46,6 @@ import RequireSignOut from './Requires/RequireSignOut';
 import Profile from '../Pages/NewWebSite/Profile';
 import ProfileHomePage from "../Pages/NewWebSite/Pages/ProfileHomePage/ProfileHomePage"
 import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/EditPage';
-import EmptyTemplate from '../Pages/DesignControlPage/sections/EmptyDesign/EmptyTemplate';
 import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 
 

@@ -5,7 +5,7 @@ import {
 import { styled } from '@mui/system';
 import { useMemo } from 'react';
 
-
+import AddIcon from '@mui/icons-material/Add';
 // Helpers 
 
 import { cleanDesignDataDesignPage, updateID2 } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
@@ -27,6 +27,7 @@ import { AdminMainButton } from '../../../../Components';
 import PropTypes from 'prop-types';
 import { fetchUserPages } from '../../../../Services/UserServices/Services/pagesUsersService';
 import { addUserDesigns } from '../../../../Services/UserServices/Services/designUsersService';
+import { ButtonStyle } from '../../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 
 
 
@@ -42,19 +43,7 @@ const StyledMainDrawerList = styled(Box)(
   })
 );
 
-const StyleButton = {
-  border : 'none',
-  padding: '10px 15px',
-  fontWeight: 'bold',
-  backgroundColor:'success.dark',
-  width: '90%',
-  '&:hover' : {
-    backgroundColor: 'warning'
-  },
-  color:'white.main',
-  marginLeft:'10px'
 
-}
 const MainDrawerList = ({WepProject_id}) => {
 
 
@@ -127,11 +116,11 @@ const MainDrawerList = ({WepProject_id}) => {
             </Typography>
             <AdminMainButton
                     title="Add New Section"
-                    // icon={<HomeIcon />}
+                    icon={<AddIcon />}
                     appearance="secondary"
                     type='StyleDialog'
                     drawerAnchor='left'
-                    sx={StyleButton}
+                    sx={ButtonStyle}
                     willShow={
                       <ModalDesignCategories  
                       createDesignedDesign = {createDesignSection}

@@ -10,10 +10,10 @@ import Typography from '@mui/material/Typography';
     <MuiAccordion disableGutters elevation={0} square {...props} />
     ))(({ theme }) => ({
         marginTop : '20px', 
-        borderLeft : '5px solid',
-        borderColor : theme.palette.success.dark,
-        backgroundColor :"#c3dac37a",
         borderRadius : '5px',
+        borderLeft : '5px solid ', 
+        borderColor : 'text.default',
+        backgroundColor :"#c3dac37a",
         transition : 'all 0.3s ease-in-out',
         '&:hover' : {
             backgroundColor: '#ffffff24'

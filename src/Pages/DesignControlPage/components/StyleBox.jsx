@@ -9,29 +9,22 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 import StylesCategory from '../sections/EmptyDesign/EditPage/Drawers/DrawersNew/StylesCategory.jsx';
 import UploadImageButton from '../../Admin/Components/UploadImageButton/UploadImageButton.jsx';
 import PropTypes from 'prop-types'; // Proptypes ekledik
-
-const StyledStyleBox = styled(Box)({
-    borderRadius: '10px',
-    boxShadow: "rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;",
-    padding: (theme) => theme.spacing(4),
-});
+import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions.js';
+import { Height } from '@mui/icons-material';
 
 
 
-const CategoryButtonStyle = {
-    marginTop: '20px',
-    marginBottom: '20px',
-    width: '300px',
-    display: 'flex',
-    flexWrap:'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    color: '#eee',
-    backgroundColor: '#092635',
+const StyledStyleBox = styled(Box)(
+    ({ theme }) => ({
+        borderRadius: '10px',
+        boxShadow: "rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;",
+        padding: (theme) => theme.spacing(4),
+        })
+);
 
-    fontWeight:'bold',
-    boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
-}
+
+
+
 
 const StyleBox = ({
     name_of_design,
@@ -47,20 +40,20 @@ const StyleBox = ({
     const [image , setImage] = useState()
     return (
         <StyledStyleBox>
-            <Typography component="div" variant='h3' sx={{ textAlign: 'center', padding: '10px', color: 'white.dark', fontWeight: 'bold', borderBottom: '1px solid #eee' }}>
+            <Typography component="div" variant='h3' color = "text.default" sx={{textAlign: 'center', padding: '10px', fontWeight: 'bold', borderBottom: '1px solid #eee' }}>
                 {name_of_design}
             </Typography>
 
                 <Box sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
 
-                    <Box sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', alignItems: 'center', }}>
+                    <Box sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', alignItems: 'center', marginBottom: '20px'}}>
 
                         { 
                         styleCategories.map((category , key) => (
                             <Box key = {key} 
                             >
                                 <AdminMainButton 
-                                sx={CategoryButtonStyle} 
+                                sx={{...ButtonStyle ,width: '320px' , height : '50px' }} 
                                 title={category.category_name} 
                                 type='drawer' 
                                 drawerZIndex = {1300}

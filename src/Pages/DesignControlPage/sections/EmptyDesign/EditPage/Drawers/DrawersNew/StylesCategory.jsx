@@ -4,7 +4,13 @@ import { styled } from '@mui/system';
 import { Test } from './StylesProp';
 
 // Styled Components
-const StyledStylesCategory = styled(Box)({});
+const StyledStylesCategory = styled(Box)(
+    ({ theme }) => ({
+        backgroundColor : theme.palette.background.default
+        
+        })
+);
+
 
 
 

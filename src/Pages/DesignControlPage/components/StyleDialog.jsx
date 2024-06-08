@@ -23,7 +23,6 @@ const StyleDialog = ({ title, OpenState, children }) => {
         onClose={handleClose}
         sx={{
           '& .MuiDialog-paper': {
-            backgroundColor: 'rgb(0 9 16)',
             maxWidth: '1000px',
             width: '1000px',
           },

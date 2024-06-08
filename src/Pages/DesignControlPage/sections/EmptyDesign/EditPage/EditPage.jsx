@@ -30,6 +30,8 @@ import StyleBox from '../../../components/StyleBox.jsx';
 import ConfirmationDialog from '../../../components/ConfirmationDialog.jsx';
 import { fetchSpecificUserDesign, updateUserDesigns } from '../../../../../Services/UserServices/Services/designUsersService.js';
 import { fetchUserStylePropCategories } from '../../../../../Services/UserServices/Services/stylesPropsCategoriesUsersService.js';
+import AppbarCom from '../../../components/AppbarCom.jsx';
+import { useColorMode, useScreenWidth } from '../StylesFunctions/SetStylesFunctions.js';
 
 
 // Helper function to recursively generate new IDs for nested children
@@ -43,7 +45,6 @@ const generateNewIdsForChildren = (component) => {
 
 const StyledEditPage = styled(Box)(({ theme }) => ({
     padding: theme.spacing(8),
-    backgroundColor: 'white',
     minHeight :'100vh'
 }));
 
@@ -354,9 +355,29 @@ const EditPage = () => {
     }
 
 
+    const {
+        isMobileWidth,
+        isTabletWidth,
+        isLaptopWidth,
+        handleSmartphoneClick,
+        handleTabletClick,
+        handleLaptopClick,
+    } = useScreenWidth();
+
+    const { mode, toggleColorMode } = useColorMode();
+
+
     return (
         <StyledEditPage>
 
+                <AppbarCom
+                    isEditPage = {true}
+                    mode={mode}
+                    toggleColorMode={toggleColorMode}
+                    handleSmartphoneClick={handleSmartphoneClick}
+                    handleTabletClick={handleTabletClick}
+                    handleLaptopClick={handleLaptopClick}
+                />
 
             <AdminMainButton
                 title="Save"
@@ -392,7 +413,11 @@ const EditPage = () => {
                 onConfirm={handleConfirmDelete}
             />
 
-            <HoverBox key={section_id} sx={sectionStyle}>
+            <HoverBox key={section_id} sx={{...sectionStyle , 
+            width: isMobileWidth ? '500px' : isTabletWidth ? '50%' : isLaptopWidth ? '100%' : '',
+            padding: isMobileWidth ? '0px' : isTabletWidth ? '0px' : '',
+            margin: '100px auto',
+            }}>
                 {sectionData && sectionData.children && sectionData.children.slice() // Diziyi mutasyona uğratmamak için slice kullanıyoruz
                     .sort((a, b) => a.sequence_number - b.sequence_number)
                     .map((component, i) => (

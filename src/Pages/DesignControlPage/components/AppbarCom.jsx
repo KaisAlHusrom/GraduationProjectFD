@@ -24,6 +24,8 @@ import LaptopIcon from '@mui/icons-material/Laptop';
 import TabletIcon from '@mui/icons-material/Tablet';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import AutofpsSelectIcon from '@mui/icons-material/AutofpsSelect';
+
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 //MUI
 import {
     AppBar,
@@ -32,29 +34,25 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import ToggleColorMode from '../../../Components/ToggleColorMode/ToggleColorMode';
+import {  useNavigate } from 'react-router-dom';
+import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
+import { Height } from '@mui/icons-material';
 
 
 
 //Styled Components
 const StyledAppbarCom = styled(Box)(
     () => ({
-    
+      marginBottom : '20px',
+      paddingBottom : '20px'
+
     })
 )
 
 
-const StyleButton = {
-    border : 'none',
-    padding: '10px 15px',
-    fontWeight: 'bold',
-    backgroundColor:'success.dark',
-    '&:hover' : {
-      backgroundColor: 'warning'
-    },
-    color:'white.main',
-    marginLeft:'10px'
-  
-}
+
+
+
 
 const AppbarCom = ({ mode, toggleColorMode , 
   handleFontFamilyClick , 
@@ -62,16 +60,41 @@ const AppbarCom = ({ mode, toggleColorMode ,
   handleTabletClick , 
   handleLaptopClick,
   WepProject_id,
+  isEditPage,
 }) => {
+  const navigate = useNavigate();
+
+const handleBack = () => {
+  navigate(-1); // This navigates back to the previous page
+};
 
     return (
         <StyledAppbarCom>
             <AppBar position="fixed" open={open} sx = {{
-              backgroundColor : 'background.default'
+              backgroundColor : 'background.default',
             }}>
         <Toolbar sx={{
         }}>
+
+          {
+            isEditPage ?    
             <Box sx={{
+              display: 'flex',
+              justifyContent:'start',
+              alignItems: 'center',
+              width: '100%',
+            }}>
+            <AdminMainButton
+                    title=""
+                    icon={<ArrowBackIosIcon />}
+                    appearance="iconButton"
+                    type='custom'
+                    onClick={handleBack}
+                    drawerAnchor='left'
+                    sx={{...ButtonStyle , width: "60px" , marginBottom :'20px'}}
+              />
+                </Box> : 
+              <Box sx={{
               display: 'flex',
               justifyContent:'start',
               alignItems: 'center',
@@ -83,7 +106,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
                     appearance="iconButton"
                     type='drawer'
                     drawerAnchor='left'
-                    sx={StyleButton}
+                    sx={{...ButtonStyle , width: "60px" , marginBottom :'20px' , height : '40px'}}
                     willShow={
                       <MainDrawerList WepProject_id = {WepProject_id}></MainDrawerList>
                     }
@@ -95,7 +118,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
                     appearance="secondary"
                     type='drawer'
                     drawerAnchor='left'
-                    sx={StyleButton}
+                    sx={{...ButtonStyle , width: "130px"  , marginBottom :'20px'}}
                     willShow={
                       <HomeDrawerList WepProject_id = {WepProject_id}></HomeDrawerList>
                     }
@@ -106,7 +129,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
                     appearance="secondary"
                     type='drawer'
                     drawerAnchor='left'
-                    sx={StyleButton}
+                    sx={{...ButtonStyle , width: "130px" ,  marginBottom :'20px'}}
                     willShow={
                       <LanguageDrawerList></LanguageDrawerList>
                     }
@@ -117,11 +140,12 @@ const AppbarCom = ({ mode, toggleColorMode ,
                     appearance="secondary"
                     type='StyleDialog'
                     drawerAnchor='left'
-                    sx={StyleButton}
+                    sx={{...ButtonStyle , width: "170px" ,  marginBottom :'20px'}}
                     willShow={<FontFamily handleFontFamilyClick={handleFontFamilyClick} />}
 
               />
                 </Box>
+          }
 
 
                   <Box sx={{
@@ -243,6 +267,7 @@ AppbarCom.propTypes = {
   handleTabletClick: PropTypes.func,
   handleLaptopClick: PropTypes.func,
   WepProject_id : PropTypes.string,
+  isEditPage : PropTypes.bool,
 };
 
 
