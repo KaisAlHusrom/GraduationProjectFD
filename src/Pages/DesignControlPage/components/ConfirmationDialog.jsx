@@ -7,6 +7,7 @@ import { AdminMainButton } from '../../../Components';
 import WarningIcon from '@mui/icons-material/Warning';
 //propTypes 
 import propTypes from 'prop-types'
+import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 
 
 const ConfirmationDialog = ({ open, onClose, onConfirm }) => {
@@ -48,18 +49,7 @@ const ConfirmationDialog = ({ open, onClose, onConfirm }) => {
                                 appearance="primary"
                                 putTooltip
                                 // icon={<DeleteSweepIcon />}
-                                sx={{
-                                    border: '1px solid red',
-                                    padding: '10px 15px',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: 'warning.dark',
-                                    margin: '5px',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: 'rgb(7, 15, 43)',
-                                    },
-                                }}
+                                sx={ButtonStyle}
                             />
                             <AdminMainButton
                                 title="Delete"

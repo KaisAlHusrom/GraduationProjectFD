@@ -17,6 +17,7 @@ import { styled } from '@mui/system'
 import AddCardIcon from '@mui/icons-material/AddCard';
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
 import ModalDesignCategories from '../../../../components/ModalDesignCategories';
+import { ButtonStyle } from '../../StylesFunctions/SetStylesFunctions';
 
 //Styled Components
 const StyledElementsTypeModal = styled(Box)(
@@ -32,22 +33,7 @@ const StyledElementsTypeModal = styled(Box)(
 )
 
 
-const ButtonStyle = {
-    margin: "10px",
-    display: 'block',
-    width: '250px',
-    padding: '10px',
-    transition: 'all 0.5s ease',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    color: "#eee",
-    cursor: 'pointer',
-    '&:hover': {
-        backgroundColor: "white.dark",
-        boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
-    },
-    boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
-}
+
 
 const ElementsTypeModal = ({
     createDesignedDesign, selected_parent_id
@@ -81,8 +67,8 @@ const ElementsTypeModal = ({
                                 NameOfCategories = {"Template"}
                                 ></ModalDesignCategories>
                             }
-                            sx={ButtonStyle}
-                        />
+                            sx={{...ButtonStyle ,width: '320px' , height : '50px' }} 
+                            />
                         <AdminMainButton
                             title="Empty"
                             type="drawer"
@@ -101,7 +87,7 @@ const ElementsTypeModal = ({
                                 ></ModalDesignCategories>
                             }
                             icon={<AddCardIcon />}
-                            sx={ButtonStyle}
+                            sx={{...ButtonStyle ,width: '320px' , height : '50px' }} 
                         />
         </StyledElementsTypeModal>
     );

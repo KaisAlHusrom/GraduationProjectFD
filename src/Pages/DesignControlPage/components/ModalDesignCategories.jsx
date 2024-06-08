@@ -12,6 +12,7 @@ import useFetchData from '../../../Helpers/customHooks/useFetchData';
 import DrawerSelectedCategoryDesigns from '../sections/EmptyDesign/EditPage/Drawers/ReadyDesign/DrawerSelectedCategoryDesigns';
 import { fetchUserDesignCategories } from '../../../Services/UserServices/Services/designCategoriesUserService';
 import { fetchUserElementTypesCategories } from '../../../Services/UserServices/Services/elementTypeCategoriesUsersService';
+import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 
 
 
@@ -24,23 +25,6 @@ const StyledModalDesignCategories = styled(Box)(
     })
 );
 
-const ButtonStyle = {
-    margin: "10px",
-    display: 'block',
-    width: '200px',
-    padding: '10px',
-    transition: 'all 0.5s ease',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    color: "#eee",
-    cursor: 'pointer',
-    backgroundColor: 'success.dark',
-    '&:hover': {
-        backgroundColor: "white.dark",
-        boxShadow: "0px 4px 20px 0px rgba(0, 0, 0, 0.05)",
-    },
-    boxShadow: "rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px, rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px, rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px",
-}
 
 const ModalDesignCategories = ({  createDesignedDesign, appliedFilter, selected_parent_id, NameOfCategories }) => {
 
@@ -82,8 +66,8 @@ const ModalDesignCategories = ({  createDesignedDesign, appliedFilter, selected_
                                     selected_parent_id={selected_parent_id}
                                 />
                             }
-                            sx={ButtonStyle}
-                        />
+                            sx={{...ButtonStyle ,width: '320px' , height : '50px' }} 
+                            />
                     )) : (
                         <Typography>No data available</Typography>
                     )

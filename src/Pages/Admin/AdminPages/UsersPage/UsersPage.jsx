@@ -19,7 +19,6 @@ import { addUsers, deleteUsers, fetchUsers, permanentDeleteUsers, restoreUsers, 
 
 // icons
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
-import { fetchPaymentPlans } from '../../../../Services/AdminServices/Services/paymentPlans'
 // Styled Components
 const StyledUsersPage = styled(Box)(
     () => ({

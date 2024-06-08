@@ -98,7 +98,6 @@ const Main = () => {
         
     }, [])
     const { data } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 10)
-    console.log(data)
 
     
     const handleSubmitPage = async () => {
