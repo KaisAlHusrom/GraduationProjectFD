@@ -6,6 +6,8 @@
 import { ADMIN_MAIN_INSTANCE_ROUTE, addDataAdminTemplate, createSubAdminAxiosInstance, deleteDataAdminTemplate, fetchDataAdminTemplate, permanentDeleteDataAdminTemplate, restoreDataAdminTemplate, updateDataAdminTemplate } from "../Controller";
 const UsersServiceRoute = ADMIN_MAIN_INSTANCE_ROUTE + "/users";
 
+export const usersProfileImagesFolderName = "UsersProfileImages"
+
 const UserServiceAPI = createSubAdminAxiosInstance({
     baseURL: UsersServiceRoute,
 });

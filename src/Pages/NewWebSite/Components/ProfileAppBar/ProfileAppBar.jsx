@@ -1,8 +1,8 @@
 
 
 //React
-import { useMemo } from 'react'
-import { NavLink, useNavigate} from 'react-router-dom';
+import {  } from 'react'
+import {  useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 
 
@@ -20,15 +20,11 @@ import {
   Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
 import Divider from '@mui/material/Divider';
-import Typography from '@mui/material/Typography';
 import MenuItem from '@mui/material/MenuItem';
-import Drawer from '@mui/material/Drawer';
 import MenuIcon from '@mui/icons-material/Menu';
 import LanguageIcon from '@mui/icons-material/Language';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
@@ -286,6 +282,4 @@ const ProfileAppBar = () => {
 export default ProfileAppBar;
 
 ProfileAppBar.propTypes = {
-  mode: PropTypes.oneOf(['dark', 'light']).isRequired,
-  toggleColorMode: PropTypes.func.isRequired,
 };

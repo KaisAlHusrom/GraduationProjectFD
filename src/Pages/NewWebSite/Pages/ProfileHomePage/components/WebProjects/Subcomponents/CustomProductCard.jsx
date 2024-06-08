@@ -18,31 +18,40 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import propTypes from 'prop-types';
 
-import config from "../../../../Config.json"
-
-import { mediaFolderName } from '../../../Services/UserServices/Services/productsMediaUsersService';
+import config from "../../../../../../../../Config.json"
+import { mediaFolderName } from '../../../../../../../Services/UserServices/Services/productsMediaUsersService';
+import { AdminMainButton } from '../../../../../../../Components';
+import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
+import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import { useSelector } from 'react-redux';
 // Styled Components
-const StyledProductCard = styled(Box)(
+const StyledProductCard = styled(Card)(
     () => ({
         width: '100%', // Make the card take the full width of its container
-        marginBottom: "20px",
+        height: "100%",
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+        maxWidth: '600',
+        borderRadius: '10px',
+        objectFit: "contain" ,
+        '& .swiper-slide': {
+            textAlign: 'left',
+        }
     })
 );
 
-const ProductCard = (props) => {
-    const { title, description, image, action, price, rating, creator, category } = props;
+const CustomProductCard = (props) => {
+    const { title, description, image, price, rating, category } = props;
     // Ensure image is an array
     const mediaArray = Array.isArray(image) ? image : [];
 
-    
+    const currency = useSelector(state => state.currencySlice.currency)
 
     return (
         <StyledProductCard>
-            <Container id="Cards">
-                <Card sx={{ maxWidth: '600', borderRadius: '10px', objectFit: "contain" }}>
                     <Swiper
                         spaceBetween={30}
                         centeredSlides={true}
@@ -80,34 +89,72 @@ const ProductCard = (props) => {
                             )
                         })}
                     </Swiper>
-                    <CardContent>
+                    <CardContent sx={{position: "relative"}}>
                         <Typography gutterBottom variant="h5" component="div">
                             {title}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
                             {description}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                            Price: ${price}
-                        </Typography>
+                        
                         <Typography variant="body1" color="text.secondary">
                             {category?.[0]?.category_name}
                         </Typography>
                         <Rating name="read-only" value={rating !== undefined ? rating : 'No ratings'} precision={0.2} readOnly />
-                        <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px', paddingTop: 1 }}>
-                            <Avatar src={image?.[0]?.product_media_name} sx={{ width: 32, height: 32 }} /> {creator}
+                        <Typography 
+                        right={0} 
+                        position='absolute' 
+                        variant="body1" 
+                        color="text.secondary"
+                        sx={{
+                            backgroundColor: theme => theme.palette.primary.main,
+                            borderRadius: '50%',
+                            width: 50,
+                            height: 50,
+                            overflow: 'hidden',
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                        >
+                            {currency}{price}
                         </Typography>
                     </CardContent>
-                    <CardActions>
-                        <Button variant='contained' fullWidth onClick={action} >Learn More</Button>
+
+                    <CardActions sx={{width: "90%"}}>
+                        <AdminMainButton
+                            title='Reviews'
+                            type='custom'
+                            appearance='iconButton'
+                            icon={<RateReviewOutlinedIcon />}
+                            onClick={() => {}}
+                            putTooltip
+                            toolTipPosition={'top'}
+                        />
+                        <AdminMainButton
+                            title='Watches'
+                            type='custom'
+                            appearance='iconButton'
+                            icon={<RemoveRedEyeOutlinedIcon />}
+                            onClick={() => {}}
+                            putTooltip
+                            toolTipPosition={'top'}
+                        />
+                        <AdminMainButton
+                            title='Edit'
+                            type='custom'
+                            appearance='iconButton'
+                            icon={<EditOutlinedIcon />}
+                            onClick={() => {}}
+                            putTooltip
+                            toolTipPosition={'top'}
+                        />
                     </CardActions>
-                </Card>
-            </Container>
         </StyledProductCard>
     );
 };
 
-ProductCard.propTypes = {
+CustomProductCard.propTypes = {
     title: propTypes.string.isRequired,
     description: propTypes.string.isRequired,
     image: propTypes.array.isRequired,
@@ -118,4 +165,4 @@ ProductCard.propTypes = {
     creator: propTypes.string
 };
 
-export default ProductCard;
+export default CustomProductCard;

@@ -25,8 +25,8 @@ export const navList = [
         icon: BorderColorOutlinedIcon
     },
     {
-        path: "/profile/orders",
-        title: "My Orders",
+        path: "/cliser-digital-market",
+        title: "Cliser Market",
         icon: StoreOutlinedIcon
     },
 ]

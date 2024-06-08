@@ -14,7 +14,8 @@ checkIfRecordExistUserTemplate,
 } from "../Controller";
 
 const ProductsUsersRoute = USERS_MAIN_INSTANCE_ROUTE + "/products";
-
+export const productsImagesFolderName = "ProductsImages"
+export const productsFilesFolderName = "ProductsFiles"
 const ProductsUsersAxios = createSubUsersAxiosInstance({
     baseURL: ProductsUsersRoute,
 });

@@ -1,5 +1,6 @@
 import {
   Box,
+  Typography
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { useMemo } from 'react';
@@ -28,9 +29,18 @@ import { fetchUserPages } from '../../../../Services/UserServices/Services/pages
 import { addUserDesigns } from '../../../../Services/UserServices/Services/designUsersService';
 
 
-const StyledMainDrawerList = styled(Box)(() => ({
-  marginTop : "40px"
-}));
+
+
+const StyledMainDrawerList = styled(Box)(
+  ({ theme }) => ({
+      color: theme.palette.success.main,
+      marginTop : '80px',
+      display: 'flex',
+      flexDirection  :'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+  })
+);
 
 const StyleButton = {
   border : 'none',
@@ -45,14 +55,14 @@ const StyleButton = {
   marginLeft:'10px'
 
 }
-const MainDrawerList = ({parent_id}) => {
+const MainDrawerList = ({WepProject_id}) => {
 
 
     const appliedFilter = useMemo(() => {
       return [
-          writeFilterObject('web_project_id', 'string', '=', parent_id), 
+          writeFilterObject('web_project_id', 'string', '=', WepProject_id), 
       ]
-  }, [parent_id])
+  }, [WepProject_id])
 
     const { data } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 10)
 
@@ -87,7 +97,7 @@ const MainDrawerList = ({parent_id}) => {
           console.log("res" , res);
           console.log("sectionData after" , sectionData)
 
-
+        
         console.log("sectionData after" , sectionData)
 
       } else {
@@ -104,6 +114,17 @@ const MainDrawerList = ({parent_id}) => {
 
   return (
     <StyledMainDrawerList>
+        <Typography variant = "h5" component="div" sx = {{
+                color : 'text.primary',
+                textAlign : 'center',
+                width: 'fit-content',
+                borderBottom : '1px solid',
+                borderColor : 'text.primary',
+                borderWidth : 'fit-content',
+                marginBottom : '20px',
+            }}>
+                Control You Page Section
+            </Typography>
             <AdminMainButton
                     title="Add New Section"
                     // icon={<HomeIcon />}
@@ -115,7 +136,7 @@ const MainDrawerList = ({parent_id}) => {
                       <ModalDesignCategories  
                       createDesignedDesign = {createDesignSection}
                       appliedFilter = {appliedFilterForSections}
-                      selected_parent_id = {parent_id} 
+                      selected_parent_id = {WepProject_id} 
                       NameOfCategories = {'component'}
                       ></ModalDesignCategories>
                     }
@@ -126,7 +147,7 @@ const MainDrawerList = ({parent_id}) => {
 };
 
 MainDrawerList.propTypes = {
-  parent_id: PropTypes.string,
+  WepProject_id: PropTypes.string,
 };
 
 

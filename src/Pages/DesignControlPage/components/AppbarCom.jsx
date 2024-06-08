@@ -61,7 +61,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
   handleSmartphoneClick,
   handleTabletClick , 
   handleLaptopClick,
-  parent_id,
+  WepProject_id,
 }) => {
 
     return (
@@ -85,7 +85,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
                     drawerAnchor='left'
                     sx={StyleButton}
                     willShow={
-                      <MainDrawerList parent_id = {parent_id}></MainDrawerList>
+                      <MainDrawerList WepProject_id = {WepProject_id}></MainDrawerList>
                     }
 
               />
@@ -97,7 +97,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
                     drawerAnchor='left'
                     sx={StyleButton}
                     willShow={
-                      <HomeDrawerList></HomeDrawerList>
+                      <HomeDrawerList WepProject_id = {WepProject_id}></HomeDrawerList>
                     }
               />
               <AdminMainButton
@@ -242,7 +242,7 @@ AppbarCom.propTypes = {
   handleSmartphoneClick: PropTypes.func,
   handleTabletClick: PropTypes.func,
   handleLaptopClick: PropTypes.func,
-  parent_id : PropTypes.string,
+  WepProject_id : PropTypes.string,
 };
 
 

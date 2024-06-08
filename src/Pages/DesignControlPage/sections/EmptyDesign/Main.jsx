@@ -81,7 +81,7 @@ const Main = () => {
                 handleSmartphoneClick = {handleSmartphoneClick}
                 handleTabletClick = {handleTabletClick}
                 handleLaptopClick = {handleLaptopClick}
-                parent_id = {id}
+                WepProject_id = {id}
                 />
                 <Container fixed>
                 <EmptyTemplate  selectedFontFamily={selectedFontFamily} isMobileWidth={isMobileWidth} isTabletWidth = {isTabletWidth} isLaptopWidth = {isLaptopWidth}/>

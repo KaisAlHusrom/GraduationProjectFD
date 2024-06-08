@@ -21,7 +21,8 @@ import config from "../../Config.json";
 
 const getOptionLabel = (option, relation) => {
     if (!option) return '';
-    const fetchedColumn = relation["fetched_column"];
+    
+    const fetchedColumn =relation ?  relation["fetched_column"] : "";
     
     if (fetchedColumn.includes('.')) {
         

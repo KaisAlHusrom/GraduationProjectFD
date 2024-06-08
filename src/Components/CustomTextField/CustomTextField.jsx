@@ -1,7 +1,21 @@
-import { Box, TextField } from '@mui/material';
+import PropTypes from 'prop-types';
+import { Box, TextField, Typography } from '@mui/material';
 
 // CustomTextField component
-const CustomTextField = ({ id, label, variant, BoxStyle, value, onChange, disableHover, labelStyle, inputStyle, TextFiledStyle }) => {
+const CustomTextField = ({
+  id,
+  label,
+  OutLabel,
+  variant = 'outlined',
+  BoxStyle,
+  value,
+  onChange,
+  disableHover,
+  labelStyle,
+  inputStyle,
+  TextFiledStyle,
+  required, // Add required prop here
+}) => {
   // Handler function for TextField value change
   const handleChange = (event) => {
     if (onChange) {
@@ -13,6 +27,12 @@ const CustomTextField = ({ id, label, variant, BoxStyle, value, onChange, disabl
   return (
     <Box sx={{ width: "75%", ...BoxStyle }}>
       {/* MUI TextField with props */}
+      <Typography sx={{
+        marginBottom: '10px',
+        color: 'text.secondary'
+      }}>
+        {OutLabel}
+      </Typography>
       <TextField
         id={id}
         label={label}
@@ -20,6 +40,7 @@ const CustomTextField = ({ id, label, variant, BoxStyle, value, onChange, disabl
         value={value}
         onChange={handleChange}
         size={"small"}
+        required={required} // Use the required prop here
         sx={{
           width: '100%',
           textAlign: 'center',
@@ -31,6 +52,31 @@ const CustomTextField = ({ id, label, variant, BoxStyle, value, onChange, disabl
       />
     </Box>
   );
+};
+
+CustomTextField.propTypes = {
+  id: PropTypes.string,
+  label: PropTypes.string,
+  variant: PropTypes.string,
+  BoxStyle: PropTypes.object,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onChange: PropTypes.func,
+  disableHover: PropTypes.bool,
+  labelStyle: PropTypes.object,
+  inputStyle: PropTypes.object,
+  TextFiledStyle: PropTypes.object,
+  OutLabel: PropTypes.string,
+  required: PropTypes.bool, // Add required prop here
+};
+
+CustomTextField.defaultProps = {
+  variant: 'outlined',
+  BoxStyle: {},
+  disableHover: false,
+  labelStyle: {},
+  inputStyle: {},
+  TextFiledStyle: {},
+  required: false, // Set the default value for required
 };
 
 export default CustomTextField;
