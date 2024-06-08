@@ -89,7 +89,7 @@ const CustomProductCard = (props) => {
                             )
                         })}
                     </Swiper>
-                    <CardContent sx={{position: "relative"}}>
+                    <CardContent sx={{position: "relative", textAlign: "left"}}>
                         <Typography gutterBottom variant="h5" component="div">
                             {title}
                         </Typography>
@@ -108,6 +108,7 @@ const CustomProductCard = (props) => {
                         color="text.secondary"
                         sx={{
                             backgroundColor: theme => theme.palette.primary.main,
+                            color: theme => theme.palette.primary.contrastText,
                             borderRadius: '50%',
                             width: 50,
                             height: 50,
@@ -160,7 +161,7 @@ CustomProductCard.propTypes = {
     image: propTypes.array.isRequired,
     price: propTypes.string.isRequired,
     category: propTypes.array.isRequired,
-    action: propTypes.func.isRequired,
+    // action: propTypes.func.isRequired,
     rating: propTypes.number,
     creator: propTypes.string
 };

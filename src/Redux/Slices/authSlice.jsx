@@ -21,16 +21,28 @@ const authSlice = createSlice({
     name: 'authSlice',
     initialState,
     reducers: {
-        setAuthInfo: (state, action) => {
-            const { token, user } = action.payload;
-            sessionStorage.setItem('auth_token', token)
+        setUserInfo: (state, action) => {
+            const { user } = action.payload;
             state.user = user;
+            sessionStorage.setItem('user', JSON.stringify(user))
+        },
+        setTokenInfo: (state, action) => {
+            const { token } = action.payload;
+            sessionStorage.setItem('auth_token', token)
             state.auth_token = token;
             state.isAuthenticated = true;
         },
+        logoutRedux: (state) => {
+            state.user = null;
+            state.auth_token = null;
+            state.isAuthenticated = false;
+            sessionStorage.removeItem('auth_token')
+            sessionStorage.removeItem('user')
+            sessionStorage.removeItem('isAuthenticated')
+        }
     },
 })
 
 
-export const { setAuthInfo } = authSlice.actions
+export const { setUserInfo, setTokenInfo, logoutRedux } = authSlice.actions
 export default authSlice.reducer

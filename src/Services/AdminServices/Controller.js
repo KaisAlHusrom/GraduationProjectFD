@@ -22,6 +22,7 @@ export const ADMIN_MAIN_INSTANCE = axios.create({
     baseURL: ADMIN_MAIN_INSTANCE_ROUTE,
     headers: {
         'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${store.getState().authSlice.auth_token}` //TODO: will change to use cookies
     },
     // withCredentials: true,
 });
@@ -101,7 +102,7 @@ export const addDataAdminTemplate = async (axiosAPI, data) => {
         return response.data;
     } catch (error) {
         console.error('Error posting data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         store.dispatch(setSnackbarMessage({message: error.response.data.error}))
         store.dispatch(setSnackbarIsError({isError: true}))
         store.dispatch(handleOpenSnackbar())
@@ -125,6 +126,7 @@ export const updateDataAdminTemplate = async (axiosAPI, id, newData) => {
         cancelTokenSource = axios.CancelToken.source();
         // Assuming id is included in the newData object and you're updating a specific resource identified by its id
         // Make the request with the new cancel token
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.post(
             `/${id}`, 
             {
@@ -135,6 +137,7 @@ export const updateDataAdminTemplate = async (axiosAPI, id, newData) => {
                 cancelToken: cancelTokenSource.token,
                 
         });
+        store.dispatch(handleCloseLinearProgress())
         if(response.status === 200) {
             store.dispatch(setSnackbarMessage({message: "Items have been successfully updated."}))
             store.dispatch(setSnackbarIsError({isError: false}))
@@ -149,7 +152,7 @@ export const updateDataAdminTemplate = async (axiosAPI, id, newData) => {
         } else {
             // Handle other errors
             console.error('Error updating data:', error);
-
+            store.dispatch(handleCloseLinearProgress())
             store.dispatch(setSnackbarMessage({message: error.response.data.message}))
             store.dispatch(setSnackbarIsError({isError: true}))
             store.dispatch(handleOpenSnackbar())
@@ -164,8 +167,9 @@ export const deleteDataAdminTemplate = async (axiosAPI, ids) => {
     try {
         // Convert ids array to comma-separated string
         const idList = ids.join(',');
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.delete(`/${idList}`);
+        store.dispatch(handleCloseLinearProgress())
         if(response.status === 200) {
             store.dispatch(setSnackbarMessage({message: "Items have been successfully deleted."}))
             store.dispatch(setSnackbarIsError({isError: false}))
@@ -175,7 +179,7 @@ export const deleteDataAdminTemplate = async (axiosAPI, ids) => {
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         store.dispatch(setSnackbarMessage({message: error.response.data.message}))
         store.dispatch(setSnackbarIsError({isError: true}))
         store.dispatch(handleOpenSnackbar())
@@ -189,8 +193,9 @@ export const restoreDataAdminTemplate = async (axiosAPI, ids) => {
     try {
         // Convert ids array to comma-separated string
         const idList = ids.join(',');
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.put(`/restore/${idList}`);
+        store.dispatch(handleCloseLinearProgress())
         if(response.status === 200) {
             store.dispatch(setSnackbarMessage({message: "Items have been successfully restored."}))
             store.dispatch(setSnackbarIsError({isError: false}))
@@ -200,7 +205,7 @@ export const restoreDataAdminTemplate = async (axiosAPI, ids) => {
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         store.dispatch(setSnackbarMessage({message: error.response.data.message}))
         store.dispatch(setSnackbarIsError({isError: true}))
         store.dispatch(handleOpenSnackbar())
@@ -214,8 +219,9 @@ export const permanentDeleteDataAdminTemplate = async (axiosAPI, ids) => {
     try {
         // Convert ids array to comma-separated string
         const idList = ids.join(',');
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.delete(`permanent-delete/${idList}`);
+        store.dispatch(handleCloseLinearProgress())
         if(response.status === 200) {
             store.dispatch(setSnackbarMessage({message: "Items have been successfully deleted permanently"}))
             store.dispatch(setSnackbarIsError({isError: false}))
@@ -225,7 +231,7 @@ export const permanentDeleteDataAdminTemplate = async (axiosAPI, ids) => {
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         store.dispatch(setSnackbarMessage({message: error.response.data.message}))
         store.dispatch(setSnackbarIsError({isError: true}))
         store.dispatch(handleOpenSnackbar())
@@ -238,8 +244,9 @@ export const permanentDeleteDataAdminTemplate = async (axiosAPI, ids) => {
 export const fetchSpecificRecordAdminTemplate = async (axiosAPI, id) => {
     try {
         
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.get(`fetch/${id}`);
+        store.dispatch(handleCloseLinearProgress())
         // if(response.status === 200) {
         //     store.dispatch(setSnackbarMessage({message: "C"}))
         //     store.dispatch(setSnackbarIsError({isError: false}))
@@ -249,7 +256,7 @@ export const fetchSpecificRecordAdminTemplate = async (axiosAPI, id) => {
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         // store.dispatch(setSnackbarMessage({message: error.response.data.message}))
         // store.dispatch(setSnackbarIsError({isError: true}))
         // store.dispatch(handleOpenSnackbar())
@@ -262,8 +269,9 @@ export const fetchSpecificRecordAdminTemplate = async (axiosAPI, id) => {
 export const checkIfRecordExistAdminTemplate = async (axiosAPI, id) => {
     try {
         
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.get(`check/${id}`);
+        store.dispatch(handleCloseLinearProgress())
         // if(response.status === 200) {
         //     store.dispatch(setSnackbarMessage({message: "C"}))
         //     store.dispatch(setSnackbarIsError({isError: false}))
@@ -273,7 +281,7 @@ export const checkIfRecordExistAdminTemplate = async (axiosAPI, id) => {
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         store.dispatch(setSnackbarMessage({message: error.response.data.message}))
         store.dispatch(setSnackbarIsError({isError: true}))
         store.dispatch(handleOpenSnackbar())

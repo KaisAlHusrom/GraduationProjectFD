@@ -13,7 +13,7 @@ import { AdminMainButton } from '../../../../../../Components';
 
 
 //MUI
-import { alpha } from '@mui/material';
+
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -38,14 +38,9 @@ const Header = () => {
     return (
         <Box
         id="hero"
-        sx={(theme) => ({
+        sx={() => ({
             width: '100%',
-            backgroundImage:
-            theme.palette.mode === 'light'
-                ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
-                : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
-            backgroundSize: '100% 20%',
-            backgroundRepeat: 'no-repeat',
+            
         })}
         >
         <Container

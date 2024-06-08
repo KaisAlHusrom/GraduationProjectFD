@@ -19,6 +19,8 @@ const WebProjectsUserAxiosInstance = createSubUsersAxiosInstance({
     baseURL: WebProjectsUserRoute,
 });
 
+export const logoFolderName = "web_project_Logos"
+
 //---------------------------------------
 // fetch items 
 export const fetchUserWebProject = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage=5) => {

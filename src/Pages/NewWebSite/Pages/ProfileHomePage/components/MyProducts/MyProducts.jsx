@@ -23,22 +23,20 @@ import { Navigation, Pagination, Scrollbar, A11y } from 'swiper/modules';
 
 // Import Swiper styles
 import 'swiper/css';
-
-
-
 import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData'
+import { fetchUserProducts } from '../../../../../../Services/UserServices/Services/productsUsersService'
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
+import { ReviewCalculateSMA } from '../../../../../Ecommerce/utils/functions'
 import CustomCard from '../CustomCard/CustomCard'
+import CustomProductCard from './Subcomponents/CustomProductCard'
 import { AdminMainButton } from '../../../../../../Components'
+
+
 import AddIcon from '@mui/icons-material/Add';
-import CustomWebProductCard from './Subcomponents/CustomWebProductCard';
-import { fetchUserWebProject } from '../../../../../../Services/UserServices/Services/webProjectsUsersService';
+import useScreenWidth from '../../../../../../Helpers/customHooks/useScreenWidth';
 import { getSlidesPerView } from '../../Utils/getSlidesPerView';
-import useScreenWidth from '../../../../../../Helpers/customHooks/useScreenWidth'
-
-
 //Styled Components
-const StyledWebProjects = styled(Box)(
+const StyledMyProducts = styled(Box)(
     ({ theme }) => ({
         display: 'flex',
         flexDirection: 'column',
@@ -63,8 +61,11 @@ const StyledSwiperSlide = styled(SwiperSlide)(
     })
 );
 
-const WebProjects = () => {
+const MyProducts = () => {
     const screenWidth = useScreenWidth();
+
+    
+    
 
     //fetch data
     const user = useSelector(state => state.authSlice.user);
@@ -79,15 +80,14 @@ const WebProjects = () => {
         ]
     }, [user?.id])
 
-    const {data, download} = useEffectFetchData(fetchUserWebProject, params, true, false)
+    const {data, download} = useEffectFetchData(fetchUserProducts, params, true, false)
 
-    
     return (
         <CustomCard>
-                <StyledWebProjects>
+                <StyledMyProducts>
                 <StyledHeaderBox>
                     <Typography variant="h5" letterSpacing={1.5}>
-                        My Web Projects
+                        My Products
                     </Typography>
                     <Box>
                         <AdminMainButton
@@ -101,7 +101,7 @@ const WebProjects = () => {
                 </StyledHeaderBox>
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
-                    spaceBetween={10}
+                    spaceBetween={15}
                     slidesPerView={getSlidesPerView(screenWidth)}
                     navigation
                     pagination={{ clickable: true }}
@@ -114,11 +114,16 @@ const WebProjects = () => {
                             !download
                             ?
                                 data && data.length > 0 ?
-                                data.map((webProject, key) => {
+                                data.map((product, key) => {
                                     return (
                                         <StyledSwiperSlide key={key}>
-                                            <CustomWebProductCard
-                                                webProject={webProject}
+                                            <CustomProductCard
+                                                title={product.product_name}
+                                                description={product.product_short_description}
+                                                image={product.product_media}
+                                                price={product.product_price}
+                                                rating={ReviewCalculateSMA(product.product_reviews)}
+                                                category={product.categories}
                                             />
                                         </StyledSwiperSlide>
                                     )
@@ -150,13 +155,13 @@ const WebProjects = () => {
                     
 
                 </Swiper>
-            </StyledWebProjects>
+            </StyledMyProducts>
         </CustomCard>
     );
 };
 
-WebProjects.propTypes = {
+MyProducts.propTypes = {
 
 }
 
-export default WebProjects;
+export default MyProducts;

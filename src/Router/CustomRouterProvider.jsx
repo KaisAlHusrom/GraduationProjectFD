@@ -38,16 +38,16 @@ import LoginPage from '../Pages/AuthPages/pages/LogInPage/LoginPage';
 import SignUp from '../Pages/AuthPages/pages/SignUpPage/SignUp';
 
 //Requires
-// import RequireAuth from './Requires/RequireAuth';
-// import RequireAdmin from './Requires/RequireAdmin';
+import RequireAuth from './Requires/RequireAuth';
+import RequireAdmin from './Requires/RequireAdmin';
 import RequireSignOut from './Requires/RequireSignOut';
 
 //Profile Pages
 import Profile from '../Pages/NewWebSite/Profile';
 import ProfileHomePage from "../Pages/NewWebSite/Pages/ProfileHomePage/ProfileHomePage"
 import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/EditPage';
-import EmptyTemplate from '../Pages/DesignControlPage/sections/EmptyDesign/EmptyTemplate';
 import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
+import { ProvideUser } from '../Services/AuthServices/authService';
 
 
 // ------------- NOTICES -------------
@@ -61,15 +61,15 @@ import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 const router = createBrowserRouter(
     createRoutesFromElements(
         //All App Routes
-        <Route path='/' element={<MainPage />} errorElement={<ErrorPage />}>
+        <Route path='/' element={<MainPage />} errorElement={<ErrorPage />} loader={ProvideUser} >
 
             {/* //?Check if user logged */}
-            {/* <Route element={<RequireAuth />}> */}
+            <Route element={<RequireAuth />}>
 
 
                 {/* //* Admin Routes */}
                 {/* //?Check if user admin */}
-                {/* <Route element={<RequireAdmin />}> */}
+                <Route element={<RequireAdmin />}>
                     <Route path="create-template" element={<CreateElementTemplate />} />
                     <Route 
                         exact 
@@ -90,7 +90,7 @@ const router = createBrowserRouter(
                                 })
                             }
                     </Route>
-                {/* </Route> */}
+                </Route>
                 
 
 
@@ -108,7 +108,7 @@ const router = createBrowserRouter(
                 {/* //* Design Control Page Routes */}  
                 <Route path="/empty-design/EditPage/:section_id" element={<EditPage />} />
                 <Route path="/empty-design/:id" element={<Main />} />
-            {/* </Route> */}
+            </Route>
             
 
                             
@@ -120,9 +120,9 @@ const router = createBrowserRouter(
             {/* //* E commerce routes */}
             <Route path="/cliser-digital-market" element={<EcommerceMain />}>
                 {/* //?Check if user logged */}
-                {/* <Route element={<RequireAuth />}> */}
+                <Route element={<RequireAuth />}>
                     <Route path="CheckOut" element={<CheckOut />} />
-                {/* </Route> */}
+                </Route>
 
                 {/* //? can visit without logging */}
                 <Route path="" element={<CliserDigitalMarketHomePage />} />

@@ -1,5 +1,5 @@
 //React
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 import { useSelector } from 'react-redux'
 import config from "../../../../../../../Config.json"
@@ -15,10 +15,20 @@ import { styled } from '@mui/system'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 //propTypes 
 import propTypes from 'prop-types'
+
+
 import { usersProfileImagesFolderName } from '../../../../../../Services/AdminServices/Services/usersService'
 import CustomCard from '../CustomCard/CustomCard'
-import { AdminMainButton } from '../../../../../../Components'
+import {AdminMainButtonOutsideState } from '../../../../../../Components'
 import EditProfileInfo from './Subcomponents/EditProfileInfo/EditProfileInfo'
+import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData'
+import { fetchUserUsersPaymentPlans } from '../../../../../../Services/UserServices/Services/userPaymentPlanUsersService'
+import { writeFilterObject } from '../../../../../../Helpers/filterData'
+import { handleCheckDate } from './Utils/handleCheckData'
+
+import {formattedDate} from "../../../../../../Helpers/DateHelper"
+import { whitespace } from 'stylis'
+
 
 //Styled Components
 const StyledUserInfo = styled(Box)(
@@ -81,28 +91,75 @@ const UserInfo = () => {
     }, [user?.profile_image])
 
     // Calculate the expiry date 7 days from the account creation date
-    const expiryDateFreeTrial = user ? new Date(user.created_at) : null;
-    if (expiryDateFreeTrial) {
-        expiryDateFreeTrial.setDate(expiryDateFreeTrial.getDate() + 7);
-    }
+    const expiryDateFreeTrial = useMemo(() => {
+        if (user) {
+            const date = new Date(user.free_trial_expiration_date)
+            return date;
+        }
+        return null;
+    }, [user])
+    
+    //fetch payment plan info
+    const params = useMemo(() => {
+        return [
+            null,
+            null,
+            [writeFilterObject("user_id", "string", "=", user?.id)],
+            null,
+            null,
+            null,
+        ]
+    }, [user?.id])
+    const {data, download} = useEffectFetchData(fetchUserUsersPaymentPlans, params, user, false)
+    const [paymentPlan, setPaymentPlan] = useState(null)
+    useEffect(() => {
+        if(data) {
+            setPaymentPlan(data[0])
+        }
+    }, [data])
 
-    //todo: you have to fetch the user payment plan information;
-    // const expiryDateFreeTrial = user && user?.payment_plans && user?.payment_plans?.length > 0 ? new Date(user.payment_plans[0]) : null;
-    // if (expiryDateFreeTrial) {
-    //     expiryDateFreeTrial.setDate(expiryDateFreeTrial.getDate() + 7);
-    // }
+    // plan expire date
+    const expiryDatePaymentPlan = useMemo(() => {
+        if(paymentPlan) {
+            return new Date(paymentPlan?.expire_date)
+        }
+        return null
+    }, [paymentPlan])
+
+    //TODO: if plan expired modal will be shown, (doit here or other place, I'm not sure)
+    // const []
+    // useEffect(() => {
+    //     if(paymentPlan && expiryDatePaymentPlan) {
+    //         if(handleCheckDate(expiryDatePaymentPlan)) {
+    //             set
+    //         }
+    //     }
+    // }, [])
+
+    const [updateModalOpen, setUpdateModalOpen] = useState(false)
+
+    //styles
+    const dataTextStyle = useMemo(() => {
+        return {
+            letterSpacing: 1.5,
+            width: "150px",
+            // whiteSpace: 'nowrap',
+            overflow: "hidden",
+        }
+    }, [])
 
     return (
         <CustomCard 
             cardTail={
             <StyledUserInfoTail>
-                <AdminMainButton 
+                <AdminMainButtonOutsideState
+                    customState={[updateModalOpen, setUpdateModalOpen]}
                     type='modal'
                     title='Edit Profile Info'
                     appearance='primary'
                     putBorder
                     icon={<EditOutlinedIcon />}
-                    willShow={<EditProfileInfo />}
+                    willShow={<EditProfileInfo modalState={[updateModalOpen, setUpdateModalOpen]} />}
                     sx={{
                         fontWeight: "normal",
                         textTransform: "capitalize",
@@ -123,26 +180,26 @@ const UserInfo = () => {
                 </StyledInfoBox>
                 <StyledPaymentPlanBox>
                     {
-                        user?.payment_plans && user?.payment_plans?.length > 0
+                        paymentPlan && expiryDatePaymentPlan
                         ?
-                        <>
-                            <Typography variant='h5' color='secondary.light'>
-                                {user?.payment_plans[0]?.payment_plan_title}
-                            </Typography>
-                            <Typography variant='subtitle2' letterSpacing={1.5}>
-                                {/* TODO: change this to plan expire date */}
-                                {expiryDateFreeTrial ? `Expires at ${expiryDateFreeTrial.toLocaleDateString()}` : ''}
-                            </Typography>
-                        </>
+                            
+                                <Box sx={{opacity: handleCheckDate(expiryDatePaymentPlan) ? 1 : 0.5}}>
+                                    <Typography variant='h5' color='secondary.light'>
+                                        {paymentPlan?.payment_plan?.payment_plan_title}
+                                    </Typography>
+                                    <Typography variant='subtitle2' sx={dataTextStyle}>
+                                        {expiryDatePaymentPlan ? `Expires at ${formattedDate(expiryDatePaymentPlan)}` : ''}
+                                    </Typography>
+                                </Box>
                         :
-                        <>
+                        <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
                             <Typography variant='h5' color='secondary.light'>
                                 Free Trial
                             </Typography>
-                            <Typography variant='subtitle2' letterSpacing={1.5}>
-                                {expiryDateFreeTrial ? `Expires at ${expiryDateFreeTrial.toLocaleDateString()}` : ''}
+                            <Typography variant='subtitle2' sx={dataTextStyle}>
+                                {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
                             </Typography>
-                        </>
+                        </Box>
                     }
                     
                 </StyledPaymentPlanBox>

@@ -89,7 +89,8 @@ const NavList = ({mobileScreen, drawerState}) => {
                 gap: mobileScreen ? theme.spacing(3) :theme.spacing(),
                 textDecoration : 'none',
                 width: "100%",
-                
+                height: "100%",
+                letterSpacing: 1.5,
             })
         );
     }, [mobileScreen])
@@ -113,7 +114,7 @@ const NavList = ({mobileScreen, drawerState}) => {
                             }}
                             onClick={() => handleClickItem("profile")}
                             >
-                            <StyledNavLink to={'/profile'}>
+                            <StyledNavLink to={'/profile'} >
                                 <CliserImageLogo HandleMainButton={handleProfileMainPage} />
                             </StyledNavLink>
                                 
@@ -121,6 +122,7 @@ const NavList = ({mobileScreen, drawerState}) => {
                         
                     )
                 }
+                <Divider />
                 {navListItems && navListItems.length > 0 &&
                         navListItems.map((item, key) => {
                         return (
@@ -139,7 +141,7 @@ const NavList = ({mobileScreen, drawerState}) => {
                                     {<item.icon fontSize='small' color='primary' />}
                                 </Typography>
                                 <Typography 
-                                variant={selectedNavItem === item.title ? 'h7' : "subtitle2"}
+                                variant={selectedNavItem === item.title ? 'h7' : "subtitle1"}
                                 color={selectedNavItem === item.title ? 'primary' : "text.primary"}>
                                     {item.title}
                                 </Typography>

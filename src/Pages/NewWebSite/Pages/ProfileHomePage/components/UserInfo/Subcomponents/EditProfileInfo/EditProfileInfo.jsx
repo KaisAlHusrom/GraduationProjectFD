@@ -1,7 +1,7 @@
 //React
 import { useEffect, useMemo, useState } from 'react'
 
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import config from "../../../../../../../../../Config.json"
 //Components
 
@@ -23,6 +23,8 @@ import { AdminUploadImageComponent } from '../../../../../../../../Components'
 import { usersProfileImagesFolderName } from '../../../../../../../../Services/AdminServices/Services/usersService'
 import { DatePicker } from '@mui/x-date-pickers'
 import dayjs from 'dayjs'
+import { updateUserUsers } from '../../../../../../../../Services/UserServices/Services/usersUsersService'
+import { setUserInfo } from '../../../../../../../../Redux/Slices/authSlice'
 
 //Styled Components
 const StyledEditProfileInfo = styled(Box)(
@@ -32,14 +34,14 @@ const StyledEditProfileInfo = styled(Box)(
 )
 
 
-const EditProfileInfo = () => {
+const EditProfileInfo = ({modalState}) => {
     const user = useSelector(state => state.authSlice.user)
     const imagePath = useMemo(() => {
         return `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${user?.profile_image}`;
 
     }, [user?.profile_image])
 
-    
+    const [, setUpdateModalOpen] = modalState
 
     //values
     const [inputValues, setInputValues] = useState({});
@@ -96,9 +98,12 @@ const EditProfileInfo = () => {
     // const [countryCodeState, setCountryCodeState] = useState(countryCode || '+90')
     //handle change all fields
     const handleChange = (e, fieldName) => {
-        const name = e?.target?.name || fieldName;
-        const value = e?.target?.value;
-        
+        const name = fieldName || e?.target?.name;
+        let value = e?.target?.value;
+        if(name === "birth_date") {
+            value = `${e['$y']}-${e['$M']}-${e['$D']}`;
+        }
+
         setInputValues((prevInputValues) => ({
             ...prevInputValues,
             [name]: value,
@@ -121,9 +126,26 @@ const EditProfileInfo = () => {
         }
     }, [response])
 
-    const handleSubmit = () => {
+    const dispatch = useDispatch()
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const data = {...user, ...inputValues}
 
+        delete data.created_at;
+        delete data.updated_at;
+        delete data.total_balance;
+        delete data.withdrawable_balance;
+        delete data.payment_plans;
+
+        const res = await updateUserUsers(user?.id, data)
+        if (res.success) {
+            setUpdateModalOpen(() => false)
+            dispatch(setUserInfo({user: res.data}))
+        } else {
+            console.error(res.message)
+        }
     }
+
     return (
         
             <form method='post' onSubmit={handleSubmit} encType="multipart/form-data" >
@@ -187,8 +209,9 @@ const EditProfileInfo = () => {
                         <Grid item xs={6}>
                             <DatePicker 
                                 type='date'
+                                label={"Birth Date"}
                                 name={'birth_date'}
-                                value={dayjs(inputValues['mobile_number'])}
+                                value={dayjs(inputValues['birth_date'])}
                                 onChange={(event) => handleChange(event, 'birth_date')}
                                 size= "small"
                                 sx={{
@@ -198,10 +221,9 @@ const EditProfileInfo = () => {
                                 // helperText={data?.error ? data.error : ''}
                             />
                         </Grid>
-                        <Grid item sx={12}>
+                        <Grid item xxs={12}>
                             <Button
                                 type="submit"
-                                fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
@@ -215,7 +237,7 @@ const EditProfileInfo = () => {
 };
 
 EditProfileInfo.propTypes = {
-    children: propTypes.array
+    modalState: propTypes.array
 }
 
 export default EditProfileInfo;

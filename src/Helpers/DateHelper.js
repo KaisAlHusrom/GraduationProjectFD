@@ -2,7 +2,7 @@ import store from "../Redux/Store";
 
 
 
-const formattedDate = (dateString) => {
+export const formattedDate = (dateString) => {
   // To access the current state from the store
   const lang = store.getState().langSlice.lang;
   const usedLang = lang === "ar" ? "ar" : "en-US"

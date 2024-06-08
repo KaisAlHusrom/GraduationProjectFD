@@ -8,7 +8,7 @@ import {
 } from 'react-redux'
 
 //Components
-
+import MoveDownIcon from '@mui/icons-material/MoveDown';
 
 //MUI
 import {
@@ -17,6 +17,7 @@ import {
 import { styled } from '@mui/system'
 import CustomCard from '../CustomCard/CustomCard'
 import BalanceBox from './Subcomponents/BalanceBox/BalanceBox'
+import { AdminMainButton } from '../../../../../../Components'
 
 //Styled Components
 const StyledBalanceInfo = styled(Box)(
@@ -30,14 +31,41 @@ const StyledBalancesBox = styled(Box)(
         alignItems: 'center',
         width: "100%",
         justifyContent: 'center',
-        gap: theme.spacing(2)
+        gap: theme.spacing(2),
+        padding: `${theme.spacing(3.4)} ${theme.spacing()}`,
+
     })
 );
 
+const StyledTail = styled(Box)(
+    ({ theme }) => ({
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: theme.spacing(2)
+    })
+);
 const BalanceInfo = () => {
     return (
         <StyledBalanceInfo>
             <CustomCard 
+            cardTail={
+                <StyledTail>
+                <AdminMainButton 
+                    type='modal'
+                    title='Withdraw Money'
+                    appearance='primary'
+                    putBorder
+                    icon={<MoveDownIcon />}
+                    willShow={<Box></Box>}
+                    sx={{
+                        fontWeight: "normal",
+                        textTransform: "capitalize",
+                        letterSpacing: "1.2px"
+                    }}
+                />
+            </StyledTail>
+            }
             >
                 <StyledBalancesBox>
                     <BalanceBox

@@ -17,10 +17,11 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import CustomTextFields from '../../components/CustomTextFields/CustomTextFields';
 import { handleCloseLinearProgress, handleOpenLinearProgress } from '../../../../Redux/Slices/DownloadPageSlice';
 import { handleLogin } from '../../../../Services/AuthServices/authService';
+import { setTokenInfo, setUserInfo } from '../../../../Redux/Slices/authSlice'
 
 //Styled Components
 const StyledLoginPage = styled(Box)(
@@ -54,8 +55,6 @@ const LoginPage = () => {
      const [errors, setErrors] = useState(null)
 
 
-     //for navigating
-     const navigate = useNavigate()
 
     // for linear progress
     const dispatch = useDispatch();
@@ -70,7 +69,15 @@ const LoginPage = () => {
 
         
         if(res?.success) {
-            navigate("/profile")
+            // Create an anchor element
+            const anchorElement = document.createElement('a');
+
+            // Set its href attribute to "/profile"
+            anchorElement.href = "http://localhost:5173/profile";
+
+            // Programmatically click on the anchor element
+            anchorElement.click();
+
         } else {
             setErrors(res?.errors)
         }

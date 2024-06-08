@@ -6,7 +6,8 @@ import config from "../../../Config.json";
 import store from "../../Redux/Store";
 
 import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from "../../Redux/Slices/snackbarOpenSlice";
-import { setAuthInfo } from "../../Redux/Slices/authSlice";
+import { logoutRedux, setTokenInfo, setUserInfo } from "../../Redux/Slices/authSlice";
+import { handleCloseLinearProgress, handleOpenLinearProgress } from "../../Redux/Slices/DownloadPageSlice";
 const authServiceRoute = config.ServerMainRoute + "/auth";
 
 const authServiceAPI = axios.create({
@@ -16,7 +17,7 @@ const authServiceAPI = axios.create({
 
 // instance for fetch user
 const FetchUserRoute = config.ServerMainRoute + "/auth";
-const FetchUserInstance = axios.create({
+const AfterLoginInstance = axios.create({
     baseURL: FetchUserRoute,
     headers: {
         "Accept": "application/json",
@@ -24,6 +25,7 @@ const FetchUserInstance = axios.create({
     }
     // withCredentials: true,
 });
+
 
 
 
@@ -40,7 +42,9 @@ const FetchUserInstance = axios.create({
 export const handleRegister = async (data) => {
     try {
         const updatedData = data
+        store.dispatch(handleOpenLinearProgress())
         const response = await authServiceAPI.post('/register', updatedData);
+        store.dispatch(handleCloseLinearProgress())
         if(response.data.success) {
             store.dispatch(setSnackbarMessage({message: response.data.message}))
             store.dispatch(setSnackbarIsError({isError: false}))
@@ -55,7 +59,7 @@ export const handleRegister = async (data) => {
         return response.data;
     } catch (error) {
         console.error('Error posting data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         store.dispatch(setSnackbarMessage({message: error.response.data.error}))
         store.dispatch(setSnackbarIsError({isError: true}))
         store.dispatch(handleOpenSnackbar())
@@ -77,22 +81,21 @@ export const handleLogin = async (data) => {
         // Get CSRF token
         // const res = await initializeCsrfProtection();
         // console.log("csrf ,", res)
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await authServiceAPI.post('/login', updatedData);
+        store.dispatch(handleCloseLinearProgress())
         console.log("login ,", response)
 
         if(response.data.success) {
-                // const userRes = await fetchUserData()
-                // console.log("user res: ", userRes)
-                
-                // if(userRes.success) {
-                store.dispatch(setAuthInfo({token: response.data.token, user: response.data.data}))
+                store.dispatch(setTokenInfo({token: response.data.token})) //?after set token, page will be reloaded and using UserProvider, the logged user will be fetching
+
+
                 store.dispatch(setSnackbarMessage({message: response.data.message}))
                 store.dispatch(setSnackbarIsError({isError: false}))
                 store.dispatch(handleOpenSnackbar())
-                
+
                 return response.data;
-                // }
+
             
         } else {
             store.dispatch(setSnackbarMessage({message: response.data.error}))
@@ -103,7 +106,7 @@ export const handleLogin = async (data) => {
         
     } catch (error) {
         console.error('Error posting data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         store.dispatch(setSnackbarMessage({message: error.response.data.error}))
         store.dispatch(setSnackbarIsError({isError: true}))
         store.dispatch(handleOpenSnackbar())
@@ -116,7 +119,7 @@ export const handleLogin = async (data) => {
 export const fetchUserData = async () => {
     try {
 
-        const response = await FetchUserInstance.get('/user');
+        const response = await AfterLoginInstance.get('/user');
         return response.data
     } catch (error) {
 
@@ -125,3 +128,33 @@ export const fetchUserData = async () => {
     }
 };
 
+// Example protected request function
+export const logOut = async () => {
+    try {
+        store.dispatch(handleOpenLinearProgress())
+        const response = await AfterLoginInstance.get('/logout');
+        store.dispatch(handleCloseLinearProgress())
+
+        if(response.data.success) {
+            store.dispatch(logoutRedux())
+        }
+
+        return response.data
+
+    } catch (error) {
+
+        store.dispatch(handleCloseLinearProgress())
+        console.error('Error fetching user data:', error);
+        return error.response.data
+    }
+};
+
+export const ProvideUser = async () => {
+    const res2 = await fetchUserData();
+    console.log("fetch user data", res2)
+    if(res2.success) {
+        store.dispatch(setUserInfo({user: res2.data}))
+        return res2.data;
+    } 
+    return null;
+}

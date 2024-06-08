@@ -1,10 +1,10 @@
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
-import { position } from 'stylis';
+
 
 const BoxStyle = {
   width: "100%",
-  position: "absolute",
+  position: "fixed",
   top: 0,
   left: 0,
   zIndex: 100000,

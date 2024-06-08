@@ -20,6 +20,7 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import CustomCard from '../CustomCard/CustomCard'
+import { useNavigate } from 'react-router-dom'
 
 //Styled Components
 const StyledNewMessages = styled(Box)(
@@ -28,7 +29,8 @@ const StyledNewMessages = styled(Box)(
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
-        gap: theme.spacing(2)
+        gap: theme.spacing(2),
+        cursor: "pointer"
     })
 )
 
@@ -42,6 +44,12 @@ const messagesBoxStyle = {
     height: "50%",
 }
 const NewMessages = () => {
+
+    const navigate = useNavigate()
+    const handleGoToMessages = () => {
+        navigate("/profile/messages")
+    }
+    
     return (
         <CustomCard 
         cardTail={
@@ -52,7 +60,10 @@ const NewMessages = () => {
                 gap: theme => theme.spacing(2),
                 height: '100%',
                 width: '100%',
-            }}>
+                cursor: "pointer"
+            }}
+            onClick={handleGoToMessages}
+            >
                 <Box sx={messagesBoxStyle}>
                     <Typography variant='h7'>
                         Incoming Messages
@@ -73,7 +84,7 @@ const NewMessages = () => {
             </Box>
         }
         >
-            <StyledNewMessages>
+            <StyledNewMessages onClick={handleGoToMessages}>
                 <Typography variant='h5'>
                     New Messages
                 </Typography>
