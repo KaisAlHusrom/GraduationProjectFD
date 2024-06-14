@@ -28,8 +28,6 @@ const StyledMain = styled(Box)(
 const Main = () => {
 
 
-    const {id} = useParams()
-    console.log("id" , id)
 
     const [EmptySection, setEmptySection] = useState(true)
     const valuesOfPages = {EmptySection, setEmptySection }
@@ -51,6 +49,7 @@ const Main = () => {
 
     const { mode, toggleColorMode } = useColorMode();
 
+
     return (
 
         <EmptyTemplateSectionSet.Provider value={valuesOfPages}>
@@ -62,7 +61,6 @@ const Main = () => {
                     handleSmartphoneClick={handleSmartphoneClick}
                     handleTabletClick={handleTabletClick}
                     handleLaptopClick={handleLaptopClick}
-                    WepProject_id={id}
                 />
                 <Container fixed>
                 <EmptyTemplate  

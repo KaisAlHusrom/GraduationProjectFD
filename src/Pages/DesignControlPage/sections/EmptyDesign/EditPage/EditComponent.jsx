@@ -10,11 +10,13 @@ import propTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { Edit as EditIcon } from '@mui/icons-material';
-import UndoIcon from '@mui/icons-material/Undo';
+
 
 import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
 import { AdminMainButton } from '../../../../../Components/index.jsx';
 import StyleBox from '../../../components/StyleBox.jsx';
+
+
 
 // Styled Components
 const StyledEditComponent = styled(Box)(() => ({
@@ -82,6 +84,10 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
         setComponentStyle(dictionary);
     }, [component.styles]);
 
+
+
+
+
     // Change the section style
     const handleSectionStyleChange = useCallback((cssValue, prop) => {
         setComponentData((prevData) => {
@@ -124,11 +130,9 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
 
 
     const handleMoveElement = (oldIndex, newIndex, parent_id) => {
-        console.log("parent_id", parent_id);
         setComponentData((prevData) => {
             if (prevData.id === parent_id) {
                 const updatedElements = component.children.map((element, index) => {
-                    console.log("element", element);
                     if (element.sequence_number === oldIndex) {
                         element.sequence_number = newIndex;
                     } else if (element.sequence_number === newIndex) {
@@ -156,8 +160,7 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
     };  
 
 
-    console.log(component.sequence_number , component.element_content)
-    console.log(sectionData)
+
 
     return (
         <StyledEditComponent sx={{ ...componentStyle, position: 'relative' }}>

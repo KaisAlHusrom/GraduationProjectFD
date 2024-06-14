@@ -75,7 +75,7 @@ export default function useFetchData(
                                 setData(prev => [...prev, ...res.rows]);
                             }
                         }
-                        setHasMore(() => res.rows.length > 0)
+                        setHasMore(() => res?.rows?.length > 0)
                         setLoading(() => false)
                     }   
                 }

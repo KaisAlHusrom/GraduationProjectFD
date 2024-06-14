@@ -1,7 +1,6 @@
 //React
 
 import {
-    
 } from 'react-redux'
 
 
@@ -34,22 +33,21 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import ToggleColorMode from '../../../Components/ToggleColorMode/ToggleColorMode';
-import {  useNavigate } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
-import { Height } from '@mui/icons-material';
 
+import { fetchUserPages } from '../../../Services/UserServices/Services/pagesUsersService';
+import { writeFilterObject } from '../../../Helpers/filterData';
+import useFetchData from '../../../Helpers/customHooks/useFetchData';
+import { useMemo } from 'react';
 
 
 //Styled Components
 const StyledAppbarCom = styled(Box)(
     () => ({
       marginBottom : '20px',
-      paddingBottom : '20px'
-
-    })
+      paddingBottom : '20px'})
 )
-
-
 
 
 
@@ -59,14 +57,16 @@ const AppbarCom = ({ mode, toggleColorMode ,
   handleSmartphoneClick,
   handleTabletClick , 
   handleLaptopClick,
-  WepProject_id,
   isEditPage,
 }) => {
   const navigate = useNavigate();
 
-const handleBack = () => {
-  navigate(-1); // This navigates back to the previous page
-};
+    const handleBack = () => {
+      navigate(-1); // This navigates back to the previous page
+    };
+    const {id} = useParams()
+
+   
 
     return (
         <StyledAppbarCom>
@@ -108,7 +108,7 @@ const handleBack = () => {
                     drawerAnchor='left'
                     sx={{...ButtonStyle , width: "60px" , marginBottom :'20px' , height : '40px'}}
                     willShow={
-                      <MainDrawerList WepProject_id = {WepProject_id}></MainDrawerList>
+                      <MainDrawerList WepProject_id = {id} ></MainDrawerList>
                     }
 
               />
@@ -120,7 +120,7 @@ const handleBack = () => {
                     drawerAnchor='left'
                     sx={{...ButtonStyle , width: "130px"  , marginBottom :'20px'}}
                     willShow={
-                      <HomeDrawerList WepProject_id = {WepProject_id}></HomeDrawerList>
+                      <HomeDrawerList WepProject_id = {id}></HomeDrawerList>
                     }
               />
               <AdminMainButton

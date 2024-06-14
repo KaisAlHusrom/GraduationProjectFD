@@ -8,8 +8,8 @@ import WarningIcon from '@mui/icons-material/Warning';
 //propTypes 
 import propTypes from 'prop-types'
 import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
-
-
+import CloseIcon from '@mui/icons-material/Close';
+import DeleteIcon from '@mui/icons-material/Delete';
 const ConfirmationDialog = ({ open, onClose, onConfirm }) => {
     return (
         <Dialog open={open} onClose={onClose} 
@@ -41,36 +41,32 @@ const ConfirmationDialog = ({ open, onClose, onConfirm }) => {
                     Are you sure you want to delete all component elements?
                 </DialogContentText>
             </DialogContent>
-            <DialogActions>
-                            <AdminMainButton
-                                title="Cancel"
-                                type="custom"
-                                onClick={onClose}
-                                appearance="primary"
-                                putTooltip
-                                // icon={<DeleteSweepIcon />}
-                                sx={ButtonStyle}
-                            />
-                            <AdminMainButton
-                                title="Delete"
-                                type="custom"
-                                onClick={onConfirm}
-                                appearance="primary"
-                                putTooltip
-                                // icon={<DeleteSweepIcon />}
-                                sx={{
-                                    border: '1px solid red',
-                                    padding: '10px 15px',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: 'warning.dark',
-                                    margin: '5px',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: 'rgb(7, 15, 43)',
-                                    },
-                                }}
-                            />
+            <DialogActions sx = {{
+                display : 'flex', 
+                justifyContent : 'center',
+                alignItems : 'center',
+                padding : '20px 0',
+                width : '100%',
+            }}>
+                    <AdminMainButton
+                        title="Cancel"
+                        type="custom"
+                        onClick={onClose}
+                        appearance="primary"
+                        putTooltip
+                        icon={<CloseIcon />}
+                        sx={{...ButtonStyle , width : '200px'}}
+                    />
+                    <AdminMainButton
+                        title="Delete"
+                        type="custom"
+                        onClick={onConfirm}
+                        appearance="primary"
+                        putTooltip
+                        icon={<DeleteIcon />}
+                        sx={{...ButtonStyle , width : '200px' , backgroundColor: 'warning.dark' }}
+
+                    />
             </DialogActions>
         </Dialog>
     );

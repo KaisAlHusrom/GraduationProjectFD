@@ -1,7 +1,6 @@
-import PropTypes from 'prop-types';
+import React from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 
-// CustomTextField component
 const CustomTextField = ({
   id,
   label,
@@ -14,19 +13,17 @@ const CustomTextField = ({
   labelStyle,
   inputStyle,
   TextFiledStyle,
-  required, // Add required prop here
+  required,
 }) => {
-  // Handler function for TextField value change
   const handleChange = (event) => {
+    const { value } = event.target; // Extract value from event.target
     if (onChange) {
-      // Pass the updated value and id to the parent component
-      onChange(event.target.value, id);
+      onChange(value, id); // Pass both value and id back to the parent component
     }
   };
 
   return (
     <Box sx={{ width: "75%", ...BoxStyle }}>
-      {/* MUI TextField with props */}
       <Typography sx={{
         marginBottom: '10px',
         color: 'text.secondary'
@@ -40,43 +37,32 @@ const CustomTextField = ({
         value={value}
         onChange={handleChange}
         size={"small"}
-        required={required} // Use the required prop here
+        required={required}
         sx={{
           width: '100%',
           textAlign: 'center',
-          ...(disableHover ? { '&:focus': { backgroundColor: 'transparent', outline: '0px' } } : {}),
+          '&:hover': disableHover ? { backgroundColor: 'none', outline: 'none' } : {},
+          '&:focus': disableHover ? { backgroundColor: 'none', outline: 'none' } : {},
+          '&:active': disableHover ? { backgroundColor: 'none', outline: 'none' } : {},
+          '& .MuiOutlinedInput-root': {
+            '& fieldset': {
+              borderColor: disableHover ? 'none' : 'none',
+              transition:  'all 0.3s ease-in-out'
+            },
+            '&:hover fieldset': {
+              borderColor: disableHover ? 'none' : 'currentColor',
+            },
+            '&.Mui-focused fieldset': {
+              borderColor: disableHover ? 'none' : 'currentColor',
+            },
+          },
           ...TextFiledStyle
         }}
-        InputLabelProps={{ style: labelStyle }}  // Apply label style
-        inputProps={{ style: inputStyle }}        // Apply input style
+        InputLabelProps={{ style: labelStyle }}
+        inputProps={{ style: inputStyle }}
       />
     </Box>
   );
-};
-
-CustomTextField.propTypes = {
-  id: PropTypes.string,
-  label: PropTypes.string,
-  variant: PropTypes.string,
-  BoxStyle: PropTypes.object,
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func,
-  disableHover: PropTypes.bool,
-  labelStyle: PropTypes.object,
-  inputStyle: PropTypes.object,
-  TextFiledStyle: PropTypes.object,
-  OutLabel: PropTypes.string,
-  required: PropTypes.bool, // Add required prop here
-};
-
-CustomTextField.defaultProps = {
-  variant: 'outlined',
-  BoxStyle: {},
-  disableHover: false,
-  labelStyle: {},
-  inputStyle: {},
-  TextFiledStyle: {},
-  required: false, // Set the default value for required
 };
 
 export default CustomTextField;

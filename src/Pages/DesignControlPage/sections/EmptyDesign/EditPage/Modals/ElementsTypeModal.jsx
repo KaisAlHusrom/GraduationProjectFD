@@ -12,12 +12,13 @@ import { AdminMainButton } from '../../../../../../Components'
 //MUI
 import {
     Box,
+    Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
 import AddCardIcon from '@mui/icons-material/AddCard';
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
 import ModalDesignCategories from '../../../../components/ModalDesignCategories';
-import { ButtonStyle } from '../../StylesFunctions/SetStylesFunctions';
+import { ButtonStyle, ModalTitleStyle } from '../../StylesFunctions/SetStylesFunctions';
 
 //Styled Components
 const StyledElementsTypeModal = styled(Box)(
@@ -28,7 +29,8 @@ const StyledElementsTypeModal = styled(Box)(
         alignItems : 'center',
         gap : 20,
         width : '100%',
-        height : '100%'
+        height : '100%',
+        textAlign : 'center', 
     })
 )
 
@@ -49,6 +51,9 @@ const ElementsTypeModal = ({
 
     return (
         <StyledElementsTypeModal>
+              <Typography color = "text.default" sx = {ModalTitleStyle}>
+                    Element Designs
+            </Typography>
                 <AdminMainButton
                             title="Template"
                             type="drawer"
