@@ -14,7 +14,6 @@ import {
 
     Container,
     Grid,
-    Box
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -36,7 +35,7 @@ const StyledProfileHomePage = styled(Grid)(
 
 const ProfileHomePage = () => {
     return (
-        <Container maxWidth='xl' >
+        <Container maxWidth='xl' sx={{mt: 4}} >
             <StyledProfileHomePage container spacing={2}>
 
                 <Grid container item xxs={12} md={4} gap={2} height={'fit-content'}>

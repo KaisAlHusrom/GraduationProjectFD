@@ -125,13 +125,20 @@ const ProfileAppBar = () => {
               bgcolor: 'transparent',
               p : 0,
               borderRadius : '0',
-              backgroundImage: mode === 'light'
-                  ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
-                  : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
-              backgroundSize: '100% 80%',
-              backgroundRepeat: 'no-repeat',
+              background: theme => theme.palette.background.default,
             }}
           >
+            <Box sx={{
+              width: '100%',
+              height: '40px',
+              position: 'fixed',
+              marginTop: 8,
+              backgroundImage: mode === 'light'
+              ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
+              : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
+          backgroundSize: '100% 80%',
+          backgroundRepeat: 'no-repeat',
+            }}></Box>
             <Container maxWidth='100%' margin = "0" padding = "0" sx = {{
                     paddingLeft: '0 !important',
                     paddingRight: '0 !important',

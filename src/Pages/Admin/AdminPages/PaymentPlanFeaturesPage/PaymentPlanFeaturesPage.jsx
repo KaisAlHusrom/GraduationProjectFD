@@ -40,15 +40,16 @@ const StyledPaymentPlanFeaturesPage = styled(Box)(
 
 const relationships = {
     manyToOne:[
-    ],
-    manyToMany:[
         {
-            "field_name": "plans",
+            "field_name": "payment_plan",
             "fetched_column": "payment_plan_title",
             "related_table_id": "id",
             fetch_all_data: fetchPaymentPlans,
             add_to_add_form: true,
         },
+    ],
+    manyToMany:[
+        
     ],
     oneToMany:[
     ]
@@ -59,7 +60,7 @@ const columns = {
     'payment_plan_feature_name': "string",
     'payment_plan_feature_image': "image",
     'payment_plan_feature_description': "text",
-    'plans': "many-to-many",
+    'payment_plan': "many-to-one",
     "created_at": "dateTime",
     "updated_at": "dateTime"
 }

@@ -16,8 +16,8 @@ import {
     Box
 } from '@mui/material'
 import {  styled } from '@mui/system'
-import UserProvider from '../../Contexts/UserProvider';
 import { isTokenValid } from '../../Helpers/utils/auth';
+import RouteChangeHandler from '../../Router/Requires/RouteChangeHandler';
 
 
 
@@ -41,6 +41,9 @@ const MainPage = () => {
     const openCircularProgress = useSelector(state => state.downloadPageSlice.openCircularProgress)
     return (
         <StyledMainPage>
+                {/* Actions happens when user navigate routes */}
+                <RouteChangeHandler />
+
                 {/* <UserProvider> */}
                         {
                             openLinearProgress && <CustomLinearProgress />

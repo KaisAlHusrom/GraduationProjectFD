@@ -118,12 +118,7 @@ const MyProducts = () => {
                                     return (
                                         <StyledSwiperSlide key={key}>
                                             <CustomProductCard
-                                                title={product.product_name}
-                                                description={product.product_short_description}
-                                                image={product.product_media}
-                                                price={product.product_price}
-                                                rating={ReviewCalculateSMA(product.product_reviews)}
-                                                category={product.categories}
+                                                product={product}
                                             />
                                         </StyledSwiperSlide>
                                     )

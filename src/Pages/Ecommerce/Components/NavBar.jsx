@@ -35,6 +35,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CliserImageLogo from '../utils/CliserImageLogo';
 import { NewList } from '../data/CradsData';
+import { useSelector } from 'react-redux';
 
 const StyledSearchBar = styled(TextField)(({ theme }) => ({
   display: 'flex',
@@ -81,6 +82,9 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 function NavBar() {
+  //get the user if logged
+  const user = useSelector(state => state.authSlice.user);
+
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
   const [value, setValue] = useState(0);
@@ -128,15 +132,15 @@ function NavBar() {
   };
 
   const handleHomeClick = () => {
-    navigate('/LandPage');
+    navigate('/');
   };
 
   const handleLoginClick = () => {
-    navigate('/Login');
+    navigate('/auth/login');
   };
 
   const handleSignUpClick = () => {
-    navigate('/SignUp');
+    navigate('/auth/sign-up');
   };
 
   const itemsCount = useMemo(() => {
@@ -374,26 +378,30 @@ function NavBar() {
                     title='Cart'
                     badgeContent={itemsCount}
                   />
-
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    size="small"
-                    component="a"
-                    onClick={handleLoginClick}
-                  >
-                    Sign in
-                  </Button>
-
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    size="small"
-                    component="a"
-                    onClick={handleSignUpClick}
-                  >
-                    Sign up
-                  </Button>
+                  {
+                    !user &&
+                    <>
+                    <Button
+                      color="primary"
+                      variant="outlined"
+                      size="small"
+                      component="a"
+                      onClick={handleLoginClick}
+                    >
+                      Sign in
+                    </Button>
+                    <Button
+                      color="primary"
+                      variant="contained"
+                      size="small"
+                      component="a"
+                      onClick={handleSignUpClick}
+                      >
+                      Sign up
+                    </Button>
+                    </>
+                  }
+                  
                 </Box>
               </Toolbar>
             </Container>
