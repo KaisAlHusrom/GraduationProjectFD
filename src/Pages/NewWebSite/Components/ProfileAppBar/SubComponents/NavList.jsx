@@ -1,13 +1,11 @@
 //React
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 // nav list data
 import { navList } from '../utils/navList';
-
+import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined';
 //Components
 
 
@@ -22,7 +20,7 @@ import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import CliserImageLogo from '../../../../Ecommerce/utils/CliserImageLogo';
 
 //Styled Components
@@ -35,14 +33,28 @@ const NavList = ({mobileScreen, drawerState}) => {
 
     const [, setDrawerOpen] = drawerState || [null, () => {}]
     const [selectedNavItem, setSelectedNavItem] = useState(null);
-    const navListItems = useMemo(() => navList, [])
+    const location = useLocation();
+
+    useEffect(() => {
+        // Extract the last part of the pathname as selectedNavItem
+        // const lastPart = location.pathname.substring(location.pathname.lastIndexOf('/') + 1);
+        setSelectedNavItem(location.pathname);
+    }, [location]);
+
+    const user = useSelector(state => state.authSlice.user);
+
+    const navListItems = useMemo(() => [...navList, {
+        path: "/portfolio/" + user?.id,
+        title: "My Works",
+        icon: ViewListOutlinedIcon
+    }], [user?.id])
 
     const navigate = useNavigate()
 
     const handleProfileMainPage = () => {
         setSelectedNavItem(null)
         setDrawerOpen(() => false)
-        navigate("/profile")
+        navigate("")
     }
 
     const handleClickItem = (title) => {
@@ -114,7 +126,10 @@ const NavList = ({mobileScreen, drawerState}) => {
                             }}
                             onClick={() => handleClickItem("profile")}
                             >
-                            <StyledNavLink to={'/profile'} >
+                            <StyledNavLink 
+                            to={'/profile'} 
+                            
+                            >
                                 <CliserImageLogo HandleMainButton={handleProfileMainPage} />
                             </StyledNavLink>
                                 
@@ -130,19 +145,23 @@ const NavList = ({mobileScreen, drawerState}) => {
                             key={key}
                             sx={
                                 {...menuItemStyle,
-                                backgroundColor: selectedNavItem === item.title && (theme => theme.palette.action.selected) 
+                                backgroundColor: selectedNavItem === item.path && (theme => theme.palette.action.selected),
+                                border: selectedNavItem === item.path && '1px solid',
+                                borderColor: selectedNavItem === item.path && (theme => theme.palette.divider),
                                 }
                             }
                             onClick={() => handleClickItem(item.title)}
                             >
-                            <StyledNavLink to={item.path }>
+                            <StyledNavLink 
+                            to={item.path}
+                            >
 
                                 <Typography variant='subtitle2' color="text.primary">
                                     {<item.icon fontSize='small' color='primary' />}
                                 </Typography>
                                 <Typography 
-                                variant={selectedNavItem === item.title ? 'h7' : "subtitle1"}
-                                color={selectedNavItem === item.title ? 'primary' : "text.primary"}>
+                                variant={selectedNavItem === item.path ? 'h7' : "subtitle1"}
+                                color={selectedNavItem === item.path ? 'primary' : "text.primary"}>
                                     {item.title}
                                 </Typography>
                             </StyledNavLink>

@@ -68,7 +68,9 @@ const AdminMainButton = (props) => {
         drawerWidthState,
         disabled,
         drawerZIndex,
-        menuPaperProps
+        menuPaperProps,
+        component,
+        href
     } = props
 
     //theme
@@ -169,6 +171,8 @@ const AdminMainButton = (props) => {
                     ?
                     <Tooltip title={title} placement={toolTipPosition}>
                         <IconButton 
+                        component={component}
+                        href={href}
                         disabled={disabled}
                         sx={
                             sx ?
@@ -201,6 +205,8 @@ const AdminMainButton = (props) => {
                     </Tooltip>
                     :
                     <IconButton 
+                        component={component}
+                        href={href}
                         disabled={disabled}
                         sx={
                             sx ?
@@ -234,6 +240,8 @@ const AdminMainButton = (props) => {
                     ?
                     <Tooltip title={title} placement={toolTipPosition}>
                         <Button
+                        component={component}
+                        href={href}
                         disabled={disabled}
                         sx={
                             sx ?
@@ -275,6 +283,8 @@ const AdminMainButton = (props) => {
                     </Tooltip>
                     :
                     <Button
+                    component={component}
+                    href={href}
                     disabled={disabled}
                     sx={
                         sx ?
@@ -473,7 +483,8 @@ AdminMainButton.propTypes = {
     disabled: propTypes.bool,
     drawerZIndex: propTypes.number,
     menuPaperProps: propTypes.object,
-
+    component: propTypes.string,
+    href: propTypes.string,
 }
 
 export default AdminMainButton;

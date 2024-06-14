@@ -3,9 +3,7 @@ import {
     
 } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 //Components
 import MoveDownIcon from '@mui/icons-material/MoveDown';
@@ -18,6 +16,7 @@ import { styled } from '@mui/system'
 import CustomCard from '../CustomCard/CustomCard'
 import BalanceBox from './Subcomponents/BalanceBox/BalanceBox'
 import { AdminMainButton } from '../../../../../../Components'
+import { formatPrice } from '../../../../../../Helpers/priceHelpers';
 
 //Styled Components
 const StyledBalanceInfo = styled(Box)(
@@ -46,6 +45,7 @@ const StyledTail = styled(Box)(
     })
 );
 const BalanceInfo = () => {
+    const user = useSelector(state => state.authSlice.user)
     return (
         <StyledBalanceInfo>
             <CustomCard 
@@ -67,17 +67,23 @@ const BalanceInfo = () => {
             </StyledTail>
             }
             >
-                <StyledBalancesBox>
-                    <BalanceBox
-                        title={"Total Balance"}
-                        total={20}
-                        colored
-                    />
-                    <BalanceBox 
-                        title={"Withdrawable Balance"}
-                        total={10}
-                    />
-                </StyledBalancesBox>
+                {
+                    user 
+                    ?
+                    <StyledBalancesBox>
+                        <BalanceBox
+                            title={"Total Balance"}
+                            total={formatPrice(user.total_balance)}
+                            colored
+                        />
+                        <BalanceBox 
+                            title={"Withdrawable Balance"}
+                            total={formatPrice(user.withdrawable_balance)}
+                        />
+                    </StyledBalancesBox>
+                    :
+                    null
+                }
             </CustomCard>
         </StyledBalanceInfo>
     );

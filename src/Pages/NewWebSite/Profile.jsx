@@ -11,8 +11,9 @@ import {
 import { styled } from '@mui/system'
 import ProfileAppBar from './Components/ProfileAppBar/ProfileAppBar'
 import { Outlet } from 'react-router-dom'
-import { alpha } from '@mui/material';
 import ProfileFooter from './Components/ProfileFooter/ProfileFooter';
+
+import CheckPaymentPlanModel from './Components/CheckPaymentPlanModel/CheckPaymentPlanModel';
 
 //Styled Components
 const StyledProfile = styled(Box)(
@@ -23,11 +24,13 @@ const StyledProfile = styled(Box)(
 
 
 const Profile = () => {
-   
+    
+
+
 
     return (
         <StyledProfile>
-            <ProfileAppBar></ProfileAppBar>
+            <ProfileAppBar />
             <Container maxWidth={'xl'} 
             sx={{
                 mt: 6,
@@ -39,6 +42,7 @@ const Profile = () => {
             </Container>
             <ProfileFooter />
             
+            <CheckPaymentPlanModel />
 
         </StyledProfile>
     );

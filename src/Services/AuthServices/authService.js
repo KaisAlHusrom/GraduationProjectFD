@@ -151,10 +151,11 @@ export const logOut = async () => {
 
 export const ProvideUser = async () => {
     const res2 = await fetchUserData();
-    console.log("fetch user data", res2)
     if(res2.success) {
         store.dispatch(setUserInfo({user: res2.data}))
         return res2.data;
     } 
+    store.dispatch(setUserInfo({user: null}))
+    store.dispatch(setTokenInfo({token: null}))
     return null;
 }

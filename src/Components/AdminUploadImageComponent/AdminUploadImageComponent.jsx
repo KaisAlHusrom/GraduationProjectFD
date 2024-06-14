@@ -72,7 +72,7 @@ const imageStyle = {
 const AdminUploadImageComponent = (props) => {
     const {
         column,
-        response,
+        error,
         customOnChange,
         imageState,
         value

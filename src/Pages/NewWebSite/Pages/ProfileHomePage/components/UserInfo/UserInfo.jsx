@@ -9,7 +9,8 @@ import config from "../../../../../../../Config.json"
 //MUI
 import {
     Box,
-    Typography
+    Typography,
+    Skeleton
 } from '@mui/material'
 import { styled } from '@mui/system'
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
@@ -21,13 +22,9 @@ import { usersProfileImagesFolderName } from '../../../../../../Services/AdminSe
 import CustomCard from '../CustomCard/CustomCard'
 import {AdminMainButtonOutsideState } from '../../../../../../Components'
 import EditProfileInfo from './Subcomponents/EditProfileInfo/EditProfileInfo'
-import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData'
-import { fetchUserUsersPaymentPlans } from '../../../../../../Services/UserServices/Services/userPaymentPlanUsersService'
-import { writeFilterObject } from '../../../../../../Helpers/filterData'
-import { handleCheckDate } from './Utils/handleCheckData'
+import { daysUntil, handleCheckDate } from './Utils/handleCheckData'
 
 import {formattedDate} from "../../../../../../Helpers/DateHelper"
-import { whitespace } from 'stylis'
 
 
 //Styled Components
@@ -100,41 +97,21 @@ const UserInfo = () => {
     }, [user])
     
     //fetch payment plan info
-    const params = useMemo(() => {
-        return [
-            null,
-            null,
-            [writeFilterObject("user_id", "string", "=", user?.id)],
-            null,
-            null,
-            null,
-        ]
-    }, [user?.id])
-    const {data, download} = useEffectFetchData(fetchUserUsersPaymentPlans, params, user, false)
     const [paymentPlan, setPaymentPlan] = useState(null)
     useEffect(() => {
-        if(data) {
-            setPaymentPlan(data[0])
+        if (user && user?.payment_plans && user?.payment_plans?.length > 0) {
+            setPaymentPlan(user.payment_plans[0]);
         }
-    }, [data])
+    }, [user, setPaymentPlan]);
 
     // plan expire date
     const expiryDatePaymentPlan = useMemo(() => {
         if(paymentPlan) {
-            return new Date(paymentPlan?.expire_date)
+            return new Date(paymentPlan?.pivot?.expire_date)
         }
         return null
     }, [paymentPlan])
 
-    //TODO: if plan expired modal will be shown, (doit here or other place, I'm not sure)
-    // const []
-    // useEffect(() => {
-    //     if(paymentPlan && expiryDatePaymentPlan) {
-    //         if(handleCheckDate(expiryDatePaymentPlan)) {
-    //             set
-    //         }
-    //     }
-    // }, [])
 
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
 
@@ -148,6 +125,29 @@ const UserInfo = () => {
         }
     }, [])
 
+    const returnRemainDaysText = (date) => {
+        return (
+            
+            <Typography 
+                variant='subtitle2' 
+                sx={dataTextStyle}
+                color={
+                    daysUntil(date) < 30 && daysUntil(date) > 7
+                    ? 'warning.main'
+                    : daysUntil(date) <= 7 
+                    ? 'error.main' 
+                    : 'primary'
+                }
+            >
+                {daysUntil(date) > 0
+                ? `Remain ${daysUntil(date)} days` 
+                : `Finished`
+            }
+            </Typography>
+        )
+    }
+
+
     return (
         <CustomCard 
             cardTail={
@@ -159,6 +159,7 @@ const UserInfo = () => {
                     appearance='primary'
                     putBorder
                     icon={<EditOutlinedIcon />}
+                    modalIcon={<EditOutlinedIcon />}
                     willShow={<EditProfileInfo modalState={[updateModalOpen, setUpdateModalOpen]} />}
                     sx={{
                         fontWeight: "normal",
@@ -180,26 +181,85 @@ const UserInfo = () => {
                 </StyledInfoBox>
                 <StyledPaymentPlanBox>
                     {
-                        paymentPlan && expiryDatePaymentPlan
+                    expiryDateFreeTrial && user && expiryDatePaymentPlan
                         ?
-                            
+                            // for not free plans
+                            handleCheckDate(expiryDatePaymentPlan) && paymentPlan?.payment_plan_title !== "Free"
+                            ?
+                            <Box sx={{opacity: handleCheckDate(expiryDatePaymentPlan) ? 1 : 0.5}}>
+                                <Typography variant='h5' color='secondary.light'>
+                                    {paymentPlan?.payment_plan_title}
+                                </Typography>
+                                <Typography variant='subtitle2' sx={dataTextStyle}>
+                                    {expiryDatePaymentPlan ? `Expires at ${formattedDate(expiryDatePaymentPlan)}` : ''}
+                                </Typography>
+                                {returnRemainDaysText(expiryDatePaymentPlan)}
+                            </Box>
+                            :
+                            // for free plans
+                            handleCheckDate(expiryDatePaymentPlan) && paymentPlan?.payment_plan_title === "Free"
+                            ?
+                                //free trial not finished and has free plan
+                                handleCheckDate(expiryDateFreeTrial)
+                                ?
+                                <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
+                                    <Typography variant='h5' color='secondary.light'>
+                                        Free Trial
+                                    </Typography>
+                                    <Typography variant='subtitle2' sx={dataTextStyle}>
+                                        {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
+                                    </Typography>
+                                    {returnRemainDaysText(expiryDateFreeTrial)}
+                                </Box>
+                                //free trial finished and has free plan
+                                :
                                 <Box sx={{opacity: handleCheckDate(expiryDatePaymentPlan) ? 1 : 0.5}}>
                                     <Typography variant='h5' color='secondary.light'>
-                                        {paymentPlan?.payment_plan?.payment_plan_title}
+                                        {paymentPlan?.payment_plan_title}
                                     </Typography>
                                     <Typography variant='subtitle2' sx={dataTextStyle}>
                                         {expiryDatePaymentPlan ? `Expires at ${formattedDate(expiryDatePaymentPlan)}` : ''}
                                     </Typography>
+                                    {returnRemainDaysText(expiryDatePaymentPlan)}
                                 </Box>
+                            : 
+                            //free trial not finished and plan finished
+                            handleCheckDate(expiryDateFreeTrial)
+                            ?
+                            <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
+                                <Typography variant='h5' color='secondary.light'>
+                                    Free Trial
+                                </Typography>
+                                <Typography variant='subtitle2' sx={dataTextStyle}>
+                                    {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
+                                </Typography>
+                                {returnRemainDaysText(expiryDateFreeTrial)}
+                            </Box>
+                            :
+                            //free trial finished and plan finished
+                            <Box sx={{opacity: handleCheckDate(expiryDatePaymentPlan) ? 1 : 0.5}}>
+                                <Typography variant='h5' color='secondary.light'>
+                                    {paymentPlan?.payment_plan_title}
+                                </Typography>
+                                <Typography variant='subtitle2' sx={dataTextStyle}>
+                                    {expiryDatePaymentPlan ? `Expires at ${formattedDate(expiryDatePaymentPlan)}` : ''}
+                                </Typography>
+                                {returnRemainDaysText(expiryDatePaymentPlan)}
+                            </Box>
+                            
+                            
                         :
-                        <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
-                            <Typography variant='h5' color='secondary.light'>
-                                Free Trial
-                            </Typography>
-                            <Typography variant='subtitle2' sx={dataTextStyle}>
-                                {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
-                            </Typography>
-                        </Box>
+                        //Free trial ends and there is no payment plan
+                            <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
+                                <Typography variant='h5' color='secondary.light'>
+                                    Free Trial
+                                </Typography>
+                                <Typography variant='subtitle2' sx={dataTextStyle}>
+                                    {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
+                                </Typography>
+                                {returnRemainDaysText(expiryDateFreeTrial)}
+                            </Box>
+
                     }
                     
                 </StyledPaymentPlanBox>

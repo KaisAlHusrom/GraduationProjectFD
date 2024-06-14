@@ -1,14 +1,10 @@
 import {
-    Box,
     Card,
     CardContent,
     CardActions,
-    Button,
     Typography,
     CardMedia,
     Rating,
-    Container,
-    Avatar
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -25,6 +21,7 @@ import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useSelector } from 'react-redux';
+import { ReviewCalculateSMA } from '../../../../../../Ecommerce/utils/functions';
 // Styled Components
 const StyledProductCard = styled(Card)(
     () => ({
@@ -44,9 +41,11 @@ const StyledProductCard = styled(Card)(
 );
 
 const CustomProductCard = (props) => {
-    const { title, description, image, price, rating, category } = props;
+    const { product } = props;
     // Ensure image is an array
-    const mediaArray = Array.isArray(image) ? image : [];
+    const mediaArray = Array.isArray(product?.product_media) ? product?.product_media : [];
+
+    const rating = ReviewCalculateSMA(product?.product_reviews);
 
     const currency = useSelector(state => state.currencySlice.currency)
 
@@ -73,7 +72,7 @@ const CustomProductCard = (props) => {
                                             component="video"
                                             controls
                                             src={videoPath}
-                                            alt={`Media for ${title}`}
+                                            alt={`Media for ${product?.product_name}`}
                                             sx={{ maxHeight: 150, maxWidth: "100%", objectFit: "contain" }}
                                         />
                                     ) : (
@@ -81,7 +80,7 @@ const CustomProductCard = (props) => {
                                             component="img"
                                             height="140"
                                             image={imagePath}
-                                            alt={`Media for ${title}`}
+                                            alt={`Media for ${product?.product_name}`}
                                             sx={{ maxHeight: 150, maxWidth: "100%", objectFit: "contain" }}
                                         />
                                     )}
@@ -91,14 +90,14 @@ const CustomProductCard = (props) => {
                     </Swiper>
                     <CardContent sx={{position: "relative", textAlign: "left"}}>
                         <Typography gutterBottom variant="h5" component="div">
-                            {title}
+                            {product?.product_name}
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                            {description}
+                            {product?.product_short_description}
                         </Typography>
                         
                         <Typography variant="body1" color="text.secondary">
-                            {category?.[0]?.category_name}
+                            {product?.categories?.[0]?.category_name}
                         </Typography>
                         <Rating name="read-only" value={rating !== undefined ? rating : 'No ratings'} precision={0.2} readOnly />
                         <Typography 
@@ -118,7 +117,7 @@ const CustomProductCard = (props) => {
                             alignItems: 'center',
                         }}
                         >
-                            {currency}{price}
+                            {currency}{product?.product_price}
                         </Typography>
                     </CardContent>
 
@@ -156,14 +155,7 @@ const CustomProductCard = (props) => {
 };
 
 CustomProductCard.propTypes = {
-    title: propTypes.string.isRequired,
-    description: propTypes.string.isRequired,
-    image: propTypes.array.isRequired,
-    price: propTypes.string.isRequired,
-    category: propTypes.array.isRequired,
-    // action: propTypes.func.isRequired,
-    rating: propTypes.number,
-    creator: propTypes.string
+    product: propTypes.object.isRequired,
 };
 
 export default CustomProductCard;

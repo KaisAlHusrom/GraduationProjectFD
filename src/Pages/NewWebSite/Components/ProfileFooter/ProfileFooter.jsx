@@ -1,32 +1,35 @@
 //React
-import { useEffect, useMemo, useState } from 'react'
+import { } from 'react'
 
 import {
     
 } from 'react-redux'
 
 //Components
-
+import FooterMenu from './Subcomponents/FooterMenu/FooterMenu'
+import SocialMedia from './Subcomponents/SocialMedia/SocialMedia';
+import PaymentMethods from './Subcomponents/PaymentMethods/PaymentMethods';
 
 //MUI
 import {
     Box,
     Container,
-
+    Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
+
 import { alpha } from '@mui/material';
-import { NavLink } from 'react-router-dom';
+import CopyrightIcon from '@mui/icons-material/Copyright';
+
+
+//data
 import { CliserMenu } from './Utils/Data';
-import FooterMenu from './Subcomponents/FooterMenu/FooterMenu';
-import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData';
-import { fetchUserProductsCategories } from '../../../../Services/UserServices/Services/productCategoriesUsersService';
-import SocialMedia from './Subcomponents/SocialMedia/SocialMedia';
-import PaymentMethods from './Subcomponents/PaymentMethods/PaymentMethods';
+
 
 //Styled Components
 const StyledProfileFooter = styled(Box)(
     ({ theme }) => ({
+        marginTop: theme.spacing(8),
         padding: theme.spacing(2),
         display: 'flex',
         justifyContent: 'space-between',
@@ -50,6 +53,16 @@ const StyledSocialPaymentBox = styled(Box)(
         flexDirection: 'column',
         justifyContent: 'space-between',    
         gap: theme.spacing()
+    })
+);
+
+const CopyRightStyledBox = styled(Box)(
+    ({theme}) => ({
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: theme.spacing(3),
+        width: '100%'
     })
 );
 
@@ -88,6 +101,14 @@ const ProfileFooter = () => {
                     </StyledSocialPaymentBox>
                     
                 </Box>
+                <CopyRightStyledBox>
+                    <Box  alignItems='center' display={'flex'} gap={1} >
+                        <CopyrightIcon /> 
+                        <Typography variant='subtitle1'>
+                            2024 CLISER. All Rights Reserved
+                        </Typography>
+                    </Box>
+                </CopyRightStyledBox>
             </Container>
         </StyledProfileFooter>
     );

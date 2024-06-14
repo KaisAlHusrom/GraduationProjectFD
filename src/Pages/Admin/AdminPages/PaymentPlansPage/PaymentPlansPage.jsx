@@ -43,13 +43,7 @@ const relationships = {
     manyToOne:[
     ],
     manyToMany:[
-        {
-            "field_name": "features",
-            "fetched_column": "payment_plan_feature_name",
-            "related_table_id": "id",
-            fetch_all_data: fetchPaymentPlanFeatures,
-            add_to_add_form: true,
-        },
+        
         {
             "field_name": "users",
             "fetched_column": "first_name",
@@ -59,16 +53,24 @@ const relationships = {
         },
     ],
     oneToMany:[
+        {
+            "field_name": "features",
+            "fetched_column": "payment_plan_feature_name",
+            "related_table_id": "id",
+            fetch_all_data: fetchPaymentPlanFeatures,
+            add_to_add_form: false,
+        },
     ]
 }
 
 const columns = {
     "id": "pk",
     'payment_plan_title': "string",
-    'payment_plan_price': "decimal",
+    'payment_plan_monthly_price': "decimal",
+    'payment_plan_yearly_price': "decimal",
     'payment_plan_description': "text",
     'is_active': "bool",
-    'features': "many-to-many",
+    'features': "one-to-many",
     'users': "many-to-many",
     "created_at": "dateTime",
     "updated_at": "dateTime"

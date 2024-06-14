@@ -111,20 +111,9 @@ const EditProfileInfo = ({modalState}) => {
     };
 
     //Response
-    const [response,] = useState(null);
-    // const error = !!(response?.errors && response.errors[column]);
+    const [errors, setErrors] = useState(null)
+    
 
-    //when response be setted
-    useEffect(() => {
-        if(response) {
-            if(response.success) {
-                //
-            }
-
-            if(response.errors) return
-            
-        }
-    }, [response])
 
     const dispatch = useDispatch()
     const handleSubmit = async (e) => {
@@ -141,7 +130,9 @@ const EditProfileInfo = ({modalState}) => {
         if (res.success) {
             setUpdateModalOpen(() => false)
             dispatch(setUserInfo({user: res.data}))
+
         } else {
+            setErrors(() => res?.errors)
             console.error(res.message)
         }
     }
@@ -155,7 +146,7 @@ const EditProfileInfo = ({modalState}) => {
                             <AdminUploadImageComponent
                                 column={"profile_image"}
                                 customOnChange={(event) => handleChangeImage(event)}
-                                response={response}
+                                error={errors?.profile_image}
                                 imageState={[image, setImage]}
                             />
                         </Grid>
@@ -168,6 +159,8 @@ const EditProfileInfo = ({modalState}) => {
                                 size="small"
                                 onChange={(event) => handleChange(event)}
                                 value={inputValues['first_name'] || ""}
+                                error={errors?.first_name}
+                                helperText={errors && errors?.first_name}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -179,6 +172,8 @@ const EditProfileInfo = ({modalState}) => {
                                 size="small"
                                 onChange={(event) => handleChange(event)}
                                 value={inputValues['last_name'] || ""}
+                                error={errors?.last_name}
+                                helperText={errors && errors?.last_name}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -204,6 +199,8 @@ const EditProfileInfo = ({modalState}) => {
                                 size="small"
                                 onChange={(event) => handleChange(event)}
                                 value={inputValues['mobile_number'] || ""}
+                                error={errors?.mobile_number}
+                                helperText={errors && errors?.mobile_number}
                             />
                         </Grid>
                         <Grid item xs={6}>
@@ -217,8 +214,8 @@ const EditProfileInfo = ({modalState}) => {
                                 sx={{
                                     width: "100%",
                                 }}
-                                // error={data?.error ? true : false}
-                                // helperText={data?.error ? data.error : ''}
+                                error={errors?.birth_date}
+                                helperText={errors && errors?.birth_date}
                             />
                         </Grid>
                         <Grid item xxs={12}>

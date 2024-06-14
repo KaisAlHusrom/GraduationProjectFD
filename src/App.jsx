@@ -41,7 +41,12 @@ function App() {
 
   return (
       <CustomThemeProvider>
+        
+
+        {/* Router provider */}
         <CustomRouterProvider />
+
+        {/* Snack Bars */}
         <CustomSnackBar />
       </CustomThemeProvider>
   )

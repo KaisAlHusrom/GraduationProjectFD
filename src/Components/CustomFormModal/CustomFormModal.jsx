@@ -206,7 +206,8 @@ const CustomFormModal = (props) => {
 
 
         if(type === "date") {
-            value = `${e['$y']}-${e['$M']}-${e['$D']}`;
+
+            value = `${e['$y']}-${e['$M'] + 1}-${e['$D']}`;
             console.log(value)
 
         }

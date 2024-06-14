@@ -48,6 +48,7 @@ import ProfileHomePage from "../Pages/NewWebSite/Pages/ProfileHomePage/ProfileHo
 import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/EditPage';
 import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 import { ProvideUser } from '../Services/AuthServices/authService';
+import PortfolioMain from '../Pages/NewWebSite/Pages/PortfolioMain/PortfolioMain';
 
 
 // ------------- NOTICES -------------
@@ -62,6 +63,8 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         //All App Routes
         <Route path='/' element={<MainPage />} errorElement={<ErrorPage />} loader={ProvideUser} >
+
+            
 
             {/* //?Check if user logged */}
             <Route element={<RequireAuth />}>
@@ -104,6 +107,7 @@ const router = createBrowserRouter(
                     <Route path="web-projects" element={<MyWebSite />} />
                     <Route path="create-new-project" element={<CreateWebsite />} />
                 </Route>
+                <Route path="portfolio/:user_id" element={<PortfolioMain />} />
 
                 {/* //* Design Control Page Routes */}  
                 <Route path="/empty-design/EditPage/:section_id" element={<EditPage />} />

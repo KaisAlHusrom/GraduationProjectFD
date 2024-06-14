@@ -21,3 +21,16 @@ export const handleCheckDate = (date) => {
     // Compare the dates
     return inputDate > currentDate;
 };
+
+export function daysUntil(date) {
+    const now = new Date();
+    const targetDate = new Date(date);
+    
+    // Calculate the difference in milliseconds
+    const diffInMs = targetDate - now;
+    
+    // Convert milliseconds to days
+    const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+    
+    return diffInDays;
+}
