@@ -48,7 +48,7 @@ const BalanceBox = ({title, total, colored}) => {
 
 BalanceBox.propTypes = {
     title: propTypes.string,
-    total: propTypes.number,
+    total: propTypes.string,
     colored: propTypes.bool,
 }
 

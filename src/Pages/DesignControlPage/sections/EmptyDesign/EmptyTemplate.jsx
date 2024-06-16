@@ -1,5 +1,5 @@
 //React
-import { useMemo, } from 'react'
+import { useEffect, useMemo, useState, } from 'react'
 
 import {
     
@@ -35,7 +35,7 @@ const EmptyTemplate = ({
     isTabletWidth, 
     isLaptopWidth,
 }) => {
-
+    
         const {id} = useParams()
         const params = useMemo(() => {
             return [
@@ -43,10 +43,19 @@ const EmptyTemplate = ({
             ]
         }, [id])
 
-        
+    
+
         const { data } = useEffectFetchData(fetchSpecificUserWebProject, params , true , true )
 
-            console.log("Empty ",data )
+        const [mainPage , setMainPage] = useState(null) 
+        useEffect  (() => {
+                if(data) {
+                    setMainPage(()=> {
+                        return data.pages.filter(page => page.page_path === '/')[0]
+                    })
+                }
+        } , [data]) 
+
     return (
         <StyledEmptyTemplate 
         fontFamily={selectedFontFamily}
@@ -57,14 +66,15 @@ const EmptyTemplate = ({
             margin: '100px auto',
         }}
         >
-            {/* <NavBar /> */}
-            { data && data.pages[0]?.designs
-                .sort((a, b) => a.sequence_number - b.sequence_number)
-                .map((section, index) => (
-                    <div key={index}>
-                        <EmptySection designData={section} />
-                    </div>
-                ))
+            
+            {data && data.pages  && mainPage?.designs &&
+                mainPage.designs
+                    .sort((a, b) => a.sequence_number - b.sequence_number)
+                    .map((section, index) => (
+                        <div key={index}>
+                            <EmptySection designData={section} />
+                        </div>
+                    ))
             }
 
         </StyledEmptyTemplate>

@@ -4,6 +4,7 @@ import {
     Typography,
 } from '@mui/material';
 import { styled } from '@mui/system';
+import { ModalTitleStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 
 const StyledFontFamily = styled(Box)(
     ({ theme }) => ({
@@ -11,10 +12,11 @@ const StyledFontFamily = styled(Box)(
         flexDirection: 'row',
         flexWrap :'wrap',
         gap: theme.spacing(2),
+        textAlign: 'center'
     })
 );
 
-const FontFamily = ({  handleFontFamilyClick ,}) => {
+const FontFamily = ({  handleFontFamilyClick }) => {
     const [selectedFontFamily, setSelectedFontFamily] = useState('');
 
     const fontFamilies = [
@@ -51,6 +53,9 @@ const FontFamily = ({  handleFontFamilyClick ,}) => {
 
     return (
         <StyledFontFamily>
+              <Typography color = "text.default" sx = {ModalTitleStyle}>
+                    Select Font
+            </Typography>
             {fontFamilies.map((font, index) => (
                 <Box
                     key={index}

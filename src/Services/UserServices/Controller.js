@@ -35,6 +35,7 @@ export const fetchDataUserTemplate = async (axiosAPI, type = "all", pageNumber =
         let response;   
         if (type === "deleted") {
             // Fetch deleted items
+            store.dispatch(handleOpenLinearProgress())
             response = await axiosAPI.get("/fetch_deleted", {
                 params: {
                     pageNumber: pageNumber,
@@ -44,7 +45,9 @@ export const fetchDataUserTemplate = async (axiosAPI, type = "all", pageNumber =
                     searchQuery: searchQuery,
                 },
             });
+            store.dispatch(handleCloseLinearProgress())
         } else {
+            store.dispatch(handleOpenLinearProgress())
             // Fetch regular items
             response = await axiosAPI.get("", {
                 params: {
@@ -55,12 +58,13 @@ export const fetchDataUserTemplate = async (axiosAPI, type = "all", pageNumber =
                     searchQuery: searchQuery,
                 },
             });
+            store.dispatch(handleCloseLinearProgress())
         }
         const res = response.data;
         return res;
 
     } catch (error) {
-
+        store.dispatch(handleCloseLinearProgress())
             // Handle other errors
             console.error('Error Fetching Data:', error);
             return error.response.data;
@@ -92,7 +96,7 @@ export const addDataUserTemplate = async (axiosAPI, data) => {
         return response.data;
     } catch (error) {
         console.error('Error posting data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
 
         return error.response.data;
     }
@@ -135,6 +139,7 @@ export const updateDataUserTemplate = async (axiosAPI, id, newData) => {
         // Process the response data as needed
         return response.data;
     } catch (error) {
+        store.dispatch(handleCloseLinearProgress())
         if (axios.isCancel(error)) {
             // Request was canceled, no need to handle the error
             return;
@@ -154,8 +159,9 @@ export const deleteDataUserTemplate = async (axiosAPI, ids) => {
     try {
         // Convert ids array to comma-separated string
         const idList = ids.join(',');
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.delete(`/${idList}`);
+        store.dispatch(handleCloseLinearProgress())
         if(response.status === 200) {
             //TODO
         }
@@ -164,7 +170,7 @@ export const deleteDataUserTemplate = async (axiosAPI, ids) => {
     } catch (error) {
         console.error('Error updating data:', error);
 
-        //TODO
+        store.dispatch(handleCloseLinearProgress())
 
         return error.response.data;
     }
@@ -175,8 +181,9 @@ export const restoreDataUserTemplate = async (axiosAPI, ids) => {
     try {
         // Convert ids array to comma-separated string
         const idList = ids.join(',');
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.put(`/restore/${idList}`);
+        store.dispatch(handleCloseLinearProgress())
         if(response.status === 200) {
             //TODO
         }
@@ -184,7 +191,7 @@ export const restoreDataUserTemplate = async (axiosAPI, ids) => {
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         //TODO
 
         return error.response.data;
@@ -196,8 +203,9 @@ export const permanentDeleteDataUserTemplate = async (axiosAPI, ids) => {
     try {
         // Convert ids array to comma-separated string
         const idList = ids.join(',');
-
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.delete(`permanent-delete/${idList}`);
+        store.dispatch(handleCloseLinearProgress())
         if(response.status === 200) {
             //TODO
         }
@@ -205,7 +213,7 @@ export const permanentDeleteDataUserTemplate = async (axiosAPI, ids) => {
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         //TODO
         
         return error.response.data;
@@ -215,8 +223,9 @@ export const permanentDeleteDataUserTemplate = async (axiosAPI, ids) => {
 // fetch specific record
 export const fetchSpecificRecordUserTemplate = async (axiosAPI, id) => {
     try {
-        
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.get(`fetch/${id}`);
+        store.dispatch(handleCloseLinearProgress())
         // if(response.status === 200) {
         //     store.dispatch(setSnackbarMessage({message: "C"}))
         //     store.dispatch(setSnackbarIsError({isError: false}))
@@ -225,6 +234,7 @@ export const fetchSpecificRecordUserTemplate = async (axiosAPI, id) => {
         // Process the response data as needed
         return response.data;
     } catch (error) {
+        store.dispatch(handleCloseLinearProgress())
         console.error('Error updating data:', error);
 
         // store.dispatch(setSnackbarMessage({message: error.response.data.message}))
@@ -238,8 +248,9 @@ export const fetchSpecificRecordUserTemplate = async (axiosAPI, id) => {
 //check if record exist 
 export const checkIfRecordExistUserTemplate = async (axiosAPI, id) => {
     try {
-        
+        store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.get(`check/${id}`);
+        store.dispatch(handleCloseLinearProgress())
         // if(response.status === 200) {
         //     store.dispatch(setSnackbarMessage({message: "C"}))
         //     store.dispatch(setSnackbarIsError({isError: false}))
@@ -249,7 +260,7 @@ export const checkIfRecordExistUserTemplate = async (axiosAPI, id) => {
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
-
+        store.dispatch(handleCloseLinearProgress())
         //TODO
         
         return error.response.data;

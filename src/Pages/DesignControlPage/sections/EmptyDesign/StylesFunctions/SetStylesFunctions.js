@@ -64,6 +64,7 @@ export const handleUploadImageClick = (e, handleImageChange) => {
     }
 };
 
+
 export const handleImageChange = (fileData, setSelectedImage) => {
     if (fileData) {
         setSelectedImage(fileData);
@@ -100,3 +101,76 @@ export const ButtonStyle = {
 },
     boxShadow: "rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px",
 };
+
+export const TextFiledStyle = {
+    borderLeft : '5px solid ',
+    borderLeftColor : 'text.default',
+    borderRadius : '10px',
+    marginBottom: '10px',
+    marginTop : '10px',
+    width :"270px",
+    
+}
+
+
+export const ModalTitleStyle = {
+    color : 'text.default',
+    fontWeight: 'bold',
+    alignItems: 'center', 
+    fontSize : '20px',               
+    margin : 'auto',
+    width : '100%',
+    padding : '10px',
+    borderBottom: '3px solid',
+    borderColor : 'success.main',
+    borderWidth  :'fit-content',
+    backgroundColor : '#96ac9624',
+    borderRadius : '5px',
+    boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 90px",
+
+}
+
+
+
+// const handleUpdateDesignData = async (design) => {
+//   try {
+//     const { title, description } = designData[design.id] || {};
+//     if (!title || !description) {
+//       console.error('Error: All fields must be filled out.');
+//     } else {
+//       const updatedDesign = {
+//         ...design,
+//         design_title: title,
+//         design_description: description,
+//         design_image: uploadedImageDesign, // Use uploaded image here
+//       };
+
+//       // Optimistically update local state
+//       const updatedPageIndex = data.findIndex(page => page.id === design.page_id);
+//       if (updatedPageIndex !== -1) {
+//         const updatedPage = {
+//           ...data[updatedPageIndex],
+//           designs: data[updatedPageIndex].designs.map(d =>
+//             d.id === design.id ? updatedDesign : d
+//           ),
+//         };
+
+//         const updatedData = [
+//           ...data.slice(0, updatedPageIndex),
+//           updatedPage,
+//           ...data.slice(updatedPageIndex + 1),
+//         ];
+
+//         setData(updatedData);
+//       }
+
+//       // Send update request to API
+//       const res = await updateUserDesigns(updatedDesign.id, updatedDesign);
+//       if (res.success) {
+//         // Optionally handle success message or action
+//       }
+//     }
+//   } catch (error) {
+//     console.error('Error submitting design:', error);
+//   }
+// };

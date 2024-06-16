@@ -31,7 +31,7 @@ import ConfirmationDialog from '../../../components/ConfirmationDialog.jsx';
 import { fetchSpecificUserDesign, updateUserDesigns } from '../../../../../Services/UserServices/Services/designUsersService.js';
 import { fetchUserStylePropCategories } from '../../../../../Services/UserServices/Services/stylesPropsCategoriesUsersService.js';
 import AppbarCom from '../../../components/AppbarCom.jsx';
-import { useColorMode, useScreenWidth } from '../StylesFunctions/SetStylesFunctions.js';
+import {  useColorMode, useScreenWidth } from '../StylesFunctions/SetStylesFunctions.js';
 
 
 // Helper function to recursively generate new IDs for nested children
@@ -154,6 +154,8 @@ const EditPage = () => {
     };
 
 
+
+
     //  get the section style
     useEffect(() => {
         if (data) {
@@ -184,58 +186,59 @@ const EditPage = () => {
         });
     }, [section_id, setData]);
 
-
+    // dubelcate
+    // !!i have problem when i add using this func the problem come when i want delete 
     const addComponentForComponent = (section_component_id) => {
-        const index = sectionData.children.findIndex(component => component.id === section_component_id);
-        if (index !== -1) {
-            const newComponent = generateNewIdsForChildren(sectionData.children[index]);
+        setSectionData((prevData) => {
+            const index = prevData.children.findIndex(component => component.id === section_component_id);
+            if (index !== -1) {
+                const newComponent = generateNewIdsForChildren(prevData.children[index]);
     
-            // Find the maximum sequence_number among the children
-            const maxSequenceNumber = Math.max(...sectionData.children.map(component => component.sequence_number));
-            
-            // Set the new component's sequence_number to maxSequenceNumber + 1
-            newComponent.sequence_number = maxSequenceNumber + 1;
+                // Set the new component's sequence_number to the current max + 1
+                newComponent.sequence_number = prevData.children.length > 0 
+                    ? Math.max(...prevData.children.map(component => component.sequence_number)) + 1 
+                    : 1;
     
-            setSectionData((prevData) => {
-                const updatedComponents = [...prevData.children];
+                const updatedComponents = [...prevData.children, newComponent];
     
-                // Insert the new component after the current component
-                updatedComponents.splice(index + 1, 0, newComponent);
+                // Ensure components are sorted by sequence_number
+                const sortedComponents = updatedComponents.sort((a, b) => a.sequence_number - b.sequence_number);
     
-                // Sort the components by sequence_number to ensure order is maintained
-                updatedComponents.sort((a, b) => a.sequence_number - b.sequence_number);
+                // Update history for undo functionality
+                setHistory(prevHistory => [...prevHistory, prevData]);
     
                 return {
                     ...prevData,
-                    children: updatedComponents,
+                    children: sortedComponents,
                 };
-            });
-    
-            setHistory(prevHistory => [...prevHistory, sectionData]);
-        }
+            }
+            return prevData;
+        });
     };
     
-    
     const deleteComponentForComponent = (section_component_id) => {
-        const index = sectionData.children.findIndex(component => component.id === section_component_id);
-        if (index !== -1) {
-            setData((prevData) => {
+        setSectionData((prevData) => {
+            const index = prevData.children.findIndex(component => component.id === section_component_id);
+    
+            if (index !== -1) {
                 const updatedComponents = [...prevData.children];
                 updatedComponents.splice(index, 1);
     
-                // Yalnızca bir bileşen varsa ve sequence_number 3 ise, sequence_number değerini 1'e düşür
-                if (updatedComponents.length === 1 && updatedComponents[0].sequence_number === 3) {
-                    updatedComponents[0].sequence_number = 1;
-                }
+                // Ensure components are sorted by sequence_number
+                const sortedComponents = updatedComponents.sort((a, b) => a.sequence_number - b.sequence_number);
+    
+                // Update history for undo functionality
+                setHistory(prevHistory => [...prevHistory, prevData]);
     
                 return {
                     ...prevData,
-                    children: updatedComponents,
+                    children: sortedComponents,
                 };
-            });
-            setHistory(prevHistory => [...prevHistory, sectionData]);
-        }
+            }
+            return prevData;
+        });
     };
+    
     
 
     // create designed component
@@ -268,20 +271,32 @@ const EditPage = () => {
     
     
     // add new element to component 
-    const handleAddNewElement = useCallback((componentId , element) => {
+    const handleAddNewElement = useCallback((componentId, element) => {
         setData((prevData) => ({
             ...prevData,
             children: prevData.children.map((component) => {
                 if (component.id === componentId) {
+                    // Find the maximum sequence_number among the existing elements
+                    const maxSequenceNumber = component.children.length > 0 
+                        ? Math.max(...component.children.map(child => child.sequence_number)) 
+                        : 0;
+                    
+                    // Set the new element's sequence_number to maxSequenceNumber + 1
+                    const newElement = {
+                        ...element,
+                        sequence_number: maxSequenceNumber + 1
+                    };
+    
                     return {
                         ...component,
-                        children: [...component.children,  element],
+                        children: [...component.children, newElement],
                     };
                 }
                 return component;
             }),
         }));
     }, [setData]);
+    
     
     // delete the all component in the section 
     const deleteSection = () => {
@@ -348,12 +363,12 @@ const EditPage = () => {
         }
     };
 
-    const SaveSectionData =async ()=> {
+    const SaveSectionData = async () => {
+        cleanDesignDataDesignPage(sectionData);
+        await updateUserDesigns(section_id, sectionData);
 
-        cleanDesignDataDesignPage(sectionData) 
-        const updatedDesign = await updateUserDesigns(section_id , sectionData)
-    }
-
+    };
+    
 
     const {
         isMobileWidth,
@@ -557,7 +572,7 @@ const EditPage = () => {
                             createDesignedDesign = {createDesignedComponent}
                             appliedFilter = {appliedFilterForComponent}
                             selected_parent_id = {section_id} 
-                            NameOfCategories = {'component'}
+                            NameOfCategories = {'Component Designs'}
                             ></ModalDesignCategories>
                             }
                             sx={EditButtonsStyle}
@@ -573,7 +588,7 @@ const EditPage = () => {
                                     <ModalDesignCategories  
                                     createDesignedDesign = {createNewSection} 
                                     appliedFilter = {appliedFilterForSections}
-                                    NameOfCategories = {'section'}
+                                    NameOfCategories = {'Section Designs'}
 
                                     ></ModalDesignCategories>
 

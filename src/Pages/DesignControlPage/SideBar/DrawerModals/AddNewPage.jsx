@@ -26,70 +26,53 @@ import useFetchData from '../../../../Helpers/customHooks/useFetchData';
 import { addUserPages, fetchUserPages } from '../../../../Services/UserServices/Services/pagesUsersService';
 import { cleanDesignDataDesignPage, updateID2 } from '../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
 import { v4 as uuIdv4 } from 'uuid';
-import { ButtonStyle } from '../../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
+import { ButtonStyle, ModalTitleStyle, TextFiledStyle } from '../../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 
-//Styled Components
-const StyledAddNewPage = styled(Box)(
-    ({ theme }) => ({
-    
-    })
-)
+const StyledAddNewPage = styled(Box)(({ theme }) => ({
+    textAlign: 'center',
+}));
 
-const TextFiledStyle = {
-
-    
-}
-
-const AddNewPage = ({WepProject_id}) => {
-
-    const [title , setTitle] = useState()
-    const [description , setDescription] = useState()
-    const [path , setPath] = useState()
+const AddNewPage = ({ WepProject_id, onPageAdded }) => {
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [path, setPath] = useState('');
     const [uploadedImagePage, setUploadedImagePage] = useState(null);
 
     const handleTextFieldChange = useCallback((setter) => (value) => {
         setter(value);
     }, []);
 
-    const appliedFilter = useMemo(() => {
-        return [
-            writeFilterObject('is_template', 'bool', '=', 'true'), 
-        ]
-        
-    }, [])
-    const { data } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 10)
+    const appliedFilter = useMemo(() => [
+        writeFilterObject('is_template', 'bool', '=', 'true'),
+    ], []);
 
+    const { data } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 10);
 
     const handleSubmitPage = async () => {
         try {
             let updatedTemplate = _.cloneDeep(data[0]);
-            updatedTemplate["page_title"] = title,
-            updatedTemplate["page_image"] = uploadedImagePage,
-            updatedTemplate["page_description"] = description,
-            updatedTemplate["is_template"] = 0,
-            updatedTemplate["web_project_id"] = WepProject_id,
-            updatedTemplate["page_path"] = "/"
-            updatedTemplate['id'] = uuIdv4()
-            updateID2(updatedTemplate?.designs)
-            cleanDesignDataDesignPage(updatedTemplate.designs)
+            updatedTemplate["page_title"] = title;
+            updatedTemplate["page_image"] = uploadedImagePage;
+            updatedTemplate["page_description"] = description;
+            updatedTemplate["is_template"] = 0;
+            updatedTemplate["web_project_id"] = WepProject_id;
+            updatedTemplate["page_path"] = "/" + path;
+            updatedTemplate['id'] = uuIdv4();
+            updateID2(updatedTemplate?.designs);
+            cleanDesignDataDesignPage(updatedTemplate.designs);
             updatedTemplate['designs'] = updatedTemplate['designs']?.map((design) => {
                 design['page_id'] = updatedTemplate.id;
                 return design;
             });
-            
-            const res = await addUserPages(updatedTemplate);
-            
-            // if(res.success) {
-            //     navigate('/empty-design/' + webProjectId  )
-            // }
 
+            const res = await addUserPages(updatedTemplate);
+            if (res.success) {
+                onPageAdded(updatedTemplate); // Notify parent component
+            }
         } catch (error) {
             console.error('Error submitting page:', error);
         }
-
-    }
-
-
+    };
 
     const handleUploadImageClick = useCallback(() => () => {
         const inputElement = document.createElement('input');
@@ -101,114 +84,105 @@ const AddNewPage = ({WepProject_id}) => {
         };
         inputElement.click();
     }, []);
-    const isSubmitDisabled = !title || !description || !uploadedImagePage || !path; // Disable submit button if any of the inputs are empty
 
+    const isSubmitDisabled = !title || !description || !uploadedImagePage || !path;
 
     return (
         <StyledAddNewPage>
-            <Typography>
-                    Add New Page
+            <Typography color="text.default" sx={ModalTitleStyle}>
+                Add New Page
             </Typography>
 
-            <Box sx = {{
-                display  : 'flex', 
-                alignItems : 'center',
-                justifyContent : 'center',
-                flexWrap : 'wrap',
-                gap : '10px',
-                width : '100%',
+            <Box sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexWrap: 'wrap',
+                gap: '10px',
+                width: '100%',
             }}>
-            <CustomTextField 
+                <CustomTextField
                     id={"1"}
                     label="Page title"
-                    required = {true}
+                    required={true}
                     onChange={handleTextFieldChange(setTitle)}
-                    BoxStyle={{ marginTop: '10px' , width: '300px'}}
-                    TextFiledStyle = {TextFiledStyle}
+                    BoxStyle={{ marginTop: '10px', width: '300px' }}
+                    TextFiledStyle={TextFiledStyle}
                 />
-                    <CustomTextField 
+                <CustomTextField
                     id={"2"}
-                    required = {true}
+                    required={true}
                     onChange={handleTextFieldChange(setDescription)}
-
                     label="Page Description"
-                    BoxStyle={{ marginTop: '10px' , width: '300px'}}
-                    TextFiledStyle = {TextFiledStyle}
-
+                    BoxStyle={{ marginTop: '10px', width: '300px' }}
+                    TextFiledStyle={TextFiledStyle}
                 />
-                    <CustomTextField 
+                <CustomTextField
                     id={"3"}
-                    required = {true}
+                    required={true}
                     label="Page Path"
                     onChange={handleTextFieldChange(setPath)}
-                    BoxStyle={{ marginTop: '10px' , width: '300px'}}
-                    TextFiledStyle = {TextFiledStyle}
-
+                    BoxStyle={{ marginTop: '10px', width: '300px' }}
+                    TextFiledStyle={TextFiledStyle}
                 />
-                    <Box
-                    sx = {{
-                        display : 'flex',
-                        flexDirection : 'column',
-                        justifyContent : 'center',
-                        alignItems : 'center',
-                        width : '100%'
+                <Box
+                    sx={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '100%'
                     }}
-                    >
+                >
                     <AdminMainButton
-                            sx={ButtonStyle}
-                            title='Upload Image'
-                            type='custom'
-                            appearance='primary'
-                            icon={<AddCircleOutlineIcon />}
-                            onClick={handleUploadImageClick()}
-                        />
-                {uploadedImagePage && (
-                    <img
-                        src={URL.createObjectURL(uploadedImagePage)} // Use URL.createObjectURL to create a URL for the uploaded image
-                        alt="Uploaded Image"
-                        style={{
-                            width: '200px',
-                            height: '200px',
-                            marginTop :'20px'
-                        }}
+                        sx={ButtonStyle}
+                        title='Upload Image'
+                        type='custom'
+                        appearance='primary'
+                        icon={<AddCircleOutlineIcon />}
+                        onClick={handleUploadImageClick()}
                     />
-                )}
-                    </Box>
-
-                    <AdminMainButton
-                            sx={{...ButtonStyle , backgroundColor : 'success.dark' , 
-                            '&:hover' : {
-                                backgroundColor: 'warning'
-                                },
+                    {uploadedImagePage && (
+                        <img
+                            src={URL.createObjectURL(uploadedImagePage)}
+                            alt="Uploaded Image"
+                            style={{
+                                width: '200px',
+                                height: '200px',
+                                marginTop: '20px'
                             }}
-                            title='Save'
-                            type='custom'
-                            appearance='primary'
-                            icon={<AddCircleOutlineIcon />}
-                            disabled={isSubmitDisabled}
-
-                            onClick={handleSubmitPage}
                         />
+                    )}
+                </Box>
 
-                        {
-                            isSubmitDisabled ? (
-                                <Typography sx = {{
-                                    color : 'error.main',
-                                    width : '100%',
-                                    fontWeight :'bold',
-                                    textAlign :'center'
-                                }}>
-                                    Please fill the all Info
-                                </Typography>
-                            ) : null
-                        }
+                <AdminMainButton
+                    sx={{ ...ButtonStyle, backgroundColor: 'success.dark', '&:hover': { backgroundColor: 'warning' } }}
+                    title='Save'
+                    type='custom'
+                    appearance='primary'
+                    icon={<AddCircleOutlineIcon />}
+                    disabled={isSubmitDisabled}
+                    onClick={handleSubmitPage}
+                />
+
+                {isSubmitDisabled && (
+                    <Typography sx={{
+                        color: 'error.main',
+                        width: '100%',
+                        fontWeight: 'bold',
+                        textAlign: 'center'
+                    }}>
+                        Please fill all the Info
+                    </Typography>
+                )}
             </Box>
         </StyledAddNewPage>
     );
 };
 
 AddNewPage.propTypes = {
-    WepProject_id: propTypes.string,
-}
+    WepProject_id: propTypes.string.isRequired,
+    onPageAdded: propTypes.func.isRequired,
+};
 
 export default AddNewPage;

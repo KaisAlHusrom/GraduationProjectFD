@@ -8,23 +8,17 @@ import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import StylesCategory from '../sections/EmptyDesign/EditPage/Drawers/DrawersNew/StylesCategory.jsx';
 import UploadImageButton from '../../Admin/Components/UploadImageButton/UploadImageButton.jsx';
-import PropTypes from 'prop-types'; // Proptypes ekledik
-import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions.js';
-import { Height } from '@mui/icons-material';
-
-
+import PropTypes from 'prop-types'; 
+import { ButtonStyle, ModalTitleStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions.js';
 
 const StyledStyleBox = styled(Box)(
-    ({ theme }) => ({
+    () => ({
         borderRadius: '10px',
         boxShadow: "rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;",
         padding: (theme) => theme.spacing(4),
+        textAlign : 'center'
         })
 );
-
-
-
-
 
 const StyleBox = ({
     name_of_design,
@@ -40,7 +34,7 @@ const StyleBox = ({
     const [image , setImage] = useState()
     return (
         <StyledStyleBox>
-            <Typography component="div" variant='h3' color = "text.default" sx={{textAlign: 'center', padding: '10px', fontWeight: 'bold', borderBottom: '1px solid #eee' }}>
+            <Typography color = "text.default" sx = {ModalTitleStyle}>
                 {name_of_design}
             </Typography>
 

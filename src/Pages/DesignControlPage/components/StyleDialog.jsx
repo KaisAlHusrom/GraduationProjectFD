@@ -2,15 +2,12 @@ import { Dialog, DialogContent, DialogActions, Button, Box } from '@mui/material
 import { styled } from '@mui/system';
 
 const StyledStyleDialog = styled(Box)({
-  backgroundColor: '#092635',
+  backgroundColor: '#111111',
 });
 
 const StyleDialog = ({ title, OpenState, children }) => {
   const [open, setOpen] = OpenState;
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
 
   const handleClose = () => {
     setOpen(false);
@@ -24,7 +21,9 @@ const StyleDialog = ({ title, OpenState, children }) => {
         sx={{
           '& .MuiDialog-paper': {
             maxWidth: '1000px',
-            width: '1000px',
+            minWidth : '800px',
+            backgroundColor: 'theme.background.default',
+
           },
         }}
       >

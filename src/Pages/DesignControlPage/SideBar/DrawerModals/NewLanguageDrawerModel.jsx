@@ -14,6 +14,7 @@ import CustomGrid from  '../../../../Components/CustomGrid/CustomGrid'
 //MUI
 import {
     Box,
+    Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -22,11 +23,14 @@ import { styled } from '@mui/system'
 import FilterAltOutlinedIcon from '@mui/icons-material/FilterAltOutlined';
 import RadioButtonCheckedOutlinedIcon from '@mui/icons-material/RadioButtonCheckedOutlined';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
+import { ModalTitleStyle } from '../../sections/EmptyDesign/StylesFunctions/SetStylesFunctions'
 
 //Styled Components
 const StyledNewLanguageDrawerModel = styled(Box)(
     ({ theme }) => ({
-        padding: theme.spacing(8) 
+        padding: theme.spacing(8),
+        textAlign: 'center',
+
     })
 )
 
@@ -37,6 +41,7 @@ const StyledOfFiltering = styled(Box)(
         justifyContent: 'center',
         color:'white',
         marginBottom: '20px',
+        marginTop : '20px',
     })
 )
 const customSearchStyle = {
@@ -79,8 +84,11 @@ const NewLanguageDrawerModel = () => {
     
     return (
         <StyledNewLanguageDrawerModel>
-        
+            <Typography color = "text.default" sx = {ModalTitleStyle}>
+                    Select Language
+            </Typography>
             <StyledOfFiltering>
+                
             <SearchInput className="custom-search-input" style={customSearchStyle} />
                 <AdminMainButton
                 title="Filter"

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 export default function useFetchData(
     fetchDataFunc,
@@ -75,7 +75,7 @@ export default function useFetchData(
                                 setData(prev => [...prev, ...res.rows]);
                             }
                         }
-                        setHasMore(() => res.rows.length > 0)
+                        setHasMore(() => res?.rows?.length > 0)
                         setLoading(() => false)
                     }   
                 }
@@ -87,8 +87,27 @@ export default function useFetchData(
 
         fetchData()
     }, [type, pageNumber, filters, sorts, fetchDataFunc, open, searchQuery, refetch, value, perPage])
+
+    const observer = useRef()
+    const lastDataRecord = useCallback(node => {
+        
+        if (loading) return 
+
+        if(observer.current) observer.current.disconnect()
+
+        observer.current = new IntersectionObserver(entries => {
+            if(entries[0].isIntersecting && hasMore) {
+                console.log("enter")
+                setPageNumber(prev => {
+                    return prev + 1
+                });
+            }
+        })
+
+        if (node) observer.current.observe(node)
+    }, [loading, hasMore, setPageNumber])
     
-    return { loading, error, hasMore, setPageNumber, data, setData, pageNumber, setRefetch}
+    return { loading, error, hasMore, setPageNumber, data, setData, pageNumber, setRefetch, lastDataRecord}
     
 }
 
