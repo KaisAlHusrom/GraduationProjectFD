@@ -8,7 +8,8 @@ import {
     CardMedia,
     Rating,
     Container,
-    Avatar
+    Avatar,
+    Grid
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -99,7 +100,18 @@ const ProductCard = (props) => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button variant='contained' fullWidth onClick={action} >Learn More</Button>
+                        <Grid container spacing={2}>
+                            <Grid item xxs={12} xs={12} sm={6} md={6}>
+                            <Button variant='contained' fullWidth onClick={action}>
+                                Learn More
+                            </Button>
+                            </Grid>
+                            <Grid item xxs={12} xs={12} sm={6} md={6}>
+                            <Button variant='contained' fullWidth color='error'>
+                                Add to Cart
+                            </Button>
+                            </Grid>
+                        </Grid>
                     </CardActions>
                 </Card>
             </Container>

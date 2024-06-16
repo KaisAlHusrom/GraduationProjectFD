@@ -10,19 +10,23 @@ import {
   TextField,
   List,
   ListItem,
-  ListItemText,
   IconButton,
   Badge,
   Dialog,
   DialogContent,
   Slide,
+  Popper,
+  Paper,
+  MenuList,
+  ClickAwayListener,
+  Grow
 } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { forwardRef, useMemo, useState } from 'react';
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +39,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CliserImageLogo from '../utils/CliserImageLogo';
 import { NewList } from '../data/CradsData';
+
 
 const StyledSearchBar = styled(TextField)(({ theme }) => ({
   display: 'flex',
@@ -61,20 +66,7 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-// Sample categories and their items
-const categories = {
-  "Category 1": [
-    { id: 1, name: "Item 1.1" },
-    { id: 2, name: "Item 1.2" },
-    { id: 3, name: "Item 1.3" },
-  ],
-  "Category 2": [
-    { id: 4, name: "Item 2.1" },
-    { id: 5, name: "Item 2.2" },
-    { id: 6, name: "Item 2.3" },
-  ],
-  // Add more categories as needed
-};
+
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -87,19 +79,44 @@ function NavBar() {
   const [searchValue, setSearchValue] = useState('');
   const [openSearch, setSearchOpen] = useState(false);
   const [openAccount, setAccountOpen] = useState(false);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef(null);
   const navigate = useNavigate();
 
-  const scrollToSection = (sectionId) => {
-    const sectionElement = document.getElementById(sectionId);
-    const offset = 128;
-    if (sectionElement) {
-      const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: 'smooth' });
-      window.scrollTo({
-        top: targetScroll,
-        behavior: 'smooth',
-      });
+  const handleToggle = () => {
+    setOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleCloseMenu = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
     }
+    setOpen(false);
+  };
+
+  const handleListKeyDown = (event) => {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setOpen(false);
+    } else if (event.key === 'Escape') {
+      setOpen(false);
+    }
+  };
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = useRef(open);
+  useEffect(() => {
+    if (prevOpen.current === true && open === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = open;
+  }, [open]);
+
+  const handleCategoryClick = (category) => {
+    // Add your logic for handling category click
+    console.log(`Category clicked: ${category.category_name}`);
+    setOpen(false);
   };
 
   const handleSearchChange = (event) => {
@@ -301,101 +318,135 @@ function NavBar() {
             }}
           >
             <Container maxWidth="lg">
-              <Toolbar
-                variant="regular"
-                sx={(theme) => ({
+            <Toolbar
+              variant="regular"
+              sx={(theme) => ({
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                flexShrink: 0,
+                borderRadius: '999px',
+                bgcolor:
+                  theme.palette.mode === 'light'
+                    ? 'rgba(255, 255, 255, 0.4)'
+                    : 'rgba(0, 0, 0, 0.4)',
+                backdropFilter: 'blur(24px)',
+                maxHeight: 40,
+                border: '1px solid',
+                borderColor: 'divider',
+              })}
+            >
+              <Box
+                sx={{
+                  flexGrow: 1,
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
-                  flexShrink: 0,
-                  borderRadius: '999px',
-                  bgcolor:
-                    theme.palette.mode === 'light'
-                      ? 'rgba(255, 255, 255, 0.4)'
-                      : 'rgba(0, 0, 0, 0.4)',
-                  backdropFilter: 'blur(24px)',
-                  maxHeight: 40,
-                  border: '1px solid',
-                  borderColor: 'divider',
-                })}
+                  ml: '-18px',
+                  px: 0,
+                }}
               >
-                <Box
-                  sx={{
-                    flexGrow: 1,
-                    display: 'flex',
-                    alignItems: 'center',
-                    ml: '-18px',
-                    px: 0,
-                  }}
-                >
-                  <CliserImageLogo HandleMainButton={handleMainClick} />
-                  <Box sx={{ display: { xxs: 'none', xs: 'none', sm: "none", md: 'flex' } }}>
-                    <IconButton
-                      onClick={handleHomeClick}
-                    >
-                      <HomeIcon />
-                    </IconButton>
-                    <MenuItem
-                      onClick={() => scrollToSection('Cards')}
-                      sx={{ py: '6px', px: '12px' }}
-                    >
-                      <Typography variant="body2" color="text.primary">
-                        Items
-                      </Typography>
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => scrollToSection("Footer")}
-                      sx={{ py: '6px', px: '12px' }}
-                    >
-                      <Typography variant="body2" color="text.primary">
-                        FAQ
-                      </Typography>
-                    </MenuItem>
-                  </Box>
+                <CliserImageLogo HandleMainButton={handleMainClick} />
+                <Box sx={{ display: { xxs: 'none', xs: 'none', sm: 'none', md: 'flex' } }}>
+                  <IconButton onClick={handleHomeClick}>
+                    <HomeIcon />
+                  </IconButton>
+                  <Button
+                    ref={anchorRef}
+                    id="composition-button"
+                    aria-controls={open ? 'composition-menu' : undefined}
+                    aria-expanded={open ? 'true' : undefined}
+                    aria-haspopup="true"
+                    onClick={handleToggle}
+                    sx={{ py: '6px', px: '12px' }}
+                  >
+                    <Typography variant="body2" color="text.primary">
+                      Caegories
+                    </Typography>
+                  </Button>
+                  <Popper
+                    open={open}
+                    anchorEl={anchorRef.current}
+                    role={undefined}
+                    placement="bottom-start"
+                    transition
+                    disablePortal
+                  >
+                    {({ TransitionProps, placement }) => (
+                      <Grow
+                        {...TransitionProps}
+                        style={{
+                          transformOrigin:
+                            placement === 'bottom-start' ? 'left top' : 'left bottom',
+                        }}
+                      >
+                        <Paper>
+                          <ClickAwayListener onClickAway={handleCloseMenu}>
+                            <MenuList
+                              autoFocusItem={open}
+                              id="composition-menu"
+                              aria-labelledby="composition-button"
+                              onKeyDown={handleListKeyDown}
+                            >
+                              {NewList.flatMap(product =>
+                                product.categories.map(category => (
+                                  <MenuItem
+                                    key={category.id}
+                                    onClick={() => handleCategoryClick(category)}
+                                  >
+                                    {category.category_name}
+                                  </MenuItem>
+                                ))
+                              )}
+                            </MenuList>
+                          </ClickAwayListener>
+                        </Paper>
+                      </Grow>
+                    )}
+                  </Popper>
                 </Box>
-                <Box sx={{
+              </Box>
+              <Box
+                sx={{
                   display: { xxs: 'none', xs: 'none', md: 'flex' },
                   gap: 0.5,
                   alignItems: 'center',
                 }}
+              >
+                <StyledSearchBar
+                  label="Search"
+                  variant="outlined"
+                  value={searchValue}
+                  onChange={handleSearchChange}
+                  size='small'
+                />
+                <AdminMainButton
+                  appearance='iconButton'
+                  type='custom'
+                  icon={<ShoppingCartIcon />}
+                  onClick={handleCartClick}
+                  title='Cart'
+                  badgeContent={itemsCount}
+                />
+                <Button
+                  color="primary"
+                  variant="outlined"
+                  size="small"
+                  component="a"
+                  onClick={handleLoginClick}
                 >
-                  <StyledSearchBar
-                    label="Search"
-                    variant="outlined"
-                    value={searchValue}
-                    onChange={handleSearchChange}
-                    size='small'
-                  />
-                  <AdminMainButton
-                    appearance='iconButton'
-                    type='custom'
-                    icon={<ShoppingCartIcon />}
-                    onClick={handleCartClick}
-                    title='Cart'
-                    badgeContent={itemsCount}
-                  />
-
-                  <Button
-                    color="primary"
-                    variant="outlined"
-                    size="small"
-                    component="a"
-                    onClick={handleLoginClick}
-                  >
-                    Sign in
-                  </Button>
-
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    size="small"
-                    component="a"
-                    onClick={handleSignUpClick}
-                  >
-                    Sign up
-                  </Button>
-                </Box>
-              </Toolbar>
+                  Sign in
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  component="a"
+                  onClick={handleSignUpClick}
+                >
+                  Sign up
+                </Button>
+              </Box>
+            </Toolbar>
             </Container>
           </AppBar>
         )}

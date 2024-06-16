@@ -3,7 +3,7 @@ import { useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     Box, Typography, Container,
-    Grid, IconButton, Divider
+    Grid, IconButton, Divider, Button
 } from '@mui/material'
 import { styled } from '@mui/system'
 import ProductCard from '../ProductCard'
@@ -11,6 +11,9 @@ import { NewList, productList } from '../../data/CradsData'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
 import { ReviewCalculateSMA, shuffleArray } from '../../utils/functions'
+import useFetchData from '../../../../Helpers/customHooks/useFetchData'
+import { fetchUserProducts } from '../../../../Services/UserServices/Services/productsUsersService'
+import { writeFilterObject } from '../../../../Helpers/filterData'
 
 //Styled Components
 const StyledProductsTape = styled(Box)(
@@ -60,6 +63,9 @@ const ProductsTape = ({ title, Cat }) => {
     const handleLearnMoreClick = (productId) => {
         navigate(`/cliser-digital-market/productView/${productId}`)
     }
+    const handleAllproductsClick = ()=>{
+        navigate(`/cliser-digital-market/Products`)
+    }
     const scrollContainerRef = useRef(null)
 
     const scroll = (direction) => {
@@ -70,46 +76,64 @@ const ProductsTape = ({ title, Cat }) => {
         }
     }
 
+    // TODO: will do this later
+    // const filters = useMemo(() => {
+    //     return [
+    //         writeFilterObject('categories', 'many-to-many', '=', "", "", "", "", [categoryId])
+    //     ]
+    // }, [categoryId])
+    // const {
+    //     loading: productsDownload,
+    //     data: products,
+    // } = useFetchData(fetchUserProducts, 'all', filters, null)
+    // console.log(products)
 
-    const filteredProducts = useMemo(() => {
-        if (Cat) {
-            return NewList.filter(product => 
-                product.categories.some(category => category.category_name === Cat)
-            );
-        } else {
-            return shuffleArray(NewList);
-        }
-    }, [Cat]);
-
-    console.log(filteredProducts)
+    console.log(Cat)
 
     return (
         <StyledProductsTape>
             <Container sx={{ paddingTop: '20px' }} maxWidth="lg">
-                <Grid Container >
-                <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                    {title}
-                </Typography>
+                <Grid>
+                    <Grid container spacing={2} justifyContent="space-between" alignItems="center">
+                        <Grid item xxs={12} xs={6} md={6}>
+                            <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                            {title}
+                            </Typography>
+                        </Grid>
+                        <Grid item xxs={12} xs={6} md={6} display="flex" justifyContent="flex-end">
+                            <Button variant='contained' size='large' onClick={handleAllproductsClick} >
+                                All Products
+                            </Button>
+                        </Grid>
+                    </Grid>
+                
                 <Divider />
                 <Box sx={{ position: 'relative' }}>
                     <ScrollButton style={{ left: 0 }} onClick={() => scroll('left')}>
                         <ArrowBackIosIcon />
                     </ScrollButton>
                     <ScrollContainer ref={scrollContainerRef}>
-                        {filteredProducts.map((product, index) => (
-                            <Grid key={index} item xs={12} sm={6} md={4} lg={4}>
-                                <ProductCard
-                                    title={product.product_name}
-                                    description={product.product_short_description}
-                                    image={product.product_media}
-                                    price={product.product_price}
-                                    rating={ReviewCalculateSMA(product.product_reviews)}
-                                    creator={`${product.user.first_name} ${product.user.last_name}`}
-                                    category={product.categories}
-                                    action={() => handleLearnMoreClick(product.id)}
-                                />
-                            </Grid>
-                        ))}
+                        {
+                            Cat?.products && Cat?.products?.length > 0 
+                            ?
+                                Cat?.products.map((product, key) => {
+                                        return (
+                                            <Grid key={key} item xs={12} sm={8} md={6} lg={4}>
+                                                <ProductCard
+                                                    title={product.product_name}
+                                                    description={product.product_short_description}
+                                                    image={product.product_media}
+                                                    price={product.product_price}
+                                                    rating={ReviewCalculateSMA(product.product_reviews)}
+                                                    creator={`${product.user.first_name} ${product.user.last_name}`}
+                                                    category={product.categories}
+                                                    action={() => handleLearnMoreClick(product.id)}
+                                                />
+                                            </Grid>
+                                        )
+                                    })
+                            : <></>
+                        }
                     </ScrollContainer>
                     <ScrollButton style={{ right: 0 }} onClick={() => scroll('right')}>
                         <ArrowForwardIosIcon />
