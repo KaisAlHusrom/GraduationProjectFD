@@ -1,5 +1,5 @@
 //React
-import { useMemo, useRef } from 'react'
+import { useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     Box, Typography, Container,
@@ -7,10 +7,10 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import ProductCard from '../ProductCard'
-import { NewList, productList } from '../../data/CradsData'
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { ReviewCalculateSMA, shuffleArray } from '../../utils/functions'
+import { ReviewCalculateSMA, shuffleArray} from '../../utils/functions'
 import useFetchData from '../../../../Helpers/customHooks/useFetchData'
 import { fetchUserProducts } from '../../../../Services/UserServices/Services/productsUsersService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
@@ -120,6 +120,7 @@ const ProductsTape = ({ title, Cat }) => {
                                         return (
                                             <Grid key={key} item xs={12} sm={8} md={6} lg={4}>
                                                 <ProductCard
+                                                    AddToCartId={product.id}
                                                     title={product.product_name}
                                                     description={product.product_short_description}
                                                     image={product.product_media}

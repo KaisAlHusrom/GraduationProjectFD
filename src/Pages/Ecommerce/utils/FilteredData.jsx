@@ -69,6 +69,7 @@ const FilteredData = (props) => {
             {filteredProducts.map((product, index) => (
                 <Grid key={index} item xs={12} sm={6} md={6} lg={4}>
                     <ProductCard
+                        AddToCartId={product.id}
                         title={product.product_name}
                         description={product.product_short_description}
                         image={product.product_media}

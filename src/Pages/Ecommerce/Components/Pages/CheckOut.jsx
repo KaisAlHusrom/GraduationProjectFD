@@ -1,5 +1,6 @@
 //React
 import { useMemo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
 } from 'react-redux'
@@ -17,10 +18,12 @@ import {
 import { styled } from '@mui/system'
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 
 
 //propTypes 
 import propTypes from 'prop-types'
+import CliserImageLogo from '../../utils/CliserImageLogo';
 
 
 
@@ -48,6 +51,7 @@ function getStepContent(step) {
 
 const CheckOut = () => {
     const [activeStep, setActiveStep] = useState(0);
+    const navigate = useNavigate();
 
     const cartItems = useMemo(() => {
         const cart_data = JSON.parse(localStorage.getItem("cart_data"));
@@ -65,6 +69,9 @@ const CheckOut = () => {
     const handleBack = () => {
         setActiveStep(activeStep - 1);
     };
+    const handleBackToMain =() => {
+        navigate("/cliser-digital-market")
+    }
 
     return (
         <StyledCheckOut>
@@ -87,6 +94,23 @@ const CheckOut = () => {
                     gap: 4,
                 }}
                 >
+                    <Box
+                        sx={{
+                        display: 'flex',
+                        alignItems: 'end',
+                        height: 150,
+                        }}
+                    >
+                        <Button
+                        startIcon={<ArrowBackRoundedIcon />}
+                        component="a"
+                        onClick={handleBackToMain}
+                        sx={{ ml: '-8px' }}
+                        >
+                        Back to
+                        <CliserImageLogo HandleMainButton={handleBackToMain}/>
+                        </Button>
+                    </Box>
                     <Box
                         sx={{
                         display: 'flex',
@@ -297,7 +321,7 @@ const CheckOut = () => {
                                 endIcon={<ChevronRightRoundedIcon />}
                                 onClick={handleNext}
                                 sx={{
-                                width: { xxs: '100%', sm: 'fit-content' },
+                                width: { xxs: '100%', md: 'fit-content' },
                                 }}
                             >
                                 {activeStep === steps.length - 1 ? 'Place order' : 'Next'}

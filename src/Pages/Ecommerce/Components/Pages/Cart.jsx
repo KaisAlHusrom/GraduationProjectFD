@@ -11,11 +11,11 @@ import {
 // propTypes
 import propTypes from 'prop-types';
 import CustomCard from '../UI/CustomCard';
-import { CartData } from '../../data/CartData';
 
 // Import the utility function
 import { renderCartItem } from '../../utils/RenderCartItems';
 import ProductsTape from '../UI/ProductsTape';
+import { useCart } from '../../utils/CartContext';
 
 const getProductById = (productId) => {
     return NewList.find(product => product.id === productId);
@@ -23,27 +23,13 @@ const getProductById = (productId) => {
 
 const Cart = () => {
     const navigate = useNavigate();
+    const { cartItems, removeFromCart } = useCart();
     const [CartTotal, setCartTotal] = useState(0);
-    const [cartItems, setCartItems] = useState(() => {
-        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
-        if (cart_data) {
-            return cart_data;
-        }
-        return [];
-    });
     const [discountCode, setDiscountCode] = useState('');
     const [discountAmount, setDiscountAmount] = useState(0);
 
     const handleRemoveCartBtn = (productId) => {
-        const updatedCartItems = cartItems.filter(id => id !== productId);
-        setCartItems(updatedCartItems);
-        localStorage.setItem("cart_data", JSON.stringify(updatedCartItems));
-
-        const index = CartData.indexOf(productId);
-        if (index > -1) {
-            CartData.splice(index, 1);
-        }
-        window.location.reload();
+        removeFromCart(productId)
     };
 
     const total = useCallback(() => {

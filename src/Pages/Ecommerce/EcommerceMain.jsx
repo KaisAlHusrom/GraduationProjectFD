@@ -25,6 +25,8 @@ import propTypes from 'prop-types'
 import { Outlet, useLocation} from 'react-router-dom';
 import useEffectFetchData from '../../Helpers/customHooks/useEffectFetchData'
 import { fetchUserProductsCategories } from '../../Services/UserServices/Services/productCategoriesUsersService'
+import {CartProvider } from '../Ecommerce/utils/CartContext'
+import ProfileFooter from '../NewWebSite/Components/ProfileFooter/ProfileFooter'
 
 
 //Context
@@ -52,16 +54,19 @@ const EcommerceMain = () => {
 
 
     return (
+        <CartProvider>
         <CliserMarketContext.Provider value={{
             categories,
             categoriesDownload
         }}>
-            <StyledEcommerceMain>
-                {!isCheckoutPage && <NavBar />}
-                <Outlet />
-                <Footer />
-            </StyledEcommerceMain>
+                <StyledEcommerceMain>
+                    {!isCheckoutPage && <NavBar />}
+                    <Outlet />
+                    <ProfileFooter />
+                </StyledEcommerceMain>
+
         </CliserMarketContext.Provider>
+            </CartProvider >
     );
 };
 

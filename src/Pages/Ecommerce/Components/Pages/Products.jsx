@@ -20,6 +20,7 @@ import { NewList } from '../../data/CradsData'
 import SideBar from '../UI/SideBar'
 import FilteredData from '../../utils/FilteredData'
 
+
 //Styled Components
 
 

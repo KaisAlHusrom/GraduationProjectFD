@@ -22,6 +22,7 @@ import MainSlider from '../MainSlider'
 import ProductsTape from '../UI/ProductsTape'
 import { useCliserMarketContext } from '../../EcommerceMain'
 
+
 //Styled Components
 const StyledCliserDigitalMarketHomePage = styled(Box)(
     () => ({
@@ -52,7 +53,7 @@ const CliserDigitalMarketHomePage = () => {
                 >
                     {/* <ProductsTape title="Recommended" Cat="Web Page Front-End Templates" /> */}
                     {
-                        !categoriesDownload && categories && categories?.length > 0 
+                        !categoriesDownload && categories && categories?.length > 0
                         ?
                             categories.map((category, key) => {
                                 return (

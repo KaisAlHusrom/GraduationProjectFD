@@ -13,6 +13,7 @@ import {
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useCart } from '../utils/CartContext';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -22,6 +23,7 @@ import propTypes from 'prop-types';
 import config from "../../../../Config.json"
 
 import { mediaFolderName } from '../../../Services/UserServices/Services/productsMediaUsersService';
+import { useNavigate } from 'react-router-dom';
 // Styled Components
 const StyledProductCard = styled(Box)(
     () => ({
@@ -34,11 +36,16 @@ const StyledProductCard = styled(Box)(
 );
 
 const ProductCard = (props) => {
-    const { title, description, image, action, price, rating, creator, category } = props;
+    const navigate = useNavigate();
+    const { AddToCartId,title, description, image, action, price, rating, creator, category } = props;
     // Ensure image is an array
     const mediaArray = Array.isArray(image) ? image : [];
+    const { addToCart } = useCart();
 
-    
+    const handleAddToCart = () => {
+        addToCart(AddToCartId);
+        navigate('/cliser-digital-market/Cart');
+      };
 
     return (
         <StyledProductCard>
@@ -107,7 +114,7 @@ const ProductCard = (props) => {
                             </Button>
                             </Grid>
                             <Grid item xxs={12} xs={12} sm={6} md={6}>
-                            <Button variant='contained' fullWidth color='error'>
+                            <Button variant='contained' fullWidth color='error' onClick={handleAddToCart}>
                                 Add to Cart
                             </Button>
                             </Grid>
@@ -120,6 +127,7 @@ const ProductCard = (props) => {
 };
 
 ProductCard.propTypes = {
+    AddToCartId:propTypes.number,
     title: propTypes.string.isRequired,
     description: propTypes.string.isRequired,
     image: propTypes.array.isRequired,

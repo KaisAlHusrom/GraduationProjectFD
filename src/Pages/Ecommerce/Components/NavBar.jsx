@@ -26,7 +26,7 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
@@ -40,13 +40,16 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CliserImageLogo from '../utils/CliserImageLogo';
 import { NewList } from '../data/CradsData';
 import { useSelector } from 'react-redux';
+import { useCart } from '../utils/CartContext'; // Make sure the path is correct
 
 const StyledSearchBar = styled(TextField)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center', // Center the label vertically
   justifyContent: 'center', // Center horizontally
   borderRadius: '20px', // Adding rounded corners
-  backgroundColor: '#606060', // Adding background color
+  backgroundColor: theme.palette.mode === 'light'
+    ? 'rgba(255, 255, 255, 0.4)'
+    : 'rgba(0, 0, 0, 0.4)', // Adding background color
   '& .MuiInputLabel-root': {
     fontSize: '0.9rem', // Smaller label font size
   },
@@ -66,14 +69,12 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
-
-
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function NavBar() {
-  //get the user if logged
+  // Get the user if logged
   const user = useSelector(state => state.authSlice.user);
 
   const theme = useTheme();
@@ -85,6 +86,8 @@ function NavBar() {
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const navigate = useNavigate();
+
+  const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -106,7 +109,7 @@ function NavBar() {
     }
   };
 
-  // return focus to the button when we transitioned from !open -> open
+  // Return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);
   useEffect(() => {
     if (prevOpen.current === true && open === false) {
@@ -158,11 +161,6 @@ function NavBar() {
   const handleSignUpClick = () => {
     navigate('/auth/sign-up');
   };
-
-  const itemsCount = useMemo(() => {
-    const count = JSON.parse(localStorage.getItem('cart_data'))?.length || 0;
-    return count;
-  }, []);
 
   return (
     <div>
@@ -233,11 +231,11 @@ function NavBar() {
               </AppBar>
               <DialogContent>
                 <StyledSearchBar
-                    label="Search"
-                    variant="outlined"
-                    value={searchValue}
-                    onChange={handleSearchChange}
-                    fullWidth
+                  label="Search"
+                  variant="outlined"
+                  value={searchValue}
+                  onChange={handleSearchChange}
+                  fullWidth
                 />
                 <Accordion disableGutters elevation={0} square sx={{ backgroundColor: "transparent" }}>
                   <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
@@ -321,99 +319,99 @@ function NavBar() {
             }}
           >
             <Container maxWidth="lg">
-            <Toolbar
-              variant="regular"
-              sx={(theme) => ({
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                flexShrink: 0,
-                borderRadius: '999px',
-                bgcolor:
-                  theme.palette.mode === 'light'
-                    ? 'rgba(255, 255, 255, 0.4)'
-                    : 'rgba(0, 0, 0, 0.4)',
-                backdropFilter: 'blur(24px)',
-                maxHeight: 40,
-                border: '1px solid',
-                borderColor: 'divider',
-              })}
-            >
-              <Box
-                sx={{
-                  flexGrow: 1,
+              <Toolbar
+                variant="regular"
+                sx={(theme) => ({
                   display: 'flex',
                   alignItems: 'center',
-                  ml: '-18px',
-                  px: 0,
-                }}
+                  justifyContent: 'space-between',
+                  flexShrink: 0,
+                  borderRadius: '999px',
+                  bgcolor:
+                    theme.palette.mode === 'light'
+                      ? 'rgba(255, 255, 255, 0.4)'
+                      : 'rgba(0, 0, 0, 0.4)',
+                  backdropFilter: 'blur(24px)',
+                  maxHeight: 40,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                })}
               >
-                <CliserImageLogo HandleMainButton={handleMainClick} />
-                <Box sx={{ display: { xxs: 'none', xs: 'none', sm: 'none', md: 'flex' } }}>
-                  <IconButton onClick={handleHomeClick}>
-                    <HomeIcon />
-                  </IconButton>
-                  <Button
-                    ref={anchorRef}
-                    id="composition-button"
-                    aria-controls={open ? 'composition-menu' : undefined}
-                    aria-expanded={open ? 'true' : undefined}
-                    aria-haspopup="true"
-                    onClick={handleToggle}
-                    sx={{ py: '6px', px: '12px' }}
-                  >
-                    <Typography variant="body2" color="text.primary">
-                      Caegories
-                    </Typography>
-                  </Button>
-                  <Popper
-                    open={open}
-                    anchorEl={anchorRef.current}
-                    role={undefined}
-                    placement="bottom-start"
-                    transition
-                    disablePortal
-                  >
-                    {({ TransitionProps, placement }) => (
-                      <Grow
-                        {...TransitionProps}
-                        style={{
-                          transformOrigin:
-                            placement === 'bottom-start' ? 'left top' : 'left bottom',
-                        }}
-                      >
-                        <Paper>
-                          <ClickAwayListener onClickAway={handleCloseMenu}>
-                            <MenuList
-                              autoFocusItem={open}
-                              id="composition-menu"
-                              aria-labelledby="composition-button"
-                              onKeyDown={handleListKeyDown}
-                            >
-                              {NewList.flatMap(product =>
-                                product.categories.map(category => (
-                                  <MenuItem
-                                    key={category.id}
-                                    onClick={() => handleCategoryClick(category)}
-                                  >
-                                    {category.category_name}
-                                  </MenuItem>
-                                ))
-                              )}
-                            </MenuList>
-                          </ClickAwayListener>
-                        </Paper>
-                      </Grow>
-                    )}
-                  </Popper>
+                <Box
+                  sx={{
+                    flexGrow: 1,
+                    display: 'flex',
+                    alignItems: 'center',
+                    ml: '-18px',
+                    px: 0,
+                  }}
+                >
+                  <CliserImageLogo HandleMainButton={handleMainClick} />
+                  <Box sx={{ display: { xxs: 'none', xs: 'none', sm: 'none', md: 'flex' } }}>
+                    <IconButton onClick={handleHomeClick}>
+                      <HomeIcon />
+                    </IconButton>
+                    <Button
+                      ref={anchorRef}
+                      id="composition-button"
+                      aria-controls={open ? 'composition-menu' : undefined}
+                      aria-expanded={open ? 'true' : undefined}
+                      aria-haspopup="true"
+                      onClick={handleToggle}
+                      sx={{ py: '6px', px: '12px' }}
+                    >
+                      <Typography variant="body2" color="text.primary">
+                        Categories
+                      </Typography>
+                    </Button>
+                    <Popper
+                      open={open}
+                      anchorEl={anchorRef.current}
+                      role={undefined}
+                      placement="bottom-start"
+                      transition
+                      disablePortal
+                    >
+                      {({ TransitionProps, placement }) => (
+                        <Grow
+                          {...TransitionProps}
+                          style={{
+                            transformOrigin:
+                              placement === 'bottom-start' ? 'left top' : 'left bottom',
+                          }}
+                        >
+                          <Paper>
+                            <ClickAwayListener onClickAway={handleCloseMenu}>
+                              <MenuList
+                                autoFocusItem={open}
+                                id="composition-menu"
+                                aria-labelledby="composition-button"
+                                onKeyDown={handleListKeyDown}
+                              >
+                                {NewList.flatMap(product =>
+                                  product.categories.map(category => (
+                                    <MenuItem
+                                      key={category.id}
+                                      onClick={() => handleCategoryClick(category)}
+                                    >
+                                      {category.category_name}
+                                    </MenuItem>
+                                  ))
+                                )}
+                              </MenuList>
+                            </ClickAwayListener>
+                          </Paper>
+                        </Grow>
+                      )}
+                    </Popper>
+                  </Box>
                 </Box>
-              </Box>
-              <Box
-                sx={{
-                  display: { xxs: 'none', xs: 'none', md: 'flex' },
-                  gap: 0.5,
-                  alignItems: 'center',
-                }}
+                <Box
+                  sx={{
+                    display: { xxs: 'none', xs: 'none', md: 'flex' },
+                    gap: 0.5,
+                    alignItems: 'center',
+                  }}
                 >
                   <StyledSearchBar
                     label="Search"
@@ -433,27 +431,26 @@ function NavBar() {
                   {
                     !user &&
                     <>
-                    <Button
-                      color="primary"
-                      variant="outlined"
-                      size="small"
-                      component="a"
-                      onClick={handleLoginClick}
-                    >
-                      Sign in
-                    </Button>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      size="small"
-                      component="a"
-                      onClick={handleSignUpClick}
+                      <Button
+                        color="primary"
+                        variant="outlined"
+                        size="small"
+                        component="a"
+                        onClick={handleLoginClick}
                       >
-                      Sign up
-                    </Button>
+                        Sign in
+                      </Button>
+                      <Button
+                        color="primary"
+                        variant="contained"
+                        size="small"
+                        component="a"
+                        onClick={handleSignUpClick}
+                      >
+                        Sign up
+                      </Button>
                     </>
                   }
-                  
                 </Box>
               </Toolbar>
             </Container>

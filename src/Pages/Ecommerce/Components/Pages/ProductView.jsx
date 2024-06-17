@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
-
 import config from "../../../../../Config.json"
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -19,7 +18,6 @@ import {
 
 import CustomCard from '../UI/CustomCard';
 import '../Styles/CustomSwiper.css';
-import { CartData } from '../../data/CartData';
 // import required modules
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 // Import Swiper styles
@@ -33,6 +31,7 @@ import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchDa
 import { fetchSpecificUserProducts } from '../../../../Services/UserServices/Services/productsUsersService';
 import { mediaFolderName } from '../../../../Services/UserServices/Services/productsMediaUsersService';
 import DateHelper from '../../../../Helpers/DateHelper';
+import { useCart } from '../../utils/CartContext';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,23 +56,11 @@ function CustomTabPanel(props) {
   const ProductView = () => {
     const [value, setValue] = useState(0);
     const Navigate = useNavigate();
-    const [cartItems, setCartItems] = useState(() => {
-      const cart_data = JSON.parse(localStorage.getItem("cart_data"));
-      if(cart_data) {
-        return cart_data;
-      }
-      return []
-    })
+    const { addToCart } = useCart();
 
     
     const handleAddCartBtn = () => {
-        // Update the list of product IDs with the new productId
-      const updatedCartItems = [...cartItems, product.id];
-      setCartItems(() => updatedCartItems);
-      localStorage.setItem("cart_data", JSON.stringify(updatedCartItems))
-
-      // Update the CartData with the new list of product IDs
-      CartData.push(product.id);
+      addToCart(product.id);
       Navigate('/cliser-digital-market/Cart')
     };
     
