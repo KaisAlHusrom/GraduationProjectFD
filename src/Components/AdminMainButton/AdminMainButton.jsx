@@ -70,7 +70,8 @@ const AdminMainButton = (props) => {
         drawerZIndex,
         menuPaperProps,
         component,
-        href
+        href,
+        popOverProps
     } = props
 
     //theme
@@ -150,7 +151,7 @@ const AdminMainButton = (props) => {
     }
 
     const StyledCustomPopover = {
-        marginTop: theme.spacing(1) // Adjust this value to add space between the button and popover
+        marginTop: theme.spacing(1),
     }
 
     const StyleOfIconButton = {
@@ -424,19 +425,22 @@ const AdminMainButton = (props) => {
                 type === "popover" 
                 ?
                 <Popover 
-                sx={StyledCustomPopover}
-                open={open} 
-                anchorEl={anchorEl} 
-                onClose={handleClosePopover}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-                elevation={0}
+                    sx={StyledCustomPopover}
+                    open={open} 
+                    anchorEl={anchorEl} 
+                    onClose={handleClosePopover}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    elevation={0}
+                    
+                    {...popOverProps}
+
                 >
                     {willShow}
                 </Popover>

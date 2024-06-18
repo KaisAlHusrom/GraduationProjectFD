@@ -22,6 +22,8 @@ import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import { useSelector } from 'react-redux';
 import { ReviewCalculateSMA } from '../../../../../../Ecommerce/utils/functions';
+import { useMemo } from 'react';
+import { productsImagesFolderName } from '../../../../../../../Services/AdminServices/Services/productsService';
 // Styled Components
 const StyledProductCard = styled(Card)(
     () => ({
@@ -43,6 +45,10 @@ const StyledProductCard = styled(Card)(
 const CustomProductCard = (props) => {
     const { product } = props;
     // Ensure image is an array
+    const mainImagePath = useMemo(() => {
+        return `${config.ServerImageRoute}/${productsImagesFolderName}/${product.product_main_image_name}`
+    }, [product.product_main_image_name])
+
     const mediaArray = Array.isArray(product?.product_media) ? product?.product_media : [];
 
     const rating = ReviewCalculateSMA(product?.product_reviews);
@@ -62,6 +68,15 @@ const CustomProductCard = (props) => {
                         modules={[Autoplay, Pagination, Navigation]}
                         className="mySwiper"
                     >
+                        <SwiperSlide>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={mainImagePath}
+                                alt={`Media for ${product.product_name}`}
+                                sx={{ maxHeight: 150, maxWidth: "100%", objectFit: "contain" }}
+                            />
+                        </SwiperSlide>
                         {mediaArray.map((media, index) => {
                             const imagePath = `${config.ServerImageRoute}/${mediaFolderName}/${media?.product_media_name}`;
                             const videoPath = `${config.ServerVideoRoute}/${mediaFolderName}/${media?.product_media_name}`;

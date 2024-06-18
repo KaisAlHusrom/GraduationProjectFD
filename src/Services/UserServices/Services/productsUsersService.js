@@ -49,7 +49,12 @@ export const fetchSpecificUserProducts = async (id) => {
  
     return row;
 }
- 
+
+export const fetchSpecificProductLoader = async ({params}) => {
+    const {idx} = params
+    const row = await fetchSpecificUserProducts(idx);
+    return {product: row}
+}
 //check if record is exist in the database
 export const checkSpecificUserProducts = async (id) => {
     const res = await checkIfRecordExistUserTemplate(ProductsUsersAxios, id);

@@ -1,28 +1,27 @@
 //React
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     Box, Typography, Container,
-    Grid, IconButton, Divider, Button
+    Grid, IconButton, Divider, Button, Skeleton
 } from '@mui/material'
 import { styled } from '@mui/system'
 import ProductCard from '../ProductCard'
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { ReviewCalculateSMA, shuffleArray} from '../../utils/functions'
-import useFetchData from '../../../../Helpers/customHooks/useFetchData'
-import { fetchUserProducts } from '../../../../Services/UserServices/Services/productsUsersService'
-import { writeFilterObject } from '../../../../Helpers/filterData'
+import { ReviewCalculateSMA} from '../../utils/functions'
+
+import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'
+import { fetchSpecificUserProductsCategories } from '../../../../Services/UserServices/Services/productCategoriesUsersService'
 
 //Styled Components
 const StyledProductsTape = styled(Box)(
     () => ({
         marginTop: 10,
-        backgroundColor: "#111111",
-        backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))",
         borderRadius: "15px",
-        overflow: 'hidden', // Prevent overflow
+        overflow: 'hidden', // Prevent overflow,
+        width: "100%",
     })
 )
 
@@ -77,18 +76,18 @@ const ProductsTape = ({ title, Cat }) => {
     }
 
     // TODO: will do this later
-    // const filters = useMemo(() => {
-    //     return [
-    //         writeFilterObject('categories', 'many-to-many', '=', "", "", "", "", [categoryId])
-    //     ]
-    // }, [categoryId])
-    // const {
-    //     loading: productsDownload,
-    //     data: products,
-    // } = useFetchData(fetchUserProducts, 'all', filters, null)
-    // console.log(products)
+    const params = useMemo(() => {
+        return [
+            Cat?.id
+        ]
+    }, [Cat])
+    const {
+        download: productsDownload,
+        data: updatedCat,
+    } = useEffectFetchData(fetchSpecificUserProductsCategories, params, true, true)
 
-    console.log(Cat)
+
+    // console.log(Cat)
 
     return (
         <StyledProductsTape>
@@ -114,26 +113,60 @@ const ProductsTape = ({ title, Cat }) => {
                     </ScrollButton>
                     <ScrollContainer ref={scrollContainerRef}>
                         {
-                            Cat?.products && Cat?.products?.length > 0 
+                            !productsDownload
                             ?
-                                Cat?.products.map((product, key) => {
-                                        return (
-                                            <Grid key={key} item xs={12} sm={8} md={6} lg={4}>
-                                                <ProductCard
-                                                    AddToCartId={product.id}
-                                                    title={product.product_name}
-                                                    description={product.product_short_description}
-                                                    image={product.product_media}
-                                                    price={product.product_price}
-                                                    rating={ReviewCalculateSMA(product.product_reviews)}
-                                                    creator={`${product.user.first_name} ${product.user.last_name}`}
-                                                    category={product.categories}
-                                                    action={() => handleLearnMoreClick(product.id)}
-                                                />
-                                            </Grid>
-                                        )
-                                    })
-                            : <></>
+                                updatedCat?.products && updatedCat?.products?.length > 0 
+                                ?
+                                    updatedCat?.products.map((product, key) => {
+                                            return (
+                                                <Grid key={key} item xs={12} sm={8} md={6} lg={4}>
+                                                    <ProductCard
+                                                        AddToCartId={product.id}
+                                                        title={product.product_name}
+                                                        description={product.product_short_description}
+                                                        image={product.product_media}
+                                                        mainImage={product.product_main_image_name}
+                                                        price={product.product_price}
+                                                        rating={ReviewCalculateSMA(product.product_reviews)}
+                                                        creator={`${product?.user?.first_name} ${product?.user?.last_name}`}
+                                                        category={product.categories}
+                                                        action={() => handleLearnMoreClick(product.id)}
+                                                    />
+                                                </Grid>
+                                            )
+                                        })
+                                : <Grid item xs={12} sm={8} md={6} lg={4}>
+                                        <Typography color={'info.main'}>
+                                            There are no products.
+                                        </Typography>
+                                    </Grid>
+                            :
+                            <>
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Skeleton
+                                    width={'100%'}
+                                    height={300}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Skeleton
+                                    width={'100%'}
+                                    height={300}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Skeleton
+                                    width={'100%'}
+                                    height={300}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Skeleton
+                                    width={'100%'}
+                                    height={300}
+                                />
+                            </Grid>
+                            </>
                         }
                     </ScrollContainer>
                     <ScrollButton style={{ right: 0 }} onClick={() => scroll('right')}>

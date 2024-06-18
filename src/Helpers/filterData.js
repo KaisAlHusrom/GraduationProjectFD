@@ -166,5 +166,4 @@ export const writeFilterObject = (column, type, process, value = "", startDate =
             "period": period,
             "relationValue": relationValue
         }
- 
 }

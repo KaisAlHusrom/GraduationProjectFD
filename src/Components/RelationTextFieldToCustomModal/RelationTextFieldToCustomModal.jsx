@@ -214,7 +214,7 @@ const RelationTextFieldToCustomModal = (props) => {
                     helperText={errorMessage}
                     value={searchQuery?.searchTerm}
                     onChange={handleChangeSearchQuery}
-                    label={columnName}
+                    label={relation?.label ? relation?.label : columnName}
                     name={columnName}
                     InputProps={{
                         ...params.InputProps,

@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Components
-import { NewList } from '../../data/CradsData';
+
 // MUI
 import {
     Box, Container, Grid, Typography, Divider, Button, TextField,
@@ -13,39 +13,19 @@ import propTypes from 'prop-types';
 import CustomCard from '../UI/CustomCard';
 
 // Import the utility function
-import { renderCartItem } from '../../utils/RenderCartItems';
 import ProductsTape from '../UI/ProductsTape';
 import { useCart } from '../../utils/CartContext';
-
-const getProductById = (productId) => {
-    return NewList.find(product => product.id === productId);
-};
+import RenderCartItem from '../RenderCartItem/RenderCartItem';
 
 const Cart = () => {
     const navigate = useNavigate();
-    const { cartItems, removeFromCart } = useCart();
-    const [CartTotal, setCartTotal] = useState(0);
+    const { cartItems, cartTotal } = useCart();
+
     const [discountCode, setDiscountCode] = useState('');
     const [discountAmount, setDiscountAmount] = useState(0);
 
-    const handleRemoveCartBtn = (productId) => {
-        removeFromCart(productId)
-    };
+    
 
-    const total = useCallback(() => {
-        let totalVal = 0;
-        cartItems.forEach(itemId => {
-            const product = getProductById(itemId);
-            if (product) {
-                totalVal += parseFloat(product.product_price);
-            }
-        });
-        setCartTotal(totalVal);
-    }, [cartItems]);
-
-    useEffect(() => {
-        total();
-    }, [cartItems, total]);
 
     const handleCheckOutClick = () => {
         navigate(`/cliser-digital-market/checkout`);
@@ -107,9 +87,14 @@ const Cart = () => {
                                     items={itemsPurchase}
                                     sx={{ marginBottom: 2 }}
                                 >
-                                    {cartItems.map((productId, index) => (
-                                        renderCartItem(productId, index, cartItems, handleRemoveCartBtn, navigate)
-                                    ))}
+                                    {cartItems.map((product, index) => (
+                                        <RenderCartItem
+                                                cartProduct={product}
+                                                key={index}
+                                                index={index}
+                                                forCart
+                                            />
+                                            ))}
                                 </CustomCard>
                                 <Box sx={{ width: '100%' }}>
                                     <Grid container spacing={2} justifyContent="space-between">
@@ -133,7 +118,7 @@ const Cart = () => {
                                                         <Button
                                                             variant='contained'
                                                             fullWidth
-                                                            size='large'
+                                                            size='small'
                                                             onClick={handleApplyDiscount}
                                                             sx={{ height: "100%" }}>
                                                             Apply
@@ -165,7 +150,7 @@ const Cart = () => {
                                                         </Box>
                                                         <Box>
                                                             <Typography variant="h5">
-                                                                ${CartTotal - discountAmount}
+                                                                ${cartTotal - discountAmount}
                                                             </Typography>
                                                         </Box>
                                                     </Grid>
@@ -186,7 +171,8 @@ const Cart = () => {
                         )}
                     </Box>
                 </Grid>
-                <Grid item xxs={12}>
+                <Divider width={'100%'} />
+                <Grid item xxs={12} mt={6}>
                     <ProductsTape title="You Might Like" />
                 </Grid>
             </Grid>

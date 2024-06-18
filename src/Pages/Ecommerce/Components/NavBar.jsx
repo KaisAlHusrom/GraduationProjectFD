@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import config from "../../../../Config.json"
 import {
   AppBar,
   Box,
@@ -19,14 +20,16 @@ import {
   Paper,
   MenuList,
   ClickAwayListener,
-  Grow
+  Avatar,
+  Grow,
+  Divider
 } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { forwardRef, useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components';
 import { useNavigate } from 'react-router-dom';
@@ -41,7 +44,11 @@ import CliserImageLogo from '../utils/CliserImageLogo';
 import { NewList } from '../data/CradsData';
 import { useSelector } from 'react-redux';
 import { useCart } from '../utils/CartContext'; // Make sure the path is correct
-
+import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
+import ToggleColorMode from '../../../Components/ToggleColorMode/ToggleColorMode';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import CategoriesPopover from './CategoriesPopover/CategoriesPopover';
+import { useCliserMarketContext } from '../EcommerceMain';
 const StyledSearchBar = styled(TextField)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center', // Center the label vertically
@@ -74,8 +81,16 @@ const Transition = forwardRef(function Transition(props, ref) {
 });
 
 function NavBar() {
+
+  const {categories} = useCliserMarketContext()
+
+
   // Get the user if logged
   const user = useSelector(state => state.authSlice.user);
+  const imagePath = useMemo(() => {
+    return `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${user?.profile_image}`;
+
+}, [user?.profile_image])
 
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -134,6 +149,9 @@ function NavBar() {
   };
 
   const handleAccountClick = () => {
+    if(user) {
+      navigate("/")
+    }
     setAccountOpen(true);
   };
 
@@ -242,16 +260,41 @@ function NavBar() {
                     <Typography>Categories</Typography>
                   </AccordionSummary>
                   <AccordionDetails>
-                    {NewList.flatMap(product =>
-                      product.categories.map(category => (
-                        <Button
-                          key={category.id}
-                          onClick={() => console.log(`Category clicked: ${category.category_name}`)}
-                          sx={{ width: '100%', justifyContent: 'flex-start' }}
-                        >
-                          {category.category_name}
-                        </Button>
-                      ))
+                    {categories?.map(mainCat =>{
+                      return (
+
+                        <>
+                        <Typography variant='h6' color='primary' 
+                        sx={{
+                            cursor: 'pointer',
+                            transition: "0.2s",
+                            "&:hover": {
+                                color: theme => theme.palette.primary.dark,
+                            }
+                        }}>
+                          {mainCat.category_name}
+                        </Typography>
+                        {
+                          mainCat.children.map(category => (
+                            <Typography
+                              key={category.id}
+                              variant='body1'
+                              sx={{
+                                  cursor: 'pointer',
+                                  transition: "0.2s",
+                                  "&:hover": {
+                                      color: theme => theme.palette.primary.main,
+                                  }
+                              }}
+                            >
+                              {category.category_name}
+                            </Typography>
+                          ))
+                        }
+                        <Divider />
+                        </>
+                      )
+                    }
                     )}
                   </AccordionDetails>
                 </Accordion>
@@ -348,22 +391,18 @@ function NavBar() {
                 >
                   <CliserImageLogo HandleMainButton={handleMainClick} />
                   <Box sx={{ display: { xxs: 'none', xs: 'none', sm: 'none', md: 'flex' } }}>
-                    <IconButton onClick={handleHomeClick}>
-                      <HomeIcon />
-                    </IconButton>
-                    <Button
-                      ref={anchorRef}
-                      id="composition-button"
-                      aria-controls={open ? 'composition-menu' : undefined}
-                      aria-expanded={open ? 'true' : undefined}
-                      aria-haspopup="true"
-                      onClick={handleToggle}
-                      sx={{ py: '6px', px: '12px' }}
-                    >
-                      <Typography variant="body2" color="text.primary">
-                        Categories
-                      </Typography>
-                    </Button>
+                    <AdminMainButton
+                      title="Categories"
+                      type='popover'
+                      appearance='primary'
+                      icon={<CategoryOutlinedIcon />}
+                      popOverProps={{
+                        elevation: 6
+                      }}
+                      willShow={
+                        <CategoriesPopover />
+                      }
+                    />
                     <Popper
                       open={open}
                       anchorEl={anchorRef.current}
@@ -420,6 +459,7 @@ function NavBar() {
                     onChange={handleSearchChange}
                     size='small'
                   />
+                  <ToggleColorMode />
                   <AdminMainButton
                     appearance='iconButton'
                     type='custom'
@@ -427,9 +467,14 @@ function NavBar() {
                     onClick={handleCartClick}
                     title='Cart'
                     badgeContent={itemsCount}
+                    sx={{
+                      marginRight: 1
+                    }}
                   />
                   {
-                    !user &&
+                    !user ? 
+
+
                     <>
                       <Button
                         color="primary"
@@ -450,6 +495,7 @@ function NavBar() {
                         Sign up
                       </Button>
                     </>
+                    : <Avatar onClick={handleHomeClick} src={imagePath} sx={{ cursor: 'pointer', width: 32, height: 32 }} /> 
                   }
                 </Box>
               </Toolbar>

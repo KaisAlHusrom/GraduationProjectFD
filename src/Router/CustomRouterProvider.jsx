@@ -49,6 +49,7 @@ import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/E
 import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 import { ProvideUser } from '../Services/AuthServices/authService';
 import PortfolioMain from '../Pages/NewWebSite/Pages/PortfolioMain/PortfolioMain';
+import { fetchSpecificProductLoader } from '../Services/UserServices/Services/productsUsersService';
 
 
 // ------------- NOTICES -------------
@@ -131,7 +132,7 @@ const router = createBrowserRouter(
                 {/* //? can visit without logging */}
                 <Route path="" element={<CliserDigitalMarketHomePage />} />
                 <Route path="Products" element={<Products />} />
-                <Route path="productView/:idx" element={<ProductView />} />
+                <Route path="productView/:idx" element={<ProductView />} loader={fetchSpecificProductLoader} />
                 <Route path="Cart" element={<Cart />} />
             </Route>
             

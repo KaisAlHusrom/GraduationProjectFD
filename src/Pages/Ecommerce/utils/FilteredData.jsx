@@ -28,11 +28,11 @@ const FilteredData = (props) => {
     const handleLearnMoreClick = (index) => {
         navigate(`/cliser-digital-market/productView/${index}`);
       };
-    const {products, category, price, rating, query} = props;
+    const {products, category, price, rating, query, lastData} = props;
     // Filtering based on query (search term)
     let filteredProducts = products;
     if (query) {
-        const searchTerm = query.toLowerCase();
+        const searchTerm = query?.searchTerm.toLowerCase();
         filteredProducts = filteredProducts.filter(
             product =>
                 product.product_name.toLowerCase().includes(searchTerm) ||
@@ -65,13 +65,15 @@ const FilteredData = (props) => {
     });
     }
     return (
-        <Grid container spacing={2}>
+        <Grid container spacing={2} >
             {filteredProducts.map((product, index) => (
-                <Grid key={index} item xs={12} sm={6} md={6} lg={4}>
+                <Grid key={index} item xs={12} sm={6} md={4} lg={3} 
+                    ref={products.length === index + 1 ? lastData : null}>
                     <ProductCard
                         AddToCartId={product.id}
                         title={product.product_name}
                         description={product.product_short_description}
+                        mainImage={product.product_main_image_name}
                         image={product.product_media}
                         price={product.product_price}
                         rating={ReviewCalculateSMA(product.product_reviews)}

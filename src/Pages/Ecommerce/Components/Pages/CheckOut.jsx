@@ -183,8 +183,8 @@ const CheckOut = () => {
                                 {steps.map((label) => (
                                 <Step
                                     sx={{
-                                    ':first-child': { pl: 0 },
-                                    ':last-child': { pr: 0 },
+                                    '&:first-of-type': { pl: 0 },
+                                    '&:last-child': { pr: 0 },
                                     }}
                                     key={label}
                                 >
@@ -206,7 +206,7 @@ const CheckOut = () => {
                             width: '100%',
                             alignItems: 'center',
                             justifyContent: 'space-between',
-                            ':last-child': { pb: 2 },
+                            '&:last-child': { pb: 2 },
                         }}
                         >
                         <div>
@@ -240,8 +240,8 @@ const CheckOut = () => {
                         {steps.map((label) => (
                             <Step
                             sx={{
-                                ':first-child': { pl: 0 },
-                                ':last-child': { pr: 0 },
+                                '&:first-of-type': { pl: 0 },
+                                '&:last-child': { pr: 0 },
                                 '& .MuiStepConnector-root': { top: { xxs: 6, sm: 12 } },
                             }}
                             key={label}

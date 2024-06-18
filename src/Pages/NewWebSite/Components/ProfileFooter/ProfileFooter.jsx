@@ -14,7 +14,9 @@ import PaymentMethods from './Subcomponents/PaymentMethods/PaymentMethods';
 import {
     Box,
     Container,
-    Typography
+    Typography,
+    Divider,
+    useMediaQuery
 } from '@mui/material'
 import { styled } from '@mui/system'
 
@@ -40,9 +42,7 @@ const StyledProfileFooter = styled(Box)(
         backgroundSize: '100% 100%',
         backgroundRepeat: 'no-repeat',
         width: "100%",
-        [theme.breakpoints.down("md")]: {
-            display: "none"
-        }
+
     })
 )
 
@@ -62,35 +62,49 @@ const CopyRightStyledBox = styled(Box)(
         justifyContent: 'center',
         alignItems: 'center',
         padding: theme.spacing(3),
-        width: '100%'
+        width: '100%',
+        [theme.breakpoints.down("md")]: {
+            marginBottom: theme.spacing(4)
+        }
+    })
+);
+
+const StyledBox = styled(Box)(
+    ({ theme }) => ({
+        display: 'flex',
+        justifyContent: 'space-evenly',
+        [theme.breakpoints.down("md")]: {
+            flexDirection: "column",
+            gap: theme.spacing(2)
+        }
     })
 );
 
 const ProfileFooter = () => {
 
-    
-
 
     return (
         <StyledProfileFooter>
             <Container maxWidth="xl">
-                <Box display={'flex'} justifyContent={'space-evenly'}>
+                <StyledBox >
 
                     <FooterMenu 
                         title="Cliser"
                         ListMenu={CliserMenu}
                         download={false}
                     />
+                    <Divider />
                     <FooterMenu 
                         title="Products"
                         fetchProductsCategories={true}
                     />
+                    <Divider />
                     {/* TODO: change this to web projects categories, or anything else */}
                     <FooterMenu 
                         title="Web Projects"
                         ListMenu={CliserMenu}
                     />
-
+                    <Divider />
                     <StyledSocialPaymentBox>
                         <SocialMedia 
                         />
@@ -100,7 +114,7 @@ const ProfileFooter = () => {
                         />
                     </StyledSocialPaymentBox>
                     
-                </Box>
+                </StyledBox>
                 <CopyRightStyledBox>
                     <Box  alignItems='center' display={'flex'} gap={1} >
                         <CopyrightIcon /> 

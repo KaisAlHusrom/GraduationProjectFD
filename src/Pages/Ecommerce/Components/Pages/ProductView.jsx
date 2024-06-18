@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useParams,useNavigate } from 'react-router-dom';
+import { useParams,useNavigate, useLoaderData } from 'react-router-dom';
 import config from "../../../../../Config.json"
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -55,24 +55,24 @@ function CustomTabPanel(props) {
 
   const ProductView = () => {
     const [value, setValue] = useState(0);
-    const Navigate = useNavigate();
+    // const Navigate = useNavigate();
     const { addToCart } = useCart();
 
     
     const handleAddCartBtn = () => {
-      addToCart(product.id);
-      Navigate('/cliser-digital-market/Cart')
+      addToCart({
+            id: product.id,
+            product_name: product.product_name,
+            product_price: product.product_price,
+        });
+      // Navigate('/cliser-digital-market/Cart')
     };
     
 
-    const { idx } = useParams();
-    const params = useMemo(() => {
-      return [idx]
-    }, [idx])
-    const {data: product} = useEffectFetchData(fetchSpecificUserProducts, params, true, true)
+    const {product} = useLoaderData()
 
     // const product = NewList.find((product) => product.id === idx);
-    if (!idx || !product) {
+    if (!product) {
       return <Typography variant="h2">Product not found</Typography>;
     }
     

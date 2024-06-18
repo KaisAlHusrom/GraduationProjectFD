@@ -53,8 +53,11 @@ const CliserDigitalMarketHomePage = () => {
                 >
                     {/* <ProductsTape title="Recommended" Cat="Web Page Front-End Templates" /> */}
                     {
-                        !categoriesDownload && categories && categories?.length > 0
+                        !categoriesDownload
                         ?
+
+                            categories && categories?.length > 0
+                            ?
                             categories.map((category, key) => {
                                 return (
                                     <ProductsTape key={key} 
@@ -63,11 +66,9 @@ const CliserDigitalMarketHomePage = () => {
                                     />
                                 )
                             })
+                            :
+                            null
                         : <>
-                        {/* <Grid item xxs={12}>
-                            <Skeleton width={'100%'} height={400}></Skeleton>
-
-                        </Grid>
                         <Grid item xxs={12}>
                             <Skeleton width={'100%'} height={400}></Skeleton>
 
@@ -75,7 +76,11 @@ const CliserDigitalMarketHomePage = () => {
                         <Grid item xxs={12}>
                             <Skeleton width={'100%'} height={400}></Skeleton>
 
-                        </Grid> */}
+                        </Grid>
+                        <Grid item xxs={12}>
+                            <Skeleton width={'100%'} height={400}></Skeleton>
+
+                        </Grid>
                         </>
                     }
                     {/* <ProductsTape title="WordPress" Cat="" />

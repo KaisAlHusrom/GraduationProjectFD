@@ -4,13 +4,15 @@ import
     useContext,
 useMemo }from 'react'
 
+import {writeFilterObject} from "../../Helpers/filterData"
+
 import {
     
 } from 'react-redux'
 
 //Components
 import NavBar from './Components/NavBar'
-import Footer from './Components/Footer'
+
 
 //MUI
 import {
@@ -47,11 +49,18 @@ const EcommerceMain = () => {
     const params = useMemo(() => {
         return [
             null,
+            null,
+            [
+                writeFilterObject("is_in_the_main_page", "bool", "=", "true")
+            ],
+            null,
+            null,
+            20
         ]
     }, [])
 
     const {data: categories, download: categoriesDownload} = useEffectFetchData(fetchUserProductsCategories, params, true, false )
-
+    console.log(categories)
 
     return (
         <CartProvider>

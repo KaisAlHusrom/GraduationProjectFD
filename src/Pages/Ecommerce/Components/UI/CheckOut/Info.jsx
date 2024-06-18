@@ -17,6 +17,10 @@ import { styled } from '@mui/system'
 //propTypes 
 import propTypes from 'prop-types'
 import TotalCart from '../../../utils/TotalCart'
+import useEffectFetchData from '../../../../../Helpers/customHooks/useEffectFetchData'
+import { fetchSpecificUserProducts } from '../../../../../Services/UserServices/Services/productsUsersService'
+import { useCart } from '../../../utils/CartContext'
+import RenderCartItem from '../../RenderCartItem/RenderCartItem'
 
 //Styled Components
 const StyledInfo = styled(Box)(
@@ -30,34 +34,9 @@ const StyledInfo = styled(Box)(
 
 
 const Info = () => {
-    const cartItems = useMemo(() => {
-        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
-        if(cart_data) {
-            return cart_data;
-        }
-        return []
-    }, []);
+    const {cartItems, cartTotal} = useCart()
     
-    const renderCartItem = (productId, index)=>{
-        const product = getProductById(productId)
-        return(
-            <div>
-            {product && (
-                    <ListItem key={index} sx={{ py: 1, px: 0 }}>
-                        <ListItemText
-                        sx={{ mr: 2 }}
-                        primary={product.title}
-                        secondary={product.description}
-                        />
-                        <Typography variant="body1" fontWeight="medium">
-                        ${product.price}
-                        </Typography>
-                    </ListItem>
-            )}
-            </div>
-        );
-    };
-
+    
     return (
         <StyledInfo>
             <>
@@ -65,11 +44,14 @@ const Info = () => {
                 Total
             </Typography>
             <Typography variant="h4" gutterBottom>
-                $<TotalCart/>
+                ${cartTotal}
             </Typography>
             <List disablePadding>
-                {cartItems.map((productId, index) => (
-                    renderCartItem(productId, index)
+                {cartItems.map((product, index) => (
+                    <RenderCartItem
+                    cartProduct={product}
+                        key={index}
+                    />
                 ))}
             </List>
             </>
@@ -82,3 +64,4 @@ Info.propTypes = {
 }
 
 export default Info;
+

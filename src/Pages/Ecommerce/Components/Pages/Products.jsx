@@ -1,5 +1,5 @@
 //React
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
     
@@ -19,6 +19,8 @@ import propTypes from 'prop-types'
 import { NewList } from '../../data/CradsData'
 import SideBar from '../UI/SideBar'
 import FilteredData from '../../utils/FilteredData'
+import useFetchData from '../../../../Helpers/customHooks/useFetchData'
+import { fetchUserProducts } from '../../../../Services/UserServices/Services/productsUsersService'
 
 
 //Styled Components
@@ -27,16 +29,31 @@ import FilteredData from '../../utils/FilteredData'
 
 const Products = () => {
 
-    const [selectedCategory, setSelectedCategory] = useState(null);
-    const [selectedPrice, setSelectedPrice] = useState(null);
-    const [selectedRating, setSelectedRating] = useState(null);
-    const [query, setQuery] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
+    const [selectedPrice, setSelectedPrice] = useState("");
+    const [selectedRating, setSelectedRating] = useState("");
+    const [query, setQuery] = useState({
+      columnName: "product_name",
+      searchTerm: ""
+    });
 
-  
+    const [filters, setFilters] = useState([])
+    const [sorts, setSorts] = useState([])
+
+    const {
+      data: products, 
+      download: productsDownload,
+      lastDataRecord,
+    } = useFetchData(fetchUserProducts, 'all', filters, sorts, true, query )
+
+    console.log(products)
 
   
     const handleInputChange = (event) => {
-      setQuery(event.target.value);
+      setQuery(prev => {
+        const updated = {...prev, searchTerm: event.target.value}
+        return updated
+      });
     };
   
     const handleCategoryChange = (event) => {
@@ -51,12 +68,7 @@ const Products = () => {
       setSelectedRating(event.target.value);
     };
   
-  
-    const result = <FilteredData products={NewList}  
-    category={selectedCategory}  
-    price={selectedPrice}  
-    ratins={selectedRating} 
-    query={query} />
+
 
     return (
       <div>
@@ -64,6 +76,7 @@ const Products = () => {
           {/* Sidebar */}
           <Grid item xs={12} md={2} marginTop={15} border={1}>
             <SideBar 
+            products={products}
             query={query} 
             handleInputChange={handleInputChange} 
             handleCategoryChange={handleCategoryChange} 
@@ -72,7 +85,14 @@ const Products = () => {
           </Grid>
           {/* Main Content */}
           <Grid item xs={12} md={10} marginTop={15}>
-            {result}
+            <FilteredData
+              products={products}  
+              lastData={lastDataRecord}
+              category={selectedCategory}  
+              price={selectedPrice}  
+              ratins={selectedRating} 
+              query={query}
+            />
           </Grid>
         </Grid>
       </div>
