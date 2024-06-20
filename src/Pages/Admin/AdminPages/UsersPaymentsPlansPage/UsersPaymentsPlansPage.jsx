@@ -31,6 +31,7 @@ import { styled } from '@mui/system'
 import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
 import { fetchPaymentPlans } from '../../../../Services/AdminServices/Services/paymentPlans'
 import { fetchUsers } from '../../../../Services/AdminServices/Services/usersService'
+import { fetchBankCards } from '../../../../Services/AdminServices/Services/bankCardsService'
 // Styled Components
 const StyledUsersPaymentsPlansPage = styled(Box)(
     () => ({
@@ -54,6 +55,13 @@ const relationships = {
             fetch_all_data: fetchUsers,
             add_to_add_form: true,
         },
+        {
+            "field_name": "bank_card",
+            "fetched_column": "card_number",
+            "related_table_id": "id",
+            fetch_all_data: fetchBankCards,
+            add_to_add_form: true,
+        },
     ],
     manyToMany:[
     ],
@@ -64,8 +72,9 @@ const relationships = {
 const columns = {
     "id": "pk",
     'payment_plan': "many-to-one",
+    'bank_card': "many-to-one",
     'user': "many-to-one",
-    'status': "enum|active,inactive", //TODO: this column what will be??
+    'status': "enum|monthly,yearly",
     'expire_date': "date",
     'is_active': "bool",
     'bill_date': "date",

@@ -23,12 +23,19 @@ import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import SubscriptionsOutlinedIcon from '@mui/icons-material/SubscriptionsOutlined';
 import WebOutlinedIcon from '@mui/icons-material/WebOutlined';
+import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined';
 
 const adminPageLinks = [
     {
         title: "Users",
         icon: <PeopleOutlineOutlinedIcon color='primary.contrastText' />,
         path: "users",
+        nestedMenu: null
+    },
+    {
+        title: "Users Bank Cards",
+        icon: <CreditCardOutlinedIcon color='primary.contrastText' />,
+        path: "bank-cards",
         nestedMenu: null
     },
     {
@@ -98,6 +105,11 @@ const adminPageLinks = [
                 title: "Orders",
                 icon: <BorderColorOutlinedIcon color='primary.contrastText' />,
                 path: "orders"
+            },
+            {
+                title: "Orders Items",
+                icon: <Inventory2OutlinedIcon color='primary.contrastText' />,
+                path: "order-items"
             },
         ],
         

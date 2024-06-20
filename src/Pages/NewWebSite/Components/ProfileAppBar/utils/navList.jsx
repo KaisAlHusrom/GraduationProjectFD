@@ -17,8 +17,8 @@ export const navList = [
         icon: ImportContactsIcon
     },
     {
-        path: "/profile/orders",
-        title: "My Orders",
+        path: "/profile/orders-billing",
+        title: "Orders And Billing",
         icon: BorderColorOutlinedIcon
     },
     {

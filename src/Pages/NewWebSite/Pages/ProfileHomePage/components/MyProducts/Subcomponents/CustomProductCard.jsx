@@ -31,7 +31,7 @@ const StyledProductCard = styled(Card)(
         height: "100%",
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
+        // alignItems: 'center',
         justifyContent: 'center',
         maxWidth: '600',
         borderRadius: '10px',

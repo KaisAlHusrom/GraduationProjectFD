@@ -131,6 +131,7 @@ const ProductsTape = ({ title, Cat }) => {
                                                         creator={`${product?.user?.first_name} ${product?.user?.last_name}`}
                                                         category={product.categories}
                                                         action={() => handleLearnMoreClick(product.id)}
+                                                        creatorImage={product.user.profile_image}
                                                     />
                                                 </Grid>
                                             )

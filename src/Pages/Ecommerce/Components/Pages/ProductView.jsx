@@ -27,11 +27,12 @@ import 'swiper/css/navigation';
 import ChipSet from '../UI/ChipSet';
 import ProductsTape from '../UI/ProductsTape';
 import { calculateAverageRating } from '../../utils/functions';
-import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData';
-import { fetchSpecificUserProducts } from '../../../../Services/UserServices/Services/productsUsersService';
+
+import {  productsImagesFolderName } from '../../../../Services/UserServices/Services/productsUsersService';
 import { mediaFolderName } from '../../../../Services/UserServices/Services/productsMediaUsersService';
 import DateHelper from '../../../../Helpers/DateHelper';
 import { useCart } from '../../utils/CartContext';
+import { usersProfileImagesFolderName } from '../../../../Services/AdminServices/Services/usersService';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,7 +57,7 @@ function CustomTabPanel(props) {
   const ProductView = () => {
     const [value, setValue] = useState(0);
     // const Navigate = useNavigate();
-    const { addToCart } = useCart();
+    const { addToCart, cartItems } = useCart();
 
     
     const handleAddCartBtn = () => {
@@ -68,8 +69,12 @@ function CustomTabPanel(props) {
       // Navigate('/cliser-digital-market/Cart')
     };
     
+    
 
     const {product} = useLoaderData()
+
+    const mainImagePath = `${config.ServerImageRoute}/${productsImagesFolderName}/${product?.product_main_image_name}`
+    const creatorImage = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${product?.user?.profile_image}`
 
     // const product = NewList.find((product) => product.id === idx);
     if (!product) {
@@ -144,6 +149,19 @@ function CustomTabPanel(props) {
                     modules={[Autoplay, Pagination, Navigation]}
                     className="mySwiper"
                   >
+                      <SwiperSlide >
+                          <Box
+                            component="img"
+                            sx={{
+                              position: 'relative',
+                              maxHeight: '63vh',
+                              width: 'auto',
+                              maxWidth: '100%',
+                              objectFit: 'contain'
+                            }}
+                            src={mainImagePath}
+                          />
+                      </SwiperSlide>
                     {product.product_media.map((media, index) => {
                       const imagePath = `${config.ServerImageRoute}/${mediaFolderName}/${media?.product_media_name}`;
                       const videoPath = `${config.ServerVideoRoute}/${mediaFolderName}/${media?.product_media_name}`;
@@ -262,7 +280,13 @@ function CustomTabPanel(props) {
                         },
                       }}
                     >
-                      Add to Cart
+                      {
+                      cartItems.find(item => item.id === product.id)
+                      ?
+                      "Remove from Cart"
+                      :
+                      "Add to Cart"
+                      }
                     </Button>
                 </div>
               </CustomCard>
@@ -274,7 +298,7 @@ function CustomTabPanel(props) {
                     <Divider />
                     <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1 }}>Creator</Typography>
                     <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px' ,paddingTop:1}}>
-                      <Avatar src={product} sx={{ width: 32, height: 32 }} /> {product?.user?.first_name}
+                      <Avatar src={creatorImage} sx={{ width: 32, height: 32 }} /> {product?.user?.first_name}
                     </Typography>
                 </Grid>
               </CustomCard> 

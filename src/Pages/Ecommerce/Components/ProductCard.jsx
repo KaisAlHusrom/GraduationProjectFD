@@ -30,6 +30,7 @@ import { AdminMainButton } from '../../../Components';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { position } from 'stylis';
+import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
 
 // Styled Components
 const StyledProductCard = styled(Box)(
@@ -44,12 +45,15 @@ const StyledProductCard = styled(Box)(
 
 const ProductCard = (props) => {
     const navigate = useNavigate();
-    const { AddToCartId,title, description, image, action, price, rating, creator, category, mainImage } = props;
+    const { AddToCartId,title, description, image, action, price, rating, creator, category, mainImage, creatorImage } = props;
 
     // Ensure image is an array
     const mainImagePath = useMemo(() => {
         return `${config.ServerImageRoute}/${productsImagesFolderName}/${mainImage}`
     }, [mainImage])
+
+    const creatorImagePath = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${creatorImage}`
+
 
     console.log(category)
 
@@ -136,7 +140,7 @@ const ProductCard = (props) => {
                             ${price}
                         </Typography>
                         <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px', paddingTop: 1 }}>
-                            <Avatar src={image?.[0]?.product_media_name} sx={{ width: 32, height: 32 }} /> {creator}
+                            <Avatar src={creatorImagePath} sx={{ width: 32, height: 32 }} /> {creator}
                         </Typography>
                         <AdminMainButton
                             title='Add To Cart'

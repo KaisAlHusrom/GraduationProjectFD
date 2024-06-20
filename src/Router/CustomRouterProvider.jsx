@@ -50,6 +50,8 @@ import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 import { ProvideUser } from '../Services/AuthServices/authService';
 import PortfolioMain from '../Pages/NewWebSite/Pages/PortfolioMain/PortfolioMain';
 import { fetchSpecificProductLoader } from '../Services/UserServices/Services/productsUsersService';
+import MyPaymentPlans from '../Pages/NewWebSite/Pages/MyPaymentPlans/MyPaymentPlans';
+import MyOrdersAndBilling from '../Pages/NewWebSite/Pages/MyOrdersAndBilling/MyOrdersAndBilling';
 
 
 // ------------- NOTICES -------------
@@ -106,6 +108,8 @@ const router = createBrowserRouter(
                 >
                     <Route path="" element={<ProfileHomePage />} />
                     <Route path="web-projects" element={<MyWebSite />} />
+                    <Route path="payment-plan" element={<MyPaymentPlans />} />
+                    <Route path="orders-billing" element={<MyOrdersAndBilling />} />
                     <Route path="create-new-project" element={<CreateWebsite />} />
                 </Route>
                 <Route path="portfolio/:user_id" element={<PortfolioMain />} />

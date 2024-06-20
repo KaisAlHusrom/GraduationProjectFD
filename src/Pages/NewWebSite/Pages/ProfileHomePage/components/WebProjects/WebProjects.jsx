@@ -35,6 +35,7 @@ import CustomWebProductCard from './Subcomponents/CustomWebProductCard';
 import { fetchUserWebProject } from '../../../../../../Services/UserServices/Services/webProjectsUsersService';
 import { getSlidesPerView } from '../../Utils/getSlidesPerView';
 import useScreenWidth from '../../../../../../Helpers/customHooks/useScreenWidth'
+import WebProjectCard from '../../../../Components/WebProjectCard/WebProjectCard';
 
 
 //Styled Components
@@ -60,6 +61,7 @@ const StyledSwiperSlide = styled(SwiperSlide)(
     ({ theme }) => ({
         backgroundColor: theme.palette.background.default,
         color: theme.palette.text.primary,
+        textAlign: 'left'
     })
 );
 
@@ -117,8 +119,9 @@ const WebProjects = () => {
                                 data.map((webProject, key) => {
                                     return (
                                         <StyledSwiperSlide key={key}>
-                                            <CustomWebProductCard
-                                                webProject={webProject}
+                                            <WebProjectCard
+                                                project={webProject}
+                                                profilePage={true}
                                             />
                                         </StyledSwiperSlide>
                                     )

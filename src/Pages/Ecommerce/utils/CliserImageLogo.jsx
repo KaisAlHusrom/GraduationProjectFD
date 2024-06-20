@@ -18,14 +18,10 @@ import propTypes from 'prop-types'
 
 //Styled Components
 
-const logoStyle = {
-    width: '80px',
-    height: '80px',
-    cursor: 'pointer',
-  };
 
 
-const CliserImageLogo = ({HandleMainButton}) => {
+
+const CliserImageLogo = ({HandleMainButton, style}) => {
     const themeMode = useSelector(state => state.modeSlice.mode)
     let src;
     if (themeMode === 'light') {
@@ -33,6 +29,14 @@ const CliserImageLogo = ({HandleMainButton}) => {
     } else {
         src = CliserDark; // Set the source to CliserDark.jpg for dark mode
     }
+
+    const logoStyle = {
+        width: '80px',
+        height: '80px',
+        cursor: 'pointer',
+        ...style
+    };
+
     return <img src={src} style={logoStyle} alt="logo of Cliser" onClick={HandleMainButton} />
 
 };

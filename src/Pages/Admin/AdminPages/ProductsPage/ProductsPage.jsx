@@ -37,7 +37,6 @@ import { fetchProductsFeatures } from '../../../../Services/AdminServices/Servic
 import { fetchProductsMedia } from '../../../../Services/AdminServices/Services/productsMedia'
 import { fetchProductsUsedSkills } from '../../../../Services/AdminServices/Services/productsUsedSkills'
 import { fetchProductsReviews } from '../../../../Services/AdminServices/Services/productReviewsService'
-import { writeFilterObject } from '../../../../Helpers/filterData'
 // Styled Components
 const StyledProductsPage = styled(Box)(
     () => ({

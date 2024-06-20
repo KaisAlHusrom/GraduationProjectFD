@@ -67,7 +67,7 @@ const MyProductsTab = () => {
                         )
                         })
                     :
-                    <Grid xxs={12}>
+                    <Grid item xxs={12}>
                         <Typography color={'info.main'}>
                             There are no products.
                         </Typography>

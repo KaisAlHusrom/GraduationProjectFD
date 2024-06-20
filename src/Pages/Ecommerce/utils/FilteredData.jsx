@@ -78,6 +78,7 @@ const FilteredData = (props) => {
                         price={product.product_price}
                         rating={ReviewCalculateSMA(product.product_reviews)}
                         creator={`${product.user.first_name} ${product.user.last_name}`}
+                        creatorImage={product.user.profile_image}
                         category={product.categories}
                         action={() => handleLearnMoreClick(product.id)}
                     />
