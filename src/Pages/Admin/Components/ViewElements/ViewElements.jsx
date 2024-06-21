@@ -50,6 +50,7 @@ import propTypes from 'prop-types'
 import ChangeImage from '../ChangeImage/ChangeImage';
 import { defaultDrawerWidth } from '../../../../Components/CustomDrawer/CustomDrawer';
 import ElementsCategories from '../ElementsCategories/ElementsCategories';
+import HandleElementProps from '../HandleElementProps/HandleElementProps';
 
 
 
@@ -161,6 +162,13 @@ const SubElementComp = ({parent}) => {
 
     const [anchorChangeContentMenu, setAnchorChangeContentMenu] = useState(null)
     const [anchorChangeImageMenu, setAnchorChangeImageMenu] = useState(null)
+
+    //design props
+    const [addElementProps, setAddElementProps] = useState(null)
+    const handleOpenAddElementProperty = (target) => {
+        setAddElementProps(target)
+    }
+
     const closeMenus = useCallback(() => {
         setAnchorEl(null)
 
@@ -172,6 +180,9 @@ const SubElementComp = ({parent}) => {
 
         //change Image Menu
         setAnchorChangeImageMenu(null)
+
+        //change design props
+        setAddElementProps(null)
     }, [])
 
     const processRecursive = useCallback((func, parameters=[]) => {
@@ -241,6 +252,7 @@ const SubElementComp = ({parent}) => {
         setSettingsModalOpen(() => true)
     }
 
+    
 
     const contextMenuItems = [
         !parent?.element_type?.not_has_end_tag && {
@@ -327,6 +339,15 @@ const SubElementComp = ({parent}) => {
                 onClick: handleShowInfo,
             },
             putDivider: true
+        },
+        {
+            text: "Add Property",
+            icon: <InfoOutlinedIcon color='primary' />,
+            shortcut: "Ctrl I",
+            eventListener: {
+                onClick:(e) =>  handleOpenAddElementProperty(e.currentTarget),
+            },
+            putDivider: false
         },
         parent?.children?.length === 0 && parent?.element_type?.element_type_name !== "Image" && {
             text: "Change Content",
@@ -435,6 +456,17 @@ const SubElementComp = ({parent}) => {
                     handleCloseMenus={closeMenus}
                 />
             </CustomMenu>
+
+            {/* add element props */}
+            <CustomMenu
+                menuOpenState={[addElementProps, setAddElementProps]}
+            >
+                <HandleElementProps 
+                    parentElementId={parentElementId}
+                    handleCloseMenus={closeMenus}
+                />
+            </CustomMenu>
+
 
             {/* change image of image element */}
             <CustomMenu

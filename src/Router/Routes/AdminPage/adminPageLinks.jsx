@@ -141,6 +141,11 @@ const adminPageLinks = [
                 path: "designs"
             },
             {
+                title: "Designs Prop Values",
+                icon: <StarBorderOutlinedIcon color='primary.contrastText' />,
+                path: "designs-props-values"
+            },
+            {
                 title: "Element Settings",
                 icon: <CodeOffOutlinedIcon color='primary.contrastText' />,
                 path: "element-settings"

@@ -26,7 +26,7 @@ import { AdminMainButton } from '../../../../../../Components'
 import DateHelper from '../../../../../../Helpers/DateHelper'
 import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData'
 
-import { fetchSpecificUserUsersPaymentPlans, fetchUserUsersPaymentPlans } from '../../../../../../Services/UserServices/Services/userPaymentPlanUsersService'
+import {  fetchUserUsersPaymentPlans } from '../../../../../../Services/UserServices/Services/userPaymentPlanUsersService'
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
 //Styled Components
 const StyledCurrentPaymentPlan = styled(Box)(
@@ -86,7 +86,7 @@ const CurrentPaymentPlan = () => {
         ]
     }, [user])
 
-    const {data: userPaymentPlans} = useEffectFetchData(fetchUserUsersPaymentPlans, params, true, false)
+    const {data: userPaymentPlans, download} = useEffectFetchData(fetchUserUsersPaymentPlans, params, true, false)
     const currentPaymentPlan = userPaymentPlans && userPaymentPlans[0]
 
     const billingInfo = useMemo(() => {
@@ -104,75 +104,83 @@ const CurrentPaymentPlan = () => {
 
     console.log(userPaymentPlans)
     return (
-        currentPaymentPlan
+        !download
         ?
-            <StyledCurrentPaymentPlan>
-                <StyledCurrentPaymentPlanInfo elevation={1}>
-                    <CardHeader 
-                        // sx={{
-                        //     display: 'flex',
-                        //     alignItems: 'center',
-                        // }}
-                        avatar={<CliserImageLogo style={{width: 60, height: 60, cursor: undefined}} />}
-                        action={
-                            <AdminMainButton
-                                icon={expanded ? <KeyboardArrowUpIcon /> :<KeyboardArrowDownIcon  />}
-                                title="Manage Plan"
-                                appearance="primary"
-                                type="custom"
-                                onClick={handleExpandClick}
-                            />
-                        }
-                        title={currentPaymentPlan.payment_plan.payment_plan_title}
-                        subheader={billingInfo}
-                    />
-                    <Collapse in={expanded} timeout="auto" unmountOnExit sx={{
-                            padding: theme => `${theme.spacing(0)} ${theme.spacing(4)}`,
-                            
-                        }}>
-                        <Box>
-                            <Typography variant='subtitle1'>
-                                Hello {user.first_name},
-                            </Typography>
-                            <Typography variant='subtitle1'>
-                                Thank you to subscribe to <Typography component='span' color='secondary'>{currentPaymentPlan.payment_plan.payment_plan_title} Plan</Typography>
-                            </Typography>
-                        </Box>
-                        <CardContent sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}>
-                            <StyledHeaders>
-                                <Typography variant='subtitle1' letterSpacing={1.5}>
-                                    {/* TODO: correct the date */}
-                                    Next payment date: {DateHelper.formattedDate(currentPaymentPlan.bill_date)} 
+            currentPaymentPlan
+            ?
+                <StyledCurrentPaymentPlan>
+                    <StyledCurrentPaymentPlanInfo elevation={1}>
+                        <CardHeader 
+                            // sx={{
+                            //     display: 'flex',
+                            //     alignItems: 'center',
+                            // }}
+                            avatar={<CliserImageLogo style={{width: 60, height: 60, cursor: undefined}} />}
+                            action={
+                                <AdminMainButton
+                                    icon={expanded ? <KeyboardArrowUpIcon /> :<KeyboardArrowDownIcon  />}
+                                    title="Manage Plan"
+                                    appearance="primary"
+                                    type="custom"
+                                    onClick={handleExpandClick}
+                                />
+                            }
+                            title={currentPaymentPlan.payment_plan.payment_plan_title}
+                            subheader={billingInfo}
+                        />
+                        <Collapse in={expanded} timeout="auto" unmountOnExit sx={{
+                                padding: theme => `${theme.spacing(0)} ${theme.spacing(4)}`,
+                                
+                            }}>
+                            <Box>
+                                <Typography variant='subtitle1'>
+                                    Hello {user.first_name},
                                 </Typography>
-                                <Typography variant='subtitle1' letterSpacing={1.5}>
-                                    {/* TODO: correct the date */}
-                                    Billed using {currentPaymentPlan.bank_card.card_number}
+                                <Typography variant='subtitle1'>
+                                    Thank you to subscribe to <Typography component='span' color='secondary'>{currentPaymentPlan.payment_plan.payment_plan_title} Plan</Typography>
                                 </Typography>
-                            </StyledHeaders>
-                            <StyledBody>
-                                <Button>
-                                    Cancel
-                                </Button>
-                                <Button>
-                                    Edit
-                                </Button>
-                            </StyledBody>
+                            </Box>
+                            <CardContent sx={{
+                                display: 'flex',
+                                justifyContent: 'space-between',
+                            }}>
+                                <StyledHeaders>
+                                    <Typography variant='subtitle1' letterSpacing={1.5}>
+                                        {/* TODO: correct the date */}
+                                        Next payment date: {DateHelper.formattedDate(currentPaymentPlan.bill_date)} 
+                                    </Typography>
+                                    <Typography variant='subtitle1' letterSpacing={1.5}>
+                                        {/* TODO: correct the date */}
+                                        Billed using {currentPaymentPlan.bank_card.card_number}
+                                    </Typography>
+                                </StyledHeaders>
+                                <StyledBody>
+                                    <Button>
+                                        Cancel
+                                    </Button>
+                                    <Button>
+                                        Edit
+                                    </Button>
+                                </StyledBody>
 
-                        </CardContent>
-                    </Collapse>
-                    
-                </StyledCurrentPaymentPlanInfo>
+                            </CardContent>
+                        </Collapse>
+                        
+                    </StyledCurrentPaymentPlanInfo>
+                </StyledCurrentPaymentPlan>
+            :
+            <StyledCurrentPaymentPlan >
+                    <Typography color={'info.main'}>
+                    You currently do not have an active subscription.
+                    </Typography>
             </StyledCurrentPaymentPlan>
         :
         <StyledCurrentPaymentPlan>
             <StyledCurrentPaymentPlanInfo>
                 <Skeleton width={'100%'} height={100} />
             </StyledCurrentPaymentPlanInfo>
-
         </StyledCurrentPaymentPlan>
+
     );
 };
 

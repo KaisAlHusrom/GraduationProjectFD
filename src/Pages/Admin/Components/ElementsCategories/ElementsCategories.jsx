@@ -112,7 +112,6 @@ const ElementsCategories = (props) => {
         // setDownload
     } = useEffectFetchData(fetchElementTypesCategories, params, drawerOpen ? drawerOpen : elementStructureDrawer);
     
-    console.log(data)
 
     //open element drawer
     const [elementsDrawerOpen, setElementsDrawerOpen] = useState(false)

@@ -20,6 +20,7 @@ import PreviewOutlinedIcon from '@mui/icons-material/PreviewOutlined';
 import { fetchElementTypesRows } from '../../../../Services/AdminServices/Services/elementsTypesService'
 import { fetchDesignCategories } from '../../../../Services/AdminServices/Services/designCategoriesService'
 import { writeFilterObject } from '../../../../Helpers/filterData'
+import { fetchDesignedElementsPropValues } from '../../../../Services/AdminServices/Services/designedElementsPropValuesService'
 
 // Styled Components
 const StyledDesignsPage = styled(Box)(
@@ -55,6 +56,13 @@ const relationships = {
             add_to_add_form: false,
             fetch_all_data: fetchDesigns, 
         },
+        {
+            "field_name": "design_prop_values",
+            "fetched_column": "design_prop_value",
+            "related_table_id": "id",
+            add_to_add_form: false,
+            fetch_all_data: fetchDesignedElementsPropValues, 
+        },
     ]
 }
 
@@ -63,6 +71,7 @@ const columns = {
     'design_image': "image",
     'design_title': "string",
     'design_description': "text",
+    'design_prop_values': "one-to-many",
     'element_content': "string",
     'element_type': "many-to-one",
     'category': "many-to-one",

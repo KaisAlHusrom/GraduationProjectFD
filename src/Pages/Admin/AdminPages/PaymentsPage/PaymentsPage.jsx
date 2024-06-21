@@ -32,6 +32,7 @@ import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import { fetchUsers } from '../../../../Services/AdminServices/Services/usersService'
 import { fetchUsersPaymentPlans } from '../../../../Services/AdminServices/Services/userPaymentPlan'
 import { fetchOrders } from '../../../../Services/AdminServices/Services/ordersService'
+import { fetchBankCards } from '../../../../Services/AdminServices/Services/bankCardsService'
 
 // Styled Components
 const StyledPaymentsPage = styled(Box)(
@@ -63,6 +64,13 @@ const relationships = {
             fetch_all_data: fetchOrders,
             add_to_add_form: true,
         },
+        {
+            "field_name": "bank_card",
+            "fetched_column": "card_number",
+            "related_table_id": "id",
+            fetch_all_data: fetchBankCards,
+            add_to_add_form: true,
+        },
     ],
     manyToMany:[
     ],
@@ -75,6 +83,7 @@ const columns = {
     'user': 'many-to-one',
     'user_payment_plan': "many-to-one",
     'order': 'many-to-one',
+    'bank_card': 'many-to-one',
     'amount':"decimal",
     'status':"enum|accepted,rejected,pending",
     "created_at": "dateTime",

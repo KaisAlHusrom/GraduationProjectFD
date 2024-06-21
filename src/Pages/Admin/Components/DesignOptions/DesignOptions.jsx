@@ -128,7 +128,7 @@ const DesignOptions = (props) => {
         updatedTemplate["design_image"] = inputValues["design_image"],
 
         cleanDesignData(updatedTemplate)
-
+        console.log(updatedTemplate)
         saveTemplate(updatedTemplate)
     }
 
