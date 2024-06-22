@@ -49,6 +49,7 @@ import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/E
 import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 import { ProvideUser } from '../Services/AuthServices/authService';
 import PortfolioMain from '../Pages/NewWebSite/Pages/PortfolioMain/PortfolioMain';
+import MainPreview from '../Pages/DesignControlPage/sections/EmptyDesign/Preview/MainPreview';
 
 
 // ------------- NOTICES -------------
@@ -111,7 +112,9 @@ const router = createBrowserRouter(
 
                 {/* //* Design Control Page Routes */}  
                 <Route path="/empty-design/EditPage/:section_id" element={<EditPage />} />
-                <Route path="/empty-design/:id" element={<Main />} />
+                <Route path="/empty-design/:id/*" element={<Main />} exact= {true} />
+                <Route path="/preview/:id" element={<MainPreview />} />
+
             </Route>
             
 

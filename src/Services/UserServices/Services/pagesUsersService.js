@@ -76,6 +76,11 @@ export const updateUserPages = async (id, newData) => {
     return await updateDataUserTemplate(PagesUserAxiosInstance, id, newData);
 };
 
+
+
+
+
+
 //passive items
 export const deleteUserPages = async (selectedIds) => {
     return await deleteDataUserTemplate(PagesUserAxiosInstance, selectedIds);

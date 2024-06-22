@@ -239,7 +239,7 @@ export const GetAppropriateStyleValues = (props) => {
     
 
     return (
-        <Box width="100%" display={"flex"} flexDirection={"column"} alignItems={"center"}>
+        <Box width="100%" display={"flex"} flexDirection={"column"} alignItems={"center"} >
             <AppropriateStyleValues
                 type={stylePropValueType}
                 valueState={valueState}

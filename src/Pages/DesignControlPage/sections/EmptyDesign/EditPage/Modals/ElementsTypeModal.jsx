@@ -1,12 +1,12 @@
 //React
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 
 import {
     
 } from 'react-redux'
 import PropTypes from 'prop-types';
 //Components
-import { AdminMainButton } from '../../../../../../Components'
+import {  AdminMainButtonOutsideState, CustomDrawer } from '../../../../../../Components'
 
 
 //MUI
@@ -19,6 +19,7 @@ import AddCardIcon from '@mui/icons-material/AddCard';
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
 import ModalDesignCategories from '../../../../components/ModalDesignCategories';
 import { ButtonStyle, ModalTitleStyle } from '../../StylesFunctions/SetStylesFunctions';
+import DrawerSelectedCategoryDesigns from '../Drawers/ReadyDesign/DrawerSelectedCategoryDesigns';
 
 //Styled Components
 const StyledElementsTypeModal = styled(Box)(
@@ -47,6 +48,13 @@ const ElementsTypeModal = ({
         ];
     }, []);
 
+        // for element 
+        const [dialogDesignElementState , setDialogDesignElementState] = useState(false)
+        const [drawerDesignElementState , setDrawerDesignElementState] = useState(false);
+        const [design , setDesign] = useState(null)
+
+
+        const [dialogDesignElementTemplateState , setDialogDesignElementTemplateState] = useState(false)
 
 
     return (
@@ -54,7 +62,8 @@ const ElementsTypeModal = ({
               <Typography color = "text.default" sx = {ModalTitleStyle}>
                     Element Designs
             </Typography>
-                <AdminMainButton
+                <AdminMainButtonOutsideState
+                            customState={[dialogDesignElementTemplateState , setDialogDesignElementTemplateState]}
                             title="Template"
                             type="drawer"
                             appearance="primary"
@@ -66,6 +75,10 @@ const ElementsTypeModal = ({
                             icon={<AddCardIcon />}
                             willShow={
                                 <ModalDesignCategories  
+                                customState = {[dialogDesignElementTemplateState, setDialogDesignElementTemplateState]}
+                                drawerStates = {[drawerDesignElementState , setDrawerDesignElementState]}
+                                designState={[design, setDesign]}
+
                                 createDesignedDesign = {createDesignedDesign}
                                 appliedFilter = {appliedFilterForDesignCategory}
                                 selected_parent_id = {selected_parent_id} 
@@ -73,8 +86,10 @@ const ElementsTypeModal = ({
                                 ></ModalDesignCategories>
                             }
                             sx={{...ButtonStyle ,width: '320px' , height : '50px' }} 
-                            />
-                        <AdminMainButton
+                            />  
+
+                        <AdminMainButtonOutsideState
+                            customState={[dialogDesignElementState , setDialogDesignElementState]}
                             title="Empty"
                             type="drawer"
                             appearance="primary"
@@ -85,6 +100,9 @@ const ElementsTypeModal = ({
                             }}
                             willShow={
                                 <ModalDesignCategories  
+                                customState = {[dialogDesignElementState, setDialogDesignElementState]}
+                                drawerStates = {[drawerDesignElementState , setDrawerDesignElementState]}
+                                designState={[design, setDesign]}
                                 createDesignedDesign = {createDesignedDesign}
                                 appliedFilter = {null}
                                 selected_parent_id = {selected_parent_id} 
@@ -94,6 +112,26 @@ const ElementsTypeModal = ({
                             icon={<AddCardIcon />}
                             sx={{...ButtonStyle ,width: '320px' , height : '50px' }} 
                         />
+
+                        <CustomDrawer
+                                drawerOpenState={[drawerDesignElementState , setDrawerDesignElementState]}
+                                title={"Element Designs"}
+                                drawerStyle={{
+                                }}
+                                putDrawerCloseButton={true}
+                                anchor={"left"}
+                                drawerZIndex = {10000}
+                        >
+                        <DrawerSelectedCategoryDesigns
+                            design_category_id={design?.id}
+                            createDesignedDesign={createDesignedDesign}
+                            appliedFilterType={design?.id}
+                            selected_parent_id={selected_parent_id}  
+                            
+                            />
+                                            
+                </CustomDrawer>
+
         </StyledElementsTypeModal>
     );
 };

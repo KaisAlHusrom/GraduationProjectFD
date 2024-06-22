@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components/index.jsx';
@@ -28,10 +28,23 @@ const StyleBox = ({
     handleUploadImageClickWrapper,
     title,
     handleTextFieldChange,
-    sectionStyleProps
-
+    sectionStyleProps,
+    customState , 
+    drawerStates,
+    categoryState
 }) => {
+    const [dialogState , setDialogState] = customState;
+    const [drawerState , setDrawerState] = drawerStates;
     const [image , setImage] = useState()
+    const [category, setCategory] = categoryState;
+
+
+    const handleOpenDrawer =  (category) => {
+        setCategory(category);
+        setDrawerState(true)
+        setDialogState(false);
+    }
+
     return (
         <StyledStyleBox>
             <Typography color = "text.default" sx = {ModalTitleStyle}>
@@ -49,19 +62,14 @@ const StyleBox = ({
                                 <AdminMainButton 
                                 sx={{...ButtonStyle ,width: '320px' , height : '50px' }} 
                                 title={category.category_name} 
-                                type='drawer' 
+                                type='custom' 
                                 drawerZIndex = {1300}
                                 drawerWidth="350px"
                                 putDrawerCloseButton 
                                 appearance='primary'
                                 icon={<BorderColorIcon />}
-                                willShow={
-                                <StylesCategory  
-                                handleSectionStyleChange = {handleSectionStyleChange} 
-                                category = {{category}} 
-                                sectionStyleProps = {sectionStyleProps}
-                                />
-                            }
+                                onClick={() => handleOpenDrawer(category)}
+
                             />
                             </Box>
                         ))}

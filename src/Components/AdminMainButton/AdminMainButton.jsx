@@ -1,13 +1,9 @@
-//React
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 
+// Components
+import { CustomModal, CustomDrawer } from '..';
 
-//Components
-import {CustomModal, CustomDrawer} from '..';
-
-
-
-//MUI
+// MUI
 import {
     Button,
     Menu,
@@ -16,19 +12,17 @@ import {
     Popover,
     Badge,
     Tooltip,
-} from '@mui/material'
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import { styled } from '@mui/system'
-//icons
+import { styled } from '@mui/system';
+// icons
 import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import KeyboardArrowUpOutlinedIcon from '@mui/icons-material/KeyboardArrowUpOutlined';
-//propTypes 
-
-import propTypes from 'prop-types'
+// propTypes
+import propTypes from 'prop-types';
 import StyleDialog from '../../Pages/DesignControlPage/components/StyleDialog';
 
-
-//Styles
+// Styles
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
         right: -3,
@@ -36,21 +30,19 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
         border: `2px solid ${theme.palette.background.paper}`,
         padding: '0 4px',
     },
-    }));
-
-
+}));
 
 const AdminMainButton = (props) => {
     // --- Props ---
-    const { 
-        icon, 
-        title, 
-        onClick, 
-        appearance, 
-        type, 
-        menuItems, 
-        willShow, 
-        modalIcon, 
+    const {
+        icon,
+        title,
+        onClick,
+        appearance,
+        type,
+        menuItems,
+        willShow,
+        modalIcon,
         putDrawerCloseButton,
         putTooltip,
         toolTipPosition,
@@ -71,25 +63,21 @@ const AdminMainButton = (props) => {
         menuPaperProps,
         component,
         href
-    } = props
+    } = props;
 
-    //theme
+    // theme
     const theme = useTheme();
 
-    
-
-
-
-    //STATES
+    // STATES
     // --- menu states ---
-    const [menuEl, setMenuEl] = useState(null)
-    const openMenu = Boolean(menuEl)
+    const [menuEl, setMenuEl] = useState(null);
+    const openMenu = Boolean(menuEl);
 
     // --- modal states ---
-    const [modalOpen, setModalOpen] = useState(false)
-    
+    const [modalOpen, setModalOpen] = useState(false);
+
     // --- drawer states ---
-    const [drawerOpen, setDrawerOpen] = useState(false)
+    const [drawerOpen, setDrawerOpen] = useState(false);
 
     // --- popover states ---
     const [anchorEl, setAnchorEl] = useState(null);
@@ -101,28 +89,25 @@ const AdminMainButton = (props) => {
         setOpenStyleDialog(true);
     };
 
-
-
-    //HANDLERS
-    //--- Menu Handlers ---
+    // HANDLERS
+    // --- Menu Handlers ---
     const handleOpenMenu = (e) => {
-        setMenuEl(e.currentTarget); 
-    }
+        setMenuEl(e.currentTarget);
+    };
 
     const handleCloseSortMenu = () => {
         setMenuEl(null);
-    }
+    };
 
-    //--- Modal handlers ---
-
+    // --- Modal handlers ---
     const handleOpenModal = () => {
-        setModalOpen(true)
-    }
+        setModalOpen(true);
+    };
 
-    //--- Drawer Handlers ---
+    // --- Drawer Handlers ---
     const handleOpenDrawer = () => {
-        setDrawerOpen(true)
-    }
+        setDrawerOpen(true);
+    };
 
     // --- Popover Handlers ---
     const handleOpenPopover = (event) => {
@@ -133,334 +118,333 @@ const AdminMainButton = (props) => {
         setAnchorEl(null);
     };
 
+    // Close StyleDialog when drawer is opened
+    // useEffect(() => {
+    //     if (drawerOpen) {
+    //         setOpenStyleDialog(false);
+    //         console.log(openStyleDialog)
+    //     }
+    // }, [drawerOpen, openStyleDialog]);
 
-    //Styled Components
+    // Styled Components
     const StyleOfButton = {
-        backgroundColor: filled ? (appearance === "primary" ? theme.palette.primary.main : appearance === "secondary" ? theme.palette.secondary.main : "transparent") : "transparent",
-        color: appearance === "primary" && filled ? theme.palette.primary.contrastText : "text.primary",
+        backgroundColor: filled ? (appearance === 'primary' ? theme.palette.primary.main : appearance === 'secondary' ? theme.palette.secondary.main : 'transparent') : 'transparent',
+        color: appearance === 'primary' && filled ? theme.palette.primary.contrastText : 'text.primary',
         padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
-        borderRadius: "100px",
-        fontWeight: "bold",
-        "&:hover": {
-            backgroundColor: (appearance === "primary" ? theme.palette.primary.main : appearance === "secondary" ? theme.palette.secondary.main : "transparent")
+        borderRadius: '100px',
+        fontWeight: 'bold',
+        '&:hover': {
+            backgroundColor: (appearance === 'primary' ? theme.palette.primary.main : appearance === 'secondary' ? theme.palette.secondary.main : 'transparent')
         },
-        transition: type === "menu" && openMenu ? 'rotate(180deg)' : "",
-        border: putBorder ? "solid 1px" : "none",
+        transition: type === 'menu' && openMenu ? 'rotate(180deg)' : '',
+        border: putBorder ? 'solid 1px' : 'none',
         borderColor: theme.palette.divider,
-    }
+    };
 
     const StyledCustomPopover = {
         marginTop: theme.spacing(1) // Adjust this value to add space between the button and popover
-    }
+    };
 
     const StyleOfIconButton = {
         border: putBorder && '1px solid',
         borderColor: theme.palette.divider,
-        borderRadius: "10px",
-    }
-
-    
+        borderRadius: '10px',
+    };
 
     return (
-            <>
+        <>
             {/* --- The Button --- */}
             {
-                appearance === "iconButton"
-                ?
-                    putTooltip && !disabled
+                appearance === 'iconButton'
                     ?
-                    <Tooltip title={title} placement={toolTipPosition}>
-                        <IconButton 
-                        component={component}
-                        href={href}
-                        disabled={disabled}
-                        sx={
-                            sx ?
-                            {...StyleOfIconButton, ...sx}
-                            :
-                            StyleOfIconButton
-                        }
-                        size='small' 
-                        color='primary'
-                        onClick= {
-                            type === "menu" || type === "buttonsMenu" ? handleOpenMenu :
-                            type === "modal" ? handleOpenModal :
-                            type === "drawer" ? handleOpenDrawer :
-                            type === "popover" ? handleOpenPopover :
-                            type === "StyleDialog" ? handleClickOpenStyleDialog :
-                            type === "custom" ? onClick : undefined
+                    putTooltip && !disabled
+                        ?
+                        <Tooltip title={title} placement={toolTipPosition}>
+                            <IconButton
+                                component={component}
+                                href={href}
+                                disabled={disabled}
+                                sx={
+                                    sx ?
+                                        { ...StyleOfIconButton, ...sx }
+                                        :
+                                        StyleOfIconButton
+                                }
+                                size='small'
+                                color='primary'
+                                onClick={
+                                    type === 'menu' || type === 'buttonsMenu' ? handleOpenMenu :
+                                        type === 'modal' ? handleOpenModal :
+                                            type === 'drawer' ? handleOpenDrawer :
+                                                type === 'popover' ? handleOpenPopover :
+                                                    type === 'StyleDialog' ? handleClickOpenStyleDialog :
+                                                        type === 'custom' ? onClick : undefined
 
-                        }
+                                }
+                            >
+                                {
+                                    badgeContent
+                                        ?
+                                        <StyledBadge color='error' badgeContent={badgeContent}>
+                                            {icon}
+                                        </StyledBadge>
+                                        :
+                                        icon
+                                }
+                            </IconButton>
+                        </Tooltip>
+                        :
+                        <IconButton
+                            component={component}
+                            href={href}
+                            disabled={disabled}
+                            sx={
+                                sx ?
+                                    { ...StyleOfIconButton, ...sx }
+                                    :
+                                    StyleOfIconButton
+                            }
+                            size='small'
+                            color='primary'
+                            onClick={
+                                type === 'menu' || type === 'buttonsMenu' ? handleOpenMenu :
+                                    type === 'modal' ? handleOpenModal :
+                                        type === 'drawer' ? handleOpenDrawer :
+                                            type === 'popover' ? handleOpenPopover :
+                                                type === 'StyleDialog' ? handleClickOpenStyleDialog :
+                                                    type === 'custom' ? onClick : undefined
+                            }
                         >
                             {
                                 badgeContent
-                                ?
-                                <StyledBadge color='error' badgeContent={badgeContent}>
-                                    {icon}
-                                </StyledBadge>
-                                :
-                                icon
+                                    ?
+                                    <StyledBadge color='error' badgeContent={badgeContent}>
+                                        {icon}
+                                    </StyledBadge>
+                                    :
+                                    icon
                             }
                         </IconButton>
-                    </Tooltip>
                     :
-                    <IconButton 
-                        component={component}
-                        href={href}
-                        disabled={disabled}
-                        sx={
-                            sx ?
-                            {...StyleOfIconButton, ...sx}
-                            :
-                            StyleOfIconButton
-                        }
-                        size='small' 
-                        color='primary'
-                        onClick= {
-                            type === "menu" || type === "buttonsMenu" ? handleOpenMenu :
-                            type === "modal" ? handleOpenModal :
-                            type === "drawer" ? handleOpenDrawer :
-                            type === "popover" ? handleOpenPopover :
-                            type === "StyleDialog" ? handleClickOpenStyleDialog :
-                            type === "custom" ? onClick : undefined
-                        }
+                    putTooltip && !disabled
+                        ?
+                        <Tooltip title={title} placement={toolTipPosition}>
+                            <Button
+                                component={component}
+                                href={href}
+                                disabled={disabled}
+                                sx={
+                                    sx ?
+                                        { ...StyleOfButton, ...sx }
+                                        :
+                                        StyleOfButton
+                                }
+                                onClick={
+                                    type === 'menu' || type === 'buttonsMenu' ? handleOpenMenu :
+                                        type === 'modal' ? handleOpenModal :
+                                            type === 'drawer' ? handleOpenDrawer :
+                                                type === 'popover' ? handleOpenPopover :
+                                                    type === 'StyleDialog' ? handleClickOpenStyleDialog :
+
+                                                        type === 'custom' ? onClick : undefined
+                                }
+                                startIcon={
+                                    icon
+                                }
+                                endIcon={
+                                    type === 'menu' || type === 'popover' ?
+                                        menuEl ?
+                                            <KeyboardArrowUpOutlinedIcon /> :
+                                            <KeyboardArrowDownOutlinedIcon />
+                                        :
+                                        null
+                                }
+                            >
+                                {
+                                    badgeContent
+                                        ?
+                                        <StyledBadge color='error' badgeContent={badgeContent}>
+                                            {title}
+                                        </StyledBadge>
+                                        :
+                                        title
+                                }
+                            </Button>
+                        </Tooltip>
+                        :
+                        <Button
+                            component={component}
+                            href={href}
+                            disabled={disabled}
+                            sx={
+                                sx ?
+                                    { ...StyleOfButton, ...sx }
+                                    :
+                                    StyleOfButton
+                            }
+                            onClick={
+                                type === 'menu' || type === 'buttonsMenu' ? handleOpenMenu :
+                                    type === 'modal' ? handleOpenModal :
+                                        type === 'drawer' ? handleOpenDrawer :
+                                            type === 'popover' ? handleOpenPopover :
+                                                type === 'StyleDialog' ? handleClickOpenStyleDialog :
+                                                    type === 'custom' ? onClick : undefined
+                            }
+                            startIcon={
+                                icon
+                            }
+                            endIcon={
+                                type === 'menu' || type === 'popover' || type === 'filter' ?
+                                    menuEl ?
+                                        <KeyboardArrowUpOutlinedIcon /> :
+                                        <KeyboardArrowDownOutlinedIcon />
+                                    :
+                                    null
+                            }
                         >
                             {
                                 badgeContent
-                                ?
-                                <StyledBadge color='error' badgeContent={badgeContent}>
-                                    {icon}
-                                </StyledBadge>
-                                :
-                                icon
+                                    ?
+                                    <StyledBadge color='error' badgeContent={badgeContent}>
+                                        {title}
+                                    </StyledBadge>
+                                    :
+                                    title
                             }
-                    </IconButton>
-                :
-                    putTooltip && !disabled
-                    ?
-                    <Tooltip title={title} placement={toolTipPosition}>
-                        <Button
-                        component={component}
-                        href={href}
-                        disabled={disabled}
-                        sx={
-                            sx ?
-                            {...StyleOfButton, ...sx}
-                            :
-                            StyleOfButton
-                        }
-                        onClick={
-                            type === "menu" || type === "buttonsMenu" ? handleOpenMenu :
-                            type === "modal" ? handleOpenModal :
-                            type === "drawer" ? handleOpenDrawer :
-                            type === "popover" ? handleOpenPopover :
-                            type === "StyleDialog" ? handleClickOpenStyleDialog :
-
-                            type === "custom" ? onClick : undefined
-                        }
-                        startIcon={
-                        icon
-                        }
-                        endIcon= {
-                            type === "menu" || type === "popover" ?
-                            menuEl ? 
-                            <KeyboardArrowUpOutlinedIcon /> :
-                            <KeyboardArrowDownOutlinedIcon />
-                            :
-                            null
-                        }
-                        >
-                            {
-                            badgeContent
-                            ?
-                            <StyledBadge color='error' badgeContent={badgeContent}>
-                                {title}
-                            </StyledBadge>
-                            :
-                            title
-                        }
                         </Button>
-                    </Tooltip>
-                    :
-                    <Button
-                    component={component}
-                    href={href}
-                    disabled={disabled}
-                    sx={
-                        sx ?
-                        {...StyleOfButton, ...sx}
-                        :
-                        StyleOfButton
-                    }
-                    onClick={
-                        type === "menu" || type === "buttonsMenu" ? handleOpenMenu :
-                        type === "modal" ? handleOpenModal :
-                        type === "drawer" ? handleOpenDrawer :
-                        type === "popover" ? handleOpenPopover :
-                        type === "StyleDialog" ? handleClickOpenStyleDialog :
-                        type === "custom" ? onClick : undefined
-                    }
-                    startIcon={
-                    icon
-                    }
-                    endIcon= {
-                        type === "menu" || type === "popover" || type === 'filter' ?
-                        menuEl ? 
-                        <KeyboardArrowUpOutlinedIcon /> :
-                        <KeyboardArrowDownOutlinedIcon />
-                        :
-                        null
-                    }
-                    >
-                        {
-                            badgeContent
-                            ?
-                            <StyledBadge color='error' badgeContent={badgeContent}>
-                                {title}
-                            </StyledBadge>
-                            :
-                            title
-                        }
-                    </Button>
             }
-            
+
             {/* --- The Content Will Appear --- */}
             {
-                menuItems && type === "menu" 
-                ?
-                <Menu 
-                id={title + "-menu"}
-                anchorEl={menuEl} 
-                open={openMenu} 
-                onClose={handleCloseSortMenu}
-                MenuListProps={{
-                    "aria-labelledby": `by-${title}-menu`,
-                }}
-                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                PaperProps={menuPaperProps}
-                >
-                    {
-                        menuItems.map((item, key) => {
-                            return (
-                            <MenuItem
-                            onClick={item.onClick}
-                            key={key}
-                            sx={{
-                                gap: theme.spacing(),
-                                backgroundColor: item.selected ? "action.selected" : "",
-                                fontWeight: item.selected ? "bold" : "normal",
-                            }}
-                            >
-                                {item.icon && item.icon}
-                                {item.value}
-                            </MenuItem>
-                            )
-                        })
-                    }
-                    
-                    
-
-                </Menu>
-                : 
-                menuItems && type === "buttonsMenu" 
-                ?
-                <Menu 
-                id={title + "-menu"}
-                anchorEl={menuEl} 
-                open={openMenu} 
-                onClose={handleCloseSortMenu}
-                PaperProps={menuPaperProps}
-                >
-                    {
-                        menuItems.map((item, key) => {
-                            return (
-                            <MenuItem
-                            key={key}
-                            sx={{
-                                gap: theme.spacing()
-                            }}
-                            >
-                            {item}
-                            </MenuItem>
-                            )
-                        })
-                    }
-                    
-                    
-
-                </Menu>
-                : 
-                
-                type === "modal"
-                ?
-                <CustomModal 
-                title={title} 
-                modalOpenState={[modalOpen, setModalOpen]}
-                modalIcon={modalIcon}
-                >
-                    {willShow}
-                </CustomModal>
-                : 
-                type === "drawer" 
-                ?
-                <CustomDrawer
-                drawerOpenState={[drawerOpen, setDrawerOpen]}
-                title={title}
-                putDrawerCloseButton={putDrawerCloseButton}
-                anchor={drawerAnchor}
-                variant={drawerVariant}
-                drawerStyle = {drawerStyle}
-                drawerResizable={drawerResizable}
-                drawerHeaderStyle={drawerHeaderStyle}
-                drawerHeaderContent={drawerHeaderContent}
-                withoutDrawerHeader={withoutDrawerHeader}
-                drawerWidthState={drawerWidthState}
-                drawerZIndex={drawerZIndex}
-                >
-                    {willShow}
-                </CustomDrawer>
-                :
-                type === "popover" 
-                ?
-                <Popover 
-                sx={StyledCustomPopover}
-                open={open} 
-                anchorEl={anchorEl} 
-                onClose={handleClosePopover}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'left',
-                }}
-                transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'left',
-                }}
-                elevation={0}
-                >
-                    {willShow}
-                </Popover>
-                :
-                type === "StyleDialog" 
-                ? 
-                    <StyleDialog 
-                        title={title} 
-                        OpenState={[openStyleDialog, setOpenStyleDialog]}
-                        modalIcon={modalIcon}
+                menuItems && type === 'menu'
+                    ?
+                    <Menu
+                        id={title + '-menu'}
+                        anchorEl={menuEl}
+                        open={openMenu}
+                        onClose={handleCloseSortMenu}
+                        MenuListProps={{
+                            'aria-labelledby': `by-${title}-menu`,
+                        }}
+                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                        PaperProps={menuPaperProps}
                     >
-                        {willShow}
-                    </StyleDialog>
-                : null
+                        {
+                            menuItems.map((item, key) => {
+                                return (
+                                    <MenuItem
+                                        onClick={item.onClick}
+                                        key={key}
+                                        sx={{
+                                            gap: theme.spacing(),
+                                            backgroundColor: item.selected ? 'action.selected' : '',
+                                            fontWeight: item.selected ? 'bold' : 'normal',
+                                        }}
+                                    >
+                                        {item.icon && item.icon}
+                                        {item.value}
+                                    </MenuItem>
+                                )
+                            })
+                        }
+                    </Menu>
+                    :
+                    menuItems && type === 'buttonsMenu'
+                        ?
+                        <Menu
+                            id={title + '-menu'}
+                            anchorEl={menuEl}
+                            open={openMenu}
+                            onClose={handleCloseSortMenu}
+                            PaperProps={menuPaperProps}
+                        >
+                            {
+                                menuItems.map((item, key) => {
+                                    return (
+                                        <MenuItem
+                                            key={key}
+                                            sx={{
+                                                gap: theme.spacing()
+                                            }}
+                                        >
+                                            {item}
+                                        </MenuItem>
+                                    )
+                                })
+                            }
+                        </Menu>
+                        :
+
+                        type === 'modal'
+                            ?
+                            <CustomModal
+                                title={title}
+                                modalOpenState={[modalOpen, setModalOpen]}
+                                modalIcon={modalIcon}
+                            >
+                                {willShow}
+                            </CustomModal>
+                            :
+                            type === 'drawer'
+                                ?
+                                <CustomDrawer
+                                    drawerOpenState={[drawerOpen, setDrawerOpen]}
+                                    title={title}
+                                    putDrawerCloseButton={putDrawerCloseButton}
+                                    anchor={drawerAnchor}
+                                    variant={drawerVariant}
+                                    drawerStyle={drawerStyle}
+                                    drawerResizable={drawerResizable}
+                                    drawerHeaderStyle={drawerHeaderStyle}
+                                    drawerHeaderContent={drawerHeaderContent}
+                                    withoutDrawerHeader={withoutDrawerHeader}
+                                    drawerWidthState={drawerWidthState}
+                                    drawerZIndex={drawerZIndex}
+                                >
+                                    {willShow}
+                                </CustomDrawer>
+                                :
+                                type === 'popover'
+                                    ?
+                                    <Popover
+                                        sx={StyledCustomPopover}
+                                        open={open}
+                                        anchorEl={anchorEl}
+                                        onClose={handleClosePopover}
+                                        anchorOrigin={{
+                                            vertical: 'bottom',
+                                            horizontal: 'left',
+                                        }}
+                                        transformOrigin={{
+                                            vertical: 'top',
+                                            horizontal: 'left',
+                                        }}
+                                        elevation={0}
+                                    >
+                                        {willShow}
+                                    </Popover>
+                                    :
+                                    type === 'StyleDialog'
+                                        ?
+                                        <StyleDialog
+                                            title={title}
+                                            OpenState={[openStyleDialog, setOpenStyleDialog]}
+                                            modalIcon={modalIcon}
+                                        >
+                                            {willShow}
+                                        </StyleDialog>
+                                        : null
             }
-            </>
+        </>
     );
 };
 
 AdminMainButton.propTypes = {
     icon: propTypes.any,
     title: propTypes.string.isRequired,
-    appearance: propTypes.oneOf(["primary", "secondary", "iconButton"]).isRequired,
-    type: propTypes.oneOf(["modal", "menu", "buttonsMenu", "drawer", "popover","custom" , "StyleDialog"]).isRequired,
+    appearance: propTypes.oneOf(['primary', 'secondary', 'iconButton']).isRequired,
+    type: propTypes.oneOf(['modal', 'menu', 'buttonsMenu', 'drawer', 'popover', 'custom', 'StyleDialog']).isRequired,
     onClick: propTypes.func,
     menuItems: propTypes.array,
     willShow: propTypes.element,
@@ -476,7 +460,7 @@ AdminMainButton.propTypes = {
     filled: propTypes.bool,
     drawerStyle: propTypes.object,
     drawerResizable: propTypes.bool,
-    drawerHeaderStyle: propTypes.object, 
+    drawerHeaderStyle: propTypes.object,
     drawerHeaderContent: propTypes.string,
     withoutDrawerHeader: propTypes.bool,
     drawerWidthState: propTypes.array,
@@ -485,6 +469,6 @@ AdminMainButton.propTypes = {
     menuPaperProps: propTypes.object,
     component: propTypes.string,
     href: propTypes.string,
-}
+};
 
 export default AdminMainButton;

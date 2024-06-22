@@ -19,7 +19,7 @@ import { convertToCssValue } from '../../../../../../../Helpers/RecursiveHelpers
 //Styled Components
 const StyledStylesProp = styled(Box)(
     ({ theme }) => ({
-    
+        
     })
 )
 
@@ -39,7 +39,8 @@ export const Test = ({ prop, handleSectionStyleChange , sectionStyleProps }) => 
     
 
         return (
-        <Box sx={{ margin: '20px' }}>
+        <Box sx={{ margin: '20px'  ,
+        }}>
             <GetAppropriateStyleValues
             label={prop.style_prop_normal_name}
             stylePropValueType={prop.style_prop_value_type}

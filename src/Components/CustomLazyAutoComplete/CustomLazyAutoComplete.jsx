@@ -1,5 +1,5 @@
 //React
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { memo, useCallback, useMemo, useRef, useState } from 'react'
 
 import {
     
@@ -141,6 +141,7 @@ const CustomLazyAutoComplete = (props) => {
                     value={searchQuery?.searchTerm}
                     onChange={handleChangeSearchQuery}
                     label={label}
+              
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (
@@ -185,7 +186,7 @@ const CustomLazyAutoComplete = (props) => {
                     }}
                     {...defaultProps}
                     renderOption={renderOptionMemoized}
-                    sx={{...sx}}
+                    sx={{...sx }}
         />
     );
 };

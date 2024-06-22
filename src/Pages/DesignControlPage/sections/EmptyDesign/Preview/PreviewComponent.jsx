@@ -4,32 +4,28 @@ import { useMemo, useState } from 'react'
 import {
     
 } from 'react-redux'
+import PropTypes from 'prop-types';
 
 //Components
+import PreviewElement from './PreviewElement';
 
-
-//propTypes 
-import propTypes from 'prop-types'
 
 //MUI
 import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import EmptyElement from './EmptyElement'
 
 //Styled Components
-const StyledEmptyComponent = styled(Box)(
+const StyledPreviewComponent = styled(Box)(
     ({ theme }) => ({
     
     })
 )
 
 
-const EmptyComponent = ({component}) => {
+const PreviewComponent = ({component}) => {
 
-
-    
     const [componentStyle, setComponentStyle] = useState({}); // using for control the component style 
 
     useMemo(() => {
@@ -45,27 +41,21 @@ const EmptyComponent = ({component}) => {
         setComponentStyle(dictionary);
     }, [component.styles]);
 
-
-
+    
     return (
-            <StyledEmptyComponent sx={{...componentStyle , position : 'relative'}} className='component-query'>
-                {
+        <StyledPreviewComponent sx={{...componentStyle , position : 'relative'}}>
+                 {
                     component && component.children
                         .sort((a, b) => a.sequence_number - b.sequence_number)
                         .map((element, i) => (
-                            <EmptyElement key={i} element={element}/>
+                            <PreviewElement key={i} element={element}/>
                         ))
                 }
-            </StyledEmptyComponent>
-
+        </StyledPreviewComponent>
     );
 };
+PreviewComponent.propTypes = {
 
-
-
-EmptyComponent.propTypes = {
-    component: propTypes.object
-}
-
-
-export default EmptyComponent;
+    component: PropTypes.object,
+};
+export default PreviewComponent;

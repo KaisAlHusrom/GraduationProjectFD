@@ -4,15 +4,26 @@ import { v4 as uuidv4 } from 'uuid';
 
 // Components
 import EditComponent from './EditComponent.jsx';
+import StylesCategory from './Drawers/DrawersNew/StylesCategory.jsx';
+import DrawerSelectedCategoryDesigns from './Drawers/ReadyDesign/DrawerSelectedCategoryDesigns.jsx';
+import AppbarCom from '../../../components/AppbarCom.jsx';
+import ConfirmationDialog from '../../../components/ConfirmationDialog.jsx';
+import ElementsTypeModal from './Modals/ElementsTypeModal.jsx';
+import { AdminMainButton, AdminMainButtonOutsideState, CustomDrawer } from '../../../../../Components/index.jsx';
+import ModalDesignCategories from '../../../components/ModalDesignCategories.jsx';
+import StyleBox from '../../../components/StyleBox.jsx';
+
 
 // Helpers
 import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
 import useEffectFetchData from '../../../../../Helpers/customHooks/useEffectFetchData.jsx';
 import { cleanDesignDataDesignPage } from '../../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement.js';
 import { writeFilterObject } from '../../../../../Helpers/filterData.js';
+import {  useColorMode, useScreenWidth } from '../StylesFunctions/SetStylesFunctions.js';
 
 // Services
-
+import { fetchSpecificUserDesign, updateUserDesigns } from '../../../../../Services/UserServices/Services/designUsersService.js';
+import { fetchUserStylePropCategories } from '../../../../../Services/UserServices/Services/stylesPropsCategoriesUsersService.js';
 
 // MUI
 import { Alert, AlertTitle, Box } from '@mui/material';
@@ -23,15 +34,10 @@ import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import UndoIcon from '@mui/icons-material/Undo';
 import SaveIcon from '@mui/icons-material/Save';
-import ElementsTypeModal from './Modals/ElementsTypeModal.jsx';
-import { AdminMainButton } from '../../../../../Components/index.jsx';
-import ModalDesignCategories from '../../../components/ModalDesignCategories.jsx';
-import StyleBox from '../../../components/StyleBox.jsx';
-import ConfirmationDialog from '../../../components/ConfirmationDialog.jsx';
-import { fetchSpecificUserDesign, updateUserDesigns } from '../../../../../Services/UserServices/Services/designUsersService.js';
-import { fetchUserStylePropCategories } from '../../../../../Services/UserServices/Services/stylesPropsCategoriesUsersService.js';
-import AppbarCom from '../../../components/AppbarCom.jsx';
-import {  useColorMode, useScreenWidth } from '../StylesFunctions/SetStylesFunctions.js';
+import CreateComponent from './Modals/CreateComponent.jsx';
+
+
+
 
 
 // Helper function to recursively generate new IDs for nested children
@@ -71,22 +77,6 @@ const HoverBox = styled(Box)({
     },
 });
 
-
-const ActionButtons = styled(Box)({
-    position: 'relative',
-    bottom: '0px',
-    left: '50px',
-    display: 'flex',
-    gap :'10px',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    opacity: 0,
-    visibility: 'hidden',
-    transition: 'opacity 0.3s ease',
-    width :'100px'
-});
-
-
 const EditButtonsStyle = {
     border: '1px solid red',
     fontWeight: 'bold',
@@ -96,6 +86,7 @@ const EditButtonsStyle = {
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
     },
+
 }
 
 
@@ -110,6 +101,23 @@ const EditPage = () => {
     const [AddElement , setAddElement] = useState(null) // using for add new element 
     const [AddElementToComponentId , setAddElementToComponentId] = useState(null) // using for selected component id to add new  element
     const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
+
+
+
+    // for section 
+    const [dialogState , setDialogState] = useState(false)
+    const [drawerState , setDrawerState] = useState(false);
+    const [category , setCategory] = useState(null)
+
+    // for component 
+    const [dialogDesignState , setDialogDesignState] = useState(false)
+    const [drawerDesignState , setDrawerDesignState] = useState(false);
+    const [design , setDesign] = useState(null)
+
+    // for component Component 
+    const [dialogDesignComponentState , setDialogDesignComponentState] = useState(false)
+    const [drawerDesignComponentState , setDrawerDesignComponentState] = useState(false);
+
 
 
     const appliedFilterForComponent = useMemo(() => {
@@ -154,8 +162,6 @@ const EditPage = () => {
     };
 
 
-
-
     //  get the section style
     useEffect(() => {
         if (data) {
@@ -187,7 +193,6 @@ const EditPage = () => {
     }, [section_id, setData]);
 
     // dubelcate
-    // !!i have problem when i add using this func the problem come when i want delete 
     const addComponentForComponent = (section_component_id) => {
         setSectionData((prevData) => {
             const index = prevData.children.findIndex(component => component.id === section_component_id);
@@ -239,8 +244,6 @@ const EditPage = () => {
         });
     };
     
-    
-
     // create designed component
     const createDesignedComponent = (component) => {
         // Yeni bileşenin sequence_number değerini belirlemek için mevcut bileşenleri kontrol et
@@ -296,7 +299,37 @@ const EditPage = () => {
             }),
         }));
     }, [setData]);
+
+
+
+    const handleAddNewComponentElement = useCallback((componentId, element) => {
+        setData((prevData) => ({
+            ...prevData,
+            children: prevData.children.map((component) => {
+                if (component.id === componentId) {
+                    // Find the maximum sequence_number among the existing elements
+                    const maxSequenceNumber = component.children.length > 0 
+                        ? Math.max(...component.children.map(child => child.sequence_number)) 
+                        : 0;
+                    
+                    // Set the new element's sequence_number to maxSequenceNumber + 1
+                    const newElement = {
+                        ...element,
+                        sequence_number: maxSequenceNumber + 1
+                    };
     
+                    return {
+                        ...component,
+                        children: [...component.children, newElement],
+                    };
+                }
+                return component;
+            }),
+        }));
+    }, [setData]);
+    
+console.log(data)
+
     
     // delete the all component in the section 
     const deleteSection = () => {
@@ -357,7 +390,8 @@ const EditPage = () => {
             // Önceki durumu alın
             const previousState = history[history.length - 1];
             // Önceki durumu geri yükle
-            setData(previousState);
+            
+            setSectionData(previousState);
             // Son işlemi işlem geçmişinden kaldır
             setHistory(prevHistory => prevHistory.slice(0, -1));
         }
@@ -366,7 +400,7 @@ const EditPage = () => {
     const SaveSectionData = async () => {
         cleanDesignDataDesignPage(sectionData);
         await updateUserDesigns(section_id, sectionData);
-
+        window.location.reload();
     };
     
 
@@ -437,83 +471,22 @@ const EditPage = () => {
                     .sort((a, b) => a.sequence_number - b.sequence_number)
                     .map((component, i) => (
                         <Box key={component.id}>
-                        <EditComponent 
+                        <CreateComponent 
                             key={component.id} 
                             component={component} 
                             componentId={AddElementToComponentId}
                             handleAddNewElement={handleAddNewElement} 
                             elements={[AddElement, setAddElement]}
-                            sectionDataState={[sectionData, setSectionData]}
+                            sectionDataState={[data, setData]}
                             styleCategories={styleCategories}
+                            addComponentForComponent = {addComponentForComponent}
+                            deleteComponentForComponent = {deleteComponentForComponent}
+                            handleConfirmation = {handleConfirmation}
+                            appliedFilterForComponent = {appliedFilterForComponent}
+                            handleAddNewComponentElement = {handleAddNewComponentElement}
                         />
                         
-                        <ActionButtons className="action-buttons">
-
-                        {i === sectionData.children.length - 1 && (
-                        <AdminMainButton
-                            title="Duplicate"
-                            type="custom"
-                            onClick={() => addComponentForComponent(component.id)}
-                            appearance="iconButton"
-                            putTooltip                                
-                            icon={<AddBoxIcon />}
-                            sx={EditButtonsStyle}
-                        />
-                    )}
-                            <AdminMainButton
-                                title="Delete"
-                                type="custom"
-                                onClick={() => deleteComponentForComponent(component.id)}
-                                appearance="iconButton"
-                                putTooltip
-                                icon={<DeleteSweepIcon />}
-                                sx={{
-                                    border: '1px solid red',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: 'warning.dark',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: 'rgb(7, 15, 43)',
-                                    },
-                                }}
-                            />
-                            <AdminMainButton
-                                title="Delete All Component Elements"
-                                type="custom"
-                                appearance="iconButton"
-                                putTooltip
-                                onClick={() => handleConfirmation(component.id)}
-                                icon={<DeleteSweepIcon />}
-                                sx={{
-                                    border: '1px solid red',
-                                    fontWeight: 'bold',
-                                    color: 'white.main',
-                                    backgroundColor: 'warning.dark',
-                                    margin: '5px',
-                                    transition: 'background-color 0.3s',
-                                    '&:hover': {
-                                        backgroundColor: 'rgb(7, 15, 43)',
-                                    },
-                                    display:component.children.length === 0 ? 'none' : 'flex',
-                                }}
-                            />
-                            <AdminMainButton
-                                title="Add elements"
-                                type="StyleDialog"
-                                appearance="iconButton"
-                                putTooltip
-                                willShow={
-                                    <ElementsTypeModal
-                                    createDesignedDesign = {handleAddNewElement}
-                                    selected_parent_id = {component.id}                                     
-                                    />
-                                }
-                                icon={<AddBoxIcon />}
-                                sx={EditButtonsStyle}
-                            />
-
-                        </ActionButtons>
+                        
 
                     </Box>
                 ))}
@@ -525,7 +498,8 @@ const EditPage = () => {
                         justifyContent : 'space-between',
                         alignItems : 'center',
                     }}>
-                        <AdminMainButton
+                        <AdminMainButtonOutsideState
+                            customState = {[dialogState , setDialogState]}
                             title="Edit Section"
                             type="StyleDialog"
                             appearance="iconButton"
@@ -533,51 +507,95 @@ const EditPage = () => {
                             icon={<EditIcon />}
                             willShow={
                                 <StyleBox 
+                                    customState = {[dialogState, setDialogState]}
+                                    drawerStates = {[drawerState , setDrawerState]}
+                                    categoryState={[category, setCategory]}
+
                                     name_of_design="Style Section"
                                     type_of_design='section'
                                     handleSectionStyleChange={handleSectionStyleChange}
                                     styleCategories={styleCategories}
                                     sectionStyleProps={sectionStyle}
-                                />
+                                    />
                             }
                             sx={EditButtonsStyle}
-                        />
-                        <AdminMainButton
-                            title="Delete All Component"
-                            type="custom"
-                            appearance="iconButton"
-                            putTooltip
-                            onClick={() => deleteSection(section_id)}
-                            icon={<DeleteSweepIcon />}
-                            sx={{
-                                border: '1px solid red',
-                                fontWeight: 'bold',
-                                color: 'white.main',
-                                backgroundColor: 'warning.dark',
-                                transition: 'background-color 0.3s',
-                                '&:hover': {
-                                    backgroundColor: 'rgb(7, 15, 43)',
-                                },
-                            }}
+                        />  
+                        <CustomDrawer
+                                drawerOpenState={[drawerState , setDrawerState]}
+                                title={"Style Section"}
+                                drawerStyle={{
+                                paddingTop : '80px'
+                                }}
+                                putDrawerCloseButton={true}
+                                anchor={"left"}
+                        >
+                            <StylesCategory  
+                                customState = {[dialogState , setDialogState]}
+                                handleSectionStyleChange = {handleSectionStyleChange} 
+                                category = {{category}} 
+                                sectionStyleProps = {sectionStyle}
+                                />
 
-                        />
-                        <AdminMainButton
+                        </CustomDrawer>
+
+                            <AdminMainButton
+                                title="Delete All Component"
+                                type="custom"
+                                appearance="iconButton"
+                                putTooltip
+                                onClick={() => deleteSection(section_id)}
+                                icon={<DeleteSweepIcon />}
+                                sx={{
+                                    border: '1px solid red',
+                                    fontWeight: 'bold',
+                                    color: 'white.main',
+                                    backgroundColor: 'warning.dark',
+                                    transition: 'background-color 0.3s',
+                                    '&:hover': {
+                                        backgroundColor: 'rgb(7, 15, 43)',
+                                    },
+                                }}
+
+                            />
+                        <AdminMainButtonOutsideState
+                            customState={[dialogDesignState , setDialogDesignState]}
                             title="Add Components"
                             type="StyleDialog"
                             appearance="iconButton"
                             putTooltip
                             icon={<AddBoxIcon />}
                             willShow={
-                            <ModalDesignCategories  
-                            createDesignedDesign = {createDesignedComponent}
-                            appliedFilter = {appliedFilterForComponent}
-                            selected_parent_id = {section_id} 
-                            NameOfCategories = {'Component Designs'}
-                            ></ModalDesignCategories>
-                            }
+                                <ModalDesignCategories  
+                                customState = {[dialogDesignState, setDialogDesignState]}
+                                drawerStates = {[drawerDesignState , setDrawerDesignState]}
+                                designState={[design, setDesign]}
+                                createDesignedDesign = {createDesignedComponent}
+                                appliedFilter = {appliedFilterForComponent}
+                                selected_parent_id = {section_id} 
+                                NameOfCategories = {'Component Designs'}
+                                ></ModalDesignCategories>
+                                }
                             sx={EditButtonsStyle}
 
                         />
+                        <CustomDrawer
+                                drawerOpenState={[drawerDesignState , setDrawerDesignState]}
+                                title={"Component Designs"}
+                                drawerStyle={{
+                                paddingTop : '80px'
+                                }}
+                                putDrawerCloseButton={true}
+                                anchor={"left"}
+                        >
+                    <DrawerSelectedCategoryDesigns
+                            design_category_id={design?.id}
+                            createDesignedDesign={createDesignedComponent}
+                            appliedFilterType={design?.design_type}
+                            selected_parent_id={section_id}  
+                            
+                            />
+                                            
+                </CustomDrawer>
                         <AdminMainButton
                             title="Create New Section"
                                 type="StyleDialog"

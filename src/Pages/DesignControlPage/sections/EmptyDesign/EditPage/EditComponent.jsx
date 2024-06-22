@@ -2,6 +2,10 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Components
 import EditElement from './EditElement';
+import {  AdminMainButtonOutsideState, CustomDrawer } from '../../../../../Components/index.jsx';
+import StyleBox from '../../../components/StyleBox.jsx';
+import StylesCategory from './Drawers/DrawersNew/StylesCategory.jsx';
+
 
 // propTypes
 import propTypes from 'prop-types';
@@ -12,9 +16,9 @@ import { styled } from '@mui/system';
 import { Edit as EditIcon } from '@mui/icons-material';
 
 
+// Helpers
 import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
-import { AdminMainButton } from '../../../../../Components/index.jsx';
-import StyleBox from '../../../components/StyleBox.jsx';
+
 
 
 
@@ -58,6 +62,9 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
     const [AddElement] = elements; // using for add the elements to component when user is did 
     const [history, setHistory] = useState([]); // Store user actions
     const [sectionData, setSectionData] = sectionDataState; // using for Control  section data 
+    const [dialogState , setDialogState] = useState(false)
+    const [drawerState , setDrawerState] = useState(false);
+    const [category , setCategory] = useState(null)
 
     // Add element to component 
     useEffect(() => {
@@ -83,10 +90,6 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
         }
         setComponentStyle(dictionary);
     }, [component.styles]);
-
-
-
-
 
     // Change the section style
     const handleSectionStyleChange = useCallback((cssValue, prop) => {
@@ -127,8 +130,6 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
         setHistory(prevHistory => [...prevHistory, JSON.parse(JSON.stringify(sectionData))]);
     };
 
-
-
     const handleMoveElement = (oldIndex, newIndex, parent_id) => {
         setComponentData((prevData) => {
             if (prevData.id === parent_id) {
@@ -146,10 +147,6 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
             }
         });
     };
-    
-
-
-    
     // Undo last operation for the section
     const undo = () => {
         if (history.length > 0) {
@@ -158,8 +155,6 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
             setHistory(prevHistory => prevHistory.slice(0, -1));
         }
     };  
-
-
 
 
     return (
@@ -177,29 +172,56 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
                         componentDataState={[component, setComponentData]}
                         styleCategories={styleCategories}
                         sectionDataState={sectionDataState}
+                        elements = {elements}
+                        handleAddNewElement = {handleAddNewElement}
+                        
                     />
                 </Box>
             ))}
 
-        <TooltipContainer>
-            <AdminMainButton
-                title="Edit"
-                type="StyleDialog"
-                appearance="iconButton"
-                putTooltip
-                icon={<EditIcon />}
-                willShow={
-                    <StyleBox
-                        name_of_design={"Style Component"}
-                        type_of_design='Component'
-                        sectionStyle={componentStyle}
-                        handleSectionStyleChange={handleSectionStyleChange}
-                        styleCategories={styleCategories}
+                <TooltipContainer>
+                    <AdminMainButtonOutsideState
+                        title="Edit"
+                        type="StyleDialog"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<EditIcon />}
+                        customState = {[dialogState , setDialogState]}
+
+                        willShow={
+                            <StyleBox
+                                customState = {[dialogState, setDialogState]}
+                                drawerStates = {[drawerState , setDrawerState]}
+                                categoryState={[category, setCategory]}
+                                name_of_design={"Style Component"}
+                                type_of_design='Component'
+                                sectionStyle={componentStyle}
+                                handleSectionStyleChange={handleSectionStyleChange}
+                                styleCategories={styleCategories}
+                            />
+                        }
+                        sx={EditButtonsStyle}
                     />
-                }
-                sx={EditButtonsStyle}
-            />
-        </TooltipContainer>
+
+                    <CustomDrawer
+                                drawerOpenState={[drawerState , setDrawerState]}
+                                title={"Style Component"}
+                                drawerStyle={{
+                                paddingTop : '80px'
+                                }}
+                                putDrawerCloseButton={true}
+                                anchor={"left"}
+                        >
+                            <StylesCategory  
+                                customState = {[dialogState , setDialogState]}
+                                handleSectionStyleChange = {handleSectionStyleChange} 
+                                category = {{category}} 
+                                sectionStyleProps = {componentStyle}
+                                />
+
+                        </CustomDrawer>
+
+                </TooltipContainer>
 {/* 
         {history.length > 0 && (
             <AdminMainButton

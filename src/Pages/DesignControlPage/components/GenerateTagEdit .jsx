@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import  { Fragment } from "react";
 import PropTypes from "prop-types";
 import { styled } from "@mui/system";
 import exampleImage from "../../../assets/images/exampleimage.jpg"; 

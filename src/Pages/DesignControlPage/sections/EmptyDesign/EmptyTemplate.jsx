@@ -1,24 +1,21 @@
-//React
-import { useEffect, useMemo, useState, } from 'react'
-
-import {
-    
-} from 'react-redux'
-import PropTypes from 'prop-types'; 
-//Components
-import { useParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData';
 import EmptySection from './Sections/EmptySection/EmptySection';
-
-//MUI
 import {
     Box,
-} from '@mui/material'
-import { styled  , css} from '@mui/system'
+
+} from '@mui/material';
+import { styled, css } from '@mui/system';
 import { fetchSpecificUserWebProject } from '../../../../Services/UserServices/Services/webProjectsUsersService';
+import {  updateUserSorting } from '../../../../Services/UserServices/Services/designUsersService';
+import  './Style.css' 
 
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import PageRouter from '../../components/PageRouter';
 
-//Styled Components
 
 const StyledEmptyTemplate = styled(Box)(
     ({ fontFamily }) => css`
@@ -26,56 +23,63 @@ const StyledEmptyTemplate = styled(Box)(
         h1, h2, h3, h4, h5, h6 {
             font-family: ${fontFamily};
         }
+            .section-transition {
+                transition: all 300ms ease-in-out;
+    }
     `
 );
+
 
 const EmptyTemplate = ({
     selectedFontFamily,
     isMobileWidth,
-    isTabletWidth, 
+    isTabletWidth,
     isLaptopWidth,
 }) => {
-    
-        const {id} = useParams()
-        const params = useMemo(() => {
-            return [
-                id
-            ]
-        }, [id])
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const params = useMemo(() => [id], [id]);
 
-    
+    const { data } = useEffectFetchData(fetchSpecificUserWebProject, params, true, true);
+    const user = useSelector(state => state.authSlice.user);
 
-        const { data } = useEffectFetchData(fetchSpecificUserWebProject, params , true , true )
+    const [mainPage, setMainPage] = useState(null);
 
-        const [mainPage , setMainPage] = useState(null) 
-        useEffect  (() => {
-                if(data) {
-                    setMainPage(()=> {
-                        return data.pages.filter(page => page.page_path === '/')[0]
-                    })
-                }
-        } , [data]) 
+
+
+    useEffect(() => {
+        if (data) {
+            if (data.user_id !== user.id) {
+                navigate(-1);
+            }
+            setMainPage(() => {
+                return data.pages.filter(page => page.page_path === '/')[0];
+            });
+        }
+    }, [data, navigate, user.id]);
+
+
+    console.log(data)
 
     return (
-        <StyledEmptyTemplate 
-        fontFamily={selectedFontFamily}
-        className="Template"
-        sx={{
-            width: isMobileWidth ? '500px' : isTabletWidth ? '50%' : isLaptopWidth ? '100%' : '',
-            padding: isMobileWidth ? '0px' : isTabletWidth ? '0px' : '',
-            margin: '100px auto',
-        }}
-        >
-            
-            {data && data.pages  && mainPage?.designs &&
-                mainPage.designs
-                    .sort((a, b) => a.sequence_number - b.sequence_number)
-                    .map((section, index) => (
-                        <div key={index}>
-                            <EmptySection designData={section} />
-                        </div>
-                    ))
-            }
+        <StyledEmptyTemplate
+            fontFamily={selectedFontFamily}
+            className="Template"
+            sx={{
+                width: isMobileWidth ? '500px' : isTabletWidth ? '50%' : isLaptopWidth ? '100%' : '',
+                padding: isMobileWidth ? '0px' : isTabletWidth ? '0px' : '',
+                margin: '100px auto',
+            }}
+        >      
+
+            <Routes>
+                {
+                    data && data.pages && data.pages.map((page , key) => {
+                        return  <Route key={key}  path={page.page_path} element={<PageRouter  pageId = {page.id}/>} />
+                    })
+                }
+            </Routes>
+
 
         </StyledEmptyTemplate>
     );
