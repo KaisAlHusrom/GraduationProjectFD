@@ -24,6 +24,7 @@ import { useSelector } from 'react-redux';
 import { ReviewCalculateSMA } from '../../../../../../Ecommerce/utils/functions';
 import { useMemo } from 'react';
 import { productsImagesFolderName } from '../../../../../../../Services/AdminServices/Services/productsService';
+import { useNavigate } from 'react-router-dom';
 // Styled Components
 const StyledProductCard = styled(Card)(
     () => ({
@@ -54,6 +55,12 @@ const CustomProductCard = (props) => {
     const rating = ReviewCalculateSMA(product?.product_reviews);
 
     const currency = useSelector(state => state.currencySlice.currency)
+
+
+    const navigate = useNavigate()
+    const navigateProduct = () => {
+        navigate("/profile/handle-product/" + product.id)
+    }
 
     return (
         <StyledProductCard>
@@ -160,7 +167,7 @@ const CustomProductCard = (props) => {
                             type='custom'
                             appearance='iconButton'
                             icon={<EditOutlinedIcon />}
-                            onClick={() => {}}
+                            onClick={navigateProduct}
                             putTooltip
                             toolTipPosition={'top'}
                         />

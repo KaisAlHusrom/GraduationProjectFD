@@ -8,7 +8,12 @@ import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
 export const navList = [
     {
         path: "/profile/web-projects",
-        title: "My Web Projects",
+        title: "Create a new project",
+        icon: AccountTreeIcon
+    },
+    {
+        path: "/profile/handle-product",
+        title: "Add a new product",
         icon: AccountTreeIcon
     },
     {
