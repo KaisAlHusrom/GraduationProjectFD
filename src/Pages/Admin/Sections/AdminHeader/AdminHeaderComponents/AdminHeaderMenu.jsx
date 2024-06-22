@@ -12,7 +12,8 @@ import { styled } from '@mui/system'
 //icons
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-
+import MenuIcon from '@mui/icons-material/Menu';
+import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 //Components
 import SearchButton from '../../../Components/SearchButton'
 import AdminMainButton from '../../../../../Components/AdminMainButton/AdminMainButton'
@@ -21,6 +22,9 @@ import NotificationsList from "../../../Components/NotificationsList"
 
 //redux
 import { useSelector } from 'react-redux';
+import { useTheme } from '@emotion/react';
+import AdminNavbarListContent from '../../AdminNavbar/AdminNavbarComponents/AdminNavbarListContent';
+import { useNavigate } from 'react-router-dom';
 
 //Styled Components
 const StyledAdminHeaderMenu = styled(Box)(
@@ -41,6 +45,22 @@ const AdminHeaderMenu = () => {
     // --- dir ---
     const dir = useSelector(state => state.langSlice.dir);
 
+
+    //theme
+    const theme = useTheme()
+
+
+    //styles
+    const styleOfMenuButton = {
+        [theme.breakpoints.up('md')]: {
+            display: "none"
+        },
+    }
+
+    const navigate = useNavigate()
+    const handleNavigateHome = () => {
+        navigate("/")
+    }
 
     return (
         <StyledAdminHeaderMenu>
@@ -68,7 +88,30 @@ const AdminHeaderMenu = () => {
             drawerAnchor={dir === "rtl" ? "left" : "right"}
             putDrawerCloseButton
             />
+
+            {/* main page  */}
+            <AdminMainButton
+            appearance='iconButton'
+            type='custom'
+            icon={<HomeOutlinedIcon />}
+            title="Home Page"
+            onClick={handleNavigateHome}
+            sx={{
+                color: theme => theme.palette.info.main
+            }}
+            />
             
+            <AdminMainButton 
+                sx={styleOfMenuButton}
+                appearance='iconButton'
+                type='drawer'
+                drawerAnchor={dir === "ltr" ? "left" : "right"}
+                willShow={<AdminNavbarListContent />}
+                title='Cliser'
+                withoutDrawerHeader
+                icon={<MenuIcon />}
+                // drawerVariant="temporary" | don't need to write it if temporary
+                />
         </StyledAdminHeaderMenu>
     );
 };

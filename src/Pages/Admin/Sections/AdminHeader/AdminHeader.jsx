@@ -10,16 +10,11 @@ import {
 import { styled } from '@mui/system'
 
 //icons
-import MenuIcon from '@mui/icons-material/Menu';
 
 //imported components
 import AdminHeaderTitle from './AdminHeaderComponents/AdminHeaderTitle'
 import AdminHeaderMenu from './AdminHeaderComponents/AdminHeaderMenu'
-import AdminMainButton from '../../../../Components/AdminMainButton/AdminMainButton'
 
-import AdminNavbarListContent from '../AdminNavbar/AdminNavbarComponents/AdminNavbarListContent'
-import { useSelector } from 'react-redux'
-import { useTheme } from '@emotion/react';
 
 //Styled Components
 const StyledHeader = styled(Box)(
@@ -45,35 +40,13 @@ const StyledTitle = styled(Box)(
 
 const AdminHeader = () => {
 
-    //redux
-    // --- dir ---
-    const dir = useSelector(state => state.langSlice.dir);
-
-    //theme
-    const theme = useTheme()
-
-
-    //styles
-    const styleOfMenuButton = {
-        [theme.breakpoints.up('lg')]: {
-            display: "none"
-        },
-    }
+    
 
     return (
         <StyledHeader>
             <StyledTitle>
-                <AdminMainButton 
-                sx={styleOfMenuButton}
-                appearance='iconButton'
-                type='drawer'
-                drawerAnchor={dir === "ltr" ? "left" : "right"}
-                willShow={<AdminNavbarListContent />}
-                title='AdminHeaderTitle2'
-                icon={<MenuIcon />}
-                // drawerVariant="temporary" | don't need to write it if temporary
-                />
-                <AdminHeaderTitle />
+            <AdminHeaderTitle />
+                
             </StyledTitle>
             <AdminHeaderMenu />
         </StyledHeader>

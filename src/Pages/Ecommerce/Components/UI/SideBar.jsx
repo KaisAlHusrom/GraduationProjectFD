@@ -4,28 +4,19 @@ import propTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { NewList } from '../../data/CradsData';
 import { ReviewCalculateSMA } from '../../utils/functions';
+import { useCliserMarketContext } from '../../EcommerceMain';
 
 const SideBar = (props) => {
-    const { query, handleInputChange, handleCategoryChange, handlePriceChange, handleRatingChange} = props;
-    const [categories, setCategories] = useState([]);
+    const { query, products, handleInputChange, handleCategoryChange, handlePriceChange, handleRatingChange} = props;
+    const {categories} = useCliserMarketContext()
     const [priceRanges, setPriceRanges] = useState([]);
     const [ratingOptions, setRatingOptions] = useState([]);
 
     useEffect(() => {
-        // Extract category descriptions from NewList
-        const categoryName = NewList.map(product => {
-            // Assuming there's only one category per product
-            return product.categories.length > 0 ? product.categories[0].category_name :'';
-        });
-
-        // Remove duplicate category descriptions
-        const uniqueCategoryName = Array.from(new Set(categoryName));
-
-        // Set the categories state with unique category descriptions
-        setCategories(uniqueCategoryName);
+        
 
         // Extract price ranges from NewList
-        const prices = NewList.map(product => product.product_price);
+        const prices = products ? products.map(product => product.product_price) : [100, 1000, 10000];
         // Remove duplicate prices
         const uniquePrices = Array.from(new Set(prices));
 
@@ -42,7 +33,7 @@ const SideBar = (props) => {
         setPriceRanges(priceRanges);
 
         // Extract rating options from NewList
-        const Ratings = NewList.map(product => ReviewCalculateSMA(product.product_reviews));
+        const Ratings = products ? products.map(product => ReviewCalculateSMA(product.product_reviews)) : [1, 2, 3, 4, 5];
         // Remove duplicate ratings
         const uniqueRatings = Array.from(new Set(Ratings));
 
@@ -51,7 +42,7 @@ const SideBar = (props) => {
 
         // Set the ratingOptions state
         setRatingOptions(uniqueRatings);
-    }, []);
+    }, [products]);
 
     return (
 
@@ -63,7 +54,7 @@ const SideBar = (props) => {
                         variant="outlined"
                         label="Search"
                         onChange={handleInputChange}
-                        value={query}
+                        value={query?.searchTerm}
                     />
                 </Grid>
 
@@ -73,8 +64,8 @@ const SideBar = (props) => {
                         <FormLabel component="legend">Categories</FormLabel>
                         <RadioGroup aria-label="categories" name="categories" onChange={handleCategoryChange}>
                             <FormControlLabel value="" control={<Radio />} label="All" />
-                            {categories.map((category, index) => (
-                                <FormControlLabel key={index} value={category} control={<Radio />} label={category} />
+                            {categories?.map((category, index) => (
+                                <FormControlLabel key={index} value={category.category_name} control={<Radio />} label={category.category_name} />
                             ))}
                         </RadioGroup>
                     </FormControl>

@@ -3,23 +3,25 @@ import { useMemo, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
     Box, Typography, Container,
-    Grid, IconButton, Divider
+    Grid, IconButton, Divider, Button, Skeleton
 } from '@mui/material'
 import { styled } from '@mui/system'
 import ProductCard from '../ProductCard'
-import { NewList, productList } from '../../data/CradsData'
+
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos'
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import { ReviewCalculateSMA, shuffleArray } from '../../utils/functions'
+import { ReviewCalculateSMA} from '../../utils/functions'
+
+import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData'
+import { fetchSpecificUserProductsCategories } from '../../../../Services/UserServices/Services/productCategoriesUsersService'
 
 //Styled Components
 const StyledProductsTape = styled(Box)(
     () => ({
         marginTop: 10,
-        backgroundColor: "#111111",
-        backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05))",
         borderRadius: "15px",
-        overflow: 'hidden', // Prevent overflow
+        overflow: 'hidden', // Prevent overflow,
+        width: "100%",
     })
 )
 
@@ -60,6 +62,9 @@ const ProductsTape = ({ title, Cat }) => {
     const handleLearnMoreClick = (productId) => {
         navigate(`/cliser-digital-market/productView/${productId}`)
     }
+    const handleAllproductsClick = ()=>{
+        navigate(`/cliser-digital-market/Products`)
+    }
     const scrollContainerRef = useRef(null)
 
     const scroll = (direction) => {
@@ -70,46 +75,100 @@ const ProductsTape = ({ title, Cat }) => {
         }
     }
 
+    // TODO: will do this later
+    const params = useMemo(() => {
+        return [
+            Cat?.id
+        ]
+    }, [Cat])
+    const {
+        download: productsDownload,
+        data: updatedCat,
+    } = useEffectFetchData(fetchSpecificUserProductsCategories, params, true, true)
 
-    const filteredProducts = useMemo(() => {
-        if (Cat) {
-            return NewList.filter(product => 
-                product.categories.some(category => category.category_name === Cat)
-            );
-        } else {
-            return shuffleArray(NewList);
-        }
-    }, [Cat]);
 
-    console.log(filteredProducts)
+    // console.log(Cat)
 
     return (
         <StyledProductsTape>
             <Container sx={{ paddingTop: '20px' }} maxWidth="lg">
-                <Grid Container >
-                <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
-                    {title}
-                </Typography>
+                <Grid>
+                    <Grid container spacing={2} justifyContent="space-between" alignItems="center">
+                        <Grid item xxs={12} xs={6} md={6}>
+                            <Typography variant="h4" sx={{ paddingTop: 1, paddingBottom: 1 }}>
+                            {title}
+                            </Typography>
+                        </Grid>
+                        <Grid item xxs={12} xs={6} md={6} display="flex" justifyContent="flex-end">
+                            <Button variant='contained' size='large' onClick={handleAllproductsClick} >
+                                All Products
+                            </Button>
+                        </Grid>
+                    </Grid>
+                
                 <Divider />
                 <Box sx={{ position: 'relative' }}>
                     <ScrollButton style={{ left: 0 }} onClick={() => scroll('left')}>
                         <ArrowBackIosIcon />
                     </ScrollButton>
                     <ScrollContainer ref={scrollContainerRef}>
-                        {filteredProducts.map((product, index) => (
-                            <Grid key={index} item xs={12} sm={6} md={4} lg={4}>
-                                <ProductCard
-                                    title={product.product_name}
-                                    description={product.product_short_description}
-                                    image={product.product_media}
-                                    price={product.product_price}
-                                    rating={ReviewCalculateSMA(product.product_reviews)}
-                                    creator={`${product.user.first_name} ${product.user.last_name}`}
-                                    category={product.categories}
-                                    action={() => handleLearnMoreClick(product.id)}
+                        {
+                            !productsDownload
+                            ?
+                                updatedCat?.products && updatedCat?.products?.length > 0 
+                                ?
+                                    updatedCat?.products.map((product, key) => {
+                                            return (
+                                                <Grid key={key} item xs={12} sm={8} md={6} lg={4}>
+                                                    <ProductCard
+                                                        AddToCartId={product.id}
+                                                        title={product.product_name}
+                                                        description={product.product_short_description}
+                                                        image={product.product_media}
+                                                        mainImage={product.product_main_image_name}
+                                                        price={product.product_price}
+                                                        rating={ReviewCalculateSMA(product.product_reviews)}
+                                                        creator={`${product?.user?.first_name} ${product?.user?.last_name}`}
+                                                        category={product.categories}
+                                                        action={() => handleLearnMoreClick(product.id)}
+                                                        creatorImage={product.user.profile_image}
+                                                    />
+                                                </Grid>
+                                            )
+                                        })
+                                : <Grid item xs={12} sm={8} md={6} lg={4}>
+                                        <Typography color={'info.main'}>
+                                            There are no products.
+                                        </Typography>
+                                    </Grid>
+                            :
+                            <>
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Skeleton
+                                    width={'100%'}
+                                    height={300}
                                 />
                             </Grid>
-                        ))}
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Skeleton
+                                    width={'100%'}
+                                    height={300}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Skeleton
+                                    width={'100%'}
+                                    height={300}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={8} md={6} lg={4}>
+                                <Skeleton
+                                    width={'100%'}
+                                    height={300}
+                                />
+                            </Grid>
+                            </>
+                        }
                     </ScrollContainer>
                     <ScrollButton style={{ right: 0 }} onClick={() => scroll('right')}>
                         <ArrowForwardIosIcon />

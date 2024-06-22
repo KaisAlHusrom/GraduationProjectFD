@@ -1,11 +1,11 @@
-
 import { Box, Grid, Typography, IconButton, Avatar } from '@mui/material';
 import Rating from '@mui/material/Rating';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { productList } from '../data/CradsData';
+import { NewList } from '../data/CradsData';
+import { ReviewCalculateSMA } from './functions';
 
 const getProductById = (productId) => {
-    return productList.find(product => product.id === productId);
+    return NewList.find(product => product.id === productId);
 };
 
 export const renderCartItem = (productId, index, cartItems, handleRemoveCartBtn, navigate) => {
@@ -33,8 +33,8 @@ export const renderCartItem = (productId, index, cartItems, handleRemoveCartBtn,
                                 {/* Image */}
                                 <Box mr={2}>
                                     <img
-                                        src={product.image}
-                                        alt={product.title}
+                                        src={product.product_main_image_name}
+                                        alt={product.product_name}
                                         style={{ width: 100, height: 100, objectFit: 'cover' }}
                                         onClick={handleItemClick}
                                     />
@@ -42,11 +42,11 @@ export const renderCartItem = (productId, index, cartItems, handleRemoveCartBtn,
                                 {/* Title and Creator */}
                                 <Box sx={{ marginTop: '-1rem', marginBottom: '1.2rem' }}>
                                     <a href="#" onClick={handleItemClick} style={{ textDecoration: 'none' }}>
-                                        <h2 style={{ marginBottom: '0.5rem', color: 'white' }}>{product.title}</h2>
+                                        <h2 style={{ marginBottom: '0.5rem', color: 'white' }}>{product.product_name}</h2>
                                     </a>
-                                    <Rating value={product.rating} readOnly style={{ marginBottom: '0.5rem' }} />
+                                    <Rating value={ReviewCalculateSMA(product.product_reviews)} readOnly style={{ marginBottom: '0.5rem' }} />
                                     <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px' }}>
-                                        <Avatar src={product.image} sx={{ width: 32, height: 32 }} /> {product.creator}
+                                        <Avatar src={product.user.profile_image} sx={{ width: 32, height: 32 }} /> {product.user.first_name}
                                     </Typography>
                                 </Box>
                             </Box>
@@ -56,7 +56,7 @@ export const renderCartItem = (productId, index, cartItems, handleRemoveCartBtn,
                             <Box display="flex" alignItems="center" justifyContent="space-between">
                                 {/* Price */}
                                 <Box sx={{ paddingTop: '20px', paddingLeft: '8px' }}>
-                                    <h2>${product.price}</h2>
+                                    <h2>${product.product_price}</h2>
                                 </Box>
                                 {/* Delete Icon */}
                                 <Box sx={{ paddingTop: '20px' }}>

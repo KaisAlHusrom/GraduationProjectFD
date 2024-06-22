@@ -62,8 +62,9 @@ const AdminMainButton = (props) => {
         drawerZIndex,
         menuPaperProps,
         component,
-        href
-    } = props;
+        href,
+        popOverProps
+    } = props
 
     // theme
     const theme = useTheme();
@@ -142,8 +143,8 @@ const AdminMainButton = (props) => {
     };
 
     const StyledCustomPopover = {
-        marginTop: theme.spacing(1) // Adjust this value to add space between the button and popover
-    };
+        marginTop: theme.spacing(1),
+    }
 
     const StyleOfIconButton = {
         border: putBorder && '1px solid',
@@ -316,125 +317,134 @@ const AdminMainButton = (props) => {
 
             {/* --- The Content Will Appear --- */}
             {
-                menuItems && type === 'menu'
-                    ?
-                    <Menu
-                        id={title + '-menu'}
-                        anchorEl={menuEl}
-                        open={openMenu}
-                        onClose={handleCloseSortMenu}
-                        MenuListProps={{
-                            'aria-labelledby': `by-${title}-menu`,
-                        }}
-                        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-                        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-                        PaperProps={menuPaperProps}
-                    >
-                        {
-                            menuItems.map((item, key) => {
-                                return (
-                                    <MenuItem
-                                        onClick={item.onClick}
-                                        key={key}
-                                        sx={{
-                                            gap: theme.spacing(),
-                                            backgroundColor: item.selected ? 'action.selected' : '',
-                                            fontWeight: item.selected ? 'bold' : 'normal',
-                                        }}
-                                    >
-                                        {item.icon && item.icon}
-                                        {item.value}
-                                    </MenuItem>
-                                )
-                            })
-                        }
-                    </Menu>
-                    :
-                    menuItems && type === 'buttonsMenu'
-                        ?
-                        <Menu
-                            id={title + '-menu'}
-                            anchorEl={menuEl}
-                            open={openMenu}
-                            onClose={handleCloseSortMenu}
-                            PaperProps={menuPaperProps}
-                        >
-                            {
-                                menuItems.map((item, key) => {
-                                    return (
-                                        <MenuItem
-                                            key={key}
-                                            sx={{
-                                                gap: theme.spacing()
-                                            }}
-                                        >
-                                            {item}
-                                        </MenuItem>
-                                    )
-                                })
-                            }
-                        </Menu>
-                        :
-
-                        type === 'modal'
-                            ?
-                            <CustomModal
-                                title={title}
-                                modalOpenState={[modalOpen, setModalOpen]}
-                                modalIcon={modalIcon}
+                menuItems && type === "menu" 
+                ?
+                <Menu 
+                id={title + "-menu"}
+                anchorEl={menuEl} 
+                open={openMenu} 
+                onClose={handleCloseSortMenu}
+                MenuListProps={{
+                    "aria-labelledby": `by-${title}-menu`,
+                }}
+                transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+                anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+                PaperProps={menuPaperProps}
+                >
+                    {
+                        menuItems.map((item, key) => {
+                            return (
+                            <MenuItem
+                            onClick={item.onClick}
+                            key={key}
+                            sx={{
+                                gap: theme.spacing(),
+                                backgroundColor: item.selected ? "action.selected" : "",
+                                fontWeight: item.selected ? "bold" : "normal",
+                            }}
                             >
-                                {willShow}
-                            </CustomModal>
-                            :
-                            type === 'drawer'
-                                ?
-                                <CustomDrawer
-                                    drawerOpenState={[drawerOpen, setDrawerOpen]}
-                                    title={title}
-                                    putDrawerCloseButton={putDrawerCloseButton}
-                                    anchor={drawerAnchor}
-                                    variant={drawerVariant}
-                                    drawerStyle={drawerStyle}
-                                    drawerResizable={drawerResizable}
-                                    drawerHeaderStyle={drawerHeaderStyle}
-                                    drawerHeaderContent={drawerHeaderContent}
-                                    withoutDrawerHeader={withoutDrawerHeader}
-                                    drawerWidthState={drawerWidthState}
-                                    drawerZIndex={drawerZIndex}
-                                >
-                                    {willShow}
-                                </CustomDrawer>
-                                :
-                                type === 'popover'
-                                    ?
-                                    <Popover
-                                        sx={StyledCustomPopover}
-                                        open={open}
-                                        anchorEl={anchorEl}
-                                        onClose={handleClosePopover}
-                                        anchorOrigin={{
-                                            vertical: 'bottom',
-                                            horizontal: 'left',
-                                        }}
-                                        transformOrigin={{
-                                            vertical: 'top',
-                                            horizontal: 'left',
-                                        }}
-                                        elevation={0}
-                                    >
-                                        {willShow}
-                                    </Popover>
-                                    :
-                                    type === 'StyleDialog'
-                                        ?
-                                        <StyleDialog
-                                            title={title}
-                                            OpenState={[openStyleDialog, setOpenStyleDialog]}
-                                            modalIcon={modalIcon}
-                                        >
-                                            {willShow}
-                                        </StyleDialog>
-                                        : null
+                                {item.icon && item.icon}
+                                {item.value}
+                            </MenuItem>
+                            )
+                        })
+                    }
+                    
+                    
+
+                </Menu>
+                : 
+                menuItems && type === "buttonsMenu" 
+                ?
+                <Menu 
+                id={title + "-menu"}
+                anchorEl={menuEl} 
+                open={openMenu} 
+                onClose={handleCloseSortMenu}
+                PaperProps={menuPaperProps}
+                >
+                    {
+                        menuItems.map((item, key) => {
+                            return (
+                            <MenuItem
+                            key={key}
+                            sx={{
+                                gap: theme.spacing()
+                            }}
+                            >
+                            {item}
+                            </MenuItem>
+                            )
+                        })
+                    }
+                    
+                    
+
+                </Menu>
+                : 
+                
+                type === "modal"
+                ?
+                <CustomModal 
+                title={title} 
+                modalOpenState={[modalOpen, setModalOpen]}
+                modalIcon={modalIcon}
+                >
+                    {willShow}
+                </CustomModal>
+                : 
+                type === "drawer" 
+                ?
+                <CustomDrawer
+                drawerOpenState={[drawerOpen, setDrawerOpen]}
+                title={title}
+                putDrawerCloseButton={putDrawerCloseButton}
+                anchor={drawerAnchor}
+                variant={drawerVariant}
+                drawerStyle = {drawerStyle}
+                drawerResizable={drawerResizable}
+                drawerHeaderStyle={drawerHeaderStyle}
+                drawerHeaderContent={drawerHeaderContent}
+                withoutDrawerHeader={withoutDrawerHeader}
+                drawerWidthState={drawerWidthState}
+                drawerZIndex={drawerZIndex}
+                >
+                    {willShow}
+                </CustomDrawer>
+                :
+                type === "popover" 
+                ?
+                <Popover 
+                    sx={StyledCustomPopover}
+                    open={open} 
+                    anchorEl={anchorEl} 
+                    onClose={handleClosePopover}
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'left',
+                    }}
+                    elevation={0}
+                    
+                    {...popOverProps}
+
+                >
+                    {willShow}
+                </Popover>
+                :
+                type === "StyleDialog" 
+                ? 
+                    <StyleDialog 
+                        title={title} 
+                        OpenState={[openStyleDialog, setOpenStyleDialog]}
+                        modalIcon={modalIcon}
+                    >
+                        {willShow}
+                    </StyleDialog>
+                : null
             }
         </>
     );

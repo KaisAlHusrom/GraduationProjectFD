@@ -26,12 +26,30 @@ import { useNavigate } from 'react-router-dom'
 const StyledPortfolioTabs = styled(Box)(
     ({ theme }) => ({
         padding: theme.spacing(),
+
     })
 )
 
 const ActionsBox = styled(Box)(
+    () => ({
+
+    })
+);
+
+const StyledTabsHeader = styled(Box)(
     ({ theme }) => ({
-        // Your styles here
+        borderBottom: 1, 
+        borderColor: 'divider', 
+        display: 'flex', 
+        justifyContent: 'space-between', 
+        alignItems: 'center',
+        [theme.breakpoints.down("sm")]: {
+            flexDirection: 'column',
+            justifyContent: 'flex-start',
+            gap: theme.spacing(2),
+            alignItems: 'flex-start',
+            marginLeft: theme.spacing(4)
+        }
     })
 );
 
@@ -62,7 +80,7 @@ const PortfolioTabs = () => {
     }
     return (
         <StyledPortfolioTabs>
-            <Box sx={{ borderBottom: 1, borderColor: 'divider', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <StyledTabsHeader>
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Products" id={0} />
                     <Tab label="Web Projects"  id={1}  />
@@ -78,14 +96,16 @@ const PortfolioTabs = () => {
                             putBorder
                             filled
                             sx={{
-                                borderRadius: 2
+                                borderRadius: 2,
+                                width: "100%",
+                                
                             }}
                             type='custom'
                             onClick={handleAddClick}
                         />
                     </ActionsBox>
                 }
-            </Box>
+            </StyledTabsHeader>
                 <CustomTabPanel value={value} index={0}>
                     <MyProductsTab />
                 </CustomTabPanel>

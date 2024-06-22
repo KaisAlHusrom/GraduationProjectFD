@@ -44,7 +44,7 @@ const StyledButton = styled(Button)(
 )
 
 
-const SettingsListItem = ({title, groupButtons}) => {
+const SettingsListItem = ({title, groupButtons, value}) => {
     return (
         <StyledSettingsListItem>
             <Typography
@@ -63,6 +63,10 @@ const SettingsListItem = ({title, groupButtons}) => {
                                 key={i}
                                 value={button.value}
                                 onClick={button.onClick}
+                                sx={{
+                                    backgroundColor: theme => value === button.value ? theme.palette.primary.main : undefined,
+                                    color: theme => value === button.value ? theme.palette.primary.contrastText : undefined,
+                                }}
                                 >
                                     {button.icon}
                                     {button.name}

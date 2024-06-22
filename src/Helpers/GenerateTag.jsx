@@ -1,5 +1,5 @@
 import { Link } from "@mui/material"
-import { Fragment, useMemo } from "react";
+import { Fragment, forwardRef, useMemo } from "react";
 import { NavLink } from "react-router-dom";
 
 import exampleImage from "../assets/images/exampleimage.jpg"
@@ -282,14 +282,11 @@ const Tag = (props) => {
         return component
     }, [type])
 
-    
 
     const StyledComp = useMemo(() => {
         return styled(component)(
             ({theme}) => ({
                 ...styles,
-                // backgroundColor: selectedSubElementIds.includes(sortedData.id)  ? theme.palette.action.selected : styles ? styles['backgroundColor'] : null,
-                // padding: theme.spacing()
             })
         );
     
@@ -311,16 +308,26 @@ const Tag = (props) => {
         return null;
     }, [exampleText, sortedData.element_type.element_type_name])
     
+    const propsValues = useMemo(() => {
+        if (sortedData.design_prop_values) {
+            return sortedData.design_prop_values.reduce((acc, prop) => {
+                acc[prop?.element_prop?.element_prop_name] = prop?.design_prop_value;
+                return acc;
+            }, {});
+        }
+        return {};
+    }, [sortedData.design_prop_values]);
 
+    console.log(propsValues)
     return (
         !sortedData.element_type.not_has_end_tag ?
             
-                <StyledComp {...defaultProps} src={getImageSrc} >
+                <StyledComp {...defaultProps} {...propsValues} src={getImageSrc} >
                     {exampleText}
                 </StyledComp>
 
             :
-            <StyledComp {...defaultProps} src={getImageSrc} placeholder={exampleText} />
+            <StyledComp {...defaultProps} {...propsValues} src={getImageSrc} placeholder={exampleText} />
         
     )
 }
@@ -333,3 +340,4 @@ Tag.propTypes = {
     styles: propTypes.object,
     hoveredSubElementId: propTypes.string,
 }
+

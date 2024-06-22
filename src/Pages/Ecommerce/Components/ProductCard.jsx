@@ -8,10 +8,12 @@ import {
     CardMedia,
     Rating,
     Container,
-    Avatar
+    Avatar,
+    Grid
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { useCart } from '../utils/CartContext';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
@@ -21,6 +23,15 @@ import propTypes from 'prop-types';
 import config from "../../../../Config.json"
 
 import { mediaFolderName } from '../../../Services/UserServices/Services/productsMediaUsersService';
+import { useNavigate } from 'react-router-dom';
+import { useMemo } from 'react';
+import { productsImagesFolderName } from '../../../Services/AdminServices/Services/productsService';
+import { AdminMainButton } from '../../../Components';
+
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import { position } from 'stylis';
+import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
+
 // Styled Components
 const StyledProductCard = styled(Box)(
     () => ({
@@ -33,16 +44,35 @@ const StyledProductCard = styled(Box)(
 );
 
 const ProductCard = (props) => {
-    const { title, description, image, action, price, rating, creator, category } = props;
-    // Ensure image is an array
-    const mediaArray = Array.isArray(image) ? image : [];
+    const navigate = useNavigate();
+    const { AddToCartId,title, description, image, action, price, rating, creator, category, mainImage, creatorImage } = props;
 
-    
+    // Ensure image is an array
+    const mainImagePath = useMemo(() => {
+        return `${config.ServerImageRoute}/${productsImagesFolderName}/${mainImage}`
+    }, [mainImage])
+
+    const creatorImagePath = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${creatorImage}`
+
+
+    console.log(category)
+
+    const mediaArray = Array.isArray(image) ? image: [];
+    const { addToCart, cartItems } = useCart();
+
+    const handleAddToCart = () => {
+        addToCart({
+            id: AddToCartId,
+            product_name: title,
+            product_price: price,
+        });
+        // navigate('/cliser-digital-market/Cart');
+    };
 
     return (
         <StyledProductCard>
             <Container id="Cards">
-                <Card sx={{ maxWidth: '600', borderRadius: '10px', objectFit: "contain" }}>
+                <Card sx={{ maxWidth: '600', borderRadius: '10px', objectFit: "contain", position: 'relative' }}>
                     <Swiper
                         spaceBetween={30}
                         centeredSlides={true}
@@ -54,6 +84,15 @@ const ProductCard = (props) => {
                         modules={[Autoplay, Pagination, Navigation]}
                         className="mySwiper"
                     >
+                        <SwiperSlide>
+                            <CardMedia
+                                component="img"
+                                height="140"
+                                image={mainImagePath}
+                                alt={`Media for ${title}`}
+                                sx={{ maxHeight: 150, maxWidth: "100%", objectFit: "contain" }}
+                            />
+                        </SwiperSlide>
                         {mediaArray.map((media, index) => {
                             const imagePath = `${config.ServerImageRoute}/${mediaFolderName}/${media?.product_media_name}`;
                             const videoPath = `${config.ServerVideoRoute}/${mediaFolderName}/${media?.product_media_name}`;
@@ -80,27 +119,61 @@ const ProductCard = (props) => {
                             )
                         })}
                     </Swiper>
-                    <CardContent>
+                    <CardContent sx={{position: 'relative'}}>
                         <Typography gutterBottom variant="h5" component="div">
                             {title}
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography variant="subtitle1" color="text.secondary">
                             {description}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                            Price: ${price}
+                        <Typography variant="body1" color="text.secondary" whiteSpace='nowrap' overflow='hidden' textOverflow={'ellipsis'}>
+                            {category?.map(cat => (
+                                cat.category_name + ', '
+                            ))}
                         </Typography>
-                        <Typography variant="body1" color="text.secondary">
-                            {category?.[0]?.category_name}
+                        
+                        
+                        <Typography variant='body1'>
+                            <Rating name="read-only" value={rating !== undefined ? rating : 'No ratings'} precision={0.2} readOnly />
                         </Typography>
-                        <Rating name="read-only" value={rating !== undefined ? rating : 'No ratings'} precision={0.2} readOnly />
+                        <Typography variant="h7" color="text.primary">
+                            ${price}
+                        </Typography>
                         <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px', paddingTop: 1 }}>
-                            <Avatar src={image?.[0]?.product_media_name} sx={{ width: 32, height: 32 }} /> {creator}
+                            <Avatar src={creatorImagePath} sx={{ width: 32, height: 32 }} /> {creator}
                         </Typography>
+                        <AdminMainButton
+                            title='Add To Cart'
+                            type='custom'
+                            appearance='iconButton'
+                            icon={<ShoppingCartOutlinedIcon />}
+                            putBorder
+                            onClick={handleAddToCart}
+                            
+                            sx={{
+                                position: "absolute",
+                                top: 8,
+                                right: 8,
+                                zIndex: 1000,
+                                color: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.contrastText : undefined,
+                                backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.main : undefined,
+                                "&:hover": {
+                                    backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.dark : undefined,
+                                }
+                            }}
+                    />
                     </CardContent>
                     <CardActions>
-                        <Button variant='contained' fullWidth onClick={action} >Learn More</Button>
+                        <Grid container spacing={2}>
+                            <Grid item xxs={12} xs={12} sm={6} md={6}>
+                                <Button variant='contained' fullWidth onClick={action}>
+                                    Learn More
+                                </Button>
+                            </Grid>
+                            
+                        </Grid>
                     </CardActions>
+                    
                 </Card>
             </Container>
         </StyledProductCard>
@@ -108,6 +181,7 @@ const ProductCard = (props) => {
 };
 
 ProductCard.propTypes = {
+    AddToCartId:propTypes.string,
     title: propTypes.string.isRequired,
     description: propTypes.string.isRequired,
     image: propTypes.array.isRequired,

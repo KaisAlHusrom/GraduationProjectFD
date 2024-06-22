@@ -9,6 +9,7 @@ import {
     Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
+import CliserImageLogo from '../../../../Ecommerce/utils/CliserImageLogo';
 
 
 //Styled Components
@@ -18,6 +19,9 @@ const StyledTitleBox = styled(Box)(
         height: "65px",
         display: "flex",
         alignItems: "center",
+        // [theme.breakpoints.down("md")]: {
+        //     display: "none",
+        // }
     })
 )
 
@@ -26,9 +30,7 @@ const AdminHeaderTitle = () => {
     return (
         <>
         <StyledTitleBox className='adminHeaderTitle'>
-            <Typography variant='h6' component="span">
-                AdminHeaderTitle
-            </Typography>
+            <CliserImageLogo />
             
         </StyledTitleBox>
         </>

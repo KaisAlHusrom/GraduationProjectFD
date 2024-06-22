@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 // nav list data
 import { navList } from '../utils/navList';
-import ViewListOutlinedIcon from '@mui/icons-material/ViewListOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 //Components
 
 
@@ -17,6 +17,8 @@ import {
     Typography,
 } from '@mui/material'
 import { styled } from '@mui/system'
+//icons
+import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 //propTypes 
 import propTypes from 'prop-types'
@@ -29,9 +31,8 @@ import CliserImageLogo from '../../../../Ecommerce/utils/CliserImageLogo';
 
 
 
-const NavList = ({mobileScreen, drawerState}) => {
+const NavList = ({mobileScreen, handleClose, handleLogOut}) => {
 
-    const [, setDrawerOpen] = drawerState || [null, () => {}]
     const [selectedNavItem, setSelectedNavItem] = useState(null);
     const location = useLocation();
 
@@ -43,23 +44,29 @@ const NavList = ({mobileScreen, drawerState}) => {
 
     const user = useSelector(state => state.authSlice.user);
 
-    const navListItems = useMemo(() => [...navList, {
+    const navListItems = useMemo(() => [
+        ...navList,
+        {
         path: "/portfolio/" + user?.id,
         title: "My Works",
-        icon: ViewListOutlinedIcon
+        icon: AccountCircleIcon
     }], [user?.id])
 
     const navigate = useNavigate()
 
     const handleProfileMainPage = () => {
         setSelectedNavItem(null)
-        setDrawerOpen(() => false)
-        navigate("")
+        if(handleClose) {
+            handleClose()
+        }
+        navigate("/")
     }
 
     const handleClickItem = (title) => {
         setSelectedNavItem(() => title)
-        setDrawerOpen(() => false)
+        if(handleClose) {
+            handleClose()
+        }
     }
     // styles
     const StyledNavList = useMemo(() => {
@@ -107,6 +114,20 @@ const NavList = ({mobileScreen, drawerState}) => {
         );
     }, [mobileScreen])
 
+    const StyledBox = useMemo(() => {
+        return styled(Box)(
+            ({ theme }) => ({
+                display: 'flex',
+                alignItems : 'center',
+                gap: mobileScreen ? theme.spacing(3) :theme.spacing(),
+                textDecoration : 'none',
+                width: "100%",
+                height: "100%",
+                letterSpacing: 1.5,
+            })
+        );
+    }, [mobileScreen])
+
     return (
         <StyledNavList>
             {
@@ -114,30 +135,6 @@ const NavList = ({mobileScreen, drawerState}) => {
             }
             
             <Box sx={navItemsStyle}>
-                {
-                    mobileScreen &&
-                    (
-                        <MenuItem
-                            sx={{
-                                backgroundColor: 'transparent',
-                                "&:hover": {
-                                    backgroundColor: 'transparent'
-                                }
-                            }}
-                            onClick={() => handleClickItem("profile")}
-                            >
-                            <StyledNavLink 
-                            to={'/profile'} 
-                            
-                            >
-                                <CliserImageLogo HandleMainButton={handleProfileMainPage} />
-                            </StyledNavLink>
-                                
-                        </MenuItem>
-                        
-                    )
-                }
-                <Divider />
                 {navListItems && navListItems.length > 0 &&
                         navListItems.map((item, key) => {
                         return (
@@ -170,6 +167,29 @@ const NavList = ({mobileScreen, drawerState}) => {
                         )
                         })
                 }
+                {
+                    mobileScreen &&
+                    <>
+                    <Divider />
+                    
+                        <MenuItem
+                            onClick={handleLogOut}
+                        >
+                            <StyledBox >
+                                <Typography variant='subtitle2' color="error.main">
+                                    {<LogoutOutlinedIcon fontSize='small' color='error.main' />}
+                                </Typography>
+                                <Typography 
+                                variant={'subtitle1'}
+                                color={"error.main"}>
+                                    Logout
+                                </Typography>
+                            </StyledBox>
+                        </MenuItem>
+                    
+                        
+                    </>
+                }
             </Box>
         </StyledNavList>
     );
@@ -177,7 +197,8 @@ const NavList = ({mobileScreen, drawerState}) => {
 
 NavList.propTypes = {
     mobileScreen: propTypes.bool,
-    drawerState: propTypes.array
+    handleClose: propTypes.func,
+    handleLogOut: propTypes.func,
 }
 
 export default NavList;

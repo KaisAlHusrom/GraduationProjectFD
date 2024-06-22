@@ -49,6 +49,10 @@ import EditPage from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/E
 import Main from '../Pages/DesignControlPage/sections/EmptyDesign/Main';
 import { ProvideUser } from '../Services/AuthServices/authService';
 import PortfolioMain from '../Pages/NewWebSite/Pages/PortfolioMain/PortfolioMain';
+import { fetchSpecificProductLoader } from '../Services/UserServices/Services/productsUsersService';
+import MyPaymentPlans from '../Pages/NewWebSite/Pages/MyPaymentPlans/MyPaymentPlans';
+import MyOrdersAndBilling from '../Pages/NewWebSite/Pages/MyOrdersAndBilling/MyOrdersAndBilling';
+import HandleProductPage from '../Pages/NewWebSite/Pages/HandleProductPage/HandleProductPage';
 import MainPreview from '../Pages/DesignControlPage/sections/EmptyDesign/Preview/MainPreview';
 
 
@@ -106,11 +110,15 @@ const router = createBrowserRouter(
                 >
                     <Route path="" element={<ProfileHomePage />} />
                     <Route path="web-projects" element={<MyWebSite />} />
+                    <Route path="handle-product/:id" element={<HandleProductPage />} />
+                    <Route path="handle-product" element={<HandleProductPage />} />
+                    <Route path="payment-plan" element={<MyPaymentPlans />} />
+                    <Route path="orders-billing" element={<MyOrdersAndBilling />} />
                     <Route path="create-new-project" element={<CreateWebsite />} />
                 </Route>
                 <Route path="portfolio/:user_id" element={<PortfolioMain />} />
 
-                {/* //* Design Control Page Routes */}  
+                {/* //* Design Control Page Routes */}
                 <Route path="/empty-design/EditPage/:section_id" element={<EditPage />} />
                 <Route path="/empty-design/:id/*" element={<Main />} exact= {true} />
                 <Route path="/preview/:id" element={<MainPreview />} />
@@ -134,7 +142,7 @@ const router = createBrowserRouter(
                 {/* //? can visit without logging */}
                 <Route path="" element={<CliserDigitalMarketHomePage />} />
                 <Route path="Products" element={<Products />} />
-                <Route path="productView/:idx" element={<ProductView />} />
+                <Route path="productView/:idx" element={<ProductView />} loader={fetchSpecificProductLoader} />
                 <Route path="Cart" element={<Cart />} />
             </Route>
             

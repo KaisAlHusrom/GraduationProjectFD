@@ -30,6 +30,7 @@ import { fetchProducts } from '../../../../Services/AdminServices/Services/produ
 
 // icons
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import { fetchUsers } from '../../../../Services/AdminServices/Services/usersService'
 
 // Styled Components
 const StyledOrdersPage = styled(Box)(
@@ -40,6 +41,13 @@ const StyledOrdersPage = styled(Box)(
 
 const relationships = {
     manyToOne:[
+        {
+            "field_name": "user",
+            "fetched_column": "first_name",
+            "related_table_id": "id",
+            add_to_add_form: true, 
+            fetch_all_data: fetchUsers, 
+        }
     ],
     manyToMany:[
         {
@@ -60,10 +68,10 @@ const relationships = {
 
 const columns = {
     "id": "pk",
-    'user_id': "many-to-one",
     'total_amount': "decimal",
     'status': "enum|accepted,rejected,pending",
     'products': "many-to-many",
+    'user': "many-to-one",
     "created_at": "dateTime",
     "updated_at": "dateTime"
 }

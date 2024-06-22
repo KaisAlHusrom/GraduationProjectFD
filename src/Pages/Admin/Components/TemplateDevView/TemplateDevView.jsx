@@ -82,15 +82,16 @@ const TemplateDevView = () => {
 
 
     const {template, elementsStyle, mode, setMode} = useMyCreateElementContext()
-
+    console.log(template)
     const [editableElement, setEditableElement] = useState(null)
+    
     useEffect(() => {
         if(mode !== "page") {
             setEditableElement(() => template ? <GenerateTag key={template.id} selectedTemplate={template} /> : null)
         } else {
             //
         }
-    }, [elementsStyle, template])
+    }, [elementsStyle, mode, template])
 
 
     return (

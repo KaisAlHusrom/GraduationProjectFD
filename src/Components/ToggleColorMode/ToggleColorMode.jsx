@@ -5,8 +5,24 @@ import Button from '@mui/material/Button';
 
 import WbSunnyRoundedIcon from '@mui/icons-material/WbSunnyRounded';
 import ModeNightRoundedIcon from '@mui/icons-material/ModeNightRounded';
+import { useDispatch, useSelector } from 'react-redux';
+import { changeMode } from '../../Redux/Slices/modeSlice';
 
-function ToggleColorMode({ mode, toggleColorMode }) {
+function ToggleColorMode() {
+
+  const mode = useSelector(state => state.modeSlice.mode)
+  const dispatch = useDispatch()
+
+  const toggleColorMode = () => {
+      if(mode === 'dark' ) {
+          dispatch(changeMode({mode : 'light'}))
+      } 
+      if(mode === 'light' ) {
+          dispatch(changeMode({mode : 'dark'}))
+      } 
+  };
+
+
   return (
     <Box sx={{ maxWidth: '32px' }}>
       <Button
@@ -27,8 +43,7 @@ function ToggleColorMode({ mode, toggleColorMode }) {
 }
 
 ToggleColorMode.propTypes = {
-  mode: PropTypes.oneOf(['dark', 'light']).isRequired,
-  toggleColorMode: PropTypes.func.isRequired,
+
 };
 
 export default ToggleColorMode;

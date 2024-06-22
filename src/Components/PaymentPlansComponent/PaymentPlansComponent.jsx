@@ -21,8 +21,27 @@ import { useSelector } from "react-redux";
 import HandshakeIcon from '@mui/icons-material/Handshake';
 import { handleCheckDate } from "../../Pages/NewWebSite/Pages/ProfileHomePage/components/UserInfo/Utils/handleCheckData";
 
-export default function PaymentPlansComponent() {
+//propTypes 
+import propTypes from 'prop-types'
+import { styled } from '@mui/system'
+
+
+const CurrentPlanHeaderBox = styled(Box)(
+    ({ theme }) => ({
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: theme.palette.primary.main,
+        color: theme.palette.primary.contrastText,
+        borderRadius: "8px 8px 0 0",
+        padding: theme.spacing()
+    })
+);
+
+export default function PaymentPlansComponent({paymentPlanPage}) {
     const user = useSelector(state => state.authSlice.user)
+
     const [isInView, setIsInView] = useState(false);
     const { ref, inView } = useInView();
 
@@ -86,151 +105,170 @@ export default function PaymentPlansComponent() {
                     !download 
                     ?
                         paymentPlans && paymentPlans?.length > 0 &&
-                        paymentPlans?.map((paymentPlan, key) => (
-                            <Grid
-                                item
-                                key={key}
-                                xxs={12}
-                                sm={paymentPlan.payment_plan_title === 'Enterprise' ? 12 : 6}
-                                md={4}
-                            >
-                                <Card
-                                sx={{
-                                    p: 2,
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: 4,
-                                    border: paymentPlan.payment_plan_title === "Individual" ? '1px solid' : undefined,
-                                    borderColor:
-                                    paymentPlan.payment_plan_title === 'Individual' ? 'primary.main' : undefined,
-                                    background:
-                                    paymentPlan.payment_plan_title === 'Individual'
-                                        ? 'linear-gradient(#033363, #021F3B)'
-                                        : undefined,
-                                }}
-                                >
-                                <CardContent>
-                                    <Box
-                                    sx={{
-                                        mb: 1,
-                                        display: 'flex',
-                                        justifyContent: 'space-between',
-                                        alignItems: 'center',
-                                        color: paymentPlan.payment_plan_title === 'Individual' ? 'grey.100' : '',
-                                    }}
-                                    >
-                                    <Typography component="h3" variant="h6">
-                                        {paymentPlan.payment_plan_title}
-                                    </Typography>
-                                    {paymentPlan.payment_plan_title === 'Individual' && (
-                                        <Chip
-                                        icon={<AutoAwesomeIcon />}
-                                        label={"Recommended"}
-                                        size="small"
-                                        sx={{
-                                            background: (theme) =>
-                                            theme.palette.mode === 'light' ? '' : 'none',
-                                            backgroundColor: 'primary.contrastText',
-                                            '& .MuiChip-label': {
-                                            color: 'primary.dark',
-                                            },
-                                            '& .MuiChip-icon': {
-                                            color: 'primary.dark',
-                                            },
-                                        }}
-                                        />
-                                    )}
-                                    {paymentPlan.payment_plan_title === 'Free' && (
-                                        <Chip
-                                        icon={<HandshakeIcon />}
-                                        label={"Default"}
-                                        size="small"
-                                        sx={{
-                                            background: (theme) =>
-                                            theme.palette.mode === 'light' ? '' : 'none',
-                                            backgroundColor: 'secondary.main',
-                                            '& .MuiChip-label': {
-                                            color: 'secondary.contrastText',
-                                            },
-                                            '& .MuiChip-icon': {
-                                            color: 'secondary.contrastText',
-                                            },
-                                        }}
-                                        />
-                                    )}
-                                    </Box>
-                                    <Box
-                                    sx={{
-                                        display: 'flex',
-                                        alignItems: 'baseline',
-                                        color: paymentPlan.payment_plan_title  === 'Individual' ? 'grey.50' : undefined,
-                                    }}
-                                    >
-                                    <Typography component="h3" variant="h2">
-                                        ${paymentPlan.payment_plan_monthly_price}
-                                    </Typography>
-                                    <Typography component="h3" variant="h6">
-                                        &nbsp; per month
-                                    </Typography>
-                                    </Box>
-                                    <Divider
-                                    sx={{
-                                        my: 2,
-                                        opacity: 0.2,
-                                        borderColor: 'grey.500',
-                                    }}
-                                    />
-                                    {paymentPlan?.features?.map((feature,key) => (
-                                    <Box
+                        paymentPlans?.map((paymentPlan, key) => {
+                            const currentPlan = ((user && user?.payment_plans) && (user?.payment_plans[0]?.payment_plan_title  === paymentPlan.payment_plan_title) && handleCheckDate(user?.payment_plans[0]?.pivot?.expire_date))
+
+                            return (
+                                (
+                                    <Grid
+                                        item
                                         key={key}
-                                        sx={{
-                                        py: 1,
-                                        display: 'flex',
-                                        gap: 1.5,
-                                        alignItems: 'center',
-                                        }}
+                                        xxs={12}
+                                        sm={paymentPlan.payment_plan_title === 'Enterprise' ? 12 : 6}
+                                        md={4}
                                     >
-                                        <CheckCircleRoundedIcon
+                                        {currentPlan && (
+                                                <CurrentPlanHeaderBox>
+                                                    Current Plan
+                                                </CurrentPlanHeaderBox>
+                                            )
+                                        }
+                                        <Card
                                         sx={{
-                                            width: 20,
-                                            color:
-                                            paymentPlan.payment_plan_title  === 'Individual'
-                                                ? 'primary.light'
-                                                : 'primary.main',
-                                        }}
-                                        />
-                                        <Typography
-                                        variant="subtitle2"
-                                        sx={{
-                                            color:
-                                            paymentPlan.payment_plan_title  === 'Individual' ? 'grey.200' : undefined,
+                                            p: 2,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 4,
+                                            border: paymentPlan.payment_plan_title === "Individual" || currentPlan ? '1px solid' : undefined,
+                                            borderColor:
+                                            paymentPlan.payment_plan_title === 'Individual' || currentPlan ? 'primary.main' : undefined,
+                                            background:
+                                            paymentPlan.payment_plan_title === 'Individual' || currentPlan
+                                                ? 'linear-gradient(#033363, #021F3B)'
+                                                : undefined,
                                         }}
                                         >
-                                        {feature?.payment_plan_feature_name}
-                                        </Typography>
-                                    </Box>
-                                    ))}
-                                </CardContent>
-                                <CardActions>
-                                    <Button
-                                    fullWidth
-                                    variant={paymentPlan.payment_plan_title  === 'Individual' ? 'contained' : 'outlined'}
-                                    component="a"
-                                    href={
-                                        ((user && user?.payment_plans) && (user?.payment_plans[0]?.payment_plan_title  === paymentPlan.payment_plan_title) && handleCheckDate(user?.payment_plans[0]?.pivot?.expire_date))
-
-                                        ?
-                                        "#"
-                                        :
-                                        "/profile/payment_plans/checkout/" + paymentPlan.payment_plan_title
-                                    }
-                                    >
-                                        Buy Now
-                                    </Button>
-                                </CardActions>
-                                </Card>
-                            </Grid>
-                            ))
+                                        <CardContent>
+                                            <Box
+                                            sx={{
+                                                mb: 1,
+                                                display: 'flex',
+                                                justifyContent: 'space-between',
+                                                alignItems: 'center',
+                                                color: paymentPlan.payment_plan_title === 'Individual' || currentPlan ? 'grey.100' : '',
+                                            }}
+                                            >
+                                            <Typography component="h3" variant="h6">
+                                                {paymentPlan.payment_plan_title}
+                                            </Typography>
+                                            {paymentPlan.payment_plan_title === 'Individual' && (
+                                                <Chip
+                                                icon={<AutoAwesomeIcon />}
+                                                label={"Recommended"}
+                                                size="small"
+                                                sx={{
+                                                    background: (theme) =>
+                                                    theme.palette.mode === 'light' ? '' : 'none',
+                                                    backgroundColor: 'primary.contrastText',
+                                                    '& .MuiChip-label': {
+                                                    color: 'primary.dark',
+                                                    },
+                                                    '& .MuiChip-icon': {
+                                                    color: 'primary.dark',
+                                                    },
+                                                }}
+                                                />
+                                            )}
+                                            {paymentPlan.payment_plan_title === 'Free' && (
+                                                <Chip
+                                                icon={<HandshakeIcon />}
+                                                label={"Default"}
+                                                size="small"
+                                                sx={{
+                                                    background: (theme) =>
+                                                    theme.palette.mode === 'light' ? '' : 'none',
+                                                    backgroundColor: 'secondary.main',
+                                                    '& .MuiChip-label': {
+                                                    color: 'secondary.contrastText',
+                                                    },
+                                                    '& .MuiChip-icon': {
+                                                    color: 'secondary.contrastText',
+                                                    },
+                                                }}
+                                                />
+                                            )}
+                                            
+                                            </Box>
+                                            <Box
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'baseline',
+                                                color: paymentPlan.payment_plan_title  === 'Individual' || currentPlan ? 'grey.50' : undefined,
+                                            }}
+                                            >
+                                            <Typography component="h3" variant="h2">
+                                                ${paymentPlan.payment_plan_monthly_price}
+                                            </Typography>
+                                            <Typography component="h3" variant="h6">
+                                                &nbsp; per month
+                                            </Typography>
+                                            </Box>
+                                            <Divider
+                                            sx={{
+                                                my: 2,
+                                                opacity: 0.2,
+                                                borderColor: 'grey.500',
+                                            }}
+                                            />
+                                            {paymentPlan?.features?.map((feature,key) => (
+                                            <Box
+                                                key={key}
+                                                sx={{
+                                                py: 1,
+                                                display: 'flex',
+                                                gap: 1.5,
+                                                alignItems: 'center',
+                                                }}
+                                            >
+                                                <CheckCircleRoundedIcon
+                                                sx={{
+                                                    width: 20,
+                                                    color:
+                                                    paymentPlan.payment_plan_title  === 'Individual' || currentPlan
+                                                        ? 'primary.light'
+                                                        : 'primary.main',
+                                                }}
+                                                />
+                                                <Typography
+                                                variant="subtitle2"
+                                                sx={{
+                                                    color:
+                                                    paymentPlan.payment_plan_title  === 'Individual' || currentPlan ? 'grey.200' : undefined,
+                                                }}
+                                                >
+                                                {feature?.payment_plan_feature_name}
+                                                </Typography>
+                                            </Box>
+                                            ))}
+                                        </CardContent>
+                                        <CardActions>
+                                            <Button
+                                            disabled={currentPlan}
+                                            fullWidth
+                                            variant={paymentPlan.payment_plan_title  === 'Individual' || currentPlan ? 'contained' : 'outlined'}
+                                            sx={{
+                                                // opacity: currentPlan && "0.5",
+                                                color: currentPlan && (theme => theme.palette.primary.contrastText),
+                                                backgroundColor: currentPlan && (theme => theme.palette.primary.main),
+                                            }}
+                                            component="a"
+                                            href={
+                                                
+                                                currentPlan
+                                                ?
+                                                "#"
+                                                :
+                                                "/profile/payment_plans/checkout/" + paymentPlan.payment_plan_title
+                                            }
+                                            >
+                                                {currentPlan ? "Current Plan" : "Buy Now"}
+                                            </Button>
+                                        </CardActions>
+                                        </Card>
+                                    </Grid>
+                                    )
+                            )
+                        })
                     :
                         <>
                         <Grid
@@ -256,4 +294,8 @@ export default function PaymentPlansComponent() {
             </Grid>
         </Container>
     );
+}
+
+PaymentPlansComponent.propTypes = {
+    paymentPlanPage: propTypes.bool
 }

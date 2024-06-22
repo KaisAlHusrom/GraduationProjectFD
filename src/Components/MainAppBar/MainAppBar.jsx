@@ -31,18 +31,7 @@ import CliserImageLogo from '../../Pages/Ecommerce/utils/CliserImageLogo';
 
 
 function MainAppBar({auth}) {
-    const mode = useSelector(state => state.modeSlice.mode)
-    const dispatch = useDispatch()
-
-    const toggleColorMode = () => {
-        if(mode === 'dark' ) {
-            dispatch(changeMode({mode : 'light'}))
-        } 
-        if(mode === 'light' ) {
-            dispatch(changeMode({mode : 'dark'}))
-        } 
-    };
-
+   
     
 
     const Navigate = useNavigate();
@@ -126,7 +115,7 @@ function MainAppBar({auth}) {
                     alignItems: 'center',
                 }}
                 >
-                <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+                <ToggleColorMode />
                 <Button
                     color="primary"
                     variant="text"

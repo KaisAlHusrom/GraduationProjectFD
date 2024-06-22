@@ -24,6 +24,7 @@ import propTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData'
 import { fetchUserProductsCategories } from '../../../../../../Services/UserServices/Services/productCategoriesUsersService'
+import { writeFilterObject } from '../../../../../../Helpers/filterData'
 
 //Styled Components
 
@@ -40,7 +41,9 @@ const FooterMenu = ({title, ListMenu, withoutTitle, sx, fetchProductsCategories,
         return [
             null,
             null,
-            null,
+            [
+                writeFilterObject("is_in_the_main_page", "bool", "=", "true")
+            ],
             null,
             null,
             null

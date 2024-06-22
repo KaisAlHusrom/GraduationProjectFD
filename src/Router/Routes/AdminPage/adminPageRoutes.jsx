@@ -40,6 +40,9 @@ import WebProjectsPage from "../../../Pages/Admin/AdminPages/WebProjects/WebProj
 import PaymentsPage from "../../../Pages/Admin/AdminPages/PaymentsPage/PaymentsPage";
 import UsersPaymentsPlansPage from "../../../Pages/Admin/AdminPages/UsersPaymentsPlansPage/UsersPaymentsPlansPage";
 import PagesPage from "../../../Pages/Admin/AdminPages/PagesPage/PagesPage";
+import OrderItemsPage from "../../../Pages/Admin/AdminPages/OrderItemsPage/OrderItemsPage";
+import BankCardsPage from "../../../Pages/Admin/AdminPages/BankCardsPage/BankCardsPage";
+import DesignedElementsPropValuesPage from "../../../Pages/Admin/AdminPages/DesignedElementsPropValuesPage/DesignedElementsPropValuesPage";
 
 
 const adminPageRoutes = [
@@ -53,6 +56,11 @@ const adminPageRoutes = [
     {
         element: <UsersPage />,
         path: "users",
+        exact: false,
+    },
+    {
+        element: <BankCardsPage />,
+        path: "bank-cards",
         exact: false,
     },
     {
@@ -123,6 +131,12 @@ const adminPageRoutes = [
     {
         element: <OrdersPage />,
         path: "orders",
+        exact: false,
+
+    },
+    {
+        element: <OrderItemsPage />,
+        path: "order-items",
         exact: false,
 
     },
@@ -202,6 +216,11 @@ const adminPageRoutes = [
     {
         element: <DesignsPage />,
         path: "designs",
+        exact: false,
+    },
+    {
+        element: <DesignedElementsPropValuesPage />,
+        path: "designs-props-values",
         exact: false,
     },
     {

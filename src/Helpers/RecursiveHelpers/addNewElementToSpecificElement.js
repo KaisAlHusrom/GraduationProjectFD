@@ -6,7 +6,7 @@ export const addElementToParent = (elements, parentId, newElement) => {
     
             for (const element of elements) {
                 
-                if (element.id === parentId) {
+                if (element?.id === parentId) {
                     if (element.element_type?.not_has_end_tag) {
                         return
                     }    
@@ -127,6 +127,19 @@ export const cleanDesignData = (elements) => {
                     for (const key in style) {
                         if (style.hasOwnProperty(key)) {
                             formData.append(`elements[${elementKey}][styles][${styleIndex}][${key}]`, style[key]);
+                        }
+                    }
+                }
+            }
+
+            if (element.design_prop_values) {
+                for (const [propIndex, prop] of element.design_prop_values.entries()) {
+                    delete prop["element_prop"];
+
+                    // Append prop values to FormData
+                    for (const key in prop) {
+                        if (prop.hasOwnProperty(key)) {
+                            formData.append(`elements[${elementKey}][design_prop_values][${propIndex}][${key}]`, prop[key]);
                         }
                     }
                 }

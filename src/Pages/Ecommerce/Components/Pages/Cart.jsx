@@ -1,167 +1,182 @@
-//React
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-//Components
-import { productList } from '../../data/CradsData';
-//MUI
-import {
-    Box, Container, Grid, Typography, Divider, Button,
+// Components
 
+// MUI
+import {
+    Box, Container, Grid, Typography, Divider, Button, TextField,
 } from '@mui/material';
 
-//propTypes 
+// propTypes
 import propTypes from 'prop-types';
 import CustomCard from '../UI/CustomCard';
-import { CartData } from '../../data/CartData';
 
 // Import the utility function
-import { renderCartItem } from '../../utils/RenderCartItems';
 import ProductsTape from '../UI/ProductsTape';
-
-const getProductById = (productId) => {
-    return productList.find(product => product.id === productId);
-};
+import { useCart } from '../../utils/CartContext';
+import RenderCartItem from '../RenderCartItem/RenderCartItem';
 
 const Cart = () => {
     const navigate = useNavigate();
-    const [CartTotal, setCartTotal] = useState(0);
-    const [cartItems, setCartItems] = useState(() => {
-        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
-        if (cart_data) {
-            return cart_data;
-        }
-        return [];
-    });
+    const { cartItems, cartTotal } = useCart();
 
-    const handleRemoveCartBtn = (productId) => {
-        const updatedCartItems = cartItems.filter(id => id !== productId);
-        setCartItems(updatedCartItems);
-        localStorage.setItem("cart_data", JSON.stringify(updatedCartItems));
+    const [discountCode, setDiscountCode] = useState('');
+    const [discountAmount, setDiscountAmount] = useState(0);
 
-        // Assuming CartData is a global or higher-level state or variable
-        const index = CartData.indexOf(productId);
-        if (index > -1) {
-            CartData.splice(index, 1);
-        }
-        window.location.reload();
-    };
+    
 
-    const total = useCallback(() => {
-        let totalVal = 0;
-        // Iterate over each item in cartItems
-        cartItems.forEach(itemId => {
-            // Find the product in productList by its ID
-            const product = getProductById(itemId);
-            // If product exists, add its price to the totalVal
-            if (product) {
-                totalVal += product.price;
-            }
-        });
-        // Update the state with the total price
-        setCartTotal(totalVal);
-    }, [cartItems]);
-
-    useEffect(() => {
-        total();
-    }, [cartItems, total]);
 
     const handleCheckOutClick = () => {
-        // Navigate to the ProductView page with the product index as a parameter
         navigate(`/cliser-digital-market/checkout`);
     };
+
     const handleBrowseClick = () => {
-        // Navigate to the ProductView page with the product index as a parameter
-        navigate(`/cliser-digital-market/main`);
+        navigate(`/cliser-digital-market`);
+    };
+
+    const handleApplyDiscount = () => {
+        // Example coupon codes and their corresponding discount amounts
+        const couponDiscounts = {
+            'SAVE10': 10,
+            'SAVE20': 20,
+            'SAVE30': 30,
+        };
+
+        if (couponDiscounts[discountCode]) {
+            setDiscountAmount(couponDiscounts[discountCode]);
+        } else {
+            alert('Invalid coupon code');
+        }
     };
 
     const itemsPurchase = [
-        { contentTitle: "", content: "" }, // Leave the content empty initially
+        { contentTitle: "", content: "" },
     ];
 
     return (
         <Container sx={{ marginTop: '100px', minHeight: "67vh" }} maxWidth="lg">
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-                <Typography variant="h4" gutterBottom>
-                    Cart
-                </Typography>
-                <Divider />
-            </Grid>
-            <Grid item xs={12}>
-                <Box
-                    my={3}
-                    display="flex"
-                    alignItems="center"
-                    gap={4}
-                    p={2}
-                    sx={{ marginTop: "-1rem" }}
-                >
-                    {cartItems.length === 0 ? (
-                        <Button variant="outlined"
-                            onClick={handleBrowseClick}
-                            sx={{
-                                margin: 'auto', // Center horizontally
-                            }}>
-                            Browse Products
-                        </Button>
-                    ) : (
-                        <div style={{ width: '100%' }}>
-                            <CustomCard
-                                title={`product`} // Example title
-                                items={itemsPurchase}
-                                sx={{ marginBottom: 2 }} // Set width to 100% and add margin bottom
-                            >
-                                {cartItems.map((productId, index) => (
-                                    renderCartItem(productId, index, cartItems, handleRemoveCartBtn, navigate)
-                                ))}
-                            </CustomCard>
-                            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '10px', marginTop: '1rem', width: { xs: "100%", sm: "100%", md: "40%" }, marginLeft: "auto" }}>
-                                <Grid container spacing={1}>
-                                    <Grid item xxs={6}>
-                                        <Box>
-                                            <Typography variant="h5" sx={{ textAlign: 'left' }}>
-                                                Total
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h5" sx={{ textAlign: 'left' }}>
-                                                Discount
-                                            </Typography>
-                                        </Box>
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <Typography variant="h4" gutterBottom>
+                        Cart
+                    </Typography>
+                    <Divider />
+                </Grid>
+                <Grid item xs={12}>
+                    <Box
+                        my={3}
+                        display="flex"
+                        alignItems="center"
+                        gap={4}
+                        p={2}
+                        sx={{ marginTop: "-1rem" }}
+                    >
+                        {cartItems.length === 0 ? (
+                            <Button variant="outlined"
+                                onClick={handleBrowseClick}
+                                sx={{
+                                    margin: 'auto',
+                                }}>
+                                Browse Products
+                            </Button>
+                        ) : (
+                            <div style={{ width: '100%' }}>
+                                <CustomCard
+                                    title={`product`}
+                                    items={itemsPurchase}
+                                    sx={{ marginBottom: 2 }}
+                                >
+                                    {cartItems.map((product, index) => (
+                                        <RenderCartItem
+                                                cartProduct={product}
+                                                key={index}
+                                                index={index}
+                                                forCart
+                                            />
+                                            ))}
+                                </CustomCard>
+                                <Box sx={{ width: '100%' }}>
+                                    <Grid container spacing={2} justifyContent="space-between">
+                                        <Grid item xxs={12} md={5}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '1rem', width: '100%' }}>
+                                                <Grid container spacing={1}>
+                                                    <Grid item xxs={6}>
+                                                        <Box>
+                                                            <TextField
+                                                                id="Discount"
+                                                                label="Discount Code"
+                                                                fullWidth
+                                                                size='small'
+                                                                value={discountCode}
+                                                                onChange={(e) => setDiscountCode(e.target.value)}
+                                                                sx={{ height: "100%" }}
+                                                            />
+                                                        </Box>
+                                                    </Grid>
+                                                    <Grid item xxs={6}>
+                                                        <Button
+                                                            variant='contained'
+                                                            fullWidth
+                                                            size='small'
+                                                            onClick={handleApplyDiscount}
+                                                            sx={{ height: "100%" }}>
+                                                            Apply
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </Box>
+                                        </Grid>
+                                        <Grid item xxs={12} md={5}>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '1rem', width: '100%' }}>
+                                                <Grid container spacing={1}>
+                                                    <Grid item xxs={6}>
+                                                        <Box>
+                                                            <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                                                Discount
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box>
+                                                            <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                                                Total
+                                                            </Typography>
+                                                        </Box>
+                                                    </Grid>
+                                                    <Grid item xxs={6}>
+                                                        <Box>
+                                                            <Typography variant="h5">
+                                                                ${discountAmount}
+                                                            </Typography>
+                                                        </Box>
+                                                        <Box>
+                                                            <Typography variant="h5">
+                                                                ${cartTotal - discountAmount}
+                                                            </Typography>
+                                                        </Box>
+                                                    </Grid>
+                                                    <Grid item xxs={12}>
+                                                        <Button
+                                                            variant='contained'
+                                                            fullWidth
+                                                            onClick={handleCheckOutClick}>
+                                                            Checkout
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </Box>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xxs={6}>
-                                        <Box>
-                                            <Typography variant="h5">
-                                                ${CartTotal}
-                                            </Typography>
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="h5">
-                                                -$50
-                                            </Typography>
-                                        </Box>
-                                    </Grid>
-                                    <Grid item xxs={12}>
-                                        <Button
-                                            variant='contained'
-                                            fullWidth
-                                            onClick={handleCheckOutClick}>
-                                            Checkout
-                                        </Button>
-                                    </Grid>
-                                </Grid>
-                            </Box>
-                        </div>
-                    )}
-                </Box>
-            </Grid>
-            <Grid item xxs={12}>
+                                </Box>
+                            </div>
+                        )}
+                    </Box>
+                </Grid>
+                <Divider width={'100%'} />
+                <Grid item xxs={12} mt={6}>
                     <ProductsTape title="You Might Like" />
+                </Grid>
             </Grid>
-        </Grid>
-
-    </Container>
+        </Container>
     );
 };
 

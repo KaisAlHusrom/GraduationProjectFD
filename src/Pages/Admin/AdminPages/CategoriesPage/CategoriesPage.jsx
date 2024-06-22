@@ -30,6 +30,13 @@ const StyledCategoriesPage = styled(Box)(
 
 const relationships = {
     manyToOne:[
+        {
+            "field_name": "parent",
+            "fetched_column": "category_name",
+            "related_table_id": "id",
+            add_to_add_form: true,
+            fetch_all_data: fetchProductsCategories, 
+        }
     ],
     manyToMany:[
     ],
@@ -42,6 +49,8 @@ const columns = {
     'category_name': "string",
     'category_image': "image",
     'category_description': "text",
+    'parent': "many-to-one",
+    'is_in_the_main_page': "bool",
     "created_at": "dateTime",
     "updated_at": "dateTime"
 }

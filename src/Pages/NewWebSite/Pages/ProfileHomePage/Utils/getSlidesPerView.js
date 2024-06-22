@@ -5,9 +5,12 @@ export const getSlidesPerView = (screenWidth) => {
     case 'sm':
         return 2;
     case 'md':
-        return 3;
+        return 2;
     case 'lg':
-    default:
+        return 3;
+    case 'xl':
         return 4;
+    default:
+        return 3;
     }
 };
