@@ -6,13 +6,14 @@ import {
     Typography,
 } from '@mui/material';
 import { styled } from '@mui/system';
-import { AdminMainButton } from '../../../Components';
+import { AdminMainButton, AdminMainButtonOutsideState } from '../../../Components';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import useFetchData from '../../../Helpers/customHooks/useFetchData';
 import DrawerSelectedCategoryDesigns from '../sections/EmptyDesign/EditPage/Drawers/ReadyDesign/DrawerSelectedCategoryDesigns';
 import { fetchUserDesignCategories } from '../../../Services/UserServices/Services/designCategoriesUserService';
 import { fetchUserElementTypesCategories } from '../../../Services/UserServices/Services/elementTypeCategoriesUsersService';
 import { ButtonStyle, ModalTitleStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
+import { useEffect, useState } from 'react';
 
 
 
@@ -27,11 +28,22 @@ const StyledModalDesignCategories = styled(Box)(
 );645
 
 
-const ModalDesignCategories = ({  createDesignedDesign, appliedFilter, selected_parent_id, NameOfCategories }) => {
+const ModalDesignCategories = ({   appliedFilter, NameOfCategories  , customState , designState , drawerStates}) => {
 
     const fetchFunction = NameOfCategories === "Empty"
         ? fetchUserElementTypesCategories
         : fetchUserDesignCategories;
+
+            const [dialogState , setDialogState] = customState;
+            const [drawerState , setDrawerState] = drawerStates;
+
+                const [design , setDesign] = designState 
+
+            const handleSelectDesign = (Design) => {
+                setDesign(Design);
+                setDrawerState(true)
+                setDialogState(false);
+            }
 
     const { data, loading } = useFetchData(fetchFunction, 'all', appliedFilter, null, true, null, null, 100);
     return (
@@ -52,7 +64,8 @@ const ModalDesignCategories = ({  createDesignedDesign, appliedFilter, selected_
                     <AdminMainButton
                             key={index}
                             title={Design.category_name}
-                            type="drawer"
+                            type="custom"
+                            onClick={() => handleSelectDesign(Design)}
                             appearance="primary"
                             putTooltip
                             drawerZIndex={10000}
@@ -60,18 +73,9 @@ const ModalDesignCategories = ({  createDesignedDesign, appliedFilter, selected_
                                 width: '500px',
                             }}
                             icon={<AddCardIcon />}
-                            willShow={
-                                <DrawerSelectedCategoryDesigns
-                                    design_category_id={Design.id}
-                                    createDesignedDesign={createDesignedDesign}
-                                    appliedFilterType={NameOfCategories === 'Empty' ? Design.id : Design.design_type}
-                                    selected_parent_id={selected_parent_id}
-                                />
-                            }
+                            
                             sx={{...ButtonStyle ,width: '320px' , height : '50px' }} 
                             />
-                    
-                       
                     )) : (
                         <Typography>No data available</Typography>
                     )

@@ -36,10 +36,6 @@ import ToggleColorMode from '../../../Components/ToggleColorMode/ToggleColorMode
 import {  useNavigate, useParams } from 'react-router-dom';
 import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 
-import { fetchUserPages } from '../../../Services/UserServices/Services/pagesUsersService';
-import { writeFilterObject } from '../../../Helpers/filterData';
-import useFetchData from '../../../Helpers/customHooks/useFetchData';
-import { useMemo } from 'react';
 
 
 //Styled Components
@@ -66,7 +62,6 @@ const AppbarCom = ({ mode, toggleColorMode ,
     };
     const {id} = useParams()
 
-   
 
     return (
         <StyledAppbarCom>
@@ -210,47 +205,53 @@ const AppbarCom = ({ mode, toggleColorMode ,
                   />
                 </Box>
 
+                          {
+                            isEditPage ? (null) 
+                            :   <Box sx={{
+                              display: 'flex',
+                              justifyContent:'end',
+                              alignItems: 'center',
+                              padding: '10px ',
+                              width: 'fit-content',
+                              borderLeft:"1px solid",
+            
+                              borderColor:'warning.dark',
+                              }}>
+                            <AdminMainButton
+                            title="Upgrade"
+                            icon={<ElectricBoltIcon />}
+                            appearance="primary"
+                            type='custom'
+                            sx={{
+                              border : 'none',
+                              padding: '10px 15px',
+                              fontWeight: 'bold',
+                              backgroundColor:'warning.dark',
+                              color:'white.main',
+                              marginLeft:'10px'
+            
+                            }}
+                      />
+            
+                        <AdminMainButton
+                            title="Preview"
+                            icon={<ElectricBoltIcon />}
+                            appearance="primary"
+                            onClick={() =>   navigate('/preview/' + id  )}
+                            type='custom'
+                            sx={{
+                              border : 'none',
+                              padding: '10px 15px',
+                              fontWeight: 'bold',
+                              backgroundColor:'success.dark',
+                              color:'white.main',
+                              marginLeft:'10px'
+                            }}
+                      />
+                            </Box>
 
-                <Box sx={{
-                  display: 'flex',
-                  justifyContent:'end',
-                  alignItems: 'center',
-                  padding: '10px ',
-                  width: 'fit-content',
-                  borderLeft:"1px solid",
-
-                  borderColor:'warning.dark',
-                  }}>
-                <AdminMainButton
-                title="Upgrade"
-                icon={<ElectricBoltIcon />}
-                appearance="primary"
-                type='custom'
-                sx={{
-                  border : 'none',
-                  padding: '10px 15px',
-                  fontWeight: 'bold',
-                  backgroundColor:'warning.dark',
-                  color:'white.main',
-                  marginLeft:'10px'
-
-                }}
-          />
-            <AdminMainButton
-                title="Preview"
-                icon={<ElectricBoltIcon />}
-                appearance="primary"
-                type='custom'
-                sx={{
-                  border : 'none',
-                  padding: '10px 15px',
-                  fontWeight: 'bold',
-                  backgroundColor:'success.dark',
-                  color:'white.main',
-                  marginLeft:'10px'
-                }}
-          />
-                </Box>
+                          }
+            
         </Toolbar>
         
       </AppBar>

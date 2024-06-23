@@ -4,12 +4,10 @@ import { useMemo, useState } from 'react'
 import {
     
 } from 'react-redux'
+import PropTypes from 'prop-types';
 
 //Components
-
-
-//propTypes 
-import propTypes from 'prop-types'
+import { GenerateTagEdit } from '../../../components/GenerateTagEdit ';
 
 
 //MUI
@@ -17,16 +15,16 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { GenerateTagEdit } from '../../../../components/GenerateTagEdit '
 
 //Styled Components
+const StyledPreviewElement = styled(Box)(
+    ({ theme }) => ({
+    
+    })
+)
 
-const StyledEmptyElement = styled(Box)(({ elementstyle }) => ({
 
-}));
-
-const EmptyElement = ({element}) => {
-
+const PreviewElement = ({element}) => {
 
     const [elementStyle, setElementStyle] = useState({});
     useMemo(() => {
@@ -44,16 +42,13 @@ const EmptyElement = ({element}) => {
 
 
     return (
-        <StyledEmptyElement className='element-query'>
+        <StyledPreviewElement>
                 <GenerateTagEdit selectedTemplate={element} elementStyle={elementStyle}></GenerateTagEdit>
-        </StyledEmptyElement>
+            </StyledPreviewElement>
     );
 };
+PreviewElement.propTypes = {
 
-
-EmptyElement.propTypes = {
-    element: propTypes.object
-}
-
-
-export default EmptyElement;
+    element: PropTypes.object,
+};
+export default PreviewElement;

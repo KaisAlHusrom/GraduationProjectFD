@@ -3,7 +3,7 @@ import { styled } from '@mui/system';
 import StartWebSite from './Sections/StartWebSite';
 import InfoWebSite from './Sections/InfoWebSite';
 import CreatePage from './Sections/CreatePage';
-import { Box, Container, Stack, alpha } from '@mui/material';
+import { Box, Container, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -17,6 +17,7 @@ import { v4 as uuIdv4 } from 'uuid';
 import _ from 'lodash';
 import { addUserPages, fetchUserPages } from '../../../../../../Services/UserServices/Services/pagesUsersService';
 import { addUserWebProject } from '../../../../../../Services/UserServices/Services/webProjectsUsersService';
+import { useSelector } from 'react-redux';
 
 const StyledMain = styled(Box)(() => ({}));
 
@@ -65,10 +66,11 @@ const Main = () => {
         inputElement.click();
     }, []);
 
+    const user = useSelector(state => state.authSlice.user)
 
     const handleSubmit = useCallback(async () => {
         const data = {
-            user_id: "be53c718-1115-4cd7-bee8-b0c2bef4735b",
+            user_id: user.id,
             project_title: name,
             project_logo: uploadedImage,
             project_type: selectedBox,

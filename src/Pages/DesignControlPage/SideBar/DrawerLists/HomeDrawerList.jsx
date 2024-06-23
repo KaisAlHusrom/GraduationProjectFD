@@ -27,7 +27,8 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import DeleteIcon from '@mui/icons-material/Delete';
 import PropTypes from 'prop-types';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
+import { useNavigate } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 const StyledHomeDrawerList = styled(Box)(({ theme }) => ({
     color: theme.palette.success.main,
     marginTop: '20px',
@@ -38,9 +39,16 @@ const StyledHomeDrawerList = styled(Box)(({ theme }) => ({
 }));
 
 
-
+function removeLeadingSlash(path) {
+    if (path.startsWith('/')) {
+        return path.slice(1);
+    }
+    return path;
+}
 
 const HomeDrawerList = ({ WepProject_id }) => {
+
+    const navigate = useNavigate()
     const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false);
     const [selectedPageIdToDelete, setSelectedPageIdToDelete] = useState(null);
 
@@ -66,6 +74,25 @@ const HomeDrawerList = ({ WepProject_id }) => {
 
     const { loading, data, setData } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 100);
 
+    const handleUploadImageClick = useCallback((id, setter) => () => {
+        const inputElement = document.createElement('input');
+        inputElement.type = 'file';
+        inputElement.accept = 'image/*';
+        inputElement.onchange = (e) => {
+            const file = e.target.files[0];
+            setter(file);
+        };
+        inputElement.click();
+    }, []);
+
+
+    const handleNavigate = (pagePath) => {
+        
+        navigate(removeLeadingSlash(pagePath));
+    }
+
+    
+    
     useEffect(() => {
         if (data) {
             const initialPageData = {};
@@ -94,9 +121,7 @@ const HomeDrawerList = ({ WepProject_id }) => {
             },
         }));
     }, []);
-
-   
-
+    
     const handleUpdatePageData = async (newPageData) => {
         try {
             if (newPageData && newPageData.hasOwnProperty('page_id')) {
@@ -218,6 +243,25 @@ const HomeDrawerList = ({ WepProject_id }) => {
                         icon={<DeleteIcon />}
                         onClick={() => handleConfirmation(item.id)}
                     />
+                    <AdminMainButton
+                    sx={{...ButtonStyle , width : '50px' , backgroundColor: 'success.dark' }}
+                    title='Go Page'
+                    type='custom'
+                    putTooltip
+                    appearance='iconButton'
+                    icon={<ArrowForwardIcon />}
+                    onClick={() => handleNavigate(item.page_path)}
+                />
+                {/* <AdminMainButton
+                        sx={{...ButtonStyle , width : '50px' , backgroundColor: 'success.dark' }}
+                        title='Add To Nav'
+                        type='custom'
+                        putTooltip
+                        appearance='iconButton'
+                        icon={<ArrowForwardIcon />}
+                        onClick={() => handleNavigate(item.page_path)}
+                    /> */}
+
 
             </Box>
 

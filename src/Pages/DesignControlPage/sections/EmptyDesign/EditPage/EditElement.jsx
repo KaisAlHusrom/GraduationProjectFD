@@ -8,8 +8,14 @@ import propTypes from 'prop-types';
 
 // Components
 import * as utils from '../StylesFunctions/SetStylesFunctions.js';
+import { AdminMainButton, AdminMainButtonOutsideState, CustomDrawer } from '../../../../../Components/index.jsx';
+import StyleBox from '../../../components/StyleBox.jsx';
+import { GenerateTagEdit } from '../../../components/GenerateTagEdit .jsx';
+import StylesCategory from './Drawers/DrawersNew/StylesCategory.jsx';
 
 
+// Helpers 
+import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
 // MUI
 import {
     Box,
@@ -19,10 +25,10 @@ import { Edit as EditIcon } from '@mui/icons-material';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
-import { AdminMainButton } from '../../../../../Components/index.jsx';
-import StyleBox from '../../../components/StyleBox.jsx';
-import { GenerateTagEdit } from '../../../components/GenerateTagEdit .jsx';
+import EditComponent from './EditComponent.jsx';
+import CreateComponent from './Modals/CreateComponent.jsx';
+
+
 
 // Styled Components
 const StyledEditElement = styled(Box)(({ elementstyle }) => ({
@@ -55,7 +61,11 @@ const buttonStyle = {
     },
 };
 
-const EditElement = ({ element, deleteElementForComponent, componentId, handleMoveElement, componentDataState, styleCategories, sectionDataState }) => {
+const EditElement = ({ 
+    element, deleteElementForComponent, componentId, handleMoveElement, componentDataState, styleCategories, sectionDataState ,
+    elements , handleAddNewElement
+
+}) => {
 
     const [elementData, setElementData] = useState(element);
     const [componentData, setComponentData] = componentDataState;
@@ -63,7 +73,10 @@ const EditElement = ({ element, deleteElementForComponent, componentId, handleMo
     const [sectionData, setSectionData] = sectionDataState;
     const [elementStyle, setElementStyle] = useState({});
     const [history, setHistory] = useState([]);
-    
+    const [dialogState , setDialogState] = useState(false)
+    const [drawerState , setDrawerState] = useState(false);
+    const [category , setCategory] = useState(null)
+
     useEffect(() => {
         setElementData(element);
     }, [element]);
@@ -188,17 +201,37 @@ const EditElement = ({ element, deleteElementForComponent, componentId, handleMo
 
     return (
         <StyledEditElement>
-            <GenerateTagEdit selectedTemplate={elementData} elementStyle={elementStyle}></GenerateTagEdit>
+            {
+                elementData.design_type === 'element' ? (
+                    <GenerateTagEdit selectedTemplate={elementData} elementStyle={elementStyle}></GenerateTagEdit>
+
+                ): (
+                    <CreateComponent 
+                    key={elementData.id} 
+                    component={elementData} 
+                    componentId={elementData.id}
+                    handleAddNewElement={handleAddNewElement} 
+                    elements={elements}
+                    sectionDataState={[sectionData, setSectionData]}
+                    styleCategories={styleCategories}
+                />
+                ) 
+            }
             <TooltipContainer>
                 <div style={{ position: 'absolute', height: '50px', flexWrap: 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>
-                    <AdminMainButton
+                    <AdminMainButtonOutsideState
                         title=""
                         type="StyleDialog"
                         appearance="iconButton"
                         putTooltip
                         icon={<EditIcon />}
+                        customState = {[dialogState , setDialogState]}
+
                         willShow={
                             <StyleBox
+                                customState = {[dialogState, setDialogState]}
+                                drawerStates = {[drawerState , setDrawerState]}
+                                categoryState={[category, setCategory]}
                                 name_of_design={"Style Element"}
                                 title={title}
                                 handleTextFieldChange={handleTextFieldChange}
@@ -211,6 +244,22 @@ const EditElement = ({ element, deleteElementForComponent, componentId, handleMo
                         }
                         sx={buttonStyle}
                     />
+                        <CustomDrawer
+                                drawerOpenState={[drawerState , setDrawerState]}
+                                title={"Style Element"}
+                                drawerStyle={{
+                                paddingTop : '80px'
+                                }}
+                                putDrawerCloseButton={true}
+                                anchor={"left"}
+                        >
+                            <StylesCategory  
+                                customState = {[dialogState , setDialogState]}
+                                handleSectionStyleChange = {handleSectionStyleChange} 
+                                category = {{category}} 
+                                />
+
+                        </CustomDrawer>
                     <AdminMainButton
                         title=""
                         type="custom"

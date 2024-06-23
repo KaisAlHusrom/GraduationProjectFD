@@ -1,9 +1,16 @@
 export const pixelValues = (addNegativeValues = false) => {
-    return Array.from({ length: 1001 }, (_, index) => {
+    // Generate the pixel values array
+    const pixelArray = Array.from({ length: 1001 }, (_, index) => {
         const value = addNegativeValues ? index - 500 : index;
         return `${value * 2}px`;
     });
+
+    // Add the 'auto' value at the beginning of the array
+    pixelArray.unshift('auto');
+    
+    return pixelArray;
 }
+
 
 export const timeValues = Array.from({ length: 601 }, (_, index) => `${index* 100}ms`);
 

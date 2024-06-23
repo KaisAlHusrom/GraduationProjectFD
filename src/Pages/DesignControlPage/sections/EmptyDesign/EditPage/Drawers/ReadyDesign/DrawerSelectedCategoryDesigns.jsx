@@ -47,7 +47,10 @@ const boxStyle =  {
     },
 }
 
-const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_id, appliedFilterType, selected_parent_id }) => {
+const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_id, appliedFilterType, selected_parent_id , isCompoenntInside }) => {
+
+
+
     const [alert, setAlert] = useState(false);
 
     let fetchFunction;
@@ -86,6 +89,9 @@ const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_i
 
     const {  data } = useFetchData(fetchFunction, 'all', appliedFilter, null, true, null, null, 10);
 
+    
+
+
     const handleBoxClick = (componentDesign) => {
         if (componentDesign.design_type === "element") {
             const newElement = { ...componentDesign, id: uuidv4() , is_template : 0 , is_child : 1, parent_id :selected_parent_id };
@@ -94,7 +100,13 @@ const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_i
         } else if(componentDesign.design_type === "component"){
             const newComponent = { ...componentDesign, id: uuidv4(), is_template : 0 , is_child : 1  , parent_id :selected_parent_id };
             setAlert(true);
-            createDesignedDesign(newComponent);
+            if(isCompoenntInside){
+                console.log("isCompoenntInside")
+                createDesignedDesign(selected_parent_id, newComponent);
+            }else{
+                console.log("newComponent")
+                createDesignedDesign(newComponent);
+            }
         }else if(componentDesign.design_type === "section"){
             const newSection = { ...componentDesign, id: uuidv4(), is_template : 0 , is_child : 1 };
             setAlert(true);

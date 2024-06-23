@@ -1,4 +1,4 @@
-import {  useState } from 'react';
+import {  useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { Test } from './StylesProp';
@@ -14,8 +14,7 @@ const StyledStylesCategory = styled(Box)(
 
 
 
-const StylesCategory = ({ category, handleSectionStyleChange ,  sectionStyleProps}) => {
-    const [selectedOption, setSelectedOption] = useState('');
+const StylesCategory = ({ category, handleSectionStyleChange ,  sectionStyleProps }) => {
 
 
 
@@ -23,10 +22,10 @@ const StylesCategory = ({ category, handleSectionStyleChange ,  sectionStyleProp
         <StyledStylesCategory>
         {category.category.style_props.map((prop, key) => (
             <Test
-            prop={prop}
-            key={key}
-            handleSectionStyleChange={handleSectionStyleChange}
-            sectionStyleProps = {sectionStyleProps}
+                prop={prop}
+                key={key}
+                handleSectionStyleChange={handleSectionStyleChange}
+                sectionStyleProps = {sectionStyleProps}
 
             />
         ))}

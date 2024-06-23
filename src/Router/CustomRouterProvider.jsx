@@ -53,6 +53,7 @@ import { fetchSpecificProductLoader } from '../Services/UserServices/Services/pr
 import MyPaymentPlans from '../Pages/NewWebSite/Pages/MyPaymentPlans/MyPaymentPlans';
 import MyOrdersAndBilling from '../Pages/NewWebSite/Pages/MyOrdersAndBilling/MyOrdersAndBilling';
 import HandleProductPage from '../Pages/NewWebSite/Pages/HandleProductPage/HandleProductPage';
+import MainPreview from '../Pages/DesignControlPage/sections/EmptyDesign/Preview/MainPreview';
 
 
 // ------------- NOTICES -------------
@@ -119,7 +120,9 @@ const router = createBrowserRouter(
 
                 {/* //* Design Control Page Routes */}
                 <Route path="/empty-design/EditPage/:section_id" element={<EditPage />} />
-                <Route path="/empty-design/:id" element={<Main />} />
+                <Route path="/empty-design/:id/*" element={<Main />} exact= {true} />
+                <Route path="/preview/:id" element={<MainPreview />} />
+
             </Route>
             
 
