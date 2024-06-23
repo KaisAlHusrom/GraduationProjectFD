@@ -170,15 +170,18 @@ const UploadImageByDragDrop = ({ limit, values, handleLoadEnd, columnName}) => {
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
             />
-            {images.length === 0 ? (
-                <StyledUploadImageByDragDrop 
-                    onDrop={handleDrop}
-                    onDragOver={handleDragOver}
-                    onClick={handleClick}
-                >
-                Drop images here or click to select, (upload up to {limit} images)
-                </StyledUploadImageByDragDrop>
-            ) : (
+            {
+                images.length < limit &&(
+                    <StyledUploadImageByDragDrop 
+                        onDrop={handleDrop}
+                        onDragOver={handleDragOver}
+                        onClick={handleClick}
+                    >
+                        Drop images here or click to select, (upload up to {limit} images)
+                    </StyledUploadImageByDragDrop>
+                )
+            }
+            {images.length > 0 && 
                 <StyledImagesBox>
                     {images.map((image, index) => (
                         <Card key={index}>
@@ -213,7 +216,7 @@ const UploadImageByDragDrop = ({ limit, values, handleLoadEnd, columnName}) => {
                         </Card>
                     ))}
                 </StyledImagesBox>
-            )}
+            }
         </Box>
     );
 };
