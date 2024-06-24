@@ -16,15 +16,18 @@ import propTypes from 'prop-types';
 
 import config from "../../../../../../../../Config.json"
 import { mediaFolderName } from '../../../../../../../Services/UserServices/Services/productsMediaUsersService';
-import { AdminMainButton } from '../../../../../../../Components';
+import { AdminMainButton, ConfirmModal } from '../../../../../../../Components';
 import RateReviewOutlinedIcon from '@mui/icons-material/RateReviewOutlined';
 import RemoveRedEyeOutlinedIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { useSelector } from 'react-redux';
 import { ReviewCalculateSMA } from '../../../../../../Ecommerce/utils/functions';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { productsImagesFolderName } from '../../../../../../../Services/AdminServices/Services/productsService';
 import { useNavigate } from 'react-router-dom';
+import FullScreenModal from '../../../../../../../Components/FullScreenModal/FullScreenModal';
+import { deleteUserProducts } from '../../../../../../../Services/UserServices/Services/productsUsersService';
 // Styled Components
 const StyledProductCard = styled(Card)(
     () => ({
@@ -39,12 +42,18 @@ const StyledProductCard = styled(Card)(
         objectFit: "contain" ,
         '& .swiper-slide': {
             textAlign: 'left',
+        },
+        '& .swiper-slide img, & .swiper-slide video': {
+            height: 150, 
+            maxWidth: "100%", 
+            objectFit: "contain",
+            cursor: 'pointer'
         }
     })
 );
 
 const CustomProductCard = (props) => {
-    const { product } = props;
+    const { product, fetchAgain } = props;
     // Ensure image is an array
     const mainImagePath = useMemo(() => {
         return `${config.ServerImageRoute}/${productsImagesFolderName}/${product.product_main_image_name}`
@@ -57,9 +66,55 @@ const CustomProductCard = (props) => {
     const currency = useSelector(state => state.currencySlice.currency)
 
 
+    const [fullScreenModal, setFullScreenModal] = useState(false)
+    const [mediaForFullScreen, setMediaForFullScreen] = useState(() => {
+        const mainImage = {
+            path: mainImagePath,
+            name: mainImagePath.split('/').pop(),
+            type: 'existing',
+            size: 10, //! fixed number
+            isVideo: false
+        }
+    
+        const media = product?.product_media?.map((item) => {
+            const path = item.is_video
+            ?
+                `${config.ServerVideoRoute}/${mediaFolderName}/${item.product_media_name}`
+            :
+                `${config.ServerImageRoute}/${mediaFolderName}/${item.product_media_name}`
+                const mediaData = {
+                path: path,
+                name: path.split('/').pop(),
+                type: 'existing',
+                size: 10, //! fixed number
+                isVideo: item.is_video
+            };
+            return mediaData
+        })
+        return [mainImage, ...media]
+    })
+
+    const [confirmOpen, setConfirmOpen] = useState(false)
+
+
     const navigate = useNavigate()
     const navigateProduct = () => {
         navigate("/profile/handle-product/" + product.id)
+    }
+
+    const viewProduct = () => {
+        navigate("/cliser-digital-market/productView/" + product.id)
+    }
+
+    const deleteProductConfirm = () => {
+        setConfirmOpen(() => true)
+    }
+
+    const handleDeleteProduct = async () => {
+        const res = await deleteUserProducts([product.id])
+        if(res.success) {
+            fetchAgain()
+        }
     }
 
     return (
@@ -75,13 +130,12 @@ const CustomProductCard = (props) => {
                         modules={[Autoplay, Pagination, Navigation]}
                         className="mySwiper"
                     >
-                        <SwiperSlide>
+                        <SwiperSlide >
                             <CardMedia
+                                onClick={() => setFullScreenModal(true)}
                                 component="img"
-                                height="140"
                                 image={mainImagePath}
                                 alt={`Media for ${product.product_name}`}
-                                sx={{ maxHeight: 150, maxWidth: "100%", objectFit: "contain" }}
                             />
                         </SwiperSlide>
                         {mediaArray.map((media, index) => {
@@ -91,19 +145,19 @@ const CustomProductCard = (props) => {
                                 <SwiperSlide key={index}>
                                     {media.is_video ? (
                                         <CardMedia
+                                            onClick={() => setFullScreenModal(true)}
                                             component="video"
                                             controls
                                             src={videoPath}
                                             alt={`Media for ${product?.product_name}`}
-                                            sx={{ maxHeight: 150, maxWidth: "100%", objectFit: "contain" }}
                                         />
                                     ) : (
                                         <CardMedia
+                                            onClick={() => setFullScreenModal(true)}
                                             component="img"
                                             height="140"
                                             image={imagePath}
                                             alt={`Media for ${product?.product_name}`}
-                                            sx={{ maxHeight: 150, maxWidth: "100%", objectFit: "contain" }}
                                         />
                                     )}
                                 </SwiperSlide>
@@ -154,11 +208,11 @@ const CustomProductCard = (props) => {
                             toolTipPosition={'top'}
                         />
                         <AdminMainButton
-                            title='Watches'
+                            title='View'
                             type='custom'
                             appearance='iconButton'
                             icon={<RemoveRedEyeOutlinedIcon />}
-                            onClick={() => {}}
+                            onClick={viewProduct}
                             putTooltip
                             toolTipPosition={'top'}
                         />
@@ -171,13 +225,36 @@ const CustomProductCard = (props) => {
                             putTooltip
                             toolTipPosition={'top'}
                         />
+                        <AdminMainButton
+                            title='Delete'
+                            type='custom'
+                            appearance='iconButton'
+                            icon={<DeleteIcon color='error' />}
+                            onClick={deleteProductConfirm}
+                            putTooltip
+                            toolTipPosition={'top'}
+                        />
                     </CardActions>
+                    {fullScreenModal && (
+                        <FullScreenModal
+                            open={fullScreenModal}
+                            onClose={() => setFullScreenModal(false)}
+                            media={mediaForFullScreen}
+                        />
+                    )}
+                    <ConfirmModal 
+                        title={"Delete Product"}
+                        ConfirmMessage={"Are you sure you want to delete this product?"}
+                        handleAgree={handleDeleteProduct}
+                        confirmModalState={[confirmOpen, setConfirmOpen]}
+                    />
         </StyledProductCard>
     );
 };
 
 CustomProductCard.propTypes = {
     product: propTypes.object.isRequired,
+    fetchAgain: propTypes.func.isRequired,
 };
 
 export default CustomProductCard;

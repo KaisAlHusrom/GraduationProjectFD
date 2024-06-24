@@ -8,6 +8,8 @@ const useEffectFetchData = (handleFetchData, params, condition = true, specific 
     const dispatch = useDispatch();
     const [download, setDownload] = useState(false);
     const [data, setData] = useState(null);
+    const [trigger, setTrigger] = useState(0)
+
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -28,7 +30,11 @@ const useEffectFetchData = (handleFetchData, params, condition = true, specific 
         }
 
         fetchCategories()
-    }, [dispatch, condition, handleFetchData, params, specific])
+    }, [dispatch, condition, handleFetchData, params, specific, trigger])
+
+    const fetchAgain= () => {
+        setTrigger(prev => prev + 1)
+    }
 
     //to add linear progress when changing category id
     useEffect(() => {
@@ -39,7 +45,7 @@ const useEffectFetchData = (handleFetchData, params, condition = true, specific 
         }
     }, [dispatch, download])
 
-    return {data, setData, download, setDownload};
+    return {data, setData, download, setDownload, fetchAgain};
 };
 
 export default useEffectFetchData;

@@ -1,4 +1,10 @@
-import {  FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, TextField } from '@mui/material';
+import {  FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, 
+    TextField,
+    Accordion,
+    AccordionSummary,
+    AccordionDetails
+ } from '@mui/material';
+ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import propTypes from 'prop-types';
 import { useEffect, useState } from 'react';
@@ -9,6 +15,7 @@ import { useCliserMarketContext } from '../../EcommerceMain';
 const SideBar = (props) => {
     const { query, products, handleInputChange, handleCategoryChange, handlePriceChange, handleRatingChange} = props;
     const {categories} = useCliserMarketContext()
+    const parentCategories = categories.filter(category => category.parent_id === null)
     const [priceRanges, setPriceRanges] = useState([]);
     const [ratingOptions, setRatingOptions] = useState([]);
 
@@ -63,11 +70,32 @@ const SideBar = (props) => {
                     <FormControl component="fieldset">
                         <FormLabel component="legend">Categories</FormLabel>
                         <RadioGroup aria-label="categories" name="categories" onChange={handleCategoryChange}>
-                            <FormControlLabel value="" control={<Radio />} label="All" />
-                            {categories?.map((category, index) => (
-                                <FormControlLabel key={index} value={category.category_name} control={<Radio />} label={category.category_name} />
-                            ))}
+                        <FormControlLabel value="" control={<Radio />} label="All" />
+
+                        {
+                        parentCategories?.map((category, index) => {
+                            return (
+                                <Accordion key={index} elevation={0}>
+                                    <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    >
+                                        {category.category_name}
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+
+                                            <FormControlLabel value={category.category_name} control={<Radio />} label={category.category_name} />
+
+                                            {category?.children?.map((child, key) => (
+                                                <FormControlLabel key={key} value={child.category_name} control={<Radio />} label={child.category_name} />
+                                            ))}
+                                    </AccordionDetails>
+                                </Accordion>
+                            )
+                        })
+                        }
                         </RadioGroup>
+
+                        
                     </FormControl>
                 </Grid>
 

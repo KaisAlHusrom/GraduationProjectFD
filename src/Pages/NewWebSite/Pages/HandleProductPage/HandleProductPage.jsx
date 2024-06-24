@@ -120,15 +120,34 @@ const HandleProductPage = () => {
     const user = useSelector(state => state.authSlice.user)
 
     const handleSaveProduct = async () => {
-        const res = await addUserProducts({...productData, 'user_id': user.id})
+        const updated = {
+            ...productData, 
+            'user_id': user.id, 
+            product_media: productData.product_media.map(media => (
+                {
+                    ...media, 
+                    is_video: media.is_video ? 1 : 0
+                }
+            ))
+        }
+        const res = await addUserProducts(updated)
         if(res.success) {
-            // navigate("/")
+            navigate("/")
         }
     }
 
 
     const handleUpdateProduct = async () => {
-        const res = await updateUserProducts(id, productData)
+        const updated = {
+            ...productData, 
+            product_media: productData.product_media.map(media => (
+                {
+                    ...media, 
+                    is_video: media.is_video ? 1 : 0
+                }
+            ))
+        }
+        const res = await updateUserProducts(id, updated)
         if(res.success) {
             navigate("/")
         }

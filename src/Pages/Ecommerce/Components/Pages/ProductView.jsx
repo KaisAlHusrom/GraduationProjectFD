@@ -33,6 +33,7 @@ import { mediaFolderName } from '../../../../Services/UserServices/Services/prod
 import DateHelper from '../../../../Helpers/DateHelper';
 import { useCart } from '../../utils/CartContext';
 import { usersProfileImagesFolderName } from '../../../../Services/AdminServices/Services/usersService';
+import FullScreenModal from '../../../../Components/FullScreenModal/FullScreenModal';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -55,6 +56,7 @@ function CustomTabPanel(props) {
 
 
   const ProductView = () => {
+    
     const [value, setValue] = useState(0);
     // const Navigate = useNavigate();
     const { addToCart, cartItems } = useCart();
@@ -76,13 +78,7 @@ function CustomTabPanel(props) {
     const mainImagePath = `${config.ServerImageRoute}/${productsImagesFolderName}/${product?.product_main_image_name}`
     const creatorImage = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${product?.user?.profile_image}`
 
-    // const product = NewList.find((product) => product.id === idx);
-    if (!product) {
-      return <Typography variant="h2">Product not found</Typography>;
-    }
-    
     const skillNames = product.product_used_skills.map(skill => skill.product_used_skill_name);
-
     const Features = product.product_features
     const Reviews = product.product_reviews
     const handleTapChange = (event, newValue) => {
@@ -101,21 +97,62 @@ function CustomTabPanel(props) {
     ];
     const itemsReviews = [
       { contentTitle: 'quality of the work',
-       content: <Rating name="quality of the work"
+        content: <Rating name="quality of the work"
                   value={calculateAverageRating(product.product_reviews, 'design_quality_rate')} readOnly sx={{paddingTop:0.3}} />},
       { contentTitle: 'communication',
-       content: <Rating name="communication" 
+        content: <Rating name="communication" 
                   value={calculateAverageRating(product.product_reviews, 'communication_rate')} readOnly sx={{paddingTop:0.8}} /> },
       { contentTitle: 'usability',
-       content: <Rating name="usability"
-                   value={calculateAverageRating(product.product_reviews, 'ease_of_use_rate')} readOnly sx={{paddingTop:0.6}} /> },
+        content: <Rating name="usability"
+                  value={calculateAverageRating(product.product_reviews, 'ease_of_use_rate')} readOnly sx={{paddingTop:0.6}} /> },
       // Add more items as needed
     ];
 
+    const [openMedia, setOpenMedia] = useState(false)
+    const [selectedMedia, setSelectedMedia] = useState(() => {
+      const mainImage = {
+        path: mainImagePath,
+        name: mainImagePath.split('/').pop(),
+        type: 'existing',
+        size: 10, //! fixed number
+        isVideo: false
+      }
 
+      const media = product.product_media.map((item) => {
+        const path = item.is_video
+        ?
+            `${config.ServerVideoRoute}/${mediaFolderName}/${item.product_media_name}`
+        :
+            `${config.ServerImageRoute}/${mediaFolderName}/${item.product_media_name}`
+        const mediaData = {
+          path: path,
+          name: path.split('/').pop(),
+          type: 'existing',
+          size: 10, //! fixed number
+          isVideo: item.is_video
+        };
+        return mediaData
+      })
+      return [mainImage, ...media]
+    })
+    const handleClickMedia = () => {
+      setOpenMedia(true);
+    }
+
+    const styles = useMemo(() => {
+      return {
+        "& .swiper-slide img, & .swiper-slide video": {
+          width: "100%",
+          height: 350,
+          objectFit: "contain",
+          position: 'relative',
+          cursor: "pointer"
+        }
+      }
+    }, [])
     return (
       <div>
-      <Container sx={{ marginTop: '100px' }} maxWidth="lg">
+      <Container sx={{ marginTop: '100px', ...styles }} maxWidth="lg">
         <Grid container spacing={2}>
           <Grid item xxs={12}>
             <Typography variant="h4" gutterBottom>
@@ -152,13 +189,6 @@ function CustomTabPanel(props) {
                       <SwiperSlide >
                           <Box
                             component="img"
-                            sx={{
-                              position: 'relative',
-                              maxHeight: '63vh',
-                              width: 'auto',
-                              maxWidth: '100%',
-                              objectFit: 'contain'
-                            }}
                             src={mainImagePath}
                           />
                       </SwiperSlide>
@@ -172,14 +202,8 @@ function CustomTabPanel(props) {
                           {isVideo ? (
                             <Box
                               component="video"
-                              sx={{
-                                position: 'relative',
-                                maxHeight: '63vh',
-                                width: 'auto',
-                                maxWidth: '100%',
-                                objectFit: 'contain'
-                              }}
                               controls
+                              onClick={() => handleClickMedia(media)}
                             >
                               <source src={videoPath} type="video/mp4" />
                               Your browser does not support the video tag.
@@ -187,14 +211,8 @@ function CustomTabPanel(props) {
                           ) : (
                             <Box
                               component="img"
-                              sx={{
-                                position: 'relative',
-                                maxHeight: '63vh',
-                                width: 'auto',
-                                maxWidth: '100%',
-                                objectFit: 'contain'
-                              }}
                               src={imagePath}
+                              onClick={() => handleClickMedia(media)}
                             />
                           )}
                         </SwiperSlide>
@@ -309,6 +327,13 @@ function CustomTabPanel(props) {
               <ProductsTape title="You Might Like" Cat="" />
           </Grid>
         </Grid>
+        {openMedia && (
+            <FullScreenModal
+                open={openMedia}
+                onClose={() => setOpenMedia(false)}
+                media={selectedMedia}
+            />
+        )}
       </Container>
 
     </div>

@@ -163,12 +163,17 @@ export const deleteDataUserTemplate = async (axiosAPI, ids) => {
         const response = await axiosAPI.delete(`/${idList}`);
         store.dispatch(handleCloseLinearProgress())
         if(response.status === 200) {
-            //TODO
+            store.dispatch(setSnackbarMessage({message: "Items have been successfully deleted."}))
+            store.dispatch(setSnackbarIsError({isError: false}))
+            store.dispatch(handleOpenSnackbar())
         }
         // Process the response data as needed
         return response.data;
     } catch (error) {
         console.error('Error updating data:', error);
+        store.dispatch(setSnackbarMessage({message: error.response.data.message}))
+        store.dispatch(setSnackbarIsError({isError: true}))
+        store.dispatch(handleOpenSnackbar())
 
         store.dispatch(handleCloseLinearProgress())
 

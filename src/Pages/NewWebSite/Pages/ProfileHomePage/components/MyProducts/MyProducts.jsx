@@ -80,7 +80,7 @@ const MyProducts = () => {
         ]
     }, [user?.id])
 
-    const {data, download} = useEffectFetchData(fetchUserProducts, params, true, false)
+    const {data, download, fetchAgain} = useEffectFetchData(fetchUserProducts, params, true, false)
 
     return (
         <CustomCard>
@@ -119,6 +119,7 @@ const MyProducts = () => {
                                         <StyledSwiperSlide key={key}>
                                             <CustomProductCard
                                                 product={product}
+                                                fetchAgain={fetchAgain}
                                             />
                                         </StyledSwiperSlide>
                                     )

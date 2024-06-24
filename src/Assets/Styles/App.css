@@ -27,3 +27,9 @@ header {
 ::-webkit-scrollbar-thumb:hover {
   background: rgb(17, 82, 147); /* Color of the scroll handle on hover */
 }
+
+.swiper-slide img {
+  width: auto;
+  height: auto;
+  
+}

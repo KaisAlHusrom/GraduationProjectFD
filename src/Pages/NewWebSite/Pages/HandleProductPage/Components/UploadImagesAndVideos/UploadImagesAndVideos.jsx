@@ -277,7 +277,7 @@ const UploadImagesAndVideos = ({ limit, values, handleLoadEnd, columnName }) => 
                 <FullScreenModal
                     open={Boolean(selectedMedia)}
                     onClose={() => setSelectedMedia(null)}
-                    media={selectedMedia}
+                    media={[selectedMedia]}
                 />
             )}
         </Grid>
