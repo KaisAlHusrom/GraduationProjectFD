@@ -37,7 +37,8 @@ const CustomLazyAutoComplete = (props) => {
         customHandleChange,
         filters,
         perPage,
-        sx
+        sx,
+        multiple
     } = props
 
 
@@ -64,7 +65,7 @@ const CustomLazyAutoComplete = (props) => {
         setPageNumber,
         data, 
         setData,
-
+        lastDataRecord
     } = useFetchData(
             handleFetchData, 
             "all",
@@ -76,21 +77,22 @@ const CustomLazyAutoComplete = (props) => {
             perPage
         )
 
-    const observer = useRef()
-    const lastDataRowElementRef = useCallback(node => {
+        console.log(data)
+    // const observer = useRef()
+    // const lastDataRowElementRef = useCallback(node => {
         
-        if (loading || !hasMore) return;
+    //     if (loading || !hasMore) return;
 
-        if(observer.current) observer.current.disconnect()
+    //     if(observer.current) observer.current.disconnect()
 
-        observer.current = new IntersectionObserver(entries => {
-            if(entries[0].isIntersecting && hasMore) {
-                setPageNumber(prev => prev + 1);
-            }
-        })
+    //     observer.current = new IntersectionObserver(entries => {
+    //         if(entries[0].isIntersecting && hasMore) {
+    //             setPageNumber(prev => prev + 1);
+    //         }
+    //     })
 
-        if (node) observer.current.observe(node)
-    }, [hasMore, loading, setPageNumber])
+    //     if (node) observer.current.observe(node)
+    // }, [hasMore, loading, setPageNumber])
 
     const handleChangeSearchQuery = useCallback((e) => {
 
@@ -116,7 +118,7 @@ const CustomLazyAutoComplete = (props) => {
 
     const renderOptionMemoized = useCallback((props, option, { index, selected }) => {
         return (
-            <li {...props} ref={index === data.length - 1 ? lastDataRowElementRef : null}>
+            <li {...props} ref={index === data?.length - 1 ? lastDataRecord : null}>
                 <Checkbox
                     icon={<CheckBoxOutlineBlankIcon />}
                     checkedIcon={<CheckBoxIcon />}
@@ -126,10 +128,12 @@ const CustomLazyAutoComplete = (props) => {
                 {option[optionName]}
             </li>
         );
-    }, [data.length, lastDataRowElementRef, optionName]);
+    }, [data.length, lastDataRecord, optionName]);
 
-    const defaultProps = useMemo(()=> {
+    const defaultProps = useMemo(() => {
         return {
+            multiple: multiple,
+            disableCloseOnSelect: multiple ? true : false,
             options: open ? data : [],
             getOptionLabel: (option) => option[optionName],
             getOptionKey: (option) => option[optionId],
@@ -138,7 +142,7 @@ const CustomLazyAutoComplete = (props) => {
             renderInput: (params) => (
                 <TextField
                     {...params}
-                    value={searchQuery?.searchTerm}
+                    value={searchQuery?.searchTerm || ''}
                     onChange={handleChangeSearchQuery}
                     label={label}
               
@@ -153,26 +157,23 @@ const CustomLazyAutoComplete = (props) => {
                     }}
                 />
             ),
-            onChange: customHandleChange ? customHandleChange : (event, newValue) =>  handleChange(event, newValue),
-            value:  value,
-            size:'small',
+            onChange: customHandleChange ? customHandleChange : (event, newValue) => handleChange(event, newValue),
+            value: value,
+            size: 'small',
             isOptionEqualToValue: (option, value) => option[optionName] === value[optionName],
             open: open,
-            onOpen: () => {
-                
-                setOpen(true);
-            },
+            onOpen: () => setOpen(true),
             onClose: () => {
                 setSearchQuery(null);
-                setData(() => [])
-                setPageNumber(() => 1)
+                setData(() => []);
+                setPageNumber(() => 1);
                 setOpen(false);
             },
             loading: loading,
             fullWidth: true,
         };
-    }, [customHandleChange, data, handleChange, handleChangeSearchQuery, label, loading, open, optionId, optionName, searchQuery?.searchTerm, setData, setPageNumber, value])
-
+    }, [customHandleChange, data, handleChange, handleChangeSearchQuery, label, loading, multiple, open, optionId, optionName, searchQuery?.searchTerm, setData, setPageNumber, value]);
+    
     
     const AutocompleteMemoized = useMemo(() => memo(Autocomplete), []);
 

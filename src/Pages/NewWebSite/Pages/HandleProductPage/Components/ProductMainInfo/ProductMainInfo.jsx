@@ -13,18 +13,13 @@ import empty from "../../../../../../Assets/Images/emptyProduct.webp"
 
 //MUI
 import {
-    Card,
-    Box,
-    Typography,
     Grid,
     TextField,
     TextareaAutosize,
     FormLabel,
     FormControl,
-    InputLabel,
     OutlinedInput,
     InputAdornment,
-    Button
 } from '@mui/material'
 import { styled } from '@mui/system'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -35,32 +30,11 @@ import { productsImagesFolderName } from '../../../../../../Services/UserService
 import UploadImageByDragDrop from '../UploadImageByDragDrop/UploadImageByDragDrop'
 
 //Styled Components
-const StyledProductMainInfo = styled(Card)(
-    ({ theme }) => ({
-        border: '1px solid',
-        borderColor: theme.palette.divider,
-        position: 'relative',
-        minHeight: 100,
-        overflow: 'visible',
-        transition: '0.5s',
-        padding: theme.spacing(2),
-        "&:hover": {
-            borderColor: theme.palette.primary.main,
-        }
-    })
-)
 
-const CardHeader = styled(Box)(
-    ({ theme }) => ({
-        position: 'absolute',
-        top: theme.spacing(-2),
-        left: theme.spacing(4),
-    })
-);
 
 const CardContent = styled(Grid)(
     ({ theme }) => ({
-        // Your styles here
+        padding: theme.spacing()
     })
 );
 
@@ -82,39 +56,16 @@ const StyledTextArea = styled(TextareaAutosize)(
     })
 )
 
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-});
-
-const imageStyle = {
-    width: 150,
-    height: 150,
-    
-}
 
 const ProductMainInfo = ({data, handleOnChange}) => {
     const currency = useSelector(state => state.currencySlice.currency);
 
-    const {productData, setProductData} = data;
+    const {productData} = data;
 
     //for image
     const mainImagePath = useMemo(() => productData?.product_main_image_name ? `${config.ServerImageRoute}/${productsImagesFolderName}/${productData?.product_main_image_name}` : null, [productData?.product_main_image_name])
 
     return (
-        <StyledProductMainInfo>
-            <CardHeader>
-                <Typography variant='h6' letterSpacing={1.5}>
-                    Main Info
-                </Typography>
-            </CardHeader>
             <CardContent container spacing={2}>
                 <Grid item xxs={12} >
                     <FormLabel
@@ -151,7 +102,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                         </Button>
                     </Box> */}
                 </Grid>
-                <Grid item xxs={12} sm={4} lg={3}>
+                <Grid item xxs={12} sm={4}>
                     <FormLabel
                         // error={error}
                         >
@@ -165,7 +116,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                         onChange={(e) => handleOnChange(e, "string")}
                     />
                 </Grid>
-                <Grid item xxs={12} sm={4} lg={3}>
+                <Grid item xxs={12} sm={4}>
                     <FormLabel
                         // error={error}
                         >
@@ -180,6 +131,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                                 startAdornment={<InputAdornment position="start">{currency}</InputAdornment>}
                                 onChange= {(e) => handleOnChange(e, "decimal")}
                                 value= {productData?.product_price}
+                                name='product_price'
                             />
                             {/* {error
                             ?
@@ -189,7 +141,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                             : null} */}
                     </FormControl>
                 </Grid>
-                <Grid item xxs={12} sm={4} lg={3}>
+                <Grid item xxs={12} sm={4}>
                     <FormLabel
                     // error={error}
                     >
@@ -207,7 +159,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                     <FormLabel
                     // error={error}
                     >
-                        Product Long Description
+                        Talk About Product
                     </FormLabel>
                     <StyledTextArea
                         minRows={3} // Adjust the minimum number of rows as needed
@@ -221,12 +173,12 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                     />
                 </Grid>
             </CardContent>
-        </StyledProductMainInfo>
     );
 };
 
 ProductMainInfo.propTypes = {
-    data: propTypes.object
+    data: propTypes.object,
+    handleOnChange: propTypes.func,
 }
 
 export default ProductMainInfo;
