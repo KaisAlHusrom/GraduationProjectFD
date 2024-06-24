@@ -2,7 +2,6 @@ import {  FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup, Tex
 
 import propTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { NewList } from '../../data/CradsData';
 import { ReviewCalculateSMA } from '../../utils/functions';
 import { useCliserMarketContext } from '../../EcommerceMain';
 
@@ -14,7 +13,6 @@ const SideBar = (props) => {
 
     useEffect(() => {
         
-
         // Extract price ranges from NewList
         const prices = products ? products.map(product => product.product_price) : [100, 1000, 10000];
         // Remove duplicate prices
