@@ -1,9 +1,8 @@
 //React
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-import {
-} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 //Components
 import Info from "../UI/CheckOut/Info"
@@ -51,6 +50,7 @@ function getStepContent(step) {
 
 const CheckOut = () => {
     const [activeStep, setActiveStep] = useState(0);
+    const user = useSelector(state => state.authSlice.user);
     const navigate = useNavigate();
 
     const cartItems = useMemo(() => {
@@ -71,6 +71,9 @@ const CheckOut = () => {
     };
     const handleBackToMain =() => {
         navigate("/cliser-digital-market")
+    }
+    const handleToOrders =() => {
+        navigate("/profile/orders-billing")
     }
 
     return (
@@ -258,17 +261,31 @@ const CheckOut = () => {
                         <Stack spacing={2} useFlexGap>
                             <Typography variant="h1">📦</Typography>
                             <Typography variant="h5">Thank you for your order!</Typography>
-                            <Typography variant="body1" color="text.secondary">
+                            <Typography variant="body1" color="text.secondary" sx={{ mt: 2, mb: 2 }}>
                             Your order number is
-                            <strong>&nbsp;#140396</strong>. We have emailed your order
-                            confirmation and will update you once its shipped.
+                            <strong>&nbsp;#140396</strong>.
                             </Typography>
+                            <Typography variant="body1" color="text.primary" sx={{ mt: 1 }}>
+                            Dear {user.first_name},
+                            </Typography>
+                            <Typography variant="body1" color="text.secondary" sx={{ mt: 1, mb: 1 }}>
+                            Thank you for purchasing from Cliser !
+                            </Typography>
+                            <Typography variant="body1" color="text.secondary" sx={{ mt: 1, mb: 1 }}>
+                            Your order is currently under review. We will email you once it's ready.
+                            </Typography>
+                            <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
+                            If you have any questions, feel free to contact us
+                            <a href="/contact-us" style={{ color: 'primary', textDecoration: 'none'}}> Here</a>.
+                            </Typography>
+
                             <Button
                             variant="contained"
                             sx={{
                                 alignSelf: 'start',
                                 width: { xxs: '100%', sm: 'auto' },
                             }}
+                            onClick={handleToOrders}
                             >
                             Go to my orders
                             </Button>

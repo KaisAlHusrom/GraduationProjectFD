@@ -20,7 +20,6 @@ import RenderCartItem from '../RenderCartItem/RenderCartItem';
 const Cart = () => {
     const navigate = useNavigate();
     const { cartItems, cartTotal } = useCart();
-
     const [discountCode, setDiscountCode] = useState('');
     const [discountAmount, setDiscountAmount] = useState(0);
 

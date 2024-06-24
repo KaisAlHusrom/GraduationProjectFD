@@ -1,24 +1,21 @@
 //React
-import { useMemo } from 'react'
+import { } from 'react'
 
 import {
     
 } from 'react-redux'
 
 //Components
-import { productList } from '../../../data/CradsData'
+
 
 //MUI
 import {
-    Box,List,ListItem,ListItemText,Typography
+    Box,List,Typography
 } from '@mui/material'
 import { styled } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import TotalCart from '../../../utils/TotalCart'
-import useEffectFetchData from '../../../../../Helpers/customHooks/useEffectFetchData'
-import { fetchSpecificUserProducts } from '../../../../../Services/UserServices/Services/productsUsersService'
 import { useCart } from '../../../utils/CartContext'
 import RenderCartItem from '../../RenderCartItem/RenderCartItem'
 
@@ -28,9 +25,7 @@ const StyledInfo = styled(Box)(
     
     })
 )
-  const getProductById = (productId) => {
-    return productList.find(product => product.id === productId);
-  };
+
 
 
 const Info = () => {

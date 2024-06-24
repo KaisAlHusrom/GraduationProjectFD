@@ -3,7 +3,6 @@ import {
     Card,
     CardContent,
     CardActions,
-    Button,
     Typography,
     CardMedia,
     Rating,
@@ -23,13 +22,11 @@ import propTypes from 'prop-types';
 import config from "../../../../Config.json"
 
 import { mediaFolderName } from '../../../Services/UserServices/Services/productsMediaUsersService';
-import { useNavigate } from 'react-router-dom';
 import { useMemo } from 'react';
 import { productsImagesFolderName } from '../../../Services/AdminServices/Services/productsService';
 import { AdminMainButton } from '../../../Components';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { position } from 'stylis';
 import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
 
 // Styled Components
@@ -44,7 +41,6 @@ const StyledProductCard = styled(Box)(
 );
 
 const ProductCard = (props) => {
-    const navigate = useNavigate();
     const { AddToCartId,title, description, image, action, price, rating, creator, category, mainImage, creatorImage } = props;
 
     // Ensure image is an array
@@ -53,9 +49,6 @@ const ProductCard = (props) => {
     }, [mainImage])
 
     const creatorImagePath = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${creatorImage}`
-
-
-    console.log(category)
 
     const mediaArray = Array.isArray(image) ? image: [];
     const { addToCart, cartItems } = useCart();
@@ -66,7 +59,6 @@ const ProductCard = (props) => {
             product_name: title,
             product_price: price,
         });
-        // navigate('/cliser-digital-market/Cart');
     };
 
     return (
@@ -131,8 +123,6 @@ const ProductCard = (props) => {
                                 cat.category_name + ', '
                             ))}
                         </Typography>
-                        
-                        
                         <Typography variant='body1'>
                             <Rating name="read-only" value={rating !== undefined ? rating : 'No ratings'} precision={0.2} readOnly />
                         </Typography>
@@ -149,7 +139,6 @@ const ProductCard = (props) => {
                             icon={<ShoppingCartOutlinedIcon />}
                             putBorder
                             onClick={handleAddToCart}
-                            
                             sx={{
                                 position: "absolute",
                                 top: 8,
@@ -165,15 +154,22 @@ const ProductCard = (props) => {
                     </CardContent>
                     <CardActions>
                         <Grid container spacing={2}>
-                            <Grid item xxs={12} xs={12} sm={6} md={6}>
-                                <Button variant='contained' fullWidth onClick={action}>
-                                    Learn More
-                                </Button>
+                            <Grid item xxs={12} xs={12} >
+                                <AdminMainButton
+                                    title='Learn More'
+                                    type='custom'
+                                    onClick={action}
+                                    sx={{
+                                        width:"100%",
+                                        backgroundColor:theme=>theme.palette.primary.main,
+                                    }
+                                    }
+                                >
+
+                                </AdminMainButton>
                             </Grid>
-                            
                         </Grid>
                     </CardActions>
-                    
                 </Card>
             </Container>
         </StyledProductCard>

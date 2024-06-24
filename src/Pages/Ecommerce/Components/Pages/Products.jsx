@@ -1,5 +1,5 @@
 //React
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 import {
     
@@ -16,7 +16,6 @@ import { } from '@mui/system'
 
 //propTypes 
 import propTypes from 'prop-types'
-import { NewList } from '../../data/CradsData'
 import SideBar from '../UI/SideBar'
 import FilteredData from '../../utils/FilteredData'
 import useFetchData from '../../../../Helpers/customHooks/useFetchData'
@@ -42,13 +41,10 @@ const Products = () => {
 
     const {
       data: products, 
-      download: productsDownload,
+/*       download: productsDownload, */
       lastDataRecord,
     } = useFetchData(fetchUserProducts, 'all', filters, sorts, true, query )
-
-    console.log(products)
-
-  
+    
     const handleInputChange = (event) => {
       setQuery(prev => {
         const updated = {...prev, searchTerm: event.target.value}

@@ -3,11 +3,10 @@ import { Box, Divider, Grid, List, ListItem, ListItemText, Stack, Typography } f
 import { styled } from '@mui/system';
 import propTypes from 'prop-types';
 
-import TotalCart from '../../../utils/TotalCart';
+import { useCart } from '../../../utils/CartContext';
 
 const StyledReview = styled(Box)(() => ({}));
 
-const addresses = ['1 MUI Drive', 'Reactville', 'Anytown', '99999', 'USA'];
 const payments = [
   { name: 'Card type:', detail: 'Visa' },
   { name: 'Card holder:', detail: 'Mr. John Smith' },
@@ -23,7 +22,7 @@ const Review = () => {
   }, []);
 
   const shippingFee = 9.99;
-  const cartTotal = TotalCart();
+  const {cartTotal} = useCart();
   const totalWithShipping = cartTotal + shippingFee;
 
   return (
@@ -57,15 +56,6 @@ const Review = () => {
           spacing={2}
           sx={{ my: 2 }}
         >
-          <div>
-            <Typography variant="subtitle2" gutterBottom>
-              Shipment details
-            </Typography>
-            <Typography gutterBottom>John Smith</Typography>
-            <Typography color="text.secondary" gutterBottom>
-              {addresses.join(', ')}
-            </Typography>
-          </div>
           <div>
             <Typography variant="subtitle2" gutterBottom>
               Payment details
