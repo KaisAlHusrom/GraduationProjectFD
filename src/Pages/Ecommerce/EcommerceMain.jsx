@@ -4,8 +4,6 @@ import
     useContext,
 useMemo }from 'react'
 
-import {writeFilterObject} from "../../Helpers/filterData"
-
 import {
     
 } from 'react-redux'
@@ -58,7 +56,6 @@ const EcommerceMain = () => {
     }, [])
 
     const {data: categories, download: categoriesDownload} = useEffectFetchData(fetchUserProductsCategories, params, true, false )
-    console.log(categories)
 
     return (
         <CartProvider>
