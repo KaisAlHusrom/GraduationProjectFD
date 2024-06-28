@@ -395,8 +395,18 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
                         <CategoriesPopover />
                       }
                     />
-                  </Box>
+                  </Box>  
                 </Box>
+                <Box
+                  sx={{
+                    display: { xxs: 'none', xs: 'none', md: 'flex' },
+                    gap: 0.5,
+                    alignItems: 'center',
+                  }}
+                >
+                <SearchBox />
+                </Box>
+                
                 {/* the seach bar , sign in and sign out part */}
                 <Box
                   sx={{
@@ -405,8 +415,6 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
                     alignItems: 'center',
                   }}
                 >
-                
-                  <SearchBox />
                   <ToggleColorMode />
                   <AdminMainButton
                     appearance='iconButton'
@@ -426,7 +434,6 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
                         color="primary"
                         variant="outlined"
                         size="small"
-                        component="a"
                         onClick={handleLoginClick}
                       >
                         Sign in
@@ -435,7 +442,6 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
                         color="primary"
                         variant="contained"
                         size="small"
-                        component="a"
                         onClick={handleSignUpClick}
                       >
                         Sign up

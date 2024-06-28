@@ -1,62 +1,67 @@
-//React
-import {
-    
-} from 'react'
 
-import {
-    
-} from 'react-redux'
+import { Box, Button, Typography } from '@mui/material';
+import { styled } from '@mui/system';
+import propTypes from 'prop-types';
 
-//Components
-
-
-//MUI
-import {
-    Box,
-} from '@mui/material'
-import { makeStyles } from '@mui/styles';
-import { styled } from '@mui/system'
-
-//propTypes 
-import propTypes from 'prop-types'
-
-//Styled Components
+// Styled Components
 const StyledMainSlider = styled(Box)(
-    ({ theme }) => ({
-    
-    })
-)
+  ({ theme }) => ({
+    height: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: 'linear-gradient(to right, #007bff, #6c757d, #28a745)', // Example gradient background
+    color: '#fff',
+    textAlign: 'center',
+    flexDirection: 'column',
+    padding: theme.spacing(3),
+  })
+);
 
-const useStyles = makeStyles({
-    slider: {
-      height: '100vh',
-      width: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'linear-gradient(to right, #007bff, #6c757d, #28a745)', // Example gradient background
-      color: '#fff',
-      fontSize: '2rem',
-      textAlign: 'center',
+const StyledHeading = styled(Typography)(
+  ({ theme }) => ({
+    fontSize: '3rem',
+    marginBottom: theme.spacing(2),
+  })
+);
+
+const StyledSubheading = styled(Typography)(
+  ({ theme }) => ({
+    fontSize: '1.5rem',
+    marginBottom: theme.spacing(4),
+  })
+);
+
+const StyledButton = styled(Button)(
+  ({ theme }) => ({
+    marginTop: theme.spacing(4),
+    padding: theme.spacing(1, 4),
+    fontSize: '1rem',
+    color: '#007bff',
+    backgroundColor: '#fff',
+    '&:hover': {
+      backgroundColor: '#f0f0f0',
     },
-  });
+  })
+);
 
 const MainSlider = () => {
-    const classes = useStyles();
-    return (
-        <StyledMainSlider>
-            <Box className={classes.slider}>
-                <div>
-                    <h1>Welcome to Your E-commerce Site</h1>
-                    <p>Explore our amazing products!</p>
-                </div>
-            </Box>
-        </StyledMainSlider>
-    );
+
+  return (
+    <StyledMainSlider>
+      <StyledHeading variant="h1">Welcome to Cliser Ecommerce Market</StyledHeading>
+      <StyledSubheading variant="h6">Explore our amazing products!</StyledSubheading>
+      <StyledButton
+        variant="contained"
+      >
+        Go to Products
+      </StyledButton>
+    </StyledMainSlider>
+  );
 };
 
 MainSlider.propTypes = {
-    children: propTypes.array
-}
+  children: propTypes.node,
+};
 
 export default MainSlider;
