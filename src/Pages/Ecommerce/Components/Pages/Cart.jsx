@@ -16,22 +16,40 @@ import CustomCard from '../UI/CustomCard';
 import ProductsTape from '../UI/ProductsTape';
 import { useCart } from '../../utils/CartContext';
 import RenderCartItem from '../RenderCartItem/RenderCartItem';
+import { handleCheckoutPage } from '../../../../Services/CheckoutServices/checkoutProducts';
+import { navigateLoginPage, navigateStoreMainPage } from '../../../../Helpers/navigations';
+import { useSelector } from 'react-redux';
 
 const Cart = () => {
-    const navigate = useNavigate();
-    const { cartItems, cartTotal } = useCart();
+    const { cartItems, cartTotal, setCartItems } = useCart();
     const [discountCode, setDiscountCode] = useState('');
     const [discountAmount, setDiscountAmount] = useState(0);
 
     
+    const user = useSelector(state => state.authSlice.user)
 
-
-    const handleCheckOutClick = () => {
-        navigate(`/cliser-digital-market/checkout`);
+    //Handle go to stripe payment page
+    const handleCheckOutClick = async () => {
+        // if user not logged in
+        if(!user) {
+            navigateLoginPage()
+            return
+        }
+        
+        const data = {
+            order_items: cartItems
+        }
+        const checkoutRes = await handleCheckoutPage(data)
+        if(checkoutRes.success) {
+            setCartItems(() => [])
+            window.location = checkoutRes.data.url;
+        } else {
+            console.error("Couldn't checkout");
+        }
     };
 
     const handleBrowseClick = () => {
-        navigate(`/cliser-digital-market`);
+        navigateStoreMainPage()
     };
 
     const handleApplyDiscount = () => {

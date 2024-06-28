@@ -28,6 +28,8 @@ import { AdminMainButton } from '../../../Components';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../Redux/Slices/snackbarOpenSlice';
 
 // Styled Components
 const StyledProductCard = styled(Box)(
@@ -41,7 +43,7 @@ const StyledProductCard = styled(Box)(
 );
 
 const ProductCard = (props) => {
-    const { AddToCartId,title, description, image, action, price, rating, creator, category, mainImage, creatorImage } = props;
+    const { product, AddToCartId,title, description, image, action, price, rating, creator, category, mainImage, creatorImage } = props;
 
     // Ensure image is an array
     const mainImagePath = useMemo(() => {
@@ -52,10 +54,12 @@ const ProductCard = (props) => {
 
     const mediaArray = Array.isArray(image) ? image: [];
     const { addToCart, cartItems } = useCart();
-
+    
     const handleAddToCart = () => {
+        
         addToCart({
             id: AddToCartId,
+            creatorId: product?.user?.id,
             product_name: title,
             product_price: price,
         });
@@ -132,25 +136,25 @@ const ProductCard = (props) => {
                         <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px', paddingTop: 1 }}>
                             <Avatar src={creatorImagePath} sx={{ width: 32, height: 32 }} /> {creator}
                         </Typography>
-                        <AdminMainButton
-                            title='Add To Cart'
-                            type='custom'
-                            appearance='iconButton'
-                            icon={<ShoppingCartOutlinedIcon />}
-                            putBorder
-                            onClick={handleAddToCart}
-                            sx={{
-                                position: "absolute",
-                                top: 8,
-                                right: 8,
-                                zIndex: 1000,
-                                color: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.contrastText : undefined,
-                                backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.main : undefined,
-                                "&:hover": {
-                                    backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.dark : undefined,
-                                }
-                            }}
-                    />
+                            <AdminMainButton
+                                title='Add To Cart'
+                                type='custom'
+                                appearance='iconButton'
+                                icon={<ShoppingCartOutlinedIcon />}
+                                putBorder
+                                onClick={handleAddToCart}
+                                sx={{
+                                    position: "absolute",
+                                    top: 8,
+                                    right: 8,
+                                    zIndex: 1000,
+                                    color: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.contrastText : undefined,
+                                    backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.main : undefined,
+                                    "&:hover": {
+                                        backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.dark : undefined,
+                                    }
+                                }}
+                        />
                     </CardContent>
                     <CardActions>
                         <Grid container spacing={2}>

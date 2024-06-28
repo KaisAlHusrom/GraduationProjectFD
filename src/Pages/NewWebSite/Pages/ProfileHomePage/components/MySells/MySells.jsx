@@ -1,11 +1,7 @@
 //React
-import {
-    
-} from 'react'
+import { useMemo } from 'react'
 
-import {
-    
-} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 //Components
 
@@ -21,6 +17,10 @@ import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import propTypes from 'prop-types'
 import CustomCard from '../CustomCard/CustomCard'
 import { AdminMainButton } from '../../../../../../Components'
+import { writeFilterObject } from '../../../../../../Helpers/filterData';
+import useFetchData from '../../../../../../Helpers/customHooks/useFetchData';
+import { fetchUserComingOrders } from '../../../../../../Services/UserServices/Services/ordersUsersService';
+import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData';
 
 //Styled Components
 const StyledMySells = styled(Box)(
@@ -45,6 +45,17 @@ const StyledMySalesTail = styled(Box)(
 );
 
 const MySells = () => {
+
+    //in this fetch function there is no any parameter
+    const params = useMemo(() => {
+        return [
+        ]
+    }, [])
+    const {data: orders, download} = useEffectFetchData(fetchUserComingOrders, params, true, false)
+
+    const user = useSelector(state => state.authSlice.user)
+    console.log(user.id)
+    console.log(orders)
     return (
         <CustomCard 
         cardTail={

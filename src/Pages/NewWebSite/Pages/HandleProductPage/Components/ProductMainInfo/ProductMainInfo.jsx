@@ -6,8 +6,7 @@ import { useSelector } from 'react-redux'
 //config
 import config from "../../../../../../../Config.json"
 
-import empty from "../../../../../../Assets/Images/emptyProduct.webp"
-
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 //Components
 
 
@@ -20,14 +19,18 @@ import {
     FormControl,
     OutlinedInput,
     InputAdornment,
+    IconButton,
+    Popover,
+    Typography,
+    Box
 } from '@mui/material'
 import { styled } from '@mui/system'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 //propTypes 
 import propTypes from 'prop-types'
 import { productsImagesFolderName } from '../../../../../../Services/UserServices/Services/productsUsersService'
 import UploadImageByDragDrop from '../UploadImageByDragDrop/UploadImageByDragDrop'
+import calculateProfit from '../../../../../../Helpers/calculateProfit'
 
 //Styled Components
 
@@ -61,6 +64,19 @@ const ProductMainInfo = ({data, handleOnChange}) => {
     const currency = useSelector(state => state.currencySlice.currency);
 
     const {productData} = data;
+    const {newCost: profit, serviceTaxPercentage} = calculateProfit(productData?.product_price)
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
 
     //for image
     const mainImagePath = useMemo(() => productData?.product_main_image_name ? `${config.ServerImageRoute}/${productsImagesFolderName}/${productData?.product_main_image_name}` : null, [productData?.product_main_image_name])
@@ -116,11 +132,31 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                         onChange={(e) => handleOnChange(e, "string")}
                     />
                 </Grid>
-                <Grid item xxs={12} sm={4}>
+                <Grid item xxs={12} sm={4} position={'relative'}>
                     <FormLabel
-                        // error={error}
-                        >
+                    >
                         Product Price
+                        <IconButton size='small'onMouseOver={handleClick}  sx={{position: 'absolute', right: -35, bottom: -5}}>
+                            <InfoOutlinedIcon  />
+                        </IconButton>
+                        <Popover
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            >
+                            <Box padding={2}>
+                                <Typography variant='subtitle1'>
+                                Profit is the amount of money you make after customers purchase your product.
+                                </Typography>
+                                <Typography variant='body2' color='text.secondary'>
+                                Service Tax: {serviceTaxPercentage}%
+                                </Typography>
+                            </Box>
+                        </Popover>
                     </FormLabel>
                     <FormControl
                         fullWidth
@@ -129,6 +165,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                         >
                             <OutlinedInput
                                 startAdornment={<InputAdornment position="start">{currency}</InputAdornment>}
+                                endAdornment={<InputAdornment position="end">Profit: {profit || "00"}{currency}</InputAdornment>}
                                 onChange= {(e) => handleOnChange(e, "decimal")}
                                 value= {productData?.product_price}
                                 name='product_price'

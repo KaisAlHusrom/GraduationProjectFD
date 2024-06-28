@@ -34,6 +34,7 @@ import { logoFolderName } from '../../../../Services/UserServices/Services/webPr
 import DateHelper from '../../../../Helpers/DateHelper';
 import { AdminMainButton } from '../../../../Components';
 import { useUserContext } from '../../Pages/PortfolioMain/PortfolioMain';
+import { navigateWebProjectPreview } from '../../../../Helpers/navigations';
 
 //Styled Components
 const StyledWebProjectCard = styled(Card)(
@@ -91,6 +92,11 @@ const WebProjectCard = ({project, profilePage}) => {
         }
         
     }, [profilePage, profileUser?.id, user.id])
+
+    const viewWebProject = () => {
+        console.log("what")
+        navigateWebProjectPreview(project?.id)
+    }
 
     return (
         // if the profile user is not the same with the logged user
@@ -271,7 +277,7 @@ const WebProjectCard = ({project, profilePage}) => {
                                 type='custom'
                                 appearance='iconButton'
                                 icon={<RemoveRedEyeOutlinedIcon />}
-                                onClick={() => {}}
+                                onClick={viewWebProject}
                                 putTooltip
                                 toolTipPosition={'top'}
                             />
@@ -398,7 +404,7 @@ const WebProjectCard = ({project, profilePage}) => {
                                     type='custom'
                                     appearance='iconButton'
                                     icon={<RemoveRedEyeOutlinedIcon />}
-                                    onClick={() => {}}
+                                    onClick={viewWebProject}
                                     putTooltip
                                     toolTipPosition={'top'}
                                 />

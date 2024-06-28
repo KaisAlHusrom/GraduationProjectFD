@@ -10,8 +10,10 @@ import QueryStatsRoundedIcon from '@mui/icons-material/QueryStatsRounded';
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
 import SupportAgentRoundedIcon from '@mui/icons-material/SupportAgentRounded';
 import ThumbUpAltRoundedIcon from '@mui/icons-material/ThumbUpAltRounded';
-import { useEffect, useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import useInView from '../../../../Helpers/customHooks/useInView';
+
+import {linearColoredText} from "../../../../StaticData/styles"
+
 
     const items = [
     {
@@ -53,14 +55,8 @@ import { useInView } from 'react-intersection-observer';
     ];
 
 export default function Highlights() {
-    const [isInView, setIsInView] = useState(false);
-    const { ref, inView } = useInView();
-  
-    useEffect(() => {
-        if (inView) {
-            setIsInView(true);
-        }
-    }, [inView]);
+    const { ref, inView: isInView } = useInView();
+
 
 
 return (
@@ -91,7 +87,10 @@ return (
                 textAlign: { sm: 'left', md: 'center' },
             }}
         >
-            <Typography component="h2" variant="h4" sx = {{color : "#eee"}}>
+            <Typography component="h2" variant="h4" sx={theme => ({
+                ...linearColoredText(theme),
+                textAlign: 'center'
+              })}>
                 Highlights
             </Typography>
             <Typography variant="body1" sx={{ color: 'grey.400' }}>

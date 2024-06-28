@@ -63,7 +63,8 @@ const AdminMainButton = (props) => {
         menuPaperProps,
         component,
         href,
-        popOverProps
+        popOverProps,
+        modalProps
     } = props
 
     // theme
@@ -389,6 +390,10 @@ const AdminMainButton = (props) => {
                 title={title} 
                 modalOpenState={[modalOpen, setModalOpen]}
                 modalIcon={modalIcon}
+                withoutModalHeader={modalProps?.withoutModalHeader}
+                backdropClick={modalProps?.backdropClick}
+                cardSx={modalProps?.cardSx}
+                maxWidth={modalProps?.maxWidth}
                 >
                     {willShow}
                 </CustomModal>
@@ -450,6 +455,7 @@ const AdminMainButton = (props) => {
     );
 };
 
+
 AdminMainButton.propTypes = {
     icon: propTypes.any,
     title: propTypes.string.isRequired,
@@ -479,6 +485,7 @@ AdminMainButton.propTypes = {
     menuPaperProps: propTypes.object,
     component: propTypes.string,
     href: propTypes.string,
+    modalProps: propTypes.object,
 };
 
 export default AdminMainButton;

@@ -122,6 +122,7 @@ const ProductsTape = ({ title, Cat }) => {
                                                 <Grid key={key} item xs={12} sm={8} md={6} lg={4}>
                                                     <ProductCard
                                                         AddToCartId={product.id}
+                                                        product={product}
                                                         title={product.product_name}
                                                         description={product.product_short_description}
                                                         image={product.product_media}

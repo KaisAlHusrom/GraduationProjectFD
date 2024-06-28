@@ -28,28 +28,26 @@ import AdminMainButton from '../AdminMainButton/AdminMainButton';
 import MainAppBarDrawerNavList from '../MainAppBarDrawerNavList/MainAppBarDrawerNavList';
 import { useMemo } from 'react';
 import CliserImageLogo from '../../Pages/Ecommerce/utils/CliserImageLogo';
+import { navigateLoginPage, navigateMainPage, navigateSignUpPage, navigateStoreMainPage } from '../../Helpers/navigations';
 
 
 function MainAppBar({auth}) {
-   
-    
 
-    const Navigate = useNavigate();
 
     const handleEcommerceClick = () => {
-        Navigate('/cliser-digital-market');
+        navigateStoreMainPage();
     };
 
     const handleLoginClick = () => {
-        Navigate('/auth/login');
+        navigateLoginPage()
     };
 
     const handleSignUpClick = () => {
-        Navigate('/auth/sign-up');
+        navigateSignUpPage();
     };
 
     const HandleMainButton = () => {
-        Navigate('/');
+        navigateMainPage()
     };
 
     return (
@@ -95,12 +93,24 @@ function MainAppBar({auth}) {
                 }}
                 >
                 <CliserImageLogo HandleMainButton={HandleMainButton} />
-                <Box sx={{ display: { xxs: 'none', md: 'flex' } }}>
+                <Box sx={{ 
+                    display: { xxs: 'none', md: 'flex'},
+                    "& .MuiMenuItem-root": {
+                        letterSpacing: 1.2,
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        fontSize: "14px"
+                    }  
+                    }}>
                     <MenuItem
                     onClick={handleEcommerceClick}
-                    sx={{ py: '6px', px: '12px', color: theme => theme.palette.secondary.light }}
+                    sx={{ 
+                        py: '6px', 
+                        px: '12px', 
+                        color: theme => theme.palette.primary.light
+                    }}
                     >
-                            Digital Market
+                            CLISER STORE
                     </MenuItem>
                     {
                         !auth &&
@@ -120,19 +130,25 @@ function MainAppBar({auth}) {
                     color="primary"
                     variant="text"
                     size="small"
-                    component="a"
                     onClick={handleLoginClick}
+                    sx={{
+                        color: theme => theme.palette.text.primary,
+                        letterSpacing: 1.2
+                    }}
                 >
-                    Sign in
+                    Login
                 </Button>
                 <Button
                     color="primary"
                     variant="contained"
                     size="small"
-                    component="a"
                     onClick={handleSignUpClick}
+                    sx={{
+                        letterSpacing: 1.2,
+                        borderRadius: theme => theme.spacing(2)
+                    }}
                 >
-                    Sign up
+                    Get Started
                 </Button>
                 </Box>
                 <Box sx={{ display: { sm: '', md: 'none' } }}>

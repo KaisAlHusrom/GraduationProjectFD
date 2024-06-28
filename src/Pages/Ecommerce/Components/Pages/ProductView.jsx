@@ -65,6 +65,7 @@ function CustomTabPanel(props) {
     const handleAddCartBtn = () => {
       addToCart({
             id: product.id,
+            creatorId: product?.user?.id,
             product_name: product.product_name,
             product_price: product.product_price,
         });

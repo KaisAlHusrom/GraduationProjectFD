@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 
 
 //router
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 
 //Components
 import { CustomCircularProgress, CustomLinearProgress } from '../../Components';
@@ -16,8 +16,8 @@ import {
     Box
 } from '@mui/material'
 import {  styled } from '@mui/system'
-import { isTokenValid } from '../../Helpers/utils/auth';
 import RouteChangeHandler from '../../Router/Requires/RouteChangeHandler';
+import { setNavigateFunction } from '../../Helpers/navigations';
 
 
 
@@ -32,9 +32,10 @@ const StyledMainPage = styled(Box)(
 
 const MainPage = () => {
     
+    const navigate = useNavigate();
     useEffect(() => {
-        isTokenValid()
-    }, [])
+        setNavigateFunction(navigate);
+    }, [navigate])
 
     //download progresses
     const openLinearProgress = useSelector(state => state.downloadPageSlice.openLinearProgress)

@@ -129,7 +129,7 @@ const WebProjects = () => {
                                 :
                                 <Box width={"100%"} height={"100%"} display={"flex"} justifyContent={'center'} alignItems={'center'}>
                                     <AdminMainButton
-                                        title='Add First Product'
+                                        title='Add First Project'
                                         appearance='primary'
                                         putBorder
                                         type='custom'

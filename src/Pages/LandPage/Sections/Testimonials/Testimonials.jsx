@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import CardContent from '@mui/material/CardContent';
@@ -8,8 +7,15 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/system';
-import { useState } from 'react';
-import { useInView } from 'react-intersection-observer';
+import useInView from '../../../../Helpers/customHooks/useInView';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation } from 'swiper/modules';
+import { getSlidesPerView } from '../../../NewWebSite/Pages/ProfileHomePage/Utils/getSlidesPerView';
+import useScreenWidth from '../../../../Helpers/customHooks/useScreenWidth';
+
+import {linearColoredText} from "../../../../StaticData/styles"
+
 
 const userTestimonials = [
   {
@@ -82,14 +88,10 @@ const logoStyle = {
 export default function Testimonials() {
   const theme = useTheme();
   const logos = theme.palette.mode === 'light' ? darkLogos : whiteLogos;
-  const [isInView, setIsInView] = useState(false);
-  const { ref, inView } = useInView();
 
-  React.useEffect(() => {
-      if (inView) {
-          setIsInView(true);
-      }
-  }, [inView]);
+  const { ref, inView: isInView } = useInView();
+  const screenWidth = useScreenWidth();
+
 
   return (
     <Container
@@ -104,7 +106,7 @@ export default function Testimonials() {
         gap: { xs: 3, sm: 6 },
         opacity: isInView ? 1 : 0,
       }}
-      className={isInView ? 'opacity-animation' : ''}
+      className={isInView ? 'slide-right-animation' : ''}
       ref={ref}
     >
       <Box
@@ -113,7 +115,10 @@ export default function Testimonials() {
           textAlign: { sm: 'left', md: 'center' },
         }}
       >
-        <Typography component="h2" variant="h4" color="text.primary">
+        <Typography component="h2" variant="h3" sx={theme => ({
+                ...linearColoredText(theme),
+                textAlign: 'center'
+              })}>
           Testimonials
         </Typography>
         <Typography variant="body1" color="text.secondary">
@@ -122,46 +127,68 @@ export default function Testimonials() {
           and reliable support.
         </Typography>
       </Box>
-      <Grid container spacing={2}>
-        {userTestimonials.map((testimonial, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index} sx={{ display: 'flex' }}>
-            <Card
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                flexGrow: 1,
-                p: 1,
-              }}
-            >
-              <CardContent>
-                <Typography variant="body2" color="text.secondary">
-                  {testimonial.testimonial}
-                </Typography>
-              </CardContent>
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'row',
-                  justifyContent: 'space-between',
-                  pr: 2,
-                }}
-              >
-                <CardHeader
-                  avatar={testimonial.avatar}
-                  title={testimonial.name}
-                  subheader={testimonial.occupation}
-                />
-                <img
-                  src={logos[index]}
-                  alt={`Logo ${index + 1}`}
-                  style={logoStyle}
-                />
-              </Box>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
+        <Swiper
+            spaceBetween={30}
+            // centeredSlides={true}
+            autoplay={true}
+            pagination={{
+                clickable: false,
+            }}
+            slidesPerView={getSlidesPerView(screenWidth)}
+
+            navigation={false}
+            modules={[Autoplay, Pagination, Navigation]}
+            className="mySwiper"
+          >
+        <Grid container spacing={2} width={'100%'}>
+       
+            {userTestimonials.map((testimonial, index) => (
+              <SwiperSlide key={index}>
+                  <Grid  item xxs={12}>
+                    
+                      <Card
+                        sx={{
+                          display: 'flex',
+                          flexDirection: 'column',
+                          justifyContent: 'space-between',
+                          flexGrow: 1,
+                          p: 1,
+                          height: 220
+                        }}
+                      >
+                        <CardContent>
+                          <Typography variant="body2" color="text.secondary">
+                            {testimonial.testimonial}
+                          </Typography>
+                        </CardContent>
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            pr: 2,
+                          }}
+                        >
+                          <CardHeader
+                            avatar={testimonial.avatar}
+                            title={testimonial.name}
+                            subheader={testimonial.occupation}
+                          />
+                          <img
+                            src={logos[index]}
+                            alt={`Logo ${index + 1}`}
+                            style={logoStyle}
+                          />
+                        </Box>
+                      </Card>
+                  </Grid>
+                </SwiperSlide>
+
+            
+              ))}
+          
+        </Grid>
+        </Swiper>
     </Container>
   );
 }
