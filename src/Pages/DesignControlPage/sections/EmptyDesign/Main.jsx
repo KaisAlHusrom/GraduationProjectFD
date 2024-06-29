@@ -167,10 +167,10 @@ const handleChange = async (event) => {
 
                         
                 <EmptyTemplate  
-                selectedFontFamily={selectedFontFamily} 
-                isMobileWidth={isMobileWidth} 
-                isTabletWidth = {isTabletWidth} 
-                isLaptopWidth = {isLaptopWidth}
+                    selectedFontFamily={selectedFontFamily} 
+                    isMobileWidth={isMobileWidth} 
+                    isTabletWidth = {isTabletWidth} 
+                    isLaptopWidth = {isLaptopWidth}
                 />
 
 

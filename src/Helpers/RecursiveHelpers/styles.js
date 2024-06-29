@@ -331,6 +331,36 @@ export const convertToCssValue = (prop, value, mainDirections, cornerDirections)
     
 }
 
+export const convertToNormalName = (prop, cssValue, mainDirections, cornerDirections) => {
+    if (cssValue) {
+        if (prop.style_prop_value_type === "props") {
+            // Assuming prop is an object that contains mappings from CSS names to normal names
+            const normalName = Object.keys(prop).find(key => prop[key].style_prop_value_css_name === cssValue);
+            return normalName || cssValue; // Return the original CSS value if no mapping found
+        }
+
+        if (prop.style_prop_value_type === "string") {
+            // Handle conversions for string type properties if needed
+            // This depends on how your string values are mapped back to normal names
+            // Example implementation:
+            // const normalName = Object.keys(prop).find(key => prop[key].style_prop_value_css_name === cssValue);
+            // return normalName || cssValue;
+            return cssValue; // Placeholder, adjust as per your actual mappings
+        }
+
+        // Handle other types like mainDirections and cornerDirections if necessary
+        // Example implementation for mainDirections:
+        // const normalName = Object.keys(mainDirections).find(key => mainDirections[key]?.style_prop_value_css_name === cssValue);
+        // return normalName || cssValue;
+
+        // Placeholder, return CSS value directly if no mapping found
+        return cssValue;
+    }
+
+    return cssValue; // Return the value as-is if null or undefined
+}
+
+
 export const nullValues = (prop) => {
     if (prop.style_prop_value_type === "color") {
         return "white";

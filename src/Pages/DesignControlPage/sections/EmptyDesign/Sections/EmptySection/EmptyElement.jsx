@@ -27,6 +27,7 @@ const StyledEmptyElement = styled(Box)(({ elementstyle }) => ({
 
 const EmptyElement = ({element}) => {
 
+    const [elementData, setElementData] = useState(element);
 
     const [elementStyle, setElementStyle] = useState({});
     useMemo(() => {
@@ -45,7 +46,11 @@ const EmptyElement = ({element}) => {
 
     return (
         <StyledEmptyElement className='element-query'>
-                <GenerateTagEdit selectedTemplate={element} elementStyle={elementStyle}></GenerateTagEdit>
+               {
+                elementData.design_type === "element" ? (
+                    <GenerateTagEdit selectedTemplate={elementData} elementStyle={elementStyle}></GenerateTagEdit>
+                ) : null
+               }
         </StyledEmptyElement>
     );
 };

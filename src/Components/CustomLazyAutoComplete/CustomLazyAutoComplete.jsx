@@ -37,7 +37,7 @@ const CustomLazyAutoComplete = (props) => {
         customHandleChange,
         filters,
         perPage,
-        sx
+        sx  
     } = props
 
 
@@ -141,7 +141,6 @@ const CustomLazyAutoComplete = (props) => {
                     value={searchQuery?.searchTerm}
                     onChange={handleChangeSearchQuery}
                     label={label}
-              
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

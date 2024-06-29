@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import {  useEffect, useState } from 'react';
 
 // Components
 import EditElement from './EditElement';
-import {  AdminMainButtonOutsideState, CustomDrawer } from '../../../../../Components/index.jsx';
-import StyleBox from '../../../components/StyleBox.jsx';
-import StylesCategory from './Drawers/DrawersNew/StylesCategory.jsx';
+import { AdminMainButton,  } from '../../../../../Components/index.jsx';
 
 
 // propTypes
@@ -12,36 +10,13 @@ import propTypes from 'prop-types';
 
 // MUI
 import { Box } from '@mui/material';
-import { styled } from '@mui/system';
-import { Edit as EditIcon } from '@mui/icons-material';
 
+import UndoIcon from '@mui/icons-material/Undo';
+import RecursiveEditComponent from './RecursiveEditComponent.jsx';
 
 // Helpers
-import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
 
 
-
-
-// Styled Components
-const StyledEditComponent = styled(Box)(() => ({
-    '& div': {
-        border: 'none'
-    },
-    '&:hover > div': {
-        opacity: 1, // Show the TooltipContainers when StyledEditComponent is hovered
-        visibility: 'visible',
-    },
-    position: 'relative'
-}));
-
-const TooltipContainer = styled(Box)({
-    opacity: 0, // Initially set opacity to 0
-    visibility: 'hidden', // Initially hide the TooltipContainer
-    transition: 'opacity 1s ease', // Apply transition effect to opacity
-    position: 'absolute',
-    top: '0',
-    left: '0'
-});
 
 const EditButtonsStyle = {
     border: '1px solid red',
@@ -55,80 +30,56 @@ const EditButtonsStyle = {
         backgroundColor: 'rgb(7, 15, 43)',
     },
 };
+const EditComponent = ({
+    component,
+    handleAddNewElement,
+    elements,
+    componentId,
+    sectionDataState,
+    styleCategories,
+}) => {
+    const [componentData, setComponentData] = useState(component);
+    const [AddElement] = elements;
+    const [history, setHistory] = useState([]);
+    const [sectionData, setSectionData] = sectionDataState;
 
-const EditComponent = ({ component, handleAddNewElement, elements, componentId, sectionDataState, styleCategories }) => {
-    const [componentStyle, setComponentStyle] = useState({}); // using for control the component style 
-    const [componentData, setComponentData] = useState(component); // using for control the component data
-    const [AddElement] = elements; // using for add the elements to component when user is did 
-    const [history, setHistory] = useState([]); // Store user actions
-    const [sectionData, setSectionData] = sectionDataState; // using for Control  section data 
-    const [dialogState , setDialogState] = useState(false)
-    const [drawerState , setDrawerState] = useState(false);
-    const [category , setCategory] = useState(null)
 
-    // Add element to component 
     useEffect(() => {
         if (AddElement && componentId === component.id) {
             handleAddNewElement(componentId);
             setHistory(prevHistory => [...prevHistory, JSON.parse(JSON.stringify(sectionData))]);
         }
     }, [AddElement, component.id, componentId, handleAddNewElement, sectionData]);
-
-    useEffect(() => {
-        setComponentData(component);
-    }, [component]);
-
-    useMemo(() => {
-        const dictionary = {};
-        if (component.styles) {
-            component.styles.forEach((cssProp) => {
-                const { style_prop, style_prop_value } = cssProp;
-                if (style_prop?.is_component) {
-                    dictionary[style_prop.style_prop_css_name] = style_prop_value;
-                }
-            });
-        }
-        setComponentStyle(dictionary);
-    }, [component.styles]);
-
-    // Change the section style
-    const handleSectionStyleChange = useCallback((cssValue, prop) => {
-        setComponentData((prevData) => {
-            const updatedSectionData = { ...prevData }; // Update with a copy
-            const changed = addStyleAbdullah(updatedSectionData, [prevData.id], prop, cssValue, null, null);
-            if (changed) {
-                // Update componentStyle on style change
-                const dictionary = {};
-                if (updatedSectionData.styles) {
-                    updatedSectionData.styles.forEach((cssProp) => {
-                        const { style_prop, style_prop_value } = cssProp;
-                        if (style_prop?.is_component) {
-                            dictionary[style_prop.style_prop_css_name] = style_prop_value;
-                        }
-                    });
-                }
-                setComponentStyle(dictionary);
-            }
-            return updatedSectionData;
-        });
-        setHistory(prevHistory => [...prevHistory, JSON.parse(JSON.stringify(sectionData))]);
-    }, [sectionData]);
-
+    
     const deleteElementForComponent = (Component_id, element__id) => {
         setSectionData(prevData => ({
             ...prevData,
-            children: prevData.children.map(component => {
-                if (component.id === Component_id) {
-                    return {
-                        ...component,
-                        children: component.children.filter(child => child.id !== element__id)
-                    };
-                }
-                return component;
-            })
+            children: recursiveDeleteChildren(prevData.children, Component_id, element__id),
         }));
+    
+        // Assuming setHistory is defined somewhere in your component
         setHistory(prevHistory => [...prevHistory, JSON.parse(JSON.stringify(sectionData))]);
     };
+    
+    const recursiveDeleteChildren = (components, Component_id, element__id) => {
+        return components.map(component => {
+            if (component.id === Component_id) {
+                // Delete the element with element__id from children array
+                return {
+                    ...component,
+                    children: component.children.filter(child => child.id !== element__id),
+                };
+            } else if (component.children) {
+                // Recursively delete from nested children
+                return {
+                    ...component,
+                    children: recursiveDeleteChildren(component.children, Component_id, element__id),
+                };
+            }
+            return component;
+        });
+    };
+    
 
     const handleMoveElement = (oldIndex, newIndex, parent_id) => {
         setComponentData((prevData) => {
@@ -147,94 +98,59 @@ const EditComponent = ({ component, handleAddNewElement, elements, componentId, 
             }
         });
     };
-    // Undo last operation for the section
+
     const undo = () => {
         if (history.length > 0) {
-            const previousState = history[history.length - 1]; // Get the previous state
-            setSectionData(previousState); // Restore previous state of sectionData
+            const previousState = history[history.length - 1];
+            setSectionData(previousState);
             setHistory(prevHistory => prevHistory.slice(0, -1));
         }
-    };  
-
+    };
+ 
 
     return (
-        <StyledEditComponent sx={{ ...componentStyle, position: 'relative' }}>
-        {sectionData.children
-            .filter(child => child.id === component.id)[0]?.children
-            .sort((a, b) => a.sequence_number - b.sequence_number)
-            .map((element, i) => (
-                <Box key={`${component.id}-${element.id}-${i}`} sx={{ padding: '0px' }}>
-                    <EditElement
-                        element={element}
-                        deleteElementForComponent={deleteElementForComponent}
-                        componentId={component.id}
-                        handleMoveElement={handleMoveElement}
-                        componentDataState={[component, setComponentData]}
-                        styleCategories={styleCategories}
-                        sectionDataState={sectionDataState}
-                        elements = {elements}
-                        handleAddNewElement = {handleAddNewElement}
-                        
-                    />
-                </Box>
-            ))}
-
-                <TooltipContainer>
-                    <AdminMainButtonOutsideState
-                        title="Edit"
-                        type="StyleDialog"
-                        appearance="iconButton"
-                        putTooltip
-                        icon={<EditIcon />}
-                        customState = {[dialogState , setDialogState]}
-
-                        willShow={
-                            <StyleBox
-                                customState = {[dialogState, setDialogState]}
-                                drawerStates = {[drawerState , setDrawerState]}
-                                categoryState={[category, setCategory]}
-                                name_of_design={"Style Component"}
-                                type_of_design='Component'
-                                sectionStyle={componentStyle}
-                                handleSectionStyleChange={handleSectionStyleChange}
-                                styleCategories={styleCategories}
-                            />
-                        }
-                        sx={EditButtonsStyle}
-                    />
-
-                    <CustomDrawer
-                                drawerOpenState={[drawerState , setDrawerState]}
-                                title={"Style Component"}
-                                drawerStyle={{
-                                paddingTop : '80px'
-                                }}
-                                putDrawerCloseButton={true}
-                                anchor={"left"}
-                        >
-                            <StylesCategory  
-                                customState = {[dialogState , setDialogState]}
-                                handleSectionStyleChange = {handleSectionStyleChange} 
-                                category = {{category}} 
-                                sectionStyleProps = {componentStyle}
+        <  >
+            {component.children &&
+                component.children
+                    .sort((a, b) => a.sequence_number - b.sequence_number)
+                    .map((element, i) => (
+                        <Box key={`${component.id}-${element.id}-${i}`} sx={{ padding: '0px' }}>
+                            {element.design_type === 'component' ? (
+                                <RecursiveEditComponent
+                                    component={element}
+                                    elements={elements}
+                                    sectionDataState={sectionDataState}
+                                    handleAddNewElement={handleAddNewElement}
+                                    styleCategories={styleCategories}
                                 />
+                            ) : (
+                                <EditElement
+                                    element={element}
+                                    deleteElementForComponent={deleteElementForComponent}
+                                    componentId={component.id}
+                                    handleMoveElement={handleMoveElement}
+                                    componentDataState={[component, setComponentData]}
+                                    styleCategories={styleCategories}
+                                    sectionDataState={sectionDataState}
+                                    elements={elements}
+                                    handleAddNewElement={handleAddNewElement}
+                                />
+                            )}
+                        </Box>
+                    ))}
 
-                        </CustomDrawer>
-
-                </TooltipContainer>
-{/* 
-        {history.length > 0 && (
-            <AdminMainButton
-                title="Undo"
-                type="custom"
-                appearance="iconButton"
-                putTooltip
-                icon={<UndoIcon />}
-                onClick={undo}
-                sx={EditButtonsStyle}
-            />
-        )} */}
-    </StyledEditComponent>
+            {history.length > 0 && (
+                <AdminMainButton
+                    title="Undo"
+                    type="custom"
+                    appearance="iconButton"
+                    putTooltip
+                    icon={<UndoIcon />}
+                    onClick={undo}
+                    sx={EditButtonsStyle}
+                />
+            )}
+        </>
     );
 };
 

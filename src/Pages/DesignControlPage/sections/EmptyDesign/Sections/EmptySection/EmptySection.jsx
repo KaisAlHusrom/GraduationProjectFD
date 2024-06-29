@@ -6,7 +6,6 @@ import {
 } from 'react-redux'
 
 //Components
-import EmptyComponent from './EmptyComponent'
 import PropTypes from 'prop-types';
 
 //MUI
@@ -25,10 +24,13 @@ import { ButtonStyle } from '../../StylesFunctions/SetStylesFunctions';
 
 import { deleteUserDesigns } from '../../../../../../Services/UserServices/Services/designUsersService';
 import ConfirmationDialog from '../../../../components/ConfirmationDialog';
+import RecursiveComponent from './RecursiveComponent';
 
 
 //Styled Components
-const StyledEmptySection = styled(Box)(() => ({}))
+const StyledEmptySection = styled(Box)(() => ({
+
+}))
 
 const EmptySection = ({moveSectionUp , moveSectionDown , designData , updateMainPage }) => {
 
@@ -103,7 +105,6 @@ const EmptySection = ({moveSectionUp , moveSectionDown , designData , updateMain
                     {designData.sequence_number !== 1 && ( // Conditionally render UpDownButtons
                         <Box >
                             <UpDownButtons moveSectionUp={handleMoveUp} moveSectionDown={handleMoveDown} />
-                          
                         </Box>
                         
                     )}                
@@ -118,7 +119,7 @@ const EmptySection = ({moveSectionUp , moveSectionDown , designData , updateMain
                                                     color: 'black'
                                                 }}>{component.element_content}</Typography>
                                             </Box>
-                                        ) : <EmptyComponent  key= {i} 
+                                        ) : <RecursiveComponent  key= {i} 
                                             component={component} 
 
                                         />

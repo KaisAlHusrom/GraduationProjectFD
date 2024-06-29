@@ -26,6 +26,36 @@ export const changeElementPropValues = (elements, parentId, prop, propValue) => 
     return false
 }
 
+export const changeElementPropValuesEditPage = (elements, parentId, prop, propValue) => {
+    for (const element of Array.isArray(elements) ? elements : [elements]) {
+        if (element.id === parentId) {
+            // Initialize design_prop_values if it's undefined
+            if (!element.design_prop_values) {
+                element.design_prop_values = [];
+            }
+
+            // Check if the property already exists
+            const existingPropIndex = element.design_prop_values.findIndex(propValueObject => propValueObject.element_prop_id === prop.id);
+
+            if (existingPropIndex !== -1) {
+                // If it exists, update the property value
+                element.design_prop_values[existingPropIndex].design_prop_value = propValue;
+                return true;
+            } else {
+                // If it doesn't exist, add the new property value object
+                element.design_prop_values.push(writePropValueObject(parentId, prop, propValue));
+                return true;
+            }
+        }
+        if (element.children && element.children.length > 0) {
+            if (changeElementPropValuesEditPage(element.children, parentId, prop, propValue)) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
 export const deleteElementPropValue = (elements, parentId, prop) => {
     for (const element of Array.isArray(elements) ? elements : [elements]) {
         if (element.id === parentId) {
@@ -66,7 +96,7 @@ export const doesElementPropValueExist = (elements, parentId, prop) => {
     return false;
 }
 
-const writePropValueObject = (designId, prop, value) => {
+export const writePropValueObject = (designId, prop, value) => {
     return {
         'design_id': designId,
         'element_prop_id': prop?.id,

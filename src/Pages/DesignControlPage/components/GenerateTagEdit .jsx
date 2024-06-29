@@ -1,9 +1,9 @@
-import  { Fragment } from "react";
+import { Fragment } from "react";
 import PropTypes from "prop-types";
 import { styled } from "@mui/system";
-import exampleImage from "../../../assets/images/exampleimage.jpg"; 
+import exampleImage from "../../../assets/images/exampleimage.jpg";
 import { Link, NavLink } from "react-router-dom";
-import config from "../../../../Config.json"; 
+import config from "../../../../Config.json";
 
 const designImagesFolderName = "ImagesInsideDesigns";
 
@@ -17,7 +17,7 @@ const repeat = (selectedElement) => {
     : null;
 };
 
-const GenerateTagEdit = ({ selectedTemplate, elementStyle }) => {
+const GenerateTagEdit = ({ selectedTemplate, elementStyle, propsValues }) => {
   const sortedData = Array.isArray(selectedTemplate)
     ? selectedTemplate.sort((a, b) => a.sequence_number - b.sequence_number)
     : selectedTemplate;
@@ -41,6 +41,7 @@ const GenerateTagEdit = ({ selectedTemplate, elementStyle }) => {
       exampleText={exampleText}
       sortedData={sortedData}
       elementStyle={elementStyle}
+      propsValues={propsValues}
     />
   );
 };
@@ -48,9 +49,10 @@ const GenerateTagEdit = ({ selectedTemplate, elementStyle }) => {
 GenerateTagEdit.propTypes = {
   selectedTemplate: PropTypes.any,
   elementStyle: PropTypes.object,
+  propsValues: PropTypes.object,
 };
 
-const Tag = ({ type, exampleText, sortedData, elementStyle }) => {
+const Tag = ({ type, exampleText, sortedData, elementStyle, defaultProps, propsValues }) => {
   const component = (() => {
     switch (type.toLowerCase()) {
       case "text field strings":
@@ -141,8 +143,8 @@ const Tag = ({ type, exampleText, sortedData, elementStyle }) => {
   }
 
   const initialStyles = {
-    width: type.toLowerCase() === "image" ? "100%" : undefined,
-    height: type.toLowerCase() === "image" ? "100%" : undefined,
+    width: type.toLowerCase() === "image" ? "100px" : undefined,
+    height: type.toLowerCase() === "image" ? "100px" : undefined,
     ...elementStyle,
   };
 
@@ -162,13 +164,22 @@ const Tag = ({ type, exampleText, sortedData, elementStyle }) => {
   };
 
   const imageSrc = getImageSrc();
+  console.log("propsValues", propsValues);
+
+  // Handle 'normal link' and 'lazy link' props
+  const linkProps = {};
+  if (type.toLowerCase() === "normal link") {
+    linkProps.href = propsValues.href || ""; // Set href from propsValues
+  } else if (type.toLowerCase() === "lazy link") {
+    linkProps.to = propsValues.to || ""; // Set to from propsValues
+  }
 
   return !sortedData.element_type.not_has_end_tag ? (
-    <StyledComp src={imageSrc}>
+    <StyledComp {...defaultProps} {...linkProps} src={imageSrc}>
       {exampleText}
     </StyledComp>
   ) : (
-    <StyledComp src={imageSrc} placeholder={exampleText} />
+    <StyledComp {...defaultProps} {...propsValues} src={imageSrc} placeholder={exampleText} />
   );
 };
 
@@ -177,6 +188,8 @@ Tag.propTypes = {
   exampleText: PropTypes.any,
   sortedData: PropTypes.any,
   elementStyle: PropTypes.object,
+  defaultProps: PropTypes.object,
+  propsValues: PropTypes.object,
 };
 
 export { GenerateTagEdit, Tag };

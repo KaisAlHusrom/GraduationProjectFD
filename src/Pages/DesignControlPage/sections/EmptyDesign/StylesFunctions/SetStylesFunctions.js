@@ -130,3 +130,124 @@ export const ModalTitleStyle = {
 
 }
 
+
+
+import { v4 as uuidv4 } from 'uuid';
+import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
+import { cleanDesignDataDesignPage } from '../../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement.js';
+
+export const generateNewIdsForChildren = (component) => {
+    const newComponent = { ...component, id: uuidv4() };
+    if (newComponent.children && newComponent.children.length > 0) {
+        newComponent.children = newComponent.children.map(child => generateNewIdsForChildren(child));
+    }
+    return newComponent;
+};
+
+export const handleSectionStyleChange = (setData, section_id) => (cssValue, prop) => {
+    setData((prevData) => {
+        const updatedSectionData = { ...prevData }; // Kopya alarak güncelleme yap
+        addStyleAbdullah(updatedSectionData, [section_id], prop, cssValue, null, null);
+        return updatedSectionData;
+    });
+};
+
+export const manageComponent = (setSectionData, setHistory, sectionData) => ({
+    addComponentForComponent: (section_component_id) => {
+        setSectionData((prevData) => {
+            const index = prevData.children.findIndex(component => component.id === section_component_id);
+            if (index !== -1) {
+                const newComponent = generateNewIdsForChildren(prevData.children[index]);
+                newComponent.sequence_number = prevData.children.length > 0 
+                    ? Math.max(...prevData.children.map(component => component.sequence_number)) + 1 
+                    : 1;
+                const updatedComponents = [...prevData.children, newComponent].sort((a, b) => a.sequence_number - b.sequence_number);
+                setHistory(prevHistory => [...prevHistory, prevData]);
+                return { ...prevData, children: updatedComponents };
+            }
+            return prevData;
+        });
+    },
+
+    deleteComponentForComponent: (section_component_id) => {
+        setSectionData((prevData) => {
+            const index = prevData.children.findIndex(component => component.id === section_component_id);
+            if (index !== -1) {
+                const updatedComponents = [...prevData.children];
+                updatedComponents.splice(index, 1);
+                const sortedComponents = updatedComponents.sort((a, b) => a.sequence_number - b.sequence_number);
+                setHistory(prevHistory => [...prevHistory, prevData]);
+                return { ...prevData, children: sortedComponents };
+            }
+            return prevData;
+        });
+    },
+
+    createDesignedComponent: (component) => {
+        let maxSequenceNumber = 0;
+        sectionData.children.forEach(existingComponent => {
+            if (existingComponent.sequence_number > maxSequenceNumber) {
+                maxSequenceNumber = existingComponent.sequence_number;
+            }
+        });
+        component.sequence_number = maxSequenceNumber + 1;
+        setData((prevData) => {
+            const updatedComponents = prevData && Array.isArray(prevData.children) 
+                ? [...prevData.children, component] 
+                : [component];
+            return { ...prevData, children: updatedComponents };
+        });
+        setHistory(prevHistory => [...prevHistory, sectionData]);
+    },
+
+    handleAddNewElement: (setData) => (componentId, element) => {
+        setData((prevData) => ({
+            ...prevData,
+            children: prevData.children.map((component) => {
+                if (component.id === componentId) {
+                    const maxSequenceNumber = component.children.length > 0 
+                        ? Math.max(...component.children.map(child => child.sequence_number)) 
+                        : 0;
+                    const newElement = { ...element, sequence_number: maxSequenceNumber + 1 };
+                    return { ...component, children: [...component.children, newElement] };
+                }
+                return component;
+            }),
+        }));
+    },
+
+    deleteSection: (setSectionData, setHistory, sectionData) => {
+        setSectionData(prevData => ({ ...prevData, children: [] }));
+        setHistory(prevHistory => [...prevHistory, sectionData]);
+    },
+
+    deleteComponentElements: (section_component_id) => {
+        const index = sectionData.children.findIndex(component => component.id === section_component_id);
+        if (index !== -1) {
+            setSectionData((prevData) => {
+                const updatedComponents = [...prevData.children];
+                updatedComponents[index].children = [];
+                return { ...prevData, children: updatedComponents };
+            });
+        }
+    },
+});
+
+export const undo = (setData, history, setHistory) => {
+    if (history.length > 0) {
+        const previousState = history[history.length - 1];
+        setData(previousState);
+        setHistory(prevHistory => prevHistory.slice(0, -1));
+    }
+};
+
+export const saveSectionData = async (section_id, sectionData, updateUserDesigns) => {
+    cleanDesignDataDesignPage(sectionData);
+    await updateUserDesigns(section_id, sectionData);
+    window.location.reload();
+};
+
+
+
+    
+

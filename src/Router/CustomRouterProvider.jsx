@@ -54,6 +54,7 @@ import MyPaymentPlans from '../Pages/NewWebSite/Pages/MyPaymentPlans/MyPaymentPl
 import MyOrdersAndBilling from '../Pages/NewWebSite/Pages/MyOrdersAndBilling/MyOrdersAndBilling';
 import HandleProductPage from '../Pages/NewWebSite/Pages/HandleProductPage/HandleProductPage';
 import MainPreview from '../Pages/DesignControlPage/sections/EmptyDesign/Preview/MainPreview';
+import MainEdit from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/MainEdit';
 
 
 // ------------- NOTICES -------------
@@ -119,7 +120,7 @@ const router = createBrowserRouter(
                 <Route path="portfolio/:user_id" element={<PortfolioMain />} />
 
                 {/* //* Design Control Page Routes */}
-                <Route path="/empty-design/EditPage/:section_id" element={<EditPage />} />
+                <Route path="/empty-design/EditPage/:section_id" element={<MainEdit />} />
                 <Route path="/empty-design/:id/*" element={<Main />} exact= {true} />
                 <Route path="/preview/:id" element={<MainPreview />} />
 

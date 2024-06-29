@@ -24,12 +24,17 @@ import { updateUserSorting } from '../../../Services/UserServices/Services/desig
 //Styled Components
 const StyledPageRouter = styled(Box)(
     ({ theme }) => ({
-    
+
     })
 )
 
 
-const PageRouter = ({pageId}) => {
+const PageRouter = ({pageId , 
+
+    isMobileWidth,
+    isTabletWidth ,
+    isLaptopWidth,
+}) => {
 
     console.log(pageId)
     const params = useMemo(() => [pageId], [pageId]);
@@ -137,12 +142,17 @@ const PageRouter = ({pageId}) => {
 
 
     return (
-        <StyledPageRouter>
+        <StyledPageRouter sx={{
+            width: isMobileWidth ? '500px' : isTabletWidth ? '50%' : isLaptopWidth ? '100%' : '',
+            padding: isMobileWidth ? '0px' : isTabletWidth ? '0px' : '',
+            margin: '100px auto',
+            overflow: 'hidden'
+        }}>
             {
             
             data?.designs?.sort((a, b) => a.sequence_number - b.sequence_number)
             .map((section, index) => (
-                <div key={index} className="slide-down-animation">
+                <div key={index} >
                     <EmptySection
                         designData={section}
                         updateMainPage={setData}

@@ -25,8 +25,6 @@ import { Edit as EditIcon } from '@mui/icons-material';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import EditComponent from './EditComponent.jsx';
-import CreateComponent from './Modals/CreateComponent.jsx';
 
 
 
@@ -63,7 +61,6 @@ const buttonStyle = {
 
 const EditElement = ({ 
     element, deleteElementForComponent, componentId, handleMoveElement, componentDataState, styleCategories, sectionDataState ,
-    elements , handleAddNewElement
 
 }) => {
 
@@ -72,6 +69,8 @@ const EditElement = ({
     const [title, setTitle] = useState(elementData.element_content);
     const [sectionData, setSectionData] = sectionDataState;
     const [elementStyle, setElementStyle] = useState({});
+    const [props, setProps] = useState({});
+
     const [history, setHistory] = useState([]);
     const [dialogState , setDialogState] = useState(false)
     const [drawerState , setDrawerState] = useState(false);
@@ -98,81 +97,114 @@ const EditElement = ({
 
     const handleSectionStyleChange = useCallback((cssValue, prop) => {
         setComponentData((prevData) => {
-            const updatedSectionData = { ...prevData }; // Update with a copy
+            const updatedSectionData = { ...componentData }; // Make a copy of componentData
             const changed = addStyleAbdullah(updatedSectionData, [element.id], prop, cssValue, null, null);
+            
             if (changed) {
-                // Update componentStyle on style change
+                const updatedElement = updatedSectionData.children.find(el => el.id === element.id);
                 const dictionary = {};
-                if (element.styles) {
-                    element.styles.forEach((cssProp) => {
+                if (updatedElement.styles) {
+                    updatedElement.styles.forEach((cssProp) => {
                         const { style_prop, style_prop_value } = cssProp;
                         if (style_prop?.is_element) {
                             dictionary[style_prop.style_prop_css_name] = style_prop_value;
                         }
                     });
                 }
+    
+                // Update elementStyle state immediately after updating componentData
                 setElementStyle(dictionary);
             }
+    
             return updatedSectionData;
         });
+    
+        // Ensure sectionData history is updated correctly
         setHistory(prevHistory => [...prevHistory, JSON.parse(JSON.stringify(sectionData))]);
-    }, [element.id, element.styles, sectionData, setComponentData]);
-
+    
+    }, [setComponentData, componentData, element.id, sectionData]);
+    
 
     const handleTextFieldChange = (e) => {
         const newTitle = e.target.value;
-        setTitle(newTitle);
-        setElementData((prevData) => {
-            const updatedElementData = { ...prevData, element_content: newTitle };
-            return updatedElementData;
-        });
-
+        setTitle(newTitle); // Update the local state 'title'
+    
         setSectionData((prevSectionData) => {
             const updatedSectionData = { ...prevSectionData };
-            updatedSectionData.children = updatedSectionData.children.map(component => {
-                if (component.id === componentId) {
-                    return {
-                        ...component,
-                        children: component.children.map(child => {
-                            if (child.id === elementData.id) {
-                                return { ...child, element_content: newTitle };
-                            }
-                            return child;
-                        })
-                    };
-                }
-                return component;
-            });
+            // Helper function to recursively update child elements
+            const updateChildElements = (currentChildren) => {
+                return currentChildren.map(component => {
+                    if (component.id === componentId) {
+                        return {
+                            ...component,
+                            children: component.children.map(child => {
+                                if (child.id === elementData.id) {
+                                    return { ...child, element_content: newTitle };
+                                }
+                                return child;
+                            })
+                        };
+                    } else if (component.children) {
+                        // Recursively update nested children
+                        return {
+                            ...component,
+                            children: updateChildElements(component.children)
+                        };
+                    }
+                    return component;
+                });
+            };
+    
+            // Update the structure of updatedSectionData recursively
+            updatedSectionData.children = updateChildElements(updatedSectionData.children);
+    
             return updatedSectionData;
         });
     };
+    
 
-    const handleImageChangeWrapper = (file) => {
-        utils.handleImageChange(file, setTitle);
+
+ const handleImageChangeWrapper = (fileData, file) => {
+        if (fileData) {
+            setTitle(fileData);
+            // Additionally, you can store the file or any other necessary information
+        }
     };
 
     const handleUploadImageClickWrapper = (e) => {
         utils.handleUploadImageClick(e, handleImageChangeWrapper);
         setSectionData((prevSectionData) => {
             const updatedSectionData = { ...prevSectionData };
-            updatedSectionData.children = updatedSectionData.children.map(component => {
-                if (component.id === componentId) {
-                    return {
-                        ...component,
-                        children: component.children.map(child => {
-                            if (child.id === elementData.id) {
-                                return { ...child, element_content: title };
-                            }
-                            return child;
-                        })
-                    };
-                }
-                return component;
-            });
+            // Helper function to recursively update child elements with image content
+            const updateChildContentWithImage = (currentChildren) => {
+                return currentChildren.map(component => {
+                    if (component.id === componentId) {
+                        return {
+                            ...component,
+                            children: component.children.map(child => {
+                                if (child.id === elementData.id) {
+                                    return { ...child, element_content: title };
+                                }
+                                return child;
+                            })
+                        };
+                    } else if (component.children) {
+                        // Recursively update nested children
+                        return {
+                            ...component,
+                            children: updateChildContentWithImage(component.children)
+                        };
+                    }
+                    return component;
+                });
+            };
+
+            // Update the structure of updatedSectionData recursively
+            updatedSectionData.children = updateChildContentWithImage(updatedSectionData.children);
+
             return updatedSectionData;
         });
     };
-
     const handleDeleteLogoClick = () => {
         utils.handleDeleteLogoClick(setTitle);
     };
@@ -180,6 +212,8 @@ const EditElement = ({
     const handleDeleteElementClick = () => {
         deleteElementForComponent(componentId, elementData.id);
     };
+
+    
     const handleOrderElementClick = (event, direction, sequence_number) => {
         event.stopPropagation();
         const elementsCount = componentData.children.length;
@@ -196,31 +230,61 @@ const EditElement = ({
         handleMoveElement(currentSequenceNumber, newIndex, componentId);
     };
     
-    
-    
+
+
+
+            
+        // Function to generate default props based on element_prop_name
+        const generateDefaultProps = (designProps) => {
+            return designProps.reduce((acc, prop) => {
+                if (prop.element_prop.element_prop_name === 'to') {
+                    acc['to'] = prop.design_prop_value;
+                }
+                if (prop.element_prop.element_prop_name === 'href') {
+                    acc['href'] = prop.design_prop_value;
+                }
+                return acc;
+            }, {});
+        };
+
+        const propsValues = useMemo(() => {
+            return generateDefaultProps(element.design_prop_values || []);
+        }, [element.design_prop_values]);
+
+        useEffect(() => {
+            setProps(propsValues);
+        }, [propsValues]);
+
+
+
 
     return (
         <StyledEditElement>
             {
                 elementData.design_type === 'element' ? (
-                    <GenerateTagEdit selectedTemplate={elementData} elementStyle={elementStyle}></GenerateTagEdit>
+                    <GenerateTagEdit 
+                    selectedTemplate={elementData} 
+                    elementStyle={elementStyle} 
+                    propsValues = {props}
+                    ></GenerateTagEdit>
 
                 ): (
-                    <CreateComponent 
-                    key={elementData.id} 
-                    component={elementData} 
-                    componentId={elementData.id}
-                    handleAddNewElement={handleAddNewElement} 
-                    elements={elements}
-                    sectionDataState={[sectionData, setSectionData]}
-                    styleCategories={styleCategories}
-                />
+                    null
+                    // <CreateComponent 
+                    // key={elementData.id} 
+                    // component={elementData} 
+                    // componentId={elementData.id}
+                    // handleAddNewElement={handleAddNewElement} 
+                    // elements={elements}
+                    // sectionDataState={[sectionData, setSectionData]}
+                    // styleCategories={styleCategories}
+                // />
                 ) 
             }
             <TooltipContainer>
                 <div style={{ position: 'absolute', height: '50px', flexWrap: 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>
                     <AdminMainButtonOutsideState
-                        title=""
+                        title="edİt"
                         type="StyleDialog"
                         appearance="iconButton"
                         putTooltip
@@ -229,6 +293,8 @@ const EditElement = ({
 
                         willShow={
                             <StyleBox
+                                elementDataSet =  { [elementData, setElementData]}
+                                sectionDataState = {sectionDataState}
                                 customState = {[dialogState, setDialogState]}
                                 drawerStates = {[drawerState , setDrawerState]}
                                 categoryState={[category, setCategory]}
@@ -240,6 +306,7 @@ const EditElement = ({
                                 handleDeleteLogoClick={handleDeleteLogoClick}
                                 handleUploadImageClickWrapper={handleUploadImageClickWrapper}
                                 styleCategories={styleCategories}
+                                props={props}
                             />
                         }
                         sx={buttonStyle}
@@ -257,6 +324,8 @@ const EditElement = ({
                                 customState = {[dialogState , setDialogState]}
                                 handleSectionStyleChange = {handleSectionStyleChange} 
                                 category = {{category}} 
+                                sectionStyle={elementStyle}
+
                                 />
 
                         </CustomDrawer>

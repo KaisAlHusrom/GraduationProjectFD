@@ -65,17 +65,18 @@ const EmptyTemplate = ({
         <StyledEmptyTemplate
             fontFamily={selectedFontFamily}
             className="Template"
-            sx={{
-                width: isMobileWidth ? '500px' : isTabletWidth ? '50%' : isLaptopWidth ? '100%' : '',
-                padding: isMobileWidth ? '0px' : isTabletWidth ? '0px' : '',
-                margin: '100px auto',
-            }}
+          
         >      
 
             <Routes>
                 {
                     data && data.pages && data.pages.map((page , key) => {
-                        return  <Route key={key}  path={page.page_path} element={<PageRouter  pageId = {page.id}/>} />
+                        return  <Route 
+                        key={key}  path={page.page_path} element={<PageRouter 
+                            isMobileWidth = {isMobileWidth}
+                            isTabletWidth = {isTabletWidth}
+                            isLaptopWidth = {isLaptopWidth}
+                            pageId = {page.id}/>} />
                     })
                 }
             </Routes>

@@ -39,11 +39,11 @@ const GridTemplate = ({direction, handleChangeStylePropValue}) => {
     const {
         template,
         selectedSubElementIds
-    } = useMyCreateElementContext()
+    } = useMyCreateElementContext() || {}
 
     //get the children to know how many text field will be added to change
     const children = useMemo(() => {
-        if(selectedSubElementIds.length === 1) {
+        if(selectedSubElementIds?.length === 1) {
             return getChildren(template, selectedSubElementIds[0])
         }
         return null
