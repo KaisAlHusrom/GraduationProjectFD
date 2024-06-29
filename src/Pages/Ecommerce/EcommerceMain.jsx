@@ -27,6 +27,7 @@ import useEffectFetchData from '../../Helpers/customHooks/useEffectFetchData'
 import { fetchUserProductsCategories } from '../../Services/UserServices/Services/productCategoriesUsersService'
 import {CartProvider } from '../Ecommerce/utils/CartContext'
 import ProfileFooter from '../NewWebSite/Components/ProfileFooter/ProfileFooter'
+import { writeFilterObject } from '../../Helpers/filterData'
 
 
 //Context
