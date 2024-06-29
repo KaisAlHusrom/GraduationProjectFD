@@ -12,7 +12,7 @@ export default function useFetchData(
 ) {
     const [data, setData] = useState(() => {
         if(value) {
-            return [value]
+            return Array.isArray(value) ? value : [value]
         }
 
         return []

@@ -27,6 +27,8 @@ import PropTypes from 'prop-types';
 
 import LogoCollection from './LogoCollection'
 import MainAppBar from '../../Components/MainAppBar/MainAppBar'
+import PaymentPlansComponent from '../../Components/PaymentPlansComponent/PaymentPlansComponent'
+import ProfileFooter from '../NewWebSite/Components/ProfileFooter/ProfileFooter'
 
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
@@ -94,7 +96,7 @@ function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
       <>
         <MainAppBar />
         <Hero />
-        <Box sx={{ bgcolor: 'background.default' }}>
+        <Box>
           <LogoCollection />
           <Features />
           <Divider />
@@ -102,11 +104,13 @@ function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
           <Divider />
           <Highlights />
           <Divider />
-          <Pricing />
+          {/* <Pricing /> */}
+          <PaymentPlansComponent />
           <Divider />
           <FAQ />
           <Divider />
-          <Footer />
+          {/* <Footer /> */}
+          <ProfileFooter />
         </Box>
 
       </>

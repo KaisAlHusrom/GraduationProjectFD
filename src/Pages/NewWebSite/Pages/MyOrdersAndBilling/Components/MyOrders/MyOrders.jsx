@@ -15,7 +15,8 @@ import {
     Grid,
     Divider,
     Card,
-    Skeleton
+    Skeleton,
+    Chip
 } from '@mui/material'
 import { styled } from '@mui/system'
 import InfoIcon from '@mui/icons-material/Info';
@@ -76,6 +77,7 @@ const StyledOrderShortDetails = styled(Box)(
 const OrderItemBox = styled(Box)(
     ({ theme }) => ({
         display: 'flex',
+        justifyContent: 'space-between',
         alignItems: 'center',
         gap: theme.spacing(),
         cursor: 'pointer',
@@ -161,13 +163,22 @@ const MyOrders = () => {
                                                                 order.products.map((product, key) => {
                                                                     const imagePath = `${config.ServerImageRoute}/${productsImagesFolderName}/${product.product_main_image_name}`
                                                                     return (
-                                                                        <OrderItemBox key={key} onClick={() => navigateToProduct(product.id)}>
-                                                                            <Box width={70} height={70}>
-                                                                                <img src={imagePath} alt={product.product_name} width='100%' height='100%' />
+                                                                        <OrderItemBox key={key} onClick={() => !(product?.deleted_at) && navigateToProduct(product.id)}>
+                                                                            <Box display={'flex'} alignItems={'center'} gap={2}>
+                                                                                <Box width={70} height={70}>
+                                                                                    <img src={imagePath} alt={product.product_name} width='100%' height='100%' />
+                                                                                </Box>
+                                                                                <Typography variant='body1'>
+                                                                                    {product.product_name}
+                                                                                </Typography>
                                                                             </Box>
-                                                                            <Typography variant='body1'>
-                                                                                {product.product_name}
-                                                                            </Typography>
+                                                                            
+                                                                            {
+                                                                                product?.deleted_at
+                                                                                &&
+                                                                                <Chip label="Deleted" color='error' />
+                                                                            }
+
                                                                         </OrderItemBox>
                                                                     )
                                                                 })

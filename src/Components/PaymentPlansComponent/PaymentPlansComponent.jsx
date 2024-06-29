@@ -14,7 +14,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import { useInView } from 'react-intersection-observer';
 import useEffectFetchData from "../../Helpers/customHooks/useEffectFetchData";
 import { fetchUserPaymentPlans } from "../../Services/UserServices/Services/paymentPlansUsersService";
 import { useSelector } from "react-redux";
@@ -24,6 +23,9 @@ import { handleCheckDate } from "../../Pages/NewWebSite/Pages/ProfileHomePage/co
 //propTypes 
 import propTypes from 'prop-types'
 import { styled } from '@mui/system'
+import useInView from "../../Helpers/customHooks/useInView";
+import AdminMainButton from "../AdminMainButton/AdminMainButton";
+import BuyPaymentPlanModal from "./Subcomponents/BuyPaymentPlanModal/BuyPaymentPlanModal";
 
 
 const CurrentPlanHeaderBox = styled(Box)(
@@ -42,14 +44,8 @@ const CurrentPlanHeaderBox = styled(Box)(
 export default function PaymentPlansComponent({paymentPlanPage}) {
     const user = useSelector(state => state.authSlice.user)
 
-    const [isInView, setIsInView] = useState(false);
-    const { ref, inView } = useInView();
+    // const { ref, inView: isInView } = useInView();
 
-    useEffect(() => {
-        if (inView) {
-            setIsInView(true);
-        }
-    }, [inView]);
 
     const params = useMemo(() => {
         return [
@@ -82,10 +78,10 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
                 flexDirection: 'column',
                 alignItems: 'center',
                 gap: { xs: 3, sm: 6 },
-                opacity: isInView ? 1 : 0,
+                // opacity: isInView ? 1 : 0,
             }}
-            className={isInView ? 'slide-up-animation' : ''}
-            ref={ref}
+            // className={isInView ? 'slide-up-animation' : ''}
+            // ref={ref}
         >
             <Box
                 sx={{
@@ -242,27 +238,32 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
                                             ))}
                                         </CardContent>
                                         <CardActions>
-                                            <Button
+                                            <AdminMainButton
+                                            type="modal"
+                                            modalProps={{
+                                                backdropClick: true,
+                                                withoutModalHeader: true,
+                                                cardSx: {
+                                                    width: "70%"
+                                                },
+                                            }}
+                                            appearance="primary"
                                             disabled={currentPlan}
-                                            fullWidth
-                                            variant={paymentPlan.payment_plan_title  === 'Individual' || currentPlan ? 'contained' : 'outlined'}
                                             sx={{
                                                 // opacity: currentPlan && "0.5",
-                                                color: currentPlan && (theme => theme.palette.primary.contrastText),
-                                                backgroundColor: currentPlan && (theme => theme.palette.primary.main),
+                                                color: (paymentPlan.payment_plan_title  === 'Individual' || currentPlan) ? (theme => theme.palette.primary.contrastText) : (theme => theme.palette.text.primary),
+                                                backgroundColor: (paymentPlan.payment_plan_title  === 'Individual' || currentPlan) && (theme => theme.palette.primary.main),
+                                                width: '100%'
                                             }}
-                                            component="a"
-                                            href={
-                                                
-                                                currentPlan
-                                                ?
-                                                "#"
-                                                :
-                                                "/profile/payment_plans/checkout/" + paymentPlan.payment_plan_title
+                                            filled={currentPlan}
+                                            putBorder
+                                            title={currentPlan ? "Current Plan" : "Buy Now"}
+                                            willShow={
+                                                <BuyPaymentPlanModal 
+                                                selectedPaymentPlan={paymentPlan}
+                                                />
                                             }
-                                            >
-                                                {currentPlan ? "Current Plan" : "Buy Now"}
-                                            </Button>
+                                            />
                                         </CardActions>
                                         </Card>
                                     </Grid>

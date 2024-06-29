@@ -4,8 +4,6 @@ import
     useContext,
 useMemo }from 'react'
 
-import {writeFilterObject} from "../../Helpers/filterData"
-
 import {
     
 } from 'react-redux'
@@ -29,6 +27,7 @@ import useEffectFetchData from '../../Helpers/customHooks/useEffectFetchData'
 import { fetchUserProductsCategories } from '../../Services/UserServices/Services/productCategoriesUsersService'
 import {CartProvider } from '../Ecommerce/utils/CartContext'
 import ProfileFooter from '../NewWebSite/Components/ProfileFooter/ProfileFooter'
+import { writeFilterObject } from '../../Helpers/filterData'
 
 
 //Context
@@ -51,7 +50,7 @@ const EcommerceMain = () => {
             null,
             null,
             [
-                writeFilterObject("is_in_the_main_page", "bool", "=", "true")
+                writeFilterObject("is_in_the_main_page", 'bool', '=', 'true')
             ],
             null,
             null,
@@ -60,7 +59,6 @@ const EcommerceMain = () => {
     }, [])
 
     const {data: categories, download: categoriesDownload} = useEffectFetchData(fetchUserProductsCategories, params, true, false )
-    console.log(categories)
 
     return (
         <CartProvider>

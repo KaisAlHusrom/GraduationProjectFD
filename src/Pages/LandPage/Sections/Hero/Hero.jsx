@@ -2,11 +2,53 @@ import { alpha } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Link from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import { styled } from '@mui/system';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { navigateSignUpPage } from '../../../../Helpers/navigations';
+
+import {linearColoredText} from "../../../../StaticData/styles"
+import useInView from '../../../../Helpers/customHooks/useInView';
+
+const StyledHero = styled(Box)(
+    ({ theme }) => ({
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+      [theme.breakpoints.down("md")]: {
+        flexDirection: 'column'
+      }
+    })
+);
+
+const StyledHeroImage = styled(Box)(
+    ({ theme }) => ({
+      width: '35vw',
+      height: '80vh',
+      overflow: 'hidden',
+      borderRadius: theme.spacing(),
+      [theme.breakpoints.down("md")]: {
+        width: '100%',
+        height: '90vh',
+
+      }
+    })
+);
+
+const Image = styled('img')(
+    ({ theme }) => ({
+      borderRadius: theme.spacing(),
+      width:"100%",
+      height:"100%",
+      
+    })
+);
 
 export default function Hero() {
+  const { ref, inView: isInView } = useInView();
+
   return (
     <Box
       id="hero"
@@ -18,7 +60,10 @@ export default function Hero() {
             : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
         backgroundSize: '100% 20%',
         backgroundRepeat: 'no-repeat',
+        height: '100vh'
       })}
+      ref={ref}
+      className={isInView ? 'opacity-animation' : ''}
     >
       <Container
         sx={{
@@ -29,58 +74,66 @@ export default function Hero() {
           pb: { xs: 8, sm: 12 },
         }}
       >
-        <Stack spacing={2} useFlexGap sx={{ width: { xs: '100%', sm: '70%' } }}>
-          <Typography
-            variant="h1"
-            sx={{
-              display: 'flex',
-              flexDirection: { xs: 'column', md: 'row' },
-              alignSelf: 'center',
-              textAlign: 'center',
-              fontSize: 'clamp(3.5rem, 10vw, 4rem)',
-            }}
-          >
-            Our latest&nbsp;
+        <StyledHero>
+          <Stack spacing={1} sx={{ width: { xs: '100%', md: '40%' } }}>
             <Typography
-              component="span"
-              variant="h1"
+              variant="h3"
+              sx={theme => ({
+                ...linearColoredText(theme),
+                alignSelf: 'center',
+              })}
+            >
+              Discover the best solution for building your own website or online store in just 5 minutes!
+            </Typography>
+            <Typography
               sx={{
-                fontSize: 'clamp(3rem, 10vw, 4rem)',
-                color: (theme) =>
-                  theme.palette.mode === 'light' ? 'primary.main' : 'primary.light',
+                width: { sm: '100%', md: '80%' } ,
+                color: theme => theme.palette.text.secondary,
+                textTransform: 'capitalize',
               }}
             >
-              products
+              Without need to know coding
             </Typography>
-          </Typography>
-          <Typography
-            textAlign="center"
-            sx={{ alignSelf: 'center', width: { sm: '100%', md: '80%' } }}
-          >
-            Explore our cutting-edge dashboard, delivering high-quality solutions
-            tailored to your needs. Elevate your experience with top-tier features
-            and services.
-          </Typography>
-          <Stack
-            direction={{ xs: 'column', sm: 'row' }}
-            alignSelf="center"
-            spacing={1}
-            useFlexGap
-            sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
-          >
-            
-            <Button variant="contained" color="primary">
-              Start now
-            </Button>
+            <Stack
+              direction={{ xs: 'column', sm: 'row' }}
+              spacing={1}
+              useFlexGap
+              sx={{ pt: 2, width: { xs: '100%', sm: 'auto' } }}
+            >
+              
+              <Button
+                variant="contained" 
+                color="primary"
+                onClick={navigateSignUpPage}
+                sx={{
+                  borderRadius: theme => theme.spacing(2),
+                  fontSize: theme => theme.spacing(2),
+                  fontWeight: 'bold'
+                }}
+                endIcon={<ArrowForwardIcon />}
+              >
+                GET STARTED FOR FREE
+              </Button>
+            </Stack>
+            <Typography variant="subtitle2" letterSpacing={1.2} sx={{ opacity: 0.8 }}>
+              Try
+              Cliser
+              &nbsp;
+              <Typography component={'span'} letterSpacing={1.2} variant='subtitle1' color="secondary">
+              free
+              </Typography>
+              &nbsp;
+              for 7 days
+            </Typography>
           </Stack>
-          <Typography variant="caption" textAlign="center" sx={{ opacity: 0.8 }}>
-            By clicking &quot;Start now&quot; you agree to our&nbsp;
-            <Link href="#" color="primary">
-              Terms & Conditions
-            </Link>
-            .
-          </Typography>
-        </Stack>
+          <StyledHeroImage>
+                <Image 
+                src="https://cdn.prod.website-files.com/614319338322d2f96eb4dd96/65bbb3cba459313b60ea354a_Wuilt%20Hero%2024-p-800.png" 
+                alt="" 
+
+                />
+          </StyledHeroImage>
+        </StyledHero>
       
       </Container>
     </Box>

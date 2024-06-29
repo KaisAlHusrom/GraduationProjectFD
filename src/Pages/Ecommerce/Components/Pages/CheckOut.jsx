@@ -1,9 +1,8 @@
 //React
 import { useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
-import {
-} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 //Components
 import Info from "../UI/CheckOut/Info"
@@ -24,6 +23,9 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 //propTypes 
 import propTypes from 'prop-types'
 import CliserImageLogo from '../../utils/CliserImageLogo';
+import { navigateProfileOrdersBilling, navigateStoreMainPage } from '../../../../Helpers/navigations'
+import { useCart } from '../../utils/CartContext'
+import { handleCheckoutPage } from '../../../../Services/CheckoutServices/checkoutProducts'
 
 
 
@@ -51,15 +53,9 @@ function getStepContent(step) {
 
 const CheckOut = () => {
     const [activeStep, setActiveStep] = useState(0);
-    const navigate = useNavigate();
+    const user = useSelector(state => state.authSlice.user);
 
-    const cartItems = useMemo(() => {
-        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
-        if(cart_data) {
-            return cart_data;
-        }
-        return []
-    }, []);
+    const {cartItems} = useCart()
 
 
     const handleNext = () => {
@@ -70,7 +66,23 @@ const CheckOut = () => {
         setActiveStep(activeStep - 1);
     };
     const handleBackToMain =() => {
-        navigate("/cliser-digital-market")
+        navigateStoreMainPage()
+    }
+    const handleToOrders =() => {
+        navigateProfileOrdersBilling()
+    }
+
+    const handleCheckOut = async () => {
+        const data = {
+            order_items: cartItems
+        }
+
+        const checkoutRes = await handleCheckoutPage(data)
+        if(checkoutRes.success) {
+            window.location = checkoutRes.data.url;
+        } else {
+            console.error("Couldn't checkout");
+        }
     }
 
     return (
@@ -258,17 +270,31 @@ const CheckOut = () => {
                         <Stack spacing={2} useFlexGap>
                             <Typography variant="h1">📦</Typography>
                             <Typography variant="h5">Thank you for your order!</Typography>
-                            <Typography variant="body1" color="text.secondary">
+                            <Typography variant="body1" color="text.secondary" sx={{ mt: 2, mb: 2 }}>
                             Your order number is
-                            <strong>&nbsp;#140396</strong>. We have emailed your order
-                            confirmation and will update you once its shipped.
+                            <strong>&nbsp;#140396</strong>.
                             </Typography>
+                            <Typography variant="body1" color="text.primary" sx={{ mt: 1 }}>
+                            Dear {user.first_name},
+                            </Typography>
+                            <Typography variant="body1" color="text.secondary" sx={{ mt: 1, mb: 1 }}>
+                            Thank you for purchasing from Cliser !
+                            </Typography>
+                            <Typography variant="body1" color="text.secondary" sx={{ mt: 1, mb: 1 }}>
+                            Your order is currently under review. We will email you once it's ready.
+                            </Typography>
+                            <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
+                            If you have any questions, feel free to contact us
+                            <a href="/contact-us" style={{ color: 'primary', textDecoration: 'none'}}> Here</a>.
+                            </Typography>
+
                             <Button
                             variant="contained"
                             sx={{
                                 alignSelf: 'start',
                                 width: { xxs: '100%', sm: 'auto' },
                             }}
+                            onClick={handleToOrders}
                             >
                             Go to my orders
                             </Button>
@@ -319,7 +345,7 @@ const CheckOut = () => {
                             <Button
                                 variant="contained"
                                 endIcon={<ChevronRightRoundedIcon />}
-                                onClick={handleNext}
+                                onClick={activeStep === steps.length - 1 ? handleCheckOut : handleNext}
                                 sx={{
                                 width: { xxs: '100%', md: 'fit-content' },
                                 }}

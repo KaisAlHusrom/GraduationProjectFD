@@ -51,7 +51,6 @@ const CliserDigitalMarketHomePage = () => {
                     }}
                 
                 >
-                    {/* <ProductsTape title="Recommended" Cat="Web Page Front-End Templates" /> */}
                     {
                         !categoriesDownload
                         ?
@@ -83,8 +82,6 @@ const CliserDigitalMarketHomePage = () => {
                         </Grid>
                         </>
                     }
-                    {/* <ProductsTape title="WordPress" Cat="" />
-                    <ProductsTape title="Blog" Cat="Portfolio Templates" /> */}
                 </Grid>
             </Container>
         </StyledCliserDigitalMarketHomePage>

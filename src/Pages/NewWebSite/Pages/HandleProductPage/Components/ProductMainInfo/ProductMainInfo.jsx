@@ -6,61 +6,38 @@ import { useSelector } from 'react-redux'
 //config
 import config from "../../../../../../../Config.json"
 
-import empty from "../../../../../../Assets/Images/emptyProduct.webp"
-
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 //Components
 
 
 //MUI
 import {
-    Card,
-    Box,
-    Typography,
     Grid,
     TextField,
     TextareaAutosize,
     FormLabel,
     FormControl,
-    InputLabel,
     OutlinedInput,
     InputAdornment,
-    Button
+    IconButton,
+    Popover,
+    Typography,
+    Box
 } from '@mui/material'
 import { styled } from '@mui/system'
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 //propTypes 
 import propTypes from 'prop-types'
 import { productsImagesFolderName } from '../../../../../../Services/UserServices/Services/productsUsersService'
 import UploadImageByDragDrop from '../UploadImageByDragDrop/UploadImageByDragDrop'
+import calculateProfit from '../../../../../../Helpers/calculateProfit'
 
 //Styled Components
-const StyledProductMainInfo = styled(Card)(
-    ({ theme }) => ({
-        border: '1px solid',
-        borderColor: theme.palette.divider,
-        position: 'relative',
-        minHeight: 100,
-        overflow: 'visible',
-        transition: '0.5s',
-        padding: theme.spacing(2),
-        "&:hover": {
-            borderColor: theme.palette.primary.main,
-        }
-    })
-)
 
-const CardHeader = styled(Box)(
-    ({ theme }) => ({
-        position: 'absolute',
-        top: theme.spacing(-2),
-        left: theme.spacing(4),
-    })
-);
 
 const CardContent = styled(Grid)(
     ({ theme }) => ({
-        // Your styles here
+        padding: theme.spacing()
     })
 );
 
@@ -82,39 +59,29 @@ const StyledTextArea = styled(TextareaAutosize)(
     })
 )
 
-const VisuallyHiddenInput = styled('input')({
-    clip: 'rect(0 0 0 0)',
-    clipPath: 'inset(50%)',
-    height: 1,
-    overflow: 'hidden',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    whiteSpace: 'nowrap',
-    width: 1,
-});
-
-const imageStyle = {
-    width: 150,
-    height: 150,
-    
-}
 
 const ProductMainInfo = ({data, handleOnChange}) => {
     const currency = useSelector(state => state.currencySlice.currency);
 
-    const {productData, setProductData} = data;
+    const {productData} = data;
+    const {newCost: profit, serviceTaxPercentage} = calculateProfit(productData?.product_price)
+
+    const [anchorEl, setAnchorEl] = useState(null);
+
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const open = Boolean(anchorEl);
 
     //for image
     const mainImagePath = useMemo(() => productData?.product_main_image_name ? `${config.ServerImageRoute}/${productsImagesFolderName}/${productData?.product_main_image_name}` : null, [productData?.product_main_image_name])
 
     return (
-        <StyledProductMainInfo>
-            <CardHeader>
-                <Typography variant='h6' letterSpacing={1.5}>
-                    Main Info
-                </Typography>
-            </CardHeader>
             <CardContent container spacing={2}>
                 <Grid item xxs={12} >
                     <FormLabel
@@ -151,7 +118,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                         </Button>
                     </Box> */}
                 </Grid>
-                <Grid item xxs={12} sm={4} lg={3}>
+                <Grid item xxs={12} sm={4}>
                     <FormLabel
                         // error={error}
                         >
@@ -165,11 +132,31 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                         onChange={(e) => handleOnChange(e, "string")}
                     />
                 </Grid>
-                <Grid item xxs={12} sm={4} lg={3}>
+                <Grid item xxs={12} sm={4} position={'relative'}>
                     <FormLabel
-                        // error={error}
-                        >
+                    >
                         Product Price
+                        <IconButton size='small'onMouseOver={handleClick}  sx={{position: 'absolute', right: -35, bottom: -5}}>
+                            <InfoOutlinedIcon  />
+                        </IconButton>
+                        <Popover
+                            open={open}
+                            anchorEl={anchorEl}
+                            onClose={handleClose}
+                            anchorOrigin={{
+                                vertical: 'top',
+                                horizontal: 'right',
+                            }}
+                            >
+                            <Box padding={2}>
+                                <Typography variant='subtitle1'>
+                                Profit is the amount of money you make after customers purchase your product.
+                                </Typography>
+                                <Typography variant='body2' color='text.secondary'>
+                                Service Tax: {serviceTaxPercentage}%
+                                </Typography>
+                            </Box>
+                        </Popover>
                     </FormLabel>
                     <FormControl
                         fullWidth
@@ -178,8 +165,10 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                         >
                             <OutlinedInput
                                 startAdornment={<InputAdornment position="start">{currency}</InputAdornment>}
+                                endAdornment={<InputAdornment position="end">Profit: {profit || "00"}{currency}</InputAdornment>}
                                 onChange= {(e) => handleOnChange(e, "decimal")}
                                 value= {productData?.product_price}
+                                name='product_price'
                             />
                             {/* {error
                             ?
@@ -189,7 +178,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                             : null} */}
                     </FormControl>
                 </Grid>
-                <Grid item xxs={12} sm={4} lg={3}>
+                <Grid item xxs={12} sm={4}>
                     <FormLabel
                     // error={error}
                     >
@@ -207,7 +196,7 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                     <FormLabel
                     // error={error}
                     >
-                        Product Long Description
+                        Talk About Product
                     </FormLabel>
                     <StyledTextArea
                         minRows={3} // Adjust the minimum number of rows as needed
@@ -221,12 +210,12 @@ const ProductMainInfo = ({data, handleOnChange}) => {
                     />
                 </Grid>
             </CardContent>
-        </StyledProductMainInfo>
     );
 };
 
 ProductMainInfo.propTypes = {
-    data: propTypes.object
+    data: propTypes.object,
+    handleOnChange: propTypes.func,
 }
 
 export default ProductMainInfo;

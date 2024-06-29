@@ -34,7 +34,7 @@ h6 {
 
 @keyframes slideInUp {
   from {
-    transform: translateY(100px);
+    transform: translateY(100%);
     opacity: 0;
   }
   to {
@@ -61,6 +61,7 @@ h6 {
 .slide-up-animation {
   animation: slideInUp 1.5s ease-out;
 }
+
 @keyframes opacity {
   from {
     opacity: 0;
@@ -102,3 +103,4 @@ h6 {
 .slide-right-animation {
   animation: slideRight 1s ease-out;
 }
+

@@ -3,6 +3,9 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/system';
 
+import {linearColoredText} from "../../StaticData/styles"
+
+
 const whiteLogos = [
   'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/6560628e8573c43893fe0ace_Sydney-white.svg',
   'https://assets-global.website-files.com/61ed56ae9da9fd7e0ef0a967/655f4d520d0517ae8e8ddf13_Bern-white.svg',
@@ -36,9 +39,11 @@ export default function LogoCollection() {
     <Box id="logoCollection" sx={{ py: 4 }}>
       <Typography
         component="p"
-        variant="subtitle2"
+        variant="h3"
         align="center"
-        color="text.secondary"
+        sx={theme => ({
+          ...linearColoredText(theme)
+        })}
       >
         Trusted by the best companies
       </Typography>

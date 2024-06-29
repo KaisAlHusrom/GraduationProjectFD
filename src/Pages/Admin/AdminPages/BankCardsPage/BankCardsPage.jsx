@@ -59,7 +59,7 @@ const columns = {
     'card_number': "string",
     'card_holder_name': "string",
     'expiry_date': "string",
-    // 'cvv': "int",
+    'cvv': "int",
     "created_at": "dateTime",
     "updated_at": "dateTime"
 }

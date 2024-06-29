@@ -5,10 +5,8 @@ import {
   Box,
   Button,
   Container,
-  MenuItem,
   Toolbar,
   Typography,
-  TextField,
   List,
   ListItem,
   IconButton,
@@ -16,12 +14,7 @@ import {
   Dialog,
   DialogContent,
   Slide,
-  Popper,
-  Paper,
-  MenuList,
-  ClickAwayListener,
   Avatar,
-  Grow,
   Divider
 } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
@@ -41,31 +34,17 @@ import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import CloseIcon from '@mui/icons-material/Close';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CliserImageLogo from '../utils/CliserImageLogo';
-import { NewList } from '../data/CradsData';
 import { useSelector } from 'react-redux';
-import { useCart } from '../utils/CartContext'; // Make sure the path is correct
+import { useCart } from '../utils/CartContext';
 import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
 import ToggleColorMode from '../../../Components/ToggleColorMode/ToggleColorMode';
 import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import CategoriesPopover from './CategoriesPopover/CategoriesPopover';
 import { useCliserMarketContext } from '../EcommerceMain';
-const StyledSearchBar = styled(TextField)(({ theme }) => ({
-  display: 'flex',
-  alignItems: 'center', // Center the label vertically
-  justifyContent: 'center', // Center horizontally
-  borderRadius: '20px', // Adding rounded corners
-  backgroundColor: theme.palette.mode === 'light'
-    ? 'rgba(255, 255, 255, 0.4)'
-    : 'rgba(0, 0, 0, 0.4)', // Adding background color
-  '& .MuiInputLabel-root': {
-    fontSize: '0.9rem', // Smaller label font size
-  },
-  '& .MuiOutlinedInput-root': {
-    borderRadius: '20px', // Full rounded corners
-    padding: theme.spacing(1), // Adjusting padding for smaller size
-    height: '36px', // Adjusting height for smaller size
-  },
-}));
+import SearchBox from './UI/searchBox';
+import { navigateCliserStoreCartPage, navigateLoginPage, navigateMainPage, navigateSignUpPage, navigateStoreMainPage } from '../../../Helpers/navigations';
+import { logOut } from '../../../Services/AuthServices/authService';
+
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
@@ -76,53 +55,34 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
   },
 }));
 
+
+
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 function NavBar() {
+const {categories} = useCliserMarketContext()
 
-  const {categories} = useCliserMarketContext()
 
+const theme = useTheme();
+const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
+const [value, setValue] = useState(0);
+const [openSearch, setSearchOpen] = useState(false);
+const [openAccount, setAccountOpen] = useState(false);
+const [open, setOpen] = useState(false);
+const anchorRef = useRef(null);
+const navigate = useNavigate();
 
-  // Get the user if logged
-  const user = useSelector(state => state.authSlice.user);
-  const imagePath = useMemo(() => {
-    return `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${user?.profile_image}`;
+// Get the user if logged
+const user = useSelector(state => state.authSlice.user);
+const imagePath = useMemo(() => {
+  return `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${user?.profile_image}`;
 
 }, [user?.profile_image])
 
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
-  const [value, setValue] = useState(0);
-  const [searchValue, setSearchValue] = useState('');
-  const [openSearch, setSearchOpen] = useState(false);
-  const [openAccount, setAccountOpen] = useState(false);
-  const [open, setOpen] = useState(false);
-  const anchorRef = useRef(null);
-  const navigate = useNavigate();
+const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
 
-  const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
-
-  const handleToggle = () => {
-    setOpen((prevOpen) => !prevOpen);
-  };
-
-  const handleCloseMenu = (event) => {
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-    setOpen(false);
-  };
-
-  const handleListKeyDown = (event) => {
-    if (event.key === 'Tab') {
-      event.preventDefault();
-      setOpen(false);
-    } else if (event.key === 'Escape') {
-      setOpen(false);
-    }
-  };
 
   // Return focus to the button when we transitioned from !open -> open
   const prevOpen = useRef(open);
@@ -134,24 +94,11 @@ function NavBar() {
     prevOpen.current = open;
   }, [open]);
 
-  const handleCategoryClick = (category) => {
-    // Add your logic for handling category click
-    console.log(`Category clicked: ${category.category_name}`);
-    setOpen(false);
-  };
-
-  const handleSearchChange = (event) => {
-    setSearchValue(event.target.value);
-  };
-
   const handleSearchClick = () => {
     setSearchOpen(true);
   };
 
   const handleAccountClick = () => {
-    if(user) {
-      navigate("/")
-    }
     setAccountOpen(true);
   };
 
@@ -161,30 +108,47 @@ function NavBar() {
   };
 
   const handleMainClick = () => {
-    navigate('/cliser-digital-market');
+    navigateStoreMainPage();
   };
 
   const handleCartClick = () => {
-    navigate('/cliser-digital-market/Cart');
+    navigateCliserStoreCartPage();
   };
 
   const handleHomeClick = () => {
-    navigate('/');
+    navigateMainPage();
   };
 
   const handleLoginClick = () => {
-    navigate('/auth/login');
+    navigateLoginPage();
   };
 
   const handleSignUpClick = () => {
-    navigate('/auth/sign-up');
+    navigateSignUpPage();
   };
+
+  const handleLogOut = async () => {
+    const res = await logOut()
+    console.log(res)
+    if(res.success){
+      navigate("/")
+    } else {
+      console.log("Log Out Failed")
+    }
+  }
+
+  const menuItems = [
+    { value: 'Profile', onClick: handleHomeClick},
+    { value: 'Logout', onClick: handleLogOut },
+  ].filter(item => item);
 
   return (
     <div>
       <Box>
         {isSmallScreen ? (
+          /* on small screens */
           <div>
+            {/* bottom navigation control */}
             <BottomNavigation
               showLabels
               sx={{
@@ -220,7 +184,15 @@ function NavBar() {
               />
               <BottomNavigationAction
                 label="Account"
-                icon={<AccountCircleIcon />}
+                sx={{textDecoration:"none"}}
+                icon={imagePath ? (
+                  <Avatar
+                    src={imagePath}
+                    sx={{ cursor: 'pointer', width: 32, height: 32 }}
+                  />
+                ) : (
+                    <AccountCircleIcon />
+                )}
                 onClick={handleAccountClick}
               />
             </BottomNavigation>
@@ -248,13 +220,7 @@ function NavBar() {
                 </Toolbar>
               </AppBar>
               <DialogContent>
-                <StyledSearchBar
-                  label="Search"
-                  variant="outlined"
-                  value={searchValue}
-                  onChange={handleSearchChange}
-                  fullWidth
-                />
+                <SearchBox />
                 <Accordion disableGutters elevation={0} square sx={{ backgroundColor: "transparent" }}>
                   <AccordionSummary expandIcon={<ArrowDropDownIcon />}>
                     <Typography>Categories</Typography>
@@ -325,33 +291,58 @@ function NavBar() {
               </AppBar>
               <DialogContent>
                 <List>
-                  <ListItem>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      component="a"
-                      onClick={handleSignUpClick}
-                      sx={{ width: '100%' }}
-                    >
-                      Sign up
-                    </Button>
-                  </ListItem>
-                  <ListItem>
-                    <Button
-                      color="primary"
-                      variant="outlined"
-                      component="a"
-                      onClick={handleLoginClick}
-                      sx={{ width: '100%', marginTop: 1 }}
-                    >
-                      Sign in
-                    </Button>
-                  </ListItem>
+                  {
+                    !user ? 
+                    (
+                      <>
+                        <ListItem>
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            component="a"
+                            onClick={handleSignUpClick}
+                            sx={{ width: '100%' }}
+                          >
+                            Sign up
+                          </Button>
+                        </ListItem>
+                        <ListItem>
+                          <Button
+                            color="primary"
+                            variant="outlined"
+                            component="a"
+                            onClick={handleLoginClick}
+                            sx={{ width: '100%', marginTop: 1 }}
+                          >
+                            Sign in
+                          </Button>
+                      </ListItem>
+                      </>
+                    )
+                    :
+                    menuItems.map((item, key) => {
+                      return (
+                        <ListItem key={key}>
+                            <Button
+                              color={item.value === "Logout" ? "error" : "primary"}
+                              variant="outlined"
+                              component="a"
+                              onClick={item.onClick}
+                              sx={{ width: '100%', marginTop: 1 }}
+                            >
+                              {item.value}
+                            </Button>
+                        </ListItem>
+                      )
+                    })
+                  }
+                  
                 </List>
               </DialogContent>
             </Dialog>
           </div>
         ) : (
+          /* on normal screens */
           <AppBar
             position="fixed"
             sx={{
@@ -380,6 +371,7 @@ function NavBar() {
                   borderColor: 'divider',
                 })}
               >
+                {/* logo and categories pop over part */}
                 <Box
                   sx={{
                     flexGrow: 1,
@@ -403,47 +395,7 @@ function NavBar() {
                         <CategoriesPopover />
                       }
                     />
-                    <Popper
-                      open={open}
-                      anchorEl={anchorRef.current}
-                      role={undefined}
-                      placement="bottom-start"
-                      transition
-                      disablePortal
-                    >
-                      {({ TransitionProps, placement }) => (
-                        <Grow
-                          {...TransitionProps}
-                          style={{
-                            transformOrigin:
-                              placement === 'bottom-start' ? 'left top' : 'left bottom',
-                          }}
-                        >
-                          <Paper>
-                            <ClickAwayListener onClickAway={handleCloseMenu}>
-                              <MenuList
-                                autoFocusItem={open}
-                                id="composition-menu"
-                                aria-labelledby="composition-button"
-                                onKeyDown={handleListKeyDown}
-                              >
-                                {NewList.flatMap(product =>
-                                  product.categories.map(category => (
-                                    <MenuItem
-                                      key={category.id}
-                                      onClick={() => handleCategoryClick(category)}
-                                    >
-                                      {category.category_name}
-                                    </MenuItem>
-                                  ))
-                                )}
-                              </MenuList>
-                            </ClickAwayListener>
-                          </Paper>
-                        </Grow>
-                      )}
-                    </Popper>
-                  </Box>
+                  </Box>  
                 </Box>
                 <Box
                   sx={{
@@ -452,13 +404,17 @@ function NavBar() {
                     alignItems: 'center',
                   }}
                 >
-                  <StyledSearchBar
-                    label="Search"
-                    variant="outlined"
-                    value={searchValue}
-                    onChange={handleSearchChange}
-                    size='small'
-                  />
+                <SearchBox />
+                </Box>
+                
+                {/* the seach bar , sign in and sign out part */}
+                <Box
+                  sx={{
+                    display: { xxs: 'none', xs: 'none', md: 'flex' },
+                    gap: 0.5,
+                    alignItems: 'center',
+                  }}
+                >
                   <ToggleColorMode />
                   <AdminMainButton
                     appearance='iconButton'
@@ -473,14 +429,11 @@ function NavBar() {
                   />
                   {
                     !user ? 
-
-
                     <>
                       <Button
                         color="primary"
                         variant="outlined"
                         size="small"
-                        component="a"
                         onClick={handleLoginClick}
                       >
                         Sign in
@@ -489,13 +442,50 @@ function NavBar() {
                         color="primary"
                         variant="contained"
                         size="small"
-                        component="a"
                         onClick={handleSignUpClick}
                       >
                         Sign up
                       </Button>
                     </>
-                    : <Avatar onClick={handleHomeClick} src={imagePath} sx={{ cursor: 'pointer', width: 32, height: 32 }} /> 
+                    : 
+                    <>
+                    <AdminMainButton
+                            icon={<Avatar src={imagePath} sx={{ cursor: 'pointer', width: 32, height: 32 }} />}
+                            title="Profile"
+                            appearance="iconButton"
+                            type="menu"
+                            menuItems={menuItems}
+                            menuPaperProps={
+                                {
+                                elevation: 1,
+                                sx: {
+                                    overflow: 'visible',
+                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                    mt: 1.5,
+                                    '& .MuiAvatar-root': {
+                                        width: 32,
+                                        height: 32,
+                                        ml: -0.5,
+                                        mr: 1,
+                                    },
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 14,
+                                        width: 10,
+                                        height: 10,
+                                        bgcolor: 'background.paper',
+                                        transform: 'translateY(-50%) rotate(45deg)',
+                                        zIndex: 0,
+                                    },
+                                } 
+                                }
+                            }
+                            />
+                      
+                    </>
                   }
                 </Box>
               </Toolbar>
