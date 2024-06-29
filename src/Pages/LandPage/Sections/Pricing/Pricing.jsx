@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import AutoAwesomeIcon from '@mui/icons-material/AutoAwesome';
 import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
-import { useInView } from 'react-intersection-observer';
+import useInView from '../../../../Helpers/customHooks/useInView';
 
 const tiers = [
   {
@@ -56,14 +56,9 @@ const tiers = [
 ];
 
 export default function Pricing() {
-  const [isInView, setIsInView] = React.useState(false);
-  const { ref, inView } = useInView();
+  const { ref, inView: isInView } = useInView();
 
-  React.useEffect(() => {
-      if (inView) {
-          setIsInView(true);
-      }
-  }, [inView]);
+
 
   return (
     <Container

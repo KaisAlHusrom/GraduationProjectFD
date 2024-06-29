@@ -28,6 +28,7 @@ import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectF
 
 import {  fetchUserUsersPaymentPlans } from '../../../../../../Services/UserServices/Services/userPaymentPlanUsersService'
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
+import { getCardImage, getCardType } from '../../../../../../Helpers/getCardType'
 //Styled Components
 const StyledCurrentPaymentPlan = styled(Box)(
     ({ theme }) => ({
@@ -75,7 +76,6 @@ const CurrentPaymentPlan = () => {
     const user = useSelector(state => state.authSlice.user)
     const currency = useSelector(state => state.currencySlice.currency);
 
-    //TODOLfetch payment plan here from database
     const params = useMemo(() => {
         return [
             null,
@@ -149,10 +149,17 @@ const CurrentPaymentPlan = () => {
                                         {/* TODO: correct the date */}
                                         Next payment date: {DateHelper.formattedDate(currentPaymentPlan.bill_date)} 
                                     </Typography>
-                                    <Typography variant='subtitle1' letterSpacing={1.5}>
+                                    <Typography variant='subtitle1' letterSpacing={1.5} display={'flex'} alignItems={'center'} gap={2}>
                                         {/* TODO: correct the date */}
                                         Billed using {currentPaymentPlan.bank_card.card_number}
+                                            <img 
+                                                src={getCardImage(currentPaymentPlan?.bank_card?.card_number)} 
+                                                label={getCardType(currentPaymentPlan?.bank_card?.card_number)}  
+                                                width={50}
+                                                height={50}
+                                            />
                                     </Typography>
+                                    
                                 </StyledHeaders>
                                 <StyledBody>
                                     <Button>

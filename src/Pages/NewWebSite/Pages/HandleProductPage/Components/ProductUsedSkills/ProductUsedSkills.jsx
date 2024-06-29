@@ -1,16 +1,11 @@
 //React
 import { useEffect, useState } from 'react'
 
-import {v4 as uuIdv4} from 'uuid'
-
-import {
-    
-} from 'react-redux'
+import { v4 as uuIdv4 } from 'uuid'
 
 //Components
 import AddIcon from '@mui/icons-material/Add';
 import ClearIcon from '@mui/icons-material/Clear';
-
 
 //MUI
 import {
@@ -31,16 +26,15 @@ import { AdminMainButton } from '../../../../../../Components'
 
 //Styled Components
 const StyledProductUsedSkills = styled(Grid)(
-    ({ theme }) => ({
-    
+    () => ({
+        // Add your styles here
     })
 )
 
-
 // TODO: fix delete problem
 
-const ProductUsedSkills = ({data, handleOnChange}) => {
-    const {productData, setProductData} = data;
+const ProductUsedSkills = ({ data }) => {
+    const { productData, setProductData } = data;
 
     //to add new skill
     const writeNewSkill = () => {
@@ -48,24 +42,22 @@ const ProductUsedSkills = ({data, handleOnChange}) => {
             'id': uuIdv4(),
             'product_used_skill_name': "New Skill",
             'how_used': "How Used...",
-            'product_id': productData && productData.id ? productData.id : null
+            'product_id': productData?.id || null
         }
     }
 
     const [skills, setSkills] = useState([])
+
     useEffect(() => {
-        if(productData?.product_used_skills) {
-            setSkills(productData?.product_used_skills)
+        if (productData?.product_used_skills) {
+            setSkills(productData.product_used_skills)
         }
     }, [productData])
 
-
     const handleAddNewSkill = () => {
         const newSkill = writeNewSkill()
-
         const newSkills = [...skills, newSkill]
-
-        setProductData(prev => ({...prev, 'product_used_skills': newSkills}))
+        setProductData(prev => ({ ...prev, 'product_used_skills': newSkills }))
     }
 
     const handleDeleteSkill = (id) => {
@@ -73,30 +65,22 @@ const ProductUsedSkills = ({data, handleOnChange}) => {
         setProductData(prev => ({ ...prev, product_used_skills: updatedSkills }));
     };
 
-    
     return (
         <StyledProductUsedSkills spacing={2} container>
-            {
-                skills && skills.length > 0
-                ?   
-                skills.map((skill, key) => {
-                    return (
-                        <Grid key={key} item xxs={12} md={6} lg={4} >
-                                <SkillTextField
-                                    skill={skill}
-                                    setProductData={setProductData}
-                                    handleDeleteSkill={handleDeleteSkill}
-                                />
-                        </Grid>
-                    )
-                })
-
-                :null
+            {skills.length > 0 &&
+                skills.map((skill) => (
+                    <Grid key={skill.id} item xxs={12} md={6} lg={4}>
+                        <SkillTextField
+                            skill={skill}
+                            setProductData={setProductData}
+                            handleDeleteSkill={handleDeleteSkill}
+                        />
+                    </Grid>
+                ))
             }
             <Grid item xxs={12} md={6} lg={4}>
                 <Card 
-                sx={
-                    {
+                    sx={{
                         height: '100%', 
                         width: '100%', 
                         display: 'flex', 
@@ -104,11 +88,11 @@ const ProductUsedSkills = ({data, handleOnChange}) => {
                         alignItems: 'center',
                         transition: '0.3s',
                         cursor: 'pointer',
-                        "&:hover": {backgroundColor: theme => theme.palette.action.hover}
-                    }
-                    } elevation={3}
+                        "&:hover": { backgroundColor: theme => theme.palette.action.hover }
+                    }} 
+                    elevation={3}
                     onClick={handleAddNewSkill}
-                    >
+                >
                     <AdminMainButton
                         title='New Skill'
                         type='custom'
@@ -123,15 +107,14 @@ const ProductUsedSkills = ({data, handleOnChange}) => {
 };
 
 ProductUsedSkills.propTypes = {
-    data: propTypes.object,
+    data: propTypes.object.isRequired,
     handleOnChange: propTypes.func,
 }
 
 export default ProductUsedSkills;
 
-
 const StyledTextArea = styled(TextareaAutosize)(
-    ({theme}) => ({
+    ({ theme }) => ({
         backgroundColor: theme.palette.background.paper,
         border: "2px solid",
         borderColor: theme.palette.divider,
@@ -141,27 +124,26 @@ const StyledTextArea = styled(TextareaAutosize)(
         color: theme.palette.text.primary,
         outline: "none",
         fontSize: "1rem",
-        padding: theme.spacing(),
+        padding: theme.spacing(1),
         "&:focus": {
             borderColor: theme.palette.primary.main,
         }
     })
 )
 
-const SkillTextField = ({skill, setProductData, handleDeleteSkill}) => {
+const SkillTextField = ({ skill, setProductData, handleDeleteSkill }) => {
     const [skillState, setSkillState] = useState(skill);
-    
+
     useEffect(() => {
         setProductData(prev => {
-            if(prev?.product_used_skills) {
-                const updatedSkills = prev?.product_used_skills?.map(sk => 
+            if (prev?.product_used_skills) {
+                const updatedSkills = prev.product_used_skills.map(sk => 
                     sk.id === skillState.id ? skillState : sk
                 );
                 return {
                     ...prev,
                     product_used_skills: updatedSkills
                 };
-
             }
             return {
                 ...prev,
@@ -171,24 +153,19 @@ const SkillTextField = ({skill, setProductData, handleDeleteSkill}) => {
     }, [skillState, setProductData]);
 
     const handleOnChangeSkillName = (e) => {
-        setSkillState(prev => {
-            return {...prev, 'product_used_skill_name': e.target.value}
-        })
+        setSkillState(prev => ({ ...prev, 'product_used_skill_name': e.target.value }))
     }
 
     const handleOnChangeSkillHowUsed = (e) => {
-        setSkillState(prev => {
-            return {...prev, 'how_used': e.target.value}
-        })
+        setSkillState(prev => ({ ...prev, 'how_used': e.target.value }))
     }
 
     const handleDelete = () => {
         handleDeleteSkill(skillState.id);
     };
-    
 
     return (
-        <Card elevation={3} sx={{padding: theme => theme.spacing(), position: 'relative'}}>
+        <Card elevation={3} sx={{ padding: theme => theme.spacing(2), position: 'relative' }}>
             <IconButton onClick={handleDelete} 
                 sx={{
                     position: 'absolute',
@@ -218,12 +195,9 @@ const SkillTextField = ({skill, setProductData, handleDeleteSkill}) => {
                     How Used
                 </FormLabel>
                 <StyledTextArea
-                    minRows={3} // Adjust the minimum number of rows as needed
-                    maxRows={10} // Adjust the maximum number of rows as needed
-                    name={"how_used"}
-                    // sx={{
-                    //     borderColor: error ? "error.main" : "transparent"
-                    // }}
+                    minRows={3}
+                    maxRows={10}
+                    name="how_used"
                     value={skillState?.how_used}
                     onChange={handleOnChangeSkillHowUsed}
                 />
@@ -231,3 +205,9 @@ const SkillTextField = ({skill, setProductData, handleDeleteSkill}) => {
         </Card>
     )
 }
+
+SkillTextField.propTypes = {
+    skill: propTypes.object.isRequired,
+    setProductData: propTypes.func.isRequired,
+    handleDeleteSkill: propTypes.func.isRequired,
+};

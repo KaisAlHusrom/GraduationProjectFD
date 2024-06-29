@@ -42,6 +42,8 @@ import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
 import CategoriesPopover from './CategoriesPopover/CategoriesPopover';
 import { useCliserMarketContext } from '../EcommerceMain';
 import SearchBox from './UI/searchBox';
+import { navigateCliserStoreCartPage, navigateLoginPage, navigateMainPage, navigateSignUpPage, navigateStoreMainPage } from '../../../Helpers/navigations';
+import { logOut } from '../../../Services/AuthServices/authService';
 
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
@@ -52,6 +54,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     padding: '0 4px',
   },
 }));
+
+
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -95,9 +99,6 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
   };
 
   const handleAccountClick = () => {
-    if(user) {
-      navigate("/")
-    }
     setAccountOpen(true);
   };
 
@@ -107,24 +108,39 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
   };
 
   const handleMainClick = () => {
-    navigate('/cliser-digital-market');
+    navigateStoreMainPage();
   };
 
   const handleCartClick = () => {
-    navigate('/cliser-digital-market/Cart');
+    navigateCliserStoreCartPage();
   };
 
   const handleHomeClick = () => {
-    navigate('/');
+    navigateMainPage();
   };
 
   const handleLoginClick = () => {
-    navigate('/auth/login');
+    navigateLoginPage();
   };
 
   const handleSignUpClick = () => {
-    navigate('/auth/sign-up');
+    navigateSignUpPage();
   };
+
+  const handleLogOut = async () => {
+    const res = await logOut()
+    console.log(res)
+    if(res.success){
+      navigate("/")
+    } else {
+      console.log("Log Out Failed")
+    }
+  }
+
+  const menuItems = [
+    { value: 'Profile', onClick: handleHomeClick},
+    { value: 'Logout', onClick: handleLogOut },
+  ].filter(item => item);
 
   return (
     <div>
@@ -275,28 +291,52 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
               </AppBar>
               <DialogContent>
                 <List>
-                  <ListItem>
-                    <Button
-                      color="primary"
-                      variant="contained"
-                      component="a"
-                      onClick={handleSignUpClick}
-                      sx={{ width: '100%' }}
-                    >
-                      Sign up
-                    </Button>
-                  </ListItem>
-                  <ListItem>
-                    <Button
-                      color="primary"
-                      variant="outlined"
-                      component="a"
-                      onClick={handleLoginClick}
-                      sx={{ width: '100%', marginTop: 1 }}
-                    >
-                      Sign in
-                    </Button>
-                  </ListItem>
+                  {
+                    !user ? 
+                    (
+                      <>
+                        <ListItem>
+                          <Button
+                            color="primary"
+                            variant="contained"
+                            component="a"
+                            onClick={handleSignUpClick}
+                            sx={{ width: '100%' }}
+                          >
+                            Sign up
+                          </Button>
+                        </ListItem>
+                        <ListItem>
+                          <Button
+                            color="primary"
+                            variant="outlined"
+                            component="a"
+                            onClick={handleLoginClick}
+                            sx={{ width: '100%', marginTop: 1 }}
+                          >
+                            Sign in
+                          </Button>
+                      </ListItem>
+                      </>
+                    )
+                    :
+                    menuItems.map((item, key) => {
+                      return (
+                        <ListItem key={key}>
+                            <Button
+                              color={item.value === "Logout" ? "error" : "primary"}
+                              variant="outlined"
+                              component="a"
+                              onClick={item.onClick}
+                              sx={{ width: '100%', marginTop: 1 }}
+                            >
+                              {item.value}
+                            </Button>
+                        </ListItem>
+                      )
+                    })
+                  }
+                  
                 </List>
               </DialogContent>
             </Dialog>
@@ -407,7 +447,45 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
                         Sign up
                       </Button>
                     </>
-                    : <Avatar onClick={handleHomeClick} src={imagePath} sx={{ cursor: 'pointer', width: 32, height: 32 }} />
+                    : 
+                    <>
+                    <AdminMainButton
+                            icon={<Avatar src={imagePath} sx={{ cursor: 'pointer', width: 32, height: 32 }} />}
+                            title="Profile"
+                            appearance="iconButton"
+                            type="menu"
+                            menuItems={menuItems}
+                            menuPaperProps={
+                                {
+                                elevation: 1,
+                                sx: {
+                                    overflow: 'visible',
+                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                    mt: 1.5,
+                                    '& .MuiAvatar-root': {
+                                        width: 32,
+                                        height: 32,
+                                        ml: -0.5,
+                                        mr: 1,
+                                    },
+                                    '&::before': {
+                                        content: '""',
+                                        display: 'block',
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 14,
+                                        width: 10,
+                                        height: 10,
+                                        bgcolor: 'background.paper',
+                                        transform: 'translateY(-50%) rotate(45deg)',
+                                        zIndex: 0,
+                                    },
+                                } 
+                                }
+                            }
+                            />
+                      
+                    </>
                   }
                 </Box>
               </Toolbar>

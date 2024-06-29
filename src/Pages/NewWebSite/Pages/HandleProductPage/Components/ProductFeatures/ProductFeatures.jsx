@@ -1,12 +1,7 @@
 //React
 import { useEffect, useState } from 'react'
 
-import {v4 as uuIdv4} from 'uuid'
-
-
-import {
-    
-} from 'react-redux'
+import { v4 as uuIdv4 } from 'uuid'
 
 //Components
 import AddIcon from '@mui/icons-material/Add';
@@ -31,70 +26,61 @@ import { AdminMainButton } from '../../../../../../Components';
 
 //Styled Components
 const StyledProductFeatures = styled(Grid)(
-    ({ theme }) => ({
-    
+    () => ({
+        // Add your styles here
     })
 )
 
-// TODO: fix delete problem
 
-const ProductFeatures = ({data, handleOnChange}) => {
-    const {productData, setProductData} = data;
 
-    const [Features, setFeatures] = useState([])
+const ProductFeatures = ({ data }) => {
+    const { productData, setProductData } = data;
+
+    const [features, setFeatures] = useState([]);
+
     useEffect(() => {
-        if(productData?.product_features) {
-            setFeatures(productData?.product_features)
+        if (productData?.product_features) {
+            setFeatures(productData.product_features);
         }
-    }, [productData])
+    }, [productData]);
 
-    //to add new feature
+    // to add new feature
     const writeNewFeature = () => {
         return {
             'id': uuIdv4(),
             'product_feature_name': "New Feature",
             'product_feature_description': "Explain feature...",
-            'product_id': productData && productData.id ? productData.id : null
+            'product_id': productData?.id || null
         }
     }
 
     const handleAddNewFeature = () => {
-        const newFeature = writeNewFeature()
-
-        const newFeatures = [...Features, newFeature]
-
-        setProductData(prev => ({...prev, 'product_features': newFeatures}))
+        const newFeature = writeNewFeature();
+        const newFeatures = [...features, newFeature];
+        setProductData(prev => ({ ...prev, 'product_features': newFeatures }));
     }
 
     const handleDeleteFeature = (id) => {
-        const updatedFeatures = Features.filter(f => f.id !== id);
+        const updatedFeatures = features.filter(f => f.id !== id);
         setProductData(prev => ({ ...prev, product_features: updatedFeatures }));
     };
 
     return (
         <StyledProductFeatures container spacing={2}>
-            {
-                Features && Features.length > 0
-                ?   
-                Features.map((feature, key) => {
-                    return (
-                        <Grid key={key} item xxs={12} md={6} >
-                                <FeatureTextFields
-                                    feature={feature}
-                                    setProductData={setProductData}
-                                    handleDeleteFeature={handleDeleteFeature}
-                                    // handleDeleteSkill={handleDeleteSkill}
-                                />
-                        </Grid>
-                    )
-                })
-
-                :null
+            {features.length > 0 &&
+                features.map((feature) => (
+                    <Grid key={feature.id} item xxs={12} md={6} lg={4}>
+                        <FeatureTextFields
+                            feature={feature}
+                            setProductData={setProductData}
+                            handleDeleteFeature={handleDeleteFeature}
+                        />
+                    </Grid>
+                ))
             }
             <Grid item xxs={12} md={6} lg={4}>
                 <Card 
-                sx={
-                    {
+                    sx={{
                         height: '100%', 
                         width: '100%', 
                         display: 'flex', 
@@ -102,13 +88,13 @@ const ProductFeatures = ({data, handleOnChange}) => {
                         alignItems: 'center',
                         transition: '0.3s',
                         cursor: 'pointer',
-                        "&:hover": {backgroundColor: theme => theme.palette.action.hover}
-                    }
-                    } elevation={3}
+                        "&:hover": { backgroundColor: theme => theme.palette.action.hover }
+                    }} 
+                    elevation={3}
                     onClick={handleAddNewFeature}
-                    >
+                >
                     <AdminMainButton
-                        title='New Skill'
+                        title='New Feature'
                         type='custom'
                         appearance='iconButton'
                         icon={<AddIcon />}
@@ -121,15 +107,14 @@ const ProductFeatures = ({data, handleOnChange}) => {
 };
 
 ProductFeatures.propTypes = {
-    data: propTypes.object,
+    data: propTypes.object.isRequired,
     handleOnChange: propTypes.func,
 }
 
 export default ProductFeatures;
 
-
 const StyledTextArea = styled(TextareaAutosize)(
-    ({theme}) => ({
+    ({ theme }) => ({
         backgroundColor: theme.palette.background.paper,
         border: "2px solid",
         borderColor: theme.palette.divider,
@@ -139,46 +124,40 @@ const StyledTextArea = styled(TextareaAutosize)(
         color: theme.palette.text.primary,
         outline: "none",
         fontSize: "1rem",
-        padding: theme.spacing(),
+        padding: theme.spacing(1),
         "&:focus": {
             borderColor: theme.palette.primary.main,
         }
     })
 )
 
-const FeatureTextFields = ({feature, setProductData, handleDeleteFeature}) => {
-    const [featureState, setFeatureState] = useState(feature)
+const FeatureTextFields = ({ feature, setProductData, handleDeleteFeature }) => {
+    const [featureState, setFeatureState] = useState(feature);
 
     useEffect(() => {
         setProductData(prev => {
-            if(prev?.product_features) {
-                const updatedFeatures = prev?.product_features?.map(f => 
+            if (prev?.product_features) {
+                const updatedFeatures = prev.product_features.map(f => 
                     f.id === featureState.id ? featureState : f
                 );
                 return {
                     ...prev,
                     product_features: updatedFeatures
                 };
-
             }
             return {
                 ...prev,
                 product_features: [featureState]
             };
         });
-    }, [setProductData, featureState]);
-
+    }, [featureState, setProductData]);
 
     const handleChangeFeatureName = (e) => {
-        setFeatureState(prev => {
-            return {...prev, 'product_feature_name': e.target.value}
-        })
+        setFeatureState(prev => ({ ...prev, 'product_feature_name': e.target.value }));
     }
 
     const handleChangeFeatureDescription = (e) => {
-        setFeatureState(prev => {
-            return {...prev, 'product_feature_description': e.target.value}
-        })
+        setFeatureState(prev => ({ ...prev, 'product_feature_description': e.target.value }));
     }
 
     const handleDelete = () => {
@@ -186,7 +165,7 @@ const FeatureTextFields = ({feature, setProductData, handleDeleteFeature}) => {
     };
 
     return (
-        <Card elevation={3} sx={{padding: theme => theme.spacing(), position: 'relative'}}>
+        <Card elevation={3} sx={{ padding: theme => theme.spacing(2), position: 'relative' }}>
             <IconButton onClick={handleDelete} 
                 sx={{
                     position: 'absolute',
@@ -216,12 +195,9 @@ const FeatureTextFields = ({feature, setProductData, handleDeleteFeature}) => {
                     Explain
                 </FormLabel>
                 <StyledTextArea
-                    minRows={3} // Adjust the minimum number of rows as needed
-                    maxRows={10} // Adjust the maximum number of rows as needed
-                    name={"product_feature_description"}
-                    // sx={{
-                    //     borderColor: error ? "error.main" : "transparent"
-                    // }}
+                    minRows={3}
+                    maxRows={10}
+                    name="product_feature_description"
                     value={featureState?.product_feature_description}
                     onChange={handleChangeFeatureDescription}
                 />
@@ -229,3 +205,9 @@ const FeatureTextFields = ({feature, setProductData, handleDeleteFeature}) => {
         </Card>
     )
 }
+
+FeatureTextFields.propTypes = {
+    feature: propTypes.object.isRequired,
+    setProductData: propTypes.func.isRequired,
+    handleDeleteFeature: propTypes.func.isRequired,
+};

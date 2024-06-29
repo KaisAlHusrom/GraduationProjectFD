@@ -16,12 +16,9 @@ const payments = [
 
 
 const Review = () => {
-  const cartItems = useMemo(() => {
-    const cart_data = JSON.parse(localStorage.getItem("cart_data"));
-    return cart_data || [];
-  }, []);
-
-  const shippingFee = 9.99;
+  const {cartItems} = useCart()
+  // console.log(cartItems)
+  const shippingFee = 0;
   const {cartTotal} = useCart();
   const totalWithShipping = cartTotal + shippingFee;
 

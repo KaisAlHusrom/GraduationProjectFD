@@ -114,6 +114,7 @@ const ProductsTape = ({ title, Cat }) => {
                         <ProductCard
                           key={key}
                           AddToCartId={product.id}
+                          product={product}
                           title={product.product_name}
                           image={product.product_media}
                           mainImage={product.product_main_image_name}

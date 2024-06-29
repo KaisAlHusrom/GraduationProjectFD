@@ -28,12 +28,23 @@ const ScrollableCardContent = styled(CardContent)({
   maxHeight: '700px', // Adjust the maxHeight as needed
 });
 
-const CustomModal = ({ title, modalOpenState, children, modalIcon }) => {
+const CustomModal = ({ 
+  title, 
+  modalOpenState, 
+  children, 
+  modalIcon,
+  withoutModalHeader,
+  backdropClick,
+  cardSx,
+  maxWidth
+}) => {
   const [modalOpen, setModalOpen] = modalOpenState;
   const theme = useTheme();
 
   const handleClose = (event, reason) => {
-    if (reason !== 'backdropClick') {
+    if(backdropClick) {
+      setModalOpen(false);
+    } else if (reason !== 'backdropClick') {
       setModalOpen(false);
     }
   };
@@ -58,54 +69,62 @@ const CustomModal = ({ title, modalOpenState, children, modalIcon }) => {
         },
       }}
       sx={{ ...modalStyles }}
+      maxWidth={maxWidth}
     >
       <Fade in={modalOpen}>
-        <StyledCard>
-          <CardHeader
-            title={title}
-            action={
-              <IconButton
-                size='small'
-                aria-label='delete'
-                className='card-more-options'
-                onClick={handleClose}
-              >
-                <CloseIcon sx={{
-                  color: theme.palette.primary.contrastText
-                }} />
-              </IconButton>
-            }
-            avatar={
-              modalIcon &&
-              <IconButton
-                size="small"
-                disableFocusRipple
-                disableRipple
-                disableTouchRipple
-                sx={
-                  {
-                    cursor: "auto",
-                    color: theme.palette.primary.contrastText
-                  }
+        <StyledCard sx={cardSx}>
+          {
+            !withoutModalHeader
+            &&
+            (
+            <CardHeader
+                title={title}
+                action={
+                  <IconButton
+                    size='small'
+                    aria-label='delete'
+                    className='card-more-options'
+                    onClick={handleClose}
+                  >
+                    <CloseIcon sx={{
+                      color: theme.palette.primary.contrastText
+                    }} />
+                  </IconButton>
                 }
-              >
-                {modalIcon}
-              </IconButton>
-            }
-            titleTypographyProps={{
-              sx: {
-                fontSize: theme.typography.h6.fontSize,
-                fontWeight: theme.typography.h6.fontWeight,
-                lineHeight: theme.typography.h6.lineHeight,
-                textTransform: 'capitalize',
-              }
-            }}
-            sx={{
-              padding: `${theme.spacing()} ${theme.spacing()}`,
-              backgroundColor: 'primary.main',
-              color: theme.palette.primary.contrastText
-            }}
-          />
+                avatar={
+                  modalIcon &&
+                  <IconButton
+                    size="small"
+                    disableFocusRipple
+                    disableRipple
+                    disableTouchRipple
+                    sx={
+                      {
+                        cursor: "auto",
+                        color: theme.palette.primary.contrastText
+                      }
+                    }
+                  >
+                    {modalIcon}
+                  </IconButton>
+                }
+                titleTypographyProps={{
+                  sx: {
+                    fontSize: theme.typography.h6.fontSize,
+                    fontWeight: theme.typography.h6.fontWeight,
+                    lineHeight: theme.typography.h6.lineHeight,
+                    textTransform: 'capitalize',
+                  }
+                }}
+                sx={{
+                  padding: `${theme.spacing()} ${theme.spacing()}`,
+                  backgroundColor: 'primary.main',
+                  color: theme.palette.primary.contrastText
+                }}
+              />
+            )
+          }
+          
           <CardContent>
             <ScrollableCardContent>
               {children}

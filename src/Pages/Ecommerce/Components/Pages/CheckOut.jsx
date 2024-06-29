@@ -23,6 +23,9 @@ import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 //propTypes 
 import propTypes from 'prop-types'
 import CliserImageLogo from '../../utils/CliserImageLogo';
+import { navigateProfileOrdersBilling, navigateStoreMainPage } from '../../../../Helpers/navigations'
+import { useCart } from '../../utils/CartContext'
+import { handleCheckoutPage } from '../../../../Services/CheckoutServices/checkoutProducts'
 
 
 
@@ -51,15 +54,8 @@ function getStepContent(step) {
 const CheckOut = () => {
     const [activeStep, setActiveStep] = useState(0);
     const user = useSelector(state => state.authSlice.user);
-    const navigate = useNavigate();
 
-    const cartItems = useMemo(() => {
-        const cart_data = JSON.parse(localStorage.getItem("cart_data"));
-        if(cart_data) {
-            return cart_data;
-        }
-        return []
-    }, []);
+    const {cartItems} = useCart()
 
 
     const handleNext = () => {
@@ -70,10 +66,23 @@ const CheckOut = () => {
         setActiveStep(activeStep - 1);
     };
     const handleBackToMain =() => {
-        navigate("/cliser-digital-market")
+        navigateStoreMainPage()
     }
     const handleToOrders =() => {
-        navigate("/profile/orders-billing")
+        navigateProfileOrdersBilling()
+    }
+
+    const handleCheckOut = async () => {
+        const data = {
+            order_items: cartItems
+        }
+
+        const checkoutRes = await handleCheckoutPage(data)
+        if(checkoutRes.success) {
+            window.location = checkoutRes.data.url;
+        } else {
+            console.error("Couldn't checkout");
+        }
     }
 
     return (
@@ -336,7 +345,7 @@ const CheckOut = () => {
                             <Button
                                 variant="contained"
                                 endIcon={<ChevronRightRoundedIcon />}
-                                onClick={handleNext}
+                                onClick={activeStep === steps.length - 1 ? handleCheckOut : handleNext}
                                 sx={{
                                 width: { xxs: '100%', md: 'fit-content' },
                                 }}

@@ -22,6 +22,7 @@ import ToggleColorMode from '../ToggleColorMode/ToggleColorMode';
 import { changeMode } from '../../Redux/Slices/modeSlice';
 import { useNavigate } from 'react-router-dom';
 import { LandPageMenuItems } from '../MainAppBar/MainAppBar';
+import { navigateLoginPage, navigateSignUpPage, navigateStoreMainPage } from '../../Helpers/navigations';
 
 //Styled Components
 
@@ -39,18 +40,17 @@ const MainAppBarDrawerNavList = ({auth}) => {
         } 
     };
 
-    const Navigate = useNavigate();
     
     const handleEcommerceClick = () => {
-        Navigate('/cliser-digital-market');
+        navigateStoreMainPage();
     };
 
     const handleLoginClick = () => {
-        Navigate('/auth/login');
+        navigateLoginPage()
     };
 
     const handleSignUpClick = () => {
-        Navigate('/auth/sign-up');
+        navigateSignUpPage();
     };
 
     return (
@@ -60,6 +60,12 @@ const MainAppBarDrawerNavList = ({auth}) => {
                 p: 2,
                 backgroundColor: 'background.paper',
                 flexGrow: 1,
+                "& .MuiMenuItem-root": {
+                        letterSpacing: 1.2,
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        fontSize: "14px"
+                    } 
             }}
         >
             <Box
@@ -68,13 +74,14 @@ const MainAppBarDrawerNavList = ({auth}) => {
                 flexDirection: 'column',
                 alignItems: 'start',
                 flexGrow: 1,
+                 
                 }}
             >
                 <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
             </Box>
             <MenuItem
                 onClick={handleEcommerceClick}
-                sx={{ py: '6px', px: '12px', color: theme => theme.palette.secondary.light }}
+                sx={{ py: '6px', px: '12px', color: theme => theme.palette.primary.light }}
             >
                     Digital Market
             </MenuItem>

@@ -48,7 +48,9 @@ const EcommerceMain = () => {
         return [
             null,
             null,
-            null,
+            [
+                writeFilterObject("is_in_the_main_page", 'bool', '=', 'true')
+            ],
             null,
             null,
             20

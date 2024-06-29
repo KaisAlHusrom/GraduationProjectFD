@@ -26,6 +26,8 @@ import { AdminMainButton } from '../../../Components';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../Redux/Slices/snackbarOpenSlice';
 
 // Styled Components
 const StyledProductCard = styled(Box)(
@@ -64,7 +66,7 @@ const StyledSwiperSlide = styled(SwiperSlide)(
 );
 
 const ProductCard = (props) => {
-  const { AddToCartId, title, image, action, price, rating, creator, category, mainImage, creatorImage } = props;
+    const { product, AddToCartId,title, description, image, action, price, rating, creator, category, mainImage, creatorImage } = props;
 
   // Ensure image is an array
   const mainImagePath = useMemo(() => {
@@ -73,16 +75,19 @@ const ProductCard = (props) => {
 
   const creatorImagePath = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${creatorImage}`;
 
-  const mediaArray = Array.isArray(image) ? image : [];
-  const { addToCart, cartItems } = useCart();
+    const mediaArray = Array.isArray(image) ? image: [];
+    const { addToCart, cartItems } = useCart();
+    
+    const handleAddToCart = () => {
+        
+        addToCart({
+            id: AddToCartId,
+            creatorId: product?.user?.id,
+            product_name: title,
+            product_price: price,
+        });
+    };
 
-  const handleAddToCart = () => {
-    addToCart({
-      id: AddToCartId,
-      product_name: title,
-      product_price: price,
-    });
-  };
 
   return (
     <StyledProductCard>
