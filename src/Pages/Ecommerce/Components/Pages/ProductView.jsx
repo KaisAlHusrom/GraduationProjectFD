@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { useParams,useNavigate, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import config from "../../../../../Config.json"
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
