@@ -1,7 +1,6 @@
-import {  useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { styled } from '@mui/system';
-import { Test } from './StylesProp';
+import { StylesProp } from './StylesProp';
 
 // Styled Components
 const StyledStylesCategory = styled(Box)(
@@ -14,18 +13,17 @@ const StyledStylesCategory = styled(Box)(
 
 
 
-const StylesCategory = ({ category, handleSectionStyleChange ,  sectionStyleProps }) => {
+const StylesCategory = ({ category, handleSectionStyleChange ,  sectionStyle }) => {
 
-
-
+    
     return (
         <StyledStylesCategory>
         {category.category.style_props.map((prop, key) => (
-            <Test
+            <StylesProp
                 prop={prop}
                 key={key}
                 handleSectionStyleChange={handleSectionStyleChange}
-                sectionStyleProps = {sectionStyleProps}
+                sectionStyle = {sectionStyle}
 
             />
         ))}

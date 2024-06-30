@@ -44,7 +44,6 @@ const CliserDigitalMarketHomePage = () => {
             <Container  maxWidth="lg" >
                 <Grid container spacing={0} width={'100%'}
                 >
-                    {/* <ProductsTape title="Recommended" Cat="Web Page Front-End Templates" /> */}
                     {
                         !categoriesDownload
                         ?
@@ -82,8 +81,6 @@ const CliserDigitalMarketHomePage = () => {
                                 </Grid>
                             </>
                     }
-                    {/* <ProductsTape title="WordPress" Cat="" />
-                    <ProductsTape title="Blog" Cat="Portfolio Templates" /> */}
                 </Grid>
             </Container>
         </StyledCliserDigitalMarketHomePage>

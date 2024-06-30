@@ -1,18 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-// Components
-
-// MUI
 import {
-    Box, Container, Grid, Typography, Divider, Button, TextField,
+    Box, Container, Grid, Typography, Divider, Button, TextField, Slide
 } from '@mui/material';
-
-// propTypes
 import propTypes from 'prop-types';
 import CustomCard from '../UI/CustomCard';
-
-// Import the utility function
 import ProductsTape from '../UI/ProductsTape';
 import { useCart } from '../../utils/CartContext';
 import RenderCartItem from '../RenderCartItem/RenderCartItem';
@@ -53,7 +45,6 @@ const Cart = () => {
     };
 
     const handleApplyDiscount = () => {
-        // Example coupon codes and their corresponding discount amounts
         const couponDiscounts = {
             'SAVE10': 10,
             'SAVE20': 20,
@@ -66,7 +57,6 @@ const Cart = () => {
             alert('Invalid coupon code');
         }
     };
-
     const itemsPurchase = [
         { contentTitle: "", content: "" },
     ];
@@ -90,107 +80,83 @@ const Cart = () => {
                         sx={{ marginTop: "-1rem" }}
                     >
                         {cartItems.length === 0 ? (
-                            <Button variant="outlined"
+                            <Button
+                                variant="outlined"
                                 onClick={handleBrowseClick}
                                 sx={{
                                     margin: 'auto',
-                                }}>
+                                }}
+                            >
                                 Browse Products
                             </Button>
                         ) : (
-                            <div style={{ width: '100%' }}>
-                                <CustomCard
-                                    title={`product`}
-                                    items={itemsPurchase}
-                                    sx={{ marginBottom: 2 }}
-                                >
-                                    {cartItems.map((product, index) => (
-                                        <RenderCartItem
+                            <Slide direction="up" in={true} mountOnEnter unmountOnExit>
+                                <Box style={{ width: '100%' }}>
+                                    <CustomCard
+                                        title={`product`}
+                                        items={itemsPurchase}
+                                        sx={{ marginBottom: 2 }}
+                                    >
+                                        {cartItems.map((product, index) => (
+                                            <RenderCartItem
                                                 cartProduct={product}
                                                 key={index}
                                                 index={index}
                                                 forCart
                                             />
-                                            ))}
-                                </CustomCard>
-                                <Box sx={{ width: '100%' }}>
+                                        ))}
+                                    </CustomCard>
                                     <Grid container spacing={2} justifyContent="space-between">
                                         <Grid item xxs={12} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '1rem', width: '100%' }}>
-                                                <Grid container spacing={1}>
-                                                    <Grid item xxs={6}>
-                                                        <Box>
-                                                            <TextField
-                                                                id="Discount"
-                                                                label="Discount Code"
-                                                                fullWidth
-                                                                size='small'
-                                                                value={discountCode}
-                                                                onChange={(e) => setDiscountCode(e.target.value)}
-                                                                sx={{ height: "100%" }}
-                                                            />
-                                                        </Box>
-                                                    </Grid>
-                                                    <Grid item xxs={6}>
-                                                        <Button
-                                                            variant='contained'
-                                                            fullWidth
-                                                            size='small'
-                                                            onClick={handleApplyDiscount}
-                                                            sx={{ height: "100%" }}>
-                                                            Apply
-                                                        </Button>
-                                                    </Grid>
-                                                </Grid>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '1rem' }}>
+                                                <TextField
+                                                    id="Discount"
+                                                    label="Discount Code"
+                                                    fullWidth
+                                                    size='small'
+                                                    value={discountCode}
+                                                    onChange={(e) => setDiscountCode(e.target.value)}
+                                                />
+                                                <Button
+                                                    variant='contained'
+                                                    fullWidth
+                                                    size='small'
+                                                    onClick={handleApplyDiscount}
+                                                    sx={{ marginTop: '1rem' }}
+                                                >
+                                                    Apply
+                                                </Button>
                                             </Box>
                                         </Grid>
                                         <Grid item xxs={12} md={5}>
-                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '1rem', width: '100%' }}>
-                                                <Grid container spacing={1}>
-                                                    <Grid item xxs={6}>
-                                                        <Box>
-                                                            <Typography variant="h5" sx={{ textAlign: 'left' }}>
-                                                                Discount
-                                                            </Typography>
-                                                        </Box>
-                                                        <Box>
-                                                            <Typography variant="h5" sx={{ textAlign: 'left' }}>
-                                                                Total
-                                                            </Typography>
-                                                        </Box>
-                                                    </Grid>
-                                                    <Grid item xxs={6}>
-                                                        <Box>
-                                                            <Typography variant="h5">
-                                                                ${discountAmount}
-                                                            </Typography>
-                                                        </Box>
-                                                        <Box>
-                                                            <Typography variant="h5">
-                                                                ${cartTotal - discountAmount}
-                                                            </Typography>
-                                                        </Box>
-                                                    </Grid>
-                                                    <Grid item xxs={12}>
-                                                        <Button
-                                                            variant='contained'
-                                                            fullWidth
-                                                            onClick={handleCheckOutClick}>
-                                                            Checkout
-                                                        </Button>
-                                                    </Grid>
-                                                </Grid>
+                                            <Box sx={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '1rem' }}>
+                                                <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                                    Discount: ${discountAmount}
+                                                </Typography>
+                                                <Typography variant="h5" sx={{ textAlign: 'left' }}>
+                                                    Total: ${cartTotal - discountAmount}
+                                                </Typography>
+                                                <Button
+                                                    variant='contained'
+                                                    fullWidth
+                                                    onClick={handleCheckOutClick}
+                                                    sx={{ marginTop: '1rem' }}
+                                                >
+                                                    Checkout
+                                                </Button>
                                             </Box>
                                         </Grid>
                                     </Grid>
                                 </Box>
-                            </div>
+                            </Slide>
                         )}
                     </Box>
                 </Grid>
-                <Divider width={'100%'} />
-                <Grid item xxs={12} mt={6}>
-                    <ProductsTape title="You Might Like" />
+                <Grid item xs={12}>
+                    <Divider />
+                    <Box mt={6}>
+                        <ProductsTape title="You Might Like" />
+                    </Box>
                 </Grid>
             </Grid>
         </Container>

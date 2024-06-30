@@ -145,7 +145,6 @@ const CustomLazyAutoComplete = (props) => {
                     value={searchQuery?.searchTerm || ''}
                     onChange={handleChangeSearchQuery}
                     label={label}
-              
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

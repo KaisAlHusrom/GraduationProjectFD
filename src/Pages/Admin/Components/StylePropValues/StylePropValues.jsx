@@ -21,11 +21,12 @@ import propTypes from 'prop-types'
 
 
 export const GetAppropriateStyleValues = (props) => {
-    const {stylePropValueType, stylePropValues, label, valueState, locateTypes, directionsState} = props
+    const {stylePropValueType, stylePropValues, label, valueState, locateTypes, directionsState , sectionStyle} = props
 
     const {value, setValue, 
         // cssValue 
     }= valueState
+
 
     //for width and height properties
     const [valueType, setValueType] = useState("px")
@@ -263,6 +264,7 @@ export const GetAppropriateStyleValues = (props) => {
                 setRadialGradientShapeValue={setRadialGradientShapeValue}
                 valueType={valueType}
                 setValueType={setValueType}
+                sectionStyle = {sectionStyle}
             />
             {
                 directionsComponent && directionsComponent

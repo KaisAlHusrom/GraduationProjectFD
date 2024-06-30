@@ -36,8 +36,7 @@ const ModalDesignCategories = ({   appliedFilter, NameOfCategories  , customStat
 
             const [dialogState , setDialogState] = customState;
             const [drawerState , setDrawerState] = drawerStates;
-
-                const [design , setDesign] = designState 
+            const [design , setDesign] = designState 
 
             const handleSelectDesign = (Design) => {
                 setDesign(Design);

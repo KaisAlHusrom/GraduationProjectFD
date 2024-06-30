@@ -17,6 +17,7 @@ import {
 } from '@mui/material'
 import { styled } from '@mui/system'
 import EmptyElement from './EmptyElement'
+import RecursiveComponent from './RecursiveComponent'
 
 //Styled Components
 const StyledEmptyComponent = styled(Box)(
@@ -53,7 +54,16 @@ const EmptyComponent = ({component}) => {
                     component && component.children
                         .sort((a, b) => a.sequence_number - b.sequence_number)
                         .map((element, i) => (
-                            <EmptyElement key={i} element={element}/>
+                            <>
+                            {element.design_type === 'component' ? (
+                                <RecursiveComponent
+                                    component={element}
+                                />
+                            ) : (
+                                <EmptyElement key={i} element={element}/>
+
+                            )}
+                            </>
                         ))
                 }
             </StyledEmptyComponent>

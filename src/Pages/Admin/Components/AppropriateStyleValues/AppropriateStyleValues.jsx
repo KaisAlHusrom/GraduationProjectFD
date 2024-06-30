@@ -51,7 +51,7 @@ const AppropriateStyleValues = (props) => {
             conicGradientFromAngle, setConicGradientFromAngle,
             linearGradientDirection, setLinearGradientDirection,
             selectedColors, setSelectedColors,
-            radialGradientShapeValue, setRadialGradientShapeValue, valueType, setValueType
+            radialGradientShapeValue, setRadialGradientShapeValue, valueType, setValueType, sectionStyle
         } = props
         
 
@@ -67,6 +67,7 @@ const AppropriateStyleValues = (props) => {
                     optionId='id'
                     valueState={[valueState.value, valueState.setValue]}
                     customHandleChange={handleChangeStylePropValue}
+                    sectionStyle={sectionStyle} // Pass sectionStyle here
 
                 />
             )
@@ -101,7 +102,7 @@ const AppropriateStyleValues = (props) => {
                     options={values}
                     getOptionLabel={option => option['style_prop_value_normal_name']}
                     getOptionKey={option => option['id']}
-                    renderInput={(params) => <TextField {...params} label={label} />}
+                    renderInput={(params) => <TextField {...params} label={label} value = {"hello"}/>}
                 />
             )
         }

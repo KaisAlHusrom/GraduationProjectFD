@@ -318,7 +318,6 @@ const Tag = (props) => {
         return {};
     }, [sortedData.design_prop_values]);
 
-    console.log(propsValues)
     return (
         !sortedData.element_type.not_has_end_tag ?
             

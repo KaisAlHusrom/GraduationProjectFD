@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Box, TextField, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import { AdminMainButton } from '../../../Components/index.jsx';
@@ -6,10 +6,12 @@ import { AdminMainButton } from '../../../Components/index.jsx';
 
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
-import StylesCategory from '../sections/EmptyDesign/EditPage/Drawers/DrawersNew/StylesCategory.jsx';
 import UploadImageButton from '../../Admin/Components/UploadImageButton/UploadImageButton.jsx';
 import PropTypes from 'prop-types'; 
 import { ButtonStyle, ModalTitleStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions.js';
+import useEffectFetchData from '../../../Helpers/customHooks/useEffectFetchData.jsx';
+import { fetchUserElementProps } from '../../../Services/UserServices/Services/elementsPropsUsersService.js';
+import PropElementValue from './PropElementValue.jsx';
 
 const StyledStyleBox = styled(Box)(
     () => ({
@@ -23,15 +25,16 @@ const StyledStyleBox = styled(Box)(
 const StyleBox = ({
     name_of_design,
     type_of_design,
-    handleSectionStyleChange,
     styleCategories,
     handleUploadImageClickWrapper,
     title,
     handleTextFieldChange,
-    sectionStyleProps,
     customState , 
     drawerStates,
-    categoryState
+    categoryState,
+    elementDataSet , 
+    sectionDataState,
+    props
 }) => {
     const [dialogState , setDialogState] = customState;
     const [drawerState , setDrawerState] = drawerStates;
@@ -44,6 +47,16 @@ const StyleBox = ({
         setDrawerState(true)
         setDialogState(false);
     }
+    const params = useMemo(() => {
+        return [
+            
+        ]
+    }, [])
+
+    const {data: elementProps, download} = useEffectFetchData(fetchUserElementProps, params, true, false);
+
+        const DataFilter = elementProps?.filter(data => data?.element_types?.some(type => type.element_type_name === type_of_design))
+
 
     return (
         <StyledStyleBox>
@@ -56,7 +69,7 @@ const StyleBox = ({
                     <Box sx={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around', alignItems: 'center', marginBottom: '20px'}}>
 
                         { 
-                        styleCategories.map((category , key) => (
+                        styleCategories?.map((category , key) => (
                             <Box key = {key} 
                             >
                                 <AdminMainButton 
@@ -76,20 +89,33 @@ const StyleBox = ({
                     </Box>
                         {
                         type_of_design !== "Image" ? 
-                        <TextField
-                        id="standard-number"
-                        label="Title"
-                        type="string"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        variant="filled"
-                        value={title}
-                        onChange={handleTextFieldChange}
-                        sx = {{
-                            width: '900px'
-                        }}
-                        />
+                            <Box>
+                                <TextField
+                                    id="standard-number"
+                                    label="Title"
+                                    type="string"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                    variant="filled"
+                                    value={title}
+                                    onChange={handleTextFieldChange}
+                                    sx = {{
+                                        width: '900px'
+                                    }}
+                                    />
+                                    {
+                                        DataFilter?.map((prop , key) => {
+                                            return   <PropElementValue 
+                                            prop={prop} 
+                                            key={key}  
+                                            elementDataSet = {elementDataSet}
+                                            sectionDataState = {sectionDataState}
+                                            />
+                                        })
+                                    }
+                            </Box>
+                        
                         : <UploadImageButton 
                             imageState={[image , setImage]}
                             label={"image"}
@@ -110,11 +136,9 @@ const StyleBox = ({
 StyleBox.propTypes = {
     name_of_design: PropTypes.string.isRequired,
     type_of_design: PropTypes.string.isRequired,
-    handleSectionStyleChange: PropTypes.func.isRequired,
     styleCategories: PropTypes.array,
     handleUploadImageClickWrapper: PropTypes.func,
     title: PropTypes.string,
     handleTextFieldChange: PropTypes.func,
-    sectionStyleProps: PropTypes.object,
 };
 export default StyleBox;

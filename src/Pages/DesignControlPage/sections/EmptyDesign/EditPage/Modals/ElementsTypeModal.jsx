@@ -39,7 +39,11 @@ const StyledElementsTypeModal = styled(Box)(
 
 
 const ElementsTypeModal = ({
-    createDesignedDesign, selected_parent_id
+    createDesignedDesign, 
+    selected_parent_id,
+    customState ,
+    drawerStates ,
+    designState,                              
 }) => {
 
     const appliedFilterForDesignCategory = useMemo(() => {
@@ -48,22 +52,18 @@ const ElementsTypeModal = ({
         ];
     }, []);
 
+    const [design , setDesign] = designState;
+
         // for element 
-        const [dialogDesignElementState , setDialogDesignElementState] = useState(false)
-        const [drawerDesignElementState , setDrawerDesignElementState] = useState(false);
-        const [design , setDesign] = useState(null)
-
-
-        const [dialogDesignElementTemplateState , setDialogDesignElementTemplateState] = useState(false)
-
+ 
 
     return (
         <StyledElementsTypeModal>
-              <Typography color = "text.default" sx = {ModalTitleStyle}>
+            <Typography color = "text.default" sx = {ModalTitleStyle}>
                     Element Designs
             </Typography>
                 <AdminMainButtonOutsideState
-                            customState={[dialogDesignElementTemplateState , setDialogDesignElementTemplateState]}
+                            customState={customState}
                             title="Template"
                             type="drawer"
                             appearance="primary"
@@ -75,11 +75,9 @@ const ElementsTypeModal = ({
                             icon={<AddCardIcon />}
                             willShow={
                                 <ModalDesignCategories  
-                                customState = {[dialogDesignElementTemplateState, setDialogDesignElementTemplateState]}
-                                drawerStates = {[drawerDesignElementState , setDrawerDesignElementState]}
-                                designState={[design, setDesign]}
-
-                                createDesignedDesign = {createDesignedDesign}
+                                customState = {customState}
+                                drawerStates = {drawerStates}
+                                designState={designState}
                                 appliedFilter = {appliedFilterForDesignCategory}
                                 selected_parent_id = {selected_parent_id} 
                                 NameOfCategories = {"Template"}
@@ -89,7 +87,7 @@ const ElementsTypeModal = ({
                             />  
 
                         <AdminMainButtonOutsideState
-                            customState={[dialogDesignElementState , setDialogDesignElementState]}
+                            customState={customState}
                             title="Empty"
                             type="drawer"
                             appearance="primary"
@@ -100,10 +98,9 @@ const ElementsTypeModal = ({
                             }}
                             willShow={
                                 <ModalDesignCategories  
-                                customState = {[dialogDesignElementState, setDialogDesignElementState]}
-                                drawerStates = {[drawerDesignElementState , setDrawerDesignElementState]}
-                                designState={[design, setDesign]}
-                                createDesignedDesign = {createDesignedDesign}
+                                customState = {customState}
+                                drawerStates = {drawerStates}
+                                designState={designState}
                                 appliedFilter = {null}
                                 selected_parent_id = {selected_parent_id} 
                                 NameOfCategories = {"Empty"}
@@ -114,7 +111,7 @@ const ElementsTypeModal = ({
                         />
 
                         <CustomDrawer
-                                drawerOpenState={[drawerDesignElementState , setDrawerDesignElementState]}
+                                drawerOpenState={drawerStates}
                                 title={"Element Designs"}
                                 drawerStyle={{
                                 }}
