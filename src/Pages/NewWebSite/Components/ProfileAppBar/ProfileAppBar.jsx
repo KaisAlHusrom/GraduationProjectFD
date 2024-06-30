@@ -38,7 +38,7 @@ const ProfileAppBar = () => {
 
 
 
-  const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('md'));
+  const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('lg'));
 
 
   const user = useSelector(state => state.authSlice.user)

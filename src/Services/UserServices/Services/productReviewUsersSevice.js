@@ -1,5 +1,7 @@
 
 // -------------------------------------- 
+import { handleCloseLinearProgress, handleOpenLinearProgress } from "../../../Redux/Slices/DownloadPageSlice";
+import store from "../../../Redux/Store";
 import { 
 USERS_MAIN_INSTANCE_ROUTE,
 createSubUsersAxiosInstance,
@@ -32,6 +34,32 @@ export const fetchUserProductsReviews = async (type = "all", pageNumber = 1, fil
     }
 
     return { rows };
+}
+
+//fetch average of reviews
+export const fetchRatesAverages = async (productId) => {
+    try {
+        store.dispatch(handleOpenLinearProgress())
+        // Fetch regular items
+        const response = await productsReviewsUsersAxios.get("/fetch-averages/" + productId);
+        store.dispatch(handleCloseLinearProgress())
+
+        const res = response.data;
+        let rows;
+
+        if (res.success) {
+            rows = res.data;
+        } else {
+            rows = {error: true};
+        }
+
+        return { rows };
+    } catch (error) {
+        store.dispatch(handleCloseLinearProgress())
+        // Handle other errors
+        console.error('Error Fetching Data:', error);
+        return error.response.data;
+    }
 }
 
 //---------------------------------------

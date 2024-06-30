@@ -75,64 +75,60 @@ const NavList = ({mobileScreen, handleClose, handleLogOut}) => {
                 display: 'flex',
                 alignItems: 'center',
                 width: "100%",
-                flexDirection: mobileScreen ? 'column' : 'row'
+                flexDirection: 'column',
+                marginTop: theme => theme.spacing(2),
             })
         )
-    }, [mobileScreen])
+    }, [])
 
 
     const menuItemStyle = useMemo(() => {
         return { 
-            borderRadius: theme => theme.spacing(2),
             px: theme => theme.spacing(1.5),
-            width: mobileScreen && '100%',
+            width:'100%',
         }
-    }, [mobileScreen])
+    }, [])
 
     const navItemsStyle = useMemo(() => {
         return {
-            display: { 
-                xxs: mobileScreen ? 'flex' : 'none', 
-                md: !mobileScreen && 'flex' 
-            },
-            flexDirection: mobileScreen ? 'column' : 'row',
-            width: mobileScreen && '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: theme => theme.spacing(),
+            width: '100%',
+            marginTop: theme => theme.spacing(4)
             }
-    }, [mobileScreen])
+    }, [])
 
     const StyledNavLink = useMemo(() => {
         return styled(NavLink)(
             ({ theme }) => ({
                 display: 'flex',
                 alignItems : 'center',
-                gap: mobileScreen ? theme.spacing(3) :theme.spacing(),
+                gap: theme.spacing(3),
                 textDecoration : 'none',
                 width: "100%",
                 height: "100%",
                 letterSpacing: 1.5,
             })
         );
-    }, [mobileScreen])
+    }, [])
 
     const StyledBox = useMemo(() => {
         return styled(Box)(
             ({ theme }) => ({
                 display: 'flex',
                 alignItems : 'center',
-                gap: mobileScreen ? theme.spacing(3) :theme.spacing(),
+                gap: theme.spacing(3),
                 textDecoration : 'none',
                 width: "100%",
                 height: "100%",
                 letterSpacing: 1.5,
             })
         );
-    }, [mobileScreen])
+    }, [])
 
     return (
         <StyledNavList>
-            {
-                !mobileScreen && (<CliserImageLogo HandleMainButton={handleProfileMainPage} />)
-            }
             
             <Box sx={navItemsStyle}>
                 {navListItems && navListItems.length > 0 &&
@@ -145,6 +141,7 @@ const NavList = ({mobileScreen, handleClose, handleLogOut}) => {
                                 backgroundColor: selectedNavItem === item.path && (theme => theme.palette.action.selected),
                                 border: selectedNavItem === item.path && '1px solid',
                                 borderColor: selectedNavItem === item.path && (theme => theme.palette.divider),
+                                position: 'relative'
                                 }
                             }
                             onClick={() => handleClickItem(item.title)}
@@ -152,6 +149,20 @@ const NavList = ({mobileScreen, handleClose, handleLogOut}) => {
                             <StyledNavLink 
                             to={item.path}
                             >
+                                {
+                                    selectedNavItem === item.path
+                                    && (
+                                        <Box component={'span'} sx={{
+                                            position: 'absolute',
+                                            width: 3,
+                                            height: '100%',
+                                            backgroundColor: theme => theme.palette.primary.main,
+                                            left: 0,
+                                        }}>
+                                        </Box>
+                                    )
+                                }
+                                
 
                                 <Typography variant='subtitle2' color="text.primary">
                                     {<item.icon fontSize='small' color='primary' />}

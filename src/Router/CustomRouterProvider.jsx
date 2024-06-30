@@ -54,6 +54,7 @@ import MyPaymentPlans from '../Pages/NewWebSite/Pages/MyPaymentPlans/MyPaymentPl
 import MyOrdersAndBilling from '../Pages/NewWebSite/Pages/MyOrdersAndBilling/MyOrdersAndBilling';
 import HandleProductPage from '../Pages/NewWebSite/Pages/HandleProductPage/HandleProductPage';
 import MainPreview from '../Pages/DesignControlPage/sections/EmptyDesign/Preview/MainPreview';
+import MySellsPage from '../Pages/NewWebSite/Pages/MySellsPage/MySellsPage';
 
 
 // ------------- NOTICES -------------
@@ -115,6 +116,7 @@ const router = createBrowserRouter(
                     <Route path="payment-plan" element={<MyPaymentPlans />} />
                     <Route path="orders-billing" element={<MyOrdersAndBilling />} />
                     <Route path="create-new-project" element={<CreateWebsite />} />
+                    <Route path="my-sells" element={<MySellsPage />} />
                 </Route>
                 <Route path="portfolio/:user_id" element={<PortfolioMain />} />
 

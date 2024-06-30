@@ -30,6 +30,7 @@ import ToggleColorMode from '../../../../../Components/ToggleColorMode/ToggleCol
 import CustomSelectInput from '../../../../../Components/CustomSelectInput/CustomSelectInput';
 import { AdminMainButton } from '../../../../../Components';
 import NotificationsList from '../../../../Admin/Components/NotificationsList';
+import CliserImageLogo from '../../../../Ecommerce/utils/CliserImageLogo';
 
 //Styled Components
 const StyledLargeScreenProfileAppBar = styled(Box)(
@@ -97,7 +98,7 @@ const LargeScreenProfileAppBar = (props) => {
                     })}
                 >
                     {/* Nav as normal */}
-                    <StyledNavAsNormalContainer maxWidth="xl">
+                    <StyledNavAsNormalContainer maxWidth="xxl">
                     <Box
                         sx={{
                         flexGrow: 1,
@@ -107,186 +108,92 @@ const LargeScreenProfileAppBar = (props) => {
                         px: 0,
                         }}
                     >
-                        
-                        <NavList />
+                        <CliserImageLogo  />
                     </Box>
-
-                    <ToggleColorMode  />
-
-                    <Box
-                        sx={{
-                        display: { xxs: 'none', md: 'flex' },
-                        gap: 0.5,
-                        alignItems: 'center',
-                        }}
-                    >
-                        
-
-
-                            <CustomSelectInput
-                                key="1"
-                                name="Language"
-                                onChange={handleLanguageChange}
-                                valueSet={selectedLanguage}
-                                size={'small'}
-                            >
-                                {languages.map((item, index) => (
-                                <MenuItem key={index} value={item}  >
-                                    <Box sx = {{
-                                    display : 'flex',
-                                    justifyContent : 'start',
-                                    alignItems : 'center',
-                                    textAlign : 'center'
-                                }}>
-                                    <LanguageIcon fontSize='small' sx = {{marginRight : '10px'}}/> {item}
-                                    </Box>
-                                </MenuItem>
-                                ))}
-                            </CustomSelectInput>
-
-                            
-                            {/* Notification Button  */}
-                            <AdminMainButton
-                            appearance='iconButton'
-                            putTooltip
-                            type='popover'
-                            icon={<NotificationsOutlinedIcon />}
-                            willShow={<NotificationsList />}
-                            title="Notifications"
-                            badgeContent={3} // to add number above the button
-
-                            />
-                            <AdminMainButton
-                            icon={<AccountBoxIcon  />}
-                            title="Profile"
-                            appearance="iconButton"
-                            type="menu"
-                            menuItems={profileMenuItems}
-                            menuPaperProps={
-                                {
-                                elevation: 1,
-                                sx: {
-                                    overflow: 'visible',
-                                    filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                                    mt: 1.5,
-                                    '& .MuiAvatar-root': {
-                                        width: 32,
-                                        height: 32,
-                                        ml: -0.5,
-                                        mr: 1,
-                                    },
-                                    '&::before': {
-                                        content: '""',
-                                        display: 'block',
-                                        position: 'absolute',
-                                        top: 0,
-                                        right: 14,
-                                        width: 10,
-                                        height: 10,
-                                        bgcolor: 'background.paper',
-                                        transform: 'translateY(-50%) rotate(45deg)',
-                                        zIndex: 0,
-                                    },
-                                } 
-                                }
-                            }
-                            />
-
-                    </Box>
-                    </StyledNavAsNormalContainer>
-
-                    {/* nav as mobile  */}
-                        <Box sx={{ display: { sm: '', md: 'none' } }}>
-                            {/* <AdminMainButtonOutsideState
-                            customState={[drawerOpen, setDrawerOpen]}
-                            type='drawer'
-                            appearance='iconButton'
-                            title='Cliser Profile Nav Bar'
-                            withoutDrawerHeader
-                            icon={<MenuIcon />}
-                            drawerAnchor={dir === "rtl" ? "right" : "left"}
-                            drawerZIndex={1200}
-                            drawerStyle={{
-                                width: "300px"
+                    <Box display={'flex'} alignItems={'center'} width={'100%'} justifyContent={'flex-end'}>
+                        <ToggleColorMode  />
+                        <Box
+                            sx={{
+                            display: { xxs: 'none', md: 'flex' },
+                            gap: 0.5,
+                            alignItems: 'center',
                             }}
-                            willShow={<Box
-                                sx={{
-                                p: 2,
-                                backgroundColor: 'background.paper',
-                                flexGrow: 1,
-                                height: '100vh',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                position: 'relative',
-                                width: "100%"
-                                }}
-                            >
-                                <NavList mobileScreen drawerState={[drawerOpen, setDrawerOpen]} />
-                                <Divider />
-                                <Box
-                                sx={{
-                                    position: 'absolute',
-                                    bottom: "20px",
-                                    width: "90%",
-                                    display: "flex",
-                                    flexDirection: "column",
-                                    gap: theme => theme.spacing(2)
-                                }}
-                                >
-                                <FooterMenu 
-                                    title="Cliser"
-                                    ListMenu={CliserMenu}
-                                    download={false}
-                                    addListStyle
-                                    sx={{
-                                        maxHeight: 200,
-                                        overflow: 'auto',
-                                    }}
-                                />
-                                <Divider />
-                                <FooterMenu 
-                                    title="Products"
-                                    fetchProductsCategories={true}
-                                    addListStyle
-                                    sx={{
-                                    maxHeight: 200,
-                                    overflow: 'auto',
-                                    }}
-                                />
-                                <Divider />
+                        >
+                            
+
+
                                 <CustomSelectInput
                                     key="1"
-                                    name="language"
-                                    className={customSelectStyle}
+                                    name="Language"
                                     onChange={handleLanguageChange}
                                     valueSet={selectedLanguage}
                                     size={'small'}
-                                    sx={{
-                                    width: "90%",
-                                    marginBottom: 2,
-                                    }}  
                                 >
                                     {languages.map((item, index) => (
-                                    <MenuItem key={index} value={item} >
+                                    <MenuItem key={index} value={item}  >
                                         <Box sx = {{
                                         display : 'flex',
                                         justifyContent : 'start',
                                         alignItems : 'center',
-                                        textAlign : 'center',
-                                    
+                                        textAlign : 'center'
                                     }}>
-                                        <LanguageIcon sx = {{marginRight : '10px'}}/> {item}
+                                        <LanguageIcon fontSize='small' sx = {{marginRight : '10px'}}/> {item}
                                         </Box>
                                     </MenuItem>
                                     ))}
                                 </CustomSelectInput>
-                                </Box>
+
                                 
-    
-                            </Box>
-                            }
-                            /> */}
+                                {/* Notification Button  */}
+                                <AdminMainButton
+                                appearance='iconButton'
+                                putTooltip
+                                type='popover'
+                                icon={<NotificationsOutlinedIcon />}
+                                willShow={<NotificationsList />}
+                                title="Notifications"
+                                badgeContent={3} // to add number above the button
+
+                                />
+                                <AdminMainButton
+                                icon={<AccountBoxIcon  />}
+                                title="Profile"
+                                appearance="iconButton"
+                                type="menu"
+                                menuItems={profileMenuItems}
+                                menuPaperProps={
+                                    {
+                                    elevation: 1,
+                                    sx: {
+                                        overflow: 'visible',
+                                        filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                                        mt: 1.5,
+                                        '& .MuiAvatar-root': {
+                                            width: 32,
+                                            height: 32,
+                                            ml: -0.5,
+                                            mr: 1,
+                                        },
+                                        '&::before': {
+                                            content: '""',
+                                            display: 'block',
+                                            position: 'absolute',
+                                            top: 0,
+                                            right: 14,
+                                            width: 10,
+                                            height: 10,
+                                            bgcolor: 'background.paper',
+                                            transform: 'translateY(-50%) rotate(45deg)',
+                                            zIndex: 0,
+                                        },
+                                    } 
+                                    }
+                                }
+                                />
+
                         </Box>
+                    </Box>
+                    </StyledNavAsNormalContainer>
                 </Toolbar>
                 </Container>
         </AppBar>

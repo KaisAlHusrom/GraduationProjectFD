@@ -56,6 +56,12 @@ const CheckPaymentPlanModel = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+    const modalShowedStorage = sessionStorage.getItem("modalShowed") || false
+    const [modalShowed, setModalShowed] = useState(modalShowedStorage)
+    useEffect(() => {
+        sessionStorage.setItem("modalShowed", modalShowed);
+    }, [modalShowed])
+
 
     const user = useSelector(state => state.authSlice.user)
 
@@ -89,30 +95,34 @@ const CheckPaymentPlanModel = () => {
     
     //open the modal when there is no a payment plan, or on free plan
     useEffect(() => {
-        const timer = setTimeout(() => {
-            if(paymentPlan) {
-                if(paymentPlan?.payment_plan_title !== "Free") {
-                    if(!handleCheckDate(expiryDatePaymentPlan)) {
-                        handleOpen()
-                    }
-                    return;
-                } 
-                handleOpen()
-            } else {
-                
-                handleOpen()
-            }
-        }, 1000);
-    
-        return () => clearTimeout(timer);
-    }, [expiryDateFreeTrial, expiryDatePaymentPlan, paymentPlan]);
+        if(!modalShowed) {
+            const timer = setTimeout(() => {
+                if(paymentPlan) {
+                    if(paymentPlan?.payment_plan_title !== "Free") {
+                        if(!handleCheckDate(expiryDatePaymentPlan)) {
+                            handleOpen()
+                            setModalShowed(true)
+                        }
+                        return;
+                    } 
+                    handleOpen()
+                    setModalShowed(true)
+                } else {
+                    handleOpen()
+                    setModalShowed(true)
+
+                }
+            }, 1000);
+            return () => clearTimeout(timer);
+
+        }
+        
+    }, [expiryDateFreeTrial, expiryDatePaymentPlan, modalShowed, paymentPlan]);
     
 
 
     return (
         <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
             open={open}
             onClose={handleClose}
             closeAfterTransition

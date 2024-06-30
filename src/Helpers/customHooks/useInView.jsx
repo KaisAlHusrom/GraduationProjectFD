@@ -10,7 +10,7 @@ const useInView = () => {
             if (entry.isIntersecting) {
                 setInView(true);
             } else {
-                setInView(false); // Set inView to false when not intersecting
+                // setInView(false); // Set inView to false when not intersecting
             }
         });
     }, []);

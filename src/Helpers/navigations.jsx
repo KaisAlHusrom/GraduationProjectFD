@@ -47,7 +47,7 @@ export const navigateProfileAddNewProject = () => {
     }
 }
 
-export const navigateProfileUpdateProject = (id) => {
+export const navigateProfileUpdateProduct = (id) => {
     if(navigateFunction) {
         navigateFunction("/profile/handle-product/" + id)
     }
@@ -65,6 +65,11 @@ export const navigateProfileOrdersBilling = () => {
     }
 }
 
+export const navigateProfileMySells = () => {
+    if(navigateFunction) {
+        navigateFunction("/profile/my-sells")
+    }
+}
 
 //portfolio
 export const navigatePortfolio = (userId) => {

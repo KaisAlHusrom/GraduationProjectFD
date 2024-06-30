@@ -37,11 +37,19 @@ export const fetchUserOrders = async (type = "all", pageNumber = 1, filters = []
 }
 
 //fetch user coming orders
-export const fetchUserComingOrders = async () => {
+export const fetchUserComingOrders = async (type = "all", pageNumber = 1, filters = [], sorts = [], searchQuery = null, perPage=5) => {
     try {
         store.dispatch(handleOpenLinearProgress())
         // Fetch regular items
-        const response = await OrdersUsersAxios.get("/coming-orders/fetch");
+        const response = await OrdersUsersAxios.get("/coming-orders/fetch", {
+            params: {
+                pageNumber: pageNumber,
+                perPage: perPage,
+                filters: filters,
+                sorts: sorts,
+                searchQuery: searchQuery,
+            },
+        });
         store.dispatch(handleCloseLinearProgress())
 
         const res = response.data;
@@ -51,6 +59,58 @@ export const fetchUserComingOrders = async () => {
             rows = res.data;
         } else {
             rows = [];
+        }
+
+        return { rows };
+    } catch (error) {
+        store.dispatch(handleCloseLinearProgress())
+        // Handle other errors
+        console.error('Error Fetching Data:', error);
+        return error.response.data;
+    }
+}
+
+//fetch user coming orders
+export const fetchUserComingOrdersCounts = async () => {
+    try {
+        store.dispatch(handleOpenLinearProgress())
+        // Fetch regular items
+        const response = await OrdersUsersAxios.get("/coming-orders/fetch-count");
+        store.dispatch(handleCloseLinearProgress())
+
+        const res = response.data;
+        let rows;
+
+        if (res.success) {
+            rows = res.data;
+        } else {
+            rows = {count: 0};
+        }
+
+        return { rows };
+    } catch (error) {
+        store.dispatch(handleCloseLinearProgress())
+        // Handle other errors
+        console.error('Error Fetching Data:', error);
+        return error.response.data;
+    }
+}
+
+//check if user bought product and didn't review it
+export const hadBuyProduct = async (productId) => {
+    try {
+        store.dispatch(handleOpenLinearProgress())
+        // Fetch regular items
+        const response = await OrdersUsersAxios.get("/had-buy-product/" + productId);
+        store.dispatch(handleCloseLinearProgress())
+
+        const res = response.data;
+        let rows;
+
+        if (res.success) {
+            rows = res.data;
+        } else {
+            rows = {error: true};
         }
 
         return { rows };

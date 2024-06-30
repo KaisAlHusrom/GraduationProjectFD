@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 
 //propTypes 
 import propTypes from 'prop-types'
+import { navigateMainPage } from '../../../Helpers/navigations';
 
 //Styled Components
 
@@ -37,7 +38,8 @@ const CliserImageLogo = ({HandleMainButton, style}) => {
         ...style
     };
 
-    return <img src={src} style={logoStyle} alt="logo of Cliser" onClick={HandleMainButton} />
+
+    return <img src={src} style={logoStyle} alt="logo of Cliser" onClick={HandleMainButton ? HandleMainButton : navigateMainPage} />
 
 };
 

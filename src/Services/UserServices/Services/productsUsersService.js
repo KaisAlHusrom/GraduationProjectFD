@@ -12,6 +12,7 @@ updateDataUserTemplate,
 fetchSpecificRecordUserTemplate,
 checkIfRecordExistUserTemplate,
 } from "../Controller";
+import { fetchRatesAverages } from "./productReviewUsersSevice";
 
 const ProductsUsersRoute = USERS_MAIN_INSTANCE_ROUTE + "/products";
 export const productsImagesFolderName = "ProductsImages"
@@ -53,7 +54,10 @@ export const fetchSpecificUserProducts = async (id) => {
 export const fetchSpecificProductLoader = async ({params}) => {
     const {idx} = params
     const row = await fetchSpecificUserProducts(idx);
-    return {product: row}
+
+    const avgs = await fetchRatesAverages(idx);
+
+    return {product: row, averages: avgs?.rows};
 }
 //check if record is exist in the database
 export const checkSpecificUserProducts = async (id) => {

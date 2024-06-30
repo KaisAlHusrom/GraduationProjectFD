@@ -21,6 +21,7 @@ import useFetchData from '../../../../../../Helpers/customHooks/useFetchData'
 import { fetchUserProducts } from '../../../../../../Services/UserServices/Services/productsUsersService'
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
 import { useUserContext } from '../../PortfolioMain'
+import ProductCard from '../../../../../Ecommerce/Components/ProductCard'
 
 
 //Styled Components
@@ -60,8 +61,9 @@ const MyProductsTab = () => {
                         products.map((product, key) => {
                             return (
                                 <Grid ref={products.length === key + 1 ? lastDataRecord : null} key={key} item xxs={12} xs={6} sm={3} md={3} lg={2} >
-                                    <CustomProductCard
+                                    <ProductCard
                                         product={product}
+                                        notInStore
                                     />
                                 </Grid>
                         )

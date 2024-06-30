@@ -1,5 +1,5 @@
 //React
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 //MUI
 import {
@@ -51,17 +51,25 @@ const StyledSearchBar = styled(TextField)(({ theme }) => ({
 }));
 
 const SearchBox = () => {
-  const [searchResults, setSearchResults] = useState([]);
   const [open, setOpen] = useState(false);
   const anchorRef = useRef(null);
   const searchBarRef = useRef(null);
   const navigate = useNavigate();
+
   const [query, setQuery] = useState({
     columnName: 'product_name',
     searchTerm: ''
   });
+  
 
-  const { data: products } = useFetchData(fetchUserProducts, 'all', null, null, true, query);
+  const { data: products, loading } = useFetchData(fetchUserProducts, 'all', null, null, true, query);
+
+  //open search results if there is a search term
+  useEffect(() => {
+    if(query.searchTerm !== '') {
+      setOpen(true);
+    }
+  }, [products.length, query])
 
   const handleCloseMenu = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
@@ -87,20 +95,7 @@ const SearchBox = () => {
       ...prevQuery,
       searchTerm: queryValue
     }));
-
-    // Filtering based on query (search term)
-    const filteredProducts = products.flatMap(product =>
-      product.categories.map(cat => ({
-        ...product,
-        category: cat.category_name,
-      }))
-    ).filter(product =>
-      product.product_name.toLowerCase().includes(queryValue.toLowerCase()) ||
-      product.product_short_description.toLowerCase().includes(queryValue.toLowerCase())
-    );
-
-    setSearchResults(filteredProducts);
-    setOpen(Boolean(filteredProducts.length && queryValue));
+  
   };
 
   const handleClickProduct = (product) => {
@@ -119,17 +114,29 @@ const SearchBox = () => {
         size="small"
         fullWidth
       />
-      <Popper open={open} anchorEl={searchBarRef.current} placement="bottom-start" transition>
+      <Popper sx={{
+        width: 200
+      }} open={open} anchorEl={searchBarRef.current} placement="bottom-start" transition>
+        
         {({ TransitionProps }) => (
           <Grow {...TransitionProps} style={{ transformOrigin: 'left top' }}>
-            <Paper>
+            <Paper elevation={1}>
               <ClickAwayListener onClickAway={handleCloseMenu}>
                 <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                  {searchResults.map((product, index) => (
-                    <MenuItem key={index} onClick={() => handleClickProduct(product)}>
-                      {product.product_name}
-                    </MenuItem>
-                  ))}
+                {
+                  !loading 
+                  ?
+                    products && products.length > 0
+                    ?
+                      products.map((product, index) => (
+                        <MenuItem key={index} onClick={() => handleClickProduct(product)}>
+                          {product.product_name}
+                        </MenuItem>
+                      ))
+                    :null
+                  :null
+                }
+                  
                 </MenuList>
               </ClickAwayListener>
             </Paper>

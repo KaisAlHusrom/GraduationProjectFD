@@ -2,13 +2,13 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../Redux/Slices/snackbarOpenSlice';
 
+//propTypes 
+import propTypes from 'prop-types'
+
 // Create a context for the cart
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  
-
-
   const dispatch = useDispatch()
 
   const [cartTotal, setCartTotal] = useState(0)
@@ -34,18 +34,19 @@ export const CartProvider = ({ children }) => {
         const updated = cartItems?.filter(item => item.creatorId !== user.id)
         setCartItems(() => updated)
     }
-  }, [cartItems, user])
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   // Add item to cart
   const addToCart = (product) => {
     if(user) {
       if(user?.id === product.creatorId) {
-          dispatch(setSnackbarMessage({message: "You can't add your own product to cart."}))
-          dispatch(setSnackbarIsError({isError: true}))
-          dispatch(handleOpenSnackbar())
-          return
-      }
-  }
+            dispatch(setSnackbarMessage({message: "You can't add your own product to cart."}))
+            dispatch(setSnackbarIsError({isError: true}))
+            dispatch(handleOpenSnackbar())
+            return
+        }
+    }
 
     setCartItems((prevCartItems) => {
       const alreadyExists = prevCartItems.find(item => item.id === product.id)
@@ -79,6 +80,11 @@ export const CartProvider = ({ children }) => {
   );
 };
 
+CartProvider.propTypes = {
+    children: propTypes.any
+}
+
+// eslint-disable-next-line react-refresh/only-export-components
 export const useCart = () => {
   return useContext(CartContext);
 };

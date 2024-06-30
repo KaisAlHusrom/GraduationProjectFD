@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Box,
@@ -9,7 +9,8 @@ import {
   CardMedia,
   Rating,
   Avatar,
-  Grid
+  Grid,
+  CardHeader
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -26,13 +27,22 @@ import { AdminMainButton } from '../../../Components';
 
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
-import { useDispatch, useSelector } from 'react-redux';
-import { handleOpenSnackbar, setSnackbarIsError, setSnackbarMessage } from '../../../Redux/Slices/snackbarOpenSlice';
+
+import { ReviewCalculateSMA } from '../utils/functions';
+import { navigateProductView, navigateProfileUpdateProduct } from '../../../Helpers/navigations';
+import FullScreenModal from '../../../Components/FullScreenModal/FullScreenModal';
+import { useSelector } from 'react-redux';
+
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
+import DeleteIcon from '@mui/icons-material/Delete';
+
+import { deleteUserProducts } from '../../../Services/UserServices/Services/productsUsersService';
 
 // Styled Components
 const StyledProductCard = styled(Box)(
   () => ({
-    width: 300, // Set a fixed width for the card
+    width: '100%', // Set a fixed width for the card
     height: 480, // Set a fixed height for the card
     marginBottom: "20px",
     display: 'flex',
@@ -66,20 +76,63 @@ const StyledSwiperSlide = styled(SwiperSlide)(
 );
 
 const ProductCard = (props) => {
-    const { product, AddToCartId,title, description, image, action, price, rating, creator, category, mainImage, creatorImage } = props;
+  const { product, notInStore, fetchAgain } = props;
+  //product info
+  const AddToCartId = product.id
+  const title=product.product_name
+  const image=product.product_media
+  const mainImage=product.product_main_image_name
+  const price=product.product_price
+  const rating=ReviewCalculateSMA(product.product_reviews)
+  const creator=`${product?.user?.first_name} ${product?.user?.last_name}`
+  const category=product.categories
+  const action=() => navigateProductView(product.id)
+  const creatorImage=product.user.profile_image
+  const user = useSelector(state => state.authSlice.user)
+  const ownProduct = user.id === product.user.id;
 
   // Ensure image is an array
   const mainImagePath = useMemo(() => {
     return `${config.ServerImageRoute}/${productsImagesFolderName}/${mainImage}`;
   }, [mainImage]);
 
+  const [fullScreenModal, setFullScreenModal] = useState(false)
+  const [mediaForFullScreen,] = useState(() => {
+      const mainImage = {
+          path: mainImagePath,
+          name: mainImagePath.split('/').pop(),
+          type: 'existing',
+          size: 10, //! fixed number
+          isVideo: false
+      }
+  
+      const media = product?.product_media?.map((item) => {
+          const path = item.is_video
+          ?
+              `${config.ServerVideoRoute}/${mediaFolderName}/${item.product_media_name}`
+          :
+              `${config.ServerImageRoute}/${mediaFolderName}/${item.product_media_name}`
+              const mediaData = {
+              path: path,
+              name: path.split('/').pop(),
+              type: 'existing',
+              size: 10, //! fixed number
+              isVideo: item.is_video
+          };
+          return mediaData
+      })
+      return [mainImage, ...media]
+  })
+
   const creatorImagePath = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${creatorImage}`;
 
     const mediaArray = Array.isArray(image) ? image: [];
-    const { addToCart, cartItems } = useCart();
+    const { addToCart, cartItems } = useCart() || {};
     
     const handleAddToCart = () => {
-        
+        if(notInStore) {
+          return
+        }
         addToCart({
             id: AddToCartId,
             creatorId: product?.user?.id,
@@ -87,6 +140,30 @@ const ProductCard = (props) => {
             product_price: price,
         });
     };
+
+
+    const handleDeleteProduct = useCallback(async () => {
+      const res = await deleteUserProducts([product.id])
+        if(res.success) {
+            fetchAgain()
+        }
+    }, [fetchAgain, product.id])
+
+    const menuItems = useMemo(() => {
+        return [
+          {
+            value: 'Edit',
+            onClick: () => navigateProfileUpdateProduct(product.id),
+            icon: <EditOutlinedIcon />
+          },
+          {
+            value: 'Delete',
+            onClick: handleDeleteProduct,
+            icon: <DeleteIcon />
+          },
+        ]
+        
+    }, [handleDeleteProduct, product.id])
 
 
   return (
@@ -108,6 +185,7 @@ const ProductCard = (props) => {
               component="img"
               height="200"
               image={mainImagePath}
+              onClick={() => setFullScreenModal(true)}
               alt={`Media for ${title}`}
               sx={{ maxHeight: 200, maxWidth: "100%", objectFit: "contain" }}
             />
@@ -121,6 +199,8 @@ const ProductCard = (props) => {
                   <CardMedia
                     component="video"
                     controls
+                    onClick={() => setFullScreenModal(true)}
+
                     src={videoPath}
                     alt={`Media for ${title}`}
                     sx={{ maxHeight: 200, maxWidth: "100%", objectFit: "contain" }}
@@ -129,6 +209,8 @@ const ProductCard = (props) => {
                   <CardMedia
                     component="img"
                     height="200"
+                    onClick={() => setFullScreenModal(true)}
+
                     image={imagePath}
                     alt={`Media for ${title}`}
                     sx={{ maxHeight: 200, maxWidth: "100%", objectFit: "contain" }}
@@ -138,7 +220,60 @@ const ProductCard = (props) => {
             );
           })}
         </StyledSwiper>
-        <CardContent sx={{ padding: '16px' }}>
+        <CardContent sx={{ padding: '16px', position: 'relative' }}>
+          {
+            ownProduct
+            &&
+            (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  right: 10,
+                  top: 12,
+                }}
+                >
+                  <AdminMainButton
+                      icon={<MoreVertIcon  />}
+                      title="Profile"
+                      appearance="iconButton"
+                      type="menu"
+                      sx={{
+                          color: theme => theme.palette.text.primary
+                      }}
+                      menuItems={menuItems}
+                      menuPaperProps={
+                      {
+                          elevation: 1,
+                          sx: {
+                              overflow: 'visible',
+                              filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                              mt: 1.5,
+                              '& .MuiAvatar-root': {
+                                  width: 32,
+                                  height: 32,
+                                  ml: -0.5,
+                                  mr: 1,
+                              },
+                              '&::before': {
+                                  content: '""',
+                                  display: 'block',
+                                  position: 'absolute',
+                                  top: 0,
+                                  right: 14,
+                                  width: 10,
+                                  height: 10,
+                                  bgcolor: 'background.paper',
+                                  transform: 'translateY(-50%) rotate(45deg)',
+                                  zIndex: 0,
+                              },
+                          } 
+                          }
+                      }
+                  />
+              </Box>
+            )
+          }
+
           <Typography gutterBottom variant="h6" sx={{fontWeight:"bold"}}>
             {title} 
           </Typography>
@@ -157,29 +292,36 @@ const ProductCard = (props) => {
           <Typography variant="body2" color="text.primary" sx={{ display: 'flex', alignItems: 'center', gap: '10px', paddingTop: 1 }}>
             <Avatar src={creatorImagePath} sx={{ width: 32, height: 32 }} /> {creator}
           </Typography>
-          <AdminMainButton
-            title="Add To Cart"
-            type="custom"
-            appearance="iconButton"
-            icon={<ShoppingCartOutlinedIcon />}
-            putBorder
-            onClick={handleAddToCart}
-            sx={{
-              position: "absolute",
-              top: 8,
-              right: 8,
-              zIndex: 1000,
-              color: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.contrastText : undefined,
-              backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.main : undefined,
-              "&:hover": {
-                backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.dark : undefined,
-              }
-            }}
-          />
+          {
+            !notInStore && !ownProduct
+            &&
+            (
+              <AdminMainButton
+                title="Add To Cart"
+                type="custom"
+                appearance="iconButton"
+                icon={<ShoppingCartOutlinedIcon />}
+                putBorder
+                onClick={handleAddToCart}
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 8,
+                  zIndex: 1000,
+                  color: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.contrastText : undefined,
+                  backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.main : undefined,
+                  "&:hover": {
+                    backgroundColor: theme => cartItems.find(item => item.id === AddToCartId) ? theme.palette.primary.dark : undefined,
+                  }
+                }}
+              />
+            )
+          }
+          
         </CardContent>
         <CardActions>
           <Grid container spacing={2}>
-            <Grid item xxs={12} xs={12}>
+            <Grid item xxs={12} >
               <AdminMainButton
                 title="Learn More"
                 type="custom"
@@ -193,23 +335,21 @@ const ProductCard = (props) => {
             </Grid>
           </Grid>
         </CardActions>
+
       </Card>
+      {fullScreenModal && (
+          <FullScreenModal
+              open={fullScreenModal}
+              onClose={() => setFullScreenModal(false)}
+              media={mediaForFullScreen}
+          />
+      )}
     </StyledProductCard>
   );
 };
 
 ProductCard.propTypes = {
-  AddToCartId: PropTypes.string,
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  image: PropTypes.array.isRequired,
-  price: PropTypes.string.isRequired,
-  category: PropTypes.array.isRequired,
-  action: PropTypes.func.isRequired,
-  rating: PropTypes.number,
-  creator: PropTypes.string,
-  mainImage: PropTypes.string.isRequired,
-  creatorImage: PropTypes.string.isRequired,
+  product: PropTypes.object,
 };
 
 export default ProductCard;

@@ -13,6 +13,8 @@ import { ReviewCalculateSMA } from '../../utils/functions';
 
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData';
 import { fetchSpecificUserProductsCategories } from '../../../../Services/UserServices/Services/productCategoriesUsersService';
+import { navigateCliserStoreProductsPage, navigateProductView } from '../../../../Helpers/navigations';
+import useInView from '../../../../Helpers/customHooks/useInView';
 
 //Styled Components
 const StyledProductsTape = styled(Box)(
@@ -63,10 +65,10 @@ const ScrollButton = styled(IconButton)(({ theme }) => ({
 const ProductsTape = ({ title, Cat }) => {
   const navigate = useNavigate();
   const handleLearnMoreClick = (productId) => {
-    navigate(`/cliser-digital-market/productView/${productId}`);
+    navigateProductView(productId)
   };
   const handleAllproductsClick = () => {
-    navigate(`/cliser-digital-market/Products`);
+    navigateCliserStoreProductsPage()
   };
   const scrollContainerRef = useRef(null);
 
@@ -84,8 +86,10 @@ const ProductsTape = ({ title, Cat }) => {
 
   const { download: productsDownload, data: updatedCat } = useEffectFetchData(fetchSpecificUserProductsCategories, params, true, true);
 
+  const { ref, inView: productInView } = useInView();
+
   return (
-    <StyledProductsTape>
+    <StyledProductsTape ref={ref} className={productInView ? 'opacity-animation' :''}>
       <Container sx={{ paddingTop: '20px' }} maxWidth="lg">
         <Grid>
           <Grid container spacing={2} justifyContent="space-between" alignItems="center">
@@ -111,20 +115,14 @@ const ProductsTape = ({ title, Cat }) => {
                   ? updatedCat?.products && updatedCat?.products?.length > 0
                     ? updatedCat?.products.map((product, key) => {
                       return (
-                        <ProductCard
+                        <Box
                           key={key}
-                          AddToCartId={product.id}
-                          product={product}
-                          title={product.product_name}
-                          image={product.product_media}
-                          mainImage={product.product_main_image_name}
-                          price={product.product_price}
-                          rating={ReviewCalculateSMA(product.product_reviews)}
-                          creator={`${product?.user?.first_name} ${product?.user?.last_name}`}
-                          category={product.categories}
-                          action={() => handleLearnMoreClick(product.id)}
-                          creatorImage={product.user.profile_image}
-                        />
+                          width={280}
+                        >
+                          <ProductCard
+                            product={product}
+                          />
+                        </Box>
                       );
                     })
                     : <Typography color={'info.main'}>

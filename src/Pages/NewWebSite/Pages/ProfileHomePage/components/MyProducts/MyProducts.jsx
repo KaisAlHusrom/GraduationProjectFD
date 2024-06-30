@@ -34,7 +34,8 @@ import { AdminMainButton } from '../../../../../../Components'
 
 import AddIcon from '@mui/icons-material/Add';
 import useScreenWidth from '../../../../../../Helpers/customHooks/useScreenWidth';
-import { getSlidesPerView } from '../../Utils/getSlidesPerView';
+import { getSlidesPerView, getSlidesPerViewProfilePage } from '../../Utils/getSlidesPerView';
+import ProductCard from '../../../../../Ecommerce/Components/ProductCard';
 //Styled Components
 const StyledMyProducts = styled(Box)(
     ({ theme }) => ({
@@ -102,7 +103,7 @@ const MyProducts = () => {
                 <Swiper
                     modules={[Navigation, Pagination, Scrollbar, A11y]}
                     spaceBetween={15}
-                    slidesPerView={getSlidesPerView(screenWidth)}
+                    slidesPerView={getSlidesPerViewProfilePage(screenWidth)}
                     navigation
                     pagination={{ clickable: true }}
                     scrollbar={{ draggable: true }}
@@ -117,7 +118,7 @@ const MyProducts = () => {
                                 data.map((product, key) => {
                                     return (
                                         <StyledSwiperSlide key={key}>
-                                            <CustomProductCard
+                                            <ProductCard
                                                 product={product}
                                                 fetchAgain={fetchAgain}
                                             />

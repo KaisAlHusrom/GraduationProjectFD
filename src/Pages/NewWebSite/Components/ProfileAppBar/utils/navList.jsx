@@ -3,7 +3,7 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import StoreOutlinedIcon from '@mui/icons-material/StoreOutlined';
-
+import SellOutlinedIcon from '@mui/icons-material/SellOutlined';
 
 export const navList = [
     {
@@ -30,5 +30,10 @@ export const navList = [
         path: "/cliser-digital-market",
         title: "Cliser Store",
         icon: StoreOutlinedIcon
+    },
+    {
+        path: "/profile/my-sells",
+        title: "My Sells",
+        icon: SellOutlinedIcon
     },
 ]

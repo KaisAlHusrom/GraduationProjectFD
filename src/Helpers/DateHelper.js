@@ -31,6 +31,28 @@ export const formattedDate = (dateString) => {
     return formattedString;
 };
 
+export function timeAgo(isoDateString) {
+  const timestamp = Date.parse(isoDateString); // Parse ISO date string to timestamp
+  const seconds = Math.floor((Date.now() - timestamp) / 1000);
+
+  const intervals = {
+      year: seconds / (60 * 60 * 24 * 365),
+      month: seconds / (60 * 60 * 24 * 30),
+      day: seconds / (60 * 60 * 24),
+      hour: seconds / (60 * 60),
+      minute: seconds / 60,
+  };
+
+  for (const [unit, interval] of Object.entries(intervals)) {
+      if (interval >= 1) {
+          const roundedInterval = Math.floor(interval);
+          return `Before ${roundedInterval} ${unit}${roundedInterval !== 1 ? 's' : ''}`;
+      }
+  }
+
+  return 'just now';
+}
+
 // Function to check if the string is a timestamp
 function isTimestamp(value) {
   // Check if Date.parse() returns a valid timestamp (not NaN) for the given value
@@ -75,7 +97,8 @@ const DateHelper = {
     isMySQLDateFormat,
     isInThisWeek,
     isInThisMonth,
-    isInThisYear
+    isInThisYear,
+    timeAgo
 };
 
 export default DateHelper;

@@ -63,6 +63,8 @@ const CustomProductCard = (props) => {
 
     const rating = ReviewCalculateSMA(product?.product_reviews);
 
+    const user = useSelector(state => state.authSlice.user)
+    const ownProduct = user.id === product.user.id;
     const currency = useSelector(state => state.currencySlice.currency)
 
 
@@ -175,8 +177,9 @@ const CustomProductCard = (props) => {
                         <Typography variant="body1" color="text.secondary">
                             {product?.categories?.[0]?.category_name}
                         </Typography>
+                        
                         <Rating name="read-only" value={rating !== undefined ? rating : 'No ratings'} precision={0.2} readOnly />
-                        <Typography 
+                        {/* <Typography 
                         right={0} 
                         position='absolute' 
                         variant="body1" 
@@ -194,19 +197,13 @@ const CustomProductCard = (props) => {
                         }}
                         >
                             {currency}{product?.product_price}
+                        </Typography> */}
+                        <Typography variant="h6" sx={{ marginBottom: '8px' }}>
+                            {currency}{product?.product_price}
                         </Typography>
                     </CardContent>
 
                     <CardActions sx={{width: "90%"}}>
-                        <AdminMainButton
-                            title='Reviews'
-                            type='custom'
-                            appearance='iconButton'
-                            icon={<RateReviewOutlinedIcon />}
-                            onClick={() => {}}
-                            putTooltip
-                            toolTipPosition={'top'}
-                        />
                         <AdminMainButton
                             title='View'
                             type='custom'
@@ -216,24 +213,43 @@ const CustomProductCard = (props) => {
                             putTooltip
                             toolTipPosition={'top'}
                         />
-                        <AdminMainButton
-                            title='Edit'
-                            type='custom'
-                            appearance='iconButton'
-                            icon={<EditOutlinedIcon />}
-                            onClick={navigateProduct}
-                            putTooltip
-                            toolTipPosition={'top'}
-                        />
-                        <AdminMainButton
-                            title='Delete'
-                            type='custom'
-                            appearance='iconButton'
-                            icon={<DeleteIcon color='error' />}
-                            onClick={deleteProductConfirm}
-                            putTooltip
-                            toolTipPosition={'top'}
-                        />
+                        {
+                            ownProduct
+                            &&
+                            (
+                                <>
+                                    <AdminMainButton
+                                        title='Reviews'
+                                        type='custom'
+                                        appearance='iconButton'
+                                        icon={<RateReviewOutlinedIcon />}
+                                        onClick={() => {}}
+                                        putTooltip
+                                        toolTipPosition={'top'}
+                                    />
+                                    
+                                    <AdminMainButton
+                                        title='Edit'
+                                        type='custom'
+                                        appearance='iconButton'
+                                        icon={<EditOutlinedIcon />}
+                                        onClick={navigateProduct}
+                                        putTooltip
+                                        toolTipPosition={'top'}
+                                    />
+                                    <AdminMainButton
+                                        title='Delete'
+                                        type='custom'
+                                        appearance='iconButton'
+                                        icon={<DeleteIcon color='error' />}
+                                        onClick={deleteProductConfirm}
+                                        putTooltip
+                                        toolTipPosition={'top'}
+                                    />
+                                </>
+                            )
+                        }
+                        
                     </CardActions>
                     {fullScreenModal && (
                         <FullScreenModal

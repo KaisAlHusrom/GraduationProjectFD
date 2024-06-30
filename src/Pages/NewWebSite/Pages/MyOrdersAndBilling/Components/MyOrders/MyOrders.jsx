@@ -29,7 +29,7 @@ import { AdminMainButton } from '../../../../../../Components'
 import OrderDetailsModal from './Subcomponents/OrderDetailsModal';
 import DateHelper from '../../../../../../Helpers/DateHelper';
 import { productsImagesFolderName } from '../../../../../../Services/AdminServices/Services/productsService';
-import { useNavigate } from 'react-router-dom'
+import { navigateProductView } from '../../../../../../Helpers/navigations'
 
 //Styled Components
 const StyledMyOrders = styled(Box)(
@@ -106,10 +106,8 @@ const MyOrders = () => {
 
     const {data: orders, lastDataRecord, loading} = useFetchData(fetchUserOrders, 'all', filters, null, true)
 
-    const navigate = useNavigate()
-
     const navigateToProduct = (id) => {
-        navigate("/cliser-digital-market/productView/" + id)
+        navigateProductView(id)
     }
     return (
         <StyledMyOrders>

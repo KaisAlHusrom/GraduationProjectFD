@@ -21,6 +21,7 @@ import { styled } from '@mui/system'
 import MainSlider from '../MainSlider'
 import ProductsTape from '../UI/ProductsTape'
 import { useCliserMarketContext } from '../../EcommerceMain'
+import useInView from '../../../../Helpers/customHooks/useInView'
 
 
 //Styled Components
@@ -35,21 +36,13 @@ const CliserDigitalMarketHomePage = () => {
 
     const {categories, categoriesDownload} = useCliserMarketContext()
 
+    const { ref, inView: productInView } = useInView();
 
     return (
         <StyledCliserDigitalMarketHomePage>
             <MainSlider />
-            <Container maxWidth="lg">
-                <Grid container
-                justifyContent={'center'} // Center the content on small screens
-                alignItems="center"
-                style={{ minHeight: '20px',marginTop:'10px'}}
-                sx={{
-                    '@media (max-width: 430px)': { // Apply styles for screens under 430px
-                        display: 'block', // Turn off display flex for screens under 430px
-                        },
-                    }}
-                
+            <Container  maxWidth="lg" >
+                <Grid container spacing={0} width={'100%'}
                 >
                     {/* <ProductsTape title="Recommended" Cat="Web Page Front-End Templates" /> */}
                     {
@@ -60,28 +53,34 @@ const CliserDigitalMarketHomePage = () => {
                             ?
                             categories.map((category, key) => {
                                 return (
-                                    <ProductsTape key={key} 
-                                    title={category.category_name} 
-                                    Cat={category}
-                                    />
+                                    <Grid
+                                    item
+                                    key={key} 
+                                    xxs={12}
+                                    >
+                                        <ProductsTape 
+                                        title={category.category_name} 
+                                        Cat={category}
+                                        />
+                                    </Grid>
                                 )
                             })
                             :
                             null
                         : <>
-                        <Grid item xxs={12}>
-                            <Skeleton width={'100%'} height={400}></Skeleton>
+                                <Grid item xxs={12}>
+                                    <Skeleton width={'100%'} height={300}></Skeleton>
 
-                        </Grid>
-                        <Grid item xxs={12}>
-                            <Skeleton width={'100%'} height={400}></Skeleton>
+                                </Grid>
+                                <Grid item xxs={12}>
+                                    <Skeleton width={'100%'} height={300}></Skeleton>
 
-                        </Grid>
-                        <Grid item xxs={12}>
-                            <Skeleton width={'100%'} height={400}></Skeleton>
+                                </Grid>
+                                <Grid item xxs={12}>
+                                    <Skeleton width={'100%'} height={300}></Skeleton>
 
-                        </Grid>
-                        </>
+                                </Grid>
+                            </>
                     }
                     {/* <ProductsTape title="WordPress" Cat="" />
                     <ProductsTape title="Blog" Cat="Portfolio Templates" /> */}

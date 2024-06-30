@@ -7,7 +7,8 @@
 import {
     Box,
     Container,
-    useMediaQuery
+    useMediaQuery,
+    Grid
 } from '@mui/material'
 import { styled } from '@mui/system'
 import ProfileAppBar from './Components/ProfileAppBar/ProfileAppBar'
@@ -15,9 +16,12 @@ import { Outlet } from 'react-router-dom'
 import ProfileFooter from './Components/ProfileFooter/ProfileFooter';
 
 import CheckPaymentPlanModel from './Components/CheckPaymentPlanModel/CheckPaymentPlanModel';
+import ProfileNavBar from './Components/ProfileNavBar/ProfileNavBar';
+import { useSelector } from 'react-redux';
+
 
 //Styled Components
-const StyledProfile = styled(Box)(
+const StyledProfile = styled(Grid)(
     () => ({
     
     })
@@ -26,22 +30,50 @@ const StyledProfile = styled(Box)(
 
 const Profile = () => {
     
-    const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('md'));
+    const isSmallScreen = useMediaQuery(theme => theme.breakpoints.down('lg'));
+
+    //dir
+    const dir = useSelector(state => state.langSlice.dir)
+
+    const StyledProfilePageSection = styled(Box)(
+        ({ theme }) => ({
+            width: "calc(100% - 300px)",
+            [dir === 'ltr' ? 'marginLeft' : 'marginRight']: 'auto',
+            paddingTop: `${theme.spacing(6)}`,
+            [theme.breakpoints.down('lg')]: {
+                width:  "100%",
+            },
+        })
+    )
 
 
     return (
-        <StyledProfile>
-            <ProfileAppBar />
-            <Container maxWidth={'xl'} 
-            sx={{
-                mt: isSmallScreen ? 0 : 6,
-                padding: theme => `${theme.spacing(4)} ${theme.spacing()}`
-            }}
-            >
-                    <Outlet />
+        <StyledProfile container>
+            <Grid item xxs={12} >
+                <ProfileAppBar />
+            </Grid>
+            <Grid item >
+                <ProfileNavBar />
+            </Grid>
+            <Grid item sx={{
+                width: "100%"
+            }}>
+                <StyledProfilePageSection>
+                    <Container maxWidth={'xl'} 
+                    sx={{
+                        mt: isSmallScreen ? -8 : 2,
+                        padding: theme => `${theme.spacing(2)} ${theme.spacing()}`
+                    }}
+                    >
+                            <Outlet />
 
-            </Container>
-            <ProfileFooter />
+                    </Container>
+                    <ProfileFooter />
+                </StyledProfilePageSection>
+            </Grid>
+
+            
+            
             
             <CheckPaymentPlanModel />
 

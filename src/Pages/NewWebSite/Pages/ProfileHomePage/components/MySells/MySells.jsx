@@ -1,7 +1,6 @@
 //React
 import { useMemo } from 'react'
 
-import { useSelector } from 'react-redux'
 
 //Components
 
@@ -9,7 +8,8 @@ import { useSelector } from 'react-redux'
 //MUI
 import {
     Box,
-    Typography
+    Typography,
+    Skeleton
 } from '@mui/material'
 import { styled } from '@mui/system'
 import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
@@ -17,10 +17,9 @@ import PaymentOutlinedIcon from '@mui/icons-material/PaymentOutlined';
 import propTypes from 'prop-types'
 import CustomCard from '../CustomCard/CustomCard'
 import { AdminMainButton } from '../../../../../../Components'
-import { writeFilterObject } from '../../../../../../Helpers/filterData';
-import useFetchData from '../../../../../../Helpers/customHooks/useFetchData';
-import { fetchUserComingOrders } from '../../../../../../Services/UserServices/Services/ordersUsersService';
 import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData';
+import { fetchUserComingOrdersCounts } from '../../../../../../Services/UserServices/Services/ordersUsersService';
+import { navigateProfileMySells } from '../../../../../../Helpers/navigations';
 
 //Styled Components
 const StyledMySells = styled(Box)(
@@ -51,11 +50,9 @@ const MySells = () => {
         return [
         ]
     }, [])
-    const {data: orders, download} = useEffectFetchData(fetchUserComingOrders, params, true, false)
-
-    const user = useSelector(state => state.authSlice.user)
-    console.log(user.id)
-    console.log(orders)
+    const {data: orders, download} = useEffectFetchData(fetchUserComingOrdersCounts, params, true, false)
+    // const user = useSelector(state => state.authSlice.user)
+    
     return (
         <CustomCard 
         cardTail={
@@ -75,13 +72,20 @@ const MySells = () => {
             </StyledMySalesTail>
         }
         >
-            <StyledMySells >
+            <StyledMySells onClick={navigateProfileMySells} >
                 <Typography variant='h5'>
                     My Sales
                 </Typography>
-                <Typography variant='h4'>
-                    0
-                </Typography>
+                {
+                    !download
+                    ?
+                    <Typography variant='h4'>
+                        {orders?.count}
+                    </Typography>
+                    :
+                    <Skeleton variant='circular' width={50} height={50} animation="wave" />
+                }
+                
             </StyledMySells>
         </CustomCard>
     );
