@@ -61,7 +61,7 @@ const StyledTextArea = styled(TextareaAutosize)(
     })
 )
 
-const CustomProductReviewModal = ({productId}) => {
+const CustomProductReviewModal = ({reviewedBefore, boughtBefore, productId}) => {
     //modal states
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -69,34 +69,18 @@ const CustomProductReviewModal = ({productId}) => {
 
     const user = useSelector(state => state.authSlice.user);
 
-    const params = useMemo(() => {
-            return [
-                productId
-            ];
-        }, [productId])
-        const {data} = useEffectFetchData(hadBuyProduct, params, user, false)
-        
-        const {reviewedBefore, boughtBefore} = useMemo(() => {
-            if(data){
-            return {
-                reviewedBefore: data.reviewedBefore,
-                boughtBefore: data.boughtBefore,
-            }
-            }
-            return {}
-    }, [data])
 
 
 
     useEffect(() => {
-        if(data) {
+        if(user) {
             if(reviewedBefore || !boughtBefore) {
                 return
             }
             
             handleOpen()
         }
-    }, [boughtBefore, data, reviewedBefore])
+    }, [boughtBefore, user, reviewedBefore])
 
     //review fields
     const [quality, setQuality] = useState(0)
@@ -115,7 +99,6 @@ const CustomProductReviewModal = ({productId}) => {
         }
 
         const res = await addUserProductsReviews(data);
-        console.log(res);
         if(res.success) {
             handleClose();
             

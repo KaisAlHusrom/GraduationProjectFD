@@ -28,7 +28,7 @@ import { writeFilterObject } from '../../../../../../Helpers/filterData'
 import { AdminMainButton } from '../../../../../../Components'
 import OrderDetailsModal from './Subcomponents/OrderDetailsModal';
 import DateHelper from '../../../../../../Helpers/DateHelper';
-import { productsImagesFolderName } from '../../../../../../Services/AdminServices/Services/productsService';
+import { productsFilesFolderName, productsImagesFolderName } from '../../../../../../Services/AdminServices/Services/productsService';
 import { navigateProductView } from '../../../../../../Helpers/navigations'
 
 //Styled Components
@@ -80,7 +80,7 @@ const OrderItemBox = styled(Box)(
         justifyContent: 'space-between',
         alignItems: 'center',
         gap: theme.spacing(),
-        cursor: 'pointer',
+
         transition: '0.2s',
         padding: theme.spacing(),
         "&:hover": {
@@ -109,6 +109,8 @@ const MyOrders = () => {
     const navigateToProduct = (id) => {
         navigateProductView(id)
     }
+
+    
     return (
         <StyledMyOrders>
             <Typography variant='h5' letterSpacing={2} mb={2} >
@@ -160,9 +162,17 @@ const MyOrders = () => {
                                                             ?
                                                                 order.products.map((product, key) => {
                                                                     const imagePath = `${config.ServerImageRoute}/${productsImagesFolderName}/${product.product_main_image_name}`
+                                                                    const handleDownloadProduct = () => {
+                                                                        const link = document.createElement('a');
+                                                                        link.href = `${config.ServerFilesRoute}/${productsFilesFolderName}/${product.product_file_name}`;
+                                                                        link.setAttribute('download', true);
+                                                                        document.body.appendChild(link);
+                                                                        link.click();
+                                                                        document.body.removeChild(link);
+                                                                    }
                                                                     return (
-                                                                        <OrderItemBox key={key} onClick={() => !(product?.deleted_at) && navigateToProduct(product.id)}>
-                                                                            <Box display={'flex'} alignItems={'center'} gap={2}>
+                                                                        <OrderItemBox key={key} >
+                                                                            <Box display={'flex'} alignItems={'center'} sx={{cursor: 'pointer',}} gap={2} onClick={() => !(product?.deleted_at) && navigateToProduct(product.id)}>
                                                                                 <Box width={70} height={70}>
                                                                                     <img src={imagePath} alt={product.product_name} width='100%' height='100%' />
                                                                                 </Box>
@@ -176,6 +186,7 @@ const MyOrders = () => {
                                                                                 &&
                                                                                 <Chip label="Deleted" color='error' />
                                                                             }
+                                                                                <Chip onClick={handleDownloadProduct} label="Download" color='primary' />
 
                                                                         </OrderItemBox>
                                                                     )

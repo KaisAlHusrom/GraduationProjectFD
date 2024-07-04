@@ -63,10 +63,7 @@ const ScrollButton = styled(IconButton)(({ theme }) => ({
 }));
 
 const ProductsTape = ({ title, Cat }) => {
-  const navigate = useNavigate();
-  const handleLearnMoreClick = (productId) => {
-    navigateProductView(productId)
-  };
+
   const handleAllproductsClick = () => {
     navigateCliserStoreProductsPage()
   };
@@ -84,12 +81,13 @@ const ProductsTape = ({ title, Cat }) => {
     return [Cat?.id];
   }, [Cat]);
 
-  const { download: productsDownload, data: updatedCat } = useEffectFetchData(fetchSpecificUserProductsCategories, params, true, true);
+  const { download: productsDownload, data: updatedCat } = useEffectFetchData(fetchSpecificUserProductsCategories, params, 
+    title !== "You Might Like"
+    , true);
 
-  const { ref, inView: productInView } = useInView();
 
   return (
-    <StyledProductsTape ref={ref} className={productInView ? 'opacity-animation' :''}>
+    <StyledProductsTape>
       <Container sx={{ paddingTop: '20px' }} maxWidth="lg">
         <Grid>
           <Grid container spacing={2} justifyContent="space-between" alignItems="center">

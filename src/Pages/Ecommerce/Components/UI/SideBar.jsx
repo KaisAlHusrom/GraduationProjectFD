@@ -57,16 +57,6 @@ import {
     return (
       <Box sx={{padding: 2}}>
         <Grid container spacing={3}>
-          <Grid item sx={{ margin: 2, alignItems: 'center' }} xxs={12}>
-            <TextField
-              fullWidth
-              variant="outlined"
-              label="Search"
-              onChange={handleInputChange}
-              value={query?.searchTerm}
-              sx={{ backgroundColor: 'white', borderRadius: 1 }}
-            />
-          </Grid>
   
           <Grid item sx={{ margin: 1, alignItems: 'center' }} xxs={12}>
             <FormControl component="fieldset">

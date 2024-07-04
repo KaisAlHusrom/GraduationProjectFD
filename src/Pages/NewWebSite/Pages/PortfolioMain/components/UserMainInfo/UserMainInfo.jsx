@@ -62,7 +62,7 @@ const UserMainInfo = () => {
     return (
         <StyledUserMainInfo>
             <ImageBox>
-                <StyledImage src={user ? imagePath : profileImage} alt={user?.first_name} />
+                <StyledImage src={user && user?.profile_image ? imagePath : profileImage} alt={user?.first_name} />
             </ImageBox>
             {
                 user ?

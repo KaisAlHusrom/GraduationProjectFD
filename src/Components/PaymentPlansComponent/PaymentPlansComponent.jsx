@@ -2,7 +2,8 @@ import {useState, useEffect, useMemo} from "react"
 
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
 import Card from '@mui/material/Card';
 import Chip from '@mui/material/Chip';
 import CardActions from '@mui/material/CardActions';
@@ -23,9 +24,10 @@ import { handleCheckDate } from "../../Pages/NewWebSite/Pages/ProfileHomePage/co
 //propTypes 
 import propTypes from 'prop-types'
 import { styled } from '@mui/system'
-import useInView from "../../Helpers/customHooks/useInView";
 import AdminMainButton from "../AdminMainButton/AdminMainButton";
-import BuyPaymentPlanModal from "./Subcomponents/BuyPaymentPlanModal/BuyPaymentPlanModal";
+import { navigateLoginPage } from "../../Helpers/navigations";
+import { handleSubscriptionCheckoutPage } from "../../Services/CheckoutServices/checkoutPlans";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 
 
 const CurrentPlanHeaderBox = styled(Box)(
@@ -43,7 +45,8 @@ const CurrentPlanHeaderBox = styled(Box)(
 
 export default function PaymentPlansComponent({paymentPlanPage}) {
     const user = useSelector(state => state.authSlice.user)
-
+    const currency = useSelector(state => state.currencySlice.currency)
+    const activePaymentPlan = useMemo(() => user && user?.active_payment_plan ? true : false, [user])
     // const { ref, inView: isInView } = useInView();
 
 
@@ -58,14 +61,63 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
         ]
     }, [])
     const {data, download} = useEffectFetchData(fetchUserPaymentPlans, params, true, false) 
+    
+    
     const [paymentPlans, setPaymentPlans] = useState(null)
     useEffect(() => {
         if (data) {
+            const sortingOrder = [
+                "Free",
+                "Individual",
+                "Enterprise",
+            ];
+            //Columns after sorting them
+            const sortedColumns = [];
+            sortingOrder.forEach((planName) => {
+                // console.log(type)
+                data.forEach((plan) => {
+                    if (plan.payment_plan_title === planName) {
+                        sortedColumns.push(plan);
+                    }
+                });
+            });
             setPaymentPlans(() => {
-                return data.filter(plan => plan.is_active);
+                return sortedColumns.filter(plan => plan.is_active);
             });
         }
     }, [data]);
+
+    const [isYearly, setIsYearly] = useState(false);
+    const [selectedPaymentPlan, setSelectedPaymentPlan] = useState('')
+
+    const [openConfirm, setOpenConfirm] = useState(false);
+    const handleCheckoutPlan = async (plan) => {
+        if(!user) {
+            navigateLoginPage()
+            return
+        }
+
+        if(plan === "Free") return
+
+        setSelectedPaymentPlan(() => plan)
+
+        if(activePaymentPlan) {
+            setOpenConfirm(() => true)
+            return
+        }
+
+        handlePurchasePlan()
+    }
+
+    const handlePurchasePlan = async () => {
+        const checkoutRes = await handleSubscriptionCheckoutPage(selectedPaymentPlan, isYearly ? "yearly" : "monthly")
+        if(checkoutRes.success) {
+            window.location = checkoutRes.data.url;
+        } else {
+            console.error("Couldn't checkout");
+        }
+    }
+
 
     return (
         <Container
@@ -95,6 +147,15 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
                 <Typography variant="body1" color="text.secondary">
                     Cliser Web Projects Services Subscribe Plans
                 </Typography>
+                <Box>
+                    <FormControlLabel  
+                        control={<Switch />}
+                        label="Yearly" 
+                        value={isYearly}
+                        onChange={e => setIsYearly(e.target.checked)}
+                    />
+                </Box>
+
             </Box>
             <Grid container spacing={3} alignItems="center" justifyContent="center">
                 {
@@ -102,7 +163,7 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
                     ?
                         paymentPlans && paymentPlans?.length > 0 &&
                         paymentPlans?.map((paymentPlan, key) => {
-                            const currentPlan = ((user && user?.payment_plans) && (user?.payment_plans[0]?.payment_plan_title  === paymentPlan.payment_plan_title) && handleCheckDate(user?.payment_plans[0]?.pivot?.expire_date))
+                            const currentPlan = ((user && user?.active_payment_plan) && (user?.active_payment_plan?.payment_plan.payment_plan_title  === paymentPlan.payment_plan_title) && user?.active_payment_plan.is_active)
 
                             return (
                                 (
@@ -189,15 +250,16 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
                                             sx={{
                                                 display: 'flex',
                                                 alignItems: 'baseline',
+                                                flexDirection: 'column',
                                                 color: paymentPlan.payment_plan_title  === 'Individual' || currentPlan ? 'grey.50' : undefined,
                                             }}
                                             >
-                                            <Typography component="h3" variant="h2">
-                                                ${paymentPlan.payment_plan_monthly_price}
-                                            </Typography>
-                                            <Typography component="h3" variant="h6">
-                                                &nbsp; per month
-                                            </Typography>
+                                                <Typography component="h3" variant="h2">
+                                                    {currency}{isYearly ? paymentPlan.payment_plan_yearly_price : paymentPlan.payment_plan_monthly_price}
+                                                </Typography>
+                                                <Typography component="h3" variant="h6">
+                                                    {isYearly ? "Per Year" : "Per Month"}
+                                                </Typography>
                                             </Box>
                                             <Divider
                                             sx={{
@@ -238,34 +300,40 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
                                             ))}
                                         </CardContent>
                                         <CardActions>
-                                            <AdminMainButton
-                                            type="modal"
-                                            modalProps={{
-                                                backdropClick: true,
-                                                withoutModalHeader: true,
-                                                cardSx: {
-                                                    width: "70%"
-                                                },
-                                            }}
-                                            appearance="primary"
-                                            disabled={currentPlan}
-                                            sx={{
-                                                // opacity: currentPlan && "0.5",
-                                                color: (paymentPlan.payment_plan_title  === 'Individual' || currentPlan) ? (theme => theme.palette.primary.contrastText) : (theme => theme.palette.text.primary),
-                                                backgroundColor: (paymentPlan.payment_plan_title  === 'Individual' || currentPlan) && (theme => theme.palette.primary.main),
-                                                width: '100%'
-                                            }}
-                                            filled={currentPlan}
-                                            putBorder
-                                            title={currentPlan ? "Current Plan" : "Buy Now"}
-                                            willShow={
-                                                <BuyPaymentPlanModal 
-                                                selectedPaymentPlan={paymentPlan}
-                                                />
+                                            {
+                                                paymentPlan?.payment_plan_title !== "Free"
+                                                &&
+                                                <AdminMainButton
+                                                    type="custom"
+                                                    onClick={() => handleCheckoutPlan(paymentPlan.payment_plan_title)}
+                                                    modalProps={{
+                                                        backdropClick: true,
+                                                        withoutModalHeader: true,
+                                                        cardSx: {
+                                                            width: "70%"
+                                                        },
+                                                    }}
+                                                    appearance="primary"
+                                                    disabled={currentPlan}
+                                                    sx={{
+                                                        // opacity: currentPlan && "0.5",
+                                                        color: (paymentPlan.payment_plan_title  === 'Individual' || currentPlan) ? (theme => theme.palette.primary.contrastText) : (theme => theme.palette.text.primary),
+                                                        backgroundColor: (paymentPlan.payment_plan_title  === 'Individual' || currentPlan) && (theme => theme.palette.primary.main),
+                                                        width: '100%'
+                                                    }}
+                                                    filled={currentPlan}
+                                                    putBorder
+                                                    title={currentPlan ? "Current Plan" : "Buy Now"}
+                                                    // willShow={
+                                                    //     <BuyPaymentPlanModal 
+                                                    //     selectedPaymentPlan={paymentPlan}
+                                                    //     />
+                                                    // }
+                                                    />
                                             }
-                                            />
                                         </CardActions>
                                         </Card>
+                                        
                                     </Grid>
                                     )
                             )
@@ -293,6 +361,12 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
                         </>
                 }
             </Grid>
+            <ConfirmModal
+                ConfirmMessage={"If you purchase a new plan while you have an active one, the old plan will be removed, and you will be charged for the new plan."}
+                title={"Purchase New Plan"}
+                confirmModalState={[openConfirm, setOpenConfirm]}
+                handleAgree={handlePurchasePlan}
+            />
         </Container>
     );
 }

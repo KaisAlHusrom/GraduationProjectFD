@@ -397,6 +397,7 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
                     />
                   </Box>  
                 </Box>
+                {/* the search bar */}
                 <Box
                   sx={{
                     display: { xxs: 'none', xs: 'none', md: 'flex' },
@@ -407,7 +408,7 @@ const { itemsCount } = useCart(); // Use the useCart hook to get itemsCount
                 <SearchBox />
                 </Box>
                 
-                {/* the seach bar , sign in and sign out part */}
+                {/*  , sign in and sign out part */}
                 <Box
                   sx={{
                     display: { xxs: 'none', xs: 'none', md: 'flex' },

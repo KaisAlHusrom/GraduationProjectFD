@@ -21,7 +21,6 @@ import { styled } from '@mui/system'
 import MainSlider from '../MainSlider'
 import ProductsTape from '../UI/ProductsTape'
 import { useCliserMarketContext } from '../../EcommerceMain'
-import useInView from '../../../../Helpers/customHooks/useInView'
 
 
 //Styled Components
@@ -36,7 +35,6 @@ const CliserDigitalMarketHomePage = () => {
 
     const {categories, categoriesDownload} = useCliserMarketContext()
 
-    const { ref, inView: productInView } = useInView();
 
     return (
         <StyledCliserDigitalMarketHomePage>

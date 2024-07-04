@@ -26,32 +26,31 @@ import 'swiper/css';
 import useEffectFetchData from '../../../../../../Helpers/customHooks/useEffectFetchData'
 import { fetchUserProducts } from '../../../../../../Services/UserServices/Services/productsUsersService'
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
-import { ReviewCalculateSMA } from '../../../../../Ecommerce/utils/functions'
 import CustomCard from '../CustomCard/CustomCard'
-import CustomProductCard from './Subcomponents/CustomProductCard'
 import { AdminMainButton } from '../../../../../../Components'
 
 
 import AddIcon from '@mui/icons-material/Add';
 import useScreenWidth from '../../../../../../Helpers/customHooks/useScreenWidth';
-import { getSlidesPerView, getSlidesPerViewProfilePage } from '../../Utils/getSlidesPerView';
+import { getSlidesPerViewProfilePage } from '../../Utils/getSlidesPerView';
 import ProductCard from '../../../../../Ecommerce/Components/ProductCard';
 //Styled Components
 const StyledMyProducts = styled(Box)(
-    ({ theme }) => ({
-        display: 'flex',
+    () => ({
+        // display: 'flex',
         flexDirection: 'column',
-        gap: theme.spacing(2),
-        padding: theme.spacing(),
+        // gap: theme.spacing(2),
+        // padding: theme.spacing(),
     })
 )
 
 const StyledHeaderBox = styled(Box)(
-    () => ({
+    ({ theme }) => ({
         display: 'flex',
         justifyContent: 'space-between',
         width: '100%',
         alignItems: 'center',
+        marginBottom: theme.spacing()
     })
 );
 
@@ -59,6 +58,7 @@ const StyledSwiperSlide = styled(SwiperSlide)(
     ({ theme }) => ({
         backgroundColor: theme.palette.background.default,
         color: theme.palette.text.primary,
+        width: 300
     })
 );
 
@@ -83,9 +83,10 @@ const MyProducts = () => {
 
     const {data, download, fetchAgain} = useEffectFetchData(fetchUserProducts, params, true, false)
 
+    console.log(data)
     return (
         <CustomCard>
-                <StyledMyProducts>
+            <StyledMyProducts>
                 <StyledHeaderBox>
                     <Typography variant="h5" letterSpacing={1.5}>
                         My Products
@@ -117,7 +118,7 @@ const MyProducts = () => {
                                 data && data.length > 0 ?
                                 data.map((product, key) => {
                                     return (
-                                        <StyledSwiperSlide key={key}>
+                                        <StyledSwiperSlide  key={key}>
                                             <ProductCard
                                                 product={product}
                                                 fetchAgain={fetchAgain}

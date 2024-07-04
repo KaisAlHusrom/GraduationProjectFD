@@ -81,7 +81,7 @@ const StyledUserInfoTail = styled(Box)(
 );
 const UserInfo = () => {
     const user = useSelector(state => state.authSlice.user)
-
+    console.log(user)
     const imagePath = useMemo(() => {
         return `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${user?.profile_image}`;
 
@@ -99,19 +99,12 @@ const UserInfo = () => {
     //fetch payment plan info
     const [paymentPlan, setPaymentPlan] = useState(null)
     useEffect(() => {
-        if (user && user?.payment_plans && user?.payment_plans?.length > 0) {
-            setPaymentPlan(user.payment_plans[0]);
+        if (user && user?.active_payment_plan) {
+            setPaymentPlan(user?.active_payment_plan);
         }
     }, [user, setPaymentPlan]);
-
-    // plan expire date
-    const expiryDatePaymentPlan = useMemo(() => {
-        if(paymentPlan) {
-            return new Date(paymentPlan?.pivot?.expire_date)
-        }
-        return null
-    }, [paymentPlan])
-
+    
+    const hasActivePaymentPlan = useMemo(() => paymentPlan ? true : false, [paymentPlan])
 
     const [updateModalOpen, setUpdateModalOpen] = useState(false)
 
@@ -175,90 +168,35 @@ const UserInfo = () => {
                     <StyledImageBox>
                         <StyledImage src={imagePath} alt="" />
                     </StyledImageBox>
-                    <Typography variant='h6'>
+                    <Typography variant='h6' maxWidth={150} textOverflow={'ellipsis'} whiteSpace={'nowrap'} overflow={'hidden'}>
                         {user?.first_name + ' ' + user?.last_name}
                     </Typography>
                 </StyledInfoBox>
                 <StyledPaymentPlanBox>
                     {
-                    expiryDateFreeTrial && user && expiryDatePaymentPlan
+                    expiryDateFreeTrial && user &&
+                        !hasActivePaymentPlan
                         ?
-                            // for not free plans
-                            handleCheckDate(expiryDatePaymentPlan) && paymentPlan?.payment_plan_title !== "Free"
-                            ?
-                            <Box sx={{opacity: handleCheckDate(expiryDatePaymentPlan) ? 1 : 0.5}}>
-                                <Typography variant='h5' color='secondary.light'>
-                                    {paymentPlan?.payment_plan_title}
-                                </Typography>
-                                <Typography variant='subtitle2' sx={dataTextStyle}>
-                                    {expiryDatePaymentPlan ? `Expires at ${formattedDate(expiryDatePaymentPlan)}` : ''}
-                                </Typography>
-                                {returnRemainDaysText(expiryDatePaymentPlan)}
-                            </Box>
-                            :
-                            // for free plans
-                            handleCheckDate(expiryDatePaymentPlan) && paymentPlan?.payment_plan_title === "Free"
-                            ?
-                                //free trial not finished and has free plan
-                                handleCheckDate(expiryDateFreeTrial)
-                                ?
-                                <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
-                                    <Typography variant='h5' color='secondary.light'>
-                                        Free Trial
-                                    </Typography>
-                                    <Typography variant='subtitle2' sx={dataTextStyle}>
-                                        {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
-                                    </Typography>
-                                    {returnRemainDaysText(expiryDateFreeTrial)}
-                                </Box>
-                                //free trial finished and has free plan
-                                :
-                                <Box sx={{opacity: handleCheckDate(expiryDatePaymentPlan) ? 1 : 0.5}}>
-                                    <Typography variant='h5' color='secondary.light'>
-                                        {paymentPlan?.payment_plan_title}
-                                    </Typography>
-                                    <Typography variant='subtitle2' sx={dataTextStyle}>
-                                        {expiryDatePaymentPlan ? `Expires at ${formattedDate(expiryDatePaymentPlan)}` : ''}
-                                    </Typography>
-                                    {returnRemainDaysText(expiryDatePaymentPlan)}
-                                </Box>
-                            : 
-                            //free trial not finished and plan finished
-                            handleCheckDate(expiryDateFreeTrial)
-                            ?
-                            <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
-                                <Typography variant='h5' color='secondary.light'>
-                                    Free Trial
-                                </Typography>
-                                <Typography variant='subtitle2' sx={dataTextStyle}>
-                                    {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
-                                </Typography>
-                                {returnRemainDaysText(expiryDateFreeTrial)}
-                            </Box>
-                            :
-                            //free trial finished and plan finished
-                            <Box sx={{opacity: handleCheckDate(expiryDatePaymentPlan) ? 1 : 0.5}}>
-                                <Typography variant='h5' color='secondary.light'>
-                                    {paymentPlan?.payment_plan_title}
-                                </Typography>
-                                <Typography variant='subtitle2' sx={dataTextStyle}>
-                                    {expiryDatePaymentPlan ? `Expires at ${formattedDate(expiryDatePaymentPlan)}` : ''}
-                                </Typography>
-                                {returnRemainDaysText(expiryDatePaymentPlan)}
-                            </Box>
-                            
-                            
+                        <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
+                            <Typography variant='h5' color='secondary.light'>
+                                Free Trial
+                            </Typography>
+                            <Typography variant='subtitle2' sx={dataTextStyle}>
+                                {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
+                            </Typography>
+                            {returnRemainDaysText(expiryDateFreeTrial)}
+                        </Box>
                         :
-                        //Free trial ends and there is no payment plan
-                            <Box sx={{opacity: handleCheckDate(expiryDateFreeTrial) ? 1 : 0.5}}>
-                                <Typography variant='h5' color='secondary.light'>
-                                    Free Trial
-                                </Typography>
-                                <Typography variant='subtitle2' sx={dataTextStyle}>
-                                    {expiryDateFreeTrial ? `Expires at ${formattedDate(expiryDateFreeTrial)}` : ''}
-                                </Typography>
-                                {returnRemainDaysText(expiryDateFreeTrial)}
-                            </Box>
+                        // has active plan
+                        <Box>
+                            <Typography variant='h5' color='secondary.light'>
+                                {paymentPlan?.payment_plan?.payment_plan_title}
+                            </Typography>
+                            <Typography variant='body2' sx={dataTextStyle}>
+                                Next Bill Date <br />
+                                {formattedDate(paymentPlan?.bill_date)}
+                            </Typography>
+                        </Box>
 
                     }
                     

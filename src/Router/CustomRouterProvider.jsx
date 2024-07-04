@@ -119,7 +119,6 @@ const router = createBrowserRouter(
                     <Route path="create-new-project" element={<CreateWebsite />} />
                     <Route path="my-sells" element={<MySellsPage />} />
                 </Route>
-                <Route path="portfolio/:user_id" element={<PortfolioMain />} />
 
                 {/* //* Design Control Page Routes */}
                 <Route path="/empty-design/EditPage/:section_id" element={<MainEdit />} />
@@ -161,7 +160,8 @@ const router = createBrowserRouter(
             
             
             
-
+            {/* can visit always */}
+            <Route path="portfolio/:user_id" element={<PortfolioMain />} />
 
             
 

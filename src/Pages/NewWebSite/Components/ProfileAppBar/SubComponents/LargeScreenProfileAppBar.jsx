@@ -25,7 +25,6 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 //propTypes 
 import propTypes from 'prop-types'
-import NavList from './NavList';
 import ToggleColorMode from '../../../../../Components/ToggleColorMode/ToggleColorMode';
 import CustomSelectInput from '../../../../../Components/CustomSelectInput/CustomSelectInput';
 import { AdminMainButton } from '../../../../../Components';
@@ -71,17 +70,18 @@ const LargeScreenProfileAppBar = (props) => {
                 borderRadius : '0',
                 background: theme => theme.palette.background.default,
                 }}
+                
             >
                 <Box sx={{
-                width: '100%',
-                height: '40px',
-                position: 'fixed',
-                marginTop: 8,
-                backgroundImage: mode === 'light'
-                ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
-                : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
-            backgroundSize: '100% 80%',
-            backgroundRepeat: 'no-repeat',
+                    width: '100%',
+                    height: '40px',
+                    position: 'fixed',
+                    marginTop: 8,
+                    backgroundImage: mode === 'light'
+                    ? 'linear-gradient(180deg, #CEE5FD, #FFF)'
+                    : `linear-gradient(#02294F, ${alpha('#090E10', 0.0)})`,
+                    backgroundSize: '100% 80%',
+                    backgroundRepeat: 'no-repeat',
                 }}></Box>
                 <Container maxWidth='100%' margin = "0" padding = "0" sx = {{
                         paddingLeft: '0 !important',
@@ -98,7 +98,7 @@ const LargeScreenProfileAppBar = (props) => {
                     })}
                 >
                     {/* Nav as normal */}
-                    <StyledNavAsNormalContainer maxWidth="xxl">
+                    <StyledNavAsNormalContainer maxWidth="xxxl">
                     <Box
                         sx={{
                         flexGrow: 1,

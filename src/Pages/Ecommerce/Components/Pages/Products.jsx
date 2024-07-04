@@ -1,17 +1,20 @@
 import { useState } from 'react';
-import { Grid, Box, Dialog, IconButton, useMediaQuery, AppBar, Toolbar, Typography} from '@mui/material';
+import { Grid, Box, Dialog, IconButton, useMediaQuery, AppBar, Toolbar, Typography, TextField} from '@mui/material';
 import { Menu as MenuIcon, Close as CloseIcon } from '@mui/icons-material';
 
 // Components
 import SideBar from '../UI/SideBar';
 import FilteredData from '../../utils/FilteredData';
-
+import TuneIcon from '@mui/icons-material/Tune';
 // Custom Hooks
 import useFetchData from '../../../../Helpers/customHooks/useFetchData';
 import { fetchUserProducts } from '../../../../Services/UserServices/Services/productsUsersService';
 
 // Styled Components
 import { styled } from '@mui/system';
+import { AdminMainButton } from '../../../../Components';
+
+
 
 const StyledContainer = styled(Box)(
   ({ theme }) => ({
@@ -35,8 +38,7 @@ const Products = () => {
   const [filters, setFilters] = useState([]);
   const [sorts, setSorts] = useState([]);
 
-  const { data: products, lastDataRecord } = useFetchData(fetchUserProducts, 'all', filters, sorts, true, query);
-
+  const { data: products, lastDataRecord } = useFetchData(fetchUserProducts, 'all', filters, sorts, true, null);
   // Dialog control state
   const [openDialog, setOpenDialog] = useState(false);
   const isMediumOrSmaller = useMediaQuery((theme) => theme.breakpoints.down('md'));
@@ -85,15 +87,29 @@ const Products = () => {
       <Grid container spacing={2} style={{ minHeight: '100vh', marginTop: '40px' }}>
         {isMediumOrSmaller ? (
           <>
-            <Grid item xs={12} md={12} lg={2} marginTop={3}>
-              <IconButton
+            <Grid item xxs={12} md={12} lg={2} marginTop={3}>
+              <AdminMainButton 
+                type='custom'
+                appearance='primary'
                 onClick={handleOpenDialog}
-                style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Dialog fullScreen onClose={handleCloseDialog} open={openDialog}>
-                <AppBar position="static">
+                putBorder
+                title='Filters'
+                icon={<TuneIcon />}
+                sx={{
+                  marginBottom: 2,
+                }}
+              />
+              <TextField
+                fullWidth
+                size='small'
+                variant="outlined"
+                label="Search"
+                onChange={handleInputChange}
+                value={query?.searchTerm}
+                sx={{ backgroundColor: 'white', borderRadius: 1 }}
+              />
+              <Dialog PaperProps={{elevation: 0}} fullScreen onClose={handleCloseDialog} open={openDialog}>
+                <AppBar position="static" elevation={0}>
                   <Toolbar>
                     <Typography variant="h6" style={{ flex: 1 }}>
                       Filters
@@ -117,6 +133,15 @@ const Products = () => {
           </>
         ) : (
           <Grid item xs={12} md={12} lg={2} marginTop={3}>
+              <TextField
+                fullWidth
+                size='small'
+                variant="outlined"
+                label="Search"
+                onChange={handleInputChange}
+                value={query?.searchTerm}
+                sx={{ backgroundColor: 'white', borderRadius: 1 }}
+              />
             <SideBar
               products={products}
               query={query}
@@ -129,7 +154,7 @@ const Products = () => {
           </Grid>
         )}
         {/* Main Content */}
-        <Grid item xs={12} md={12} lg={10} marginTop={3}>
+        <Grid item xxs={12} md={12} lg={10} marginTop={3}>
           <FilteredData
             products={products}
             lastData={lastDataRecord}

@@ -75,7 +75,6 @@ const columns = {
     'bank_card': "many-to-one",
     'user': "many-to-one",
     'status': "enum|monthly,yearly",
-    'expire_date': "date",
     'is_active': "bool",
     'bill_date': "date",
     "created_at": "dateTime",

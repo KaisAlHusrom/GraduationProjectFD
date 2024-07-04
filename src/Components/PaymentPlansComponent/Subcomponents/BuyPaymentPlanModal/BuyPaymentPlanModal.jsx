@@ -32,6 +32,7 @@ import { navigateLoginPage } from '../../../../Helpers/navigations'
 import PaymentMethodItem from '../PaymentMethodItem/PaymentMethodItem'
 import AdminMainButton from '../../../AdminMainButton/AdminMainButton'
 import calculateYearlySavings, { calculateYearlySavingsPrice } from '../../../../Helpers/yearlySaving'
+import { handleCheckDate } from '../../../../Pages/NewWebSite/Pages/ProfileHomePage/components/UserInfo/Utils/handleCheckData'
 
 //Styled Components
 const StyledBuyPaymentPlanModal = styled(Grid)(
@@ -95,7 +96,7 @@ const BuyPaymentPlanModal = ({selectedPaymentPlan}) => {
 
     
 
-    const currentPaymentPlan = userPaymentPlans && userPaymentPlans[0]
+    const currentPaymentPlan = userPaymentPlans && userPaymentPlans[0] && handleCheckDate(userPaymentPlans[0]?.expire_date)
 
     // check if user has already payment plan
     const isUserSubscribeToPaymentPlan = useMemo(() => {

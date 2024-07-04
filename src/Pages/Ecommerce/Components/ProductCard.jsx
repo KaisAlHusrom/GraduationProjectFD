@@ -10,7 +10,6 @@ import {
   Rating,
   Avatar,
   Grid,
-  CardHeader
 } from '@mui/material';
 import { styled } from '@mui/system';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -28,7 +27,7 @@ import { AdminMainButton } from '../../../Components';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import { usersProfileImagesFolderName } from '../../../Services/AdminServices/Services/usersService';
 
-import { ReviewCalculateSMA } from '../utils/functions';
+import { ReviewCalculateSum } from '../utils/functions';
 import { navigateProductView, navigateProfileUpdateProduct } from '../../../Helpers/navigations';
 import FullScreenModal from '../../../Components/FullScreenModal/FullScreenModal';
 import { useSelector } from 'react-redux';
@@ -83,13 +82,15 @@ const ProductCard = (props) => {
   const image=product.product_media
   const mainImage=product.product_main_image_name
   const price=product.product_price
-  const rating=ReviewCalculateSMA(product.product_reviews)
+
+  const rating=ReviewCalculateSum(product?.review_averages[0])
+
   const creator=`${product?.user?.first_name} ${product?.user?.last_name}`
   const category=product.categories
   const action=() => navigateProductView(product.id)
   const creatorImage=product.user.profile_image
   const user = useSelector(state => state.authSlice.user)
-  const ownProduct = user.id === product.user.id;
+  const ownProduct = user ? user.id === product.user.id : false;
 
   // Ensure image is an array
   const mainImagePath = useMemo(() => {
@@ -284,7 +285,7 @@ const ProductCard = (props) => {
             ))}
           </Typography>
           <Typography variant="body1" sx={{ marginBottom: '8px' }}>
-            <Rating name="read-only" value={rating !== undefined ? rating : 0} precision={0.2} readOnly />
+            <Rating name="read-only" value={rating !== undefined ? Number.parseFloat(rating) : 0} precision={0.5} readOnly />
           </Typography>
           <Typography variant="h6" sx={{ marginBottom: '8px' }}>
             ${price}
@@ -324,6 +325,7 @@ const ProductCard = (props) => {
             <Grid item xxs={12} >
               <AdminMainButton
                 title="Learn More"
+                appearance='primary'
                 type="custom"
                 onClick={action}
                 sx={{
@@ -350,6 +352,8 @@ const ProductCard = (props) => {
 
 ProductCard.propTypes = {
   product: PropTypes.object,
+  notInStore: PropTypes.bool,
+  fetchAgain: PropTypes.func,
 };
 
 export default ProductCard;

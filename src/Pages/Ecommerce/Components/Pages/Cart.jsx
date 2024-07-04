@@ -9,7 +9,7 @@ import ProductsTape from '../UI/ProductsTape';
 import { useCart } from '../../utils/CartContext';
 import RenderCartItem from '../RenderCartItem/RenderCartItem';
 import { handleCheckoutPage } from '../../../../Services/CheckoutServices/checkoutProducts';
-import { navigateLoginPage, navigateStoreMainPage } from '../../../../Helpers/navigations';
+import { navigateCliserStoreProductsPage, navigateLoginPage, navigateStoreMainPage } from '../../../../Helpers/navigations';
 import { useSelector } from 'react-redux';
 
 const Cart = () => {
@@ -41,7 +41,7 @@ const Cart = () => {
     };
 
     const handleBrowseClick = () => {
-        navigateStoreMainPage()
+        navigateCliserStoreProductsPage()
     };
 
     const handleApplyDiscount = () => {

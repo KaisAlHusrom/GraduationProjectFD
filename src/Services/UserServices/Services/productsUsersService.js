@@ -55,9 +55,9 @@ export const fetchSpecificProductLoader = async ({params}) => {
     const {idx} = params
     const row = await fetchSpecificUserProducts(idx);
 
-    const avgs = await fetchRatesAverages(idx);
+    // const avgs = await fetchRatesAverages(idx);
 
-    return {product: row, averages: avgs?.rows};
+    return {product: row};
 }
 //check if record is exist in the database
 export const checkSpecificUserProducts = async (id) => {

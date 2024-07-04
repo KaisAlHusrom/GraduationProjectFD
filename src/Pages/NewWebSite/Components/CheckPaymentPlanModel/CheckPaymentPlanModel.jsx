@@ -56,11 +56,12 @@ const CheckPaymentPlanModel = () => {
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
-    const modalShowedStorage = sessionStorage.getItem("modalShowed") || false
-    const [modalShowed, setModalShowed] = useState(modalShowedStorage)
+    const modalShowedStorage = JSON.parse(sessionStorage.getItem("modalShowed")) === true || false;
+    const [modalShowed, setModalShowed] = useState(modalShowedStorage);
+
     useEffect(() => {
-        sessionStorage.setItem("modalShowed", modalShowed);
-    }, [modalShowed])
+        sessionStorage.setItem("modalShowed", JSON.stringify(modalShowed));
+    }, [modalShowed]);
 
 
     const user = useSelector(state => state.authSlice.user)
@@ -68,18 +69,12 @@ const CheckPaymentPlanModel = () => {
     //payment plan
     const [paymentPlan, setPaymentPlan] = useState(null)
     useEffect(() => {
-        if (user && user?.payment_plans && user?.payment_plans?.length > 0) {
-            setPaymentPlan(user.payment_plans[0]);
+        if (user && user?.active_payment_plan) {
+            setPaymentPlan(user?.active_payment_plan);
         }
     }, [user, setPaymentPlan]);
 
     // plan expire date
-    const expiryDatePaymentPlan = useMemo(() => {
-        if(paymentPlan) {
-            return new Date(paymentPlan?.pivot?.expire_date)
-        }
-        return null
-    }, [paymentPlan])
 
     //free trial
     const expiryDateFreeTrial = useMemo(() => {
@@ -91,33 +86,22 @@ const CheckPaymentPlanModel = () => {
     }, [user])
 
 
-
     
-    //open the modal when there is no a payment plan, or on free plan
+    //open the modal when there is no a payment plan, that mean user on free plan
     useEffect(() => {
-        if(!modalShowed) {
-            const timer = setTimeout(() => {
-                if(paymentPlan) {
-                    if(paymentPlan?.payment_plan_title !== "Free") {
-                        if(!handleCheckDate(expiryDatePaymentPlan)) {
-                            handleOpen()
-                            setModalShowed(true)
-                        }
-                        return;
-                    } 
-                    handleOpen()
-                    setModalShowed(true)
-                } else {
-                    handleOpen()
-                    setModalShowed(true)
 
+        if(!modalShowed) {
+            
+            const timer = setTimeout(() => {
+                if(paymentPlan === null) {
+                    handleOpen()
+                    setModalShowed(true)
                 }
             }, 1000);
             return () => clearTimeout(timer);
 
         }
-        
-    }, [expiryDateFreeTrial, expiryDatePaymentPlan, modalShowed, paymentPlan]);
+    }, [expiryDateFreeTrial, modalShowed, paymentPlan]);
     
 
 
@@ -136,7 +120,6 @@ const CheckPaymentPlanModel = () => {
             <Fade in={open}>
                 <StyledModal elevation={2}>
                     <StyledHeaderBox>
-                                            
                     {
                         handleCheckDate(expiryDateFreeTrial) 
                         ? (
@@ -157,63 +140,27 @@ const CheckPaymentPlanModel = () => {
                                 <Divider sx={{ width: '100%' }} />
                                 <PaymentPlansComponent />
                             </>
-                        ) : paymentPlan ? (
-                                handleCheckDate(expiryDatePaymentPlan) ? (
-                                    // When free trial finished and there is a free plan
-                                    <>
-                                        <Typography variant='h4' letterSpacing={2} color='warning.main'>
-                                            You are currently on the Free Plan!
-                                        </Typography>
-                                        <Typography
-                                            variant='body2'
-                                            color='text.secondary'
-                                            letterSpacing={1}
-                                            width='90%'
-                                            textAlign='center'
-                                        >
-                                            To unlock all services offered by Cliser Web Projects, simply purchase one of the plans listed below.
-                                        </Typography>
-                                        <Divider sx={{ width: '100%' }} />
-                                        <PaymentPlansComponent />
-                                    </>
-                                ) : (
-                                    // When free trial finished and current plan has ended
-                                    <>
-                                        <Typography variant='h4' letterSpacing={2} color='warning.main'>
-                                            Your current plan has ended.
-                                        </Typography>
-                                        <Typography
-                                            variant='body2'
-                                            color='text.secondary'
-                                            letterSpacing={1}
-                                            width='90%'
-                                            textAlign='center'
-                                        >
-                                            To unlock all services offered by Cliser Web Projects Services, simply purchase one of the plans listed below, or use the Free Plan to access some of the services.
-                                        </Typography>
-                                        <Divider sx={{ width: '100%' }} />
-                                        <PaymentPlansComponent />
-                                    </>
-                                )
-                            ) : (
-                                // When not subscribed to any plan
-                                <>
-                                    <Typography variant='h4' letterSpacing={2} color='warning.main'>
-                                    You currently do not have an active subscription.                                    
-                                    </Typography>
-                                    <Typography
-                                        variant='body2'
-                                        color='text.secondary'
-                                        letterSpacing={1}
-                                        width='90%'
-                                        textAlign='center'
-                                    >
-                                        To unlock all services offered by Cliser Web Projects Services, simply purchase one of the plans listed below, or use the Free Plan to access some of the services.
-                                    </Typography>
-                                    <Divider sx={{ width: '100%' }} />
-                                    <PaymentPlansComponent />
-                                </>
+                        ) : (
+                            // When free trial finished and there is no any active plan
+                            <>
+                                <Typography variant='h4' letterSpacing={2} color='warning.main'>
+                                    You are currently on the Free Plan!
+                                </Typography>
+                                <Typography
+                                    variant='body2'
+                                    color='text.secondary'
+                                    letterSpacing={1}
+                                    width='90%'
+                                    textAlign='center'
+                                >
+                                    To unlock all services offered by Cliser Web Projects, simply purchase one of the plans listed below.
+                                </Typography>
+                                <Divider sx={{ width: '100%' }} />
+                                <PaymentPlansComponent />
+                            </>
                         )
+
+
                     }
 
                         

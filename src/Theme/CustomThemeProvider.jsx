@@ -228,6 +228,7 @@ const CustomThemeProvider = ({children}) => {
                     lg: 1200,
                     xl: 1536,
                     xxl: 1700,
+                    xxxl: 1900,
                 },
             },
             components: {

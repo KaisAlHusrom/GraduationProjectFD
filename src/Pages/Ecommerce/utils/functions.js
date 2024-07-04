@@ -30,6 +30,15 @@ export function ReviewCalculateSMA (reviews) {
     
       return totalRates / numberOfRates;
 }
+
+export function ReviewCalculateSum (review) {
+    if (!review) {
+        return 0; // Return 0 if there are no reviews
+      }
+    
+      const sum = Number.parseInt(review.avg_design_quality_rate) + Number.parseInt(review.avg_communication_rate) + Number.parseInt(review.avg_ease_of_use_rate)
+      return (sum / 3).toFixed(1);
+}
 export function calculateAverageRating (reviews, key){
     if (!reviews || reviews.length === 0) {
       return 0;

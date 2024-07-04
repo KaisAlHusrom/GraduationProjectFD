@@ -24,7 +24,7 @@ import 'swiper/css/navigation';
 import ChipSet from '../UI/ChipSet';
 import ProductsTape from '../UI/ProductsTape';
 import { calculateAverageRating } from '../../utils/functions';
-import { productsImagesFolderName } from '../../../../Services/UserServices/Services/productsUsersService';
+import { productsFilesFolderName, productsImagesFolderName } from '../../../../Services/UserServices/Services/productsUsersService';
 import { mediaFolderName } from '../../../../Services/UserServices/Services/productsMediaUsersService';
 import DateHelper from '../../../../Helpers/DateHelper';
 import { useCart } from '../../utils/CartContext';
@@ -32,6 +32,10 @@ import { usersProfileImagesFolderName } from '../../../../Services/AdminServices
 import FullScreenModal from '../../../../Components/FullScreenModal/FullScreenModal';
 import CustomProductReviewModal from '../CustomProductReviewModal/CustomProductReviewModal';
 import ReviewsTab from '../ReviewsTab/ReviewsTab';
+import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData';
+import { hadBuyProduct } from '../../../../Services/UserServices/Services/ordersUsersService';
+import { useSelector } from 'react-redux';
+import { AdminMainButton } from '../../../../Components';
 
 const CustomTabPanel = ({ children, value, index, ...other }) => {
   return (
@@ -54,7 +58,7 @@ const CustomTabPanel = ({ children, value, index, ...other }) => {
 const ProductView = () => {
   const [value, setValue] = useState(0);
   const { addToCart, cartItems } = useCart();
-  const { product, averages } = useLoaderData();
+  const { product } = useLoaderData();
 
   
 
@@ -63,7 +67,6 @@ const ProductView = () => {
 
   const skillNames = useMemo(() => product.product_used_skills.map(skill => skill.product_used_skill_name), [product]);
   const Features = product.product_features;
-  const Reviews = product.product_reviews;
 
   const handleAddCartBtn = () => {
     addToCart({
@@ -80,7 +83,7 @@ const ProductView = () => {
 
   const itemsInfo = useMemo(() => [
     { contentTitle: 'Added', content: DateHelper.timeAgo(product.created_at) },
-    { contentTitle: 'Last-Updated', content: DateHelper.timeAgo(product.updated_at) },
+    { contentTitle: 'Last-Updated At', content: DateHelper.formattedDate(product.updated_at) },
     { contentTitle: 'Views', content: product.views },
     { contentTitle: 'Sells', content: product.sells },
   ], [product]);
@@ -92,17 +95,17 @@ const ProductView = () => {
   const itemsReviews = useMemo(() => [
     { 
       contentTitle: 'Quality of the Work',
-      content: <Rating name="quality-of-the-work" value={averages?.quality} readOnly sx={{ paddingTop: 0.3 }} />
+      content: <Rating name="quality-of-the-work" value={product.review_averages[0]?.avg_design_quality_rate} readOnly sx={{ paddingTop: 0.3 }} />
     },
     { 
       contentTitle: 'Communication',
-      content: <Rating name="communication" value={averages?.communication} readOnly sx={{ paddingTop: 0.8 }} />
+      content: <Rating name="communication" value={product.review_averages[0]?.avg_communication_rate} readOnly sx={{ paddingTop: 0.8 }} />
     },
     { 
       contentTitle: 'Usability',
-      content: <Rating name="usability" value={averages?.easeOfUse} readOnly sx={{ paddingTop: 0.6 }} />
+      content: <Rating name="usability" value={product.review_averages[0]?.avg_ease_of_use_rate} readOnly sx={{ paddingTop: 0.6 }} />
     },
-  ], [averages?.communication, averages?.easeOfUse, averages?.quality]);
+  ], [product.review_averages]);
 
   const [openMedia, setOpenMedia] = useState(false);
 
@@ -136,6 +139,34 @@ const ProductView = () => {
     setOpenMedia(true);
   };
 
+  //!Had Buy The Product
+  const user = useSelector(state => state.authSlice.user);
+  const params = useMemo(() => {
+      return [
+          product?.id
+      ];
+  }, [product?.id])
+  const {data} = useEffectFetchData(hadBuyProduct, params, user, false)
+
+  const {reviewedBefore, boughtBefore} = useMemo(() => {
+      if(data){
+        return {
+            reviewedBefore: data.reviewedBefore,
+            boughtBefore: data.boughtBefore,
+        }
+      }
+      return {}
+  }, [data])
+
+  const handleDownloadProduct = () => {
+    const link = document.createElement('a');
+    link.href = `${config.ServerFilesRoute}/${productsFilesFolderName}/${product.product_file_name}`;
+    link.setAttribute('download', true);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
   const styles = useMemo(() => ({
     "& .swiper-slide img, & .swiper-slide video": {
       width: "100%",
@@ -146,7 +177,8 @@ const ProductView = () => {
     }
   }), []);
 
-  console.log(Reviews)
+
+
 
   return (
     <div>
@@ -231,7 +263,7 @@ const ProductView = () => {
           </Grid>
           <Grid item xs={12} lg={6}>
             <CustomCard title="Purchase" items={itemsPurchase}>
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', flexDirection:"column", gap: 2 }}>
                 <Button
                   onClick={handleAddCartBtn}
                   variant="contained"
@@ -252,7 +284,31 @@ const ProductView = () => {
                 >
                   {cartItems.find(item => item.id === product.id) ? "Remove from Cart" : "Add to Cart"}
                 </Button>
-              </div>
+                {
+                  boughtBefore
+                  &&
+                  <Button
+                    onClick={handleDownloadProduct}
+                    variant="contained"
+                    size="large"
+                    fullWidth
+                    sx={{
+                      backgroundColor: '#007BFF',
+                      color: '#fff',
+                      border: 'none',
+                      padding: '10px 10px',
+                      borderRadius: '10px',
+                      cursor: 'pointer',
+                      transition: 'background-color 0.3s ease',
+                      '&:hover': {
+                        backgroundColor: '#0056B3',
+                      },
+                    }}
+                  >
+                    Download
+                </Button>
+                }
+              </Box>
             </CustomCard>
             <CustomCard title="Info" items={itemsInfo}>
               <Grid item xs={12}>
@@ -281,7 +337,11 @@ const ProductView = () => {
         )}
       </Container>
 
-      <CustomProductReviewModal productId={product?.id} />
+      <CustomProductReviewModal
+        reviewedBefore={reviewedBefore}
+        boughtBefore={boughtBefore}
+        productId={product?.id}
+      />
     </div>
   );
 };

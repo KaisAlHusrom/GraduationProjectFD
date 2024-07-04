@@ -45,22 +45,18 @@ const FilteredData = (props) => {
   
     return (
       <Grid container spacing={2}>
-        {filteredProducts.map((product, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4} lg={4} ref={products.length === index + 1 ? lastData : null}>
-            <ProductCard
-              AddToCartId={product.id}
-              title={product.product_name}
-              mainImage={product.product_main_image_name}
-              image={product.product_media}
-              price={product.product_price}
-              rating={ReviewCalculateSMA(product.product_reviews)}
-              creator={`${product.user.first_name} ${product.user.last_name}`}
-              creatorImage={product.user.profile_image}
-              category={product.categories}
-              action={() => handleLearnMoreClick(product.id)}
-            />
-          </Grid>
-        ))}
+        {
+          filteredProducts && filteredProducts.length > 0
+          ?
+            filteredProducts.map((product, index) => (
+              <Grid key={index} item xxs={12} sm={4} md={3} lg={2} ref={products.length === index + 1 ? lastData : null}>
+                <ProductCard
+                  product={product}
+                />
+              </Grid>
+            ))
+          :null
+        }
       </Grid>
     );
   };

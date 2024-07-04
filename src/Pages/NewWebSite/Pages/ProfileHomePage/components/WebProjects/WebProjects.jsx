@@ -41,19 +41,20 @@ import WebProjectCard from '../../../../Components/WebProjectCard/WebProjectCard
 //Styled Components
 const StyledWebProjects = styled(Box)(
     ({ theme }) => ({
-        display: 'flex',
-        flexDirection: 'column',
-        gap: theme.spacing(2),
-        padding: theme.spacing(),
+        // display: 'flex',
+        // flexDirection: 'column',
+        // gap: theme.spacing(2),
+        // padding: theme.spacing(),
     })
 )
 
 const StyledHeaderBox = styled(Box)(
-    () => ({
+    ({ theme }) => ({
         display: 'flex',
         justifyContent: 'space-between',
         width: '100%',
         alignItems: 'center',
+        marginBottom: theme.spacing(),
     })
 );
 

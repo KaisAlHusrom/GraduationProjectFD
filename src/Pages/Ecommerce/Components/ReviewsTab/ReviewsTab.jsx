@@ -51,14 +51,16 @@ const ReviewsTab = () => {
             writeFilterObject('product_id', 'string', '=', productId)
         ]
     }, [productId])
-    const {data: reviews, loading} = useFetchData(fetchUserProductsReviews, 'all', filters)
-    console.log(reviews)
+    const {data: reviews, loading, lastDataRecord} = useFetchData(fetchUserProductsReviews, 'all', filters)
     return (
         <StyledReviewsTab style={{ position: 'static', height: '65vh' }}>
                 <Divider />
                 <Typography variant="h5" sx={{ paddingTop: 1, paddingBottom: 1 }}>
                     Reviews 
                 </Typography>
+                <Stack direction='column' gap={2}>
+
+                
                 {
                     !loading
                     ?
@@ -68,7 +70,7 @@ const ReviewsTab = () => {
                                 const creatorImagePath = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${review.user.profile_image}`;
                                 const full_name = review.user.first_name + " " + review.user.last_name
                                 return (
-                                    <Card elevation={2} sx={{borderRadius: 4}} key={index}>
+                                    <Card elevation={2} sx={{borderRadius: 4}} key={index} ref={reviews.length === index + 1 ? lastDataRecord : null}>
                                         <CardHeader
                                         onClick={() => navigatePortfolio(review.user.id)}
                                         sx={{
@@ -152,7 +154,7 @@ const ReviewsTab = () => {
                         </>
                     )
                 }
-                
+                </Stack>
         </StyledReviewsTab>
     );
 };
