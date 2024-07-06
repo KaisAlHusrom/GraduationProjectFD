@@ -52,7 +52,6 @@ const MainPreview = () => {
         }
     }, [data, navigate, user.id]);
 
-    console.log(data)
 
     return (
         <StyleMainPreview             

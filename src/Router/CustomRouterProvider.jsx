@@ -56,6 +56,7 @@ import HandleProductPage from '../Pages/NewWebSite/Pages/HandleProductPage/Handl
 import MainPreview from '../Pages/DesignControlPage/sections/EmptyDesign/Preview/MainPreview';
 import MySellsPage from '../Pages/NewWebSite/Pages/MySellsPage/MySellsPage';
 import MainEdit from '../Pages/DesignControlPage/sections/EmptyDesign/EditPage/MainEdit';
+import MyBilling from '../Pages/NewWebSite/Pages/MyBilling/MyBilling';
 
 
 // ------------- NOTICES -------------
@@ -115,9 +116,10 @@ const router = createBrowserRouter(
                     <Route path="handle-product/:id" element={<HandleProductPage />} />
                     <Route path="handle-product" element={<HandleProductPage />} />
                     <Route path="payment-plan" element={<MyPaymentPlans />} />
-                    <Route path="orders-billing" element={<MyOrdersAndBilling />} />
+                    <Route path="orders" element={<MyOrdersAndBilling />} />
+                    <Route path="billing" element={<MyBilling />} />
                     <Route path="create-new-project" element={<CreateWebsite />} />
-                    <Route path="my-sells" element={<MySellsPage />} />
+                    <Route path="my-sales" element={<MySellsPage />} />
                 </Route>
 
                 {/* //* Design Control Page Routes */}

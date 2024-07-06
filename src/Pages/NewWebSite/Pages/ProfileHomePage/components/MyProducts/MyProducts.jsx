@@ -83,7 +83,6 @@ const MyProducts = () => {
 
     const {data, download, fetchAgain} = useEffectFetchData(fetchUserProducts, params, true, false)
 
-    console.log(data)
     return (
         <CustomCard>
             <StyledMyProducts>

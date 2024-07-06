@@ -18,12 +18,12 @@ import {
     Chip,
     CardActions,
     IconButton,
-    Skeleton
+    Skeleton,
+    Grid
 } from '@mui/material'
 import { styled } from '@mui/system'
 import { writeFilterObject } from '../../../../../../Helpers/filterData'
 import useFetchData from '../../../../../../Helpers/customHooks/useFetchData'
-import { fetchUsersPayments } from '../../../../../../Services/AdminServices/Services/userPayments'
 import { getCardImage, getCardType } from '../../../../../../Helpers/getCardType'
 import DateHelper from '../../../../../../Helpers/DateHelper'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -37,11 +37,8 @@ const StyledMyBills = styled(Box)(
     })
 )
 
-const StyledBills = styled(Box)(
+const StyledBills = styled(Grid)(
     ({ theme }) => ({
-        display: 'flex',
-        flexDirection: 'column',
-        gap: theme.spacing(),
         padding: theme.spacing(),
 
     })
@@ -50,7 +47,7 @@ const StyledBills = styled(Box)(
 const BillCard = styled(Card)(
     ({ theme }) => ({
         padding: theme.spacing(),
-
+        height: '100%'
     })
 );
 
@@ -82,13 +79,12 @@ const MyBills = () => {
     };
 
     const {data: payments, lastDataRecord, loading} = useFetchData(fetchUserUsersPayments, 'all', filters, null, true)
-    console.log(payments)
     return (
         <StyledMyBills>
             <Typography variant='h5' letterSpacing={2} mb={2} >
                 Billing Information
             </Typography>
-            <StyledBills>
+            <StyledBills container spacing={2}>
                 {
                     !loading
                     ?
@@ -96,110 +92,112 @@ const MyBills = () => {
                         ?
                             payments.map((bill, key) => {
                                 return (
-                                    <BillCard key={key} elevation={2}>
-                                        <CardHeader 
-                                            // sx={{
-                                            //     display: 'flex',
-                                            //     alignItems: 'center',
-                                            // }}
-                                            avatar={
-                                                    <img 
-                                                    src={getCardImage(bill.bank_card?.card_number)} 
-                                                    label={getCardType(bill.bank_card?.card_number)}  
-                                                    width={50}
-                                                    height={50}
-                                                    />
-                                            }
-                                            title={DateHelper.formattedDate(bill.created_at)}
-                                            subheader={"Amount: " + bill.amount + ' ' + currency}
-                                        />
-                                        <CardContent sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
-                                            {
-                                                bill.order
-                                                ?
-                                                    <>
-                                                        <Typography 
-                                                            variant="subtitle2" 
-                                                        >
-                                                            Order No: {bill.order.id}
-                                                        </Typography>
-                                                        <Stack direction="row" spacing={1}>
-                                                            <Chip label={bill.status} color= {bill.status === "accepted" ? "success" : "error"} />
-                                                            {/* <Chip label="success" color="success" /> */}
-                                                        </Stack>
-                                                    </>
-                                                : 
-                                                bill.user_payment_plan
-                                                ?
-                                                    <>
-                                                        <Typography 
-                                                            variant="subtitle2" 
-                                                        >
-                                                            {bill.user_payment_plan.payment_plan.payment_plan_title} Plan
-                                                        </Typography>
-                                                        
-                                                        
-                                                        <Stack direction="row" spacing={1}>
-                                                            <Chip label={bill.status} color= {bill.status === "accepted" ? "success" : "error"} />
-                                                            {/* <Chip label="success" color="success" /> */}
-                                                        </Stack>
-                                                    </>
-                                                :null
-                                            }
-                                        </CardContent>
-                                        {
-                                            bill.user_payment_plan &&
-                                            <>
-                                                <CardActions disableSpacing>
-                                                    
-                                                    <ExpandMore
-                                                        expand={expanded}
-                                                        onClick={handleExpandClick}
-                                                        aria-expanded={expanded}
-                                                        aria-label="show more"
-                                                    >
-                                                    <ExpandMoreIcon />
-                                                    </ExpandMore>
-                                                </CardActions>
-                                                <Collapse in={expanded} timeout="auto" unmountOnExit sx={{
-                                                            padding: theme => `${theme.spacing(0)} ${theme.spacing(4)}`,
+                                    <Grid item xxs={12} md={6} ref={payments.length === key + 1 ? lastDataRecord : null} key={key} >
+                                        <BillCard  elevation={2}>
+                                            <CardHeader 
+                                                // sx={{
+                                                //     display: 'flex',
+                                                //     alignItems: 'center',
+                                                // }}
+                                                avatar={
+                                                        <img 
+                                                        src={getCardImage(bill.bank_card?.card_number)} 
+                                                        label={getCardType(bill.bank_card?.card_number)}  
+                                                        width={50}
+                                                        height={50}
+                                                        />
+                                                }
+                                                title={DateHelper.formattedDate(bill.created_at)}
+                                                subheader={"Amount: " + bill.amount + ' ' + currency}
+                                            />
+                                            <CardContent sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
+                                                {
+                                                    bill.order
+                                                    ?
+                                                        <>
+                                                            <Typography 
+                                                                variant="subtitle2" 
+                                                            >
+                                                                Order No: {bill.order.id}
+                                                            </Typography>
+                                                            <Stack direction="row" spacing={1}>
+                                                                <Chip label={bill.status} color= {bill.status === "accepted" ? "success" : "error"} />
+                                                                {/* <Chip label="success" color="success" /> */}
+                                                            </Stack>
+                                                        </>
+                                                    : 
+                                                    bill.user_payment_plan
+                                                    ?
+                                                        <>
+                                                            <Typography 
+                                                                variant="subtitle2" 
+                                                            >
+                                                                {bill.user_payment_plan.payment_plan.payment_plan_title} Plan
+                                                            </Typography>
                                                             
-                                                }}>
-                                                    <CardContent>
-                                                        <Typography 
-                                                        variant="subtitle2" 
+                                                            
+                                                            <Stack direction="row" spacing={1}>
+                                                                <Chip label={bill.status} color= {bill.status === "accepted" ? "success" : "error"} />
+                                                                {/* <Chip label="success" color="success" /> */}
+                                                            </Stack>
+                                                        </>
+                                                    :null
+                                                }
+                                            </CardContent>
+                                            {
+                                                bill.user_payment_plan &&
+                                                <>
+                                                    <CardActions disableSpacing>
+                                                        
+                                                        <ExpandMore
+                                                            expand={expanded}
+                                                            onClick={handleExpandClick}
+                                                            aria-expanded={expanded}
+                                                            aria-label="show more"
                                                         >
-                                                            Subscription Date
-                                                        </Typography>
-                                                        <Typography 
-                                                        variant="body1"
-                                                        color="text.secondary" 
-                                                        >
-                                                            {DateHelper.formattedDate(bill.user_payment_plan.payment_plan.created_at)}
-                                                        </Typography>
-                                                        <Typography 
-                                                        variant="subtitle2" 
-                                                        >
-                                                            Plan Details
-                                                        </Typography>
-                                                        <Typography 
+                                                        <ExpandMoreIcon />
+                                                        </ExpandMore>
+                                                    </CardActions>
+                                                    <Collapse in={expanded} timeout="auto" unmountOnExit sx={{
+                                                                padding: theme => `${theme.spacing(0)} ${theme.spacing(4)}`,
+                                                                
+                                                    }}>
+                                                        <CardContent>
+                                                            <Typography 
+                                                            variant="subtitle2" 
+                                                            >
+                                                                Subscription Date
+                                                            </Typography>
+                                                            <Typography 
                                                             variant="body1"
                                                             color="text.secondary" 
-                                                        >
-                                                            {bill.user_payment_plan.payment_plan.payment_plan_monthly_price} Monthly
-                                                        </Typography>
-                                                        <Typography 
-                                                            variant="body1"
-                                                            color="text.secondary" 
-                                                        >
-                                                            {bill.user_payment_plan.payment_plan.payment_plan_yearly_price} Yearly
-                                                        </Typography>
-                                                    </CardContent>
-                                                </Collapse>
-                                            
-                                            </>
-                                        }
-                                    </BillCard>
+                                                            >
+                                                                {DateHelper.formattedDate(bill.user_payment_plan.payment_plan.created_at)}
+                                                            </Typography>
+                                                            <Typography 
+                                                            variant="subtitle2" 
+                                                            >
+                                                                Plan Details
+                                                            </Typography>
+                                                            <Typography 
+                                                                variant="body1"
+                                                                color="text.secondary" 
+                                                            >
+                                                                {bill.user_payment_plan.payment_plan.payment_plan_monthly_price} Monthly
+                                                            </Typography>
+                                                            <Typography 
+                                                                variant="body1"
+                                                                color="text.secondary" 
+                                                            >
+                                                                {bill.user_payment_plan.payment_plan.payment_plan_yearly_price} Yearly
+                                                            </Typography>
+                                                        </CardContent>
+                                                    </Collapse>
+                                                
+                                                </>
+                                            }
+                                        </BillCard>
+                                    </Grid>
                                 )
                             })
                         :   
@@ -209,9 +207,18 @@ const MyBills = () => {
                             
                     :
                     <>
-                        <BillCard elevation={2}>
+                        <Grid item xxs={12} md={6}  elevation={2}>
                             <Skeleton width={'100%'} height={200} />
-                        </BillCard>
+                        </Grid>
+                        <Grid item xxs={12} md={6}  elevation={2}>
+                            <Skeleton width={'100%'} height={200} />
+                        </Grid>
+                        <Grid item xxs={12} md={6}  elevation={2}>
+                            <Skeleton width={'100%'} height={200} />
+                        </Grid>
+                        <Grid item xxs={12} md={6}  elevation={2}>
+                            <Skeleton width={'100%'} height={200} />
+                        </Grid>
                     </>
                 }
                 

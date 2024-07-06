@@ -81,7 +81,6 @@ const StyledUserInfoTail = styled(Box)(
 );
 const UserInfo = () => {
     const user = useSelector(state => state.authSlice.user)
-    console.log(user)
     const imagePath = useMemo(() => {
         return `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${user?.profile_image}`;
 

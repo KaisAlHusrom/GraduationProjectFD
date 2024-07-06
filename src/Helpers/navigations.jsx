@@ -61,13 +61,19 @@ export const navigateProfilePaymentPlans = () => {
 
 export const navigateProfileOrdersBilling = () => {
     if(navigateFunction) {
-        navigateFunction("/profile/orders-billing")
+        navigateFunction("/profile/orders")
+    }
+}
+
+export const navigateProfileBilling= () => {
+    if(navigateFunction) {
+        navigateFunction("/profile/billing")
     }
 }
 
 export const navigateProfileMySells = () => {
     if(navigateFunction) {
-        navigateFunction("/profile/my-sells")
+        navigateFunction("/profile/my-sales")
     }
 }
 

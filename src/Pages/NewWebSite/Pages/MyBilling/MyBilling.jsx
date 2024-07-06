@@ -12,15 +12,14 @@ import {
 
 //MUI
 import {
-    Grid,
-    Divider
+    Box,
+    Grid
 } from '@mui/material'
 import { styled } from '@mui/system'
-import MyOrders from './Components/MyOrders/MyOrders'
-import MyBills from './Components/MyBills/MyBills'
+import MyBills from '../MyOrdersAndBilling/Components/MyBills/MyBills'
 
 //Styled Components
-const StyledMyOrdersAndBilling = styled(Grid)(
+const StyledMyBilling = styled(Box)(
     ({ theme }) => ({
         width: '100%',
         padding: `${theme.spacing(4)} ${theme.spacing(2)}`,
@@ -28,14 +27,14 @@ const StyledMyOrdersAndBilling = styled(Grid)(
 )
 
 
-const MyOrdersAndBilling = () => {
+const MyBilling = () => {
     return (
-        <StyledMyOrdersAndBilling container spacing={2} >
+        <StyledMyBilling container spacing={2}>
             <Grid item xxs={12}>
-                <MyOrders />
+                <MyBills />
             </Grid>
-        </StyledMyOrdersAndBilling>
+        </StyledMyBilling>
     );
 };
 
-export default MyOrdersAndBilling;
+export default MyBilling;

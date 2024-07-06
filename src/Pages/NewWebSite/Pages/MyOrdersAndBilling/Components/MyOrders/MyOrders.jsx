@@ -181,12 +181,14 @@ const MyOrders = () => {
                                                                                 </Typography>
                                                                             </Box>
                                                                             
+                                                                            <Box>
                                                                             {
                                                                                 product?.deleted_at
                                                                                 &&
-                                                                                <Chip label="Deleted" color='error' />
+                                                                                <Chip label="Deleted" color='error' sx={{mr: 1}} />
                                                                             }
                                                                                 <Chip onClick={handleDownloadProduct} label="Download" color='primary' />
+                                                                            </Box>
 
                                                                         </OrderItemBox>
                                                                     )

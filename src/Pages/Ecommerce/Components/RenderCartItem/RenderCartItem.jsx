@@ -29,6 +29,8 @@ import { useCart } from '../../utils/CartContext'
 import { useNavigate } from 'react-router-dom'
 import { ReviewCalculateSMA } from '../../utils/functions';
 import { productsImagesFolderName } from '../../../../Services/AdminServices/Services/productsService';
+import { usersProfileImagesFolderName } from '../../../../Services/AdminServices/Services/usersService';
+import { navigatePortfolio } from '../../../../Helpers/navigations';
 
 //Styled Components
 
@@ -53,7 +55,7 @@ const RenderCartItem = ({cartProduct, forCart, index})=>{
 
     const handleItemClick = () => {
         // Navigate to the ProductView page with the product index as a parameter
-        navigate(`/cliser-digital-market/productView/${product.id}`);
+        navigate(`/cliser-digital-market/productView/${product?.id}`);
     };
 
     const mainImagePath = useMemo(() => {
@@ -62,6 +64,9 @@ const RenderCartItem = ({cartProduct, forCart, index})=>{
         }
         return `${config.ServerImageRoute}/${productsImagesFolderName}/${product?.product_main_image_name}`
     }, [product])
+
+    const creatorImagePath = `${config.ServerImageRoute}/${usersProfileImagesFolderName}/${product?.user?.profile_image}`;
+
 
 
     if(forCart) {
@@ -94,8 +99,9 @@ const RenderCartItem = ({cartProduct, forCart, index})=>{
                                         <h2 style={{ marginBottom: '0.5rem', color: 'white' }}>{product.product_name}</h2>
                                     </a>
                                     <Rating value={ReviewCalculateSMA(product.product_reviews)} readOnly style={{ marginBottom: '0.5rem' }} />
-                                    <Typography variant="h6" sx={{ display: 'flex', alignItems: 'start', gap: '10px' }}>
-                                        <Avatar src={product.user.profile_image} sx={{ width: 32, height: 32 }} /> {product.user.first_name}
+                                    <Typography onClick={() => navigatePortfolio(product.user.id)} variant="h6" sx={{ cursor: 'pointer', display: 'flex', alignItems: 'start', gap: '10px' }}>
+                                        <Avatar src={creatorImagePath} sx={{ width: 32, height: 32 }} /> 
+                                        {product.user.first_name + " " + product.user.last_name}
                                     </Typography>
                                 </Box>
                             </Box>

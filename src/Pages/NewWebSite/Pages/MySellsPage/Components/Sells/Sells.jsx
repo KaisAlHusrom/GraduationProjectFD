@@ -105,8 +105,6 @@ const Sells = () => {
 
     const {data: sells, lastDataRecord, loading} = useFetchData(fetchUserComingOrders, 'all', null, null, true)
 
-    console.log(sells)
-
     const navigateToProduct = (id) => {
         navigateProductView(id)
     }
@@ -116,7 +114,7 @@ const Sells = () => {
     return (
         <StyledSells>
             <Typography variant='h5' letterSpacing={2} mb={2} >
-                My Sells
+                My Sales
             </Typography>
             <StyledSellsGrid
                 container
