@@ -19,7 +19,6 @@ const EditPage = ({
 }) => {
 
 
-   
 
     return (
         <StyledEditPage sx={{...sectionStyle , 

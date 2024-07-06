@@ -1,7 +1,6 @@
 //React
 
-import {
-} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 
 import PropTypes from 'prop-types';
@@ -23,6 +22,7 @@ import LaptopIcon from '@mui/icons-material/Laptop';
 import TabletIcon from '@mui/icons-material/Tablet';
 import ElectricBoltIcon from '@mui/icons-material/ElectricBolt';
 import AutofpsSelectIcon from '@mui/icons-material/AutofpsSelect';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 //MUI
@@ -35,6 +35,8 @@ import { styled } from '@mui/system'
 import ToggleColorMode from '../../../Components/ToggleColorMode/ToggleColorMode';
 import {  useNavigate, useParams } from 'react-router-dom';
 import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
+import { logOut } from '../../../Services/AuthServices/authService';
+import LargeScreenProfileAppBar from '../../NewWebSite/Components/ProfileAppBar/SubComponents/LargeScreenProfileAppBar';
 
 
 
@@ -62,6 +64,26 @@ const AppbarCom = ({ mode, toggleColorMode ,
     };
     const {id} = useParams()
 
+    const user = useSelector(state => state.authSlice.user)
+
+
+
+    const handleLogOut = async () => {
+      const res = await logOut()
+      console.log(res)
+      if(res.success){
+        navigate("/")
+      } else {
+        console.log("Log Out Failed")
+      }
+    }
+  
+    const menuItems = [
+      user?.is_admin && { value: 'Admin Page', onClick: () => navigate("/admin-dashboard") },
+      { value: 'Settings', onClick: () => alert('Settings clicked') },
+      { value: 'Logout', onClick: () => handleLogOut() },
+    ].filter(item => item);
+
 
     return (
         <StyledAppbarCom>
@@ -70,10 +92,44 @@ const AppbarCom = ({ mode, toggleColorMode ,
             }}>
         <Toolbar sx={{
         }}>
-
+          <AdminMainButton
+              icon={<AccountBoxIcon  />}
+              title="Profile"
+              appearance="iconButton"
+              type="menu"
+              menuItems={menuItems}
+              menuPaperProps={
+                  {
+                  elevation: 1,
+                  sx: {
+                      overflow: 'visible',
+                      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                      mt: 1.5,
+                      '& .MuiAvatar-root': {
+                          width: 32,
+                          height: 32,
+                          ml: -0.5,
+                          mr: 1,
+                      },
+                      '&::before': {
+                          content: '""',
+                          display: 'block',
+                          position: 'absolute',
+                          top: 0,
+                          right: 14,
+                          width: 10,
+                          height: 10,
+                          bgcolor: 'background.paper',
+                          transform: 'translateY(-50%) rotate(45deg)',
+                          zIndex: 0,
+                      },
+                  } 
+                  }
+              }
+              />
           {
             isEditPage ?    
-            <Box sx={{
+                <Box sx={{
               display: 'flex',
               justifyContent:'start',
               alignItems: 'center',
@@ -89,7 +145,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
                     sx={{...ButtonStyle , width: "60px" , marginBottom :'20px'}}
               />
                 </Box> : 
-              <Box sx={{
+                <Box sx={{
               display: 'flex',
               justifyContent:'start',
               alignItems: 'center',
@@ -143,114 +199,150 @@ const AppbarCom = ({ mode, toggleColorMode ,
           }
 
 
-                  <Box sx={{
-                  display: 'flex',
-                  justifyContent:'',
-                  alignItems: 'center',
-                  width: 'fit-content',
-                  padding: '10px 15px', 
-                  borderLeft:"1px solid",
-                  borderColor:'success.dark',
-                  }}>
-                    <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+            <Box sx={{
+            display: 'flex',
+            justifyContent:'',
+            alignItems: 'center',
+            width: 'fit-content',
+            padding: '10px 15px', 
+            borderLeft:"1px solid",
+            borderColor:'success.dark',
+            }}>
+              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
 
-                      <AdminMainButton
-                        title="Smart phone"
-                        icon={<SmartphoneIcon />}
-                        appearance="iconButton"
-                        putTooltip
-                        type='custom'
-                        onClick={() => handleSmartphoneClick()}
-                        sx={{
-                          border : 'none',
-                          padding: '10px 15px',
-                          fontWeight: 'bold',
-                          backgroundColor:'success.dark',
-                          color:'white.main',
-                          marginLeft:'10px'
-                        }}
-                      />
-                          
-                      <AdminMainButton
-                          title="Tablet"
-                            icon={<TabletIcon />}
-                            appearance="iconButton"
-                            type='custom'
-                            putTooltip
-                            onClick={() => handleTabletClick()}
-                            sx={{
-                              border : 'none',
-                              padding: '10px 15px',
-                              fontWeight: 'bold',
-                              backgroundColor:'success.dark',
-                              color:'white.main',
-                              marginLeft:'10px'
-                          }}
-                        />
-                      <AdminMainButton
-                          title="Laptop"
-                          icon={<LaptopIcon />}
-                          appearance="iconButton"
-                          type='custom'
-                          putTooltip
-                          onClick={() => handleLaptopClick()}
-                          sx={{
-                            border : 'none',
-                            padding: '10px 15px',
-                            fontWeight: 'bold',
-                            backgroundColor:'success.dark',
-                            color:'white.main',
-                            marginLeft:'10px'
-                          }}
+                <AdminMainButton
+                  title="Smart phone"
+                  icon={<SmartphoneIcon />}
+                  appearance="iconButton"
+                  putTooltip
+                  type='custom'
+                  onClick={() => handleSmartphoneClick()}
+                  sx={{
+                    border : 'none',
+                    padding: '10px 15px',
+                    fontWeight: 'bold',
+                    backgroundColor:'success.dark',
+                    color:'white.main',
+                    marginLeft:'10px'
+                  }}
+                />
+                    
+                <AdminMainButton
+                    title="Tablet"
+                      icon={<TabletIcon />}
+                      appearance="iconButton"
+                      type='custom'
+                      putTooltip
+                      onClick={() => handleTabletClick()}
+                      sx={{
+                        border : 'none',
+                        padding: '10px 15px',
+                        fontWeight: 'bold',
+                        backgroundColor:'success.dark',
+                        color:'white.main',
+                        marginLeft:'10px'
+                    }}
                   />
-                </Box>
+                <AdminMainButton
+                    title="Laptop"
+                    icon={<LaptopIcon />}
+                    appearance="iconButton"
+                    type='custom'
+                    putTooltip
+                    onClick={() => handleLaptopClick()}
+                    sx={{
+                      border : 'none',
+                      padding: '10px 15px',
+                      fontWeight: 'bold',
+                      backgroundColor:'success.dark',
+                      color:'white.main',
+                      marginLeft:'10px'
+                    }}
+            />
+            </Box>
 
-                          {
-                            isEditPage ? (null) 
-                            :   <Box sx={{
-                              display: 'flex',
-                              justifyContent:'end',
-                              alignItems: 'center',
-                              padding: '10px ',
-                              width: 'fit-content',
-                              borderLeft:"1px solid",
-            
-                              borderColor:'warning.dark',
-                              }}>
-                            <AdminMainButton
-                            title="Upgrade"
-                            icon={<ElectricBoltIcon />}
-                            appearance="primary"
-                            type='custom'
-                            sx={{
-                              border : 'none',
-                              padding: '10px 15px',
-                              fontWeight: 'bold',
-                              backgroundColor:'warning.dark',
-                              color:'white.main',
-                              marginLeft:'10px'
-            
-                            }}
-                      />
-            
-                        <AdminMainButton
-                            title="Preview"
-                            icon={<ElectricBoltIcon />}
-                            appearance="primary"
-                            onClick={() =>   navigate('/preview/' + id  )}
-                            type='custom'
-                            sx={{
-                              border : 'none',
-                              padding: '10px 15px',
-                              fontWeight: 'bold',
-                              backgroundColor:'success.dark',
-                              color:'white.main',
-                              marginLeft:'10px'
-                            }}
-                      />
-                            </Box>
+            {
+              isEditPage ? (null) 
+              :   
+              <Box sx={{
+                display: 'flex',
+                justifyContent:'end',
+                alignItems: 'center',
+                padding: '10px ',
+                width: 'fit-content',
+                borderLeft:"1px solid",
 
-                          }
+                borderColor:'warning.dark',
+                }}>
+              <AdminMainButton
+              title="Upgrade"
+              icon={<ElectricBoltIcon />}
+              appearance="primary"
+              type='custom'
+              sx={{
+                border : 'none',
+                padding: '10px 15px',
+                fontWeight: 'bold',
+                backgroundColor:'warning.dark',
+                color:'white.main',
+                marginLeft:'10px'
+
+              }}
+        />
+
+          <AdminMainButton
+              title="Preview"
+              icon={<ElectricBoltIcon />}
+              appearance="primary"
+              onClick={() =>   navigate('/preview/' + id  )}
+              type='custom'
+              sx={{
+                border : 'none',
+                padding: '10px 15px',
+                fontWeight: 'bold',
+                backgroundColor:'success.dark',
+                color:'white.main',
+                marginLeft:'10px'
+              }}
+        />
+            <AdminMainButton
+              icon={<AccountBoxIcon  />}
+              title="Profile"
+              appearance="iconButton"
+              type="menu"
+              menuItems={menuItems}
+              menuPaperProps={
+                  {
+                  elevation: 1,
+                  sx: {
+                      overflow: 'visible',
+                      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+                      mt: 1.5,
+                      '& .MuiAvatar-root': {
+                          width: 32,
+                          height: 32,
+                          ml: -0.5,
+                          mr: 1,
+                      },
+                      '&::before': {
+                          content: '""',
+                          display: 'block',
+                          position: 'absolute',
+                          top: 0,
+                          right: 14,
+                          width: 10,
+                          height: 10,
+                          bgcolor: 'background.paper',
+                          transform: 'translateY(-50%) rotate(45deg)',
+                          zIndex: 0,
+                      },
+                  } 
+                  }
+              }
+              />
+              </Box>
+
+            }
             
         </Toolbar>
         

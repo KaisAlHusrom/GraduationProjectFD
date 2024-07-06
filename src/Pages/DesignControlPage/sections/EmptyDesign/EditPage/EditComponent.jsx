@@ -13,23 +13,27 @@ import { Box } from '@mui/material';
 
 import UndoIcon from '@mui/icons-material/Undo';
 import RecursiveEditComponent from './RecursiveEditComponent.jsx';
+import { position } from 'stylis';
 
 // Helpers
 
-
-
 const EditButtonsStyle = {
+    width: '30px',
+    height: '30px',
     border: '1px solid red',
-    padding: '10px 15px',
     fontWeight: 'bold',
-    color: 'white.main',
-    backgroundColor: '#021402',
+    backgroundColor: 'success.dark',
+    color : 'white.main',
     transition: 'background-color 0.3s',
-    position: 'absolute',
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
     },
+    position : 'absolute',
+    bottom : '-5px',
+    marginLeft : '20px' 
 };
+
+
 const EditComponent = ({
     component,
     handleAddNewElement,
@@ -114,7 +118,7 @@ const EditComponent = ({
                 component.children
                     .sort((a, b) => a.sequence_number - b.sequence_number)
                     .map((element, i) => (
-                        <Box key={`${component.id}-${element.id}-${i}`} sx={{ padding: '0px' }}>
+                        < >
                             {element.design_type === 'component' ? (
                                 <RecursiveEditComponent
                                     component={element}
@@ -136,7 +140,7 @@ const EditComponent = ({
                                     handleAddNewElement={handleAddNewElement}
                                 />
                             )}
-                        </Box>
+                        </>
                     ))}
 
             {history.length > 0 && (

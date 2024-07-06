@@ -9,8 +9,9 @@ import AddBoxIcon from '@mui/icons-material/AddBox';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import { styled } from '@mui/styles';
 import { Edit as EditIcon } from '@mui/icons-material';
-
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddCardIcon from '@mui/icons-material/AddCard';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 // Component 
 import EditComponent from './EditComponent.jsx';
 import { AdminMainButton, AdminMainButtonOutsideState, CustomDrawer } from '../../../../../Components/index.jsx';
@@ -33,10 +34,11 @@ import { fetchUserStylePropCategories } from '../../../../../Services/UserServic
 
 
 const EditButtonsStyle = {
+    width: '30px',
+    height: '30px',
     border: '1px solid red',
     fontWeight: 'bold',
     color: 'white.main',
-    backgroundColor: 'success.dark',
     transition: 'background-color 0.3s',
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
@@ -48,37 +50,18 @@ const TooltipContainer = styled(Box)({
     left: "0",
 });
 
-
-const ActionButtons = styled(Box)({
+const StyledRecursiveEditComponent = styled(Box)(() => ({
     position: 'relative',
-    bottom: '0px',
-    left: '50px',
-    display: 'flex',
-    gap :'10px',
-    justifyContent: 'space-evenly',
-    alignItems: 'center',
-    opacity: 0,
-    visibility: 'hidden',
-    transition: 'opacity 0.3s ease',
-    width :'100px'
-});
-// const generateNewIdsForChildren = (component) => {
-//     const newComponent = { ...component, id: uuidv4() };
-//     if (newComponent.children && newComponent.children.length > 0) {
-//         newComponent.children = newComponent.children.map(child => generateNewIdsForChildren(child));
-//     }
-//     return newComponent;
-// };
-
-const StyledRecursiveEditComponent= styled(Box)(() => ({
-    '& div': {
-        border: 'none'
+    '& .button-container': {
+        visibility: 'hidden',
+        opacity: 0,
+        transition: 'visibility 0s, opacity 0.3s linear',
     },
-    '&:hover > div': {
-        opacity: 1, // Show the TooltipContainers when StyledEditComponent is hovered
+    '&:hover .button-container': {
         visibility: 'visible',
+        opacity: 1,
+        transition: 'visibility 0s, opacity 0.3s linear',
     },
-    position: 'relative'
 }));
 
 const RecursiveEditComponent = ({
@@ -305,8 +288,6 @@ const RecursiveEditComponent = ({
     }, [setData, setHistory]);
     
 
-    
-
     // add new element to component 
     const handleAddNewElement = useCallback((componentId, element) => {
         setData((prevData) => ({
@@ -329,8 +310,6 @@ const RecursiveEditComponent = ({
         deleteComponentElements(AddElementToComponentId);
         closeConfirmationDialog();
     };
-
- 
 
     const openConfirmationDialog = () => {
         setConfirmationDialogOpen(true);
@@ -404,112 +383,101 @@ const RecursiveEditComponent = ({
                 styleCategories={styleCategories}
             />
                 </Box>
-             <ConfirmationDialog
+                <ConfirmationDialog
                 open={confirmationDialogOpen}
                 onClose={closeConfirmationDialog}
                 onConfirm={handleConfirmDelete}
             />
-            <ActionButtons className="action-buttons">
+
+                <Box className="button-container" sx={{ position: 'absolute', bottom: '-20px', left: '0', display: 'flex', gap: 1, p: 2 }}>
+
+                    <AdminMainButton
+                        title="Add elements"
+                        type="StyleDialog"
+                        appearance="iconButton"
+                        putTooltip
+                        willShow={
+                            <ElementsTypeModal
+                                createDesignedDesign={handleAddNewElement}
+                                selected_parent_id={component.id}
+                                customState={[dialogDesignState, setDialogDesignState]}
+                                drawerStates={[drawerDesignState, setDrawerDesignState]}
+                                designState={[design, setDesign]}
+                            />
+                        }
+                        icon={<AddBoxIcon />}
+                        sx={{ backgroundColor: 'success.dark', ...EditButtonsStyle }}
+                    />
                     <AdminMainButton
                         title="Duplicate"
                         type="custom"
                         onClick={() => duplicateComponent(component.id)}
                         appearance="iconButton"
-                        putTooltip                                
-                        icon={<AddBoxIcon />}
-                        sx={EditButtonsStyle}
+                        putTooltip
+                        icon={<ContentCopyIcon />}
+                        sx={{ backgroundColor: 'success.dark', ...EditButtonsStyle }}
                     />
-                <AdminMainButton
-                    title="Delete"
-                    type="custom"
-                    onClick={()=> deleteComponentForComponent(component.id)}
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<DeleteSweepIcon />}
-                    sx={{
-                        border: '1px solid red',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: 'warning.dark',
-                        transition: 'background-color 0.3s',
-                        '&:hover': {
-                            backgroundColor: 'rgb(7, 15, 43)',
-                        },
-                    }}
-                />
-                <AdminMainButton
-                    title="Delete All Component Elements"
-                    type="custom"
-                    appearance="iconButton"
-                    putTooltip
-                    onClick={() => handleConfirmation(component.id)}
-                    icon={<DeleteSweepIcon />}
-                    sx={{
-                        border: '1px solid red',
-                        fontWeight: 'bold',
-                        color: 'white.main',
-                        backgroundColor: 'warning.dark',
-                        margin: '5px',
-                        transition: 'background-color 0.3s',
-                        '&:hover': {
-                            backgroundColor: 'rgb(7, 15, 43)',
-                        },
-                        display:component.children.length === 0 ? 'none' : 'flex',
-                    }}
-                />
-                <AdminMainButton
-                    title="Add elements"
-                    type="StyleDialog"
-                    appearance="iconButton"
-                    putTooltip
-                    willShow={
-                        <ElementsTypeModal
-                            createDesignedDesign = {handleAddNewElement}
-                            selected_parent_id = {component.id}    
-                            customState = {[dialogDesignState , setDialogDesignState]}
-                            drawerStates = {[drawerDesignState , setDrawerDesignState]}
-                            designState={[design , setDesign]}                                 
-                        />
-                    }
-                    icon={<AddBoxIcon />}
-                    sx={EditButtonsStyle}
-                />
-                <AdminMainButtonOutsideState
-                    customState={[dialogDesignComponentState , setDialogDesignComponentState]}
-                    title="Add Components"
-                    type="StyleDialog"
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<AddBoxIcon />}
-                    willShow={
-                        <ModalDesignCategories  
-                            customState = {[dialogDesignComponentState , setDialogDesignComponentState] }
-                            drawerStates = {[drawerDesignComponentState , setDrawerDesignComponentState]}
-                            designState={[design , setDesign]}
-                            appliedFilter = {appliedFilterForComponent}
-                            NameOfCategories = {'Component Designs'}
-                        />
-                    }
-                    sx={{...EditButtonsStyle , backgroundColor : 'warning.main'}}
-                />
-                <CustomDrawer
-                    drawerOpenState={[drawerDesignComponentState , setDrawerDesignComponentState]}
-                    title={"Component Designs"}
-                    drawerStyle={{
-                        paddingTop : '80px'
-                    }}
-                    putDrawerCloseButton={true}
-                    anchor={"left"}
-                >
-                    <DrawerSelectedCategoryDesigns
-                        isCompoenntInside = {true}
-                        design_category_id={design?.id}
-                        createDesignedDesign={handleAddNewComponentElement}
-                        appliedFilterType={design?.design_type}
-                        selected_parent_id={component.id}  
+                    <AdminMainButtonOutsideState
+                        customState={[dialogDesignComponentState, setDialogDesignComponentState]}
+                        title="Add Components"
+                        type="StyleDialog"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<AddCardIcon />}
+                        willShow={
+                            <ModalDesignCategories
+                                customState={[dialogDesignComponentState, setDialogDesignComponentState]}
+                                drawerStates={[drawerDesignComponentState, setDrawerDesignComponentState]}
+                                designState={[design, setDesign]}
+                                appliedFilter={appliedFilterForComponent}
+                                NameOfCategories={'Component Designs'}
+                            />
+                        }
+                        sx={{ ...EditButtonsStyle, backgroundColor: 'success.dark' }}
                     />
-                </CustomDrawer>
-            </ActionButtons>
+                    <CustomDrawer
+                        drawerOpenState={[drawerDesignComponentState, setDrawerDesignComponentState]}
+                        title={"Component Designs"}
+                        drawerStyle={{
+                            paddingTop: '80px'
+                        }}
+                        putDrawerCloseButton={true}
+                        anchor={"left"}
+                    >
+                        <DrawerSelectedCategoryDesigns
+                            isComponentInside={true}
+                            design_category_id={design?.id}
+                            createDesignedDesign={handleAddNewComponentElement}
+                            appliedFilterType={design?.design_type}
+                            selected_parent_id={component.id}
+                        />
+                    </CustomDrawer>
+                </Box>
+
+                <Box className="button-container" sx={{ position: 'absolute', bottom: '-20px', right: '0', display: 'flex', gap: 1, p: 2 }}>
+
+                    <AdminMainButton
+                        title="Delete"
+                        type="custom"
+                        onClick={() => deleteComponentForComponent(component.id)}
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<DeleteSweepIcon />}
+                        sx={{ backgroundColor: 'warning.dark', ...EditButtonsStyle }}
+                    />
+                    <AdminMainButton
+                        title="Delete All Component Elements"
+                        type="custom"
+                        appearance="iconButton"
+                        putTooltip
+                        onClick={() => handleConfirmation(component.id)}
+                        icon={<DeleteForeverIcon />}
+                        sx={{ backgroundColor: 'warning.dark', ...EditButtonsStyle }}
+                    />
+                </Box>
+
+                    
+                
             <TooltipContainer>
                 <AdminMainButtonOutsideState
                     title="Edit"
@@ -552,6 +520,9 @@ const RecursiveEditComponent = ({
                     />
                 </CustomDrawer>
             </TooltipContainer>
+
+
+
         </StyledRecursiveEditComponent>
     );
 };

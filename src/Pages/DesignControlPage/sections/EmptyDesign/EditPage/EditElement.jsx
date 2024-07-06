@@ -10,7 +10,6 @@ import propTypes from 'prop-types';
 import * as utils from '../StylesFunctions/SetStylesFunctions.js';
 import { AdminMainButton, AdminMainButtonOutsideState, CustomDrawer } from '../../../../../Components/index.jsx';
 import StyleBox from '../../../components/StyleBox.jsx';
-import { GenerateTagEdit } from '../../../components/GenerateTagEdit .jsx';
 import StylesCategory from './Drawers/DrawersNew/StylesCategory.jsx';
 
 
@@ -25,6 +24,7 @@ import { Edit as EditIcon } from '@mui/icons-material';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import { GenerateTagEditPage } from '../../../components/GenerateTageEditPage.jsx';
 
 
 
@@ -35,6 +35,7 @@ const StyledEditElement = styled(Box)(({ elementstyle }) => ({
         visibility: 'visible',
     },
     ...elementstyle,
+
 }));
 
 const TooltipContainer = styled(Box)({
@@ -42,10 +43,20 @@ const TooltipContainer = styled(Box)({
     opacity: 0,
     transition: 'opacity 1s ease',
     zIndex: 999,
+    bottom : "0" ,
+    left : "0px"
+});
+const TooltipContainer1 = styled(Box)({
+    position: 'relative',
+    opacity: 0,
+    transition: 'opacity 1s ease',
+    zIndex: 999,
+    bottom : "0" ,
+    left : ""
 });
 
 const buttonStyle = {
-    width: '20px',
+    width: '10px',
     height: '0px',
     border: '1px solid red',
     padding: '10px 15px',
@@ -57,6 +68,7 @@ const buttonStyle = {
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
     },
+
 };
 
 const EditElement = ({ 
@@ -69,7 +81,6 @@ const EditElement = ({
     const [title, setTitle] = useState(elementData.element_content);
     const [sectionData, setSectionData] = sectionDataState;
     const [elementStyle, setElementStyle] = useState({});
-    const [props, setProps] = useState({});
 
     const [history, setHistory] = useState([]);
     const [dialogState , setDialogState] = useState(false)
@@ -229,60 +240,23 @@ const EditElement = ({
         // Elemanların sırasını güncelle
         handleMoveElement(currentSequenceNumber, newIndex, componentId);
     };
-    
-
-
-
-            
-        // Function to generate default props based on element_prop_name
-        const generateDefaultProps = (designProps) => {
-            return designProps.reduce((acc, prop) => {
-                if (prop.element_prop.element_prop_name === 'to') {
-                    acc['to'] = prop.design_prop_value;
-                }
-                if (prop.element_prop.element_prop_name === 'href') {
-                    acc['href'] = prop.design_prop_value;
-                }
-                return acc;
-            }, {});
-        };
-
-        const propsValues = useMemo(() => {
-            return generateDefaultProps(element.design_prop_values || []);
-        }, [element.design_prop_values]);
-
-        useEffect(() => {
-            setProps(propsValues);
-        }, [propsValues]);
-
-
 
 
     return (
         <StyledEditElement>
             {
                 elementData.design_type === 'element' ? (
-                    <GenerateTagEdit 
+                    <GenerateTagEditPage
                     selectedTemplate={elementData} 
                     elementStyle={elementStyle} 
-                    propsValues = {props}
-                    ></GenerateTagEdit>
-
+                    ></GenerateTagEditPage>
+                
                 ): (
                     null
-                    // <CreateComponent 
-                    // key={elementData.id} 
-                    // component={elementData} 
-                    // componentId={elementData.id}
-                    // handleAddNewElement={handleAddNewElement} 
-                    // elements={elements}
-                    // sectionDataState={[sectionData, setSectionData]}
-                    // styleCategories={styleCategories}
-                // />
                 ) 
             }
             <TooltipContainer>
-                <div style={{ position: 'absolute', height: '50px', flexWrap: 'wrap', right: '-50px', top: '0', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ position: 'absolute', height: '50px', flexWrap: 'wrap', right: '0px', bottom: '0', display: 'flex', flexDirection: 'column' }}>
                     <AdminMainButtonOutsideState
                         title="edİt"
                         type="StyleDialog"
@@ -306,7 +280,6 @@ const EditElement = ({
                                 handleDeleteLogoClick={handleDeleteLogoClick}
                                 handleUploadImageClickWrapper={handleUploadImageClickWrapper}
                                 styleCategories={styleCategories}
-                                props={props}
                             />
                         }
                         sx={buttonStyle}
@@ -351,7 +324,16 @@ const EditElement = ({
                             },
                         }}
                     />
-                    <AdminMainButton
+                 
+                </div>
+
+             
+            </TooltipContainer>
+            <TooltipContainer1>
+          
+
+                <Box sx={{ position: 'absolute', height: '50px', flexWrap: 'wrap', left: '0px', bottom: '0', display: 'flex', flexDirection: 'column' }}>
+                <AdminMainButton
                         title=""
                         type="custom"
                         appearance="iconButton"
@@ -370,8 +352,8 @@ const EditElement = ({
                         sx={buttonStyle}
                     />
 
-                </div>
-            </TooltipContainer>
+                </Box>
+            </TooltipContainer1>
         </StyledEditElement>
     );
 };

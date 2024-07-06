@@ -7,7 +7,7 @@ import {
 import PropTypes from 'prop-types';
 
 //Components
-import { GenerateTagEdit } from '../../../components/GenerateTagEdit ';
+import { GenerateTagEditPage } from '../../../components/GenerateTageEditPage';
 
 
 //MUI
@@ -43,7 +43,7 @@ const PreviewElement = ({element}) => {
 
     return (
         <StyledPreviewElement>
-                <GenerateTagEdit selectedTemplate={element} elementStyle={elementStyle}></GenerateTagEdit>
+                <GenerateTagEditPage selectedTemplate={element} elementStyle={elementStyle}></GenerateTagEditPage>
             </StyledPreviewElement>
     );
 };

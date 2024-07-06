@@ -50,19 +50,17 @@ const StyledMainEdit = styled(Box)(
 
 const TooltipContainer = styled(Box)({
     position: 'relative',
-    top: 0, 
+    top: "-20px", 
     left: 0,
     opacity: 0, // Initially set opacity to 0
     visibility: 'hidden', // Initially hide the TooltipContainer
     transition: 'opacity 1s ease', // Apply transition effect to opacity
-    display :'flex',
 });
 
 const EditButtonsStyle = {
     border: '1px solid red',
     fontWeight: 'bold',
     color: 'white.main',
-    backgroundColor: 'success.dark',
     transition: 'background-color 0.3s',
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
@@ -239,7 +237,7 @@ const MainEdit = () => {
     }
     }, [data]);
 
-
+   
     return (
         <StyledMainEdit>
             <AppbarCom
@@ -285,7 +283,7 @@ const MainEdit = () => {
                 margin: '100px auto',
             }}>
 
-        <TooltipContainer>  
+                <TooltipContainer>  
                         <Box sx = {{
                             width :'250px',
                             display : 'flex',
@@ -310,7 +308,7 @@ const MainEdit = () => {
                                         sectionStyleProps={sectionStyle}
                                         />
                                 }
-                                sx={EditButtonsStyle}
+                                sx={{    backgroundColor: 'success.dark',...EditButtonsStyle}}
                             />  
                             <CustomDrawer
                                     drawerOpenState={[drawerState , setDrawerState]}
@@ -338,14 +336,7 @@ const MainEdit = () => {
                                     onClick={() => deleteSection(section_id)}
                                     icon={<DeleteSweepIcon />}
                                     sx={{
-                                        border: '1px solid red',
-                                        fontWeight: 'bold',
-                                        color: 'white.main',
-                                        backgroundColor: 'warning.dark',
-                                        transition: 'background-color 0.3s',
-                                        '&:hover': {
-                                            backgroundColor: 'rgb(7, 15, 43)',
-                                        },
+                                        backgroundColor: 'warning.dark', ...EditButtonsStyle
                                     }}
 
                                 />
@@ -367,7 +358,8 @@ const MainEdit = () => {
                                     NameOfCategories = {'Component Designs'}
                                     ></ModalDesignCategories>
                                     }
-                                sx={EditButtonsStyle}
+                                    sx={{ backgroundColor: 'success.dark',...EditButtonsStyle}}
+
                             />
                             <CustomDrawer
                                     drawerOpenState={[drawerDesignState , setDrawerDesignState]}
@@ -386,7 +378,9 @@ const MainEdit = () => {
                                 
                                 />
                                             
-                    </CustomDrawer>
+                            </CustomDrawer>
+
+                            
                             <AdminMainButton
                                 title="Create New Section"
                                     type="StyleDialog"
@@ -402,7 +396,7 @@ const MainEdit = () => {
                                         ></ModalDesignCategories>
 
                                     }
-                                    sx={EditButtonsStyle}
+                                    sx={{ backgroundColor: 'success.dark',...EditButtonsStyle}}
                                     />
 
                             {history.length > 0 && (

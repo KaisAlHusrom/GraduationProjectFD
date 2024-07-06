@@ -44,7 +44,7 @@ const PreviewComponent = ({component}) => {
     
     return (
         <StyledPreviewComponent sx={{...componentStyle , position : 'relative'}}>
-                 {
+                    {
                     component && component.children
                         .sort((a, b) => a.sequence_number - b.sequence_number)
                         .map((element, i) => (

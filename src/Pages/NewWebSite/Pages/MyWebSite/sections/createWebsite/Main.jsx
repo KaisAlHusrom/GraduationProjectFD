@@ -84,7 +84,7 @@ const Main = () => {
             const res = await addUserWebProject(data);
             if (res.success) {
                 setWebProjectId(res.data.id);
-                setCurrentStep((prevStep) => prevStep + 1);
+                // setCurrentStep((prevStep) => prevStep + 1);
             }
         } catch (error) {
             console.error('Error submitting project:', error);
@@ -99,7 +99,7 @@ const Main = () => {
         ]
         
     }, [])
-    const { data } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 10)
+    const { data } = useFetchData(fetch, 'all', appliedFilter, null, true, null, null, 10)
 
     
     const handleSubmitPage = async () => {

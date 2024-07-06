@@ -12,6 +12,7 @@ import { ButtonStyle, ModalTitleStyle } from '../sections/EmptyDesign/StylesFunc
 import useEffectFetchData from '../../../Helpers/customHooks/useEffectFetchData.jsx';
 import { fetchUserElementProps } from '../../../Services/UserServices/Services/elementsPropsUsersService.js';
 import PropElementValue from './PropElementValue.jsx';
+import { useParams } from 'react-router-dom';
 
 const StyledStyleBox = styled(Box)(
     () => ({
@@ -34,7 +35,6 @@ const StyleBox = ({
     categoryState,
     elementDataSet , 
     sectionDataState,
-    props
 }) => {
     const [dialogState , setDialogState] = customState;
     const [drawerState , setDrawerState] = drawerStates;

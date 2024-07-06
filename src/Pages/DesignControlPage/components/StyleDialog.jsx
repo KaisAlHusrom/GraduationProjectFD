@@ -31,7 +31,7 @@ const StyleDialog = ({ title, OpenState, children }) => {
           <div id="alert-dialog-description">{children}</div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} sx={{
+          {/* <Button onClick={handleClose} sx={{
             color: 'black',
             backgroundColor: '#FFFFF',
             fontWeight: 'bold',
@@ -40,7 +40,7 @@ const StyleDialog = ({ title, OpenState, children }) => {
             backgroundColor: '#092635',
             color: '#eee',
             fontWeight: 'bolder',
-          }}>Save</Button>
+          }}>Save</Button> */}
         </DialogActions>
       </Dialog>
     </StyledStyleDialog>

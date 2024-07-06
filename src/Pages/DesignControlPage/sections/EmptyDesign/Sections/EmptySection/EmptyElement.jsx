@@ -17,7 +17,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { GenerateTagEdit } from '../../../../components/GenerateTagEdit '
+import { GenerateTagEditPage } from '../../../../components/GenerateTageEditPage'
 
 //Styled Components
 
@@ -48,7 +48,7 @@ const EmptyElement = ({element}) => {
         <StyledEmptyElement className='element-query'>
                {
                 elementData.design_type === "element" ? (
-                    <GenerateTagEdit selectedTemplate={elementData} elementStyle={elementStyle}></GenerateTagEdit>
+                    <GenerateTagEditPage selectedTemplate={elementData} elementStyle={elementStyle}></GenerateTagEditPage>
                 ) : null
                }
         </StyledEmptyElement>

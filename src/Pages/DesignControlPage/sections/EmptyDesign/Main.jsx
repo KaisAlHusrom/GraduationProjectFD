@@ -146,9 +146,9 @@ const handleChange = async (event) => {
                 />
         
 
-                        <Box sx = {{
-                            marginTop : '100px',
-                            }}>
+                <Box sx = {{
+                    marginTop : '100px',
+                    }}>
                     
                     <Alert severity="info" sx={{
                         marginBottom  :'20px'
