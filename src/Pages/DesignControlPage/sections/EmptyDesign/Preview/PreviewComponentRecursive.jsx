@@ -2,8 +2,8 @@ import  {  useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 
-import EmptyComponent from './EmptyComponent.jsx';
-const RecursiveComponent = ({
+import PreviewComponent from './PreviewComponent.jsx';
+const PreviewComponentRecursive = ({
     component,
 }) => {
 
@@ -28,7 +28,7 @@ const RecursiveComponent = ({
 
     return (
         <>
-                <EmptyComponent  
+                <PreviewComponent  
                     key= {component.id} 
                     component={component} 
                 />
@@ -37,8 +37,8 @@ const RecursiveComponent = ({
 };
 
 
-RecursiveComponent.propTypes = {
+PreviewComponentRecursive.propTypes = {
     component: PropTypes.object
 }
 
-export default RecursiveComponent;
+export default PreviewComponentRecursive;

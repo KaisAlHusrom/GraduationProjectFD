@@ -37,6 +37,7 @@ import {  useNavigate, useParams } from 'react-router-dom';
 import { ButtonStyle } from '../sections/EmptyDesign/StylesFunctions/SetStylesFunctions';
 import { logOut } from '../../../Services/AuthServices/authService';
 import LargeScreenProfileAppBar from '../../NewWebSite/Components/ProfileAppBar/SubComponents/LargeScreenProfileAppBar';
+import { navigateProfilePage } from '../../../Helpers/navigations';
 
 
 
@@ -80,7 +81,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
   
     const menuItems = [
       user?.is_admin && { value: 'Admin Page', onClick: () => navigate("/admin-dashboard") },
-      { value: 'Settings', onClick: () => alert('Settings clicked') },
+      { value: 'Profile', onClick: () => navigateProfilePage()},
       { value: 'Logout', onClick: () => handleLogOut() },
     ].filter(item => item);
 
@@ -305,41 +306,7 @@ const AppbarCom = ({ mode, toggleColorMode ,
                 marginLeft:'10px'
               }}
         />
-            <AdminMainButton
-              icon={<AccountBoxIcon  />}
-              title="Profile"
-              appearance="iconButton"
-              type="menu"
-              menuItems={menuItems}
-              menuPaperProps={
-                  {
-                  elevation: 1,
-                  sx: {
-                      overflow: 'visible',
-                      filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-                      mt: 1.5,
-                      '& .MuiAvatar-root': {
-                          width: 32,
-                          height: 32,
-                          ml: -0.5,
-                          mr: 1,
-                      },
-                      '&::before': {
-                          content: '""',
-                          display: 'block',
-                          position: 'absolute',
-                          top: 0,
-                          right: 14,
-                          width: 10,
-                          height: 10,
-                          bgcolor: 'background.paper',
-                          transform: 'translateY(-50%) rotate(45deg)',
-                          zIndex: 0,
-                      },
-                  } 
-                  }
-              }
-              />
+         
               </Box>
 
             }

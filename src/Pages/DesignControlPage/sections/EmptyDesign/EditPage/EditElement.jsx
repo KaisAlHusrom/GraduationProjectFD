@@ -12,7 +12,6 @@ import { AdminMainButton, AdminMainButtonOutsideState, CustomDrawer } from '../.
 import StyleBox from '../../../components/StyleBox.jsx';
 import StylesCategory from './Drawers/DrawersNew/StylesCategory.jsx';
 
-
 // Helpers 
 import { addStyleAbdullah } from '../../../../../Helpers/RecursiveHelpers/styles.js';
 // MUI
@@ -26,71 +25,71 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { GenerateTagEditPage } from '../../../components/GenerateTageEditPage.jsx';
 
-
-
 // Styled Components
 const StyledEditElement = styled(Box)(({ elementstyle }) => ({
-    '&:hover > div': {
+    position: 'relative',
+    '&:hover > .tooltip-container': {
         opacity: 1,
         visibility: 'visible',
     },
     ...elementstyle,
-
 }));
 
-const TooltipContainer = styled(Box)({
-    position: 'relative',
-    opacity: 0,
-    transition: 'opacity 1s ease',
-    zIndex: 999,
-    bottom : "0" ,
-    left : "0px"
-});
+// const TooltipContainer = styled(Box)({
+//     position: 'absolute',
+//     opacity: 0,
+//     transition: 'opacity 0.5s ease',
+//     zIndex: 999,
+//     bottom: "0",
+//     right: '0',
+//     display : 'flex',
+//     flexDirection: 'row',
+//     visibility: 'hidden',
+// });
+
 const TooltipContainer1 = styled(Box)({
-    position: 'relative',
+    position: 'absolute',
     opacity: 0,
-    transition: 'opacity 1s ease',
+    transition: 'opacity 0.5s ease',
     zIndex: 999,
-    bottom : "0" ,
-    left : ""
+    top: 0,
+    left: '',
+    visibility: 'hidden',
+    display : 'flex',
+    flexDirection: 'row',
 });
 
 const buttonStyle = {
-    width: '10px',
-    height: '0px',
+    width: '30px',
+    height: '30px',
     border: '1px solid red',
-    padding: '10px 15px',
+    padding: '5px',
     fontWeight: 'bold',
     color: 'white.main',
-    backgroundColor: '#062c06',
+    backgroundColor: 'success.main',
     transition: 'background-color 0.3s',
     marginBottom: '2px',
     '&:hover': {
         backgroundColor: 'rgb(7, 15, 43)',
     },
-
 };
 
 const EditElement = ({ 
-    element, deleteElementForComponent, componentId, handleMoveElement, componentDataState, styleCategories, sectionDataState ,
-
+    element, deleteElementForComponent, componentId, handleMoveElement, componentDataState, styleCategories, sectionDataState,
 }) => {
-
     const [elementData, setElementData] = useState(element);
     const [componentData, setComponentData] = componentDataState;
     const [title, setTitle] = useState(elementData.element_content);
     const [sectionData, setSectionData] = sectionDataState;
     const [elementStyle, setElementStyle] = useState({});
-
     const [history, setHistory] = useState([]);
-    const [dialogState , setDialogState] = useState(false)
-    const [drawerState , setDrawerState] = useState(false);
-    const [category , setCategory] = useState(null)
+    const [dialogState, setDialogState] = useState(false);
+    const [drawerState, setDrawerState] = useState(false);
+    const [category, setCategory] = useState(null);
 
     useEffect(() => {
         setElementData(element);
     }, [element]);
-
 
     useMemo(() => {
         const dictionary = {};
@@ -104,7 +103,6 @@ const EditElement = ({
         }
         setElementStyle(dictionary);
     }, [element.styles]);
-
 
     const handleSectionStyleChange = useCallback((cssValue, prop) => {
         setComponentData((prevData) => {
@@ -134,7 +132,6 @@ const EditElement = ({
         setHistory(prevHistory => [...prevHistory, JSON.parse(JSON.stringify(sectionData))]);
     
     }, [setComponentData, componentData, element.id, sectionData]);
-    
 
     const handleTextFieldChange = (e) => {
         const newTitle = e.target.value;
@@ -172,10 +169,8 @@ const EditElement = ({
             return updatedSectionData;
         });
     };
-    
 
-
- const handleImageChangeWrapper = (fileData, file) => {
+    const handleImageChangeWrapper = (fileData, file) => {
         if (fileData) {
             setTitle(fileData);
             // Additionally, you can store the file or any other necessary information
@@ -216,6 +211,7 @@ const EditElement = ({
             return updatedSectionData;
         });
     };
+
     const handleDeleteLogoClick = () => {
         utils.handleDeleteLogoClick(setTitle);
     };
@@ -224,7 +220,6 @@ const EditElement = ({
         deleteElementForComponent(componentId, elementData.id);
     };
 
-    
     const handleOrderElementClick = (event, direction, sequence_number) => {
         event.stopPropagation();
         const elementsCount = componentData.children.length;
@@ -241,99 +236,26 @@ const EditElement = ({
         handleMoveElement(currentSequenceNumber, newIndex, componentId);
     };
 
-
     return (
         <StyledEditElement>
             {
                 elementData.design_type === 'element' ? (
                     <GenerateTagEditPage
-                    selectedTemplate={elementData} 
-                    elementStyle={elementStyle} 
-                    ></GenerateTagEditPage>
-                
-                ): (
+                        selectedTemplate={elementData}
+                        elementStyle={elementStyle}
+                    />
+                ) : (
                     null
-                ) 
+                )
             }
-            <TooltipContainer>
-                <div style={{ position: 'absolute', height: '50px', flexWrap: 'wrap', right: '0px', bottom: '0', display: 'flex', flexDirection: 'column' }}>
-                    <AdminMainButtonOutsideState
-                        title="edİt"
-                        type="StyleDialog"
-                        appearance="iconButton"
-                        putTooltip
-                        icon={<EditIcon />}
-                        customState = {[dialogState , setDialogState]}
-
-                        willShow={
-                            <StyleBox
-                                elementDataSet =  { [elementData, setElementData]}
-                                sectionDataState = {sectionDataState}
-                                customState = {[dialogState, setDialogState]}
-                                drawerStates = {[drawerState , setDrawerState]}
-                                categoryState={[category, setCategory]}
-                                name_of_design={"Style Element"}
-                                title={title}
-                                handleTextFieldChange={handleTextFieldChange}
-                                type_of_design={element?.element_type?.element_type_name}
-                                handleSectionStyleChange={handleSectionStyleChange}
-                                handleDeleteLogoClick={handleDeleteLogoClick}
-                                handleUploadImageClickWrapper={handleUploadImageClickWrapper}
-                                styleCategories={styleCategories}
-                            />
-                        }
-                        sx={buttonStyle}
-                    />
-                        <CustomDrawer
-                                drawerOpenState={[drawerState , setDrawerState]}
-                                title={"Style Element"}
-                                drawerStyle={{
-                                paddingTop : '80px'
-                                }}
-                                putDrawerCloseButton={true}
-                                anchor={"left"}
-                        >
-                            <StylesCategory  
-                                customState = {[dialogState , setDialogState]}
-                                handleSectionStyleChange = {handleSectionStyleChange} 
-                                category = {{category}} 
-                                sectionStyle={elementStyle}
-
-                                />
-
-                        </CustomDrawer>
-                    <AdminMainButton
-                        title=""
-                        type="custom"
-                        appearance="iconButton"
-                        putTooltip
-                        icon={<DeleteSweepIcon />}
-                        onClick={handleDeleteElementClick}
-                        sx={{
-                            width: '20px',
-                            height: '0px',
-                            border: '1px solid red',
-                            padding: '10px 15px',
-                            fontWeight: 'bold',
-                            color: 'white.main',
-                            backgroundColor: 'warning.dark',
-                            transition: 'background-color 0.3s',
-                            marginBottom: '2px',
-                            '&:hover': {
-                                backgroundColor: 'rgb(7, 15, 43)',
-                            },
-                        }}
-                    />
-                 
+            {/* <TooltipContainer className="tooltip-container">
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
+                   
                 </div>
-
-             
-            </TooltipContainer>
-            <TooltipContainer1>
-          
-
-                <Box sx={{ position: 'absolute', height: '50px', flexWrap: 'wrap', left: '0px', bottom: '0', display: 'flex', flexDirection: 'column' }}>
-                <AdminMainButton
+            </TooltipContainer> */}
+            <TooltipContainer1 className="tooltip-container">
+                <div style={{ display: 'flex', flexDirection: 'row' , justifyContent  :'center' , alignItems : 'center' , gap : '5px' }}>
+                    <AdminMainButton
                         title=""
                         type="custom"
                         appearance="iconButton"
@@ -348,11 +270,74 @@ const EditElement = ({
                         appearance="iconButton"
                         putTooltip
                         icon={<KeyboardArrowDownIcon />}
-                        onClick={(e) => handleOrderElementClick(e, 'down', elementData.sequence_number )}
+                        onClick={(e) => handleOrderElementClick(e, 'down', elementData.sequence_number)}
                         sx={buttonStyle}
                     />
-
-                </Box>
+                     <AdminMainButtonOutsideState
+                        title="edit"
+                        type="StyleDialog"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<EditIcon />}
+                        customState={[dialogState, setDialogState]}
+                        willShow={
+                            <StyleBox
+                                elementDataSet={[elementData, setElementData]}
+                                sectionDataState={sectionDataState}
+                                customState={[dialogState, setDialogState]}
+                                drawerStates={[drawerState, setDrawerState]}
+                                categoryState={[category, setCategory]}
+                                name_of_design={"Style Element"}
+                                title={title}
+                                handleTextFieldChange={handleTextFieldChange}
+                                type_of_design={element?.element_type?.element_type_name}
+                                handleSectionStyleChange={handleSectionStyleChange}
+                                handleDeleteLogoClick={handleDeleteLogoClick}
+                                handleUploadImageClickWrapper={handleUploadImageClickWrapper}
+                                styleCategories={styleCategories}
+                            />
+                        }
+                        sx={buttonStyle}
+                    />
+                    <CustomDrawer
+                        drawerOpenState={[drawerState, setDrawerState]}
+                        title={"Style Element"}
+                        drawerStyle={{
+                            paddingTop: '80px'
+                        }}
+                        putDrawerCloseButton={true}
+                        anchor={"left"}
+                    >
+                        <StylesCategory
+                            customState={[dialogState, setDialogState]}
+                            handleSectionStyleChange={handleSectionStyleChange}
+                            category={{ category }}
+                            sectionStyle={elementStyle}
+                        />
+                    </CustomDrawer>
+                    <AdminMainButton
+                        title=""
+                        type="custom"
+                        appearance="iconButton"
+                        putTooltip
+                        icon={<DeleteSweepIcon />}
+                        onClick={handleDeleteElementClick}
+                        sx={{
+                            width: '30px',
+                            height: '30px',
+                            border: '1px solid red',
+                            padding: '5px',
+                            fontWeight: 'bold',
+                            color: 'white.main',
+                            backgroundColor: 'warning.main',
+                            transition: 'background-color 0.3s',
+                            marginBottom: '2px',
+                            '&:hover': {
+                                backgroundColor: 'warning.dark',
+                            },
+                        }}
+                    />
+                </div>
             </TooltipContainer1>
         </StyledEditElement>
     );

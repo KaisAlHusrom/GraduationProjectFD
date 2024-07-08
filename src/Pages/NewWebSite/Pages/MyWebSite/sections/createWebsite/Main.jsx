@@ -1,21 +1,14 @@
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { styled } from '@mui/system';
 import StartWebSite from './Sections/StartWebSite';
 import InfoWebSite from './Sections/InfoWebSite';
-import CreatePage from './Sections/CreatePage';
 import { Box, Container, Stack } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 
-import { writeFilterObject } from '../../../../../../Helpers/filterData';
-import useFetchData from '../../../../../../Helpers/customHooks/useFetchData';
-
-import { cleanDesignDataDesignPage, updateID2 } from '../../../../../../Helpers/RecursiveHelpers/addNewElementToSpecificElement';
 
 
-import { v4 as uuIdv4 } from 'uuid';
 import _ from 'lodash';
-import { addUserPages, fetchUserPages } from '../../../../../../Services/UserServices/Services/pagesUsersService';
 import { addUserWebProject } from '../../../../../../Services/UserServices/Services/webProjectsUsersService';
 import { useSelector } from 'react-redux';
 
@@ -29,10 +22,6 @@ const Main = () => {
     const [selectedLanguage, setSelectedLanguage] = useState('');
     const [selectedIndustry, setSelectedIndustry] = useState('');
     const [uploadedImage, setUploadedImage] = useState(null);
-    const [pageTitle, setPageTitle] = useState('');
-    const [pageDescription, setPageDescription] = useState('');
-    const [uploadedImagePage, setUploadedImagePage] = useState(null);
-    const [webProjectId, setWebProjectId] = useState(null);
 
     const navigate = useNavigate();
 
@@ -68,70 +57,39 @@ const Main = () => {
 
     const user = useSelector(state => state.authSlice.user)
 
-    const handleSubmit = useCallback(async () => {
-        const data = {
-            user_id: user.id,
-            project_title: name,
-            project_logo: uploadedImage,
-            project_type: selectedBox,
-            project_job: selectedIndustry,
-            project_description: description,
-            is_template: 0,
-            is_own_project: 0,
-        };
 
+    // get the Template and duplicate the template  
+
+
+
+
+    const handleSubmit = useCallback(async () => {
         try {
-            const res = await addUserWebProject(data);
+            let updatedTemplate = {};
+            updatedTemplate["project_title"] = name
+            updatedTemplate["project_logo"] = uploadedImage
+            updatedTemplate["project_type"] = selectedBox
+            updatedTemplate["project_job"] = selectedIndustry
+            updatedTemplate["project_description"] = description
+            updatedTemplate["is_template"] = 0
+            updatedTemplate["is_own_project"] = 0
+            updatedTemplate["user_id"] = user?.id
+
+            // updatedTemplate["page_path"] = "/"
+      
+            const res = await addUserWebProject(updatedTemplate);
+            console.log(res)
             if (res.success) {
-                setWebProjectId(res.data.id);
                 // setCurrentStep((prevStep) => prevStep + 1);
+                navigate('/empty-design/' + res.data.id  )
+
             }
         } catch (error) {
             console.error('Error submitting project:', error);
         }
-    }, [name, uploadedImage, selectedBox, selectedIndustry, description]);
-
-
-
-    const appliedFilter = useMemo(() => {
-        return [
-            writeFilterObject('is_template', 'bool', '=', 'true'), 
-        ]
-        
-    }, [])
-    const { data } = useFetchData(fetch, 'all', appliedFilter, null, true, null, null, 10)
+    }, [name, uploadedImage, selectedBox, selectedIndustry, description, user?.id, navigate]);
 
     
-    const handleSubmitPage = async () => {
-        try {
-            let updatedTemplate = _.cloneDeep(data[0]);
-            updatedTemplate["page_title"] = pageTitle,
-            updatedTemplate["page_image"] = uploadedImagePage,
-            updatedTemplate["page_description"] = pageDescription,
-            updatedTemplate["is_template"] = 0,
-            updatedTemplate["web_project_id"] = webProjectId,
-            updatedTemplate["page_path"] = "/"
-            updatedTemplate['id'] = uuIdv4()
-            updateID2(updatedTemplate?.designs)
-            cleanDesignDataDesignPage(updatedTemplate.designs)
-            updatedTemplate['designs'] = updatedTemplate['designs']?.map((design) => {
-                design['page_id'] = updatedTemplate.id;
-                return design;
-            });
-            
-            const res = await addUserPages(updatedTemplate);
-            
-            if(res.success) {
-                navigate('/empty-design/' + webProjectId  )
-            }
-
-        } catch (error) {
-            console.error('Error submitting page:', error);
-        }
-
-    }
-
-
     return (
         <StyledMain>
             <Box
@@ -184,18 +142,6 @@ const Main = () => {
                                 industries={industries}
                                 handleUploadImageClick={handleUploadImageClick(setUploadedImage)}
                                 uploadedImage={uploadedImage}
-                            />
-                        )}
-                        {currentStep === 3 && (
-                            <CreatePage
-                                handleBackClick={handleBackClick}
-                                handleTextFieldChangePage_title={handleTextFieldChange(setPageTitle)}
-                                handleTextFieldChangePage_description={handleTextFieldChange(setPageDescription)}
-                                handleSubmit={handleSubmitPage}
-                                uploadedImagePage={uploadedImagePage}
-                                page_title={pageTitle}
-                                page_description={pageDescription}
-                                handleUploadImageClickPage={handleUploadImageClick(setUploadedImagePage)}
                             />
                         )}
                     </Stack>

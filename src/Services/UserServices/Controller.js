@@ -81,6 +81,7 @@ export const addDataUserTemplate = async (axiosAPI, data) => {
         const updatedData = updateBoolean(data)
         store.dispatch(handleOpenLinearProgress())
         const response = await axiosAPI.post('', updatedData);
+        console.log(response)
         store.dispatch(handleCloseLinearProgress())
         if(response.data.success) {
             store.dispatch(setSnackbarMessage({message: response.data.message}))

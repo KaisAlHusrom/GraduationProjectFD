@@ -11,6 +11,9 @@ import {
 import { AdminMainButton } from '../../../../../../Components';
 
 
+import img1 from '../../../../../../Assets/Images/create1.png'
+import img2 from '../../../../../../Assets/Images/create2.png'
+
 //MUI
 import {
     Box,
@@ -72,7 +75,7 @@ const WebSiteType = () => {
             <Box 
             sx = {BoxDesign}
             >
-                <img src="https://app.wuilt.com/builder/af0c40e30f1fef9f.png" alt="" style = {{
+                <img src={img1} alt="" style = {{
                         width: "100%",
                         height: "100%",
                         objectFit: "cover",
@@ -125,10 +128,9 @@ const WebSiteType = () => {
                 sx = {BoxDesign}
 
             >
-                <img src="https://app.wuilt.com/builder/6c80c4ff49393cce.png" alt="" style = {{
+                <img src={img2} alt="" style = {{
                         width: "100%",
                         height: "100%",
-                        objectFit: "cover",
                     }}/>
                     <Typography
                             variant="h3"

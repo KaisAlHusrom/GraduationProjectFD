@@ -61,6 +61,22 @@ const MainPreview = () => {
                 height : 'auto'
             }}
         >
+             {
+            
+            data?.designs?.sort((a, b) => a.sequence_number - b.sequence_number)
+            .map((section, index) => (
+                <>
+                    <PreviewSection
+                        designData={section}
+                    />
+
+                </>
+            ))
+
+        }
+
+
+
                     {data && data.pages && mainPage?.designs && (
                         mainPage.designs
                             .sort((a, b) => a.sequence_number - b.sequence_number)

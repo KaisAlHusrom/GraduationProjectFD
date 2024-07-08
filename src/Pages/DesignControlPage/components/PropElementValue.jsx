@@ -1,10 +1,8 @@
-import{ useEffect, useMemo, useState } from 'react';
+import{ useEffect, useState } from 'react';
 import { Box, TextField, Button } from '@mui/material';
 import propTypes from 'prop-types';
 import { changeElementPropValuesEditPage } from '../../../Helpers/RecursiveHelpers/elementPropValuesHelpers';
-import { writeFilterObject } from '../../../Helpers/filterData';
-import { fetchUserPages } from '../../../Services/UserServices/Services/pagesUsersService';
-import useFetchData from '../../../Helpers/customHooks/useFetchData';
+
 
 const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue }) => {
     const [value, setValue] = useState(propValue || ''); // Initialize with propValue or an empty string if propValue is undefined/null
@@ -12,20 +10,6 @@ const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue })
     const [sectionData, setSectionData] = sectionDataState;
     const [buttonDisabled, setButtonDisabled] = useState(true); // State to manage button disabled/enabled
 
-    // Memoized filter for useFetchData
-    const appliedFilter = useMemo(() => {
-        return [
-            writeFilterObject('id', 'string', '=', sectionData['page_id']),
-        ];
-    }, [sectionData]);
-
-    // Fetch user pages data
-    const { data } = useFetchData(fetchUserPages, 'all', appliedFilter, null, true, null, null, 100);
-
-    // Default text based on fetched data
-    const defaultText = useMemo(() => {
-        return `/Empty-design/${data[0]?.web_project_id}/`;
-    }, [data]);
 
     // Handle text field change
     const handleTextFieldChange = (event) => {
@@ -35,10 +19,10 @@ const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue })
     // Update elementData when value changes
     useEffect(() => {
         let updatedValue = value;
-        if (value.toLowerCase() === 'home') {
-            updatedValue = defaultText; // Set defaultText if value is 'home'
+        if (value.toLowerCase() === '/') {
+            updatedValue  = `http://localhost:5173/Empty-design/${sectionData['web_project_id']}/`;
         }else { 
-            updatedValue = defaultText + value; // Set defaultText if value is 'home'
+            updatedValue =  value; // Set defaultText if value is 'home'
         }
 
         const updatedSelectedTemplate = JSON.parse(JSON.stringify(elementData));
@@ -47,36 +31,35 @@ const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue })
 
         // Enable the button if the value is not empty
         setButtonDisabled(updatedValue === '');
-    }, [value, defaultText, elementData, prop, setElementData]);
+    }, [value, elementData, prop, setElementData]);
 
-    // Function to update sectionData
+   // Function to update sectionData
     const handleUpdateSectionData = () => {
-        // Example update, replace with your actual logic
-        setSectionData((prevSectionData) => {
-            const updatedSectionData = { ...prevSectionData };
+    // Example update, replace with your actual logic
+    setSectionData((prevSectionData) => {
+        const updatedSectionData = { ...prevSectionData };
+        const updateChildElements = (currentChildren) => {
+            return currentChildren.map(component => {
+                if (component.id === elementData.parent_id) {
+                    return {
+                        ...component,
+                        children: component.children.map(child => {
+                            return child.id === elementData.id ? elementData : child;
+                        })
+                    };
+                } else if (component.children) {
+                    return {
+                        ...component,
+                        children: updateChildElements(component.children)
+                    };
+                }
+                return component;
+            });
+        };
 
-            const updateChildElements = (currentChildren) => {
-                return currentChildren.map(component => {
-                    if (component.id === elementData.parent_id) {
-                        return {
-                            ...component,
-                            children: component.children.map(child => {
-                                return child.id === elementData.id ? elementData : child;
-                            })
-                        };
-                    } else if (component.children) {
-                        return {
-                            ...component,
-                            children: updateChildElements(component.children)
-                        };
-                    }
-                    return component;
-                });
-            };
-
-            updatedSectionData.children = updateChildElements(updatedSectionData.children);
-            return updatedSectionData;
-        });
+        updatedSectionData.children = updateChildElements(updatedSectionData.children);
+        return updatedSectionData;
+    });
     };
 
     return (

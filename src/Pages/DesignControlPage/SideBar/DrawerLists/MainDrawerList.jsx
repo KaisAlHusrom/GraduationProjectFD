@@ -64,8 +64,7 @@ const MainDrawerList = ({ WepProject_id  , pageId}) => {
   console.log("page" , page)
   
     const createDesignSection = async (sectionData) => {
-
-
+      console.log(sectionData)
       if (data && page && page.designs) {
         const pageToUpdate =page;
 

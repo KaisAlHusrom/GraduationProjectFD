@@ -40,7 +40,7 @@ const EmptyTemplate = ({
     const { id } = useParams();
     const params = useMemo(() => [id], [id]);
 
-    const { data } = useEffectFetchData(fetchSpecificUserWebProject, params, true, true);
+    const { data  , } = useEffectFetchData(fetchSpecificUserWebProject, params, true, true);
     const user = useSelector(state => state.authSlice.user);
 
     const [mainPage, setMainPage] = useState(null);
@@ -66,7 +66,20 @@ const EmptyTemplate = ({
             fontFamily={selectedFontFamily}
             className="Template"
           
-        >      
+        >       
+        {
+            
+            data?.designs?.sort((a, b) => a.sequence_number - b.sequence_number)
+            .map((section, index) => (
+                <>
+                    <EmptySection
+                        designData={section}
+                    />
+
+                </>
+            ))
+
+        }
 
             <Routes>
                 {

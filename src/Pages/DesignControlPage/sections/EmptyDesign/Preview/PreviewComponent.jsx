@@ -15,6 +15,7 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
+import PreviewComponentRecursive from './PreviewComponentRecursive';
 
 //Styled Components
 const StyledPreviewComponent = styled(Box)(
@@ -44,11 +45,20 @@ const PreviewComponent = ({component}) => {
     
     return (
         <StyledPreviewComponent sx={{...componentStyle , position : 'relative'}}>
-                    {
+                     {
                     component && component.children
                         .sort((a, b) => a.sequence_number - b.sequence_number)
                         .map((element, i) => (
-                            <PreviewElement key={i} element={element}/>
+                            <>
+                            {element.design_type === 'component' ? (
+                                <PreviewComponentRecursive
+                                    component={element}
+                                />
+                            ) : (
+                                <PreviewElement key={i} element={element}/>
+
+                            )}
+                            </>
                         ))
                 }
         </StyledPreviewComponent>

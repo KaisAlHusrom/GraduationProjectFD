@@ -145,7 +145,7 @@ const PageRouter = ({pageId ,
         <StyledPageRouter sx={{
             width: isMobileWidth ? '500px' : isTabletWidth ? '50%' : isLaptopWidth ? '100%' : '',
             padding: isMobileWidth ? '0px' : isTabletWidth ? '0px' : '',
-            margin: '100px auto',
+            margin: 'auto',
             overflow: 'hidden'
         }}>
             {

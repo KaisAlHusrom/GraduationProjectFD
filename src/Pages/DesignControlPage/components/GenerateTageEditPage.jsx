@@ -231,15 +231,24 @@ const Tag = (props) => {
     }, [type])
 
 
-    const StyledComp = useMemo(() => {
-        return styled(component)(
-            ({theme}) => ({
-                ...styles,
-            })
-        );
-    
-    }, [component, styles])
+  const initialStyles = {
+    width: type.toLowerCase() === "image" ? "100px" : undefined,
+    height: type.toLowerCase() === "image" ? "100px" : undefined,
+    ...styles,
+  };
+    const StyledComp = styled(component)(initialStyles);
 
+    // const StyledComp = useMemo(() => {
+    //     return styled(component)(
+    //         ({ theme }) => ({
+    //             ...styles,
+    //             ...(component === 'img' && {
+    //                 width: '100px',
+    //                 height: '100px',
+    //             }),
+    //         })
+    //     );
+    // }, [component, styles]);
 
 
     const getImageSrc = useMemo(() => {

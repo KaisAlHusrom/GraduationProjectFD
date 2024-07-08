@@ -48,6 +48,18 @@ const TooltipContainer = styled(Box)({
     position: "absolute",
     top: "0",
     left: "0",
+    display: "flex",
+    flexDirection : "column",
+    gap : '5px'
+
+});
+const TooltipContainer1 = styled(Box)({
+    position: "absolute",
+    top: "0",
+    right: "0",
+    display: "flex",
+    flexDirection : "column",
+    gap : '5px'
 });
 
 const StyledRecursiveEditComponent = styled(Box)(() => ({
@@ -389,9 +401,60 @@ const RecursiveEditComponent = ({
                 onConfirm={handleConfirmDelete}
             />
 
-                <Box className="button-container" sx={{ position: 'absolute', bottom: '-20px', left: '0', display: 'flex', gap: 1, p: 2 }}>
+                {/* <Box className="button-container" sx={{ position: 'absolute', bottom: '-20px', left: '0', display: 'flex', gap: 1, p: 2 }}>
 
-                    <AdminMainButton
+                   
+                </Box>
+
+                <Box className="button-container" sx={{ position: 'absolute', bottom: '-20px', right: '0', display: 'flex', gap: 1, p: 2 }}>
+
+            
+                </Box>
+
+                     */}
+                
+            <TooltipContainer>
+                <AdminMainButtonOutsideState
+                    title="Edit"
+                    type="StyleDialog"
+                    appearance="iconButton"
+                    putTooltip
+                    icon={<EditIcon />}
+                    customState={[dialogState, setDialogState]}
+                    willShow={
+                        <StyleBox
+                            customState={[dialogState, setDialogState]}
+                            drawerStates={[drawerState, setDrawerState]}
+                            categoryState={[category, setCategory]}
+                            name_of_design={"Style Component"}
+                            type_of_design='Component'
+                            sectionStyle={componentStyle}
+                            handleSectionStyleChange={handleSectionStyleChange}
+                            styleCategories={styleCategories}
+                        />
+                    }
+                    sx={{backgroundColor : 'success.dark', ...EditButtonsStyle}}
+                />
+
+                <CustomDrawer
+                    drawerOpenState={[drawerState, setDrawerState]}
+                    title={"Style Component"}
+                    drawerStyle={{
+                        paddingTop: '80px',
+                    }}
+                    putDrawerCloseButton={true}
+                    anchor={"left"}
+                >
+                    <StylesCategory
+                        customState={[dialogState, setDialogState]}
+                        handleSectionStyleChange={handleSectionStyleChange}
+                        category={{ category }}
+                        sectionStyleProps={componentStyle}
+                        sectionStyle={componentStyle}
+
+                    />
+                </CustomDrawer>
+                <AdminMainButton
                         title="Add elements"
                         type="StyleDialog"
                         appearance="iconButton"
@@ -452,11 +515,10 @@ const RecursiveEditComponent = ({
                             selected_parent_id={component.id}
                         />
                     </CustomDrawer>
-                </Box>
+            </TooltipContainer>
 
-                <Box className="button-container" sx={{ position: 'absolute', bottom: '-20px', right: '0', display: 'flex', gap: 1, p: 2 }}>
-
-                    <AdminMainButton
+            <TooltipContainer1>
+            <AdminMainButton
                         title="Delete"
                         type="custom"
                         onClick={() => deleteComponentForComponent(component.id)}
@@ -474,54 +536,7 @@ const RecursiveEditComponent = ({
                         icon={<DeleteForeverIcon />}
                         sx={{ backgroundColor: 'warning.dark', ...EditButtonsStyle }}
                     />
-                </Box>
-
-                    
-                
-            <TooltipContainer>
-                <AdminMainButtonOutsideState
-                    title="Edit"
-                    type="StyleDialog"
-                    appearance="iconButton"
-                    putTooltip
-                    icon={<EditIcon />}
-                    customState={[dialogState, setDialogState]}
-                    willShow={
-                        <StyleBox
-                            customState={[dialogState, setDialogState]}
-                            drawerStates={[drawerState, setDrawerState]}
-                            categoryState={[category, setCategory]}
-                            name_of_design={"Style Component"}
-                            type_of_design='Component'
-                            sectionStyle={componentStyle}
-                            handleSectionStyleChange={handleSectionStyleChange}
-                            styleCategories={styleCategories}
-                        />
-                    }
-                    sx={EditButtonsStyle}
-                />
-
-                <CustomDrawer
-                    drawerOpenState={[drawerState, setDrawerState]}
-                    title={"Style Component"}
-                    drawerStyle={{
-                        paddingTop: '80px',
-                    }}
-                    putDrawerCloseButton={true}
-                    anchor={"left"}
-                >
-                    <StylesCategory
-                        customState={[dialogState, setDialogState]}
-                        handleSectionStyleChange={handleSectionStyleChange}
-                        category={{ category }}
-                        sectionStyleProps={componentStyle}
-                        sectionStyle={componentStyle}
-
-                    />
-                </CustomDrawer>
-            </TooltipContainer>
-
-
+            </TooltipContainer1>
 
         </StyledRecursiveEditComponent>
     );

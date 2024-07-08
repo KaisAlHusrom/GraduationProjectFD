@@ -47,7 +47,7 @@ const boxStyle =  {
     },
 }
 
-const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_id, appliedFilterType, selected_parent_id , isCompoenntInside }) => {
+const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_id, appliedFilterType, selected_parent_id , isComponentInside }) => {
 
 
 
@@ -100,7 +100,7 @@ const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_i
         } else if(componentDesign.design_type === "component"){
             const newComponent = { ...componentDesign, id: uuidv4(), is_template : 0 , is_child : 1  , parent_id :selected_parent_id };
             setAlert(true);
-            if(isCompoenntInside){
+            if(isComponentInside){
                 console.log("isCompoenntInside")
                 createDesignedDesign(selected_parent_id, newComponent);
             }else{
