@@ -70,7 +70,7 @@ const InfoWebSite = ({
     const handleIndustryChange = (event) => {
         setSelectedIndustry(event.target.value);
     };
-    const isSubmitDisabled = !selectedLanguage || !selectedIndustry || !name; // Disable submit button if any of the inputs are empty
+    const isSubmitDisabled = !selectedLanguage || !selectedIndustry || !uploadedImage || !name; // Disable submit button if any of the inputs are empty
 
     return (
         <StyledInfoWebSite>

@@ -113,22 +113,21 @@ const Main = () => {
     }, [data]);
 
 
-    console.log("data" , data)
 
-const handleChange = async (event) => {
-        const isChecked = event.target.checked;
-        setChecked(isChecked); 
-        // Assuming data[0] is the correct object to update
-        const willUpdate = { ...data[0] }; 
-        willUpdate["is_published"] = isChecked ? 1 : 0; 
-        willUpdate["project_title"] = "hello"
-        delete willUpdate.pages; 
-        console.log("willUpdate" , willUpdate)
+    const handleChange = async (event) => {
+            const isChecked = event.target.checked;
+            setChecked(isChecked); 
+            // Assuming data[0] is the correct object to update
+            const willUpdate = { ...data[0] }; 
+            willUpdate["is_published"] = isChecked ? 1 : 0; 
+            willUpdate["project_title"] = "hello"
+            delete willUpdate.pages; 
+            console.log("willUpdate" , willUpdate)
 
-        // Example function to update data in the backend
-        const res =  await updateUserWebProject(id, willUpdate)
-            console.log(res)
-    };
+            // Example function to update data in the backend
+            const res =  await updateUserWebProject(id, willUpdate)
+                console.log(res)
+        };
 
 
 

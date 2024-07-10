@@ -1,6 +1,6 @@
 import { Link } from "@mui/material"
 import { Fragment, useMemo } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 import exampleImage from "../../../assets/images/exampleimage.jpg";
 
@@ -264,17 +264,25 @@ const Tag = (props) => {
         }
         return null;
     }, [exampleText, sortedData.element_type.element_type_name])
-    
+    const location = useLocation()
+
     const propsValues = useMemo(() => {
         if (sortedData.design_prop_values) {
             return sortedData.design_prop_values.reduce((acc, prop) => {
+                if (prop?.element_prop?.element_prop_name === "href" || prop?.element_prop?.element_prop_name === "to") {
+                    // Strip unwanted segments and recreate the URL
+                    const url = new URL(location.pathname, window.location.origin);
+                    const basePath = url.pathname.split('/').slice(0, 3).join('/');
+                    const propValue = prop?.design_prop_value.startsWith('/') ? prop?.design_prop_value : `/${prop?.design_prop_value}`;
+                    acc[prop?.element_prop?.element_prop_name] = `${basePath}${propValue}`;
+                    return acc;
+                }
                 acc[prop?.element_prop?.element_prop_name] = prop?.design_prop_value;
                 return acc;
             }, {});
         }
         return {};
-    }, [sortedData.design_prop_values]);
-
+    }, [location.pathname, sortedData.design_prop_values]);
     return (
         !sortedData.element_type.not_has_end_tag ?
             

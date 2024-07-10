@@ -125,7 +125,7 @@ const router = createBrowserRouter(
                 {/* //* Design Control Page Routes */}
                 <Route path="/empty-design/EditPage/:section_id" element={<MainEdit />} />
                 <Route path="/empty-design/:id/*" element={<Main />} exact= {true} />
-                <Route path="/preview/:id" element={<MainPreview />} />
+                <Route path="/preview/:id/*" element={<MainPreview />} />
 
             </Route>
             

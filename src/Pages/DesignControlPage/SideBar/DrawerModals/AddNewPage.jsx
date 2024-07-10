@@ -50,7 +50,7 @@ const AddNewPage = ({ WepProject_id, onPageAdded }) => {
 
     const handleSubmitPage = async () => {
         try {
-            let updatedTemplate = _.cloneDeep(data[0]);
+            let updatedTemplate = {};
             updatedTemplate["page_title"] = title;
             updatedTemplate["page_image"] = uploadedImagePage;
             updatedTemplate["page_description"] = description;
@@ -58,12 +58,12 @@ const AddNewPage = ({ WepProject_id, onPageAdded }) => {
             updatedTemplate["web_project_id"] = WepProject_id;
             updatedTemplate["page_path"] = "/" + path;
             updatedTemplate['id'] = uuIdv4();
-            updateID2(updatedTemplate?.designs);
-            cleanDesignDataDesignPage(updatedTemplate.designs);
-            updatedTemplate['designs'] = updatedTemplate['designs']?.map((design) => {
-                design['page_id'] = updatedTemplate.id;
-                return design;
-            });
+            // updateID2(updatedTemplate?.designs);
+            // cleanDesignDataDesignPage(updatedTemplate.designs);
+            // updatedTemplate['designs'] = updatedTemplate['designs']?.map((design) => {
+            //     design['page_id'] = updatedTemplate.id;
+            //     return design;
+            // });
 
             const res = await addUserPages(updatedTemplate);
             if (res.success) {
@@ -85,7 +85,7 @@ const AddNewPage = ({ WepProject_id, onPageAdded }) => {
         inputElement.click();
     }, []);
 
-    const isSubmitDisabled = !title || !description || !uploadedImagePage || !path;
+    const isSubmitDisabled = !title || !description ||  !path;
 
     return (
         <StyledAddNewPage>

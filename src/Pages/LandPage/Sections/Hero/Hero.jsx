@@ -10,6 +10,7 @@ import { navigateSignUpPage } from '../../../../Helpers/navigations';
 
 import {linearColoredText} from "../../../../StaticData/styles"
 import useInView from '../../../../Helpers/customHooks/useInView';
+import imag from '../../../../Assets/Images/landing-image.png'
 
 const StyledHero = styled(Box)(
     ({ theme }) => ({
@@ -26,12 +27,12 @@ const StyledHero = styled(Box)(
 const StyledHeroImage = styled(Box)(
     ({ theme }) => ({
       width: '35vw',
-      height: '80vh',
+      height: '50vh',
       overflow: 'hidden',
       borderRadius: theme.spacing(),
       [theme.breakpoints.down("md")]: {
         width: '100%',
-        height: '90vh',
+        height: '100%',
 
       }
     })
@@ -128,7 +129,7 @@ export default function Hero() {
           </Stack>
           <StyledHeroImage>
                 <Image 
-                src="https://cdn.prod.website-files.com/614319338322d2f96eb4dd96/65bbb3cba459313b60ea354a_Wuilt%20Hero%2024-p-800.png" 
+                src={imag}
                 alt="" 
 
                 />

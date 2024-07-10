@@ -114,6 +114,7 @@ const StyleBox = ({
                                             />
                                         })
                                     }
+
                             </Box>
                         
                         : <UploadImageButton 

@@ -89,6 +89,7 @@ const HomeDrawerList = ({ WepProject_id }) => {
     const handleNavigate = (pagePath) => {
         
         navigate(removeLeadingSlash(pagePath));
+        window.location.reload();
     }
 
     

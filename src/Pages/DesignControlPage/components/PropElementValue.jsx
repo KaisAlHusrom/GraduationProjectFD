@@ -1,7 +1,9 @@
 import{ useEffect, useState } from 'react';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, TextField, Button , Typography } from '@mui/material';
 import propTypes from 'prop-types';
 import { changeElementPropValuesEditPage } from '../../../Helpers/RecursiveHelpers/elementPropValuesHelpers';
+import { useLocation } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
 
 
 const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue }) => {
@@ -16,14 +18,16 @@ const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue })
         setValue(event.target.value);
     };
 
+    const loaction = useLocation()
+    console.log(loaction.pathname)
     // Update elementData when value changes
     useEffect(() => {
         let updatedValue = value;
-        if (value.toLowerCase() === '/') {
-            updatedValue  = `http://localhost:5173/Empty-design/${sectionData['web_project_id']}/`;
-        }else { 
-            updatedValue =  value; // Set defaultText if value is 'home'
-        }
+        // if (value.toLowerCase() === '/') {
+        //     updatedValue  = `http://localhost:5173/Empty-design/${sectionData['web_project_id']}`;
+        // }else { 
+        //     updatedValue =  value; // Set defaultText if value is 'home'
+        // }
 
         const updatedSelectedTemplate = JSON.parse(JSON.stringify(elementData));
         changeElementPropValuesEditPage(updatedSelectedTemplate, elementData.id, prop, updatedValue);
@@ -31,7 +35,8 @@ const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue })
 
         // Enable the button if the value is not empty
         setButtonDisabled(updatedValue === '');
-    }, [value, elementData, prop, setElementData]);
+    }, [value, elementData, prop, setElementData, sectionData]);
+
 
    // Function to update sectionData
     const handleUpdateSectionData = () => {
@@ -83,7 +88,17 @@ const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue })
                 }}
             />
 
-            <Button
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width : '100%'
+                }}>
+                <Alert severity="warning" >To Add Home Page path just write ' / ' </Alert>
+                <Alert severity="warning" >To Add Sub Page path just write  ' Page Name  ' </Alert>
+
+                <Button
                 onClick={handleUpdateSectionData}
                 disabled={buttonDisabled} // Disable the button if value is empty or "home"
                 autoFocus
@@ -92,11 +107,13 @@ const PropElementValue = ({ prop, elementDataSet, sectionDataState, propValue })
                     color: '#eee',
                     fontWeight: 'bolder',
                     width: 'fit-content',
-                    marginTop: '20px'
                 }}
             >
                 Save
             </Button>
+                </Box>
+
+
         </Box>
     );
 };

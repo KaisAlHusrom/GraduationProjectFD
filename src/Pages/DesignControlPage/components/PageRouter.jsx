@@ -29,8 +29,8 @@ const StyledPageRouter = styled(Box)(
 )
 
 
-const PageRouter = ({pageId , 
-
+const PageRouter = ({
+    pageId , 
     isMobileWidth,
     isTabletWidth ,
     isLaptopWidth,
@@ -142,12 +142,7 @@ const PageRouter = ({pageId ,
     
 
     return (
-        <StyledPageRouter sx={{
-            width: isMobileWidth ? '500px' : isTabletWidth ? '50%' : isLaptopWidth ? '100%' : '',
-            padding: isMobileWidth ? '0px' : isTabletWidth ? '0px' : '',
-            margin: 'auto',
-            overflow: 'hidden'
-        }}>
+        <StyledPageRouter >
             {
             
             data?.designs?.sort((a, b) => a.sequence_number - b.sequence_number)

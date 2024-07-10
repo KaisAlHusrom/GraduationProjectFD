@@ -65,7 +65,12 @@ const EmptyTemplate = ({
         <StyledEmptyTemplate
             fontFamily={selectedFontFamily}
             className="Template"
-          
+            sx={{
+                width: isMobileWidth ? '500px' : isTabletWidth ? '50%' : isLaptopWidth ? '100%' : '',
+                padding: isMobileWidth ? '0px' : isTabletWidth ? '0px' : '',
+                margin: 'auto',
+                overflow: 'hidden'
+            }}
         >       
         {
             

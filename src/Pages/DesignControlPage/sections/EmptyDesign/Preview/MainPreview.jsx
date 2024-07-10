@@ -12,13 +12,15 @@ import {
     Box,
 } from '@mui/material'
 import { styled } from '@mui/system'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom'
 
 // Helpers
 import useEffectFetchData from '../../../../../Helpers/customHooks/useEffectFetchData'
 
 // Services
 import { fetchSpecificUserWebProject } from '../../../../../Services/UserServices/Services/webProjectsUsersService'
+import PageRouter from '../../../components/PageRouter'
+import MainRouter from './MainRouter'
 
 //Styled Components
 const StyleMainPreview = styled(Box)(
@@ -41,17 +43,18 @@ const MainPreview = () => {
 
     const [mainPage, setMainPage] = useState(null);
 
-    useEffect(() => {
-        if (data) {
-            if (data.user_id !== user.id) {
-                navigate(-1);
-            }
-            setMainPage(() => {
-                return data.pages.filter(page => page.page_path === '/')[0];
-            });
+    const is_published = useMemo( () => {
+        if(data?.user_id === user.id) {
+            return true
         }
-    }, [data, navigate, user.id]);
+        if(data?.is_published){
+            return true 
+        }
+        return false
+    } , [data?.is_published, data?.user_id, user.id])
 
+
+    console.log(data)
 
     return (
         <StyleMainPreview             
@@ -61,33 +64,29 @@ const MainPreview = () => {
                 height : 'auto'
             }}
         >
-             {
-            
-            data?.designs?.sort((a, b) => a.sequence_number - b.sequence_number)
-            .map((section, index) => (
+            {is_published && data && (
                 <>
-                    <PreviewSection
-                        designData={section}
-                    />
+                    {data.designs?.sort((a, b) => a.sequence_number - b.sequence_number).map((section, index) => (
+                        <PreviewSection
+                            key={`design-${index}`}
+                            designData={section}
+                        />
+                    ))}
+                        <Routes>
+                {
+                    data && data.pages && data.pages.map((page , key) => {
+                        return  <Route 
+                            key={key}  
+                            path={page.page_path} 
+                            element={<MainRouter 
+                            pageId = {page.id}/>} />
+                    })
+                }
+            </Routes>
+
+
 
                 </>
-            ))
-
-        }
-
-
-
-                    {data && data.pages && mainPage?.designs && (
-                        mainPage.designs
-                            .sort((a, b) => a.sequence_number - b.sequence_number)
-                            .map((section, index) => (
-                                <div key={index} className="slide-down-animation">
-                                    <PreviewSection
-                                        designData={section}
-                                        
-                                    />
-                                </div>
-                            ))
             )}
         </StyleMainPreview>
     );

@@ -45,6 +45,7 @@ const boxStyle =  {
         borderBottom: '1px solid',
         borderColor: 'white.main',
     },
+    width: '100px'
 }
 
 const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_id, appliedFilterType, selected_parent_id , isComponentInside }) => {
@@ -153,7 +154,7 @@ const DrawerSelectedCategoryDesigns = ({ createDesignedDesign, design_category_i
                             >
 
                                 <img
-                                    src={`${config.ServerImageRoute}/DesignsImages/${componentDesign.element_type_image}`}
+                                    src={`${config.ServerImageRoute}/ElementTypesImages/${componentDesign.element_type_image}`}
                                     alt={`${componentDesign.design_title}`}
                                     style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'cover', borderRadius: '10px' }}
                                 />
