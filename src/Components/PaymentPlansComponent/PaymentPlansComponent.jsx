@@ -111,7 +111,8 @@ export default function PaymentPlansComponent({paymentPlanPage}) {
 
     const handlePurchasePlan = async () => {
         const checkoutRes = await handleSubscriptionCheckoutPage(selectedPaymentPlan, isYearly ? "yearly" : "monthly")
-        if(checkoutRes.success) {
+
+        if(checkoutRes?.success) {
             window.location = checkoutRes.data.url;
         } else {
             console.error("Couldn't checkout");

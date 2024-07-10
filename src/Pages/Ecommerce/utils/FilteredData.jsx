@@ -1,13 +1,9 @@
 import { Grid } from '@mui/material';
 import { ReviewCalculateSMA } from '../utils/functions';
 import ProductCard from '../Components/ProductCard';
-import { useNavigate } from 'react-router-dom';
 
 const FilteredData = (props) => {
-    const navigate = useNavigate();
-    const handleLearnMoreClick = (index) => {
-      navigate(`/cliser-digital-market/productView/${index}`);
-    };
+
   
     const { products = [], category, price, rating, query, lastData } = props; // Default products to an empty array
   
@@ -49,7 +45,7 @@ const FilteredData = (props) => {
           filteredProducts && filteredProducts.length > 0
           ?
             filteredProducts.map((product, index) => (
-              <Grid key={index} item xxs={12} sm={4} md={3} lg={2} ref={products.length === index + 1 ? lastData : null}>
+              <Grid key={index} item xxs={12} sm={4} md={3} lg={3} ref={products.length === index + 1 ? lastData : null}>
                 <ProductCard
                   product={product}
                 />

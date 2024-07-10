@@ -24,6 +24,6 @@ export const handleSubscriptionCheckoutPage= async (plan, price) => {
     } catch (error) {
         store.dispatch(handleCloseLinearProgress())
         console.error('Error posting data:', error);
-        return error.response.data;
+        return error.response;
     }
 }

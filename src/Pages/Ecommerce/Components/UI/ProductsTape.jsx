@@ -1,5 +1,4 @@
-import { useMemo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useMemo, useRef, useState } from 'react';
 import {
   Box, Typography, Container,
   Grid, IconButton, Divider, Button, Skeleton
@@ -9,12 +8,12 @@ import ProductCard from '../ProductCard';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { ReviewCalculateSMA } from '../../utils/functions';
 
 import useEffectFetchData from '../../../../Helpers/customHooks/useEffectFetchData';
 import { fetchSpecificUserProductsCategories } from '../../../../Services/UserServices/Services/productCategoriesUsersService';
-import { navigateCliserStoreProductsPage, navigateProductView } from '../../../../Helpers/navigations';
-import useInView from '../../../../Helpers/customHooks/useInView';
+import { navigateCliserStoreProductsPage} from '../../../../Helpers/navigations';
+import useFetchData from '../../../../Helpers/customHooks/useFetchData';
+import { fetchUserProducts } from '../../../../Services/UserServices/Services/productsUsersService';
 
 //Styled Components
 const StyledProductsTape = styled(Box)(
@@ -63,12 +62,11 @@ const ScrollButton = styled(IconButton)(({ theme }) => ({
 }));
 
 const ProductsTape = ({ title, Cat }) => {
+  const [filters, setFilters] = useState([]);
+  const [sorts, setSorts] = useState([]);
 
-  const handleAllproductsClick = () => {
-    navigateCliserStoreProductsPage()
-  };
   const scrollContainerRef = useRef(null);
-
+  
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
       const { scrollLeft, clientWidth } = scrollContainerRef.current;
@@ -77,17 +75,26 @@ const ProductsTape = ({ title, Cat }) => {
     }
   };
 
+  
   const params = useMemo(() => {
     return [Cat?.id];
   }, [Cat]);
-
-  const { download: productsDownload, data: updatedCat } = useEffectFetchData(fetchSpecificUserProductsCategories, params, 
-    title !== "You Might Like"
-    , true);
-
-
-  return (
-    <StyledProductsTape>
+  
+  
+  const { data: allProducts, loading } = useFetchData(fetchUserProducts, 'all', filters, sorts, title === "You Might Like", null);
+  const { download: productsDownload, data: updatedCat } = useEffectFetchData(fetchSpecificUserProductsCategories, params,
+    title !== "You Might Like", true);
+    const products = useMemo(() => {
+      return title === "You Might Like" ? allProducts : updatedCat?.products
+    }, [allProducts, title, updatedCat?.products])
+    
+    
+    const handleAllproductsClick = () => {
+      navigateCliserStoreProductsPage()
+    };
+    
+    return (
+      <StyledProductsTape>
       <Container sx={{ paddingTop: '20px' }} maxWidth="lg">
         <Grid>
           <Grid container spacing={2} justifyContent="space-between" alignItems="center">
@@ -109,9 +116,9 @@ const ProductsTape = ({ title, Cat }) => {
             </ScrollButton>
             <ScrollContainer ref={scrollContainerRef}>
               {
-                !productsDownload
-                  ? updatedCat?.products && updatedCat?.products?.length > 0
-                    ? updatedCat?.products.map((product, key) => {
+                !productsDownload && !loading
+                  ? products && products?.length > 0
+                    ? products.map((product, key) => {
                       return (
                         <Box
                           key={key}

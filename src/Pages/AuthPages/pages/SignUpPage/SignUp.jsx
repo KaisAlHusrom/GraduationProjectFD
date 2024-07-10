@@ -25,7 +25,7 @@ import { handleRegister } from '../../../../Services/AuthServices/authService'
 //Styled Components
 const StyledSignUp = styled(Box)(
     () => ({
-    
+    marginTop:"50px"
     })
 )
 
