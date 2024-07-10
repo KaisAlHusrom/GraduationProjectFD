@@ -530,8 +530,7 @@ const DatabaseView = (props) => {
             console.log(row[pkColumn])
             // Await the update operation to complete
             const res = await handleUpdateData(row[pkColumn], row);
-            console.log(res)
-            if(res.success) {
+            if(res?.success) {
                 await handleFetchData();
                 // setLoaderData(() => result); //I remove this because the row is actually changed
             } 

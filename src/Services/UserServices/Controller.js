@@ -99,6 +99,10 @@ export const addDataUserTemplate = async (axiosAPI, data) => {
         console.error('Error posting data:', error);
         store.dispatch(handleCloseLinearProgress())
 
+        store.dispatch(setSnackbarMessage({message: error.response.data.message}))
+        store.dispatch(setSnackbarIsError({isError: true}))
+        store.dispatch(handleOpenSnackbar())
+
         return error.response.data;
     }
 }

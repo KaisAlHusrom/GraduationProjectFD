@@ -1,55 +1,44 @@
 //React
 import { useEffect } from "react";
-
-
-//material UI
-// import {
-//   Typography
-// } from "@mui/material"
-
+//Redux
+import { Provider } from 'react-redux';
+import Store from './Redux/Store.jsx';
 //style
 import "./Assets/Styles/App.css"
 import CustomThemeProvider from "./Theme/CustomThemeProvider";
-
-
-
-//redux
-import { useSelector } from "react-redux";
+//Components
 import CustomRouterProvider from "./Router/CustomRouterProvider";
 import { CustomSnackBar } from "./Components";
+//intl
+import { IntlProvider } from 'react-intl';
+//languages
+import Arabic from './Lang/Messages/Arabic.js';
+import English from './Lang/Messages/English.js';
+//get page language
+const lang = Store.getState().langSlice.lang
 
-
-
-//set page direction
-const getDirection = (lang) => {
-  // You can adjust this logic based on your requirements.
-  return lang === 'ar' ? 'rtl' : 'ltr';
-};
-
+const messages = {
+  ar: Arabic,
+  en: English,
+}
 
 function App() {
-  //lang
-  const lang = useSelector(state => state.langSlice.lang)
-
   //direction
-  const direction = getDirection(lang); 
+  const direction = lang === 'ar' ? 'rtl' : 'ltr'; 
   useEffect(() => {
     document.dir = direction
   }, [direction])
-
-
-
   return (
-      <CustomThemeProvider>
-        
-
-        {/* Router provider */}
-        <CustomRouterProvider />
-
-        {/* Snack Bars */}
-        <CustomSnackBar />
-      </CustomThemeProvider>
+    <Provider store={Store}>
+      <IntlProvider locale={lang} messages={messages[lang]}>
+        <CustomThemeProvider>
+            {/* Router provider */}
+            <CustomRouterProvider />
+            {/* Snack Bars */}
+            <CustomSnackBar />
+        </CustomThemeProvider>
+      </IntlProvider>
+    </Provider>
   )
 }
-
 export default App
