@@ -71,13 +71,8 @@ const router = createBrowserRouter(
     createRoutesFromElements(
         //All App Routes
         <Route path='/' element={<MainPage />} errorElement={<ErrorPage />} loader={ProvideUser} >
-
-            
-
             {/* //?Check if user logged */}
             <Route element={<RequireAuth />}>
-
-
                 {/* //* Admin Routes */}
                 {/* //?Check if user admin */}
                 <Route element={<RequireAdmin />}>
@@ -102,9 +97,6 @@ const router = createBrowserRouter(
                             }
                     </Route>
                 </Route>
-                
-
-
                 {/* //? after logging */}
                 {/* //* Profile Routes */}
                 <Route 
@@ -121,28 +113,18 @@ const router = createBrowserRouter(
                     <Route path="create-new-project" element={<CreateWebsite />} />
                     <Route path="my-sales" element={<MySellsPage />} />
                 </Route>
-
                 {/* //* Design Control Page Routes */}
                 <Route path="/empty-design/EditPage/:section_id" element={<MainEdit />} />
                 <Route path="/empty-design/:id/*" element={<Main />} exact= {true} />
                 <Route path="/preview/:id/*" element={<MainPreview />} />
-
             </Route>
             
-
-                            
-
-            
-
-            
-
             {/* //* E commerce routes */}
             <Route path="/cliser-digital-market" element={<EcommerceMain />}>
                 {/* //?Check if user logged */}
                 <Route element={<RequireAuth />}>
                     <Route path="CheckOut" element={<CheckOut />} />
                 </Route>
-
                 {/* //? can visit without logging */}
                 <Route path="" element={<CliserDigitalMarketHomePage />} />
                 <Route path="Products" element={<Products />} />
@@ -159,15 +141,8 @@ const router = createBrowserRouter(
                     <Route path="sign-up" element={<SignUp />} />
                 </Route>
             </Route>
-            
-            
-            
             {/* can visit always */}
             <Route path="portfolio/:user_id" element={<PortfolioMain />} />
-
-            
-
-
             <Route path="*" element={<NotFoundPage />} />
         </Route>
     )

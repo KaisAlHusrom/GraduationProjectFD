@@ -98,7 +98,7 @@ const LargeScreenProfileAppBar = (props) => {
                     })}
                 >
                     {/* Nav as normal */}
-                    <StyledNavAsNormalContainer maxWidth="xxxl">
+                    {/* <StyledNavAsNormalContainer maxWidth="xxxl"> */}
                     <Box
                         sx={{
                         flexGrow: 1,
@@ -193,7 +193,7 @@ const LargeScreenProfileAppBar = (props) => {
 
                         </Box>
                     </Box>
-                    </StyledNavAsNormalContainer>
+                    {/* </StyledNavAsNormalContainer> */}
                 </Toolbar>
                 </Container>
         </AppBar>

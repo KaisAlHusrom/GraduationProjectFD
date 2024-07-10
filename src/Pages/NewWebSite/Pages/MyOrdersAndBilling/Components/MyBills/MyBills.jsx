@@ -29,6 +29,9 @@ import DateHelper from '../../../../../../Helpers/DateHelper'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { fetchUserUsersPayments } from '../../../../../../Services/UserServices/Services/userPaymentsUsersService'
 
+//propTypes 
+import propTypes from 'prop-types'
+
 //Styled Components
 const StyledMyBills = styled(Box)(
     ({ theme }) => ({
@@ -64,7 +67,6 @@ const ExpandMore = styled((props) => {
 
 const MyBills = () => {
     const user = useSelector(state => state.authSlice.user);
-    const currency = useSelector(state => state.currencySlice.currency);
 
     const filters = useMemo(() => {
         return [
@@ -72,12 +74,7 @@ const MyBills = () => {
         ]
     }, [user])
 
-    //expand details
-    const [expanded, setExpanded] = useState(false);
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
-
+    
     const {data: payments, lastDataRecord, loading} = useFetchData(fetchUserUsersPayments, 'all', filters, null, true)
     return (
         <StyledMyBills>
@@ -93,110 +90,7 @@ const MyBills = () => {
                             payments.map((bill, key) => {
                                 return (
                                     <Grid item xxs={12} md={6} ref={payments.length === key + 1 ? lastDataRecord : null} key={key} >
-                                        <BillCard  elevation={2}>
-                                            <CardHeader 
-                                                // sx={{
-                                                //     display: 'flex',
-                                                //     alignItems: 'center',
-                                                // }}
-                                                avatar={
-                                                        <img 
-                                                        src={getCardImage(bill.bank_card?.card_number)} 
-                                                        label={getCardType(bill.bank_card?.card_number)}  
-                                                        width={50}
-                                                        height={50}
-                                                        />
-                                                }
-                                                title={DateHelper.formattedDate(bill.created_at)}
-                                                subheader={"Amount: " + bill.amount + ' ' + currency}
-                                            />
-                                            <CardContent sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
-                                                {
-                                                    bill.order
-                                                    ?
-                                                        <>
-                                                            <Typography 
-                                                                variant="subtitle2" 
-                                                            >
-                                                                Order No: {bill.order.id}
-                                                            </Typography>
-                                                            <Stack direction="row" spacing={1}>
-                                                                <Chip label={bill.status} color= {bill.status === "accepted" ? "success" : "error"} />
-                                                                {/* <Chip label="success" color="success" /> */}
-                                                            </Stack>
-                                                        </>
-                                                    : 
-                                                    bill.user_payment_plan
-                                                    ?
-                                                        <>
-                                                            <Typography 
-                                                                variant="subtitle2" 
-                                                            >
-                                                                {bill.user_payment_plan.payment_plan.payment_plan_title} Plan
-                                                            </Typography>
-                                                            
-                                                            
-                                                            <Stack direction="row" spacing={1}>
-                                                                <Chip label={bill.status} color= {bill.status === "accepted" ? "success" : "error"} />
-                                                                {/* <Chip label="success" color="success" /> */}
-                                                            </Stack>
-                                                        </>
-                                                    :null
-                                                }
-                                            </CardContent>
-                                            {
-                                                bill.user_payment_plan &&
-                                                <>
-                                                    <CardActions disableSpacing>
-                                                        
-                                                        <ExpandMore
-                                                            expand={expanded}
-                                                            onClick={handleExpandClick}
-                                                            aria-expanded={expanded}
-                                                            aria-label="show more"
-                                                        >
-                                                        <ExpandMoreIcon />
-                                                        </ExpandMore>
-                                                    </CardActions>
-                                                    <Collapse in={expanded} timeout="auto" unmountOnExit sx={{
-                                                                padding: theme => `${theme.spacing(0)} ${theme.spacing(4)}`,
-                                                                
-                                                    }}>
-                                                        <CardContent>
-                                                            <Typography 
-                                                            variant="subtitle2" 
-                                                            >
-                                                                Subscription Date
-                                                            </Typography>
-                                                            <Typography 
-                                                            variant="body1"
-                                                            color="text.secondary" 
-                                                            >
-                                                                {DateHelper.formattedDate(bill.user_payment_plan.payment_plan.created_at)}
-                                                            </Typography>
-                                                            <Typography 
-                                                            variant="subtitle2" 
-                                                            >
-                                                                Plan Details
-                                                            </Typography>
-                                                            <Typography 
-                                                                variant="body1"
-                                                                color="text.secondary" 
-                                                            >
-                                                                {bill.user_payment_plan.payment_plan.payment_plan_monthly_price} Monthly
-                                                            </Typography>
-                                                            <Typography 
-                                                                variant="body1"
-                                                                color="text.secondary" 
-                                                            >
-                                                                {bill.user_payment_plan.payment_plan.payment_plan_yearly_price} Yearly
-                                                            </Typography>
-                                                        </CardContent>
-                                                    </Collapse>
-                                                
-                                                </>
-                                            }
-                                        </BillCard>
+                                        <BillCardComponent bill={bill} />
                                     </Grid>
                                 )
                             })
@@ -228,3 +122,126 @@ const MyBills = () => {
 };
 
 export default MyBills;
+
+
+const BillCardComponent = ({bill}) => {
+    const currency = useSelector(state => state.currencySlice.currency);
+
+    //expand details
+    const [expanded, setExpanded] = useState(false);
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    };
+
+
+    return (
+        <BillCard  elevation={2}>
+            <CardHeader 
+                // sx={{
+                //     display: 'flex',
+                //     alignItems: 'center',
+                // }}
+                avatar={
+                        <img 
+                        src={getCardImage(bill.bank_card?.card_number)} 
+                        label={getCardType(bill.bank_card?.card_number)}  
+                        width={50}
+                        height={50}
+                        />
+                }
+                title={DateHelper.formattedDate(bill.created_at)}
+                subheader={"Amount: " + bill.amount + ' ' + currency}
+            />
+            <CardContent sx={{display: 'flex', flexDirection: 'column', gap: 1}}>
+                {
+                    bill.order
+                    ?
+                        <>
+                            <Typography 
+                                variant="subtitle2" 
+                            >
+                                Order No: {bill.order.id}
+                            </Typography>
+                            <Stack direction="row" spacing={1}>
+                                <Chip label={bill.status} color= {bill.status === "accepted" ? "success" : "error"} />
+                                {/* <Chip label="success" color="success" /> */}
+                            </Stack>
+                        </>
+                    : 
+                    bill.user_payment_plan
+                    ?
+                        <>
+                            <Typography 
+                                variant="subtitle2" 
+                            >
+                                {bill.user_payment_plan.payment_plan.payment_plan_title} Plan
+                            </Typography>
+                            
+                            
+                            <Stack direction="row" spacing={1}>
+                                <Chip label={bill.status} color= {bill.status === "accepted" ? "success" : "error"} />
+                                {/* <Chip label="success" color="success" /> */}
+                            </Stack>
+                        </>
+                    :null
+                }
+            </CardContent>
+            {
+                bill.user_payment_plan &&
+                <>
+                    <CardActions disableSpacing>
+                        
+                        <ExpandMore
+                            expand={expanded}
+                            onClick={handleExpandClick}
+                            aria-expanded={expanded}
+                            aria-label="show more"
+                        >
+                        <ExpandMoreIcon />
+                        </ExpandMore>
+                    </CardActions>
+                    <Collapse in={expanded} timeout="auto" unmountOnExit sx={{
+                                padding: theme => `${theme.spacing(0)} ${theme.spacing(4)}`,
+                                
+                    }}>
+                        <CardContent>
+                            <Typography 
+                            variant="subtitle2" 
+                            >
+                                Subscription Date
+                            </Typography>
+                            <Typography 
+                            variant="body1"
+                            color="text.secondary" 
+                            >
+                                {DateHelper.formattedDate(bill.user_payment_plan.payment_plan.created_at)}
+                            </Typography>
+                            <Typography 
+                            variant="subtitle2" 
+                            >
+                                Plan Details
+                            </Typography>
+                            <Typography 
+                                variant="body1"
+                                color="text.secondary" 
+                            >
+                                {bill.user_payment_plan.payment_plan.payment_plan_monthly_price} Monthly
+                            </Typography>
+                            <Typography 
+                                variant="body1"
+                                color="text.secondary" 
+                            >
+                                {bill.user_payment_plan.payment_plan.payment_plan_yearly_price} Yearly
+                            </Typography>
+                        </CardContent>
+                    </Collapse>
+                
+                </>
+            }
+        </BillCard>
+    )
+}
+
+BillCardComponent.propTypes = {
+    bill: propTypes.object
+}
