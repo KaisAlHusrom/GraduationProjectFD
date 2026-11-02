@@ -1,0 +1,8 @@
+{
+    "ServerMainRouteWithoutApi": "http://127.0.0.1:8000",
+    "ServerMainRoute": "http://127.0.0.1:8000/api",
+    "ServerImageRoute": "http://127.0.0.1:8000/storage/assets/images",
+    "ServerVideoRoute": "http://127.0.0.1:8000/storage/assets/videos",
+    "ServerFilesRoute": "http://127.0.0.1:8000/storage/assets/files",
+    "productsFilesFolderName": "ProductsFiles"
+}

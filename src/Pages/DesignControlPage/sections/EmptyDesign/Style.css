@@ -1,0 +1,106 @@
+/* body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Times New Roman", Times, serif !important;
+} */
+
+/* Media queries for tablet */
+@media only screen and (max-width: 768px) {
+  .Template {
+    width: 100% !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    height: auto !important; /* Adjust height for tablet */
+  }
+}
+
+/* Media queries for laptop/desktop */
+@media only screen and (max-width: 1024px) {
+  .Template {
+    margin-top: 40px !important;
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+}
+
+.Template {
+  margin-top: 100px;
+}
+
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.opacity-animation {
+  animation: opacity 1.5s ease-out;
+}
+
+@keyframes slideInDown {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-up-animation {
+  animation: slideInUp 1.5s ease-out;
+}
+
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.slide-down-animation {
+  animation: slideInDown 1.5s ease-out;
+}
+
+@keyframes slideLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-left-animation {
+  animation: slideLeft 1s ease-out;
+}
+@keyframes slideRight {
+  from {
+    transform: translateX(10%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide-right-animation {
+  animation: slideRight 1s ease-out;
+}
+
